@@ -1,0 +1,80 @@
+#!/bin/bash
+
+# <-- this script can be replaced by pkill command -->
+# kill processes the name of which matches the argument
+# by default, user will be prompted for confirmation if multiple processes are found.
+# -- option --
+# a: kill all the process without the prompt.
+# g: grep the output of "ps -e" instead of "ps -C name". always ask for confirmation
+# h: display help
+
+
+usage='usage: killbyname [-agh] PROCESS_NAME'
+
+while getopts :agh opt; do
+	case ${opt} in
+		a)
+			opt_killall=1
+			;;
+		h)
+			echoc -l yellow "${usage}"
+			exit
+			;;
+		g)
+			opt_grep=1
+			;;
+		\?)
+			echoc -l red "-${OPTARG}: invalid option"
+			echoc -l red "options:\n\t-a all\n\t-g grep"
+			exit 2
+			;;
+		:)
+			echoc -l red "option -${OPTARG} requires argument"
+			exit 2
+			;;
+		*)
+			echoc -l red "What's going on?!"
+			exit 9
+	esac
+done
+shift $((OPTIND-1))
+unset OPTIND
+
+# validate arguments number
+if [[ $# -ne 1 ]]; then
+	echoc -l red "You must specify one process name to kill\n${usage}"
+	exit 1
+fi
+
+psname="${1}"
+
+# get process
+if [[ ${opt_grep} -eq 1 ]]; then
+	psout=$(ps -e | grep "${psname}" 2>/dev/null)
+	pidlist=$(cut --delimiter=" " --fields=1 <<< "${psout}")
+else
+	psout=$(ps -C "${psname}" 2>/dev/null)
+	pidlist=$(ps -o pid= -C "${psname}")
+fi
+
+if [[ -z "${pidlist}" ]]; then
+	echoc -l yellow "no process with name \"${psname}\" was found"
+	exit 3
+fi
+
+pidlistnum=$(wc -l <<< "${pidlist}")
+
+if [[ ${opt_killall} -ne 1 && ${pidlistnum} -gt 1 || ${opt_grep} -eq 1 ]]; then
+	echo "${psout}"
+	echoc cyan "Processes above will be killed. continue? [y/n]"
+	read prompt
+	if [[ "${prompt}" != 'y' ]]; then
+		echoc -l yellow "Canceled"
+		exit
+	fi
+fi
+
+#kill processes
+for id in $(echo "${pidlist}"); do
+	kill ${id}
+done

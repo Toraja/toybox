@@ -1,0 +1,59 @@
+#!/bin/bash
+
+# get commit number of specified one, 2nd last commit by default
+# -l: only display recent one line logs up to 30
+# -f: with f option, display file name as well
+while getopts :hl OPT; do
+	case ${OPT} in
+		h)
+			echoc -l blue "get specified commit number, 2nd last commit by default."
+			echoc -l blue "option:"
+			echoc -l blue "\tl: only display recent logs."
+			exit 0
+			;;
+		l)
+			listonly=1
+			;;
+		\?)
+			echoc -l yellow "unknown option ${OPTARG}"
+			exit 2
+			;;
+		:)
+			echoc -l yellow "option ${OPTARG} requires an argument"
+			exit 2
+			;;
+		*)
+			exit 9
+	esac
+done
+shift $((OPTIND-1))
+unset OPTIND
+
+# Check if in git reporsitory, and exit if not
+git status >/dev/null
+InGitRepo=$?
+if [[ ${InGitRepo} -ne 0 ]]; then
+	exit ${InGitRepo}
+fi
+
+# Set default number of commit history
+if [[ ${listonly} -eq 1 ]]; then
+	histnum=${1:-10}
+else
+	histnum=${1:-2}
+fi
+# Validate argument
+if [[ ${histnum} -gt 30 ]]; then
+	echoc -l red "Argument must be digits less than or equal to 30"
+	exit 1
+fi
+
+# Main part
+if [[ ${listonly} -eq 1 ]]; then
+	# List recent one line logs
+	git log -${histnum} --oneline --color=always | cat -n
+else
+	# Get the specified hash
+	git log -${histnum} --oneline | sed -n ${histnum}p | cut --delimiter " " --fields 1
+fi
+

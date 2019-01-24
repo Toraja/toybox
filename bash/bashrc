@@ -1,0 +1,211 @@
+# Source
+## global definitions
+if [ -f /etc/bashrc ]; then
+	. /etc/bashrc
+fi
+
+## Enable programmable completion features
+## These might be enabled in either /etc/bash.bashrc or /etc/profile
+if ! shopt -oq posix; then
+  if [ -f /usr/share/bash-completion/bash_completion ]; then
+    . /usr/share/bash-completion/bash_completion
+  elif [ -f /etc/bash_completion ]; then
+    . /etc/bash_completion
+  fi
+fi
+
+# Setting
+stty -ixon		# disable ctrl + s to stop output
+tabs -4			# set tab width
+
+# Variables
+## PS1
+[[ $EUID -eq 0 ]] && PS_Symbol='#' || PS_Symbol='$'
+PS1="\[\e[32m\]\u:${SHLVL}:\w \[\e[0m\]\\n${PS_Symbol} "
+if [[ -n "$VIM" ]]; then
+	PS1=$(sed 's/\\u/\\u(vim)/' <<< "${PS1}")
+fi
+if [[ -n "$STY" ]]; then
+	PS1=$(sed 's/\\u/\\u(scr)/' <<< "${PS1}")
+fi
+## Others
+export EDITOR=vim	# set default editor to vim
+export VISUAL=vim	# set default editor to vim
+export bashrc=${HOME}/.bashrc
+export inputrc=${HOME}/.inputrc
+export vimrc=${HOME}/.vimrc
+export ftplugin=${HOME}/.vim/ftplugin
+export after=${HOME}/.vim/after
+export aftplugin=${HOME}/.vim/after/ftplugin
+export GOPATH=${HOME}/go
+
+## Path
+if [[ ! ${PATH} =~ "${HOME}/bin" ]]; then
+	export PATH=${PATH}:${HOME}/bin
+fi
+if [[ ! ${PATH} =~ ":/sbin" ]]; then
+	export PATH=${PATH}:/sbin
+fi
+if [[ ! ${PATH} =~ ":/usr/sbin" ]]; then
+	export PATH=${PATH}:/usr/sbin
+fi
+if [[ ! ${PATH} =~ "/usr/local/share/anaconda3/bin" ]]; then
+	export PATH=/usr/local/share/anaconda3/bin:${PATH}
+fi
+if [[ ! ${PATH} =~ "${GOPATH}/bin" ]]; then
+	export PATH=${GOPATH}/bin:${PATH}
+fi
+
+# Aliases
+alias rm="rm -i"
+alias cp="cp -ip"
+alias mv="mv -i"
+alias pd="pushd"
+alias pod="popd"
+alias swappiness="cat /proc/sys/vm/swappiness"
+alias clip="xclip -selection clipboard"
+alias vim='vim -p'
+alias view='vim -Rp'
+alias vimdiff='vim -dO'
+alias nvim='nvim -p'
+alias nview='nvim -Rp'
+alias nvimdiff='nvim -dO'
+alias la='ls -alv'
+alias l='ls -vC'
+alias le='ls -v1'
+unalias ll &>/dev/null
+ll(){
+	ls -Alv --color=always "$@" | more
+}
+
+# Functions
+settitle(){
+	printf '\033]0;%s\007' "$@"
+}
+
+# display numbers to each element of STDOUT separated by space
+numberer(){
+	local row=0
+	while read line; do
+		((row++))
+		local col=0
+		for e in $line; do
+			((col++))
+			echo -en "\e[32m${row}-${col}:\e[0m$e "
+		done
+		echo
+	done
+}
+
+# get element of specified coordinate
+cod(){
+	if [[ $# != 2 ]]; then
+		echo "Invalid arguments"
+		echo '$1: row num $2: col num'
+		return 1
+	fi
+	local line=$(sed -n ${1}p)
+	if [[ -z "${line}" ]]; then
+		echo "RowIndexOutOfBounds Error"
+		return 1
+	fi
+
+	local count=0
+	for e in ${line}; do
+		if [[ $((++count)) -eq $2 ]]; then
+			echo ${e}
+			return 0
+		fi
+	done
+
+	echo "ColIndexOutOfBounds Error"
+	return 1
+}
+
+# compare two strings
+equal(){
+	if [[ $# -ne 2 ]]; then
+		echo "2 arguments required"
+		return
+	fi
+
+	[[ "${1}" = "${2}" ]] && echo true || echo false
+}
+
+# validate md5sum
+vldmd5sum(){
+	if [[ $# -ne 2 ]]; then
+		echo '$1: file to check, $2: checksum'
+		return
+	fi
+
+	local sum=$(md5sum "${1}")
+	if [[ -z "${sum}" ]]; then
+		return 7
+	fi
+
+	sum=${sum%% *}
+	[[ "${sum}" = "${2}" ]] && echo "equal" || echo "different" && return 1
+}
+
+# move to a directory on the location stack
+todirs(){
+	#!/bin/bash
+
+	# go to one of the dirs on the stack
+	# -- option --
+	# no arg: list the dirs on the stack
+	# v: list the dirs on the stack
+	# h: display help
+
+	usage='usage: todirs [-hv] path'
+	unset OPTIND
+
+	while getopts :hv opt; do
+		case ${opt} in
+			v)
+				local list=1
+				;;
+			h)
+				echoc -l yellow "${usage}"
+				return 0
+				;;
+			\?)
+				echoc -l red "-${OPTARG}: invalid option"
+				echoc -l red "options:\n\t-v list the stack"
+				return 2
+				;;
+			:)
+				echoc -l red "option -${OPTARG} requires argument"
+				return 2
+				;;
+			*)
+				echoc -l red "What's going on?!"
+				return 9
+		esac
+	done
+	shift $((OPTIND-1))
+	unset OPTIND
+
+	stacknum=$1
+
+	# list the stack
+	if [[ $# -eq 0 || ${list} -eq 1 ]]; then
+		dirs -v
+		return 0
+	fi
+
+	# validate argument
+	if [[ ! ${stacknum} =~ ^[\+|-]?[0-9]+$ ]]; then
+		echoc -l red 'argument must be a number, optionally with "+" or "-" sign'
+		return 1
+	fi
+
+	# prepend "+" sign if the argment does not include one
+	if [[ ${stacknum} =~ ^[0-9]+$ ]]; then
+		stacknum="+${stacknum}"
+	fi
+
+	# move to the specified stack
+	cd $(dirs -l ${stacknum})
+}

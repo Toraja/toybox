@@ -1,0 +1,72 @@
+#!/bin/bash
+#color(first arg after option)
+#black, red, green, yellow, blue, magenta, cyan, gray
+
+#option
+#-l light, -b background
+
+colorcode=30
+
+while getopts :bhl opt; do
+	case ${opt} in
+		b)
+			((colorcode+=10))
+			;;
+		l)
+			((colorcode+=60))
+			;;
+		h)
+			echo "echoc [-bhl] black|red|green|yellow|blue|magenta|cyan|gray"
+			exit
+			;;
+		\?)
+			echo "-${OPTARG}: invalid option"
+			echo -e "options:\n\t-l light\n\t-b background"
+			exit 2
+			;;
+		#:)
+			#echo "-${OPTARG}: option requires an argument"
+			#exit 2
+			#;;
+		*)
+			echo "What's going on?!"
+			exit 9
+	esac
+done
+shift $((OPTIND-1))
+unset OPTIND
+
+case $1 in
+	black)
+		# do nothing
+		;;
+	red)
+		((colorcode+=1))
+		;;
+	green)
+		((colorcode+=2))
+		;;
+	yellow)
+		((colorcode+=3))
+		;;
+	blue)
+		((colorcode+=4))
+		;;
+	magenta)
+		((colorcode+=5))
+		;;
+	cyan)
+		((colorcode+=6))
+		;;
+	gray|grey)
+		((colorcode+=7))
+		;;
+	*)
+		echo "${1}: invalid color"
+		echo -e "avalilable colors:\n\tblack, red, green, yellow, blue, magenta, cyan, gray"
+		exit 2
+esac
+
+shift
+
+echo -e "\e[${colorcode}m${@}\e[0m"

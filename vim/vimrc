@@ -1,0 +1,1828 @@
+" {{{ || variables || ---
+" filereadable() does not expand ~ (tilde) to home directory.
+" Workaround is to use $HOME or expand()
+if has('win32') || has('win64')
+	let s:vimdir = expand("~/vimfiles")
+else
+	let s:vimdir = expand("~/.vim")
+endif
+" --- || variables || }}}
+
+" {{{ || options || ---
+
+" << system >>
+set nocompatible						" do not use legacy mode
+set encoding=utf-8
+set fileencodings^=utf-8
+
+" << looks and feel >>
+set background=dark						" color scheme for dark background
+if v:version >= 800						" suppress bell sound and flushing
+	set belloff=all
+else
+	set visualbell t_vb=
+endif
+set t_Co=256							" enrich color
+set ttyfast								" smoothen scroll on terminal...?
+set number relativenumber				" show line number and distance relative to current line
+if !&diff && (has('gui') || has('unix') || has('nvim'))
+	set cursorline						" current line is underlined
+endif
+set nomodeline							" modeline brings security issue?
+set nowrap								" line does not wrap
+set scrolloff=5	sidescrolloff=1			" offset between cursor and the edge of window"
+set sidescroll=1						" scroll minimal when cursor goes off the screen horizontally
+if has('gui')
+	set title
+endif
+set titlestring=%{getcwd()}				" current directory
+set titlestring+=\ \|\ %F%a				" full path to the file and argument list info
+if !empty(v:servername)
+	set titlestring+=\ \|\ %{v:servername}	" server name such as 'VIM'
+endif
+set laststatus=2						" always display status bar
+set showtabline=2						" always display tabline
+
+" {{{ || Compose tabline || ---
+function! MyTabLine()
+	let l:tabline = ''
+	for l:cnt in range(tabpagenr('$'))
+		let l:tabpagecnt = l:cnt + 1
+
+		" select the highlighting
+		if l:tabpagecnt == tabpagenr()
+			let l:tabline .= '%#TabLineSel#'
+		else
+			let l:tabline .= '%#TabLine#'
+		endif
+
+		" compose tabline
+		let l:tabline .= ' '
+		" Add '+' if one of the buffers in the tab page is modified
+		let l:buflist = tabpagebuflist(l:tabpagecnt)
+		" Add '+' if one of the buffers in the tab page is modified
+		for l:bufnr in l:buflist
+			if getbufvar(l:bufnr, "&modified")
+				let l:tabline .= '+'
+				break
+			endif
+		endfor
+		" Add tab number
+		let l:tabline .= l:tabpagecnt
+		" Add window number if more than 1 is opened
+		let l:wincnt = tabpagewinnr(l:tabpagecnt, '$')
+		if l:wincnt > 1
+			let l:tabline .= ':' . l:wincnt
+		endif
+		let l:tabline .= ' '
+		" Add file name
+		let l:winnr = tabpagewinnr(l:tabpagecnt)
+		let l:curbufnr = l:buflist[l:winnr - 1]
+		let l:fname = bufname(l:curbufnr)
+		let l:fnamelen = strlen(l:fname)
+		if l:fnamelen == 0
+			" TODO distinguish Location List and Quickfix List
+			if getbufvar(l:curbufnr, "&filetype") ==# 'qf'
+				let l:tabline .= '[Loc List]'
+			else
+				let l:tabline .= '[No Name]'
+			endif
+		else
+			" let l:tabline .= pathshorten(fnamemodify(l:fname, ':.'))
+			let l:tabline .= fnamemodify(l:fname, ':t')
+		endif
+		let l:tabline .= ' '
+
+		" attempt to limit tablabel characters
+		" if l:fnamelen == 0
+		" let l:fname = '[No Name]'
+		" else
+		" let l:shortfname = pathshorten(fnamemodify(l:fname, ':.'))
+		" let l:shortfnamelen = strlen(l:shortfname)
+		" if l:shortfnamelen > 15
+		" let l:fname = l:shortfname[l:shortfnamelen - 15:l:shortfnamelen]
+		" else
+		" let l:fname = l:shortfname
+		" endif
+		" endif
+		" let l:tabline .= l:fname . ' '
+	endfor
+
+	" after the last tab fill with TabLineFill and reset tab page nr
+	" let l:tabline .= '%#TabLineFill#%T'
+	" ^^ what's the trailing '%T'?
+	let l:tabline .= '%#TabLineFill#'
+
+	return l:tabline
+endfunction
+
+set tabline=%!MyTabLine()
+" --- || Compose tabline|| }}}
+
+" reverse the color of unselected tab
+highlight TabLine term=reverse cterm=bold,reverse gui=reverse
+
+" << editing >>
+set tabstop=4 noexpandtab shiftwidth=4	" change tab width
+set autoindent smartindent				" indentation support
+set shiftround							" round tab width for > and < command
+set autowrite
+set fileformats=unix,dos,mac			" Prefer Unix over Windows over OSX formats
+set listchars=space:*,tab:<-			" Show unvisible chars
+set backspace=indent,eol,start			" Enable backspace to wrap line and delete break
+set virtualedit=block					" Allow cursor to move beyond the EOL when visual-block mode
+set iminsert=0 imsearch=-1				" prevent entering Japaneve input mode when entering insert and search mode
+set shellslash							" always use forward slash
+set formatoptions+=jmM
+set nofixendofline                      " Preserve the current EOL state
+set ttimeoutlen=0						" This prevents <Esc> to hang in input mode on Linux terminal
+if has('persistent_undo')
+	set undofile						" enable undo beyond sessions
+	set undodir=$HOME/.vim/undo,$HOME/vimfiles/undo
+endif
+
+" << search >>
+set ignorecase							" Do case insensitive matching
+set smartcase							" Do smart case matching
+set incsearch							" Incremental search
+set hlsearch							" highlight the match
+set matchpairs+=<:>						" % command jumps between <> as well
+
+" << others >>
+set directory=$HOME/.vim/swap,$HOME/vimfiles/swap,.			" directory to store swap. The directory needs to be created by hand.
+" set backup backupdir=$HOME/.vim/bak,$HOME/vimfiles/bak,.	" directory to store backup. The directory needs to be created by hand.
+set cpoptions+=Iy						" I:autoindent is not removed when moving to other lines
+set whichwrap+=<,>						" allow <Left> and <Right> in move to other lines
+set complete+=k							" ins-completion option (include dictionary search)
+set completeopt=longest,menuone			" ins-completion mothod (complete to longest, display menu even though only one match)
+set splitbelow splitright				" splitted windows goes to below or right
+set showcmd								" Show (partial) command in status line.
+set lazyredraw							" screen will not be redrawn till macro execution is done
+set tags=./tags;,./TAGS;,tags;,TAGS;
+
+" << command mode >>
+set history=300
+set wildignorecase						" command mode completion ignores case
+set wildignore+=*.swp,*.bak,*.class		" ignore files this specified extentions on completion
+set wildmenu							" display menu on command line completion
+set wildmode=longest,full				" command mode completion method (complete to longest, complete one by one)
+" --- || options || }}}
+
+" {{{ || automatically enter paste mode when pasting || ---
+if &term =~ "xterm"
+	let &t_ti .= "\e[?2004h"
+	let &t_te .= "\e[?2004l"
+	let &pastetoggle="\e[201~"
+
+	function! XTermPasteBegin(command)
+		set paste
+		return a:command
+	endfunction
+
+	nnoremap <special> <expr> <Esc>[200~ XTermPasteBegin("i")
+	" This delays exiting Insert and Command mode by pressing <Esc>
+	" inoremap <special> <expr> <Esc>[200~ XTermPasteBegin("")
+	" cnoremap <special> <Esc>[200~ <Nop>
+	" cnoremap <special> <Esc>[201~ <Nop>
+endif
+" --- || automatically enter paste mode when pasting || }}}
+
+" {{{ || setup for windows || ---
+if has('win32') || has('win64')
+	" powershell does not work with Syntastic
+	" except diff mode as diff cannot be create with powershell
+	" if ! &diff
+	"     set shell=powershell\ -ExecutionPolicy\ RemoteSigned
+	" endif
+
+	" The below does not work (<C-/> does not emit anything)
+	" inoremap <C-/> <C-o>u
+	" inoremap <M-/> <C-o><C-r>
+endif
+" --- || setup for windows || }}}
+
+" {{{ || enable meta-key bindings || ---
+if has('unix') && !has('nvim')
+	" fix meta-keys which generate <Esc>a .. <Esc>z
+	" mapping all <M-char> to <Nop> so that it does not emit ?
+	let c = 'a'
+	while c <= 'z'
+		" lower case
+		exec "set <M-".c.">=\e".c
+		exec "noremap! \e".c." <M-".c.">"
+		exec "noremap \e".c." <M-".c.">"
+		" exec "noremap! <M-".c."> <Nop>"
+		" exec "noremap <M-".c."> <Nop>"
+		" upper case - skip M-O as it is part of del key, ins key, F key and etc
+		if c != 'o'
+			exec "set <M-".toupper(c).">=\e".toupper(c)
+			exec "noremap! \e".toupper(c)." <M-".toupper(c).">"
+			exec "noremap \e".toupper(c)." <M-".toupper(c).">"
+			" exec "noremap! <M-".toupper(c)."> <Nop>"
+			" exec "noremap <M-".toupper(c)."> <Nop>"
+		endif
+		" map <C-M-(char)> - these 5 chars below causes problem
+		" COMBAK this does not work on windows
+		" if c != 'c' && c != 'j' && c != 'i' && c != 'l' && c != 'v'
+		" let cc = nr2char(char2nr(c)-96)
+		" exec "set <C-M-".c.">=\e".cc
+		" exec "noremap! \e".cc." <C-M-".c.">"
+		" exec "noremap \e".cc." <C-M-".c.">"
+		" endif
+		let c = nr2char(1+char2nr(c))
+	endwhile
+
+	" meta + special-keys
+	" note: '[' cannot be mapped as it's part of some keycodes
+	exec "set <M-$>=\e$"
+	exec "set <M-#>=\e#"
+	exec "set <M-*>=\e*"
+	exec "set <M-+>=\e+"
+	exec "set <M-->=\e-"
+	exec "set <M-/>=\e/"
+	exec "set <M-:>=\e:"
+	exec "set <M-;>=\e;"
+	exec "set <M-=>=\e="
+	" exec "set <M-]>=\e]" " This causes vim to work funny
+	exec "set <M-_>=\e_"
+	exec "set <M-`>=\e`"
+endif
+
+" prevent meta char mapping from emitting special char
+let c = 'a'
+while c <= 'z'
+	exec "noremap! <M-".c."> <Nop>"
+	exec "noremap <M-".c."> <Nop>"
+	exec "noremap! <M-".toupper(c)."> <Nop>"
+	exec "noremap <M-".toupper(c)."> <Nop>"
+	let c = nr2char(1+char2nr(c))
+endwhile
+
+" map <M-0> and <M-1> to <M-9> to tab focus (normal mode)
+let n = 0
+while n <= 9
+	if has('unix') && !has('nvim')
+		exec "set <M-".n.">=\e".n
+		exec "noremap! \e".n." <M-".n.">"
+		exec "noremap \e".n." <M-".n.">"
+	endif
+	exec "noremap <M-".n."> ".n."gt"
+	let n += 1
+endwhile
+" remap <M-0> to focus 10th tab
+noremap <M-0> 10gt
+" --- || enable meta-key bindings || }}}
+
+" {{{ || autocmd || ---
+" augroup prevents duplicated effect by disabling previous effect of the same group
+if has("autocmd")
+	augroup buffer_init
+		autocmd!
+		" jump to the last position when reopening a file
+		autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+		" enter automatically into the files directory
+		autocmd BufEnter * silent! lcd %:p:h
+	augroup END
+
+	" hightlight for unwanted spaces
+	augroup highlighter
+		autocmd!
+		" highlight trailing whitespaces and mixed whitespaces except for help files
+		" VimEnter does not do the job somehow
+		if has('nvim')
+			" SpellRare (under curl) does not work on nvim
+			autocmd BufWinEnter,InsertEnter,InsertLeave * match Visual /\s\+$\| \+\t\+\|\t\+ \+/
+		else
+			autocmd BufWinEnter,InsertEnter,InsertLeave * match SpellRare /\s\+$\| \+\t\+\|\t\+ \+/
+		endif
+		autocmd FileType help silent! call matchdelete(1)
+	augroup END
+
+	augroup misc
+		autocmd!
+		" fix windows size on resizing vim
+		autocmd VimResized * :wincmd =
+		" disable relativenumber in quickfix window
+		autocmd FileType qf setlocal norelativenumber
+		" if has('nvim')
+			" automatically enter terminal-mode
+			" XXX this causes GoRun to enter insert mode
+			" autocmd TermOpen * startinsert
+		" endif
+	augroup END
+endif
+" --- || autocmd || }}}
+
+" {{{ || plugin loading || ---
+" Loadng plugins must be before keymapping or they will override my keymappings!
+if filereadable(s:vimdir . "/autoload/plug.vim")
+	call plug#begin(s:vimdir . '/bundle')
+	Plug 'junegunn/vim-plug'
+	Plug 'tpope/vim-fugitive'
+	Plug 'airblade/vim-gitgutter'
+	" Plug 'powerline/powerline'	" error occurs and donno how to fix
+	Plug 'vim-airline/vim-airline'
+	Plug 'vim-airline/vim-airline-themes'
+	Plug 'scrooloose/nerdcommenter'
+	Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
+	Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
+	Plug 'tpope/vim-surround'
+	Plug 'AndrewRadev/splitjoin.vim'
+	Plug 'jiangmiao/auto-pairs'
+	Plug 'vim-syntastic/syntastic'
+	Plug 'ctrlpvim/ctrlp.vim'		" required by vim-go
+	" Plug 'tpope/vim-repeat'
+	if has('nvim')
+		Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+	" else
+	"     " no completion for conventional vim as it takes so long to start up
+	"     Plug 'Shougo/deoplete.nvim'
+	"     Plug 'roxma/nvim-yarp'
+	"     Plug 'roxma/vim-hug-neovim-rpc'
+	endif
+	Plug 'SirVer/ultisnips'
+	Plug 'honza/vim-snippets'
+	Plug 'easymotion/vim-easymotion'
+	" Language specific
+	Plug 'ternjs/tern_for_vim', { 'for': 'javascript', 'do': 'npm install' }
+	Plug 'carlitux/deoplete-ternjs', { 'for': 'javascript', 'do': 'npm install -g tern' }
+	Plug 'othree/jspc.vim', { 'for': 'javascript' }
+	Plug 'jelera/vim-javascript-syntax', { 'for': 'javascript' }    " <- The order matters! First comes first serves (for syntax at least)
+	Plug 'pangloss/vim-javascript', { 'for': 'javascript' }         " <- syntax of vim-javascript is ugly
+	Plug 'myhere/vim-nodejs-complete', { 'for': 'javascript' }
+	Plug 'moll/vim-node', { 'for': 'javascript' }
+	Plug 'fatih/vim-go', { 'for': 'go', 'do': ':GoUpdateBinaries', 'tag': '*' }
+	Plug 'zchee/deoplete-go', { 'for': 'go', 'do': 'make'}
+	" if  !has('nvim')
+	"     " required for vim-delve, must be placed before vim-delve
+	"     Plug 'Shougo/vimshell.vim',  { 'for': 'go' }
+	"     Plug 'Shougo/vimproc.vim',  { 'for': 'go' }
+	" endif
+	" Plug 'sebdah/vim-delve',  { 'for': 'go' }
+	Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }
+	Plug 'mzlogin/vim-markdown-toc', { 'for': 'markdown' }
+	Plug 'dhruvasagar/vim-table-mode', { 'for': 'markdown' }
+	Plug 'cespare/vim-toml', { 'for': 'toml' }
+	Plug 'PProvost/vim-ps1', { 'for': 'ps1' }
+	Plug 'aklt/plantuml-syntax', { 'for': 'plantuml' }
+	call plug#end()
+else
+	" these are called by plug#end()
+	filetype plugin indent on
+	syntax enable
+endif
+" --- || plugin loading || }}}
+
+" {{{ || key mapping || ---
+
+" {{{ || my mapping || ---
+" {{{ || Leader || ---
+noremap <Space> <Nop>
+let mapleader = "\<Space>"
+nnoremap <Leader> "z
+vnoremap <Leader> "z
+
+noremap <C-Space> <Nop>
+noremap! <C-Space> <Nop>
+" Use local leader for ftplugins
+let maplocalleader = "\<C-Space>"
+nnoremap <LocalLeader> "Z
+vnoremap <LocalLeader> "Z
+
+map ; [Chief]
+if has('xterm_clipboard')
+	nnoremap [Chief] "+
+	vnoremap [Chief] "+
+else
+	nnoremap [Chief] "*
+	vnoremap [Chief] "*
+endif
+
+map , [Captain]
+nnoremap [Captain] "_
+vnoremap [Captain] "_
+" --- || Leader || }}}
+
+" {{{ || cursor motion || ---
+noremap j gj
+noremap k gk
+noremap <expr> <silent> <Home> col('.') == match(getline('.'),'\S')+1 ? '0' : '^'
+map H <Home>
+nnoremap L $
+onoremap L $
+vnoremap L g_
+" J & K below is to prevent accidental line join and opening help
+vnoremap J j
+vnoremap K k
+
+" {{{ || insert/command mode || ---
+noremap! <C-b> <Left>
+noremap! <C-f> <Right>
+noremap! <M-f> <C-Right>
+noremap! <M-b> <C-Left>
+imap <silent> <Home> <C-o><Home>
+imap <C-a> <Home>
+inoremap <expr> <C-e> pumvisible() ? "\<C-e>" : "\<End>"
+inoremap <C-p> <Up>
+inoremap <C-n> <Down>
+cnoremap <C-a> <Home>
+cnoremap <C-e> <End>
+" --- || insert/command mode || }}}
+
+" [go to next/last upper case character]
+nnoremap <silent> <M-w> :call search("[A-Z_]", '', line('.'))<CR>
+nnoremap <silent> <M-b> :call search("[A-Z_]", 'b', line('.'))<CR>
+vnoremap <silent> <M-w> ompo<Esc>:call search("[A-Z_]")<CR>vg`po
+vnoremap <silent> <M-b> ompo<Esc>:call search("[A-Z_]", 'b')<CR>vg`po
+" [always search forward/backword]
+" noremap <expr> <Bslash> getcharsearch().forward ? ';' : ','
+" noremap <expr> <Bar> getcharsearch().forward ? ',' : ';'
+" [Quick select]
+" onoremap u iw
+" onoremap U iW
+" onoremap m aw
+" onoremap M aW
+" onoremap x i'
+" onoremap X a'
+" onoremap q i"
+" onoremap Q a"
+" onoremap r i{
+" onoremap R a{
+" onoremap v i<
+" onoremap V a<
+" if ! &diff
+"     onoremap o i[
+"     onoremap O a[
+"     onoremap p i(
+"     onoremap P a(
+" endif
+vnoremap al ggoG$
+" all
+onoremap <silent> al :normal! VggoG<CR>
+" line without indent
+onoremap <silent> u :normal! ^v$h<CR>
+" line including indent
+onoremap <silent> U :normal! 0v$h<CR>
+onoremap <silent> im :call SelectCamelWord()<CR>
+vnoremap <silent> im :<C-u>call SelectCamelWord()<CR>
+" XXX these do not work if the cursor is on the last element
+" as in /cursor/is/he|re
+onoremap <silent> ad :call SelectPair('${', '', '}', 1)<CR>
+vnoremap <silent> ad :<C-u>call SelectPair('${', '', '}', 1)<CR>
+onoremap <silent> ie :call SelectElement()<CR>
+vnoremap <silent> ie :<C-u>call SelectElement()<CR>
+vnoremap <silent> i, T,ot,
+onoremap <silent> i, :normal! T,vt,<CR>
+vnoremap <silent> a, T,of,
+onoremap <silent> a, :normal! T,vf,<CR>
+vnoremap <silent> i. T.ot.
+onoremap <silent> i. :normal! T.vt.<CR>
+vnoremap <silent> a. T.of.
+onoremap <silent> a. :normal! T.vf.<CR>
+vnoremap <silent> i/ T/ot/
+onoremap <silent> i/ :normal! T/vt/<CR>
+vnoremap <silent> a/ T/of/
+onoremap <silent> a/ :normal! T/vf/<CR>
+vnoremap <silent> iu T_ot_
+onoremap <silent> iu :normal! T_vt_<CR>
+vnoremap <silent> au T_of_
+onoremap <silent> au :normal! T_vf_<CR>
+nnoremap [Chief]v :call SetOperatorFunc('VisualOperator')<CR>g@
+function! VisualOperator(operatortype)
+	if a:operatortype ==# 'v'
+		normal! `<v`>
+	else
+		normal! `[v`]
+	endif
+endfunction
+" --- || cursor motion || }}}
+
+" {{{ || scrolling || ---
+noremap <C-u> 5<C-u>
+noremap <C-d> 5<C-d>
+noremap <M-y> zh
+noremap <M-e> zl
+noremap <M-Y> zH
+noremap <M-E> zL
+" --- || scrolling || }}}
+
+" {{{ || tag || ---
+nnoremap [t <C-t>
+nnoremap ]t :tag<CR>
+" [always use 'tjumg']
+nnoremap <Leader><C-]> <C-w><C-v>g<C-]>
+vnoremap <Leader><C-]> <C-w><C-v>gvg<C-]>
+noremap <C-]> g<C-]>
+noremap g<C-]> <C-]>
+nnoremap <C-t><C-]> :tab stjump <C-r><C-w><CR>
+vnoremap <C-t><C-]> y:tab stjump <C-r>"<CR>
+" --- || tag || }}}
+
+" {{{ || editing || ---
+nnoremap <M-x> "_x
+nnoremap <M-X> "_X
+nnoremap p p=']<C-o>
+nnoremap P P=']<C-o>
+" nnoremap [p p=']<C-o>
+" nnoremap [P P=']<C-o>
+vnoremap p "_c<C-r>"<Esc>
+vnoremap P "_c<C-r>"<Esc>
+" [insert/command mode]
+inoremap <C-w> <C-g>u<C-w>
+inoremap <C-u> <C-g>u<C-u>
+cnoremap <C-Space> <C-r>=AnnoyingSpaces<CR>
+cnoremap <expr> <C-x> Expander()
+inoremap <expr> <C-y> pumvisible() ? "\<C-y>" : "<C-g>u\<C-r>\""
+cnoremap <C-y> <C-r>"
+noremap! <M-y> <C-r>*
+noremap! <C-d> <DEL>
+inoremap <M-d> <C-g>u<C-\><C-o>"_dw
+" inoremap <C-k> <C-g>u<C-\><C-o>"_D
+inoremap <M-h> <C-g>u<C-w>
+cnoremap <M-h> <C-w>
+inoremap <M-n> <C-e>
+inoremap <M-p> <C-y>
+inoremap <M-t> <C-d>
+" [UPPER/lowercase & Capitalize]
+nnoremap gu gU
+inoremap <M-u> <Esc>gUiwea
+inoremap <M-U> <Esc>gUiWEa
+nnoremap gl gu
+inoremap <M-l> <Esc>guiwea
+inoremap <M-L> <Esc>guiWEa
+nnoremap gc guiwgU<right>e
+inoremap <M-c> <Esc>guiwgU<right>ea
+inoremap <M-C> <Esc>guiWgU<right>Ea
+" [Line break/join]
+nnoremap <CR> i<CR><Esc>
+nnoremap <M-m> mpo<Esc>0Dg`p|	"insert blank line below
+nnoremap <M-M> mpO<Esc>0Dg`p|	"insert blank line above
+nnoremap <C-j> o<Esc>
+nnoremap <C-k> O<Esc>
+inoremap <C-j> <Esc>o
+inoremap <C-k> <Esc>O
+nnoremap gj J
+vnoremap gj J
+" [Other editing]
+vnoremap y ygv<Esc>|	"place cursor after the selection when yanking
+noremap Y y$
+vnoremap <silent> <C-a> <C-a>gv
+vnoremap <silent> <C-x> <C-x>gv
+nnoremap <silent> g<C-a> :call search("[0-9]", 'be', line('.'))<CR><C-a>
+nnoremap <silent> g<C-x> :call search("[0-9]", 'be', line('.'))<CR><C-x>
+nnoremap d. /\s\+$<CR>"_dgn|	" delete trailing spaces
+" [move line]
+nnoremap <silent> <expr> <M-n> ":\<C-u>silent! move .+".v:count1."\<CR>=="
+nnoremap <silent> <expr> <M-p> ":\<C-u>silent! move .-".(v:count1+1)."\<CR>=="
+" ones for visual mode requires range ('<,'>) to work as intended
+" XXX cannot suppress the message emitted by = command
+vnoremap <silent> <expr> <M-n> ":\<C-u>silent! '<,'>move '>+".(v:count1)."\<CR>gv=gv"
+vnoremap <silent> <expr> <M-p> ":\<C-u>silent! '<,'>move '<-".(v:count1+1)."\<CR>gv=gv"
+" [undo redo]
+nnoremap U <Nop>
+inoremap <C-_> <C-o>u
+inoremap <C-/> <C-o>u
+inoremap <M-/> <C-o><C-r>
+" [set undo break before commands below]
+inoremap <Space> <C-g>u<Space>
+inoremap <C-m> <C-g>u<C-m>
+inoremap . .<C-g>u
+" --- || editing || }}}
+
+" {{{ || register || ---
+" used registers
+" r: RedirCmdOutputToReg
+" keymap for "z, "Z is defined in leader section
+nnoremap "" :registers<CR>
+nnoremap <Leader><Space> :call CopyRegisterToAnother('"', 'z')<CR>
+if has('xterm_clipboard')
+	nnoremap [Chief]; :call CopyRegisterToAnother('"', '+')<CR>
+elseif has('clipboard')
+	nnoremap [Chief]; :call CopyRegisterToAnother('"', '*')<CR>
+endif
+nnoremap <Leader>r :call CopyRegisterToAnotherInteract()<CR>
+nnoremap <expr> [Chief]r SetRegister()
+nnoremap <expr> [Captain]r EditRegister()
+
+function! CopyRegisterToAnother(regFrom, regTo)
+	execute "let @" . a:regTo . " = @" . a:regFrom
+	execute "let l:regToCont = @" . a:regTo
+	echo "@" . a:regTo . " = " . l:regToCont
+endfunction
+
+function! CopyRegisterToAnotherInteract()
+	registers
+	echo 'Enter register character to copy from:'
+	let l:regcharFrom = nr2char(getchar())
+	echo 'Enter register character to save into:'
+	let l:regcharTo = nr2char(getchar())
+
+	call CopyRegisterToAnother(l:regcharFrom, l:regcharTo)
+endfunction
+
+function! SetRegister()
+	echo 'Enter register character to set:'
+	return ":call setreg('".nr2char(getchar())."','')\<Left>\<Left>"
+endfunction
+
+function! EditRegister()
+	echo 'Enter register character to edit:'
+	let l:regchar = nr2char(getchar())
+	" Using getreg() to get the register contents causes trouble
+	" if the register contains line feed/carriage return,
+	" so keybind is used instead.
+	return ":call setreg('".l:regchar."','\<C-r>".l:regchar."')\<Left>\<Left>"
+endfunction
+
+" clear contents of all char registers
+function! ClearCharRegisters()
+	let c='a'
+	while c <= 'z'
+		execute "let @".c."=''"
+		let c = nr2char(1+char2nr(c))
+	endwhile
+endfunction
+
+command! -nargs=+ CopyRegisterToAnother :call CopyRegisterToAnother(<f-args>)
+command! ClearCharRegisters :call ClearCharRegisters()
+" --- || register || }}}
+
+" {{{ || Mark || ---
+noremap ' `
+noremap ` '
+nnoremap <Leader>m :<C-u>marks<CR>
+" --- || Mark || }}}
+
+" {{{ || Completion || ---
+inoremap <expr> <C-l> pumvisible() ? "\<C-n>" : "\<C-x>\<C-n>"
+inoremap <expr> <C-i> pumvisible() ? "\<C-n>" : "\<C-x>\<C-o>"
+" --- || Completion || }}}
+
+" {{{ || Search || ---
+" AnnoyingSpaces: trailing white spaces or mixture of space and tab
+let g:AnnoyingSpaces = "\\s\\+$\\| \\+\\t\\+\\|\\t\\+ \\+"
+" open fold which the match belongs to so that you can view where exactly the
+" match is.
+nnoremap n nzx
+nnoremap N Nzx
+noremap g/ /\<lt>\><Left><Left>
+noremap <Leader>/ <Esc>/<C-p>
+noremap <Leader>? <Esc>?<C-p>
+nnoremap <silent> [Captain]/ :let @/ = ''<CR>
+vnoremap [Captain]/ <Esc>/\%V
+vnoremap [Captain]? <Esc>?\%V
+" TODO change these to use function like QuickGrep
+nnoremap <silent> * :let @/="\\V<C-r><C-w>"<CR>:call histadd("search", @/)<CR>:set hlsearch<CR>
+nnoremap <silent> g* :let @/="\\<<C-r><C-w>\\>"<CR>:call histadd("search", @/)<CR>:set hlsearch<CR>
+nnoremap <silent> <M-*> :let @/="\\V\\C<C-r><C-w>"<CR>:call histadd("search", @/)<CR>:set hlsearch<CR>
+nnoremap <silent> g<M-*> :let @/="\\C\\<<C-r><C-w>\\>"<CR>:call histadd("search", @/)<CR>:set hlsearch<CR>
+nnoremap <silent> <Leader>* :let @/="\\V<C-r>=escape(expand("<cWORD>"), "/\"")<CR>"<CR>:call histadd("search", @/)<CR>:set hlsearch<CR>
+vnoremap <silent> * y:let @/="\\V<C-r>=escape(@@, "/\"")<CR>"<CR>:call histadd("search", @/)<CR>:set hlsearch<CR>
+vnoremap <silent> g* y:let @/="\\V\\<<C-r>=escape(@@, "/\"")<CR>\\>"<CR>:call histadd("search", @/)<CR>:set hlsearch<CR>
+nnoremap <C-g> /<C-r><C-w>
+xnoremap <C-g> y/<C-r>"
+nnoremap g[i :psearch /<C-r><C-w>/<CR>
+" [toggle highlight]
+if exists('v:hlsearch')
+	nnoremap <silent> <expr> <M-u> (&hlsearch && v:hlsearch ? ':nohlsearch<CR>' : ':set hlsearch<CR>')
+else
+	nnoremap <silent> <M-u> :set hlsearch! hlsearch?<CR>
+endif
+" --- || Search || }}}
+
+" {{{ || Grep || ---
+" COMBAK make it like QuickSubstitute() and take dictionary arguments?
+" Lets you run lvimgrep quickly and open quickfix window
+" @pattern string to grep
+" @modify when non-zero, let the user modify the argument for vimgrep
+function! QuickGrep(pattern, modify)
+	let l:lastwinnum = winnr()
+	let l:grepArg = printf('/\V%s/gj %%', a:pattern)
+
+	if a:modify
+		let l:cursorAdjustment = "\<Left>\<Left>\<Left>\<Left>\<Left>"
+		call inputsave()
+		let l:grepArg = input(':lvimgrep ', l:grepArg . l:cursorAdjustment)
+		call inputrestore()
+
+		" <Esc> was pressed
+		if len(l:grepArg) == 0
+			echo 'Cancelled'
+			return
+		endif
+	endif
+
+	try
+		silent execute 'lvimgrep ' . l:grepArg
+	catch /^Vim\%((\a\+)\)\=:E480/	" catch error E480 - No match found
+		echohl WarningMsg | echo 'No match found' | echohl NONE
+		" 'lclose' in case location list is already opened
+		silent lclose
+		return
+	endtry
+
+	call LWindowSmart(l:lastwinnum, 10, 1)
+endfunction
+nnoremap <silent> [Captain]g :call QuickGrep('', 1)<CR>
+" nnoremap [Chief]g :call QuickGrep(expand("<cword>"), 1)<CR>
+" vnoremap [Chief]g y:call QuickGrep(@@, 1)<CR>
+nnoremap <silent> + :call QuickGrep(expand("<cword>"), 0)<CR>
+nnoremap <silent> g+ :call QuickGrep('\<'.expand("<cword>").'\>', 0)<CR>
+nnoremap <silent> <Leader>+ QuickGrep(expand("<cWORD>"), 0)<CR>
+vnoremap <silent> + y:call QuickGrep(@@, 0)<CR>
+vnoremap <silent> g+ y:call QuickGrep('\<'.@@.'\>', 0)<CR>
+" --- || Grep || }}}
+
+" {{{ || Replace || ---
+" Lets you run substitute quickly
+" @pattern string to find
+" @options available options are:
+"			range:		same as [range] command parameter.
+"			selection:	none-zero means search area is only within selection
+"			case:		none-zero means case sensitive
+"			exclusive:	none-zero means pattern will be wrapped with \< \>
+function! QuickSubstitute(corePattern, options)
+	let l:optKeyRange = 'range'
+	let l:optKeyCase = 'case'
+	let l:optKeyExclusive = 'exclusive'
+	let l:optKeySelection = 'selection'
+	let l:baseSubstituteCmd = '%ssubstitute/%s\V//gc'
+
+	let l:range = has_key(a:options, l:optKeyRange) ? a:options[l:optKeyRange] : ''
+
+	let l:searchPattern = ''
+	if has_key(a:options, l:optKeySelection)
+		let l:searchPattern .= a:options[l:optKeySelection] ? '\%V' : ''
+	endif
+	if has_key(a:options, l:optKeyCase)
+		let l:searchPattern .= a:options[l:optKeyCase] ? '\C' : ''
+	endif
+	" check for exclusive should be the last so that pattern string comes after ordinary atoms
+	if has_key(a:options, l:optKeyExclusive) && a:options[l:optKeyExclusive] == 1
+		let l:searchPattern .= '\<' . a:corePattern . '\>'
+	else
+		let l:searchPattern .= a:corePattern
+	endif
+
+	let l:substituteCmd = printf(l:baseSubstituteCmd, l:range, l:searchPattern)
+
+	let l:cursorAdjustment = "\<Left>\<Left>\<Left>"
+	if len(a:corePattern) == 0
+		let l:cursorAdjustment .= "\<Left>"
+	endif
+
+	call inputsave()
+	let l:substituteCmd = input(':', l:substituteCmd . l:cursorAdjustment)
+	call inputrestore()
+
+	" <Esc> was pressed
+	if len(l:substituteCmd) == 0
+		echo 'Cancelled'
+		return
+	endif
+
+	try
+		execute l:substituteCmd
+	catch /^Vim\%((\a\+)\)\=:E486/	" catch error E486 - Pattern not found
+		echohl WarningMsg | echo 'Pattern not found' | echohl NONE
+		return
+	endtry
+endfunction
+nnoremap [Captain]s  :call QuickSubstitute('', {'range': '%'})<CR>
+nnoremap [Captain]S  :call QuickSubstitute('', {})<CR>
+nnoremap <Leader>s   :call QuickSubstitute(expand("<cword>"), {'range': '%'})<CR>
+nnoremap <Leader>S   :call QuickSubstitute(expand("<cword>"), {'range': '%', 'case': 1})<CR>
+nnoremap [Chief]s    :call QuickSubstitute(expand("<cword>"), {'range': '%', 'exclusive': 1})<CR>
+nnoremap [Chief]S    :call QuickSubstitute(expand("<cword>"), {'range': '%', 'exclusive': 1, 'case': 1})<CR>
+vnoremap [Captain]s  :call QuickSubstitute('', {'range': '%', 'selection': 1})<CR>
+vnoremap [Captain]S  :call QuickSubstitute(@@, {'range': '%', 'selection': 1})<CR>
+vnoremap <Leader>s  y:call QuickSubstitute(@@, {'range': '%'})<CR>
+vnoremap <Leader>S  y:call QuickSubstitute(@@, {'range': '%', 'case': 1})<CR>
+vnoremap [Chief]s   y:call QuickSubstitute(@@, {'range': '%', 'exclusive': 1})<CR>
+vnoremap [Chief]S   y:call QuickSubstitute(@@, {'range': '%', 'exclusive': 1, 'case': 1})<CR>
+" --- || Replace || }}}
+
+" {{{ || Quickfix/Location || ---
+nnoremap <silent> <expr> <C-q> QuickfixCmd(v:count)
+function! QuickfixCmd(count)
+	echohl Identifier
+	echo "-- QuickfixCmd -> [o]pen, [n]ext, [p]revious, li[s]t, ll(q), histor[y], older(h), newer(l), [c]lose"
+	echohl NONE
+	let l:count = (a:count == 0) ? "" : a:count
+	let l:orgwinnr = winnr()
+	" Return space and backspace to bring cursor back from command line.
+	" If empty string is returned, cursor remains in command line.
+	let l:cmd = "\<Space>\<BS>"
+	try
+		let l:char = nr2char(getchar())
+	catch /^Vim:Interrupt$/
+		let l:char = "\<C-c>"
+	endtry
+	" Clear command line
+	echo ""
+	if l:char ==? "o" || l:char ==? "\<C-o>"
+		if !l:count
+			" Limit the height of location list to no more than 10.
+			" Make sure lopen' will not be called with '0' as it causes and error.
+			" It happens when no count for keymap is supplied and no error in the location list.
+			let l:numerror = len(getloclist(0))
+			let l:maxheight = 10
+			let l:count = (l:numerror > l:maxheight) ? l:maxheight :
+						\ (l:numerror != 0) ? l:numerror : 1
+		endif
+		let l:cmd = ":lopen" . l:count . " | " . l:orgwinnr . " wincmd w\<CR>"
+	elseif l:char ==? "n" || l:char ==? "\<C-n>"
+		let l:cmd = ":lnext" . l:count . "\<CR>"
+	elseif l:char ==? "p" || l:char ==? "\<C-p>"
+		let l:cmd = ":lprevious" . l:count . "\<CR>"
+	elseif l:char ==? "s" || l:char ==? "\<C-s>"
+		let l:cmd = ":llist\<CR>"
+	elseif l:char ==? "q" || l:char ==? "\<C-q>"
+		let l:cmd = ":ll " . l:count . "\<CR>"
+	elseif l:char ==? "b" || l:char ==? "\<C-b>"
+		let l:cmd = ":lbottom \<CR>"
+	elseif l:char ==? "y" || l:char ==? "\<C-y>"
+		let l:cmd = ":lhistory\<CR>"
+	elseif l:char ==? "h" || l:char ==? "\<C-h>"
+		let l:cmd = ":lolder" . l:count . "\<CR>"
+	elseif l:char ==? "l" || l:char ==? "\<C-l>"
+		let l:cmd = ":lnewer" . l:count . "\<CR>"
+	elseif l:char ==? "c" || l:char ==? "\<C-c>"
+		let l:cmd = ":lclose\<CR>"
+	elseif l:char ==? "[" || l:char ==? "\<Esc>"
+		echo 'Cancelled'
+	else
+		echohl WarningMsg | echo 'Not an available option: '.l:char | echohl NONE
+	endif
+
+	return l:cmd
+endfunction
+" --- || Quickfix/Location || }}}
+
+" {{{ || Window || ---
+nnoremap <silent> <C-w>O :only!<CR>
+noremap <M-h> <C-w><C-h>
+noremap <M-j> <C-w><C-j>
+noremap <M-k> <C-w><C-k>
+noremap <M-l> <C-w><C-l>
+nnoremap <C-w>B :bdelete<CR>
+" --- || Window || }}}
+
+" {{{ || Tab || ---
+noremap <C-t> <Nop>
+nnoremap <silent> <expr> <C-t><C-n> ":\<C-u>".(v:count ? v:count : "")."tabnew\<CR>"
+nnoremap <silent> <expr> <C-t><C-o> ":\<C-u>".(v:count ? v:count : "")."tabonly\<CR>"
+nnoremap <silent> <expr> <C-t><C-q> ":\<C-u>".(v:count ? v:count : "")."tabclose\<CR>"
+nnoremap <C-t><C-f> <C-w>gf
+nnoremap J gt
+nnoremap K gT
+nnoremap <silent> <expr> <M-J> ":\<C-u>silent! tabmove+".v:count1."<CR>"
+nnoremap <silent> <expr> <M-K> ":\<C-u>silent! tabmove-".v:count1."<CR>"
+" jump to last active tab
+if has('autocmd')
+	let g:lasttabnum = 1
+	augroup tab_leave
+		autocmd TabLeave * let g:lasttabnum = tabpagenr()
+	augroup END
+	nnoremap <silent> <C-t><C-t> :execute "tabnext " . g:lasttabnum<CR>
+endif
+" --- || Tab || }}}
+
+" {{{ || Suspend/Close/Exit || ---
+nnoremap ZB :bdelete!<CR>
+nnoremap ZT :windo quit!<CR>
+nnoremap <C-w><C-e> :confirm tabonly<CR>:bufdo confirm bdelete<CR>
+nnoremap <C-w><C-a> :windo confirm quit<CR>
+nnoremap <C-w>A :confirm qall<CR>
+" --- || Suspend/Close/Exit || }}}
+
+" {{{ || Terminal || ---
+tnoremap <C-\><C-\> <C-\><C-n>
+if &shell =~ 'cmd'
+	tnoremap <C-p> <Up>
+	tnoremap <C-n> <Down>
+	tnoremap <C-f> <Right>
+	tnoremap <C-b> <Left>
+	tnoremap <M-f> <C-Right>
+	tnoremap <M-b> <C-Left>
+	tnoremap <C-a> <Home>
+	tnoremap <C-e> <End>
+	tnoremap <C-d> <Del>
+	tnoremap <C-u> <Esc>
+endif
+
+" --- || Terminal || }}}
+
+" {{{ || Others || ---
+map <S-Space> <Space>
+nnoremap <C-s> :update<CR>
+nnoremap <F1> K
+if has('gui')
+	nnoremap <F3> :source $MYVIMRC<CR>:source $MYGVIMRC<CR>
+else
+	nnoremap <F3> :source $MYVIMRC<CR>
+endif
+nnoremap <Leader><F3> :tabnew $MYVIMRC<CR>
+nnoremap [Chief]<F3> :call OpenFtplugins(&ft)<CR>
+nnoremap [Captain]<F3> :SetFt<CR>
+nnoremap Q gQ
+noremap [Chief]: :<C-p>
+nnoremap <silent> <Leader>l :echo fnamemodify('.', ':p') . "\n" . glob('*')<CR>
+nnoremap <silent> <Leader>b :buffers<CR>
+" [insert/command mode]
+inoremap <M-o> <C-\><C-o>
+cnoremap <M-p> <Up>
+cnoremap <M-n> <Down>
+cnoremap <M-=> <C-d>
+cnoremap <M-?> <C-d>
+cnoremap <C-s> <C-f>
+cnoremap <M-@> <Home>let @" = '<End>'
+" retry triggering abbreviation
+inoremap <C-g><C-]> <Esc>ciw<C-r>"<C-]>
+" --- || Others || }}}
+
+" --- || my mapping || }}}
+
+" {{{ || plugin mapping and option || ---
+
+" {{{ || powerline / airline || ---
+if !exists('g:plugs["powerline"]') && !exists('g:plugs["vim-airline"]')
+	set statusline=(%{winnr()})				" window number
+	set statusline+=%f						" relative path
+	set statusline+=[%{strlen(&fenc)?&fenc:'none'},%{&ff}]	" [file encoding,file format]
+	set statusline+=%y%r%m					" file type; readonly flag; modified flag
+	set statusline+=%=%c,%l/%L%6.6P			" right align; current column,line/total line; percentage with fixed width of 6 chars
+endif
+if exists('g:plugs["powerline"]')
+	set noshowmode
+	python3 from powerline.vim import setup as powerline_setup
+	python3 powerline_setup()
+	python3 del powerline_setup
+elseif exists('g:plugs["vim-airline"]')
+	set noshowmode
+	" let g:airline_theme='base16color'
+	" let g:airline_theme='papercolor'
+	let g:airline_theme='cool'
+	let g:airline_section_c = '(%{winnr()}) %<%F%m %#__accent_red#%{airline#util#wrap(airline#parts#readonly(),0)}%#__restore__#'
+endif
+" --- || powerline / airline || }}}
+
+" {{{ || NERDCommenter || ---
+let g:NERDSpaceDelims = 1				" Add spaces after comment delimiters
+let g:NERDDefaultAlign = 'left'
+noremap <silent> <C-\> :call NERDComment("n","toggle")<CR>
+inoremap <silent> <C-\> <C-o>:call NERDComment("n","toggle")<CR>
+" --- || NERDCommenter || }}}
+
+" {{{ || NERDTree || ---
+let g:NERDTreeShowLineNumbers = 1
+let g:NERDTreeSortHiddenFirst = 1
+let g:NERDTreeShowHidden=1
+let g:NERDTreeQuitOnOpen=1
+nnoremap <Leader>n :NERDTreeToggle<CR>
+cnoreabbrev nt NERDTree
+" call NERDTreeAddKeyMap({
+" \ 'key': 'J',
+" \ 'callback': {-> feedkeys('gt')},
+" \ 'quickhelpText': 'use my own J mapping',
+" \ 'override': 1})
+
+" call NERDTreeAddKeyMap({
+" \ 'key': 'K',
+" \ 'callback': {-> feedkeys('gt')},
+" \ 'quickhelpText': 'use my own K mapping',
+" \ 'override': 1})
+
+" NERDTreeAddKeyMap() adds new mapping, but does not override existing map (bug?)
+" So use autocmd to override the existing mappping
+" <buffer> is necessary to override
+augroup nerd_tree
+	autocmd!
+	autocmd FileType nerdtree nnoremap <buffer> J gt
+	autocmd FileType nerdtree nnoremap <buffer> K gT
+augroup END
+" --- || NERDTree || }}}
+
+" {{{ || jedi-vim || ---
+" options
+let g:jedi#use_tabs_not_buffers = 1
+let g:jedi#popup_on_dot = 0
+" let g:jedi#popup_select_first = 0
+
+" disable default keymap
+" let g:jedi#goto_command = "<leader>d"
+" let g:jedi#goto_assignments_command = "<leader>g"
+" let g:jedi#goto_definitions_command = ""
+let g:jedi#documentation_command = "" "K
+let g:jedi#usages_command = "" "<leader>n
+let g:jedi#completions_command = "" "<C-Space>
+let g:jedi#rename_command = "" "<leader>r
+" --- || jedi-vim || }}}
+"
+" {{{ || tagbar || ---
+let g:tagbar_type_go = {
+			\ 'ctagstype' : 'go',
+			\ 'kinds'     : [
+				\ 'p:package',
+				\ 'i:imports:1',
+				\ 'c:constants',
+				\ 'v:variables',
+				\ 't:types',
+				\ 'n:interfaces',
+				\ 'w:fields',
+				\ 'e:embedded',
+				\ 'm:methods',
+				\ 'r:constructor',
+				\ 'f:functions'
+			\ ],
+			\ 'sro' : '.',
+			\ 'kind2scope' : {
+				\ 't' : 'ctype',
+				\ 'n' : 'ntype'
+			\ },
+			\ 'scope2kind' : {
+				\ 'ctype' : 't',
+				\ 'ntype' : 'n'
+			\ },
+			\ 'ctagsbin'  : 'gotags',
+			\ 'ctagsargs' : '-sort -silent'
+			\ }
+nnoremap <Leader>o :TagbarToggle<CR>
+" --- || tagbar || }}}
+
+" {{{ || vim-surround || ---
+" set characters and correspondng wrappers
+" value for variable have to be surrounded by "", not ''
+" pre-defined mappings that are useful are:
+" t: "<[tag]>\r</[tag]>" <- [tag] will be replaced by user input
+" f: "[function](\r)" <- [function] will be replaced by user input
+let g:surround_{char2nr('p')} = "(\r)"
+let g:surround_{char2nr('o')} = "[\r]"
+let g:surround_{char2nr('r')} = "{\r}"
+let g:surround_{char2nr('v')} = "<\r>"
+let g:surround_{char2nr('q')} = "\"\r\""
+let g:surround_{char2nr('x')} = "'\r'"
+let g:surround_{char2nr('d')} = "${\r}"
+let g:surround_{char2nr('D')} = "\"${\r}\""
+let g:surround_{char2nr('s')} = "$(\r)"
+let g:surround_{char2nr('S')} = "\"$(\r)\""
+" --- || vim-surround || }}}
+
+" {{{ || auto-pairs || ---
+if !exists('g:plugs["auto-pairs"]')
+	inoremap ' ''<Left>
+	inoremap '' ''
+	inoremap " ""<Left>
+	inoremap "" ""
+	inoremap ` ``<Left>
+	inoremap `` ``
+	inoremap { {}<Left>
+	inoremap {<CR> {<CR>}<Esc>O
+	inoremap {} {}
+	inoremap ( ()<Left>
+	inoremap () ()
+	inoremap [ []<Left>
+	inoremap [] []
+else
+	let g:AutoPairsShortcutToggle = ''
+	let g:AutoPairsShortcutFastWrap = ''
+	let g:AutoPairsShortcutJump = ''
+	let g:AutoPairsShortcutBackInsert = ''
+	let g:AutoPairsMapSpace = 0		" This maps <Space> to <C-]><C-R>=... and <C-]> is unwanted
+	inoremap <silent> <Space> <C-g>u<C-r>=AutoPairsSpace()<CR>
+endif
+" --- || auto-pairs || }}}
+
+" {{{ || vim-repeat || ---
+if exists('g:plugs["vim-repeat"]')
+	nmap <silent> U <Plug>(RepeatRedo)
+endif
+" --- || vim-repeat || }}}
+
+" {{{ || syntastic || ---
+" Do not complete automatically
+let g:syntastic_mode_map = {
+			\ "mode": "passive",
+			\ "active_filetypes": [],
+			\ "passive_filetypes": [] }
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_aggregating_errors = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 0
+let g:syntastic_check_on_wq = 0
+" --- || end of syntastic || }}}
+
+" {{{ || easy-motion || ---
+nnoremap s <Nop>
+vnoremap s <Nop>
+" this option unmap all easymotion-prefix including user defined ones
+" let g:EasyMotion_do_mapping = 0
+let g:EasyMotion_smartcase = 1
+let g:EasyMotion_use_upper = 1
+let g:EasyMotion_keys = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ;'
+let g:EasyMotion_enter_jump_first = 1
+let g:EasyMotion_space_jump_first = 1
+let g:EasyMotion_off_screen_search = 0
+" this disables highlighting by `n` command, but you need easymotion-next/prev to move around
+let g:EasyMotion_add_search_history = 0
+let g:EasyMotion_startofline = 0
+" mapping easymotion-prefix prevents <Leader><Leader> from being mapped
+map <S-F12> <Plug>(easymotion-prefix)
+map f <Plug>(easymotion-fl)
+map F <Plug>(easymotion-Fl)
+map t <Plug>(easymotion-tl)
+map T <Plug>(easymotion-Tl)
+map [Chief]f <Plug>(easymotion-fn)
+map [Chief]F <Plug>(easymotion-Fn)
+map [Chief]t <Plug>(easymotion-tn)
+map [Chief]T <Plug>(easymotion-Tn)
+" nmap s <Plug>(easymotion-sn)
+" vmap s <Plug>(easymotion-sn)
+" omap z <Plug>(easymotion-sn)
+map <Bslash> <Plug>(easymotion-next)
+map <Bar> <Plug>(easymotion-prev)
+" --- || easy-motion || }}}
+
+" {{{ || ctrlp || ---
+if exists('g:plugs["ctrlp.vim"]')
+	" for now, just disable the default mapping to prevent from <C-p> to be overridden
+	let g:ctrlp_map = '<F13>'
+endif
+" --- || ctrlp || }}}
+
+" {{{ || UltiSnips || ---
+let g:UltiSnipsExpandTrigger="<C-]>"
+let g:UltiSnipsJumpForwardTrigger="<C-s>"
+let g:UltiSnipsJumpBackwardTrigger="<C-z>"
+" --- || UltiSnips || }}}
+
+" {{{ || deoplete || ---
+if exists('g:plugs["deoplete.nvim"]')
+	let g:deoplete#enable_at_startup = 1
+	if has('win32') || has('win64')
+		" On Windows, it is 1 by default, and only available on nvim
+		" Seems not necessary to change on nvim (fast enough already)
+		" call deoplete#custom#option('num_processes', 2)
+		" cmd is "python.exe" so deoplete (yarp?) cannot find it by default
+		let g:python3_host_prog="python"
+	endif
+	" FIXME This tells deoplete to use 'omnifunc' for completion.
+	" i.e. &omnifunc will be set to some deoplete function
+	" But currently it fails to load matching from omnifunc
+	" call deoplete#custom#option({
+	"             \ 'complete_method': 'omnifunc',
+	"             \})
+	" FIXME these just don't work
+	" call deoplete#custom#source('omni', 'input_patterns', {
+	"             \ 'vim': '.*',
+	"             \ 'javascript': '.*',
+	"             \})
+	" call deoplete#custom#source('omni', 'functions', {
+	"             \ 'vim': ['syntaxcomplete#Complete'],
+	"             \ 'javascript': [ 'tern#Complete', 'jspc#omni' ],
+	"             \})
+	" The below 2 lines are necessary, apparently.
+	" HOWEVER, these disable normal omni completion as well.
+	" i.e. when I press <C-x><C-o>, no match will be found.
+	" let g:tern#command = ['tern']
+	" let g:tern#arguments = ['--persistent']
+
+	inoremap <silent> <expr> <C-i> pumvisible() ? "\<C-n>" : deoplete#manual_complete()
+endif
+" --- || deoplete || }}}
+
+" --- || plugin mapping and option || }}}
+
+" --- || key mapping || }}}
+
+" {{{ || abbreviation || ---
+cnoreabbrev ehco echo
+cnoreabbrev tn tabnew
+cnoreabbrev tm TabnewMulti
+cnoreabbrev tnro tabnew <Bar> view
+cnoreabbrev spro split <Bar> view
+cnoreabbrev vsro vsplit <Bar> view
+cnoreabbrev vb vertical sbuffer
+cnoreabbrev tb tab sbuffer
+cnoreabbrev vh vertical help <Bar> execute "normal! \<lt>C-w>80\<Bar>"<C-Left><C-Left><C-Left><C-Left><Left>
+cnoreabbrev th tab help
+cnoreabbrev bold browse oldfiles
+cnoreabbrev st new <Bar> terminal
+cnoreabbrev vt vnew <Bar> terminal
+cnoreabbrev tt tabnew <Bar> terminal
+" --- || abbreviation || }}}
+
+" {{{ || netrw || ---
+let g:netrw_winsize = 18
+let g:netrw_banner = 0
+" --- || netrw || }}}
+
+" {{{ || functions || ---
+" move back cursor before a command is executed
+" offset moves down and right n lines/columns to the original position
+function! Preserve(command, linoff, coloff)
+	let l = line(".") + a:linoff
+	let c = col(".") + a:coloff
+	echom a:command
+	execute a:command
+	call cursor(l, c)
+endfunction
+
+" getchar() with Ctrl+C to cancel
+" This returns numeric 0 if interrupted, so the value is compared using 'is'
+function! GetChar()
+	try
+		call inputsave()
+		return nr2char(getchar())
+	catch /^Vim:Interrupt$/
+		redraw
+		echo 'Cancelled'
+		return 0
+	finally
+		call inputrestore()
+	endtry
+endfunction
+
+" input() with Ctrl+C to cancel
+" This returns numeric 0 if interrupted, so the value is compared using 'is'
+function! Input(...)
+	let l:opts = {}
+	if a:0 > 0
+		if type(a:1) == 4 " is dictionary
+			let l:opts = a:1
+		else
+			let l:opts['prompt'] = (a:0 >= 1) ? a:1 : ''
+			let l:opts['default'] = (a:0 >= 2) ? a:2 : ''
+			if a:0 >= 3
+				let l:opts['completion'] = a:3
+			endif
+		endif
+	endif
+	try
+		call inputsave()
+		return input(l:opts)
+	catch /^Vim:Interrupt$/
+		redraw
+		echo 'Cancelled'
+		return 0
+	finally
+		call inputrestore()
+	endtry
+endfunction
+
+" add elements only if the specified list does not contain the same value
+function! AddUniq(list, elm)
+	if index(a:list, a:elm) == -1
+		call add(a:list, a:elm)
+	endif
+endfunction
+
+function! Expander()
+	echohl Identifier
+	echo 'Ctrl+: [b]asename, [s]implename, [d]irname, [f]ullname, [p]wd'
+	echohl NONE
+	let l:char = nr2char(getchar())
+	if l:char ==? "b" || l:char ==? "\<C-b>"
+		let l:cmd = "\<C-r>=expand('%:t')\<CR>"
+	elseif l:char ==? "s" || l:char ==? "\<C-s>"
+		let l:cmd = "\<C-r>=expand('%:t:r')\<CR>"
+	elseif l:char ==? "d" || l:char ==? "\<C-d>"
+		let l:cmd = "\<C-r>=expand('%:p:h')\<CR>"
+	elseif l:char ==? "f" || l:char ==? "\<C-f>"
+		let l:cmd = "\<C-r>=expand('%:p')\<CR>"
+	elseif l:char ==? "p" || l:char ==? "\<C-p>"
+		let l:cmd = "\<C-r>=getcwd()\<CR>"
+	else
+		echohl WarningMsg | echo 'Not an available option: '.l:char | echohl NONE
+		sleep 1
+		" return space and backspace to clean up the msg in command line
+		let l:cmd = "\<Space>\<BS>"
+	endif
+
+	return l:cmd
+endfunction
+
+function! SelectBtwCols(sln, spos, eln, epos)
+	" NOTE: Use cursor() instead of '|' command
+	" searchpairpos() reterns 'n' as in nth char rather than column number.
+	" '|' goes to column number, so if the line is indented with tab, '|' misbehaves.
+	" since tab is single character but takes up &shiftwidth columns
+	" execute 'normal! '.l:spos.'|v'.l:epos.'|'
+	silent execute printf("normal! :call cursor(%s, %s)\<CR>v:call cursor(%s, %s)\<CR>v`<", a:sln, a:spos, a:eln, a:epos)
+endf
+
+function! SelectCamelWord()
+	let l:crntLine = line('.')
+	let l:camelRegexp = '[A-Za-z][a-z]*'
+	let [_, l:spos] = searchpos(l:camelRegexp, 'bc', l:crntLine)
+	let [_, l:epos] = searchpos(l:camelRegexp, 'ce', l:crntLine)
+	call SelectBtwCols(l:crntLine, l:spos, l:crntLine, l:epos)
+endfunction
+
+function! SelectPair(start, middle, end, include)
+	" NOTE: searchpairpos works a little weird as illustrated below
+	" With 'c' option, if the cursor is on the first char of 'start' string (with 'b' option, last char of 'end' string),
+	" searchpairpos() cannot find the match.
+	let [l:sln, l:spos] = searchpairpos(a:start, a:middle, a:end, 'bc')
+	let [l:eln, l:epos] = searchpairpos(a:start, a:middle, a:end)
+	if l:spos == 0 || l:epos == 0
+		" no match was found
+		return
+	endif
+	if !a:include
+		let l:spos = l:spos + len(a:start)
+		let l:epos = l:epos - len(a:end)
+	endif
+	call SelectBtwCols(l:sln, l:spos, l:eln, l:epos)
+endfunction
+
+" Select either function/method call, object property, or struct (including object itself)
+function! SelectElement()
+	let l:elemRegexp = '[A-Za-z0-9_.]\+[({]'
+	let [l:sln, l:spos] = searchpos(l:elemRegexp, 'bc')
+	let [l:eln, l:epos] = searchpos(l:elemRegexp, 'e')
+	let l:lastchar = getline(l:eln)[l:epos-1]
+	if l:lastchar =~ '[({]'
+		let l:start = l:lastchar
+		let l:end = ')'
+		if l:lastchar == '{'
+			let l:end = '}'
+		endif
+		let [l:eln, l:epos] = searchpairpos(l:start, '', l:end)
+	endif
+	call SelectBtwCols(l:sln, l:spos, l:eln, l:epos)
+endf
+
+" get full path of all window of all tab, then save them into @* or @"
+" depending on the availability of 'clipboard' option
+function! ClipAllWinTabPaths()
+	let l:lasttabnr = tabpagenr()
+
+	if has('clipboard')
+		let l:register = '*'
+	else
+		let l:register = '"'
+	endif
+
+	let l:patharr = []
+	tabdo windo call AddUniq(l:patharr, expand('%:p'))
+	call setreg(l:register, join(l:patharr, "\n"))
+
+	execute "tabnext " . l:lasttabnr
+
+	if !has('clipboard')
+		$ tabnew
+		put
+		global/^$/delete
+	endif
+endfunction
+command! ClipAllWinTabPaths :call ClipAllWinTabPaths()
+
+" Open files on each line one file in one tab
+function! OpenFileOnEachLine() range
+	" silent global/^$/delete
+	" let l:linecnt = 1
+	let l:cmd = ""
+	" let l:totallinenum = line("$")
+	" call cursor(1, 1)
+	for l:linenum in range(a:firstline, a:lastline)
+		call cursor(l:linenum, 1)
+		let l:path = expand("<cfile>") 
+		if !filereadable(l:path)
+			continue
+		endif
+		let l:cmd .= "tabnew ".l:path." \<Bar> "
+	endfor
+	" while l:linecnt <= l:totallinenum
+	"     call cursor(l:linecnt, 1)
+	"     let l:cmd = l:cmd . "tabnew " . expand("<cfile>") . " \<Bar> "
+	"     let l:linecnt = l:linecnt + 1
+	" endwhile
+	execute l:cmd
+endfunction
+command! -range=% OpenFileOnEachLine <line1>,<line2>call OpenFileOnEachLine()
+
+" Open multiple files each in its own tab
+" @... [path[]] Filepath to open. Wildcard is accepted.
+function! TabnewMulti(...)
+	let l:files = []
+	for l:paths in a:000
+		for l:node in glob(l:paths, 0, 1)
+			" Get absolute path or it fails when the arguments contains
+			" recursive wildcard and the expanded result contains files in
+			" subdirectory as autocmd changes pwd to the file's containing
+			" dirctory and relative path breaks.
+			" Also exclude directories.
+			if filereadable(l:node)
+				call add(l:files, fnamemodify(l:node, ':p'))
+			endif
+		endfor
+	endfor
+	let l:filenum = len(l:files)
+	if l:filenum == 0
+		echohl WarningMsg | echo 'No matching file' | echohl NONE
+		return
+	endif
+	let l:orgtabnr = tabpagenr()
+	for l:file in l:files
+		execute 'tabnew '.l:file
+	endfor
+	execute l:orgtabnr.'tabnext'
+	" FIXME this message is not displayed
+	echo printf('%s file%s opened', l:filenum, l:filenum > 1 ? 's' : '')
+endfunction
+command! -complete=file -nargs=+ TabnewMulti call TabnewMulti(<f-args>)
+
+" Erace all the garbled characters emitted by external commands
+" when reading the output
+function! CleanUpGarbledChar4Windows()
+	silent! execute '%substitute/' . nr2char(255) . '//g'
+	silent! execute '%substitute/' . nr2char(254) . '//g'
+	silent! execute '%substitute/' . nr2char(1) . '//g'
+	silent! execute '%substitute/' . nr2char(13) . '//g'
+endfunction
+
+" List files that matches the pattern
+" @file [string] file name to find
+" @... [string[]] path to search files. Multiple path can be passed.
+"      If nothing is supplied, use CWD.
+function! Find(file, ...) abort
+	" set up paths to search
+	if a:0 == 0     " the value of vararg is 0 if not supplied
+		let l:dir = fnamemodify('.', ':p')
+	else
+		let l:dirlist = []
+		for l:arg in a:000
+			call add(l:dirlist, fnamemodify(l:arg, ':p'))
+		endfor
+		" globpath() can take multiple paths as CSV
+		let l:dir = join(l:dirlist, ',')
+	endif
+
+	let l:pathlist = globpath(l:dir, '**/' . a:file, 0, 1)
+
+	" limit the found files to only readable ones
+	" and make the list of files compatible with quickfix list
+	let l:readables = []
+	for l:path in l:pathlist
+		if filereadable(l:path)
+			call add(l:readables, l:path.':0: ')
+		endif
+	endfor
+
+	let l:lastwinnum = winnr()
+	lgetexpr l:readables
+	let l:found = LWindowSmart(l:lastwinnum, 10, 1)
+	" display message if no file was found
+	if !l:found
+		echohl WarningMsg | echo "No match found" | echohl NONE
+	endif
+endfunction
+command! -nargs=+ -complete=file Find :call Find(<f-args>)
+
+" Open location list with just enough height for errors but no more than the
+" maximum. Do nothing if no error is found.
+" @orgwinnr [number] window number to go back. 0 to remain in location list.
+" @maxheight [number] height of location list
+" @lopen [boolean] true to use lopen, false for lwindow
+" @return [number] the number of errors in location list
+function! LWindowSmart(orgwinnr, maxheight, lopen) abort
+	let l:numerror = len(getloclist(0))
+	if l:numerror == 0
+		return 0
+	endif
+
+	let l:qfheight = (l:numerror <= a:maxheight) ? l:numerror : a:maxheight
+	" XXX If the contents inside location list is not errors (e.g. simple
+	" string, Find()), 'lwindow' command does not open location list. It might
+	" be possible to fix this using proper errformat.
+	let l:lopencmd = (a:lopen) ? 'lopen' : 'lwindow'
+	execute l:lopencmd.l:qfheight
+	if a:orgwinnr
+		execute a:orgwinnr.'wincmd w'
+	endif
+	return l:numerror
+endf
+
+" store the output of command to register 'r'
+function! RedirCmdOutputToReg(...)
+	if empty(a:000)
+		echoerr 'Argument required'
+		return
+	endif
+	redir @r
+	execute join(a:000, ' ')
+	redir END
+endfunction
+command! -complete=command -nargs=+ RedirCmdOutputToReg :call RedirCmdOutputToReg(<f-args>)
+
+" redirect the output of external command into console
+function! OutputExtCmdToCmdlind(cmd)
+	" if has('win32') || has('win64')
+	" let oldshell = &shell
+	" set shell=powershell\ -ExecutionPolicy\ RemoteSigned
+	" endif
+
+	echo system(a:cmd)
+
+	" if has('win32') || has('win64')
+	" execute 'set shell=' . oldshell
+	" endif
+endfunction
+command! -complete=shellcmd -nargs=1 OutputExtCmdToCmdlind :call OutputExtCmdToCmdlind(<q-args>)
+nnoremap [Chief]! :OutputExtCmdToCmdlind<Space>
+
+" redirect the output of external command into quickfix window
+function! OutputExtCmdToWin(cmd)
+	let g:lastwinnum = winnr()
+	lgetexpr system(a:cmd)
+	lopen 10
+	set modifiable
+	silent! %substitute/^|| //g
+	if has('win32') || has('win64')
+		call CleanUpGarbledChar4Windows()
+	endif
+	set nomodified
+	execute g:lastwinnum . 'wincmd w'
+endfunction
+command! -complete=shellcmd -nargs=1 OutputExtCmdToWin :call OutputExtCmdToWin(<q-args>)
+nnoremap <Leader>! :OutputExtCmdToWin<Space>
+
+" append the output of external command into quickfix window
+function! AppendExtCmdToWin(cmd)
+	let g:lastwinnum = winnr()
+	laddexpr system(a:cmd)
+	lopen 10
+	set modifiable
+	silent! %substitute/^|| //g
+	if has('win32') || has('win64')
+		call CleanUpGarbledChar4Windows()
+	endif
+	set nomodified
+	execute g:lastwinnum . 'wincmd w'
+endfunction
+command! -complete=shellcmd -nargs=1 OutputExtCmdToWin :call OutputExtCmdToWin(<q-args>)
+nnoremap [Captain]! :AppendExtCmdToWin<Space>
+
+function! SetOperatorFunc(funcname)
+	execute 'set operatorfunc=' . a:funcname
+	echohl Identifier | echon a:funcname | echohl NONE
+	echon ' is being called. Enter motion key:'
+endfunction
+
+function! GetOperatorText(operatortype, noline)
+	" let l:regbk = @"
+
+	if a:operatortype ==# 'v'
+		normal! `<v`>y
+	elseif a:operatortype ==# 'char'
+		normal! `[v`]y
+	else
+		if a:noline
+			echohl WarningMsg
+			echo "line-wise motion and line/block-wise selection is not supported"
+			echohl NONE
+			throw "Exception"
+		endif
+
+		normal! `[V`]y
+	endif
+
+	" let l:operatortext = @"
+	" let @" = l:regbk
+	" return l:operatortext
+	return @"
+endfunction
+
+function! GetVisualText()
+	" let [l:linestart, l:colstart] = getpos("'<")[1:2]
+	" let [l:lineend, l:colend] = getpos("'>")[1:2]
+	" if l:linestart != l:lineend
+	" echoerr 'selection must be single line.'
+	" endif
+	" return  getline(l:linestart)[l:colstart - 1:l:colend - 1]
+	normal! gvy
+	let l:result = getreg('"')
+	normal! gv
+	return l:result
+endfunction
+
+" Get ftplugins (including after) for the specified file type and return them as a list
+function! GetFtplugins(filetype)
+	let l:files = []
+	let l:trailingfn = '/ftplugin/'.a:filetype.'.vim'
+	let l:ftppath = s:vimdir.l:trailingfn
+	let l:aftppath = s:vimdir.'/after'.l:trailingfn
+
+	if filereadable(l:ftppath)
+		call add(l:files, l:ftppath)
+	endif
+	if filereadable(l:aftppath)
+		call add(l:files, l:aftppath)
+	endif
+
+	return l:files
+endfunction
+
+" Open ftplugin (including after) for the specified file type
+function! OpenFtplugins(...)
+	let l:files = []
+	for l:ft in a:000
+		let l:files += GetFtplugins(l:ft)
+	endfor
+
+	if len(l:files) == 0
+		echo 'No ftplugins found'
+		return
+	endif
+
+	for l:file in l:files
+		silent execute 'tabnew '.l:file
+	endfor
+endfunction
+command! -complete=filetype OpenFtplugins :call OpenFtplugins(<f-args>)
+
+" Set filetype again with the current buffer's file type
+function! SetFt()
+	execute 'set filetype='.&ft
+endfunction
+command! SetFt :call SetFt()
+
+" 'lmake' without moving to location list window
+function! MyMake(...) abort
+	let l:lastwinnum = winnr()
+	" XXX nvim does not catch the error properly
+	let l:cmd = 'silent lmake! '.join(a:000)
+	if has('nvim')
+		let l:cmd = printf('lgetexpr system("%s %s")', &makeprg, join(a:000))
+	endif
+	echohl Identifier | echo 'Making... ' | echohl NONE
+	execute l:cmd
+	let l:errorexists = LWindowSmart(l:lastwinnum, 10, 0)
+	if !l:errorexists
+		" Without lclose, if location list is already open, it remains opened
+		" even when there is no error and window
+		silent lclose
+	endif
+	" On linux console, bash console will be shown when making and vim is
+	" brought back when make is done. This causes the contents of the file now
+	" shown properly. 'redraw!' to fix it.
+	if !(has('gui') || has('nvim'))
+		redraw!
+	endif
+	if l:errorexists
+		echohl WarningMsg | echon 'Failed :(' | echohl NONE
+	else
+		echohl Identifier | echon 'Done!' | echohl NONE
+	endif
+endfunction
+command! -nargs=* MyMake :call MyMake(<f-args>)
+
+" Display dictionary in accending order
+function! DispOptions(title, option, message, ...)
+	let l:sortfunc = (a:0 >= 1) ? a:1 : ''
+
+	echohl Statement | echo a:title | echohl NONE
+	for [k,v] in sort(items(a:option), l:sortfunc)
+		echo printf('  %s: %s', k, v)
+		unlet k v
+	endfor
+	echohl Function | echo a:message | echohl NONE
+endf
+
+function! Toggler()
+	let l:options = {
+				\ 'l': 'list',
+				\ 'p': 'paste',
+				\ 'r': 'relativenumber',
+				\ 'w': 'wrap'
+				\ }
+	call DispOptions('Toggle option', l:options, 'Press a key: ')
+	try
+		call inputsave()
+		let l:userinput = nr2char(getchar())
+	catch /^Vim:Interrupt$/
+		redraw
+		echo 'Cancelled'
+		return
+	finally
+		call inputrestore()
+	endtry
+	" string == 0 is true so must return the default value
+	let l:option = get(l:options, l:userinput, "")
+	redraw	" clear concole so that 'Press ENTER or ...' will not be shown
+	if l:option == ""
+		" user press an unavailable key
+		echohl WarningMsg
+		echo printf('"%s" is not available.', l:userinput)
+		echohl NONE
+		return
+	endif
+	execute 'set '.l:option.'! '.l:option.'?'
+endf
+nnoremap _ :call Toggler()<CR>
+
+" Function for sort() to sort 2D list based on the first element of inner array.
+" Main usage is to sort list returned by items({dict}).
+" Default algorithm of sort() has case insensitive sorting, but it does not
+" guarantee that either UPPERCASE or lowercase precedes the other.
+" This sort place lowercase before UPPERCASE within the same letter.
+function! SortItemsCaseIns(one, two)
+	let l:key1 = char2nr(tolower(a:one[0]))
+	let l:key2 = char2nr(tolower(a:two[0]))
+	let l:result = l:key1 == l:key2 ? 0 : l:key1 > l:key2 ? 1 : -1
+	if l:key1 ==? l:key2
+		" lowercase should precedes UPPERCASE
+		let l:result = char2nr(a:one[0]) > char2nr(a:two[0]) ? -1 : 1
+	endif
+	return l:result
+endfunction
+
+" Function for sort() to sort 2D list based on the second element of inner array.
+" Main usage is to sort list returned by items({dict}).
+" This essentially sort dict by value.
+function! SortItemsByValue(one, two)
+	return a:one[1] > a:two[1] ? 1 : -1
+endfunction
+
+" List up the vim-go commands with keys to trigger.
+" Pressing flag key changes the way the function behaves.
+" @cmddict [dict] key: char to trigger the command, value command to run
+function! RunGoCommands(cmddict)
+	let [l:keyMod, l:keyDisp, l:keyBang, l:keyHelp] = ['-', '_', '!', '?']
+	let l:flagDict = {
+				\ l:keyMod: 'Modify command',
+				\ l:keyDisp: 'Display commands',
+				\ l:keyBang: 'Run with !',
+				\}
+	let l:helpMsg = []
+	for [k,v] in items(l:flagDict)
+		call add(l:helpMsg, printf('%s(%s)', v, k))
+		unlet k v
+	endfor
+	echohl Function | echo printf('-- RunCommands -> %s: ', join(l:helpMsg, ', ')) | echohl NONE
+
+	let l:selectedFlag = ''
+	let l:modify = 0
+	let l:bang = 0
+	while 1
+		let l:userInput = GetChar()
+		if l:userInput is 0
+			return
+		endif
+		" remove() throws an error if key does not exist
+		silent! let l:flagSelected = remove(l:flagDict, l:userInput) is 0
+		if l:flagSelected
+			break
+		endif
+		if l:userInput == l:keyMod
+			let l:modify = 1
+			let l:selectedFlag .= l:keyMod
+			echohl Function | echon l:keyMod | echohl NONE
+			continue
+		elseif l:userInput == l:keyDisp
+			redraw
+			call DispOptions('Commands:', a:cmddict, 'Press a key: '.l:selectedFlag, 'SortItemsByValue')
+			continue
+		elseif l:userInput == l:keyBang
+			let l:bang = 1
+			let l:selectedFlag .= l:keyBang
+			echohl Function | echon l:keyBang | echohl NONE
+		else
+			break
+		endif
+	endwhile
+
+	redraw	" clear concole so that 'Press ENTER or ...' will not be shown
+	let l:cmd = get(a:cmddict, l:userInput, "")
+	if l:cmd == ''
+		" user press an unavailable key
+		echohl WarningMsg | echo printf('"%s" is not available.', l:userInput) | echohl NONE
+		return
+	endif
+
+	if l:bang
+		let l:cmd .= '!'
+	endif
+
+	if l:modify
+		let l:orgCmd = l:cmd
+		let l:cmd = Input('>>> ', l:cmd)
+		if l:cmd is 0
+			return
+		endif
+		if l:cmd != l:orgCmd
+			call histadd(':', l:cmd)
+		endif
+	else
+		echo l:cmd
+	endif
+
+	execute l:cmd
+endfunction
+" --- || functions || }}}
+
+" load local vimrc
+if exists('$VIMPJROOT')
+	silent! source $VIMPJROOT/.vimrc_local
+endif

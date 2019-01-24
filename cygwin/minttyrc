@@ -1,0 +1,10 @@
+BoldAsFont=-1
+CursorType=block
+FontHeight=11
+CtrlShiftShortcuts=yes
+Columns=80
+Rows=24
+
+# added myself
+Window=max
+CursorBlinks=no

@@ -1,0 +1,232 @@
+" --- OS Dependent ---{{{
+js << _RCLOC
+if(liberator.has("Windows")){
+	// do something for windows
+	var rcdir = 'vimperator'
+}
+else{
+	// do something for others
+	var rcdir = '.vimperator'
+}
+_RCLOC
+" --- end of OS Dependent ---}}}
+
+" --- Option ---{{{
+set focuscontent
+set hintchars=jdkslayturieownvmc123456789
+set complete=tslS
+" --- end of Option ---}}}
+
+" --- Firefox Config ---{{{
+" disable suggestion on location/url bar
+set! browser.urlbar.suggest.bookmark=false
+set! browser.urlbar.suggest.history=false
+set! browser.urlbar.suggest.openpage=false
+" increase caret width
+set! ui.caretWidth=2
+" --- end of Firefox Config ---}}}
+
+" --- Ignorekeys ---{{{
+ignorekeys add -except=:,<C-n>,<C-p> mail\\.google\\.com
+" --- end of Ignorekeys ---}}}
+
+" --- Highlight ---{{{
+highlight! Hint -append opacity: 0.7; font-size: 1.3em; color: black; background-color: #bfff80; border: 1.5px solid #33cc33;
+highlight! HintElem clear
+highlight! HintActive background-color: #99ccff; color: white;
+" CSS3 is not supported?
+" highlight! HintActive border: 2px dotted gray; box-sizing: border-box; -moz-box-sizing: border-box; -webkit-box-sizing: border-box;
+" highlight! HintActive border: 2px dotted gray; border-shadow: 0px 0px 0px 10px blue inset; -moz-border-shadow: 0px 0px 0px 10px blue inset; -webkit-border-shadow: 0px 0px 0px 10px blue inset;
+" highlight! HintActive border-shadow: 0px 0px 0px 10px blue inset; -moz-border-shadow: 0px 0px 0px 10px blue inset; -webkit-border-shadow: 0px 0px 0px 10px blue inset;
+" --- end of Highlight ---}}}
+
+" --- Smooth Scrolling ---{{{
+nnoremap h <Left>
+nnoremap j <Down>
+nnoremap k <Up>
+nnoremap l <Right>
+nnoremap <C-e> <Down>
+nnoremap <C-y> <Up>
+nnoremap <C-d> <Down><Down><Down><Down><Down>
+nnoremap <C-u> <Up><Up><Up><Up><Up>
+nnoremap <C-f> <PageDown>
+nnoremap <C-b> <PageUp>
+" --- end of Smooth Scroll ---}}}
+
+" {{{
+nnoremap x d
+nnoremap d <Nop>
+nnoremap p P
+nnoremap P p
+nnoremap <C-h> <Nop>
+nnoremap s :stop<CR>
+nnoremap S :stopall<CR>
+" }}}
+
+" --- Browsing ---{{{
+nnoremap <C-S-f> ;t
+nnoremap <C-6> 6gt
+nnoremap <C-Enter> <C-^>
+" --- end of Browsing ---}}}
+
+" --- Window Handling ---{{{
+" --- end of Window Handling ---}}}
+
+" --- Tab Handling ---{{{
+" nnoremap <C-h> <C-p>
+" nnoremap <C-l> <C-n>
+nnoremap <A-n> :tabmove +1<CR>
+nnoremap <A-p> :tabmove -1<CR>
+" --- end of Tab Handling ---}}}
+
+" --- Misc ---{{{
+nnoremap <A-u> :nohlsearch<CR>
+nnoremap <A-h> :nohlsearch<CR>
+nnoremap <C-a> i<C-a>
+" nnoremap <F3> :execute "source " + io.getRCFile().path + "\<CR>"
+nnoremap <F3> :javascript liberator.execute('source ' + io.getRCFile().path)<CR>
+" --- end of Misc ---}}}
+
+" --- Visual Mode ---{{{
+vnoremap H <Home>
+vnoremap L <End>
+" --- end of Visual Mode ---}}}
+
+" --- Insert Mode ---{{{
+" TODO switch keybnding using js if or something
+" --- Emacs Style Mapping ---{{{
+" Basic movement
+inoremap <C-b> <Left>
+inoremap <C-f> <Right>
+inoremap <A-f> <C-Right>
+inoremap <A-b> <C-Left>
+inoremap <C-p> <Up>
+inoremap <C-n> <Down>
+" inoremap <C-a> <Home>
+" inoremap <C-e> <End>
+" Selection
+inoremap <C-S-b> <S-Left>
+inoremap <C-S-f> <S-Right>
+inoremap <A-S-f> <C-S-Right>
+inoremap <A-S-b> <C-S-Left>
+inoremap <C-S-p> <S-Up>
+inoremap <C-S-n> <S-Down>
+inoremap <C-S-a> <S-Home>
+inoremap <C-S-e> <S-End>
+inoremap <C-A-a> <Insert><C-a><Insert>
+" Editing
+inoremap <C-h> <BS>
+inoremap <A-h> <C-BS>
+inoremap <C-d> <Del>
+inoremap <A-d> <C-Del>
+inoremap <C-k> <S-End><Del>
+" --- end of Emacs Sytle Mapping ---}}}
+" --- Less Style Mapping ---{{{
+" " Basic movement
+" inoremap <A-h> <Left>
+" inoremap <A-j> <Down>
+" inoremap <A-k> <Up>
+" inoremap <A-l> <Right>
+" inoremap <A-b> <C-Left>
+" inoremap <A-w> <C-Right>
+" inoremap <A-0> <Home>
+" inoremap <A-$> <End>
+" inoremap <A--> <End>
+" " Selection
+" inoremap <A-S-h> <S-Left>
+" inoremap <A-S-j> <S-Down>
+" inoremap <A-S-k> <S-Up>
+" inoremap <A-S-l> <S-Right>
+" inoremap <A-S-b> <C-S-Left>
+" inoremap <A-S-w> <C-S-Right>
+" inoremap <A-)> <S-Home>
+" inoremap <A-_> <S-End>
+" inoremap <C-a> <Insert><C-a><Insert>
+" " Editing
+" inoremap <C-h> <BS>
+" inoremap <A-x> <Del>
+" inoremap <A-S-x> <C-Del>
+" --- end of Less Sytle Mapping ---}}}
+" Misc
+inoremap <C-m> <CR>
+inoremap <C-j> <C-e><CR>
+inoremap <C-[> <Esc>
+" inoremap <C-k> <Esc><C-k>
+inoremap <C-l> <Esc><C-l>
+" --- end of Insert Mode ---}}}
+
+" --- Command-line Mode ---{{{
+" --- Emacs Style Mapping ---{{{
+" Basic movement
+cnoremap <C-b> <Left>
+cnoremap <C-n> <Down>
+cnoremap <C-p> <Up>
+cnoremap <C-f> <Right>
+cnoremap <A-b> <C-Left>
+cnoremap <A-f> <C-Right>
+cnoremap <A-j> <S-Down>
+cnoremap <A-k> <S-Up>
+" Selection
+cnoremap <C-S-b> <S-Left>
+cnoremap <C-S-f> <S-Right>
+cnoremap <A-S-b> <C-S-Left>
+cnoremap <A-S-f> <C-S-Right>
+cnoremap <C-S-a> <S-Home>
+cnoremap <C-S-e> <S-End>
+" Editing
+cnoremap <C-y> <C-v>
+cnoremap <A-w> <C-c>
+cnoremap <C-h> <BS>
+cnoremap <C-d> <Del>
+cnoremap <A-d> <C-Del>
+" --- end of Emacs Sytle Mapping ---}}}
+" --- Less Style Mapping ---{{{
+" Basic movement
+" cnoremap <A-h> <Left>
+" cnoremap <A-j> <Down>
+" cnoremap <A-k> <Up>
+" cnoremap <A-l> <Right>
+" cnoremap <A-b> <C-Left>
+" cnoremap <A-w> <C-Right>
+" cnoremap <A-0> <Home>
+" cnoremap <A-$> <End>
+" cnoremap <A--> <End>
+" cnoremap <A-S-j> <S-Down>
+" cnoremap <A-S-k> <S-Up>
+" " Selection
+" cnoremap <A-S-h> <S-Left>
+" cnoremap <A-S-l> <S-Right>
+" cnoremap <A-S-b> <C-S-Left>
+" cnoremap <A-S-w> <C-S-Right>
+" cnoremap <A-)> <S-Home>
+" cnoremap <A-_> <S-End>
+" " Editing
+" cnoremap <C-h> <BS>
+" cnoremap <A-x> <Del>
+" cnoremap <A-S-x> <C-Del>
+" cnoremap <C-n> <Tab>
+" cnoremap <C-p> <S-Tab>
+" --- end of Less Sytle Mapping ---}}}
+" Misc
+cnoremap <C-m> <CR>
+cnoremap <C-c> <Esc>
+cnoremap <C-i> <Tab>
+cnoremap <A-i> <S-Tab>
+" --- end of Command-line Mode ---}}}
+
+" --- Abbreviation ---{{{
+iabbrev ps powershell
+cabbrev th tab help
+" --- end of Abbreviation ---}}}
+
+" --- Plugin ---{{{
+" --- vimppm ---{{{
+" var vimppmjs = "~/" + rcdir + "/vimppm/vimppm/plugin/vimppm.js"
+javascript liberator.execute("source " + "~/" + rcdir + "/vimppm/vimppm/plugin/vimppm.js")
+vimppm 'caret-hint.js'
+" --- end of vimppm ---}}}
+
+" --- caret-hint ---{{{
+let g:caret_hint_swap_key = 'o'
+" --- end of caret-hint ---}}}
+" --- end of Plugin ---}}}

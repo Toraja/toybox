@@ -1,0 +1,32 @@
+[filter "lfs"]
+	required = true
+	clean = git-lfs clean %f
+	smudge = git-lfs smudge %f
+[push]
+	default = simple
+[diff]
+	tool = vimdiff
+[merge]
+	tool = vimdiff
+[difftool]
+	prompt = false
+[alias]
+	co = checkout
+	cm = commit
+	st = status
+	br = branch
+	dt = difftool
+	lf = log --pretty=oneline --name-status
+[core]
+	autocrlf = false
+	excludesfile = ~/.gitignore_global
+[mergetool "vimdiff"]
+	trustExitCode = false
+[color]
+	; these are for old git prior to 1.18.4
+	status = auto
+	diff = auto
+	branch = auto
+	interactive = auto
+	ui = true
+	pager = true

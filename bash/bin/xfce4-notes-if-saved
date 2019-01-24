@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# open xfce4-notes if there is saved content
+for notedir in $(ls ${xfce4NotesContDir}); do
+	for note in $(ls "${xfce4NotesContDir}/${notedir}"); do
+		if [ -s "${xfce4NotesContDir}/${notedir}/${note}" ]; then
+			xfce4-notes &
+			sleep 1
+			xfce4-popup-notes
+			break
+		fi
+	done
+done

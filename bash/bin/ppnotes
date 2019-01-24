@@ -1,0 +1,16 @@
+#!/bin/bash
+# focus xfce4-notes
+# launch it if it has not been launched
+
+ps -C xfce4-notes &>/dev/null
+
+if [[ $? -ne 0 ]]; then
+	xfce4-notes &
+	sleep 1
+fi
+
+#while ! ps -C xfce4-notes &>/dev/null; do
+	#echo not yet launched
+#done
+
+xfce4-popup-notes

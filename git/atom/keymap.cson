@@ -1,0 +1,135 @@
+# Your keymap
+#
+# Atom keymaps work similarly to style sheets. Just as style sheets use
+# selectors to apply styles to elements, Atom keymaps use selectors to associate
+# keystrokes with events in specific contexts. Unlike style sheets however,
+# each selector can only be declared once.
+#
+# You can create a new keybinding in this file by typing "key" and then hitting
+# tab.
+#
+# Here's an example taken from Atom's built-in keymap:
+#
+# 'atom-text-editor':
+#   'enter': 'editor:newline'
+#
+# 'atom-workspace':
+#   'ctrl-shift-p': 'core:move-up'
+#   'ctrl-p': 'core:move-down'
+#
+# You can find more information about keymaps in these guides:
+# * http://flight-manual.atom.io/using-atom/sections/basic-customization/#customizing-keybindings
+# * http://flight-manual.atom.io/behind-atom/sections/keymaps-in-depth/
+#
+# If you're having trouble with your keybindings not working, try the
+# Keybinding Resolver: `Cmd+.` on macOS and `Ctrl+.` on other platforms. See the
+# Debugging Guide for more information:
+# * http://flight-manual.atom.io/hacking-atom/sections/debugging/#check-the-keybindings
+#
+# This file uses CoffeeScript Object Notation (CSON).
+# If you are unfamiliar with CSON, you can read more about it in the
+# Atom Flight Manual:
+# http://flight-manual.atom.io/using-atom/sections/basic-customization/#configuring-with-cson
+
+'body':
+  'ctrl-h': 'core:backspace'
+  'ctrl-m': 'editor:newline'
+  'ctrl-<': 'pane:move-item-left'
+  'ctrl->': 'pane:move-item-right'
+  'ctrl-x': 'unset!'
+  'ctrl-c': 'unset!'
+  'ctrl-n': 'unset!'
+  'alt-/': 'core:redo'
+  'ctrl-x ctrl-n': 'application:new-file'
+  'ctrl-x ctrl-f': 'application:open-file'
+  'ctrl-c ctrl-w l': 'window:move-active-item-to-pane-on-right'
+  'ctrl-c ctrl-w h': 'window:move-active-item-to-pane-on-left'
+  'ctrl-c ctrl-w k': 'window:move-active-item-to-pane-on-above'
+  'ctrl-c ctrl-w j': 'window:move-active-item-to-pane-on-below'
+  'alt-shift-p': 'editor:add-selection-above'
+  'alt-shift-n': 'editor:add-selection-below'
+
+'body atom-text-editor.autocomplete-active':
+  'ctrl-p': 'autocomplete-plus:move-up'
+  'ctrl-n': 'autocomplete-plus:move-down'
+  'ctrl-i': 'autocomplete-plus:move-down'
+  'alt-v': 'autocomplete-plus:page-up'
+  'ctrl-v': 'autocomplete-plus:page-down'
+  'alt-shift-,': 'autocomplete-plus:move-to-top'
+  'alt-shift-.': 'autocomplete-plus:move-to-bottom'
+  'ctrl-[': 'autocomplete-plus:cancel'
+  # 'ctrl-m': 'autocomplete-plus:confirm'
+
+'atom-workspace':
+  'ctrl-x ctrl-k': 'core:close'
+  'ctrl-x ctrl-f': 'unset!'
+  'ctrl-shift-p': 'plantuml-viewer:toggle'
+
+'atom-workspace atom-text-editor':
+  'alt-p': 'editor:move-line-up'
+  'alt-n': 'editor:move-line-down'
+  'alt-h': 'editor:delete-to-beginning-of-word'
+  'ctrl-i': 'autocomplete-plus:activate'
+  'ctrl-x ctrl-h': 'atomic-emacs:mark-whole-buffer'
+  'ctrl-c ctrl-l': 'editor:select-line'
+  'alt-/': 'unset!'
+
+'atom-workspace atom-text-editor:not([mini])':
+  # TODO Enable these markdown command in markdown only
+  'ctrl-q ctrl-b': 'markdown-writer:toggle-bold-text'
+  'ctrl-q ctrl-i': 'markdown-writer:toggle-italic-text'
+  'ctrl-q ctrl-s': 'markdown-writer:toggle-strikethrough-text'
+  'ctrl-q ctrl-c': 'markdown-writer:toggle-code-text'
+  'ctrl-q ctrl-alt-c': 'markdown-writer:toggle-codeblock-text'
+  'ctrl-q ctrl-t': 'markdown-writer:toggle-task'
+  'ctrl-q ctrl-d': 'markdown-writer:toggle-taskdone'
+  'ctrl-q ctrl-u': 'markdown-writer:toggle-ul'
+  'ctrl-q ctrl-o': 'markdown-writer:toggle-ol'
+  'ctrl-q ctrl-1': 'markdown-writer:toggle-h1'
+  'ctrl-q ctrl-2': 'markdown-writer:toggle-h2'
+  'ctrl-q ctrl-3': 'markdown-writer:toggle-h3'
+  'ctrl-q ctrl-4': 'markdown-writer:toggle-h4'
+  'ctrl-q ctrl-5': 'markdown-writer:toggle-h5'
+  'ctrl-q t f': 'markdown-writer:format-table'
+  'ctrl-q t i': 'markdown-writer:insert-table'
+  'ctrl-q t j': 'markdown-writer:jump-to-next-table-cell'
+  'alt-shift-0': 'markdown-writer:jump-to-next-heading'
+  'alt-shift-9': 'markdown-writer:jump-to-previous-heading'
+  'ctrl-j': 'editor:newline-below'
+  'alt-j': 'editor:newline-above'
+  'ctrl-alt-j': 'editor:join-lines'
+  'ctrl-c ctrl-d': 'editor:duplicate-lines'
+  'ctrl-x ctrl-[': 'editor:fold-current-row'
+  'ctrl-x ctrl-]': 'editor:unfold-current-row'
+  'ctrl-/': 'core:undo' # <- to override default mapping which fires when completion window is open
+  'ctrl-<': 'unset!'
+
+'atom-text-editor':
+  'ctrl-a': 'editor:move-to-first-character-of-line'
+  'ctrl-u': 'custom:cut-to-beginning-of-line'
+  # 'ctrl-u': 'editor:delete-to-beginning-of-line'
+  'ctrl-c ctrl-.': 'editor:select-word'
+  'alt-]': 'bracket-matcher:go-to-matching-bracket'
+  'ctrl-z ctrl-m': 'custom:insert-mark-tag'
+  'ctrl-z ctrl-s': 'custom:insert-span-tag'
+  'ctrl-z ctrl-f': 'custom:insert-font-tag'
+  'ctrl-z ctrl-l': 'custom:insert-dl-tag'
+  'ctrl-c ctrl-space': 'editor:split-selections-into-lines'
+  'ctrl-alt-u': 'custom:cut-whole-line'
+  'ctrl-alt-m': 'custom:markdown-newline'
+
+# grammer specific did not work
+# 'atom-text-editor[data-grammer="source gfm"]':
+#   'ctrl-c ctrl-m': 'custom:insert-mark-tag'
+# 'atom-text-editor[data-grammer="text md"]':
+#   'ctrl-c ctrl-m': 'custom:insert-mark-tag'
+# "atom-text-editor[data-grammer='source js']":
+
+# 'atom-text-editor:not([mini])':
+  # 'ctrl-alt-u': 'editor:delete-line'
+
+'.platform-win32 atom-text-editor':
+  'ctrl-alt-]': 'bracket-matcher:select-inside-brackets'
+  'ctrl-c ctrl-]': 'bracket-matcher:select-matching-brackets'
+  'alt-shift-#': 'symbols-view:toggle-file-symbols'
+  'ctrl-r': 'unset!'

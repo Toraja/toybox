@@ -1,0 +1,124 @@
+# /etc/inputrc - global inputrc for libreadline
+# See readline(3readline) and `info rluserman' for more information.
+
+# Be 8 bit clean.
+set input-meta on
+set output-meta on
+
+# To allow the use of 8bit-characters like the german umlauts, uncomment
+# the line below. However this makes the meta key not work as a meta key,
+# which is annoying to those which don't need to type in 8-bit characters.
+
+# set convert-meta off
+
+# try to enable the application keypad when it is called.  Some systems
+# need this to enable the arrow keys.
+# set enable-keypad on
+
+# see /usr/share/doc/bash/inputrc.arrows for other codes of arrow keys
+
+# do not bell on tab-completion
+set bell-style none
+# set bell-style visible
+
+# some defaults / modifications for the emacs mode
+$if mode=emacs
+
+# allow the use of the Home/End keys
+"\e[1~": beginning-of-line
+"\e[4~": end-of-line
+
+# allow the use of the Delete/Insert keys
+"\e[3~": delete-char
+"\e[2~": quoted-insert
+
+# mappings for "page up" and "page down" to step to the beginning/end
+# of the history
+"\e[5~": beginning-of-history
+"\e[6~": end-of-history
+
+# alternate mappings for "page up" and "page down" to search the history
+# "\e[5~": history-search-backward
+# "\e[6~": history-search-forward
+
+# mappings for Ctrl-left-arrow and Ctrl-right-arrow for word moving
+"\e[1;5C": forward-word
+"\e[1;5D": backward-word
+"\e[5C": forward-word
+"\e[5D": backward-word
+"\e\e[C": forward-word
+"\e\e[D": backward-word
+
+$if term=rxvt
+"\e[8~": end-of-line
+"\eOc": forward-word
+"\eOd": backward-word
+$endif
+
+# for non RH/Debian xterm, can't hurt for RH/Debian xterm
+# "\eOH": beginning-of-line
+# "\eOF": end-of-line
+
+# for freebsd console
+# "\e[H": beginning-of-line
+# "\e[F": end-of-line
+
+$endif
+
+# -----------------------------------------------------------
+
+# make tab-completion case insensitive
+set completion-ignore-case on
+set completion-map-case on
+set colored-stats on
+set skip-completed-text on
+set show-all-if-unmodified on
+# [basic]
+#Meta-m: accept-line
+# [cursor motion]
+# move to next/previous space (and not only that)
+"\e\C-f": shell-forward-word
+"\e\C-b": shell-backward-word
+# [kill and yank]
+"\eh": backward-kill-word
+"\ew": copy-backward-word
+"\e\C-d": copy-forward-word
+"\e\C-u": kill-whole-line
+"\ek": kill-region
+"\e\C-k": copy-region-as-kill
+"\e\C-h": unix-filename-rubout
+# [completion]
+"\C-j": menu-complete
+"\ej": menu-complete-backward
+# [search]
+"\en": history-search-forward
+"\ep": history-search-backward
+# [Misc]
+"\e;": ' \C-b'
+# [redirection]
+"\exeo": '2>&1'
+"\exoe": '1>&2'
+"\exen": '2>/dev/null'
+"\exon": '2>/dev/null'
+"\exbn": '&>/dev/null'
+"\C-q": '\C-e | xclip -selection c'
+# wrap all in single quotation and pipe the output to clipboard
+"\eq": '\C-aecho -n \'\C-e\' | xclip -selection c'
+# wrap all in double quotation and pipe the output to clipboard
+"\e\C-q": '\C-aecho -n "\C-e" | xclip -selection c'
+# [wrap]
+# wrap current position to the end in $()
+# FIXME C-x C-x does not work (xfce), C-@ does not work on Cygwin and CentOS
+# "\C-x9": '$(\C-@\C-e)\C-x\C-x'
+# "\C-x0": ')\C-b\C-@\C-a$(\C-x\C-x\C-f\C-f'
+"\C-x9": ')\C-a$(\C-a'
+"\C-x0": '$(\C-e)'
+# wrap all in $()
+"\e(": '\C-a$(\C-e)\C-a'
+"\e)": '\C-a$(\C-e)\C-b'
+# wrap word in quotaions
+"\e\'": "\e\C-f'\e\C-b\C-f'"
+"\e\"": '\e\C-f"\e\C-b\C-f"'
+# [next/previous]
+"\e]": '\C-]|'
+"\e}": '\M-\C-]|'

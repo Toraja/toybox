@@ -1,0 +1,21 @@
+#!/bin/bash
+
+for i in {30..37}; do
+	echo -ne "\e[${i}m# ${i}\e[0m"
+done
+echo
+
+for i in {40..47}; do
+	echo -ne "\e[${i}m# ${i}\e[0m"
+done
+echo
+
+for i in {90..97}; do
+	echo -ne "\e[${i}m# ${i}\e[0m"
+done
+echo
+
+for i in {100..107}; do
+	echo -ne "\e[${i}m#${i}\e[0m"
+done
+echo

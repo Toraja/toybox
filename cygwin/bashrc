@@ -1,0 +1,8 @@
+. ~/toybox/bash/bashrc
+
+# open vim in a new window
+wim(){
+    bashargs='"/usr/bin/stty -ixon; /usr/bin/vim -p '${@}'"'
+    # echo $bashargs
+    cygstart.exe --maximize /cygdrive/c/cygwin64/bin/mintty.exe "-t vim" "-e" "/usr/bin/bash -c ${bashargs}"
+}

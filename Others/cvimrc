@@ -1,0 +1,62 @@
+"set smoothscroll
+set noautofocus
+set cncpcompletion
+let mapleader = "<Space>"
+let barposition = "bottom"
+let hintcharacters = "jdkslghrueiwotyvncmb"
+let blacklists = ["https://mail.google.com","https://calendar.google.com","https://docs.google.com"]
+let defaultengine = "duckduckgo"
+let completionengines = ["google", "duckduckgo", "bing"]
+" scroll
+map <C-f> scrollFullPageDown
+map <C-b> scrollFullPageUp
+map <C-d> scrollPageDown
+map <C-u> scrollPageUp
+" tab
+map <Leader>b :buffer<Space>
+map J nextTab
+map K previousTab
+map u lastClosedTab
+map e lastUsedTab
+map <S-A-j> moveTabRight
+map <S-A-k> moveTabLeft
+" link hint
+unmap ; mf mr my
+map p openPasteTab
+map P openPaste
+map ;f createActiveTabbedHint
+map ;F createMultiHint
+map ,f createHintWindow
+map yf yankUrl
+map yF multiYankUrl
+" bookmark
+map b :bookmarks!<Space>
+map B :bookmarks$<Space>
+" misc
+unmap <C-6>
+map R reloadAllTabs
+map m setMark
+map p openPasteTab
+map P openPaste
+map s cancelWebRequest
+map S cancelAllWebRequests
+map ZZ quitChrome
+map ZQ quitChrome
+map <A-u> clearSearchHighlight
+" command shortcut
+map w :new<Space>
+map W :tabdetach<CR>
+" input mode
+imap <C-a> beginningOfLine
+imap <A-h> deleteWord
+imap <A-d> deleteForwardWord
+imap <C-h> deleteChar
+imap <C-d> deleteForwardChar
+imap <A-b> backwardWord
+imap <A-f> forwardWord
+imap <C-n> forwardLine
+imap <C-p> backwardLine
+imap <C-A-n> forwardLine
+imap <C-A-p> backwardLine
+imap <C-A-a> selectAll
+iunmap <C-y>

@@ -1,0 +1,28 @@
+vbell off
+startup_message off
+# Fix colour
+# Vim does not show any colour by default, and this will set environment variable "TERM" to "screen-256color".
+# However, if screen itself does not support 256 color (in which case recompile is required), colour will be limited.
+term screen-256color
+
+# This sets command key (first char) and meta key (second char)
+# meta key sends command key to the terminal
+# e.g. The below causes pressing C-Zz to send C-Z to terminal
+escape ^Zz
+
+# Restore suspend command (overwritten by escape setting)
+bind Z suspend
+
+# Move around
+bind ^J focus down
+bind ^K focus up
+bind ^H focus left
+bind ^L focus right
+bind ^T focus top
+bind ^B focus bottom
+bind I focus prev
+
+# Customise keybind in select mode
+# `X=Y` means Y will have the function of X
+# literal "^" must be escaped by "\"
+markkeys "\^=H:$=L"

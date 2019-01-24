@@ -1,0 +1,9 @@
+# when wifi adapter is not working
+cd /usr/src/rtl8812AU_8821AU_linux-1.0/
+sudo dkms remove -m rtl8812AU_8821AU_linux -v 1.0 --all
+sudo make uninstall
+sudo dkms add -m rtl8812AU_8821AU_linux -v 1.0
+sudo dkms build -m rtl8812AU_8821AU_linux -v 1.0
+sudo dkms install -m rtl8812AU_8821AU_linux -v 1.0
+sudo make && sudo make install
+sudo modprobe 8812au

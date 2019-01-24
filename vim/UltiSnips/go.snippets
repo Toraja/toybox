@@ -1,0 +1,79 @@
+snippet init "func init() { ... }"
+func init() {
+	${0:${VISUAL}}
+}
+endsnippet
+
+snippet inf "interface{}"
+interface{}
+endsnippet
+
+snippet elif "else if"
+else if ${1:condition} {
+	${0:${VISUAL}}
+}
+endsnippet
+
+snippet de "reflect.DeepEqual"
+reflect.DeepEqual(${1:x}, ${0:y})
+endsnippet
+
+snippet tf "test func definition"
+func(*testing.T)
+endsnippet
+
+snippet anf "anonymous"
+func(${1:condition}) ${2:return}{
+	${0:${VISUAL}}
+}
+endsnippet
+
+snippet tc "test case struct"
+tc := []struct {
+	${1:name} string
+	${2:setup} func(*testing.T)
+	${3:teardown} func(*testing.T)
+	${4:in} ${5:type}
+	${6:want} ${7:type}
+}{
+	{
+		$1: ${0},
+		$2: ,
+		$3: ,
+		$4: ,
+		$6: ,
+	},
+}
+endsnippet
+
+snippet fort "for each test case"
+for ${1:_}, c := range tc {
+	${2:result} := ${0}
+	if $2 != c.want {
+		t.Errorf("Case: %s, Got: %+v, Want: %+v\n", c.name, $2, c.want)
+	}
+}
+endsnippet
+
+snippet fortde "for each test case with DeepEqual"
+for ${1:_}, c := range tc {
+	${2:result} := ${0}
+	if !reflect.DeepEqual($2, c.want) {
+		t.Errorf("Case: %s, Got: %+v, Want: %+v\n", c.name, $2, c.want)
+	}
+}
+endsnippet
+
+snippet fortex "for each test case assert.Exactly"
+for ${1:_}, c := range tc {
+	${2:actual} := ${0}
+	assert.Exactly(t, c.want, $2, c.name)
+}
+endsnippet
+
+# Gin related
+snippet gh "func handler(c *gin.Context) { ... }"
+func ${1:handler}(c *gin.Context) {
+	${0:${VISUAL}}
+}
+endsnippet

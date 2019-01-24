@@ -1,0 +1,3 @@
+#!/bin/bash
+# gvim -dO "$@"
+echo Cannot run gvimdiff from cygwin

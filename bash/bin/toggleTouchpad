@@ -1,0 +1,19 @@
+#!/bin/bash
+
+# disable touchpad
+# devid varies on every machines, so make sure the id is correct
+
+devid=9
+devstat=$(xinput --list-props $devid | grep "Device Enabled" | cut -d : -f 2 | cut -c 2)
+if [[ $devstat -eq 1 ]]; then
+	# disable touchpad
+	xinput --set-prop $devid "Device Enabled" 0
+	echo "touchpad disabled"
+elif [[ $devstat -eq 0 ]]; then
+	# enable touchpad
+	xinput --set-prop $devid "Device Enabled" 1
+	echo "touchpad enabled"
+else
+	echo "Unknown device status($devstat). The below is the status of touchpad (id=$devid)"
+	xinput --list-props $devid
+fi

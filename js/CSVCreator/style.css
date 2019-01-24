@@ -1,0 +1,37 @@
+#headerTitle {
+	text-align: right;
+}
+
+#headerTitle img{
+	/* margin-right: 0.8em; */
+	float: left;
+}
+
+#spacer {
+	height: 2em;
+}
+
+.header{
+	background-color: #ffffdd;
+}
+
+img:hover {
+	opacity: 0.7;
+}
+
+img, input[type=checkbox] {
+	vertical-align: middle;
+}
+
+img, input[type=checkbox], label {
+	cursor: pointer;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-o-user-select: none;
+	user-select: none;
+}
+
+input[type=text]{
+	width: 8em;
+}

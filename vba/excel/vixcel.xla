@@ -1,0 +1,282 @@
+' *** Copy and paste this code into new module and save is as .xla(m) ***
+' *** To auto-start this macro, call NormalMode in Workbook_Open sub ***
+' *** SendKeys Reference: https://msdn.microsoft.com/en-us/library/ms127846(v=vs.110).aspx?cs-save-lang=1&cs-lang=vb#code-snippet-1 ***
+
+' System
+' Call this sub on mode change so that unwanted command will not remain available
+Sub ResetKeyBinding()
+	For Each x In Split("I i v V h j k l b B W w H L g G ^{f} ^{b} c d K J {[}", " ")
+        Application.OnKey x
+	Next
+End Sub
+
+' *** Mode ***
+Sub NormalMode()
+	Call ResetKeyBinding
+
+	Application.CutCopyMode = False
+	' Mode
+	Application.OnKey "I", "ExcelMode"
+	Application.OnKey "i", "InsertMode"
+	Application.OnKey "v", "VisualMode"
+	Application.OnKey "V", "LineVisualMode"
+'	Application.OnKey ":", "Vi_ExMode"
+	' Motion
+	Application.OnKey "h", "NLeft"
+	Application.OnKey "j", "NDown"
+	Application.OnKey "k", "NUp"
+	Application.OnKey "l", "NRight"
+	Application.OnKey "b", "NCLeft"
+	Application.OnKey "B", "NCUp"
+	Application.OnKey "W", "NCDown"
+	Application.OnKey "w", "NCRight"
+	Application.OnKey "H", "NHome"
+	Application.OnKey "L", "NEnd"
+    Application.OnKey "g", "NCHome"
+    Application.OnKey "G", "NCEnd"
+    Application.OnKey "^f", "NPgDn"
+    Application.OnKey "^b", "NPgUp"
+	' Edit
+	Application.OnKey "c", "NChange"
+	Application.OnKey "d", "NRemove"
+	Application.OnKey "x", "NDelete"
+	' Sheet
+	Application.OnKey "K", "tabprevious"
+	Application.OnKey "J", "tabnext"
+
+	Application.Caption = "*** Normal MODE ***"
+End Sub
+
+Sub VisualMode()
+	Call ResetKeyBinding
+
+	Application.CutCopyMode = False
+	' Mode
+	Application.OnKey "{[}", "LeaveVisualMode"
+	Application.OnKey "I", "ExcelMode"
+'	Application.OnKey "`", "NormalMode"
+'	Application.OnKey "{ESC}", "NormalMode"
+'	Application.OnKey "^{[}", "NormalMode"
+	' Motion
+	Application.OnKey "h", "VLeft"
+	Application.OnKey "j", "VDown"
+	Application.OnKey "k", "VUp"
+	Application.OnKey "l", "VRight"
+	Application.OnKey "b", "VCLeft"
+	Application.OnKey "B", "VCUp"
+	Application.OnKey "W", "VCDown"
+	Application.OnKey "w", "VCRight"
+	Application.OnKey "H", "VHome"
+	Application.OnKey "L", "VEnd"
+	' Edit
+	Application.OnKey "c", "NChange"
+	Application.OnKey "d", "NRemove"
+	Application.OnKey "x", "VDelete"
+	' Sheet
+	Application.OnKey "K", "tabprevious"
+	Application.OnKey "J", "tabnext"
+
+	Application.Caption = "*** Visual MODE ***"
+End Sub
+
+Sub InsertMode()
+	SendKeys "{F2}"
+End Sub
+
+Sub LineVisualMode()
+	SendKeys "+ "
+	Call VisualMode
+End Sub
+
+Sub LeaveVisualMode()
+	ActiveCell.Select
+	Call NormalMode
+End Sub
+
+' Disable all commands except for the one to go back to Normal Mode
+Sub ExcelMode()
+	Call ResetKeyBinding
+
+	Application.Caption = ""
+	Application.OnKey "{[}", "NormalMode"
+'	Application.OnKey "`", "NormalMode"
+'	Application.OnKey "{ESC}", "NormalMode"
+'	Application.OnKey "^{[}", "NormalMode"
+End Sub
+
+Sub Vi_ExMode()
+	Application.VBE.MainWindow.Visible = True
+	Dim w As VBIDE.Window
+	For Each w In Application.VBE.Windows
+        If w.Type = VBIDE.vbext_wt_Immediate Then
+            w.SetFocus
+        End If
+	Next
+End Sub
+
+' *** Motion ***
+Sub NLeft()
+'	If Selection.Column > 1 Then Selection.Offset(0, -1).Select
+	SendKeys "{LEFT}"
+End Sub
+
+Sub NDown()
+'	If Selection.Row < Rows.Count Then Selection.Offset(1, 0).Select
+	SendKeys "{DOWN}"
+End Sub
+
+Sub NUp()
+'	If Selection.Row > 1 Then Selection.Offset(-1, 0).Select
+	SendKeys "{UP}"
+End Sub
+
+Sub NRight()
+'	If Selection.Column < Columns.Count Then Selection.Offset(0, 1).Select
+	SendKeys "{RIGHT}"
+End Sub
+
+Sub NCLeft()
+	SendKeys "^{LEFT}"
+End Sub
+
+Sub NCDown()
+	Dim RowTo As Long:      RowTo = Selection.End(xlDown).Row
+	Cells(RowTo, Selection.Column).Select
+End Sub
+
+Sub NCUp()
+	Dim RowTo As Long:      RowTo = Selection.End(xlUp).Row
+	Cells(RowTo, Selection.Column).Select
+End Sub
+
+Sub NCRight()
+	SendKeys "^{RIGHT}"
+End Sub
+
+Sub NHome()
+	Dim CurrentRow As Long:     CurrentRow = Selection.Row
+	Dim FirstNonEmptyColumn As Long:	FirstNonEmptyColumn = Cells(CurrentRow, 1).End(xlToRight).Column
+	Dim ColumnTo As Long
+
+	If Cells(CurrentRow, 1).Value <> "" Then
+        ColumnTo = 1
+	Else
+        If Selection.Column = FirstNonEmptyColumn Then
+            ColumnTo = 1
+        ElseIf FirstNonEmptyColumn = Cells.Columns.Count And Cells(CurrentRow, FirstNonEmptyColumn).Value = "" Then
+            ColumnTo = 1
+        Else
+            ColumnTo = FirstNonEmptyColumn
+        End If
+	End If
+
+	Cells(CurrentRow, ColumnTo).Select
+End Sub
+
+Sub NEnd()
+	Dim CurrentRow As Long:         CurrentRow = Selection.Row
+	Dim LastColOnTheRow As Long:    LastColOnTheRow = Cells(CurrentRow, Columns.Count).End(xlToLeft).Column
+	Cells(CurrentRow, LastColOnTheRow).Select
+End Sub
+
+Sub NCHome()
+    SendKeys "^{HOME}"
+End Sub
+
+Sub NCEnd()
+    ActiveSheet.Cells.SpecialCells(xlCellTypeLastCell).Activate
+End Sub
+
+Sub NPgUp()
+    Dim rowCountFromVisibleTop as Long:     rowCountFromVisibleTop = ActiveCell.Row - Application.ActiveWindow.VisibleRange.Row
+    Application.ActiveWindow.LargeScroll Up:=1
+    ActiveSheet.Cells(Application.ActiveWindow.VisibleRange.Row + rowCountFromVisibleTop, ActiveCell.Column).Select
+End Sub
+
+Sub NPgDn()
+    Dim rowCountFromVisibleTop as Long:     rowCountFromVisibleTop = ActiveCell.Row - Application.ActiveWindow.VisibleRange.Row
+    Application.ActiveWindow.LargeScroll Down:=1
+    ActiveSheet.Cells(Application.ActiveWindow.VisibleRange.Row + rowCountFromVisibleTop, ActiveCell.Column).Select
+End Sub
+
+Sub VLeft()
+	SendKeys "+{LEFT}"
+End Sub
+
+Sub VDown()
+	SendKeys "+{DOWN}"
+End Sub
+
+Sub VUp()
+	SendKeys "+{UP}"
+End Sub
+
+Sub VRight()
+	SendKeys "+{RIGHT}"
+End Sub
+
+Sub VCLeft()
+	SendKeys "^+{LEFT}"
+End Sub
+
+Sub VCDown()
+	SendKeys "^+{DOWN}"
+End Sub
+
+Sub VCUp()
+	SendKeys "^+{Up}"
+End Sub
+
+Sub VCRight()
+	SendKeys "^+{Right}"
+End Sub
+
+Sub VHome()
+	SendKeys "+{HOME}"
+End Sub
+
+Sub VEnd()
+	SendKeys "+{END}"
+End Sub
+
+' *** Edit ***
+Sub NChange()
+	SendKeys "{BS}"
+End Sub
+
+Sub NRemove()
+	SendKeys "^{-}"
+End Sub
+
+Sub NDelete()
+	SendKeys "{DEL}"
+End Sub
+
+Sub VDelete()
+'	SendKeys "{DEL}"
+	Selection.Value = ""
+	ActiveCell.Select
+	Call NormalMode
+End Sub
+
+' *** Sheet ***
+Sub tabnext()
+	Dim ActiveSheetIdx As Integer:      ActiveSheetIdx = ActiveSheet.Index
+	If ActiveSheetIdx < Worksheets.Count Then Worksheets(ActiveSheetIdx + 1).Activate
+'	The below selects multiple sheets as shift is press to run this sub
+'	SendKeys "^{PGDN}"
+End Sub
+
+Sub tabprevious()
+	Dim ActiveSheetIdx As Integer:      ActiveSheetIdx = ActiveSheet.Index
+	If ActiveSheetIdx <= 1 Then Exit Sub
+	Dim SheetNumTo As Integer
+	For SheetNumTo = ActiveSheetIdx - 1 To 1 Step -1
+        If Worksheets(SheetNumTo).Visible Then Exit For
+	Next SheetNumTo
+
+	Worksheets(SheetNumTo).Activate
+
+'	The below selects multiple sheets as shift is press to run this sub
+'	SendKeys "^{PGUP}"
+End Sub

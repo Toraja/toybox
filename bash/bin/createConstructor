@@ -1,0 +1,34 @@
+# $1 className, $2 filePath
+
+if [ $# -eq 2 ]; then
+
+className=$1
+filePath=$2
+count=0
+declare -a varNameArray
+
+while read line; do
+	params+=", $line"
+	container=($line)
+	# validate array length
+	# if more than 2, display error and exit
+	if [ ${#container[@]} -gt 2 ]; then 
+		echo "Invalid param. Check the line $((count+1)) of the input file."
+		exit
+	fi
+	varNameArray[$count]=${container[1]}
+	count=$((count+1))
+done < "$filePath"
+
+params=${params:2}
+echo "public $className($params){"
+
+for i in ${varNameArray[@]}
+do
+	echo "this.$i = $i;"
+done
+echo "}"
+
+else
+	echo "$(basename $0) requires 2 parameters; Class name and path to the file that contains type and name of variables"
+fi

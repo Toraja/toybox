@@ -1,0 +1,35 @@
+apple
+apricot
+banana
+blackcurrant
+blueberry
+cherry
+coconut
+cranberry
+custard apple
+date
+dragonfruit
+durian
+fig
+grape
+grapefruit
+guava
+jujube(date)
+kiwifruit
+lemon
+lime
+lychee
+mango
+melon
+orange
+papaya
+passion fruit
+peach
+pear
+pineapple
+plum
+pomegranate
+raspberry
+strawberry
+tomato
+watermelon

@@ -1,0 +1,50 @@
+# $1 option -f: file -s: string
+
+count=0
+
+if [ "$1" = "-f" ]; then
+	while read line; do
+		container=($line)
+		# validate array length
+		# if more than 2, display error and exit
+		if [ ${#container[@]} -ne 2 ]; then 
+			echo "Invalid param. Check the line $((count+1)) of the input file."
+			exit
+		fi
+	
+		type=${container[0]} 
+		name=${container[1]}
+		capName=$(tr [:lower:] [:upper:] <<< ${name:0:1})${name:1}
+	
+	cat << _HD
+public void set$capName($type $name){
+	this.$name = $name;
+}
+public $type get$capName(){
+	return this.$name;
+}
+
+_HD
+
+		count=$((count+1))
+	done < $2
+
+elif [ "$1" = "-s" ]; then
+	type=$2
+	name=$3
+	capName=$(tr [:lower:] [:upper:] <<< ${name:0:1})${name:1}
+	
+	cat << _HD
+public void set$capName($type $name){
+	this.$name = $name;
+}
+public $type get$capName(){
+	return this.$name;
+}
+
+_HD
+
+else
+	echo "Invalid option. -f for file input, -s for direct input."
+	
+fi
