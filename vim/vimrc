@@ -859,6 +859,10 @@ function! QuickfixCmd(count)
 endfunction
 " --- || Quickfix/Location || }}}
 
+" {{{ || Buffer || ---
+command! BufOnly %bdelete | edit#
+" --- || Buffer || }}}
+
 " {{{ || Window || ---
 nnoremap <silent> <C-w>O :only!<CR>
 noremap <M-h> <C-w><C-h>
@@ -930,6 +934,7 @@ noremap [Chief]: :<C-p>
 nnoremap <silent> <Leader>l :echo fnamemodify('.', ':p') . "\n" . glob('*')<CR>
 nnoremap <silent> <Leader>b :buffers<CR>
 " [insert/command mode]
+cnoremap <C-j> <Tab>
 inoremap <M-o> <C-\><C-o>
 cnoremap <M-p> <Up>
 cnoremap <M-n> <Down>
