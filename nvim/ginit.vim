@@ -22,5 +22,7 @@ nnoremap <F3> :source $MYVIMRC<CR>:source $MYGVIMRC<CR>
 
 GuiTabline 0
 GuiPopupmenu 0
+call GuiClipboard()
+call GuiWindowMaximized(1)
 
 let g:loaded_ginit_vim = 1

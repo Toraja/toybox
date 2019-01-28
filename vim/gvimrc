@@ -65,7 +65,7 @@ endif
 
 " {{{ || Autocmd || ---
 if has('autocmd')
-	" nvim does not support simalt yet
+	" nvim does not support simalt
 	if !has('nvim') && (has('win32') || has('win64'))
 		autocmd GUIEnter * simalt ~x
 	endif
