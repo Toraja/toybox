@@ -1353,6 +1353,13 @@ function! SelectElement()
 	call SelectBtwCols(l:sln, l:spos, l:eln, l:epos)
 endf
 
+function! SetTitle(title)
+	let l:escapedTitle = escape(a:title, ' \')
+	execute 'set titlestring=' . l:escapedTitle
+	set title
+endfunction
+command! -nargs=1 TT :call SetTitle(<q-args>)
+
 " get full path of all window of all tab, then save them into @* or @"
 " depending on the availability of 'clipboard' option
 function! ClipAllWinTabPaths()
