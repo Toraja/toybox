@@ -660,10 +660,9 @@ if((Get-Location).Path -eq "$env:System32"){
 }
 
 # Modules
-## Git-Posh
-if (Test-Path -PathType Leaf -Path "$PROFILE_DIR\Modules\posh-git\src\posh-git.psd1") {
-	Import-Module "$PROFILE_DIR\Modules\posh-git\src\posh-git.psd1"
-
+## posh-git
+Import-Module -Name posh-git -ErrorAction Ignore
+if ($?) {
 	# ssh does not work since Windows update to ver 18
 	# Start-SshAgent	# password for private key will be saved
 }
