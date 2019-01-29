@@ -19,6 +19,7 @@ Set-Variable -Name VimHome       -Value $tools\Vim
 Set-Variable -Name VimRtp        -Value $VimHome\vim81
 Set-Variable -Name NvimHome      -Value $tools\Neovim
 Set-Variable -Name NvimRtp       -Value $NvimHome\share\nvim\runtime
+$env:NVIM_PYTHON_LOG_FILE = "$NvimHome/log"
 Set-Variable -Name CygwinHome    -Value C:\cygwin64
 Set-Variable -Name vimfiles      -Value $HOME\vimfiles
 Set-Variable -Name ftplugin      -Value ${vimfiles}\ftplugin
