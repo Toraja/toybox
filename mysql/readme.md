@@ -28,6 +28,10 @@
 	(You might need to create the *datadir* specified in No.2 first.)
 4. Check if the directory contents exist.
 
+### Cygwin
+1. Install using `setup-x86_64.exe`
+1. Run `mysql_install_db` to initialise system DB.
+
 ### Linux (Zip archive)
 After installing mysql, option files should be present in **/etc/mysql**.  
 To set user specific option, create **~/my.cnf**.  
