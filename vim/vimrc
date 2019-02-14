@@ -1655,10 +1655,16 @@ endfunction
 command! -complete=filetype OpenFtplugins :call OpenFtplugins(<f-args>)
 
 " Set filetype again with the current buffer's file type
-function! SetFt()
-	execute 'set filetype='.&ft
+function! SetFt(...)
+	if a:0
+		let l:ft = a:1
+	else
+		let l:ft = &filetype
+	endif
+	execute 'set filetype='.l:ft
 endfunction
-command! SetFt :call SetFt()
+command! -nargs=? -complete=filetype SetFt :call SetFt(<f-args>)
+command! -nargs=? -complete=filetype SF :call SetFt(<f-args>)
 
 " 'lmake' without moving to location list window
 function! MyMake(...) abort
