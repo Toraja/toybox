@@ -616,11 +616,13 @@ function mongostop{
 function GoTestAll{
 	$failed = $false
 	$failedPkgs = [System.Collections.ArrayList]::new()
+	$ignore = @('vender')
 	$border = '----------------'
 	foreach ( $pkg in $(Get-ChildItem -Directory) ) {
+		if $ignore.Contains($pkg.Name) { Continue }
 		Write-Host -Object $border,$pkg.Name,$border -Separator "`n"
 		go test $args $('.\' + $pkg.Name + '\...')
-		if (!$failed -and $LASTEXITCODE -gt 0){
+		if ($LASTEXITCODE -gt 0){
 			$failed = $true
 			$failedPkgs.Add($pkg.Name) > $null
 		}
