@@ -320,6 +320,7 @@ if filereadable(s:vimdir . "/autoload/plug.vim")
 	Plug 'junegunn/vim-plug'
 	Plug 'tpope/vim-fugitive'
 	Plug 'airblade/vim-gitgutter'
+	Plug 'zivyangll/git-blame.vim'
 	" Plug 'powerline/powerline'	" error occurs and donno how to fix
 	Plug 'vim-airline/vim-airline'
 	Plug 'vim-airline/vim-airline-themes'
@@ -359,6 +360,7 @@ if filereadable(s:vimdir . "/autoload/plug.vim")
 	"     Plug 'Shougo/vimproc.vim',  { 'for': 'go' }
 	" endif
 	" Plug 'sebdah/vim-delve',  { 'for': 'go' }
+	Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': 'markdown' } " Install this on markdown file or function cannot be found
 	Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }
 	Plug 'mzlogin/vim-markdown-toc', { 'for': 'markdown' }
 	Plug 'dhruvasagar/vim-table-mode', { 'for': 'markdown' }
