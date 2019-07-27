@@ -48,6 +48,8 @@ Set-Alias -Name browser -Value firefox
 Set-Alias -Name git-bash -Value "${env:ProgramFiles}\Git\git-bash.exe"
 # Set-Alias -Name python -value "${env:ProgramData}\Anaconda3\python.exe"
 Set-Alias -Name cygpath -Value ${CygwinHome}\bin\cygpath.exe
+Set-Alias -Name arduino -Value ${ArduinoHome}\arduino.exe
+
 
 # <Function>
 Remove-Item -ErrorAction Ignore alias:cd
@@ -611,29 +613,6 @@ function mongod{
 
 function mongostop{
 	& $MongoHome\bin\mongo.exe admin --eval "db.shutdownServer()"
-}
-
-function GoTestAll{
-	$failed = $false
-	$failedPkgs = [System.Collections.ArrayList]::new()
-	$ignore = @('vender')
-	$border = '----------------'
-	foreach ( $pkg in $(Get-ChildItem -Directory) ) {
-		if $ignore.Contains($pkg.Name) { Continue }
-		Write-Host -Object $border,$pkg.Name,$border -Separator "`n"
-		go test $args $('.\' + $pkg.Name + '\...')
-		if ($LASTEXITCODE -gt 0){
-			$failed = $true
-			$failedPkgs.Add($pkg.Name) > $null
-		}
-	}
-
-	if ( $failed ) {
-		Write-Host -Object $("Failed in packages [{0}]" -f $($failedPkgs -join ", ")) -ForegroundColor Red
-	}
-	else {
-		Write-Host -Object "Everything is OK :)" -ForegroundColor Cyan
-	}
 }
 
 function Set-VimPJRoot{
