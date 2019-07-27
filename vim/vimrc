@@ -985,7 +985,6 @@ let g:NERDTreeSortHiddenFirst = 1
 let g:NERDTreeShowHidden=1
 let g:NERDTreeQuitOnOpen=1
 nnoremap <Leader>n :NERDTreeToggle<CR>
-cnoreabbrev nt NERDTree
 " call NERDTreeAddKeyMap({
 " \ 'key': 'J',
 " \ 'callback': {-> feedkeys('gt')},
@@ -1215,7 +1214,9 @@ cnoreabbrev th tab help
 cnoreabbrev bold browse oldfiles
 cnoreabbrev st new <Bar> terminal
 cnoreabbrev vt vnew <Bar> terminal
-cnoreabbrev tt tabnew <Bar> terminal
+cnoreabbrev nt tabnew <Bar> terminal
+cnoreabbrev pj <C-r>=$VIMPJROOT<C-m>
+cnoreabbrev tt SetTitle
 " --- || abbreviation || }}}
 
 " {{{ || netrw || ---
@@ -1364,7 +1365,7 @@ function! SetTitle(title)
 	execute 'set titlestring=' . l:escapedTitle
 	set title
 endfunction
-command! -nargs=1 TT :call SetTitle(<q-args>)
+command! -nargs=1 SetTitle :call SetTitle(<q-args>)
 
 " get full path of all window of all tab, then save them into @* or @"
 " depending on the availability of 'clipboard' option
