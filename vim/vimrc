@@ -1093,8 +1093,9 @@ else
 	let g:AutoPairsShortcutFastWrap = ''
 	let g:AutoPairsShortcutJump = ''
 	let g:AutoPairsShortcutBackInsert = ''
-	let g:AutoPairsMapSpace = 0		" This maps <Space> to <C-]><C-R>=... and <C-]> is unwanted
+	let g:AutoPairsMapSpace = 0		" Enabling this maps <Space> to <C-]><C-R>=... and <C-]> is unwanted
 	inoremap <silent> <Space> <C-g>u<C-r>=AutoPairsSpace()<CR>
+	let g:AutoPairsMultilineClose = 0
 endif
 " --- || auto-pairs || }}}
 
