@@ -41,12 +41,9 @@ Set-Alias -Name Tomcat-Shutdown -Value $CatalinaHome\bin\shutdown.bat
 Set-Alias -Name vmware -Value "${env:ProgramFiles(x86)}\VMware\VMware Player\vmplayer.exe"
 Set-Alias -Name vmnetcfg -Value "${env:ProgramFiles(x86)}\VMware\VMware Player\vmnetcfg.exe"
 Set-Alias -Name 7z -Value ${env:ProgramFiles}\7-Zip\7z.exe
-# Set-Alias -Name node -Value ${NodejsHome}\node.exe
-# Set-Alias -Name npm -Value ${NodejsHome}\npm.cmd
 Set-Alias -Name firefox -Value "${env:ProgramFiles}\Mozilla Firefox\firefox.exe"
 Set-Alias -Name browser -Value firefox
 Set-Alias -Name git-bash -Value "${env:ProgramFiles}\Git\git-bash.exe"
-# Set-Alias -Name python -value "${env:ProgramData}\Anaconda3\python.exe"
 Set-Alias -Name cygpath -Value ${CygwinHome}\bin\cygpath.exe
 Set-Alias -Name arduino -Value ${ArduinoHome}\arduino.exe
 
@@ -76,25 +73,6 @@ Remove-Item -ErrorAction Ignore alias:pwd
 function pwd {
 	$(Get-Location).path
 }
-
-# function ll {
-	# param(
-		# [Parameter(Position=0)] [string] $Path,
-		# [string] $Filter,
-		# [switch] $Recurce,
-		# [switch] $Directory,
-		# [switch] $File
-	# )
-	# $cmd = "Get-ChildItem -Force"
-	# # add and escape double quotation for paths that includes spaces
-	# if ($PSBoundParameters.ContainsKey("Path")) {$cmd+=" -Path `"$Path`""}
-	# if ($PSBoundParameters.ContainsKey("Filter")) {$cmd+=" -Filter $Filter"}
-	# if ($Recurce) {$cmd+=" -Recurse"}
-	# if ($Directory) {$cmd+=" -Directory"}
-	# if ($File) {$cmd+=" -File"}
-
-	# Invoke-Expression -Command $cmd
-# }
 
 function env {
 	Get-ChildItem env:
@@ -565,13 +543,6 @@ function eclipse {
 	}
 
 	Invoke-Expression -Command $cmd
-
-	#if ($Clean) {
-	#	Start-Process -FilePath $EclipceHome\eclipse.exe -WorkingDirectory $EclipceHome -ArgumentList "-clean"
-	#}
-	#else {
-	#	Start-Process -FilePath $EclipceHome\eclipse.exe -WorkingDirectory $EclipceHome
-	#}
 }
 
 function sourcetree {
@@ -581,8 +552,6 @@ function sourcetree {
 function gnode {
 	param(
 		[switch] $NoRC
-#		[switch] $NoRC,
-#        [switch] $Batch
 	)
 
 	$exe = "${NodejsHome}\node.exe"
@@ -594,13 +563,6 @@ function gnode {
 		$arglist = @("'-r'", "noderc") + $args
 	}
 	$arglist = if($arglist){" -ArgumentList $($arglist -join ',')"}else{""}
-
-#    if($Batch){
-#        $cmd = "`"$exe`" $arglist"
-#    }
-#    else{
-#        $cmd = "Start-Process -FilePath `"$exe`" -WorkingDirectory `"$NodejsHome`" -WindowStyle Maximized -ArgumentList $($arglist -join ',')"
-#    }
 
 	$cmd = "Start-Process -FilePath `"$exe`" -WorkingDirectory `"$NodejsHome`" -WindowStyle Maximized $arglist"
 
