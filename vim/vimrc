@@ -321,6 +321,7 @@ if filereadable(s:vimdir . "/autoload/plug.vim")
 	Plug 'tpope/vim-fugitive'
 	Plug 'airblade/vim-gitgutter'
 	Plug 'zivyangll/git-blame.vim'
+	Plug 'tmux-plugins/vim-tmux-focus-events'
 	" Plug 'powerline/powerline'	" error occurs and donno how to fix
 	Plug 'vim-airline/vim-airline'
 	Plug 'vim-airline/vim-airline-themes'
@@ -1160,7 +1161,7 @@ endif
 " {{{ || UltiSnips || ---
 let g:UltiSnipsExpandTrigger="<C-]>"
 let g:UltiSnipsJumpForwardTrigger="<C-s>"
-let g:UltiSnipsJumpBackwardTrigger="<C-z>"
+let g:UltiSnipsJumpBackwardTrigger="<M-s>"
 " --- || UltiSnips || }}}
 
 " {{{ || deoplete || ---
