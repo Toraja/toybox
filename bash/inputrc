@@ -101,11 +101,19 @@ set show-all-if-unmodified on
 "\exen": '2>/dev/null'
 "\exon": '2>/dev/null'
 "\exbn": '&>/dev/null'
+
+$if term=xterm
 "\C-q": '\C-e | xclip -selection c'
 # wrap all in single quotation and pipe the output to clipboard
 "\eq": '\C-aecho -n \'\C-e\' | xclip -selection c'
 # wrap all in double quotation and pipe the output to clipboard
 "\e\C-q": '\C-aecho -n "\C-e" | xclip -selection c'
+$else $if term=screen
+"\C-q": '\C-e | tmux load-buffer -'
+"\eq": '\C-aecho -n \'\C-e\' | tmux load-buffer -'
+"\e\C-q": '\C-aecho -n "\C-e" | tmux load-buffer -'
+$endif
+
 # [wrap]
 # wrap current position to the end in $()
 # FIXME C-x C-x does not work (xfce), C-@ does not work on Cygwin and CentOS
