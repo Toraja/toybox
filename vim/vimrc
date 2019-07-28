@@ -440,25 +440,6 @@ vnoremap <silent> <M-b> ompo<Esc>:call search("[A-Z_]", 'b')<CR>vg`po
 " [always search forward/backword]
 " noremap <expr> <Bslash> getcharsearch().forward ? ';' : ','
 " noremap <expr> <Bar> getcharsearch().forward ? ',' : ';'
-" [Quick select]
-" onoremap u iw
-" onoremap U iW
-" onoremap m aw
-" onoremap M aW
-" onoremap x i'
-" onoremap X a'
-" onoremap q i"
-" onoremap Q a"
-" onoremap r i{
-" onoremap R a{
-" onoremap v i<
-" onoremap V a<
-" if ! &diff
-"     onoremap o i[
-"     onoremap O a[
-"     onoremap p i(
-"     onoremap P a(
-" endif
 vnoremap al ggoG$
 " all
 onoremap <silent> al :normal! VggoG<CR>
