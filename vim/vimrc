@@ -868,10 +868,6 @@ command! BufOnly %bdelete | edit#
 
 " {{{ || Window || ---
 nnoremap <silent> <C-w>O :only!<CR>
-noremap <M-h> <C-w><C-h>
-noremap <M-j> <C-w><C-j>
-noremap <M-k> <C-w><C-k>
-noremap <M-l> <C-w><C-l>
 nnoremap <C-w>B :bdelete<CR>
 " --- || Window || }}}
 
