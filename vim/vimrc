@@ -668,7 +668,6 @@ let g:AnnoyingSpaces = "\\s\\+$\\| \\+\\t\\+\\|\\t\\+ \\+"
 " match is.
 nnoremap n nzx
 nnoremap N Nzx
-noremap g/ /\<lt>\><Left><Left>
 noremap <Leader>/ <Esc>/<C-p>
 noremap <Leader>? <Esc>?<C-p>
 nnoremap <silent> [Captain]/ :let @/ = ''<CR>
@@ -1117,8 +1116,6 @@ let g:syntastic_check_on_wq = 0
 " --- || end of syntastic || }}}
 
 " {{{ || easy-motion || ---
-nnoremap s <Nop>
-vnoremap s <Nop>
 " this option unmap all easymotion-prefix including user defined ones
 " let g:EasyMotion_do_mapping = 0
 let g:EasyMotion_smartcase = 1
@@ -1126,23 +1123,24 @@ let g:EasyMotion_use_upper = 1
 let g:EasyMotion_keys = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ;'
 let g:EasyMotion_enter_jump_first = 1
 let g:EasyMotion_space_jump_first = 1
-let g:EasyMotion_off_screen_search = 0
+let g:EasyMotion_off_screen_search = 1
 " this disables highlighting by `n` command, but you need easymotion-next/prev to move around
-let g:EasyMotion_add_search_history = 0
+let g:EasyMotion_add_search_history = 1
 let g:EasyMotion_startofline = 0
 " mapping easymotion-prefix prevents <Leader><Leader> from being mapped
-map <S-F12> <Plug>(easymotion-prefix)
+" map <S-F12> <Plug>(easymotion-prefix)
+nmap s <Plug>(easymotion-prefix)
+vmap s <Plug>(easymotion-prefix)
 map f <Plug>(easymotion-fl)
 map F <Plug>(easymotion-Fl)
 map t <Plug>(easymotion-tl)
 map T <Plug>(easymotion-Tl)
-map [Chief]f <Plug>(easymotion-fn)
-map [Chief]F <Plug>(easymotion-Fn)
-map [Chief]t <Plug>(easymotion-tn)
-map [Chief]T <Plug>(easymotion-Tn)
-" nmap s <Plug>(easymotion-sn)
-" vmap s <Plug>(easymotion-sn)
-" omap z <Plug>(easymotion-sn)
+map / <Plug>(easymotion-fn)
+map ? <Plug>(easymotion-Fn)
+nnoremap g/ /
+nnoremap g? ?
+map s. <Plug>(easymotion-repeat)
+omap v <Plug>(easymotion-sl)
 map <Bslash> <Plug>(easymotion-next)
 map <Bar> <Plug>(easymotion-prev)
 " --- || easy-motion || }}}
