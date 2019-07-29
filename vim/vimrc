@@ -649,11 +649,7 @@ let g:AnnoyingSpaces = "\\s\\+$\\| \\+\\t\\+\\|\\t\\+ \\+"
 " match is.
 nnoremap n nzx
 nnoremap N Nzx
-noremap <Leader>/ <Esc>/<C-p>
-noremap <Leader>? <Esc>?<C-p>
 nnoremap <silent> [Captain]/ :let @/ = ''<CR>
-vnoremap [Captain]/ <Esc>/\%V
-vnoremap [Captain]? <Esc>?\%V
 " TODO change these to use function like QuickGrep
 nnoremap <silent> * :let @/="\\V<C-r><C-w>"<CR>:call histadd("search", @/)<CR>:set hlsearch<CR>
 nnoremap <silent> g* :let @/="\\<<C-r><C-w>\\>"<CR>:call histadd("search", @/)<CR>:set hlsearch<CR>
@@ -664,6 +660,8 @@ vnoremap <silent> * y:let @/="\\V<C-r>=escape(@@, "/\"")<CR>"<CR>:call histadd("
 vnoremap <silent> g* y:let @/="\\V\\<<C-r>=escape(@@, "/\"")<CR>\\>"<CR>:call histadd("search", @/)<CR>:set hlsearch<CR>
 nnoremap <C-g> /<C-r><C-w>
 xnoremap <C-g> y/<C-r>"
+nnoremap g<C-g> /\<Lt><C-r><C-w>\>
+xnoremap g<C-g> y\<Lt>/<C-r>"\>
 nnoremap g[i :psearch /<C-r><C-w>/<CR>
 " [toggle highlight]
 if exists('v:hlsearch')
