@@ -8,11 +8,11 @@
 	tool = gvimdiff
 
 [difftool "gvimdiff"]
-	cmd = ~/coding/tools/Vim/vim81/gvim.exe -dO $LOCAL $REMOTE
+	cmd = ~/garage/tools/Vim/vim81/gvim.exe -dO $LOCAL $REMOTE
 
 [merge]
 	tool = gvimdiff
 
 [mergetool "gvimdiff"]
-	cmd = ~/coding/tools/Vim/vim81/gvim.exe -dO $BASE $LOCAL $REMOTE $MERGED
+	cmd = ~/garage/tools/Vim/vim81/gvim.exe -dO $BASE $LOCAL $REMOTE $MERGED
 	trustExitCode = false
