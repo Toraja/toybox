@@ -187,20 +187,6 @@ if &term =~ "xterm"
 endif
 " --- || automatically enter paste mode when pasting || }}}
 
-" {{{ || setup for windows || ---
-if has('win32') || has('win64')
-	" powershell does not work with Syntastic
-	" except diff mode as diff cannot be create with powershell
-	" if ! &diff
-	"     set shell=powershell\ -ExecutionPolicy\ RemoteSigned
-	" endif
-
-	" The below does not work (<C-/> does not emit anything)
-	" inoremap <C-/> <C-o>u
-	" inoremap <M-/> <C-o><C-r>
-endif
-" --- || setup for windows || }}}
-
 " {{{ || enable meta-key bindings || ---
 if has('unix') && !has('nvim')
 	" fix meta-keys which generate <Esc>a .. <Esc>z
@@ -507,14 +493,11 @@ nnoremap <M-x> "_x
 nnoremap <M-X> "_X
 nnoremap p p=']<C-o>
 nnoremap P P=']<C-o>
-" nnoremap [p p=']<C-o>
-" nnoremap [P P=']<C-o>
 vnoremap p "_c<C-r>"<Esc>
 vnoremap P "_c<C-r>"<Esc>
 " [insert/command mode]
 inoremap <C-w> <C-g>u<C-w>
 inoremap <C-u> <C-g>u<C-u>
-cnoremap <C-Space> <C-r>=AnnoyingSpaces<CR>
 cnoremap <expr> <C-x> Expander()
 inoremap <expr> <C-y> pumvisible() ? "\<C-y>" : "<C-g>u\<C-r>\""
 cnoremap <C-y> <C-r>"
@@ -559,7 +542,6 @@ nnoremap d. /\s\+$<CR>"_dgn|	" delete trailing spaces
 nnoremap <silent> <expr> <M-n> ":\<C-u>silent! move .+".v:count1."\<CR>=="
 nnoremap <silent> <expr> <M-p> ":\<C-u>silent! move .-".(v:count1+1)."\<CR>=="
 " ones for visual mode requires range ('<,'>) to work as intended
-" XXX cannot suppress the message emitted by = command
 vnoremap <silent> <expr> <M-n> ":\<C-u>silent! '<,'>move '>+".(v:count1)."\<CR>gv=gv"
 vnoremap <silent> <expr> <M-p> ":\<C-u>silent! '<,'>move '<-".(v:count1+1)."\<CR>gv=gv"
 " [undo redo]
@@ -705,8 +687,6 @@ function! QuickGrep(pattern, modify)
 	call LWindowSmart(l:lastwinnum, 10, 1)
 endfunction
 nnoremap <silent> [Captain]g :call QuickGrep('', 1)<CR>
-" nnoremap [Chief]g :call QuickGrep(expand("<cword>"), 1)<CR>
-" vnoremap [Chief]g y:call QuickGrep(@@, 1)<CR>
 nnoremap <silent> + :call QuickGrep(expand("<cword>"), 0)<CR>
 nnoremap <silent> g+ :call QuickGrep('\<'.expand("<cword>").'\>', 0)<CR>
 nnoremap <silent> <Leader>+ QuickGrep(expand("<cWORD>"), 0)<CR>
@@ -908,7 +888,6 @@ nnoremap [Chief]<F3> :call OpenFtplugins(&ft)<CR>
 nnoremap [Captain]<F3> :SetFt<CR>
 nnoremap Q gQ
 noremap [Chief]: :<C-p>
-nnoremap <silent> <Leader>l :echo fnamemodify('.', ':p') . "\n" . glob('*')<CR>
 nnoremap <silent> <Leader>b :buffers<CR>
 " [insert/command mode]
 cnoremap <C-j> <Tab>
@@ -1423,53 +1402,6 @@ function! TabnewMulti(...)
 endfunction
 command! -complete=file -nargs=+ TabnewMulti call TabnewMulti(<f-args>)
 
-" Erace all the garbled characters emitted by external commands
-" when reading the output
-function! CleanUpGarbledChar4Windows()
-	silent! execute '%substitute/' . nr2char(255) . '//g'
-	silent! execute '%substitute/' . nr2char(254) . '//g'
-	silent! execute '%substitute/' . nr2char(1) . '//g'
-	silent! execute '%substitute/' . nr2char(13) . '//g'
-endfunction
-
-" List files that matches the pattern
-" @file [string] file name to find
-" @... [string[]] path to search files. Multiple path can be passed.
-"      If nothing is supplied, use CWD.
-function! Find(file, ...) abort
-	" set up paths to search
-	if a:0 == 0     " the value of vararg is 0 if not supplied
-		let l:dir = fnamemodify('.', ':p')
-	else
-		let l:dirlist = []
-		for l:arg in a:000
-			call add(l:dirlist, fnamemodify(l:arg, ':p'))
-		endfor
-		" globpath() can take multiple paths as CSV
-		let l:dir = join(l:dirlist, ',')
-	endif
-
-	let l:pathlist = globpath(l:dir, '**/' . a:file, 0, 1)
-
-	" limit the found files to only readable ones
-	" and make the list of files compatible with quickfix list
-	let l:readables = []
-	for l:path in l:pathlist
-		if filereadable(l:path)
-			call add(l:readables, l:path.':0: ')
-		endif
-	endfor
-
-	let l:lastwinnum = winnr()
-	lgetexpr l:readables
-	let l:found = LWindowSmart(l:lastwinnum, 10, 1)
-	" display message if no file was found
-	if !l:found
-		echohl WarningMsg | echo "No match found" | echohl NONE
-	endif
-endfunction
-command! -nargs=+ -complete=file Find :call Find(<f-args>)
-
 " Open location list with just enough height for errors but no more than the
 " maximum. Do nothing if no error is found.
 " @orgwinnr [number] window number to go back. 0 to remain in location list.
@@ -1508,16 +1440,7 @@ command! -complete=command -nargs=+ RedirCmdOutputToReg :call RedirCmdOutputToRe
 
 " redirect the output of external command into console
 function! OutputExtCmdToCmdlind(cmd)
-	" if has('win32') || has('win64')
-	" let oldshell = &shell
-	" set shell=powershell\ -ExecutionPolicy\ RemoteSigned
-	" endif
-
 	echo system(a:cmd)
-
-	" if has('win32') || has('win64')
-	" execute 'set shell=' . oldshell
-	" endif
 endfunction
 command! -complete=shellcmd -nargs=1 OutputExtCmdToCmdlind :call OutputExtCmdToCmdlind(<q-args>)
 nnoremap [Chief]! :OutputExtCmdToCmdlind<Space>
@@ -1529,9 +1452,6 @@ function! OutputExtCmdToWin(cmd)
 	lopen 10
 	set modifiable
 	silent! %substitute/^|| //g
-	if has('win32') || has('win64')
-		call CleanUpGarbledChar4Windows()
-	endif
 	set nomodified
 	execute g:lastwinnum . 'wincmd w'
 endfunction
@@ -1545,9 +1465,6 @@ function! AppendExtCmdToWin(cmd)
 	lopen 10
 	set modifiable
 	silent! %substitute/^|| //g
-	if has('win32') || has('win64')
-		call CleanUpGarbledChar4Windows()
-	endif
 	set nomodified
 	execute g:lastwinnum . 'wincmd w'
 endfunction
@@ -1561,8 +1478,6 @@ function! SetOperatorFunc(funcname)
 endfunction
 
 function! GetOperatorText(operatortype, noline)
-	" let l:regbk = @"
-
 	if a:operatortype ==# 'v'
 		normal! `<v`>y
 	elseif a:operatortype ==# 'char'
@@ -1577,20 +1492,10 @@ function! GetOperatorText(operatortype, noline)
 
 		normal! `[V`]y
 	endif
-
-	" let l:operatortext = @"
-	" let @" = l:regbk
-	" return l:operatortext
 	return @"
 endfunction
 
 function! GetVisualText()
-	" let [l:linestart, l:colstart] = getpos("'<")[1:2]
-	" let [l:lineend, l:colend] = getpos("'>")[1:2]
-	" if l:linestart != l:lineend
-	" echoerr 'selection must be single line.'
-	" endif
-	" return  getline(l:linestart)[l:colstart - 1:l:colend - 1]
 	normal! gvy
 	let l:result = getreg('"')
 	normal! gv
