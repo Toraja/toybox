@@ -604,7 +604,7 @@ endfunction
 function! ClearCharRegisters()
 	let c='a'
 	while c <= 'z'
-		execute "let @".c."=''"
+		execute setreg(c, [])
 		let c = nr2char(1+char2nr(c))
 	endwhile
 endfunction
