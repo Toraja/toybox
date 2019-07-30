@@ -332,6 +332,7 @@ if filereadable(s:vimdir . "/autoload/plug.vim")
 	Plug 'honza/vim-snippets'
 	Plug 'easymotion/vim-easymotion'
 	" Language specific
+	Plug 'dag/vim-fish', { 'for': 'fish' }
 	Plug 'ternjs/tern_for_vim', { 'for': 'javascript', 'do': 'npm install' }
 	Plug 'carlitux/deoplete-ternjs', { 'for': 'javascript', 'do': 'npm install -g tern' }
 	Plug 'othree/jspc.vim', { 'for': 'javascript' }
