@@ -48,37 +48,3 @@ if test (which nvim)
 	alias view='nvim -R'
 	alias vimdiff='nvim -d'
 end
-
-bind \e\? __fish_man_page
-bind \e\ci complete-and-search
-bind \e\cf forward-bigword
-bind \e\cb backward-bigword
-bind \eh backward-kill-word
-bind \e\ch backward-kill-word
-
-bind \cv begin-selection
-bind \co swap-selection-start-stop repaint
-bind \cx end-selection repaint
-bind \ek kill-selection end-selection repaint
-
-if set -q TMUX
-	set -g copycmd 'tmux load-buffer -'
-else if test -f /mnt/c/Windows/System32/clip.exe
-	set -g copycmd 'clip.exe'
-else if string match -qr xterm $TERM
-	set -g copycmd 'xclip -selection c'
-end
-
-if set -q copycmd
-	bind \cq "commandline -a \" | $copycmd\""
-	bind \eq wrap_in_echo_single
-	bind \e\cq wrap_in_echo_double
-end
-
-# Leave this as reference about different mode
-# Need to bind <BS>, <DEL> and arrow keys etc as self-insert for those just input weird chars
-# bind -M selection '' self-insert
-# bind -m selection \cv begin-selection
-# bind -M selection -m default \eo swap-selection-start-stop repaint
-# bind -M selection -m default \ex end-selection repaint
-# bind -M selection -m default \ek kill-selection end-selection repaint
