@@ -11,7 +11,7 @@ not contains $GOPATH/bin $PATH; and set -xp PATH $GOPATH/bin
 # fish variables
 set fish_conf $__fish_config_dir/config.fish
 set fish_myfuncs $__fish_config_dir/myfuncs
-set fish_function_path $fish_myfuncs $fish_function_path
+not contains $fish_myfuncs $fish_function_path; and set -p fish_function_path $fish_myfuncs
 set fish_prompt_pwd_dir_length 0 # disable shortening path in prompt_pwd
 
 # alias
