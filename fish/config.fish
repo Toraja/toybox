@@ -6,7 +6,7 @@ set -x VISUAL vim
 set -x GOPATH $HOME/go
 
 # PATH
-not contains $GOPATH $PATH; and set -x PATH $GOPATH $PATH
+not contains $GOPATH/bin $PATH; and set -xp PATH $GOPATH/bin
 
 # fish variables
 set fish_conf $__fish_config_dir/config.fish
