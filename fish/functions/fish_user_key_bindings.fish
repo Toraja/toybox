@@ -1,4 +1,6 @@
 function fish_user_key_bindings
+    bind \cx\cr fish_user_key_bindings
+
     # motion
     bind \e\cf forward-bigword
     bind \e\cb backward-bigword
@@ -36,6 +38,19 @@ function fish_user_key_bindings
         bind \eq wrap_in_echo_single
         bind \e\cq wrap_in_echo_double
     end
+
+    bind \e\)t 'wrap_token \( \)'
+    bind \e\)p 'wrap_process \( \)'
+    bind \e\)j 'wrap_job \( \)'
+    bind \e\}t 'wrap_token \{ \}'
+    bind \e\}p 'wrap_process \{ \}'
+    bind \e\}j 'wrap_job \{ \}'
+    bind \e\"t 'wrap_token \" \"'
+    bind \e\"p 'wrap_process \" \"'
+    bind \e\"j 'wrap_job \" \"'
+    bind \e\'t "wrap_token \' \'"
+    bind \e\'p "wrap_process \' \'"
+    bind \e\'j "wrap_job \' \'"
 
     # Leave this as reference about different mode
     # Need to bind <BS>, <DEL> and arrow keys etc as self-insert for those just input weird chars
