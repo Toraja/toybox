@@ -5,20 +5,20 @@ function fish_user_key_bindings
     bind \x1D forward-jump
     bind \e\x1D backward-jump
 
-	# edit
+    # edit
     bind \eh backward-kill-word
 
-	# search
+    # search
     bind \ep history-token-search-backward
     bind \en history-token-search-forward
 
-	# selection
+    # selection
     bind \cv begin-selection
     bind \cx\cx swap-selection-start-stop repaint
     bind \cx\x20 end-selection repaint
     bind \ek kill-selection end-selection repaint
 
-	# misc
+    # misc
     bind \e\? __fish_man_page
     bind \e\ci complete-and-search
     bind \e\\ __fish_paginate
@@ -44,5 +44,4 @@ function fish_user_key_bindings
     # bind -M selection -m default \eo swap-selection-start-stop repaint
     # bind -M selection -m default \ex end-selection repaint
     # bind -M selection -m default \ek kill-selection end-selection repaint
-
 end
