@@ -319,7 +319,7 @@ if filereadable(s:vimdir . "/autoload/plug.vim")
 	Plug 'jiangmiao/auto-pairs'
 	Plug 'vim-syntastic/syntastic'
 	Plug 'ctrlpvim/ctrlp.vim'		" required by vim-go
-	" Plug 'tpope/vim-repeat'
+	Plug 'tpope/vim-repeat'
 	if has('nvim')
 		Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 	" else
