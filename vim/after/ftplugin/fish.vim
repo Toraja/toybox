@@ -2,16 +2,21 @@
 " set equalprg=fish_indent " this does not work when running = command on single line
 set expandtab " fish_indent prefer space
 
-if has("autocmd")
-	augroup my_fish
-		autocmd!
-		autocmd BufWritePre *.fish call Preserve('call Format()', 0, 0)
-	augroup END
-endif
-
-function! Format()
+function! FishFormat(type, ...)
 	if !executable('fish_indent')
 		return
 	endif
-	silent exec "%!fish_indent"
+
+	if a:0  " Invoked from Visual mode
+		let l:start = line("'<")
+		let l:end = line("'>")
+	else
+		let l:start = line("'[")
+		let l:end = line("']")
+	endif
+
+	silent exec printf("%s,%s!fish_indent", l:start, l:end)
 endf
+
+nnoremap = :call SetOperatorFunc('FishFormat')<CR>g@
+vnoremap = :<C-u>call FishFormat(visualmode(), 1)<CR>
