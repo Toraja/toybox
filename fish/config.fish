@@ -53,3 +53,5 @@ abbr --add --global dcr docker-compose restart
 ## go
 abbr --add --global got go test
 abbr --add --global gotr go test -run
+
+eval (keychain --eval --agents ssh id_rsa_github)
