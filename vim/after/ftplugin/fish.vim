@@ -1,4 +1,6 @@
-set iskeyword=@,48-57,_,192-255,#
+" set iskeyword=@,48-57,_,192-255,# " this disables syntax highlight for comment 
+" set equalprg=fish_indent " this does not work when running = command on single line
+set expandtab " fish_indent prefer space
 
 if has("autocmd")
 	augroup my_fish
