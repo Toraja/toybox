@@ -1,5 +1,5 @@
 function fish_user_key_bindings
-    bind \cx\cr fish_user_key_bindings
+    bind \cx\cr reload_keybind
 
     # motion
     bind \e\cf forward-bigword
