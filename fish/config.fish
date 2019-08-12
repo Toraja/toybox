@@ -8,6 +8,7 @@ set -x GOPATH $HOME/go
 test $TERM = 'screen'; and set -x TERM 'screen-256color'
 
 # PATH
+test -d /usr/local/go; and not contains /usr/local/go/bin $PATH; and set -xp PATH /usr/local/go/bin
 not contains $GOPATH/bin $PATH; and set -xp PATH $GOPATH/bin
 
 # fish variables
