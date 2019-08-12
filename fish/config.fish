@@ -4,6 +4,8 @@ tabs 4
 set -x EDITOR vim
 set -x VISUAL vim
 set -x GOPATH $HOME/go
+# this is set in tmux-sensible but it has not effect on the first window
+test $TERM = 'screen'; and set -x TERM 'screen-256color'
 
 # PATH
 not contains $GOPATH/bin $PATH; and set -xp PATH $GOPATH/bin
