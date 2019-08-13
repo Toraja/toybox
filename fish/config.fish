@@ -32,6 +32,8 @@ if test (which nvim)
 end
 
 # abbr
+# fish
+abbr --add --global mg mkdirgo
 ## git
 abbr --add --global gb git branch
 abbr --add --global gs git status
@@ -44,9 +46,11 @@ abbr --add --global ga git add
 abbr --add --global gai git add -i
 abbr --add --global gcm git commit -m
 abbr --add --global gco git checkout
+abbr --add --global gr git reset
 abbr --add --global gst git stash
-abbr --add --global gsp git stash pop
+abbr --add --global gstp git stash pop
 abbr --add --global gstm git stash push -m
+abbr --add --global grb git rebase -i
 ## docker
 abbr --add --global dc docker-compose
 abbr --add --global dcx docker-compose exec
