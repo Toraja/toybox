@@ -331,6 +331,8 @@ if filereadable(s:vimdir . "/autoload/plug.vim")
 	Plug 'SirVer/ultisnips'
 	Plug 'honza/vim-snippets'
 	Plug 'easymotion/vim-easymotion'
+	Plug '~/garage/fzf'
+	Plug 'junegunn/fzf.vim'
 	" Language specific
 	Plug 'dag/vim-fish', { 'for': 'fish' }
 	Plug 'ternjs/tern_for_vim', { 'for': 'javascript', 'do': 'npm install' }
