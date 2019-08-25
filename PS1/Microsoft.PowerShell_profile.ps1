@@ -168,11 +168,16 @@ function touch {
 }
 
 function vim {
-	& $VimRtp\vim.exe -p $args
+	& $NvimHome\bin\nvim-qt.exe $args
 }
 
-function view {
-	& $VimRtp\vim.exe -p -R $args
+# nvim within console
+function vimc {
+	& $NvimHome\bin\nvim.exe $args
+}
+
+function oldvim {
+	& $VimRtp\vim.exe -p $args
 }
 
 function vimdiff {
@@ -222,15 +227,6 @@ function wim {
 	$bashArgs = "'" + $bashArgs + "'"
 
 	Start-Process -FilePath $mintty -WindowStyle Maximized -ArgumentList "-t vim","-e","/usr/bin/bash -c $bashArgs"
-}
-
-function nvim {
-	& $NvimHome\bin\nvim-qt.exe $args
-}
-
-# nvim within console
-function nvimc {
-	& $NvimHome\bin\nvim.exe $args
 }
 
 function emacs {
