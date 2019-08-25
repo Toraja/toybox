@@ -35,19 +35,10 @@ if exists('g:plugs["vim-go"]')
 				\ }
 	let g:go_metalinter_autosave = 1
 	let g:go_metalinter_deadline = "10s"
+
+	" gopls
+	set cmdheight=2 " goinfo by gopls displays comment as well as signature
+	let g:go_def_mode='gopls'
+	let g:go_info_mode='gopls'
 endif
 " --- || vim-go || }}}
-
-" {{{ || deoplete-go || ---
-if exists('g:plugs["deoplete-go"]')
-	if &showmode
-		setlocal cmdheight=2		" you can see the mode as well as parameter hint
-	endif
-	if has('win32') || has('win64')
-		let g:deoplete#sources#go#gocode_binary = $GOPATH.'/bin/gocode.exe'
-	else
-		let g:deoplete#sources#go#gocode_binary = $GOPATH.'/bin/gocode'
-	endif
-	let g:deoplete#sources#go#sort_class = ['package', 'func', 'type', 'var', 'const']
-endif
-" --- || deoplete-go || }}}

@@ -22,7 +22,7 @@ function! s:GoCmds()
 				\ 'l': 'GoMetaLinter',
 				\ 'L': 'GoMetaLinterAutoSaveToggle',
 				\ 'm': 'GoImplements',
-				\ 'n': 'GoRename',
+				\ 'n': 'call LanguageClient#textDocument_rename()',
 				\ 'o': 'GoDecls',
 				\ 'O': 'GoDeclsDir',
 				\ 'p': 'GoChannelPeers',

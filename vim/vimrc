@@ -320,6 +320,10 @@ if filereadable(s:vimdir . "/autoload/plug.vim")
 	Plug 'vim-syntastic/syntastic'
 	Plug 'ctrlpvim/ctrlp.vim'		" required by vim-go
 	Plug 'tpope/vim-repeat'
+	Plug 'autozimu/LanguageClient-neovim', {
+				\ 'branch': 'next',
+				\ 'do': 'bash install.sh',
+				\ }
 	if has('nvim')
 		Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 	" else
@@ -343,7 +347,6 @@ if filereadable(s:vimdir . "/autoload/plug.vim")
 	Plug 'myhere/vim-nodejs-complete', { 'for': 'javascript' }
 	Plug 'moll/vim-node', { 'for': 'javascript' }
 	Plug 'fatih/vim-go', { 'for': 'go', 'do': ':GoUpdateBinaries', 'tag': '*' }
-	Plug 'zchee/deoplete-go', { 'for': 'go', 'do': 'make'}
 	" if  !has('nvim')
 	"     " required for vim-delve, must be placed before vim-delve
 	"     Plug 'Shougo/vimshell.vim',  { 'for': 'go' }
@@ -1118,6 +1121,15 @@ let g:UltiSnipsExpandTrigger="<C-]>"
 let g:UltiSnipsJumpForwardTrigger="<C-s>"
 let g:UltiSnipsJumpBackwardTrigger="<M-s>"
 " --- || UltiSnips || }}}
+"
+" {{{ || LanguageClient-neovim || ---
+set hidden
+let g:LanguageClient_changeThrottle = 0.5
+let g:LanguageClient_diagnosticsList = "Location"
+let g:LanguageClient_serverCommands = {
+			\ 'go': ['gopls']
+			\ }
+" --- || LanguageClient-neovim || }}}
 
 " {{{ || deoplete || ---
 if exists('g:plugs["deoplete.nvim"]')
