@@ -80,6 +80,8 @@ set show-all-if-unmodified on
 "\e\C-f": shell-forward-word
 "\e\C-b": shell-backward-word
 # [kill and yank]
+"\C-w": unix-filename-rubout
+"\e\C-w": unix-word-rubout
 "\eh": backward-kill-word
 "\ew": copy-backward-word
 "\e\C-d": copy-forward-word
@@ -91,8 +93,8 @@ set show-all-if-unmodified on
 "\C-j": menu-complete
 "\ej": menu-complete-backward
 # [search]
-"\en": history-search-forward
-"\ep": history-search-backward
+"\C-n": history-search-forward
+"\C-p": history-search-backward
 # [Misc]
 "\e;": ' \C-b'
 # [redirection]

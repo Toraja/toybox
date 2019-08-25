@@ -16,6 +16,7 @@ fi
 
 # Setting
 stty -ixon		# disable ctrl + s to stop output
+stty werase undef # disable C-w keybind or binding inside inputrc does not work
 tabs -4			# set tab width
 
 # Variables
