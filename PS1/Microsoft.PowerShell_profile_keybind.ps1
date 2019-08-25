@@ -9,8 +9,8 @@ Set-PSReadlineKeyHandler -Chord Alt+i -Function MenuComplete
 Set-PSReadlineKeyHandler -Chord Ctrl+j -Function TabCompleteNext
 Set-PSReadlineKeyHandler -Chord Alt+j -Function TabCompletePrevious
 ## History
-Set-PSReadlineKeyHandler -Chord Alt+n -Function HistorySearchForward
-Set-PSReadlineKeyHandler -Chord Alt+p -Function HistorySearchBackward
+Set-PSReadlineKeyHandler -Chord Ctrl+n -Function HistorySearchForward
+Set-PSReadlineKeyHandler -Chord Ctrl+p -Function HistorySearchBackward
 ## Motion
 Set-PSReadlineKeyHandler -Chord Ctrl+Alt+f -Function ShellForwardWord
 Set-PSReadlineKeyHandler -Chord Ctrl+Alt+b -Function ShellBackwardWord
@@ -21,6 +21,8 @@ Set-PSReadlineKeyHandler -Chord Shift+DownArrow -Function ScrollDisplayDownLine
 Set-PSReadlineKeyHandler -Chord Ctrl+v -Function ScrollDisplayDown
 Set-PSReadlineKeyHandler -Chord Alt+v -Function ScrollDisplayUp
 ## Editing
+Set-PSReadlineKeyHandler -Chord Ctrl+w -BriefDescription Unix-filename-rubout -Description "Move the test between the cursor and previous slash to the kill ring" -ScriptBlock {param($key, $arg); Windows-Filename-Rubout -key $key -arg $arg}
+Set-PSReadlineKeyHandler -Chord Ctrl+Alt+w -Function ShellBackwardKillWord
 Set-PSReadlineKeyHandler -Chord Alt+h -Function BackwardKillWord
 Set-PSReadlineKeyHandler -Chord Ctrl+Alt+h -BriefDescription Unix-filename-rubout -Description "Move the test between the cursor and previous slash to the kill ring" -ScriptBlock {param($key, $arg); Windows-Filename-Rubout -key $key -arg $arg}
 Set-PSReadlineKeyHandler -Chord Ctrl+Alt+d -Function ShellKillWord
