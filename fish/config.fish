@@ -26,7 +26,7 @@ alias nd='nextd'
 alias swappiness='cat /proc/sys/vm/swappiness'
 alias ll='ls -Ahlv'
 alias vim='vim -p'
-if test (which nvim)
+type -q nvim; and begin
     alias view='nvim -R'
     alias vimdiff='nvim -d'
 end
