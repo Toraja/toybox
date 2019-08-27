@@ -160,7 +160,11 @@ function Windows-Filename-Rubout{
 	$line = $null
 	$cursor = 0
 	[Microsoft.PowerShell.PSConsoleReadLine]::GetBufferState([ref]$line, [ref]$cursor)
-	$separators = (Select-String -Pattern '\\|/| ' -InputObject $line -AllMatches).Matches
+	$textToCursor = $line.substring(0, $cursor)
+	if ($textToCursor.Length -eq 0) {
+		return
+	}
+	$separators = (Select-String -Pattern '\\|/| ' -InputObject $textToCursor -AllMatches).Matches
 	# Adjust the position to look for the char. $cursor-1 is the char just in front of cursor.
 	# Without this, if the char in front of cursor is '\' or ' ', this command will not delete anything.
 	$columnToMove = 0
@@ -171,27 +175,8 @@ function Windows-Filename-Rubout{
 			$columnToMove = $separators[-2].Index + 1
 		}
 		# [else] If the separator found is only the one in front of cursor, delete to the beginning
-		# ($columnToMove should be 0)
+		# -> $columnToMove should be 0, which is default
 	}
-	# --- old code: delete if it's working properly ---
-	# $lastIndexEndPos = 0
-	# $previousSlashPos = 0
-	# $previousSpacePos = 0
-	# $columnToMove = 0
-	# Adjust the position to look for the char. $cursor-1 is the char just in front of cursor.
-	# Without this, if the char in front of cursor is '\' or ' ', this command will not delete anything.
-	# [Microsoft.PowerShell.PSConsoleReadLine]::GetBufferState([ref]$line, [ref]$cursor)
-	# if (($cursor - 2) -lt 0){
-	#     $lastIndexEndPos = 0
-	# }
-	# else {
-	#     $lastIndexEndPos = $cursor - 2
-	# }
-	# $previousSlashPos = $line.LastIndexOf('\', $lastIndexEndPos)
-	# $previousSpacePos = $line.LastIndexOf(' ', $lastIndexEndPos)
-	# $columnToMove = if ($previousSlashPos -ge $previousSpacePos) {$previousSlashPos} else {$previousSpacePos}
-	# $columnToMove++
-	# -------------------------------------------------
 	[Microsoft.PowerShell.PSConsoleReadLine]::SetMark()
 	[Microsoft.PowerShell.PSConsoleReadLine]::SetCursorPosition($columnToMove)
 	[Microsoft.PowerShell.PSConsoleReadLine]::KillRegion()
