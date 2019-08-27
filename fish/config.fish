@@ -1,3 +1,6 @@
+# do this on your local file
+# eval (keychain --quiet --eval --agents ssh <filename>)
+
 tabs 4
 
 # Environment variables
@@ -60,6 +63,3 @@ abbr --add --global dcr docker-compose restart
 ## go
 abbr --add --global got go test
 abbr --add --global gotr go test -run
-
-# do this on your local file
-# eval (keychain --eval --agents ssh <filename>)
