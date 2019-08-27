@@ -72,8 +72,13 @@ set -l fzf_opts "--height=40%"\
     "--reverse" \
     "--inline-info" \
     "--preview='bat --color=always {}'"
-set -l fzf_bind_opts "ctrl-alt-n:preview-down" \
-    "ctrl-alt-p:preview-up"
+set -l fzf_bind_opts "alt-n:preview-down" \
+    "alt-p:preview-up" \
+    "alt-h:backward-kill-word" \
+    "ctrl-k:kill-line" \
+    "ctrl-v:page-down" \
+    "alt-v:page-up" \
+    "ctrl-t:top"
 set -x FZF_DEFAULT_OPTS (string join -- " " $fzf_opts "--bind="(string join ',' $fzf_bind_opts))
 
 ## bindings
