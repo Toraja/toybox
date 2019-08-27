@@ -600,8 +600,16 @@ if((Get-Location).Path -eq "$env:System32"){
 
 # Modules
 ## posh-git
-Import-Module -Name posh-git -ErrorAction Ignore
-if ($?) {
-	# ssh does not work since Windows update to ver 18
-	# Start-SshAgent	# password for private key will be saved
+if (Get-Module -ListAvailable -Name posh-git) { 
+	Import-Module -Name posh-git
+	# if ($?) {
+		# ssh-agent does not work since Windows update to ver 18
+		# Start-SshAgent	# password for private key will be saved
+	# }
+}
+## PsFzf
+if (Get-Module -ListAvailable -Name PsFzf) { 
+	Remove-PSReadlineKeyHandler -Chord 'Ctrl+r'
+	Remove-PSReadlineKeyHandler -Chord 'Ctrl+s'
+	Import-Module -Name PsFzf -ArgumentList 'Ctrl+o','Ctrl+r','Alt-o'
 }
