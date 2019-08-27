@@ -9,6 +9,7 @@ set -x VISUAL vim
 set -x GOPATH $HOME/go
 # this is set in tmux-sensible but it has not effect on the first window
 test $TERM = 'screen'; and set -x TERM 'screen-256color'
+functions -q set_display; and set_display # set DISPLAY
 
 # PATH
 test -d /usr/local/go; and not contains /usr/local/go/bin $PATH; and set -xp PATH /usr/local/go/bin
