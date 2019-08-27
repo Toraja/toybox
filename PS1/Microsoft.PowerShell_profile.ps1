@@ -46,7 +46,7 @@ Set-Alias -Name browser -Value firefox
 Set-Alias -Name git-bash -Value "${env:ProgramFiles}\Git\git-bash.exe"
 Set-Alias -Name cygpath -Value ${CygwinHome}\bin\cygpath.exe
 Set-Alias -Name arduino -Value ${ArduinoHome}\arduino.exe
-
+Set-Alias -Name qutebrowser -Value ${QBHome}\qutebrowser.exe
 
 # <Function>
 Remove-Item -ErrorAction Ignore alias:cd

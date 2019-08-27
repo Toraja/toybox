@@ -14,6 +14,7 @@ Set-Variable -Name MongoHome     -Value $db\mongo
 Set-Variable -Name EclipceHome   -Value $ide\eclipse
 Set-Variable -Name ArduinoHome   -Value $ide\arduino
 Set-Variable -Name PlantumlHome  -Value $tools\plantuml
+Set-Variable -Name QBHome        -Value $tools\qutebrowser
 Set-Variable -Name NodejsHome    -Value ${env:ProgramFiles}\nodejs
 Set-Variable -Name JavaHome      -Value $lang\java # this is symlink path pointing real java binary
 Set-Variable -Name VimHome       -Value $tools\Vim
@@ -56,6 +57,10 @@ if($env:Path -notmatch "$("$JavaHome\bin" -replace "\\","\\")"){
 # PS1/bin
 if($env:Path -notmatch "$("$Annex\bin" -replace "\\","\\")"){
     $env:Path += ";$Annex\bin"
+}
+# vim - required by qutebrowser
+if($env:Path -notmatch "$("$VimRtp" -replace "\\","\\")"){
+	$env:Path += ";$VimRtp"
 }
 # external commands
 if($env:Path -notmatch "$("$env:USERPROFILE\Documents\WindowsPowerShell\bin" -replace "\\","\\")"){
