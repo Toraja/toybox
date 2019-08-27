@@ -42,6 +42,9 @@ Set-Variable -Name CygwinHome    -Value C:\cygwin64
 }
 
 # Environment Path
+if($env:Path -notmatch "$("$env:USERPROFILE\bin" -replace "\\","\\")"){
+	$env:Path += ";$env:USERPROFILE\bin"
+}
 # Java
 if($env:Path -notmatch "$("$JavaHome\bin" -replace "\\","\\")"){
 	$env:Path += ";$JavaHome\bin"
