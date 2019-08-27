@@ -35,7 +35,7 @@ type -q nvim; and begin
 end
 
 # abbr
-# fish
+## fish
 abbr --add --global mg mkdirgo
 ## git
 abbr --add --global gb git branch
@@ -51,9 +51,11 @@ abbr --add --global gcm git commit -m
 abbr --add --global gco git checkout
 abbr --add --global gr git reset
 abbr --add --global gst git stash
+abbr --add --global gstl git stash list
 abbr --add --global gstp git stash pop
 abbr --add --global gstm git stash push -m
 abbr --add --global grb git rebase -i
+abbr --add --global grbc git rebase --continue
 ## docker
 abbr --add --global dc docker-compose
 abbr --add --global dcx docker-compose exec
