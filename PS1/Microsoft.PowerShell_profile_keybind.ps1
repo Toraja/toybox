@@ -9,8 +9,8 @@ Set-PSReadlineKeyHandler -Chord Alt+i -Function MenuComplete
 Set-PSReadlineKeyHandler -Chord Ctrl+j -Function TabCompleteNext
 Set-PSReadlineKeyHandler -Chord Alt+j -Function TabCompletePrevious
 ## History
-Set-PSReadlineKeyHandler -Chord Ctrl+n -Function HistorySearchForward
-Set-PSReadlineKeyHandler -Chord Ctrl+p -Function HistorySearchBackward
+Set-PSReadlineKeyHandler -Chord Alt+n -Function HistorySearchForward
+Set-PSReadlineKeyHandler -Chord Alt+p -Function HistorySearchBackward
 ## Motion
 Set-PSReadlineKeyHandler -Chord Ctrl+Alt+f -Function ShellForwardWord
 Set-PSReadlineKeyHandler -Chord Ctrl+Alt+b -Function ShellBackwardWord
