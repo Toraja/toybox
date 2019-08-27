@@ -1,6 +1,13 @@
 # variables
-set -x FZF_DEFAULT_OPTS "--height=40% --tabstop=4 --multi --reverse --inline-info --preview='bat --color=always {}'
-    --bind 'ctrl-alt-n:preview-down,ctrl-alt-p:preview-up'"
+set -l fzf_opts "--height=40%"\
+    "--tabstop=4"\
+    "--multi" \
+    "--reverse" \
+    "--inline-info" \
+    "--preview='bat --color=always {}'"
+set -l fzf_bind_opts "ctrl-alt-n:preview-down" \
+    "ctrl-alt-p:preview-up"
+set -x FZF_DEFAULT_OPTS (string join -- " " $fzf_opts "--bind="(string join ',' $fzf_bind_opts))
 
 # bindings
 # As my fish_user_key_bindings predates, fzf_key_bindings is not called automatically
