@@ -898,8 +898,8 @@ nnoremap <silent> <Leader>b :buffers<CR>
 " [insert/command mode]
 cnoremap <C-j> <Tab>
 inoremap <M-o> <C-\><C-o>
-cnoremap <M-p> <Up>
-cnoremap <M-n> <Down>
+cnoremap <C-p> <Up>
+cnoremap <C-n> <Down>
 cnoremap <M-=> <C-d>
 cnoremap <M-?> <C-d>
 cnoremap <C-s> <C-f>
