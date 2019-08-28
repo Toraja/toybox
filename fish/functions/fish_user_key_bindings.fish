@@ -41,18 +41,25 @@ function fish_user_key_bindings
         bind \e\cq wrap_in_echo_double
     end
 
-    bind \e\)t 'wrap_token \( \)'
-    bind \e\)p 'wrap_process \( \)'
-    bind \e\)j 'wrap_job \( \)'
-    bind \e\}t 'wrap_token \{ \}'
-    bind \e\}p 'wrap_process \{ \}'
-    bind \e\}j 'wrap_job \{ \}'
-    bind \e\"t 'wrap_token \" \"'
-    bind \e\"p 'wrap_process \" \"'
-    bind \e\"j 'wrap_job \" \"'
-    bind \e\'t "wrap_token \' \'"
-    bind \e\'p "wrap_process \' \'"
-    bind \e\'j "wrap_job \' \'"
+    function bind_wrapper
+        argparse --name=wrap_job --min-args=3 --max-args=3 'h/help' -- $argv
+        set key $argv[1] # should not escape or backslash will be duplicated
+        set start (string escape --no-quoted $argv[2])
+        set end (string escape --no-quoted $argv[3])
+
+        bind \e$key't' "wrap_token $start $end"
+        bind \e$key'p' "wrap_process $start $end"
+        bind \e$key'j' "wrap_job $start $end"
+        bind \e$key'a' "wrap_to_beginning $start $end"
+        bind \e$key'e' "wrap_to_end $start $end"
+    end
+
+    bind_wrapper \( \( \)
+    bind_wrapper \) \( \)
+    bind_wrapper \{ \{ \}
+    bind_wrapper \} \{ \}
+    bind_wrapper \" \" \"
+    bind_wrapper \' \' \'
 
     # selection
     bind -m selection \cx\x20 begin-selection
