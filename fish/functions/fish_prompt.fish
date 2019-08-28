@@ -1,8 +1,31 @@
 function fish_prompt --description 'Write out the prompt'
-	set symbol '$'
-	if test $USER = 'root'
-		set symbol '#'
-	end
+    # fish status
+    set status_color (test $status -eq 0; and echo cyan; or echo red)
+    set prompt (colorise $status_color fish)
 
-	echo (set_color cyan)fish:(set_color green)$USER:$SHLVL:(prompt_pwd)(set_color normal)\n$symbol' '
+    # USER SHLVL CWD
+    set -a prompt :(colorise green $USER):(colorise yellow $SHLVL):(colorise green (prompt_pwd))
+
+    # git status
+    git rev-parse --is-inside-work-tree >/dev/null 2>&1; and begin
+        set git_status (git status --porcelain)
+        set git_color (test (count $git_status) -eq 0; and echo cyan; or echo magenta)
+        set branch (git branch | grep '*' | awk '{print $2}')
+        set git ' ['(colorise $git_color $branch)']'
+        set -a prompt $git
+    end
+
+    # symbol
+    set symbol '$'
+    if test $USER = 'root'
+        set symbol '#'
+    end
+    set -a prompt \n$symbol' '
+
+    string join '' $prompt
+end
+
+function colorise
+    argparse --name=colorise --min-args=2 'h/help' -- $argv
+    echo (set_color $argv[1])$argv[2..-1](set_color normal)
 end
