@@ -93,23 +93,24 @@ Set-PSReadlineKeyHandler -Chord "Alt+:" -BriefDescription PipeWhere -Description
 	[Microsoft.PowerShell.PSConsoleReadLine]::BackwardChar()
 }
 
+$__clipcmd = if($Host.Version.Major -le 5){'Set-Clipboard'}else{'clip.exe'}
 Set-PSReadlineKeyHandler -Chord Ctrl+q -BriefDescription PipeToClip -Description "Redirect Stdout to Clipboard" -ScriptBlock{
 	[Microsoft.PowerShell.PSConsoleReadLine]::EndOfLine()
-	[Microsoft.PowerShell.PSConsoleReadLine]::Insert(' | Set-Clipboard')
+	[Microsoft.PowerShell.PSConsoleReadLine]::Insert(" | $__clipcmd")
 }
 
 Set-PSReadlineKeyHandler -Chord Alt+q -BriefDescription PipeToClipSingleQuote -Description "Wrap whole line with single quote and redirect Stdout to Clipboard" -ScriptBlock{
 	[Microsoft.PowerShell.PSConsoleReadLine]::BeginningOfLine()
 	[Microsoft.PowerShell.PSConsoleReadLine]::Insert("'")
 	[Microsoft.PowerShell.PSConsoleReadLine]::EndOfLine()
-	[Microsoft.PowerShell.PSConsoleReadLine]::Insert("' | Set-Clipboard")
+	[Microsoft.PowerShell.PSConsoleReadLine]::Insert("' | $__clipcmd")
 }
 
 Set-PSReadlineKeyHandler -Chord Ctrl+Alt+q -BriefDescription PipeToClipDoubleQuote -Description "Wrap whole line with double quote and redirect Stdout to Clipboard" -ScriptBlock{
 	[Microsoft.PowerShell.PSConsoleReadLine]::BeginningOfLine()
 	[Microsoft.PowerShell.PSConsoleReadLine]::Insert('"')
 	[Microsoft.PowerShell.PSConsoleReadLine]::EndOfLine()
-	[Microsoft.PowerShell.PSConsoleReadLine]::Insert('" | Set-Clipboard')
+	[Microsoft.PowerShell.PSConsoleReadLine]::Insert("`" | $__clipcmd")
 }
 
 Set-PSReadlineKeyHandler -Chord "Alt+(" -BriefDescription WrapWholeInParenthesesCursorTop -Description "Wrap whole line in Parentheses and move cursor to the top" -ScriptBlock {
