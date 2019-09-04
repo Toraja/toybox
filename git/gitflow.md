@@ -167,3 +167,11 @@ to be changed.
 
 Reference:
 [Setting up SSH/Git on Cygwin yields "Bad permissions on ~/.ssh/config"](https://superuser.com/questions/533381/setting-up-ssh-git-on-cygwin-yields-bad-permissions-on-ssh-config)
+
+#### Use ssh on windows
+Git uses ssh under git-bash by default so that git cannot utilise ssh-agent started on windows.  
+Add below to `.gitconfig` and git will use specified ssh binary.  
+```
+[core]
+	sshCommand = C:/Windows/System32/OpenSSH/ssh.exe
+```
