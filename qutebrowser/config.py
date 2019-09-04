@@ -86,9 +86,12 @@ config.bind('<Ctrl+n>', 'tab-next')
 config.bind('<Ctrl+p>', 'tab-prev')
 config.bind('<Alt+p>', 'tab-move -')
 config.bind('<Alt+n>', 'tab-move +')
-config.bind('J', None)
-config.bind('K', None)
+config.unbind('J')
+config.unbind('K')
 config.bind(';k', 'hint all delete')
+config.bind(';p', 'hint links run :open -p {hint-url}')
+config.unbind('<Ctrl+q>')
+config.bind('<Ctrl+Shift+q>', 'quit')
 
 # Bindings for command mode
 config.bind('<Alt+h>', 'rl-backward-kill-word', mode='command')
@@ -98,3 +101,5 @@ config.bind('<Ctrl+n>', 'completion-item-focus --history next', mode='command')
 config.bind('<Ctrl+p>', 'completion-item-focus --history prev', mode='command')
 
 # Bindings for insert mode
+config.unbind('<Ctrl+e>', mode='insert')
+config.bind('<Alt+e>', 'open-editor', mode='insert')
