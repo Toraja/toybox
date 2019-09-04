@@ -4,6 +4,9 @@
 [include]
 	path = ~/toybox/git/.gitconfig
 
+[core]
+	sshCommand = C:/Windows/System32/OpenSSH/ssh.exe
+
 [diff]
 	tool = gvimdiff
 
@@ -16,3 +19,5 @@
 [mergetool "gvimdiff"]
 	cmd = ~/garage/tools/Vim/vim81/gvim.exe -dO $BASE $LOCAL $REMOTE $MERGED
 	trustExitCode = false
+
+; vim: filetype=gitconfig
