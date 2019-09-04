@@ -602,10 +602,7 @@ if((Get-Location).Path -eq "$env:System32"){
 ## posh-git
 if (Get-Module -ListAvailable -Name posh-git) {
 	Import-Module -Name posh-git
-	# if ($?) {
-		# ssh-agent does not work since Windows update to ver 18
-		# Start-SshAgent	# password for private key will be saved
-	# }
+	Start-SshAgent # password for private key will be saved
 }
 ## PsFzf
 if (Get-Module -ListAvailable -Name PsFzf) {
