@@ -1,9 +1,5 @@
 ## Notes about Git
 
----
-
-<span style="font-family: monospace">
-
 ### Start git
 #### Initialize git repository
 (prerequisite: create git repository on github)
@@ -33,13 +29,15 @@ git push --set-upstream origin master
 
 #### Diplay status of the current branch
 `git status [-s]`  
+```
 ??: untracked  
 A : added but not pushed  
 D : removed but not pushed  
 M : modify has been tracked  
-&nbsp;D: removed locally and not tracked  
-&nbsp;M: modified but not tracked  
+ D: removed locally and not tracked  
+ M: modified but not tracked  
 AM: modified after added
+```
 
 #### Check whether local repo is ahead/behind the remote
 `git remote show origin`  
@@ -60,10 +58,10 @@ as well as git diff origin/remote to compare remote and local files.
 #### Commit the changes (not uploaded to the remote yet)
 `git commit [files...] -m "comment"`  
 `git commit -am "comment"`  
-Without -m option, editor will be opened to write comment.  
-With -v option, modifications will be shown (like -p option) in the editor.  
+Without `-m` option, editor will be opened to write comment.  
+With `-v` option, modifications will be shown (like `-p` option) in the editor.  
 If files are not specified, files added (tracked) by git-add are committed.  
--a option commits all the modification  
+`-a` option commits all the modification  
 Committing when there are changes that have not been pulled causes branch merge when pushing.
 
 #### Upload the current index to the remote repo
@@ -84,10 +82,10 @@ Pushing before pulling remote changes to local repository fails.
 #### Diplay the history of commit
 `git log`  
 **options**  
--n -> *n* is an arbitrary number. Last *n* commits will be shown.  
---reverse -> reverse the order  
---oneline -> display every commit in oneline  
---pretty=format: [string] -> display log according to the [string]  
+`-n` -> *n* is an arbitrary number. Last *n* commits will be shown.  
+`--reverse` -> reverse the order  
+`--oneline` -> display every commit in oneline  
+`--pretty=format: [string]` -> display log according to the [string]  
 
 #### Display file names of particular commit
 `git diff-tree --no-commit-id --name-only -r <commitID>`  
@@ -140,7 +138,7 @@ git pop removes the stash while git apply doesn't
 ### Tag related
 #### List tags
 `git tag [-l (pattern)]`  
-With -l option, git shows tags that matches the pattern.  
+With `-l` option, git shows tags that matches the pattern.  
 `git tag -n`  
 List tags with annotation messages  
 `git rev-list --pretty=oneline <commit>`  
@@ -157,7 +155,6 @@ git-tag adds a tag to HEAD or specified commit.
 One tag can be attached to one tag only.  
 
 ---
----
 
 ### Misc
 #### Use git on cygwin
@@ -165,10 +162,8 @@ One tag can be attached to one tag only.
 To use git on cygwin and share the ssh setting with windows, the permission of ~/.ssh/config needs
 to be changed.  
 1. The permission needs to be 600  
-2. setfacl ~/.ssh/config (<- not sure if necessary)  
+2. setfacl ~/.ssh/config (not sure if necessary)  
 3. chown [username]:Users ~/.ssh/config  
 
 Reference:
-[Setting up SSH/Git on Cygwin yields “Bad permissions on ~/.ssh/config”](https://superuser.com/questions/533381/setting-up-ssh-git-on-cygwin-yields-bad-permissions-on-ssh-config)
-
-</span> <!-- end of monospace font -->
+[Setting up SSH/Git on Cygwin yields "Bad permissions on ~/.ssh/config"](https://superuser.com/questions/533381/setting-up-ssh-git-on-cygwin-yields-bad-permissions-on-ssh-config)
