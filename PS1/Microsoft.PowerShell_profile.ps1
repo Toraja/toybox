@@ -613,3 +613,7 @@ if (Get-Module -ListAvailable -Name PsFzf) {
 	Remove-PSReadlineKeyHandler -Chord 'Ctrl+s'
 	Import-Module -Name PsFzf -ArgumentList 'Ctrl+o','Ctrl+r','Alt-o'
 }
+## posh-docker
+if (Get-Module -ListAvailable -Name posh-docker) {
+	Import-Module -Name posh-docker
+}
