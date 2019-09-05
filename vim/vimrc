@@ -1647,14 +1647,17 @@ nnoremap _ :call Toggler()<CR>
 " guarantee that either UPPERCASE or lowercase precedes the other.
 " This sort place lowercase before UPPERCASE within the same letter.
 function! SortItemsCaseIns(one, two)
-	let l:key1 = char2nr(tolower(a:one[0]))
-	let l:key2 = char2nr(tolower(a:two[0]))
-	let l:result = l:key1 == l:key2 ? 0 : l:key1 > l:key2 ? 1 : -1
-	if l:key1 ==? l:key2
-		" lowercase should precedes UPPERCASE
-		let l:result = char2nr(a:one[0]) > char2nr(a:two[0]) ? -1 : 1
+	let [l:key1, l:key2] = [a:one[0], a:two[0]]
+	if l:key1 ==# l:key2
+		return 1
 	endif
-	return l:result
+	let l:keynum1 = char2nr(tolower(l:key1))
+	let l:keynum2 = char2nr(tolower(l:key2))
+	if l:keynum1 == l:keynum2
+		" same char but different case -> lowercase should precedes UPPERCASE
+		return char2nr(l:key1) > char2nr(l:key2) ? -1 : 1
+	endif
+	return l:keynum1 > l:keynum2 ? 1 : -1
 endfunction
 
 " Function for sort() to sort 2D list based on the second element of inner array.
