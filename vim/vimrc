@@ -323,39 +323,32 @@ if filereadable(s:vimdir . "/autoload/plug.vim")
 	Plug 'vim-syntastic/syntastic'
 	Plug 'ctrlpvim/ctrlp.vim'		" required by vim-go
 	Plug 'tpope/vim-repeat'
+	Plug 'tpope/vim-abolish'
+	Plug 'junegunn/vim-easy-align'
 	Plug 'autozimu/LanguageClient-neovim', {
 				\ 'branch': 'next',
-				\ 'do': 'bash install.sh',
+				\ 'do': has('win32') ? 'powershell install.ps1' : 'bash install.sh',
 				\ }
-	if has('nvim')
+	if has('nvim') " no completion for conventional vim as it takes so long to start up
 		Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-	" else
-	"     " no completion for conventional vim as it takes so long to start up
-	"     Plug 'Shougo/deoplete.nvim'
-	"     Plug 'roxma/nvim-yarp'
-	"     Plug 'roxma/vim-hug-neovim-rpc'
 	endif
 	Plug 'SirVer/ultisnips'
 	Plug 'honza/vim-snippets'
 	Plug 'easymotion/vim-easymotion'
-	Plug '~/garage/fzf'
+	Plug exists('fzfdir') ? fzfdir : '~/garage/tools/fzf'
 	Plug 'junegunn/fzf.vim'
 	" Language specific
 	Plug 'dag/vim-fish', { 'for': 'fish' }
-	Plug 'ternjs/tern_for_vim', { 'for': 'javascript', 'do': 'npm install' }
-	Plug 'carlitux/deoplete-ternjs', { 'for': 'javascript', 'do': 'npm install -g tern' }
+	if executable('npm')
+		Plug 'ternjs/tern_for_vim', { 'for': 'javascript', 'do': 'npm install' }
+		Plug 'carlitux/deoplete-ternjs', { 'for': 'javascript', 'do': 'npm install -g tern' }
+	endif
 	Plug 'othree/jspc.vim', { 'for': 'javascript' }
 	Plug 'jelera/vim-javascript-syntax', { 'for': 'javascript' }    " <- The order matters! First comes first serves (for syntax at least)
 	Plug 'pangloss/vim-javascript', { 'for': 'javascript' }         " <- syntax of vim-javascript is ugly
 	Plug 'myhere/vim-nodejs-complete', { 'for': 'javascript' }
 	Plug 'moll/vim-node', { 'for': 'javascript' }
 	Plug 'fatih/vim-go', { 'for': 'go', 'do': ':GoUpdateBinaries', 'tag': '*' }
-	" if  !has('nvim')
-	"     " required for vim-delve, must be placed before vim-delve
-	"     Plug 'Shougo/vimshell.vim',  { 'for': 'go' }
-	"     Plug 'Shougo/vimproc.vim',  { 'for': 'go' }
-	" endif
-	" Plug 'sebdah/vim-delve',  { 'for': 'go' }
 	Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': 'markdown' } " Install this on markdown file or function cannot be found
 	Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }
 	Plug 'mzlogin/vim-markdown-toc', { 'for': 'markdown' }
