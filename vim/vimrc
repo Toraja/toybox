@@ -1104,6 +1104,23 @@ map s. <Plug>(easymotion-repeat)
 map <Bslash> <Plug>(easymotion-next)
 map <Bar> <Plug>(easymotion-prev)
 " --- || easy-motion || }}}
+"
+" {{{ || fzf.vim || ---
+if exists('g:plugs["fzf.vim"]')
+	imap <c-x><c-k> <plug>(fzf-complete-word)
+	imap <c-x><c-f> <plug>(fzf-complete-path)
+	imap <c-x><c-l> <plug>(fzf-complete-line)
+	cnoreabbrev ff  Files
+	cnoreabbrev fb  Buffers
+	cnoreabbrev fla Lines
+	cnoreabbrev fl  BLines
+	cnoreabbrev fw  Windows
+	cnoreabbrev fo  History
+	cnoreabbrev fca Commits
+	cnoreabbrev fc  Commits
+	cnoreabbrev fh  Helptags
+endif
+" --- || fzf.vim || }}}
 
 " {{{ || ctrlp || ---
 if exists('g:plugs["ctrlp.vim"]')
