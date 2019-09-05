@@ -14,6 +14,9 @@ endif
 set nocompatible						" do not use legacy mode
 set encoding=utf-8
 set fileencodings^=utf-8
+if has('unix')
+	set shell=/bin/bash
+endif
 
 " << looks and feel >>
 set background=dark						" color scheme for dark background
