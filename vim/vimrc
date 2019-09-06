@@ -908,6 +908,16 @@ inoremap <C-g><C-]> <Esc>ciw<C-r>"<C-]>
 
 " {{{ || plugin mapping and option || ---
 
+" {{{ || vim-fugitive || ---
+if exists('g:plugs["vim-fugitive"]')
+	cnoreabbrev gs Gstatus
+	cnoreabbrev gl Git log
+	cnoreabbrev glg vertical sbuffer <Bar> Gllog
+	cnoreabbrev gcm Gcommit -m
+	cnoreabbrev gd Gdiffsplit
+endif
+" --- || vim-fugitive || }}}
+
 " {{{ || powerline / airline || ---
 if !exists('g:plugs["powerline"]') && !exists('g:plugs["vim-airline"]')
 	set statusline=(%{winnr()})				" window number
@@ -1184,6 +1194,8 @@ endif
 " --- || key mapping || }}}
 
 " {{{ || abbreviation || ---
+cnoreabbrev v vertical
+cnoreabbrev t tab
 cnoreabbrev ehco echo
 cnoreabbrev tn tabnew
 cnoreabbrev tm TabnewMulti
