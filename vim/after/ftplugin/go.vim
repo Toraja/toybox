@@ -106,21 +106,16 @@ nmap <buffer> <C-t><C-]> :let [_, row, col, _, _] = getcurpos() <Bar> tabnew % <
 nmap <buffer> [t <Plug>(go-def-pop)
 nmap <buffer> ]t <Plug>(go-def-stack)
 
-cnoreabbrev gb GoBuild
-cnoreabbrev gdo GoDocOf
-" cnoreabbrev gc GoCoverage		" disturbs substitute option
-cnoreabbrev gf GoFmt
-cnoreabbrev gft GoFmtAutoSaveToggle
-cnoreabbrev ggs GoGuruScope
-cnoreabbrev gi GoImport
-cnoreabbrev gia GoImportAs
-cnoreabbrev gis GoImports
-cnoreabbrev gml GoMetaLinter
-cnoreabbrev gmlt GoMetaLinterAutoSaveToggle
-cnoreabbrev gr GoRun
-cnoreabbrev gt GoTest
-cnoreabbrev gtf GoTestFunc
-cnoreabbrev gtc GoTestCompile
+cnoreabbrev bld GoBuild
+cnoreabbrev doc GoDocOf
+cnoreabbrev cov GoCoverage
+cnoreabbrev fmt GoFmt
+cnoreabbrev grs GoGuruScope
+cnoreabbrev im GoImport
+cnoreabbrev ima GoImportAs
+cnoreabbrev ims GoImports
+cnoreabbrev ml GoMetaLinter
+cnoreabbrev mlt GoMetaLinterAutoSaveToggle
 
 " XXX nvim loads plugins before ftplugin/go.vim -> g:go_doc_keywordprg_enabled
 " will not be set by the time vim-go is loaded -> 'K' will be mapped as :GoDoc
