@@ -836,6 +836,7 @@ noremap <C-t> <Nop>
 nnoremap <silent> <expr> <C-t><C-n> ":\<C-u>".(v:count ? v:count : "")."tabnew\<CR>"
 nnoremap <silent> <expr> <C-t><C-o> ":\<C-u>".(v:count ? v:count : "")."tabonly\<CR>"
 nnoremap <silent> <expr> <C-t><C-q> ":\<C-u>".(v:count ? v:count : "")."tabclose\<CR>"
+nnoremap <silent> <expr> <C-t><C-s> ":\<C-u>".(v:count ? v:count : "")."tab split\<CR>"
 nnoremap <C-t><C-f> <C-w>gf
 nnoremap <C-n> gt
 nnoremap <C-p> gT
@@ -1202,6 +1203,7 @@ cnoreabbrev tm TabnewMulti
 cnoreabbrev tnro tabnew <Bar> view
 cnoreabbrev spro split <Bar> view
 cnoreabbrev vsro vsplit <Bar> view
+cnoreabbrev ts tab split
 cnoreabbrev vb vertical sbuffer
 cnoreabbrev tb tab sbuffer
 cnoreabbrev vh vertical help <Bar> execute "normal! \<lt>C-w>80\<Bar>"<C-Left><C-Left><C-Left><C-Left><Left>
