@@ -109,7 +109,7 @@ nmap <buffer> ]t <Plug>(go-def-stack)
 cnoreabbrev bld GoBuild
 cnoreabbrev doc GoDocOf
 cnoreabbrev cov GoCoverage
-cnoreabbrev fmt GoFmt
+cnoreabbrev fm GoFmt
 cnoreabbrev grs GoGuruScope
 cnoreabbrev im GoImport
 cnoreabbrev ima GoImportAs
