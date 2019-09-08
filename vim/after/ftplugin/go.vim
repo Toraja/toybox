@@ -82,22 +82,6 @@ function! SwitchTermMode()
 endfunction
 command! -nargs=0 SwitchTermMode call SwitchTermMode()
 
-if !has('nvim') && (has('win32') || has('win64'))
-	" On Windows, it needs to be with '%'
-	nnoremap <silent> <buffer> <F6> :GoBuild %<CR>
-else
-	" On Linux, it needs to be without '%'
-	nnoremap <silent> <buffer> <F6> :GoBuild<CR>
-endif
-" nnoremap <silent> <buffer> <F7> :call MyMake(expand("%"))<CR>
-nnoremap <silent> <buffer> <F7> :call MyMake()<CR>
-nnoremap <silent> <buffer> <F8> :GoRun %<CR>
-nnoremap <silent> <buffer> <Leader><F8> :GoRun<CR>
-nnoremap <silent> <buffer> <F9> :GoTest<CR>
-nnoremap <silent> <buffer> <Leader><F9> :GoTestFunc<CR>
-nnoremap <silent> <buffer> <F10> :GoCoverageToggle<CR>
-nnoremap <buffer> <F1> :GoDoc<CR>
-
 nmap <buffer> gd <Plug>(go-def)
 nmap <buffer> <C-]> <Plug>(go-def)
 " use custom split/tab as vim-go providing function does not open window/tab
