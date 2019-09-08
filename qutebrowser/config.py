@@ -80,6 +80,11 @@ c.zoom.default = '125%'
 c.zoom.levels = ['25%', '33%', '50%', '67%', '75%', '90%', '100%', '110%', '125%', '150%', '175%', '200%', '250%', '300%', '400%', '500%']
 
 c.tabs.background = True
+c.url.searchengines = {
+    'DEFAULT': 'https://duckduckgo.com/?q={}',
+    'l': 'https://www.ldoceonline.com/dictionary/{}',
+    't': 'https://www.thesaurus.com/browse/{}?s=t'
+}
 
 # Bindings for normal mode
 config.bind('<Ctrl+n>', 'tab-next')
@@ -92,6 +97,7 @@ config.bind(';k', 'hint all delete')
 config.bind(';p', 'hint links run :open -p {hint-url}')
 config.unbind('<Ctrl+q>')
 config.bind('<Ctrl+Shift+q>', 'quit')
+config.unbind('<Ctrl+h>')
 
 # Bindings for command mode
 config.bind('<Alt+h>', 'rl-backward-kill-word', mode='command')
