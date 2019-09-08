@@ -117,9 +117,5 @@ cnoreabbrev ims GoImports
 cnoreabbrev ml GoMetaLinter
 cnoreabbrev mlt GoMetaLinterAutoSaveToggle
 
-" XXX nvim loads plugins before ftplugin/go.vim -> g:go_doc_keywordprg_enabled
-" will not be set by the time vim-go is loaded -> 'K' will be mapped as :GoDoc
-" -> Remap the overridden keymap
-nnoremap <buffer> K gT
 " --- || vim-go || }}}
 
