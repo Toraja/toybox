@@ -7,7 +7,7 @@ if has('unix')
     nnoremap <buffer> <F7> :silent lmake \| redraw! \| call system('gpicview ' . expand('%:p:r') . ".png &")<CR>
     nnoremap <buffer> <F8> :call system('gpicview ' . expand('%:p:r') . ".png &")<CR>
 " E484 Can't open file
-elseif has('win32') || has('win64')
+elseif has('win32')
 	setlocal makeprg=java\ -jar\ C:\Users\Asus\coding\tools\plantuml\plantuml.jar\ %
 	nnoremap <buffer> <F7> :silent lmake \| redraw! \| call system(expand('%:p:r') . ".png")<CR>
 	nnoremap <buffer> <F8> :call system(expand('%:p:r') . ".png")<CR>

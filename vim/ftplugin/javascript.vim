@@ -1,4 +1,4 @@
-if has('win32') || has('win64')
+if has('win32')
 	" the path must be to the shell file, not .cmd file. (.cmd file causes error)
 	let g:deoplete#sources#ternjs#tern_bin = $NodejsHome.'\tern'
 endif

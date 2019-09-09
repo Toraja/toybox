@@ -1,7 +1,7 @@
 " {{{ || vim-go || ---
 " Workaround to use script local variable in keymap
 function! s:GoCmds()
-			" \ 'b': (!has('nvim') && (has('win32') || has('win64'))) ? 'GoBuild %' : 'GoBuild',
+			" \ 'b': (!has('nvim') && has('win32')) ? 'GoBuild %' : 'GoBuild',
 			" \ 'B': printf('call MyMake("%s")', expand("%")),
 	return {
 				\ 'a': 'GoAlternateSplit',

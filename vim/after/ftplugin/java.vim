@@ -74,7 +74,7 @@ inoremap <buffer> <expr> <M-i> pumvisible() ? "\<C-n>" : "\<C-x>\<C-n>"
 
 " compile and run
 " nnoremap <buffer> <F7> :call Compile()<CR>
-if has('win32') || has('win64')
+if has('win32')
 	" FIXME error is not displayed properly on quickfix window...
 	" Probably an encoding issue
 	setlocal shellpipe=2>

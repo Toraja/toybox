@@ -1,7 +1,7 @@
 " {{{ || variables || ---
 " filereadable() does not expand ~ (tilde) to home directory.
 " Workaround is to use $HOME or expand()
-if has('win32') || has('win64')
+if has('win32')
 	let s:vimdir = expand("~/vimfiles")
 else
 	let s:vimdir = expand("~/.vim")
@@ -1155,7 +1155,7 @@ let g:LanguageClient_serverCommands = {
 " {{{ || deoplete || ---
 if exists('g:plugs["deoplete.nvim"]')
 	let g:deoplete#enable_at_startup = 1
-	if has('win32') || has('win64')
+	if has('win32')
 		" On Windows, it is 1 by default, and only available on nvim
 		" Seems not necessary to change on nvim (fast enough already)
 		" call deoplete#custom#option('num_processes', 2)

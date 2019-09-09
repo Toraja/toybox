@@ -11,7 +11,7 @@ highlight link QuickFixLine PmenuSbar
 " {{{ || Options ||---
 if has('nvim')
 	let g:Guifont='Consolas:h12'
-elseif has('win32') || has('win64')
+elseif has('win32')
 	set guifont=Lucida_Console:h11:cANSI:qDRAFT
 else
 	set guifont=Monospace\ 11
@@ -66,7 +66,7 @@ endif
 " {{{ || Autocmd || ---
 if has('autocmd')
 	" nvim does not support simalt
-	if !has('nvim') && (has('win32') || has('win64'))
+	if !has('nvim') && has('win32')
 		autocmd GUIEnter * simalt ~x
 	endif
 endif

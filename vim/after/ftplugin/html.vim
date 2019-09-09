@@ -22,7 +22,7 @@ inoreabbrev <buffer> dl <dl><CR><C-t><dt></dt><CR><dd></dd><CR><C-d></dl><Up><Up
 
 if has('unix')
 	nnoremap <buffer> <F8> :!firefox -new-window %<CR>
-elseif has('win32') || has('win64')
+elseif has('win32')
 	nnoremap <buffer> <F8> :call system(expand('%:p'))<CR>
 endif
 
