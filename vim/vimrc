@@ -1107,10 +1107,7 @@ map f <Plug>(easymotion-fl)
 map F <Plug>(easymotion-Fl)
 map t <Plug>(easymotion-tl)
 map T <Plug>(easymotion-Tl)
-map / <Plug>(easymotion-fn)
-map ? <Plug>(easymotion-Fn)
-nnoremap g/ /
-nnoremap g? ?
+map s/ <Plug>(easymotion-sn)
 map s. <Plug>(easymotion-repeat)
 map <Bslash> <Plug>(easymotion-next)
 map <Bar> <Plug>(easymotion-prev)
