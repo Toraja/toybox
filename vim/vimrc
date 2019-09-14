@@ -860,7 +860,8 @@ nnoremap <silent> <expr> <M-p> ":\<C-u>silent! tabmove-".v:count1."<CR>"
 " jump to last active tab
 if has('autocmd')
 	let g:lasttabnum = 1
-	augroup tab_leave
+	augroup last_tab
+		autocmd!
 		autocmd TabLeave * let g:lasttabnum = tabpagenr()
 	augroup END
 	nnoremap <silent> <C-t><C-t> :execute "tabnext " . g:lasttabnum<CR>
