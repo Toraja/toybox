@@ -984,11 +984,11 @@ nnoremap <Leader>n :NERDTreeToggle<CR>
 " NERDTreeAddKeyMap() adds new mapping, but does not override existing map (bug?)
 " So use autocmd to override the existing mappping
 " <buffer> is necessary to override
-augroup nerd_tree
-	autocmd!
-	autocmd FileType nerdtree nnoremap <buffer> J gt
-	autocmd FileType nerdtree nnoremap <buffer> K gT
-augroup END
+" augroup nerd_tree
+"     autocmd!
+"     autocmd FileType nerdtree nnoremap <buffer> J gt
+"     autocmd FileType nerdtree nnoremap <buffer> K gT
+" augroup END
 " --- || NERDTree || }}}
 
 " {{{ || jedi-vim || ---
