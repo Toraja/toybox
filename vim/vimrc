@@ -334,6 +334,7 @@ if filereadable(s:vimdir . "/autoload/plug.vim")
 	Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
 	Plug 'tpope/vim-surround'
 	Plug 'AndrewRadev/splitjoin.vim'
+	Plug 'dbakker/vim-projectroot'
 	Plug 'jiangmiao/auto-pairs'
 	Plug 'vim-syntastic/syntastic'
 	Plug 'ctrlpvim/ctrlp.vim'		" required by vim-go
@@ -1057,6 +1058,13 @@ let g:surround_{char2nr('s')} = "$(\r)"
 let g:surround_{char2nr('S')} = "\"$(\r)\""
 " --- || vim-surround || }}}
 
+" {{{ || vim-projectroot || ---
+if exists('g:plugs["vim-projectroot"]')
+	cnoreabbrev pj <C-r>=ProjectRootGuess()<C-m>
+endif
+" --- || vim-projectroot || }}}
+
+
 " {{{ || auto-pairs || ---
 if !exists('g:plugs["auto-pairs"]')
 	inoremap ' ''<Left>
@@ -1225,7 +1233,6 @@ cnoreabbrev bold browse oldfiles
 cnoreabbrev st new <Bar> terminal
 cnoreabbrev vt vnew <Bar> terminal
 cnoreabbrev nt tabnew <Bar> terminal
-cnoreabbrev pj <C-r>=$VIMPJROOT<C-m>
 cnoreabbrev tt SetTitle
 " --- || abbreviation || }}}
 
@@ -1782,6 +1789,6 @@ endfunction
 " --- || functions || }}}
 
 " load local vimrc
-if exists('$VIMPJROOT')
-	silent! source $VIMPJROOT/.vimrc_local
+if exists('g:plugs["vim-projectroot"]')
+	silent! execute 'source '.projectroot#guess().'/.vimrc_local'
 endif
