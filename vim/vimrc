@@ -287,6 +287,21 @@ if has("autocmd")
 		autocmd FileType help silent! call matchdelete(1)
 	augroup END
 
+	function! s:PreviousTab_StoreState()
+		let s:tab_current = tabpagenr()
+		let s:tab_last = tabpagenr('$')
+	endfunction
+	function! s:PreviousTab_TabClosed()
+		if s:tab_current > 1 && s:tab_current < s:tab_last
+			exec 'tabp'
+		endif
+	endfunction
+	augroup prev_tab
+		autocmd!
+		autocmd TabEnter,TabLeave * call s:PreviousTab_StoreState()
+		autocmd TabClosed * call s:PreviousTab_TabClosed()
+	augroup end
+
 	augroup misc
 		autocmd!
 		" fix windows size on resizing vim
