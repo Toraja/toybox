@@ -322,37 +322,44 @@ endif
 if filereadable(s:vimdir . "/autoload/plug.vim")
 	call plug#begin(s:vimdir . '/bundle')
 	Plug 'junegunn/vim-plug'
+	" git
 	Plug 'tpope/vim-fugitive'
 	Plug 'airblade/vim-gitgutter'
 	Plug 'zivyangll/git-blame.vim'
-	Plug 'tmux-plugins/vim-tmux-focus-events'
+	" look & feel
 	" Plug 'powerline/powerline'	" error occurs and donno how to fix
 	Plug 'vim-airline/vim-airline'
 	Plug 'vim-airline/vim-airline-themes'
-	Plug 'scrooloose/nerdcommenter'
-	Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
-	Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
-	Plug 'tpope/vim-surround'
-	Plug 'AndrewRadev/splitjoin.vim'
+	" finder (path/dir/file/buffer/tac/etc.)
+	Plug 'scrooloose/nerdtree' ", { 'on': 'NERDTreeToggle' }
 	Plug 'dbakker/vim-projectroot'
+	Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
+	Plug 'ctrlpvim/ctrlp.vim'		" required by vim-go GoDecls
+	Plug exists('fzfdir') ? fzfdir : '~/garage/tools/fzf'
+	Plug 'junegunn/fzf.vim'
+	" moving around
+	Plug 'easymotion/vim-easymotion'
+	" editting
+	Plug 'scrooloose/nerdcommenter'
+	Plug 'tpope/vim-surround'
 	Plug 'jiangmiao/auto-pairs'
-	Plug 'vim-syntastic/syntastic'
-	Plug 'ctrlpvim/ctrlp.vim'		" required by vim-go
+	Plug 'AndrewRadev/splitjoin.vim'
 	Plug 'tpope/vim-repeat'
-	Plug 'tpope/vim-abolish'
 	Plug 'junegunn/vim-easy-align'
+	Plug 'vim-syntastic/syntastic'
+	if has('nvim') " no completion for conventional vim as it takes so long to start up
+		Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+	endif
 	Plug 'autozimu/LanguageClient-neovim', {
 				\ 'branch': 'next',
 				\ 'do': has('win32') ? 'powershell install.ps1' : 'bash install.sh',
 				\ }
-	if has('nvim') " no completion for conventional vim as it takes so long to start up
-		Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-	endif
 	Plug 'SirVer/ultisnips'
 	Plug 'honza/vim-snippets'
-	Plug 'easymotion/vim-easymotion'
-	Plug exists('fzfdir') ? fzfdir : '~/garage/tools/fzf'
-	Plug 'junegunn/fzf.vim'
+	" misc
+	Plug 'tpope/vim-abolish'
+	Plug 'tmux-plugins/vim-tmux-focus-events'
+
 	" Language specific
 	Plug 'dag/vim-fish', { 'for': 'fish' }
 	if executable('npm')
@@ -937,7 +944,7 @@ endif
 " --- || vim-fugitive || }}}
 
 " {{{ || powerline / airline || ---
-if !exists('g:plugs["powerline"]') && !exists('g:plugs["vim-airline"]')
+if !(exists('g:plugs["powerline"]') || exists('g:plugs["vim-airline"]'))
 	set statusline=(%{winnr()})				" window number
 	set statusline+=%f						" relative path
 	set statusline+=[%{strlen(&fenc)?&fenc:'none'},%{&ff}]	" [file encoding,file format]
@@ -951,111 +958,102 @@ if exists('g:plugs["powerline"]')
 	python3 del powerline_setup
 elseif exists('g:plugs["vim-airline"]')
 	set noshowmode
-	" let g:airline_theme='base16color'
-	" let g:airline_theme='papercolor'
 	let g:airline_theme='cool'
 	let g:airline_section_c = '(%{winnr()}) %<%F%m %#__accent_red#%{airline#util#wrap(airline#parts#readonly(),0)}%#__restore__#'
 endif
 " --- || powerline / airline || }}}
 
 " {{{ || NERDCommenter || ---
-let g:NERDSpaceDelims = 1				" Add spaces after comment delimiters
-let g:NERDDefaultAlign = 'left'
-noremap <silent> <C-\> :call NERDComment("n","toggle")<CR>
-inoremap <silent> <C-\> <C-o>:call NERDComment("n","toggle")<CR>
+if exists('g:plugs["nerdcommenter"]')
+	let g:NERDSpaceDelims = 1				" Add spaces after comment delimiters
+	let g:NERDDefaultAlign = 'left'
+	noremap <silent> <C-\> :call NERDComment("n","toggle")<CR>
+	inoremap <silent> <C-\> <C-o>:call NERDComment("n","toggle")<CR>
+endif
 " --- || NERDCommenter || }}}
 
 " {{{ || NERDTree || ---
-let g:NERDTreeShowLineNumbers = 1
-let g:NERDTreeSortHiddenFirst = 1
-let g:NERDTreeShowHidden=1
-let g:NERDTreeQuitOnOpen=1
-nnoremap <Leader>n :NERDTreeToggle<CR>
-" call NERDTreeAddKeyMap({
-" \ 'key': 'J',
-" \ 'callback': {-> feedkeys('gt')},
-" \ 'quickhelpText': 'use my own J mapping',
-" \ 'override': 1})
-
-" call NERDTreeAddKeyMap({
-" \ 'key': 'K',
-" \ 'callback': {-> feedkeys('gt')},
-" \ 'quickhelpText': 'use my own K mapping',
-" \ 'override': 1})
-
-" NERDTreeAddKeyMap() adds new mapping, but does not override existing map (bug?)
-" So use autocmd to override the existing mappping
-" <buffer> is necessary to override
-" augroup nerd_tree
-"     autocmd!
-"     autocmd FileType nerdtree nnoremap <buffer> J gt
-"     autocmd FileType nerdtree nnoremap <buffer> K gT
-" augroup END
+if exists('g:plugs["nerdtree"]')
+	let g:NERDTreeShowLineNumbers = 1
+	let g:NERDTreeSortHiddenFirst = 1
+	let g:NERDTreeShowHidden=1
+	let g:NERDTreeQuitOnOpen=1
+	nnoremap <Leader>n :NERDTreeToggle<CR>
+	" call NERDTreeAddKeyMap({
+	"     \ 'key': 'J',
+	"     \ 'callback': {-> feedkeys('gt')},
+	"     \ 'quickhelpText': 'use my own J mapping',
+	"     \ 'scope': 'Node',
+	"     \ 'override': 1})
+	" call NERDTreeAddKeyMap({
+	"     \ 'key': 'K',
+	"     \ 'callback': {-> feedkeys('gt')},
+	"     \ 'quickhelpText': 'use my own K mapping',
+	"     \ 'scope': 'Node',
+	"     \ 'override': 1})
+	" NERDTreeAddKeyMap() overrides keybinds only with the same scope
+	" (J/K are 'Node' scope)
+	" So use autocmd to override no matter what scope default mapping is in
+	" <buffer> is necessary to override
+	" augroup nerd_tree
+	"     autocmd!
+	"     autocmd FileType nerdtree nnoremap <buffer> J gt
+	"     autocmd FileType nerdtree nnoremap <buffer> K gT
+	" augroup END
+endif
 " --- || NERDTree || }}}
 
-" {{{ || jedi-vim || ---
-" options
-let g:jedi#use_tabs_not_buffers = 1
-let g:jedi#popup_on_dot = 0
-" let g:jedi#popup_select_first = 0
-
-" disable default keymap
-" let g:jedi#goto_command = "<leader>d"
-" let g:jedi#goto_assignments_command = "<leader>g"
-" let g:jedi#goto_definitions_command = ""
-let g:jedi#documentation_command = "" "K
-let g:jedi#usages_command = "" "<leader>n
-let g:jedi#completions_command = "" "<C-Space>
-let g:jedi#rename_command = "" "<leader>r
-" --- || jedi-vim || }}}
-"
 " {{{ || tagbar || ---
-let g:tagbar_type_go = {
-			\ 'ctagstype' : 'go',
-			\ 'kinds'     : [
-				\ 'p:package',
-				\ 'i:imports:1',
-				\ 'c:constants',
-				\ 'v:variables',
-				\ 't:types',
-				\ 'n:interfaces',
-				\ 'w:fields',
-				\ 'e:embedded',
-				\ 'm:methods',
-				\ 'r:constructor',
-				\ 'f:functions'
-			\ ],
-			\ 'sro' : '.',
-			\ 'kind2scope' : {
-				\ 't' : 'ctype',
-				\ 'n' : 'ntype'
-			\ },
-			\ 'scope2kind' : {
-				\ 'ctype' : 't',
-				\ 'ntype' : 'n'
-			\ },
-			\ 'ctagsbin'  : 'gotags',
-			\ 'ctagsargs' : '-sort -silent'
-			\ }
-nnoremap <Leader>o :TagbarToggle<CR>
+if exists('g:plugs["tagbar"]')
+	let g:tagbar_type_go = {
+				\ 'ctagstype' : 'go',
+				\ 'kinds'     : [
+					\ 'p:package',
+					\ 'i:imports:1',
+					\ 'c:constants',
+					\ 'v:variables',
+					\ 't:types',
+					\ 'n:interfaces',
+					\ 'w:fields',
+					\ 'e:embedded',
+					\ 'm:methods',
+					\ 'r:constructor',
+					\ 'f:functions'
+				\ ],
+				\ 'sro' : '.',
+				\ 'kind2scope' : {
+					\ 't' : 'ctype',
+					\ 'n' : 'ntype'
+				\ },
+				\ 'scope2kind' : {
+					\ 'ctype' : 't',
+					\ 'ntype' : 'n'
+				\ },
+				\ 'ctagsbin'  : 'gotags',
+				\ 'ctagsargs' : '-sort -silent'
+				\ }
+	nnoremap <Leader>o :TagbarToggle<CR>
+endif
 " --- || tagbar || }}}
 
 " {{{ || vim-surround || ---
-" set characters and correspondng wrappers
-" value for variable have to be surrounded by "", not ''
-" pre-defined mappings that are useful are:
-" t: "<[tag]>\r</[tag]>" <- [tag] will be replaced by user input
-" f: "[function](\r)" <- [function] will be replaced by user input
-let g:surround_{char2nr('p')} = "(\r)"
-let g:surround_{char2nr('o')} = "[\r]"
-let g:surround_{char2nr('r')} = "{\r}"
-let g:surround_{char2nr('v')} = "<\r>"
-let g:surround_{char2nr('q')} = "\"\r\""
-let g:surround_{char2nr('x')} = "'\r'"
-let g:surround_{char2nr('d')} = "${\r}"
-let g:surround_{char2nr('D')} = "\"${\r}\""
-let g:surround_{char2nr('s')} = "$(\r)"
-let g:surround_{char2nr('S')} = "\"$(\r)\""
+if exists('g:plugs["vim-surround"]')
+	" set characters and correspondng wrappers
+	" value for variable have to be surrounded by "", not ''
+	" pre-defined mappings that are useful are:
+	" t: "<[tag]>\r</[tag]>" <- [tag] will be replaced by user input
+	" f: "[function](\r)" <- [function] will be replaced by user input
+	let g:surround_{char2nr('p')} = "(\r)"
+	let g:surround_{char2nr('o')} = "[\r]"
+	let g:surround_{char2nr('r')} = "{\r}"
+	let g:surround_{char2nr('v')} = "<\r>"
+	let g:surround_{char2nr('q')} = "\"\r\""
+	let g:surround_{char2nr('x')} = "'\r'"
+	let g:surround_{char2nr('d')} = "${\r}"
+	let g:surround_{char2nr('D')} = "\"${\r}\""
+	let g:surround_{char2nr('s')} = "$(\r)"
+	let g:surround_{char2nr('S')} = "\"$(\r)\""
+endif
 " --- || vim-surround || }}}
 
 " {{{ || vim-projectroot || ---
@@ -1098,43 +1096,47 @@ endif
 " --- || vim-repeat || }}}
 
 " {{{ || syntastic || ---
-" Do not complete automatically
-let g:syntastic_mode_map = {
-			\ "mode": "passive",
-			\ "active_filetypes": [],
-			\ "passive_filetypes": [] }
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_aggregating_errors = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 0
-let g:syntastic_check_on_wq = 0
+if exists('g:plugs["syntastic"]')
+	" Do not complete automatically
+	let g:syntastic_mode_map = {
+				\ "mode": "passive",
+				\ "active_filetypes": [],
+				\ "passive_filetypes": [] }
+	let g:syntastic_always_populate_loc_list = 1
+	let g:syntastic_aggregating_errors = 1
+	let g:syntastic_auto_loc_list = 1
+	let g:syntastic_check_on_open = 0
+	let g:syntastic_check_on_wq = 0
+endif
 " --- || end of syntastic || }}}
 
 " {{{ || easy-motion || ---
-" this option unmap all easymotion-prefix including user defined ones
-" let g:EasyMotion_do_mapping = 0
-let g:EasyMotion_smartcase = 1
-let g:EasyMotion_use_upper = 1
-let g:EasyMotion_keys = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ;'
-let g:EasyMotion_enter_jump_first = 1
-let g:EasyMotion_space_jump_first = 1
-let g:EasyMotion_off_screen_search = 1
-" this disables highlighting by `n` command, but you need easymotion-next/prev to move around
-let g:EasyMotion_add_search_history = 1
-let g:EasyMotion_startofline = 0
-" mapping easymotion-prefix prevents <Leader><Leader> from being mapped
-" map <S-F12> <Plug>(easymotion-prefix)
-nmap s <Plug>(easymotion-prefix)
-vmap s <Plug>(easymotion-prefix)
-omap v <Plug>(easymotion-prefix)
-map f <Plug>(easymotion-fl)
-map F <Plug>(easymotion-Fl)
-map t <Plug>(easymotion-tl)
-map T <Plug>(easymotion-Tl)
-map s/ <Plug>(easymotion-sn)
-map s. <Plug>(easymotion-repeat)
-map <Bslash> <Plug>(easymotion-next)
-map <Bar> <Plug>(easymotion-prev)
+if exists('g:plugs["vim-easymotion"]')
+	" this option unmap all easymotion-prefix including user defined ones
+	" let g:EasyMotion_do_mapping = 0
+	let g:EasyMotion_smartcase = 1
+	let g:EasyMotion_use_upper = 1
+	let g:EasyMotion_keys = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ;'
+	let g:EasyMotion_enter_jump_first = 1
+	let g:EasyMotion_space_jump_first = 1
+	let g:EasyMotion_off_screen_search = 1
+	" this disables highlighting by `n` command, but you need easymotion-next/prev to move around
+	let g:EasyMotion_add_search_history = 1
+	let g:EasyMotion_startofline = 0
+	" mapping easymotion-prefix prevents <Leader><Leader> from being mapped
+	" map <S-F12> <Plug>(easymotion-prefix)
+	nmap s <Plug>(easymotion-prefix)
+	vmap s <Plug>(easymotion-prefix)
+	omap v <Plug>(easymotion-prefix)
+	map f <Plug>(easymotion-fl)
+	map F <Plug>(easymotion-Fl)
+	map t <Plug>(easymotion-tl)
+	map T <Plug>(easymotion-Tl)
+	map s/ <Plug>(easymotion-sn)
+	map s. <Plug>(easymotion-repeat)
+	map <Bslash> <Plug>(easymotion-next)
+	map <Bar> <Plug>(easymotion-prev)
+endif
 " --- || easy-motion || }}}
 "
 " {{{ || fzf.vim || ---
@@ -1162,18 +1164,22 @@ endif
 " --- || ctrlp || }}}
 
 " {{{ || UltiSnips || ---
-let g:UltiSnipsExpandTrigger="<C-]>"
-let g:UltiSnipsJumpForwardTrigger="<C-s>"
-let g:UltiSnipsJumpBackwardTrigger="<M-s>"
+if exists('g:plugs["ultisnips"]')
+	let g:UltiSnipsExpandTrigger="<C-]>"
+	let g:UltiSnipsJumpForwardTrigger="<C-s>"
+	let g:UltiSnipsJumpBackwardTrigger="<M-s>"
+endif
 " --- || UltiSnips || }}}
 "
 " {{{ || LanguageClient-neovim || ---
-set hidden
-let g:LanguageClient_changeThrottle = 0.5
-let g:LanguageClient_diagnosticsList = "Location"
-let g:LanguageClient_serverCommands = {
-			\ 'go': ['gopls']
-			\ }
+if exists('g:plugs["LanguageClient-neovim"]')
+	set hidden
+	let g:LanguageClient_changeThrottle = 0.5
+	let g:LanguageClient_diagnosticsList = "Location"
+	let g:LanguageClient_serverCommands = {
+				\ 'go': ['gopls']
+				\ }
+endif
 " --- || LanguageClient-neovim || }}}
 
 " {{{ || deoplete || ---
