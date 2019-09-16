@@ -73,7 +73,7 @@ c.tabs.new_position.unrelated = 'last'
 
 # Default zoom level.
 # Type: Perc
-c.zoom.default = '125%'
+c.zoom.default = '150%'
 
 # Available zoom levels.
 # Type: List of Perc
@@ -85,6 +85,9 @@ c.url.searchengines = {
     'l': 'https://www.ldoceonline.com/dictionary/{}',
     't': 'https://www.thesaurus.com/browse/{}?s=t'
 }
+c.confirm_quit = ['downloads']
+c.new_instance_open_target = 'window'
+c.tabs.select_on_remove = 'last-used'
 
 # Bindings for normal mode
 config.bind('<Ctrl+n>', 'tab-next')
