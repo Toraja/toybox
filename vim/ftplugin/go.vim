@@ -2,7 +2,7 @@
 if exists('g:plugs["vim-go"]')
 	let g:go_doc_keywordprg_enabled = 0     " disable K to open GoDoc
 	" let g:go_autodetect_gopath = 1
-	let g:go_list_type = "locationlist"
+	" let g:go_list_type = "locationlist"
 	let g:go_def_mapping_enabled = 0		" prevent <C-t> from being mapped
 	let g:go_def_reuse_buffer = 0			" even when disabled, it goes to already opend window/tab
 	if !exists('g:go_auto_type_info')		" do not override when it is disabled manually
