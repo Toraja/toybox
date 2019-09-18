@@ -162,6 +162,7 @@ set splitbelow splitright				" splitted windows goes to below or right
 set showcmd								" Show (partial) command in status line.
 set lazyredraw							" screen will not be redrawn till macro execution is done
 set tags=./tags;,./TAGS;,tags;,TAGS;
+set diffopt+=vertical
 
 " << command mode >>
 set history=300
@@ -1810,6 +1811,29 @@ function! RunGoCommands(cmddict)
 
 	execute l:cmd
 endfunction
+
+function! s:diff(...)
+	if a:0 != 2
+		echoerr 'Diff takes exactly 2 arguments'
+		return
+	endif
+
+	let l:msgFileNotExists = '%s does not exist'
+	if !filereadable(a:1)
+		echoerr printf(l:msgFileNotExists, a:1)
+		return
+	endif
+	if !filereadable(a:2)
+		echoerr printf(l:msgFileNotExists, a:2)
+		return
+	endif
+
+	let l:fullpath1 = fnamemodify(a:1, ';p')
+	let l:fullpath2 = fnamemodify(a:2, ';p')
+	execute 'tabnew '.l:fullpath1
+	execute 'diffsplit '.l:fullpath2
+endfunction
+command! -complete=file -nargs=+ Diff :call s:diff(<f-args>)
 " --- || functions || }}}
 
 " load local vimrc
