@@ -1,5 +1,5 @@
-# Bash Tips
 ## SSH
+
 ### Connect without storing finger print  
 `ssh -o StrictHostKeyChecking=no`
 
@@ -18,8 +18,3 @@
 If keychain output warning message like below, update keychain as it is old and does not support
 OpenSSH 6.8+ format.  
 `Can't determine fingerprint from the following line, falling back to filename`
-
-## Misc
-### Increase command history
-`export HISTSIZE=2000`  
-
