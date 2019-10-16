@@ -357,6 +357,7 @@ if filereadable(s:vimdir . "/autoload/plug.vim")
 				\ }
 	Plug 'SirVer/ultisnips'
 	Plug 'honza/vim-snippets'
+	Plug 'vim-utils/vim-husk'
 	" misc
 	Plug 'tpope/vim-abolish'
 	Plug 'tmux-plugins/vim-tmux-focus-events'
@@ -431,17 +432,15 @@ vnoremap J j
 vnoremap K k
 
 " {{{ || insert/command mode || ---
-noremap! <C-b> <Left>
-noremap! <C-f> <Right>
-noremap! <M-f> <C-Right>
-noremap! <M-b> <C-Left>
+inoremap <C-b> <Left>
+inoremap <C-f> <Right>
+inoremap <M-f> <C-Right>
+inoremap <M-b> <C-Left>
 imap <silent> <Home> <C-o><Home>
 imap <C-a> <Home>
 inoremap <expr> <C-e> pumvisible() ? "\<C-e>" : "\<End>"
 inoremap <C-p> <Up>
 inoremap <C-n> <Down>
-cnoremap <C-a> <Home>
-cnoremap <C-e> <End>
 " --- || insert/command mode || }}}
 
 " [go to next/last upper case character]
@@ -524,11 +523,11 @@ vnoremap P "_c<C-r>"<Esc>
 " [insert/command mode]
 inoremap <C-w> <C-g>u<C-w>
 inoremap <C-u> <C-g>u<C-u>
-cnoremap <expr> <C-x> Expander()
+cnoremap <expr> <C-q> Expander()
 inoremap <expr> <C-y> pumvisible() ? "\<C-y>" : "<C-g>u\<C-r>\""
 cnoremap <C-y> <C-r>"
 noremap! <M-y> <C-r>*
-noremap! <C-d> <DEL>
+inoremap <C-d> <DEL>
 inoremap <M-d> <C-g>u<C-\><C-o>"_dw
 " inoremap <C-k> <C-g>u<C-\><C-o>"_D
 inoremap <M-h> <C-g>u<C-w>
@@ -938,11 +937,9 @@ nnoremap <silent> <Leader>b :buffers<CR>
 " [insert/command mode]
 cnoremap <C-j> <Tab>
 inoremap <M-o> <C-\><C-o>
-cnoremap <C-p> <Up>
-cnoremap <C-n> <Down>
-cnoremap <M-=> <C-d>
-cnoremap <M-?> <C-d>
-cnoremap <C-s> <C-f>
+cnoremap <expr> <C-p> wildmenumode() ? "\<C-p>" : "\<Up>"
+cnoremap <expr> <C-n> wildmenumode() ? "\<C-n>" : "\<Down>"
+cnoremap <M-i> <C-d>
 cnoremap <M-@> <Home>let @" = '<End>'
 " retry triggering abbreviation
 inoremap <C-g><C-]> <Esc>ciw<C-r>"<C-]>
@@ -1155,8 +1152,10 @@ if exists('g:plugs["fzf.vim"]')
 	cnoreabbrev fl  BLines
 	cnoreabbrev fw  Windows
 	cnoreabbrev fo  History
+	cnoreabbrev f:  History:
+	cnoreabbrev f/  History/
 	cnoreabbrev fca Commits
-	cnoreabbrev fc  Commits
+	cnoreabbrev fc  BCommits
 	cnoreabbrev fh  Helptags
 endif
 " --- || fzf.vim || }}}
