@@ -26,7 +26,6 @@ else
 	set visualbell t_vb=
 endif
 set t_Co=256							" enrich color
-set ttyfast								" smoothen scroll on terminal...?
 set number relativenumber				" show line number and distance relative to current line
 if !&diff && (has('gui') || has('unix') || has('nvim'))
 	set cursorline						" current line is underlined
