@@ -1083,21 +1083,7 @@ endif
 
 
 " {{{ || auto-pairs || ---
-if !exists('g:plugs["auto-pairs"]')
-	inoremap ' ''<Left>
-	inoremap '' ''
-	inoremap " ""<Left>
-	inoremap "" ""
-	inoremap ` ``<Left>
-	inoremap `` ``
-	inoremap { {}<Left>
-	inoremap {<CR> {<CR>}<Esc>O
-	inoremap {} {}
-	inoremap ( ()<Left>
-	inoremap () ()
-	inoremap [ []<Left>
-	inoremap [] []
-else
+if exists('g:plugs["auto-pairs"]')
 	let g:AutoPairsShortcutToggle = ''
 	let g:AutoPairsShortcutFastWrap = ''
 	let g:AutoPairsShortcutJump = ''
