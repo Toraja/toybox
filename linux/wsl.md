@@ -12,5 +12,4 @@ Refer to [this page](https://docs.microsoft.com/en-us/windows/wsl/wsl-config#set
 - Change `PasswordAuthentication` to `yes` if you want to ssh with password.
 
 ## Issues
-- docker deamon runs but cannot build images
 - qutebrowser crashes
