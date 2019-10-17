@@ -1,6 +1,6 @@
 ## Basic
 ### Shutdown the vm
-`wsl.exe --Shutdown`
+`wsl.exe --shutdown`
 
 ### Startup Configuration
 You can configure things like mount path, network and inter-operability by  
