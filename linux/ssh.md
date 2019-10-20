@@ -89,7 +89,7 @@ Centralised location such as `/etc/ssh/authorized_keys/%u` (`%u` means login use
 
 #### ssh login user
 Add a user and group for the user.  
-User added by `adduser --disabled-password` will be locked so you need to unlock is  
+User added by `adduser --disabled-password` will be locked so you need to unlock it  
 by running `password -u ${user}`.  
 Or, add a user with `useradd` command with option `-p '*'`.  
 In this way, the user will not be locked.  
