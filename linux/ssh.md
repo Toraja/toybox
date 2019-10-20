@@ -109,3 +109,36 @@ The contents of authorized_keys is simply copies of clients public key.
   Host <destination host>
     ProxyJump <jump server host>
   ```
+
+## X11 Forwarding
+
+### Setup
+
+#### Client
+
+##### Packages
+- xauth
+
+##### SSH Configuration
+**ssh_config**  
+- ForwardX11 yes  
+  (or add `-X` option to ssh command)
+
+##### Others
+- `DISPLAY` environment variable is set
+
+#### Server
+
+##### Packages
+- xauth
+- any GUI app (e.g. `xeyes`)
+
+##### SSH Configuration
+**sshd_config**  
+- X11Forwarding yes
+- X11UseLocalhost no
+
+### Via jump server
+- Origin and destination server must be set up as illustrated above.
+- Connect to destination server via jump server with port forwarding.
+- `X11Forwarding` does not have to be enabled on jump server.
