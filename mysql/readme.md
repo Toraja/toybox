@@ -1,24 +1,31 @@
 # How to MySQL
 
-<!-- TOC depthFrom:2 depthTo:6 withLinks:1 updateOnSave:1 orderedList:0 -->
+<!-- vim-markdown-toc GFM -->
 
-- [Setup](#setup)
-	- [Windows (zip archive)](#windows-zip-archive)
-	- [Linux (Zip archive)](#linux-zip-archive)
-	- [Linux (install from repository)](#linux-install-from-repository)
-- [Option File](#option-file)
-- [Note](#note)
-	- [Access MySQL server 8.0 or above from older client](#access-mysql-server-80-or-above-from-older-client)
-- [Usage](#usage)
-	- [Startup / Shutdown](#startup-shutdown)
-	- [Useful Options](#useful-options)
-	- [SQL Command reference](#sql-command-reference)
+* [Installation](#installation)
+  * [Windows](#windows)
+    * [Zip archive](#zip-archive)
+    * [Cygwin](#cygwin)
+  * [Linux](#linux)
+    * [Zip archive](#zip-archive-1)
+    * [Repository](#repository)
+* [Option File](#option-file)
+* [Note](#note)
+  * [Login mysql without sudo](#login-mysql-without-sudo)
+  * [In-Memory Table](#in-memory-table)
+  * [Access MySQL server 8.0 or above from older client](#access-mysql-server-80-or-above-from-older-client)
+* [Usage](#usage)
+  * [Startup / Shutdown](#startup--shutdown)
+  * [Useful Options](#useful-options)
+  * [SQL Command reference](#sql-command-reference)
 
-<!-- /TOC -->
+<!-- vim-markdown-toc -->
 
-## Setup
+## Installation
 
-### Windows (zip archive)
+### Windows
+
+#### Zip archive
 1. Place uncompressed mysql directory to a location you like. (the conventional directory name is "mysql")
 2. Create an option file ("my.ini" or "my.cnf") and place it under the above directory.  
 	Refer to [Option File](#option-file) for the detail.
@@ -28,11 +35,13 @@
 	(You might need to create the *datadir* specified in No.2 first.)
 4. Check if the directory contents exist.
 
-### Cygwin
+#### Cygwin
 1. Install using `setup-x86_64.exe`
 1. Run `mysql_install_db` to initialise system DB.
 
-### Linux (Zip archive)
+### Linux
+
+#### Zip archive
 After installing mysql, option files should be present in **/etc/mysql**.  
 To set user specific option, create **~/my.cnf**.  
 <mark>TODO</mark> <span style="color: green">/var/run issue</span>  
@@ -58,7 +67,7 @@ solve the problem, but doing so seems not so simple.)
 Sometimes, mysqld cannot be started even though /var/run/mysqld does exist.  
 In such case, run mysqld_safe.  
 
-### Linux (install from repository)
+#### Repository
 1. mysql repository can be added using rpm file (for Fedora base) which can be downloaded from mysql
    website.  
 2. It seems that mysqld can only be started as service (`systemctl mysqld start` for Fedora base).  
@@ -108,6 +117,11 @@ default-authentication-plugin=mysql_native_password
 ```
 
 ## Note
+
+### Login mysql without sudo
+Issue the command below:  
+`ALTER USER 'root@localhost' IDENTIFIED WITH mysql_native_password BY '<password>'`  
+(Provide empty string if you wish to login without password)
 
 ### In-Memory Table
 RDBMS uses memory rather than file system to store the data.  
