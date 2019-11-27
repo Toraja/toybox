@@ -29,12 +29,17 @@ function fish_user_key_bindings
     bind \cx\ca "commandline -a \" | xargs \"; commandline -f end-of-line"
 
     # wrapper
+    if type -q xsel
+        set -g clipbin xsel -i --clipboard
+    else if type -q xclip
+        set -g clipbin xclip -selection c
+    end
     if set -q TMUX
-        set -g copycmd 'tmux load-buffer -'
-    else if test -f /mnt/c/Windows/System32/clip.exe
+        set -g copycmd 'clip_tmux_buffer'
+    else if type -q clip.exe
         set -g copycmd 'clip.exe'
-    else if string match -qr xterm $TERM
-        set -g copycmd 'xclip -selection c'
+    else if string match -qr xterm $TERM; and set -q clipbin
+        set -g copycmd $clipbin
     end
 
     if set -q copycmd
