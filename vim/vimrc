@@ -1720,10 +1720,10 @@ function! SortItemsByValue(one, two)
 	return a:one[1] > a:two[1] ? 1 : -1
 endfunction
 
-" List up the vim-go commands with keys to trigger.
+" List up the commands in the given dictionary with keys to trigger.
 " Pressing flag key changes the way the function behaves.
 " @cmddict [dict] key: char to trigger the command, value command to run
-function! RunGoCommands(cmddict)
+function! Commander(cmddict)
 	let [l:keyMod, l:keyDisp, l:keyBang, l:keyHelp] = ['-', '_', '!', '?']
 	let l:flagDict = {
 				\ l:keyMod: 'Modify command',

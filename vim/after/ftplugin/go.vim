@@ -38,8 +38,8 @@ function! s:GoCmds()
 				\ 'W': 'SwitchTermMode "current mode = '.g:go_term_mode,
 				\ }
 endfunction
-command! RunGoCommands call RunGoCommands(<SID>GoCmds())
-nnoremap <buffer> - :call RunGoCommands(<SID>GoCmds())<CR>
+command! Commander call Commander(<SID>GoCmds())
+nnoremap <buffer> - :call Commander(<SID>GoCmds())<CR>
 command! -bang GoAlternateSplit call go#alternate#Switch(<bang>0, 'split')
 command! -bang GoAlternateVSplit call go#alternate#Switch(<bang>0, 'vsplit')
 
