@@ -132,8 +132,8 @@ function! Run(...)
 	echohl Comment | echo "Execution completed" | echohl NONE
 endfunction
 
-command! -nargs=* Run :call Run(<f-args>)
-command! Compile :call Compile()
+command! -buffer -nargs=* Run :call Run(<f-args>)
+command! -buffer Compile :call Compile()
 
 " <Q-mode>
 " g:getter, s:setter, b:both, p:paste from @s and format
@@ -280,6 +280,6 @@ function! GSetter(type, name)
 	return l:GSetter
 endfunction
 
-command! -nargs=+ Getter :call Getter(<f-args>)
-command! -nargs=+ Setter :call Setter(<f-args>)
-command! -nargs=+ GSetter :call GSetter(<f-args>)
+command! -buffer -nargs=+ Getter :call Getter(<f-args>)
+command! -buffer -nargs=+ Setter :call Setter(<f-args>)
+command! -buffer -nargs=+ GSetter :call GSetter(<f-args>)

@@ -38,10 +38,10 @@ function! s:GoCmds()
 				\ 'W': 'SwitchTermMode "current mode = '.g:go_term_mode,
 				\ }
 endfunction
-command! Commander call Commander(<SID>GoCmds())
+command! -buffer Commander call Commander(<SID>GoCmds())
 nnoremap <buffer> - :call Commander(<SID>GoCmds())<CR>
-command! -bang GoAlternateSplit call go#alternate#Switch(<bang>0, 'split')
-command! -bang GoAlternateVSplit call go#alternate#Switch(<bang>0, 'vsplit')
+command! -buffer -bang GoAlternateSplit call go#alternate#Switch(<bang>0, 'split')
+command! -buffer -bang GoAlternateVSplit call go#alternate#Switch(<bang>0, 'vsplit')
 
 " TODO file name of the status bar will still be the tempname() (redraw does not work)
 function! GoDocOf(item) abort
@@ -74,13 +74,13 @@ function! GoDocOf(item) abort
 	call setreg('"', l:regbk)
 	execute l:orgwinnr . "wincmd w"
 endfunction
-command! -nargs=1 GoDocOf call GoDocOf(<f-args>)
+command! -buffer -nargs=1 GoDocOf call GoDocOf(<f-args>)
 
 function! SwitchTermMode()
 	let g:go_term_mode = (g:go_term_mode == 'vsplit') ? 'split' : 'vsplit'
 	echo 'g:go_term_mode = '.g:go_term_mode
 endfunction
-command! -nargs=0 SwitchTermMode call SwitchTermMode()
+command! -buffer -nargs=0 SwitchTermMode call SwitchTermMode()
 
 nmap <buffer> gd <Plug>(go-def)
 nmap <buffer> <C-]> <Plug>(go-def)
