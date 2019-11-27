@@ -1,4 +1,4 @@
-function mkdirgo --description 'Create a directory and set CWD'
+function mkdirgo --wraps=mkdir --description 'Create a directory and set CWD'
 	command mkdir $argv
 	if test $status = 0
 		switch $argv[(count $argv)]
