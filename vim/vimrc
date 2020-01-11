@@ -340,13 +340,16 @@ if filereadable(s:vimdir . "/autoload/plug.vim")
 	" moving around
 	Plug 'easymotion/vim-easymotion'
 	" editting
+	Plug 'Yggdroot/indentLine'
 	Plug 'scrooloose/nerdcommenter'
+	Plug 'arthurxavierx/vim-caser'
 	Plug 'tpope/vim-surround'
 	Plug 'jiangmiao/auto-pairs'
 	Plug 'AndrewRadev/splitjoin.vim'
 	Plug 'tpope/vim-repeat'
 	Plug 'junegunn/vim-easy-align'
 	Plug 'vim-syntastic/syntastic'
+	Plug 'Chiel92/vim-autoformat' " autocmd ':Autoformat' in ftplugin of desired language so that it will not interfere with other plugins (such as vim-go)
 	if has('nvim') " no completion for conventional vim as it takes so long to start up
 		Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 	endif
