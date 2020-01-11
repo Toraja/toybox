@@ -1114,6 +1114,11 @@ if exists('g:plugs["syntastic"]')
 endif
 " --- || end of syntastic || }}}
 
+" {{{ || vim-autoformat || ---
+" tilde (~) must be expanded
+let g:formatterpath = [expand('~').'/.local/bin']
+" --- || vim-autoformat || }}}
+
 " {{{ || easy-motion || ---
 if exists('g:plugs["vim-easymotion"]')
 	" this option unmap all easymotion-prefix including user defined ones
@@ -1183,7 +1188,8 @@ if exists('g:plugs["LanguageClient-neovim"]')
 	let g:LanguageClient_changeThrottle = 0.5
 	let g:LanguageClient_diagnosticsList = "Location"
 	let g:LanguageClient_serverCommands = {
-				\ 'go': ['gopls']
+				\ 'go': ['gopls'],
+				\ 'python': ['~/.local/bin/pyls']
 				\ }
 endif
 " --- || LanguageClient-neovim || }}}
