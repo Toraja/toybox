@@ -41,8 +41,9 @@ abbr --add --global apd sudo apt update
 abbr --add --global apg sudo apt upgrade
 abbr --add --global apl apt list
 abbr --add --global aplg apt list --upgradable
-## fish
+## shell
 abbr --add --global mg mkdirgo
+abbr --add --global fig find -type f -exec grep -Hn {} \\\;
 ## git
 abbr --add --global gb git branch
 abbr --add --global gs git status
