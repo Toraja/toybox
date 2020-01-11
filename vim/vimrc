@@ -360,6 +360,7 @@ if filereadable(s:vimdir . "/autoload/plug.vim")
 	" misc
 	Plug 'tpope/vim-abolish'
 	Plug 'tmux-plugins/vim-tmux-focus-events'
+	Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }} " hook cannot be called (function not found) if language specific
 
 	" Language specific
 	Plug 'dag/vim-fish', { 'for': 'fish' }
@@ -373,7 +374,6 @@ if filereadable(s:vimdir . "/autoload/plug.vim")
 	Plug 'myhere/vim-nodejs-complete', { 'for': 'javascript' }
 	Plug 'moll/vim-node', { 'for': 'javascript' }
 	Plug 'fatih/vim-go', { 'for': 'go', 'do': ':GoUpdateBinaries', 'tag': '*' }
-	Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': 'markdown' } " Install this on markdown file or function cannot be found
 	Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }
 	Plug 'mzlogin/vim-markdown-toc', { 'for': 'markdown' }
 	Plug 'dhruvasagar/vim-table-mode', { 'for': 'markdown' }
