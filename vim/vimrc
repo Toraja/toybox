@@ -958,6 +958,10 @@ if exists('g:plugs["vim-fugitive"]')
 	cnoreabbrev glg vertical sbuffer <Bar> Gllog
 	cnoreabbrev gcm Gcommit -m
 	cnoreabbrev gd Gdiffsplit
+	nnoremap <Leader>gs :tab Gstatus<CR>
+	nnoremap <Leader>gl :tab Git log<CR>
+	nnoremap [Chief]gs :vert Gstatus<CR>
+	nnoremap [Chief]gl :vert Git log<CR>
 endif
 " --- || vim-fugitive || }}}
 
