@@ -529,7 +529,7 @@ cnoremap <C-y> <C-r>"
 noremap! <M-y> <C-r>*
 inoremap <C-d> <DEL>
 inoremap <M-d> <C-g>u<C-\><C-o>"_dw
-" inoremap <C-k> <C-g>u<C-\><C-o>"_D
+inoremap <C-k> <C-g>u<C-\><C-o>"_D
 inoremap <M-h> <C-g>u<C-w>
 cnoremap <M-h> <C-w>
 inoremap <M-n> <C-e>
@@ -543,10 +543,8 @@ inoremap <M-c> <Esc>guiwgU<right>ea
 nnoremap <CR> i<CR><Esc>
 nnoremap <M-m> mpo<Esc>0Dg`p|	"insert blank line below
 nnoremap <M-M> mpO<Esc>0Dg`p|	"insert blank line above
-nnoremap <C-j> o<Esc>
-nnoremap <C-k> O<Esc>
-inoremap <C-j> <Esc>o
-inoremap <C-k> <Esc>O
+inoremap <C-g><C-m> <Esc>o
+inoremap <M-m> <Esc>O
 " [Other editing]
 vnoremap y ygv<Esc>|	"place cursor after the selection when yanking
 noremap Y y$
