@@ -547,8 +547,6 @@ nnoremap <C-j> o<Esc>
 nnoremap <C-k> O<Esc>
 inoremap <C-j> <Esc>o
 inoremap <C-k> <Esc>O
-nnoremap gj J
-vnoremap gj J
 " [Other editing]
 vnoremap y ygv<Esc>|	"place cursor after the selection when yanking
 noremap Y y$
