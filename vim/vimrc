@@ -1010,6 +1010,11 @@ if exists('g:plugs["nerdtree"]')
 	"     autocmd FileType nerdtree nnoremap <buffer> J gt
 	"     autocmd FileType nerdtree nnoremap <buffer> K gT
 	" augroup END
+	cnoreabbrev ndt NERDTree
+	cnoreabbrev ndtv NERDTreeVCS
+	cnoreabbrev ndtb NERDTreeFromBookmark
+	cnoreabbrev ndtf NERDTreeFind
+	cnoreabbrev ndtc NERDTreeCWD
 endif
 " --- || NERDTree || }}}
 
