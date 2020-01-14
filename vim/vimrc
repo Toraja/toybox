@@ -508,11 +508,9 @@ nnoremap [t <C-t>
 nnoremap ]t :tag<CR>
 " [always use 'tjumg']
 nnoremap <Leader><C-]> <C-w><C-v>g<C-]>
-vnoremap <Leader><C-]> <C-w><C-v>gvg<C-]>
-noremap <C-]> g<C-]>
-noremap g<C-]> <C-]>
+nnoremap <C-]> g<C-]>
+nnoremap g<C-]> <C-]>
 nnoremap <C-t><C-]> :tab stjump <C-r><C-w><CR>
-vnoremap <C-t><C-]> y:tab stjump <C-r>"<CR>
 " --- || tag || }}}
 
 " {{{ || editing || ---
