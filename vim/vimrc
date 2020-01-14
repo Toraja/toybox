@@ -1181,6 +1181,7 @@ if exists('g:plugs["ultisnips"]')
 	let g:UltiSnipsExpandTrigger="<C-]>"
 	let g:UltiSnipsJumpForwardTrigger="<C-s>"
 	let g:UltiSnipsJumpBackwardTrigger="<M-s>"
+	cnoreabbrev us call UltiSnips#
 endif
 " --- || UltiSnips || }}}
 "
