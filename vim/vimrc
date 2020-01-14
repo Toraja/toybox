@@ -536,15 +536,9 @@ inoremap <M-n> <C-e>
 inoremap <M-p> <C-y>
 inoremap <M-t> <C-d>
 " [UPPER/lowercase & Capitalize]
-nnoremap gu gU
 inoremap <M-u> <Esc>gUiwea
-inoremap <M-U> <Esc>gUiWEa
-nnoremap gl gu
 inoremap <M-l> <Esc>guiwea
-inoremap <M-L> <Esc>guiWEa
-nnoremap gc guiwgU<right>e
 inoremap <M-c> <Esc>guiwgU<right>ea
-inoremap <M-C> <Esc>guiWgU<right>Ea
 " [Line break/join]
 nnoremap <CR> i<CR><Esc>
 nnoremap <M-m> mpo<Esc>0Dg`p|	"insert blank line below
