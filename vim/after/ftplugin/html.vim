@@ -1,3 +1,5 @@
+set expandtab shiftwidth=2 tabstop=2
+
 if has('unix')
 	nnoremap <buffer> <F8> :!firefox -new-window %<CR>
 elseif has('win32')
