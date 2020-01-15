@@ -525,7 +525,7 @@ inoremap <C-w> <C-g>u<C-w>
 inoremap <C-u> <C-g>u<C-u>
 cnoremap <expr> <C-q> Expander()
 inoremap <expr> <C-y> pumvisible() ? "\<C-y>" : "<C-g>u\<C-r>\""
-cnoremap <C-y> <C-r>"
+cnoremap <expr> <C-y> wildmenumode() ? "\<C-e>" : "\<C-r>\""
 noremap! <M-y> <C-r>*
 inoremap <C-d> <DEL>
 inoremap <M-d> <C-g>u<C-\><C-o>"_dw
