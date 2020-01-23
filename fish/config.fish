@@ -48,7 +48,7 @@ abbr --add --global fig find -type f -exec grep -Hn {} \\\;
 abbr --add --global gb git branch
 abbr --add --global gs git status
 abbr --add --global gl git log
-abbr --add --global glf git log --oneline \| fzf | awk '{print $1}'
+abbr --add --global glf 'git log --oneline | fzf | awk \'{print $1}\''
 abbr --add --global gd git diff
 abbr --add --global gdc git diff --cached
 abbr --add --global gdt git difftool
