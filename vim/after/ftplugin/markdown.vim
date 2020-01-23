@@ -8,16 +8,34 @@ setlocal fileformat=unix
 
 " --- vim-markdown ----------{{{
 silent! syntax clear mkdLineBreak
-nmap <M-N> <Plug>Markdown_MoveToNextHeader
-nmap <M-P> <Plug>Markdown_MoveToPreviousHeader
-" nnoremap [FTLeader]<C-v> :let t:winnum = winnr()<CR>:Tocv<CR>:silent execute t:winnum . 'wincmd w'<CR>
-nnoremap <LocalLeader><C-v> :let t:winnum = winnr()<CR>:Tocv<CR>:silent execute t:winnum . 'wincmd w'<CR>
-nnoremap <LocalLeader><C-s> :let t:winnum = winnr()<CR>:Toch<CR>:silent execute t:winnum . 'wincmd w'<CR>
-nnoremap <LocalLeader>- :HeaderDecrease<CR>
-nnoremap <LocalLeader>= :HeaderIncrease<CR>
-" nnoremap [FTLeader]<C-s> :let t:winnum = winnr()<CR>:Toch<CR>:silent execute t:winnum . 'wincmd w'<CR>
-" nnoremap [FTLeader]- :HeaderDecrease<CR>
-" nnoremap [FTLeader]= :HeaderIncrease<CR>
+nnoremap <buffer> <silent> <Leader>o :call Tocker(0)<CR>
+nnoremap <buffer> <silent> <Leader>O :call Tocker(1)<CR>
+nnoremap <buffer> <silent> <LocalLeader>- :HeaderDecrease<CR>
+nnoremap <buffer> <silent> <LocalLeader>= :HeaderIncrease<CR>
+
+function! Tocker(focus)
+	if get(b:, 'toc_win_id')
+		let l:toc_winnr = win_id2win(b:toc_win_id)
+		if l:toc_winnr
+			if a:focus
+				execute l:toc_winnr . 'wincmd w'
+				return
+			endif
+			silent! execute l:toc_winnr.'close'
+			return
+		endif
+	endif
+
+	let t:toc_org_winnr = winnr()
+	Toc
+	let l:toc_win_id = bufwinid('')
+	let b:toc_win_id = l:toc_win_id " for toc buffer
+	execute t:toc_org_winnr . 'wincmd w'
+	let b:toc_win_id = l:toc_win_id " for the buffer toc is for
+	if a:focus
+		execute win_id2win(b:toc_win_id).'wincmd w'
+	endif
+endfunction
 " --- end of vim-markdown ---}}}
 
 " {{{ || vim-table-mode || ---
@@ -25,7 +43,6 @@ nnoremap <LocalLeader>= :HeaderIncrease<CR>
 " silent TableModeEnable
 " --- || vim-markdown || }}}
 
-" TODO add styling mapping using ys (vim-surround)
 inoremap <buffer> _ __<Left>
 inoremap <buffer> * ****<Left><Left>
 inoremap <buffer> *<Space> *<Space>
