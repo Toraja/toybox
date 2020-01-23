@@ -941,13 +941,14 @@ inoremap <C-g><C-]> <Esc>ciw<C-r>"<C-]>
 
 " {{{ || vim-fugitive || ---
 if exists('g:plugs["vim-fugitive"]')
+	let g:fugitive_no_maps = 1
 	cnoreabbrev gs Gstatus
 	cnoreabbrev gl Git log
 	cnoreabbrev glg vertical sbuffer <Bar> Gllog
 	cnoreabbrev gcm Gcommit -m
 	cnoreabbrev gd Gdiffsplit
-	nnoremap <Leader>gs :tab Gstatus<CR>
-	nnoremap <Leader>gl :tab Git log<CR>
+	nnoremap <C-t>gs :tab Gstatus<CR>
+	nnoremap <C-t>gl :tab Git log<CR>
 	nnoremap [Chief]gs :vert Gstatus<CR>
 	nnoremap [Chief]gl :vert Git log<CR>
 endif
