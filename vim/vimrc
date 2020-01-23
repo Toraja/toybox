@@ -1053,6 +1053,7 @@ if exists('g:plugs["tagbar"]')
 				\ 'ctagsargs' : '-sort -silent'
 				\ }
 	nnoremap <Leader>o :TagbarToggle<CR>
+	nnoremap <Leader>O :TagbarOpen fj<CR>
 endif
 " --- || tagbar || }}}
 
