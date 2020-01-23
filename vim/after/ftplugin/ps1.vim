@@ -1,1 +1,1 @@
-set noshellslash
+setlocal noshellslash

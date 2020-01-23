@@ -38,7 +38,7 @@ if exists('g:plugs["vim-go"]')
 	let g:go_metalinter_deadline = "10s"
 
 	" gopls
-	set cmdheight=2 " goinfo by gopls displays comment as well as signature
+	setlocal cmdheight=2 " goinfo by gopls displays comment as well as signature
 	let g:go_def_mode='gopls'
 	let g:go_info_mode='gopls'
 endif
