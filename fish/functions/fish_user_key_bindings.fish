@@ -29,23 +29,26 @@ function fish_user_key_bindings
     bind \cx\ca "commandline -a \" | xargs \"; commandline -f end-of-line"
 
     # wrapper
-    if type -q xsel
-        set -g clipbin xsel -i --clipboard
+    # clipbin is exported to use inside tmux.conf
+    if type -q clip.exe
+        set -gx clipbin 'clip.exe'
+    else if type -q xsel
+        set -gx clipbin xsel -i --clipboard
     else if type -q xclip
-        set -g clipbin xclip -selection c
+        set -gx clipbin xclip -selection c
     end
     if set -q TMUX
-        set -g copycmd 'clip_tmux_buffer'
-    else if type -q clip.exe
-        set -g copycmd 'clip.exe'
-    else if string match -qr xterm $TERM; and set -q clipbin
-        set -g copycmd $clipbin
+        set -g clipper 'clip_to_tmux'
+        # Below does not work (`and` command not found), so keep using the function above
+        # set -g clipper tmux load-buffer -\; and tmux save-buffer - \| $clipbin
+    else if set -q clipbin
+        set -g clipper $clipbin
     end
 
-    if set -q copycmd
-        bind \cq "commandline -a \" | $copycmd\""
-        bind \eq wrap_in_echo_single
-        bind \e\cq wrap_in_echo_double
+    if set -q clipper
+        bind \cq 'commandline -a \' | $clipper\''
+        bind \eq 'wrap_in_echo_single \'$clipper\''
+        bind \e\cq 'wrap_in_echo_double \'$clipper\''
     end
 
     function bind_wrapper

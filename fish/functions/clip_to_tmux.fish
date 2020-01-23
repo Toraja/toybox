@@ -1,4 +1,4 @@
-function clip_tmux_buffer --description 'copy tmux buffer to clipboard'
+function clip_to_tmux --description 'send stdin to tmux buffer and clipboard (if any command is available)'
     read stdin
     echo -n $stdin | tmux load-buffer -
     # $clipbin is set inside fish_user_key_bindings()
@@ -7,3 +7,4 @@ function clip_tmux_buffer --description 'copy tmux buffer to clipboard'
     # Mere variable expansion (without `eval`) results in error
     echo -n $stdin | eval $clipbin
 end
+
