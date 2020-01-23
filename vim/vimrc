@@ -544,7 +544,7 @@ inoremap <M-u> <Esc>gUiwea
 inoremap <M-l> <Esc>guiwea
 inoremap <M-c> <Esc>guiwgU<right>ea
 " [Line break/join]
-nnoremap <CR> i<CR><Esc>
+nnoremap <expr> <CR> &filetype == 'qf' ? "\<CR>" : "i\<CR>\<Esc>"
 nnoremap <M-m> mpo<Esc>0Dg`p|	"insert blank line below
 nnoremap <M-M> mpO<Esc>0Dg`p|	"insert blank line above
 inoremap <C-g><C-m> <Esc>o
