@@ -87,7 +87,7 @@ nmap <buffer> <C-]> <Plug>(go-def)
 " use custom split/tab as vim-go providing function does not open window/tab
 " if the destination is on the same file
 nmap <buffer> <C-w><C-]> <C-w>s<Plug>(go-def)
-nmap <buffer> <Leader><C-]> <C-w>v<Plug>(go-def)
+nmap <buffer> [Chief]<C-]> <C-w>v<Plug>(go-def)
 nmap <buffer> <C-t><C-]> :tab split<CR><Plug>(go-def)
 nmap <buffer> [t <Plug>(go-def-pop)
 nmap <buffer> ]t <Plug>(go-def-stack)
