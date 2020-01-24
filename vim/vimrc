@@ -1684,16 +1684,7 @@ function! Toggler()
 				\ 'w': 'wrap'
 				\ }
 	call DispOptions('Toggle option', l:options, 'Press a key: ')
-	try
-		call inputsave()
-		let l:userinput = nr2char(getchar())
-	catch /^Vim:Interrupt$/
-		redraw
-		echo 'Cancelled'
-		return
-	finally
-		call inputrestore()
-	endtry
+	let l:userinput = GetChar()
 	" string == 0 is true so must return the default value
 	let l:option = get(l:options, l:userinput, "")
 	redraw	" clear concole so that 'Press ENTER or ...' will not be shown
