@@ -1595,6 +1595,27 @@ endfunction
 command! -complete=shellcmd -nargs=+ OutputExtCmdToQF :call <SID>extCmdToQF(function('s:lgetexpr_system'), <q-args>)
 command! -complete=shellcmd -nargs=+ AppendExtCmdToQF :call <SID>extCmdToQF(function('s:laddexpr_system'), <q-args>)
 
+" redirect the output of external command into preview window
+function! s:extCmdToPreview(cmd, append)
+	if !a:append
+		execute printf('pedit [%s]', a:cmd)
+	endif
+
+	try
+		wincmd P
+	catch /^Vim\%((\a\+)\)\=:E441:/
+		call s:extCmdToPreview(a:cmd, v:false)
+		return
+	endtry
+
+	let l:vimcmd = a:append ? '$read !' :'%! ' 
+	execute l:vimcmd.a:cmd
+	setlocal nomodified
+	wincmd p
+endfunction
+command! -complete=shellcmd -nargs=+ OutputExtCmdToPreview call <SID>extCmdToPreview(<q-args>, v:false)
+command! -complete=shellcmd -nargs=+ AppendExtCmdToPreview call <SID>extCmdToPreview(<q-args>, v:true)
+
 function! SetOperatorFunc(funcname)
 	execute 'set operatorfunc=' . a:funcname
 	echohl Identifier | echon a:funcname | echohl NONE
