@@ -1739,25 +1739,20 @@ endfunction
 
 " List up the commands in the given dictionary with keys to trigger.
 " Pressing flag key changes the way the function behaves.
-" @cmddict [dict] key: char to trigger the command, value command to run
-function! RunCommands(cmddict)
+" @cmddict [dict] key: char to trigger the command, value: command to run
+" @title [string] text to display when invoked
+function! RunCommands(cmddict, title)
 	let [l:keyMod, l:keyDisp, l:keyBang, l:keyHelp] = ['-', '_', '!', '?']
 	let l:flagDict = {
 				\ l:keyMod: 'Modify command',
 				\ l:keyDisp: 'Display commands',
 				\ l:keyBang: 'Run with !',
 				\}
-	let l:helpMsg = []
-	for [k,v] in items(l:flagDict)
-		call add(l:helpMsg, printf('%s(%s)', v, k))
-		unlet k v
-	endfor
-	echohl Function | echo printf('-- RunCommands -> %s: ', join(l:helpMsg, ', ')) | echohl NONE
+	call DispOptionsOneLine(a:title, l:flagDict)
 
 	let l:selectedFlag = ''
-	let l:modify = 0
-	let l:bang = 0
-	while 1
+	let [l:modify, l:bang] = [0, 0]
+	while v:true
 		let l:userInput = GetChar()
 		if l:userInput is 0
 			return
@@ -1766,10 +1761,11 @@ function! RunCommands(cmddict)
 		silent! let l:flagSelected = remove(l:flagDict, l:userInput) is 0
 		if l:flagSelected
 			break
+		elseif l:userInput != l:keyDisp
+			let l:selectedFlag .= l:userInput
 		endif
 		if l:userInput == l:keyMod
 			let l:modify = 1
-			let l:selectedFlag .= l:keyMod
 			echohl Function | echon l:keyMod | echohl NONE
 			continue
 		elseif l:userInput == l:keyDisp
@@ -1778,15 +1774,13 @@ function! RunCommands(cmddict)
 			continue
 		elseif l:userInput == l:keyBang
 			let l:bang = 1
-			let l:selectedFlag .= l:keyBang
 			echohl Function | echon l:keyBang | echohl NONE
-		else
-			break
+			continue
 		endif
 	endwhile
 
 	redraw	" clear concole so that 'Press ENTER or ...' will not be shown
-	let l:cmd = get(a:cmddict, l:userInput, "")
+	let l:cmd = get(a:cmddict, l:userInput, '')
 	if l:cmd == ''
 		" user press an unavailable key
 		echohl WarningMsg | echo printf('"%s" is not available.', l:userInput) | echohl NONE
