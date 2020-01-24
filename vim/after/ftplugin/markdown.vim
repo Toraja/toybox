@@ -26,11 +26,12 @@ function! Tocker(focus)
 		endif
 	endif
 
-	let t:toc_org_winnr = winnr()
 	Toc
 	let l:toc_win_id = bufwinid('')
-	let b:toc_win_id = l:toc_win_id " for toc buffer
-	execute t:toc_org_winnr . 'wincmd w'
+	nnoremap <buffer> <silent> <Leader>o :close<CR>
+	nnoremap <buffer> <silent> <Leader>O <Nop>
+	nnoremap <buffer> <silent> q :close<CR>
+	wincmd p
 	let b:toc_win_id = l:toc_win_id " for the buffer toc is for
 	if a:focus
 		execute win_id2win(b:toc_win_id).'wincmd w'
