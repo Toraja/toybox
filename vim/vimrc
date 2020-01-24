@@ -993,7 +993,6 @@ if exists('g:plugs["nerdtree"]')
 	let g:NERDTreeSortHiddenFirst = 1
 	let g:NERDTreeShowHidden=1
 	let g:NERDTreeQuitOnOpen=1
-	nnoremap <Leader>n :NERDTreeToggle<CR>
 	" call NERDTreeAddKeyMap({
 	"     \ 'key': 'J',
 	"     \ 'callback': {-> feedkeys('gt')},
@@ -1015,11 +1014,54 @@ if exists('g:plugs["nerdtree"]')
 	"     autocmd FileType nerdtree nnoremap <buffer> J gt
 	"     autocmd FileType nerdtree nnoremap <buffer> K gT
 	" augroup END
-	cnoreabbrev ndt NERDTree
-	cnoreabbrev ndtv NERDTreeVCS
-	cnoreabbrev ndtb NERDTreeFromBookmark
-	cnoreabbrev ndtf NERDTreeFind
-	cnoreabbrev ndtc NERDTreeCWD
+	function! s:NERDTreeCmds()
+		return {
+					\ 't': 'Toggle',
+					\ 'o': 'Focus',
+					\ 'v': 'VCS',
+					\ 'b': 'FromBookmark',
+					\ 'f': 'Find',
+					\ 'c': 'CWD',
+					\ 'r': 'RefreshRoot',
+					\ }
+	endfunction
+	let s:NERDTreeAlwaysModifyList = [
+				\ 'b'
+				\ ]
+	function! RunNERDTree(cmds)
+		call DispOptionsOneLine("NERDTree", a:cmds)
+		let l:modify = 0
+		while v:true
+			let l:user_input = GetChar()
+			if l:user_input is 0
+				return
+			endif
+			if l:user_input == "\<Space>" && !l:modify
+				let l:modify = 1
+				continue
+			else
+				break
+			endif
+		endwhile
+
+		if index(s:NERDTreeAlwaysModifyList, l:user_input) >= 0
+			let l:modify = 1
+		endif
+
+		let l:cmd = get(a:cmds, l:user_input, '')
+		if l:cmd == ''
+			" user press an unavailable key
+			echohl WarningMsg | echo printf('"%s" is not available.', l:user_input) | echohl NONE
+			return
+		endif
+
+		if !l:modify
+			let l:cmd .= "\<CR>"
+		endif
+
+		return ':NERDTree'.l:cmd."\<Space>"
+	endfunction
+	nnoremap <expr> [Chief]t RunNERDTree(<SID>NERDTreeCmds())
 endif
 " --- || NERDTree || }}}
 
