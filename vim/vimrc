@@ -128,9 +128,8 @@ highlight TabLine term=reverse cterm=bold,reverse gui=reverse
 set tabstop=4 noexpandtab shiftwidth=4	" change tab width
 set autoindent smartindent				" indentation support
 set shiftround							" round tab width for > and < command
-set autowrite
 set fileformats=unix,dos,mac			" Prefer Unix over Windows over OSX formats
-set listchars=space:*,tab:<-			" Show unvisible chars
+set listchars=tab:\|\                   " Show unvisible chars
 set backspace=indent,eol,start			" Enable backspace to wrap line and delete break
 set virtualedit=block					" Allow cursor to move beyond the EOL when visual-block mode
 set iminsert=0 imsearch=-1				" prevent entering Japaneve input mode when entering insert and search mode
