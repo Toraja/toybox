@@ -19,5 +19,5 @@ endfunction
 
 command! -buffer Run vsplit | terminal python %
 
-command! -buffer Commander call Commander(<SID>PyCmds())
-nnoremap <buffer> - :call Commander(<SID>PyCmds())<CR>
+command! -buffer RunCommands call RunCommands(<SID>PyCmds())
+nnoremap <buffer> - :call RunCommands(<SID>PyCmds())<CR>
