@@ -1570,33 +1570,30 @@ function! OutputExtCmdToCmdlind(cmd)
 	echo system(a:cmd)
 endfunction
 command! -complete=shellcmd -nargs=1 OutputExtCmdToCmdlind :call OutputExtCmdToCmdlind(<q-args>)
-nnoremap [Chief]! :OutputExtCmdToCmdlind<Space>
 
 " redirect the output of external command into quickfix window
-function! OutputExtCmdToWin(cmd)
-	let g:lastwinnum = winnr()
+function! s:extCmdToQF(exprref, cmd)
+	call a:exprref(a:cmd)
+	let l:errornum = len(getloclist(0))
+	if !l:errornum
+		redraw
+		echohl WarningMsg | echo 'No output from the command' | echohl NONE
+		return
+	endif
+	execute 'lopen' . (l:errornum > 10 ? '' : l:errornum)
+	set modifiable
+	silent! %substitute/^|| //g
+	set nomodified
+	wincmd p
+endfunction
+function! s:lgetexpr_system(cmd)
 	lgetexpr system(a:cmd)
-	lopen 10
-	set modifiable
-	silent! %substitute/^|| //g
-	set nomodified
-	execute g:lastwinnum . 'wincmd w'
 endfunction
-command! -complete=shellcmd -nargs=1 OutputExtCmdToWin :call OutputExtCmdToWin(<q-args>)
-nnoremap <Leader>! :OutputExtCmdToWin<Space>
-
-" append the output of external command into quickfix window
-function! AppendExtCmdToWin(cmd)
-	let g:lastwinnum = winnr()
+function! s:laddexpr_system(cmd)
 	laddexpr system(a:cmd)
-	lopen 10
-	set modifiable
-	silent! %substitute/^|| //g
-	set nomodified
-	execute g:lastwinnum . 'wincmd w'
 endfunction
-command! -complete=shellcmd -nargs=1 OutputExtCmdToWin :call OutputExtCmdToWin(<q-args>)
-nnoremap [Captain]! :AppendExtCmdToWin<Space>
+command! -complete=shellcmd -nargs=+ OutputExtCmdToQF :call <SID>extCmdToQF(function('s:lgetexpr_system'), <q-args>)
+command! -complete=shellcmd -nargs=+ AppendExtCmdToQF :call <SID>extCmdToQF(function('s:laddexpr_system'), <q-args>)
 
 function! SetOperatorFunc(funcname)
 	execute 'set operatorfunc=' . a:funcname
