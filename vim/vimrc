@@ -981,7 +981,8 @@ endif
 if exists('g:plugs["nerdcommenter"]')
 	let g:NERDSpaceDelims = 1				" Add spaces after comment delimiters
 	let g:NERDDefaultAlign = 'left'
-	noremap <silent> <C-\> :call NERDComment("n","toggle")<CR>
+	nnoremap <silent> <C-\> :call NERDComment("n","toggle")<CR>
+	vnoremap <silent> <C-\> :call NERDComment("n","toggle")<CR>
 	inoremap <silent> <C-\> <C-o>:call NERDComment("n","toggle")<CR>
 endif
 " --- || NERDCommenter || }}}
