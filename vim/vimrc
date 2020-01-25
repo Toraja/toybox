@@ -781,63 +781,81 @@ vnoremap [Chief]S   y:call QuickSubstitute(@@, {'range': '%', 'exclusive': 1, 'c
 " --- || Replace || }}}
 
 " {{{ || Quickfix/Location || ---
-nnoremap <silent> <expr> <C-q> QuickfixCmd(v:count)
-function! QuickfixCmd(count)
-	echohl Identifier
-	echo "-- QuickfixCmd -> [o]pen, current[q], [n]ext, [p]revious, [b]ottom,"
-				\."histor[y], older[h], newer[l], [c]lose, [m]ode(".s:quickfix_mode.")"
-	echohl NONE
-	let l:count = (a:count == 0) ? "" : a:count
-	let l:orgwinnr = winnr()
-	" Return space and backspace to bring cursor back from command line.
-	" If empty string is returned, cursor remains in command line.
-	let l:cmd = "\<Space>\<BS>"
-	try
-		let l:char = nr2char(getchar())
-	catch /^Vim:Interrupt$/
-		let l:char = "\<C-c>"
-	endtry
-	" Clear command line
-	echo ""
-	if l:char ==? "o" || l:char ==? "\<C-o>"
-		if !l:count
-			" Limit the height of location list to no more than 10.
-			" Make sure lopen' will not be called with '0' as it causes and error.
-			" It happens when no count for keymap is supplied and no error in the location list.
-			let l:numerror = len(getloclist(0))
-			let l:maxheight = 10
-			let l:count = (l:numerror > l:maxheight) ? l:maxheight :
-						\ (l:numerror != 0) ? l:numerror : 1
+function! s:quickfixDict()
+	return {
+				\ 'o': 'QFopenSmart '. s:quickfix_mode,
+				\ 's': 'close',
+				\ 'q': s:quickfix_mode,
+				\ 'n': 'next',
+				\ 'p': 'previous',
+				\ 'b': 'bottom',
+				\ 'f': 'first',
+				\ 'y': 'history',
+				\ 'h': 'older',
+				\ 'l': 'newer',
+				\ 'm': printf('call SwitchQmode() " (current: %s)', s:quickfix_mode),
+				\}
+endfunction
+
+let s:quickfixCmdConfig = {
+			\ 'no_prepend_mode': ['o', 'm'],
+			\ 'no_count': ['o', 's', 'b', 'f', 'y', 'm'],
+			\}
+
+function! s:prependQuickfixMode(key, val)
+	if index(s:quickfixCmdConfig.no_prepend_mode, a:key) >= 0
+		return a:val
+	endif
+	return s:quickfix_mode . a:val
+endfunction
+
+function! QuickfixCmd(count, cmds)
+	call DispOptionsOneLine('Quickfix', {'<Space>': 'Display commands'})
+
+	let l:cmd_dict = map(copy(a:cmds), function('s:prependQuickfixMode'))
+
+	while v:true
+		let l:user_input = GetChar()
+		if l:user_input is 0
+			return
 		endif
-		let l:cmd = "open".l:count." | ".l:orgwinnr." wincmd w\<CR>"
-	elseif l:char ==? "n" || l:char ==? "\<C-n>"
-		let l:cmd = "next".l:count."\<CR>"
-	elseif l:char ==? "p" || l:char ==? "\<C-p>"
-		let l:cmd = "previous".l:count."\<CR>"
-	elseif l:char ==? "q" || l:char ==? "\<C-q>"
-		let l:cmd = s:quickfix_mode." ".l:count."\<CR>"
-	elseif l:char ==? "b" || l:char ==? "\<C-b>"
-		let l:cmd = "bottom \<CR>"
-	elseif l:char ==? "y" || l:char ==? "\<C-y>"
-		let l:cmd = "history\<CR>"
-	elseif l:char ==? "h" || l:char ==? "\<C-h>"
-		let l:cmd = "older".l:count."\<CR>"
-	elseif l:char ==? "l" || l:char ==? "\<C-l>"
-		let l:cmd = "newer" .l:count."\<CR>"
-	elseif l:char ==? "c" || l:char ==? "\<C-c>"
-		let l:cmd = "close\<CR>"
-	elseif l:char ==? "m" || l:char ==? "\<CR>"
-		return ":call SwitchQmode()\<CR>"
-	elseif l:char ==? "[" || l:char ==? "\<Esc>"
-		echo 'Cancelled'
-		return
-	else
-		echohl WarningMsg | echo 'Not an available option: '.l:char | echohl NONE
+		if l:user_input == "\<Space>"
+			redraw
+			call DispOptions('Quickfix:', l:cmd_dict, 'Press a key: ')
+			continue
+		else
+			break
+		endif
+	endwhile
+	redraw
+
+	if IsCtrlAlpha(l:user_input)
+		let l:user_input = ConvertCtrlCharToNormal(l:user_input, 1)
+	endif
+
+	let l:cmd = get(l:cmd_dict, l:user_input, '')
+	if l:cmd == ''
+		echohl WarningMsg | echo printf('"%s" is not available.', l:user_input) | echohl NONE
 		return
 	endif
 
-	return ":".s:quickfix_mode.l:cmd
+	let l:count = (a:count == 0) ? "" : a:count
+	if index(s:quickfixCmdConfig.no_count, l:user_input) < 0
+		let l:cmd = printf('%s %s', l:cmd, l:count)
+	endif
+
+	try
+		execute l:cmd
+	catch /^Vim\%((\a\+)\)\=:E\(42\|776\):/
+		echohl WarningMsg | echo 'No error in the list' | echohl NONE
+		return
+	catch
+		redraw
+		echohl Error | echo printf('%s: %s', v:throwpoint, v:exception) | echohl NONE
+	endtry
 endfunction
+nnoremap <silent> <C-q> :<C-u>call QuickfixCmd(v:count, <SID>quickfixDict())<CR>
+
 let [s:quickfix_mode_location, s:quickfix_mode_quickfix] = ['l', 'c']
 let s:quickfix_mode = get(s:, 'quickfix_mode', s:quickfix_mode_location)
 
