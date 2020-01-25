@@ -190,35 +190,32 @@ endif
 " --- || automatically enter paste mode when pasting || }}}
 
 " {{{ || enable meta-key bindings || ---
-if has('unix') && !has('nvim')
+if !get(s:, 'meta_key_bound') && has('unix') && !has('nvim')
 	" fix meta-keys which generate <Esc>a .. <Esc>z
-	" mapping all <M-char> to <Nop> so that it does not emit ?
+	" do this once only so that keymaps defined by plugin will not be overwritten with <Nop>
+	let s:set_meta_to_esc = "set <M-%s>=\e%s"
+	let s:map_esc_to_meta = "noremap%s \e%s <M-%s>"
+	let s:map_meta_to_nop = "noremap%s <M-%s> <Nop>"
 	let c = 'a'
 	while c <= 'z'
 		" lower case
-		exec "set <M-".c.">=\e".c
-		exec "noremap! \e".c." <M-".c.">"
-		exec "noremap \e".c." <M-".c.">"
-		" exec "noremap! <M-".c."> <Nop>"
-		" exec "noremap <M-".c."> <Nop>"
+		exec printf(s:set_meta_to_esc, c, c)
+		exec printf(s:map_esc_to_meta, '!', c, c)
+		exec printf(s:map_esc_to_meta, '', c, c)
+		exec printf(s:map_meta_to_nop, '!', c)
+		exec printf(s:map_meta_to_nop, '', c)
 		" upper case - skip M-O as it is part of del key, ins key, F key and etc
 		if c != 'o'
-			exec "set <M-".toupper(c).">=\e".toupper(c)
-			exec "noremap! \e".toupper(c)." <M-".toupper(c).">"
-			exec "noremap \e".toupper(c)." <M-".toupper(c).">"
-			" exec "noremap! <M-".toupper(c)."> <Nop>"
-			" exec "noremap <M-".toupper(c)."> <Nop>"
+			let C = toupper(c)
+			exec printf(s:set_meta_to_esc, C, C)
+			exec printf(s:map_esc_to_meta, '!', C, C)
+			exec printf(s:map_esc_to_meta, '', C, C)
+			exec printf(s:map_meta_to_nop, '!', C)
+			exec printf(s:map_meta_to_nop, '', C)
 		endif
-		" map <C-M-(char)> - these 5 chars below causes problem
-		" COMBAK this does not work on windows
-		" if c != 'c' && c != 'j' && c != 'i' && c != 'l' && c != 'v'
-		" let cc = nr2char(char2nr(c)-96)
-		" exec "set <C-M-".c.">=\e".cc
-		" exec "noremap! \e".cc." <C-M-".c.">"
-		" exec "noremap \e".cc." <C-M-".c.">"
-		" endif
 		let c = nr2char(1+char2nr(c))
 	endwhile
+	unlet c C
 
 	" meta + special-keys
 	" note: '[' cannot be mapped as it's part of some keycodes
@@ -234,31 +231,16 @@ if has('unix') && !has('nvim')
 	" exec "set <M-]>=\e]" " This causes vim to work funny
 	exec "set <M-_>=\e_"
 	exec "set <M-`>=\e`"
-endif
 
-" prevent meta char mapping from emitting special char
-let c = 'a'
-while c <= 'z'
-	exec "noremap! <M-".c."> <Nop>"
-	exec "noremap <M-".c."> <Nop>"
-	exec "noremap! <M-".toupper(c)."> <Nop>"
-	exec "noremap <M-".toupper(c)."> <Nop>"
-	let c = nr2char(1+char2nr(c))
-endwhile
-
-" map <M-0> and <M-1> to <M-9> to tab focus (normal mode)
-let n = 0
-while n <= 9
-	if has('unix') && !has('nvim')
+	for n in range(0, 9)
 		exec "set <M-".n.">=\e".n
 		exec "noremap! \e".n." <M-".n.">"
 		exec "noremap \e".n." <M-".n.">"
-	endif
-	exec "noremap <M-".n."> ".n."gt"
-	let n += 1
-endwhile
-" remap <M-0> to focus 10th tab
-noremap <M-0> 10gt
+		exec "noremap <M-".n."> <Nop>"
+	endfor
+	unlet n
+endif
+let s:meta_key_bound = 1
 " --- || enable meta-key bindings || }}}
 
 " {{{ || autocmd || ---
@@ -895,6 +877,11 @@ nnoremap <C-n> gt
 nnoremap <C-p> gT
 nnoremap <silent> <expr> <M-n> ":\<C-u>silent! tabmove+".v:count1."<CR>"
 nnoremap <silent> <expr> <M-p> ":\<C-u>silent! tabmove-".v:count1."<CR>"
+for n in range(1, 9)
+	execute printf("nnoremap <M-%s> %sgt", n, n)
+endfor
+unlet n
+nnoremap <M-0> 10gt
 " jump to last active tab
 if has('autocmd')
 	let g:lasttabnum = 1
