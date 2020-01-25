@@ -286,19 +286,19 @@ if has("autocmd")
 		autocmd FileType help silent! call matchdelete(1)
 	augroup END
 
-	function! s:PreviousTab_StoreState()
+	function! s:PreviousTabStoreState()
 		let s:tab_current = tabpagenr()
 		let s:tab_last = tabpagenr('$')
 	endfunction
-	function! s:PreviousTab_TabClosed()
+	function! s:PreviousTabTabClosed()
 		if s:tab_current > 1 && s:tab_current < s:tab_last
 			exec 'tabp'
 		endif
 	endfunction
 	augroup prev_tab
 		autocmd!
-		autocmd TabEnter,TabLeave * call s:PreviousTab_StoreState()
-		autocmd TabClosed * call s:PreviousTab_TabClosed()
+		autocmd TabEnter,TabLeave * call s:PreviousTabStoreState()
+		autocmd TabClosed * call s:PreviousTabTabClosed()
 	augroup end
 
 	augroup misc
@@ -781,7 +781,7 @@ vnoremap [Chief]S   y:call QuickSubstitute(@@, {'range': '%', 'exclusive': 1, 'c
 " --- || Replace || }}}
 
 " {{{ || Quickfix/Location || ---
-function! s:quickfixDict()
+function! s:QuickfixDict()
 	return {
 				\ 'o': 'QFopenSmart '. s:quickfix_mode,
 				\ 's': 'close',
@@ -797,13 +797,13 @@ function! s:quickfixDict()
 				\}
 endfunction
 
-let s:quickfixCmdConfig = {
+let s:quickfix_cmd_config = {
 			\ 'no_prepend_mode': ['o', 'm'],
 			\ 'no_count': ['o', 's', 'b', 'f', 'y', 'm'],
 			\}
 
-function! s:prependQuickfixMode(key, val)
-	if index(s:quickfixCmdConfig.no_prepend_mode, a:key) >= 0
+function! s:PrependQuickfixMode(key, val)
+	if index(s:quickfix_cmd_config.no_prepend_mode, a:key) >= 0
 		return a:val
 	endif
 	return s:quickfix_mode . a:val
@@ -812,7 +812,7 @@ endfunction
 function! QuickfixCmd(count, cmds)
 	call DispOptionsOneLine('Quickfix', {'<Space>': 'Display commands'})
 
-	let l:cmd_dict = map(copy(a:cmds), function('s:prependQuickfixMode'))
+	let l:cmd_dict = map(copy(a:cmds), function('s:PrependQuickfixMode'))
 
 	while v:true
 		let l:user_input = GetChar()
@@ -840,7 +840,7 @@ function! QuickfixCmd(count, cmds)
 	endif
 
 	let l:count = (a:count == 0) ? "" : a:count
-	if index(s:quickfixCmdConfig.no_count, l:user_input) < 0
+	if index(s:quickfix_cmd_config.no_count, l:user_input) < 0
 		let l:cmd = printf('%s %s', l:cmd, l:count)
 	endif
 
@@ -854,7 +854,7 @@ function! QuickfixCmd(count, cmds)
 		echohl Error | echo printf('%s: %s', v:throwpoint, v:exception) | echohl NONE
 	endtry
 endfunction
-nnoremap <silent> <C-q> :<C-u>call QuickfixCmd(v:count, <SID>quickfixDict())<CR>
+nnoremap <silent> <C-q> :<C-u>call QuickfixCmd(v:count, <SID>QuickfixDict())<CR>
 
 let [s:quickfix_mode_location, s:quickfix_mode_quickfix] = ['l', 'c']
 let s:quickfix_mode = get(s:, 'quickfix_mode', s:quickfix_mode_location)
@@ -1044,7 +1044,7 @@ if exists('g:plugs["nerdtree"]')
 					\ 'r': 'RefreshRoot',
 					\ }
 	endfunction
-	let s:NERDTreeAlwaysModifyList = [
+	let s:nerdtree_always_modify_list = [
 				\ 'b'
 				\ ]
 	function! RunNERDTree(cmds)
@@ -1063,7 +1063,7 @@ if exists('g:plugs["nerdtree"]')
 			endif
 		endwhile
 
-		if index(s:NERDTreeAlwaysModifyList, l:user_input) >= 0
+		if index(s:nerdtree_always_modify_list, l:user_input) >= 0
 			let l:modify = 1
 		endif
 
@@ -1617,7 +1617,7 @@ endfunction
 command! -complete=shellcmd -nargs=1 OutputExtCmdToCmdlind :call OutputExtCmdToCmdlind(<q-args>)
 
 " redirect the output of external command into quickfix window
-function! s:extCmdToQF(exprref, cmd)
+function! s:ExtCmdToQF(exprref, cmd)
 	call a:exprref(a:cmd)
 	let l:errornum = len(getloclist(0))
 	if !l:errornum
@@ -1631,17 +1631,17 @@ function! s:extCmdToQF(exprref, cmd)
 	set nomodified
 	wincmd p
 endfunction
-function! s:lgetexpr_system(cmd)
+function! s:LgetexprSystem(cmd)
 	lgetexpr system(a:cmd)
 endfunction
-function! s:laddexpr_system(cmd)
+function! s:LaddexprSystem(cmd)
 	laddexpr system(a:cmd)
 endfunction
-command! -complete=shellcmd -nargs=+ OutputExtCmdToQF :call <SID>extCmdToQF(function('s:lgetexpr_system'), <q-args>)
-command! -complete=shellcmd -nargs=+ AppendExtCmdToQF :call <SID>extCmdToQF(function('s:laddexpr_system'), <q-args>)
+command! -complete=shellcmd -nargs=+ OutputExtCmdToQF :call <SID>ExtCmdToQF(function('s:LgetexprSystem'), <q-args>)
+command! -complete=shellcmd -nargs=+ AppendExtCmdToQF :call <SID>ExtCmdToQF(function('s:LaddexprSystem'), <q-args>)
 
 " redirect the output of external command into preview window
-function! s:extCmdToPreview(cmd, append)
+function! s:ExtCmdToPreview(cmd, append)
 	if !a:append
 		execute printf('pedit [%s]', a:cmd)
 	endif
@@ -1649,7 +1649,7 @@ function! s:extCmdToPreview(cmd, append)
 	try
 		wincmd P
 	catch /^Vim\%((\a\+)\)\=:E441:/
-		call s:extCmdToPreview(a:cmd, v:false)
+		call s:ExtCmdToPreview(a:cmd, v:false)
 		return
 	endtry
 
@@ -1658,8 +1658,8 @@ function! s:extCmdToPreview(cmd, append)
 	setlocal nomodified
 	wincmd p
 endfunction
-command! -complete=shellcmd -nargs=+ OutputExtCmdToPreview call <SID>extCmdToPreview(<q-args>, v:false)
-command! -complete=shellcmd -nargs=+ AppendExtCmdToPreview call <SID>extCmdToPreview(<q-args>, v:true)
+command! -complete=shellcmd -nargs=+ OutputExtCmdToPreview call <SID>ExtCmdToPreview(<q-args>, v:false)
+command! -complete=shellcmd -nargs=+ AppendExtCmdToPreview call <SID>ExtCmdToPreview(<q-args>, v:true)
 
 function! SetOperatorFunc(funcname)
 	execute 'set operatorfunc=' . a:funcname
