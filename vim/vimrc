@@ -1367,6 +1367,34 @@ function! AddUniq(list, elm)
 	endif
 endfunction
 
+function! IsCtrlAlpha(char)
+	let l:char_num = char2nr(a:char)
+	return char2nr("\<C-a>") <= l:char_num && l:char_num <= char2nr("\<C-z>")
+endfunction
+
+" @case: 1 for lowercase, 2 for uppercase
+function! ConvertCtrlCharToNormal(char, case)
+	const [l:lowercase, l:uppercase] = [1, 2]
+	const l:deltas = {
+				\ l:lowercase: char2nr('a') - char2nr("\<C-a>"),
+				\ l:uppercase: char2nr('A') - char2nr("\<C-a>"),
+				\}
+
+	let l:char_num = char2nr(a:char)
+	if !IsCtrlAlpha(a:char)
+		echoerr printf('Invalid argument: %s is not ctrl-{alphabet}', a:char)
+		return
+	endif
+
+	let l:delta = get(l:deltas, a:case, '')
+	if l:delta == ''
+		echoerr printf('Invalid argument: case must be either %s', [l:lowercase, l:uppercase])
+		return
+	endif
+
+	return nr2char(l:char_num + l:delta)
+endfunction
+
 function! Expander()
 	echohl Identifier
 	echo 'Ctrl+: [b]asename, [s]implename, [d]irname, [f]ullname, [p]wd'
