@@ -677,7 +677,6 @@ endif
 " @pattern string to grep
 " @modify when non-zero, let the user modify the argument for vimgrep
 function! QuickGrep(pattern, modify)
-	let l:lastwinnum = winnr()
 	let l:grepArg = printf('/\V%s/gj %%', a:pattern)
 
 	if a:modify
@@ -702,7 +701,7 @@ function! QuickGrep(pattern, modify)
 		return
 	endtry
 
-	call LWindowSmart(l:lastwinnum, 10, 1)
+	call QFopenSmart(s:quickfix_mode_location)
 endfunction
 nnoremap <silent> [Captain]g :call QuickGrep('', 1)<CR>
 nnoremap <silent> + :call QuickGrep(expand("<cword>"), 0)<CR>
@@ -1529,29 +1528,27 @@ function! TabnewMulti(...)
 endfunction
 command! -complete=file -nargs=+ TabnewMulti call TabnewMulti(<f-args>)
 
-" Open location list with just enough height for errors but no more than the
-" maximum. Do nothing if no error is found.
-" @orgwinnr [number] window number to go back. 0 to remain in location list.
-" @maxheight [number] height of location list
-" @lopen [boolean] true to use lopen, false for lwindow
+" Open quickfix/location list with just enough height for errors but
+" no more than the maximum. Do nothing if no error is found.
+" @qftype [number] quickfix of location
 " @return [number] the number of errors in location list
-function! LWindowSmart(orgwinnr, maxheight, lopen) abort
-	let l:numerror = len(getloclist(0))
-	if l:numerror == 0
+function! QFopenSmart(qftype) abort
+	let l:numerror = a:qftype == s:quickfix_mode_location ?
+				\ len(getloclist(0)) : len(getqflist())
+	if !l:numerror
+		redraw
+		echo 'No error'
 		return 0
 	endif
 
-	let l:qfheight = (l:numerror <= a:maxheight) ? l:numerror : a:maxheight
-	" XXX If the contents inside location list is not errors (e.g. simple
-	" string, Find()), 'lwindow' command does not open location list. It might
-	" be possible to fix this using proper errformat.
-	let l:lopencmd = (a:lopen) ? 'lopen' : 'lwindow'
-	execute l:lopencmd.l:qfheight
-	if a:orgwinnr
-		execute a:orgwinnr.'wincmd w'
-	endif
+	const l:maxheight = 10
+	let l:qfheight = (l:numerror > l:maxheight) ? l:maxheight : l:numerror
+	execute a:qftype.'open'.l:qfheight
+	wincmd p
+
 	return l:numerror
 endf
+command! -nargs=1 QFopenSmart call QFopenSmart(<q-args>)
 
 " store the output of command to register 'r'
 function! RedirCmdOutputToReg(...)
@@ -1696,7 +1693,6 @@ command! -nargs=? -complete=filetype SF :call SetFt(<f-args>)
 
 " 'lmake' without moving to location list window
 function! MyMake(...) abort
-	let l:lastwinnum = winnr()
 	" XXX nvim does not catch the error properly
 	let l:cmd = 'silent lmake! '.join(a:000)
 	if has('nvim')
@@ -1704,7 +1700,7 @@ function! MyMake(...) abort
 	endif
 	echohl Identifier | echo 'Making... ' | echohl NONE
 	execute l:cmd
-	let l:errorexists = LWindowSmart(l:lastwinnum, 10, 0)
+	let l:errorexists = QFopenSmart(s:quickfix_mode_location)
 	if !l:errorexists
 		" Without lclose, if location list is already open, it remains opened
 		" even when there is no error and window

@@ -13,7 +13,7 @@ augroup end
 function! s:PyCmds()
 	return {
 				\ 'r': 'Run',
-				\ 'm': 'silent lmake | call LWindowSmart(winnr(), 10, 0)'
+				\ 'm': 'silent lmake | call QFopenSmart(l)'
 				\ }
 endfunction
 
