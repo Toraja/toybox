@@ -782,7 +782,6 @@ vnoremap [Chief]S   y:call QuickSubstitute(@@, {'range': '%', 'exclusive': 1, 'c
 
 " {{{ || Quickfix/Location || ---
 nnoremap <silent> <expr> <C-q> QuickfixCmd(v:count)
-let s:quickfix_mode = 'l'
 function! QuickfixCmd(count)
 	echohl Identifier
 	echo "-- QuickfixCmd -> [o]pen, current[q], [n]ext, [p]revious, [b]ottom,"
@@ -839,15 +838,18 @@ function! QuickfixCmd(count)
 
 	return ":".s:quickfix_mode.l:cmd
 endfunction
+let [s:quickfix_mode_location, s:quickfix_mode_quickfix] = ['l', 'c']
+let s:quickfix_mode = get(s:, 'quickfix_mode', s:quickfix_mode_location)
+
 function! SwitchQmode()
 	let l:mode_name_l = 'location'
 	let l:mode_name_q = 'quickfix'
-	if s:quickfix_mode == 'l'
-		let s:quickfix_mode = 'c'
+	if s:quickfix_mode == s:quickfix_mode_location
+		let s:quickfix_mode = s:quickfix_mode_quickfix
 		let l:mode_from = l:mode_name_l
 		let l:mode_to = l:mode_name_q
 	else
-		let s:quickfix_mode = 'l'
+		let s:quickfix_mode = s:quickfix_mode_location
 		let l:mode_from = l:mode_name_q
 		let l:mode_to = l:mode_name_l
 	endif
