@@ -1356,7 +1356,7 @@ endfunction
 function! Input(...)
 	let l:opts = {}
 	if a:0 > 0
-		if type(a:1) == 4 " is dictionary
+		if type(a:1) == v:t_dict " is dictionary
 			let l:opts = a:1
 		else
 			let l:opts['prompt'] = (a:0 >= 1) ? a:1 : ''
