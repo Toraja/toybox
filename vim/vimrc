@@ -866,7 +866,7 @@ function! SwitchQFMode(...)
 endfunction
 
 " Open quickfix/location list with just enough height for errors but
-" no more than the maximum. Do nothing if no error is found.
+" no more than the maximum. Close window if no error is found.
 " @qftype [number] quickfix of location
 " @focus [boolean] whether to focus on quickfix window
 " @return [number] the number of errors in location list
@@ -874,8 +874,7 @@ function! QFOpenSmart(qftype, focus) abort
 	let l:numerror = a:qftype == s:quickfix_mode_location ?
 				\ len(getloclist(0)) : len(getqflist())
 	if !l:numerror
-		redraw
-		echo 'No error'
+		execute a:qftype.'close'
 		return 0
 	endif
 
