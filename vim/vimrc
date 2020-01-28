@@ -1600,6 +1600,8 @@ function! QFopenSmart(qftype) abort
 		return 0
 	endif
 
+	silent call SwitchQmode(a:qftype)
+
 	const l:maxheight = 10
 	let l:qfheight = (l:numerror > l:maxheight) ? l:maxheight : l:numerror
 	execute a:qftype.'open'.l:qfheight
