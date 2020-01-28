@@ -13,7 +13,7 @@ augroup end
 function! s:PyCmds()
 	return {
 				\ 'r': 'Run',
-				\ 'm': 'silent lmake | call QFopenSmart(l)'
+				\ 'm': 'silent lmake | QFOpenSmart l'
 				\ }
 endfunction
 
