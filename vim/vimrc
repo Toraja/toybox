@@ -300,6 +300,9 @@ endif
 " --- || autocmd || }}}
 
 " {{{ || plugin loading || ---
+if has('nvim')
+	packadd cfilter
+endif
 " Loadng plugins must be before keymapping or they will override my keymappings!
 if filereadable(s:vimdir . "/autoload/plug.vim")
 	call plug#begin(s:vimdir . '/bundle')
