@@ -1771,19 +1771,10 @@ command! -nargs=? -complete=filetype SF :call SetFt(<f-args>)
 
 " 'lmake' without moving to location list window
 function! MyMake(...) abort
-	" XXX nvim does not catch the error properly
 	let l:cmd = 'silent lmake! '.join(a:000)
-	if has('nvim')
-		let l:cmd = printf('lgetexpr system("%s %s")', &makeprg, join(a:000))
-	endif
 	echohl Identifier | echo 'Making... ' | echohl NONE
 	execute l:cmd
 	let l:errorexists = QFOpenSmart(s:quickfix_mode_location, 0)
-	if !l:errorexists
-		" Without lclose, if location list is already open, it remains opened
-		" even when there is no error and window
-		silent lclose
-	endif
 	" On linux console, bash console will be shown when making and vim is
 	" brought back when make is done. This causes the contents of the file now
 	" shown properly. 'redraw!' to fix it.
