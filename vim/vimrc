@@ -664,11 +664,8 @@ function! QuickGrep(pattern, modify)
 
 	if a:modify
 		let l:cursorAdjustment = repeat("\<Left>", 5)
-		let l:grepArg = Input(':lvimgrep ', l:grepArg . l:cursorAdjustment)
-		" <Esc> was pressed
-		if empty(l:grepArg)
-			redraw
-			echo 'Cancelled'
+		let l:grepArg = Input(v:true, ':lvimgrep ', l:grepArg . l:cursorAdjustment)
+		if l:grepArg is 0
 			return
 		endif
 	endif
@@ -726,12 +723,8 @@ function! QuickSubstitute(corePattern, options)
 	let l:substituteCmd = printf(l:baseSubstituteCmd, l:range, l:searchPattern)
 
 	let l:cursorAdjustment = repeat("\<Left>", a:corePattern == '' ? 4 : 3)
-
-	let l:substituteCmd = Input(':', l:substituteCmd . l:cursorAdjustment)
-	" <Esc> was pressed
-	if empty(l:substituteCmd)
-		redraw
-		echo 'Cancelled'
+	let l:substituteCmd = Input(v:true, ':', l:substituteCmd . l:cursorAdjustment)
+	if l:substituteCmd is 0
 		return
 	endif
 
