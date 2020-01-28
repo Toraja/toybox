@@ -758,12 +758,15 @@ vnoremap [Chief]S   y:call QuickSubstitute(@@, {'range': '%', 'exclusive': 1, 'c
 function! s:QuickfixDict()
 	return {
 				\ 'o': 'QFOpenSmart! '. s:quickfix_mode,
-				\ 't': 'ToggleQFWindow ' . s:quickfix_mode,
-				\ 'q': s:quickfix_mode,
+				\ 'q': 'ToggleQFWindow ' . s:quickfix_mode,
+				\ 'g': s:quickfix_mode,
 				\ 'n': 'next',
 				\ 'p': 'previous',
+				\ 'a': 'first',
+				\ 'e': 'last',
+				\ 'j': 'nfile',
+				\ 'k': 'pfile',
 				\ 'b': 'bottom',
-				\ 'f': 'first',
 				\ 'y': 'history',
 				\ 'h': 'older',
 				\ 'l': 'newer',
@@ -772,8 +775,8 @@ function! s:QuickfixDict()
 endfunction
 
 let s:quickfix_cmd_config = {
-			\ 'no_prepend_mode': ['o', 't', 'm'],
-			\ 'no_count': ['o', 't', 'b', 'f', 'y', 'm'],
+			\ 'no_prepend_mode': ['o', 'q', 'm'],
+			\ 'no_count': ['o', 'q', 'b', 'y', 'm'],
 			\}
 
 function! s:PrependQuickfixMode(key, val)
