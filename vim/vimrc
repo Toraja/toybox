@@ -830,10 +830,26 @@ function! QuickfixCmd(count, cmds)
 endfunction
 nnoremap <silent> <C-q> :<C-u>call QuickfixCmd(v:count, <SID>QuickfixDict())<CR>
 
+" value is l and c so that these can be simply prepended to quickfix commands
 let [s:quickfix_mode_location, s:quickfix_mode_quickfix] = ['l', 'c']
 let s:quickfix_mode = get(s:, 'quickfix_mode', s:quickfix_mode_location)
 
-function! SwitchQmode()
+" Toggle quickfix mode if no argument is supplied.
+" Change to the mode if an argument is supplied.
+" @1: mode to change
+function! SwitchQmode(...)
+	if a:0 >= 1
+		let l:mode_to_change = a:1
+		let l:quickfix_modes = [s:quickfix_mode_location, s:quickfix_mode_quickfix]
+		if index(l:quickfix_modes, l:mode_to_change) < 0
+			echoerr 'Invalid Argument: must be either ' . string(l:quickfix_modes)
+			return
+		endif
+		if s:quickfix_mode == l:mode_to_change
+			return
+		endif
+	endif
+
 	let l:mode_name_l = 'location'
 	let l:mode_name_q = 'quickfix'
 	if s:quickfix_mode == s:quickfix_mode_location
