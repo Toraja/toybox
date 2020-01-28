@@ -767,7 +767,7 @@ function! s:QuickfixDict()
 				\ 'y': 'history',
 				\ 'h': 'older',
 				\ 'l': 'newer',
-				\ 'm': printf('call SwitchQmode() " (current: %s)', s:quickfix_mode),
+				\ 'm': printf('call SwitchQFMode() " (current: %s)', s:quickfix_mode),
 				\}
 endfunction
 
@@ -842,7 +842,7 @@ let s:quickfix_mode_names = {
 " Toggle quickfix mode if no argument is supplied.
 " Change to the mode if an argument is supplied.
 " @1: mode to change
-function! SwitchQmode(...)
+function! SwitchQFMode(...)
 	if a:0 >= 1
 		let l:mode_to_change = a:1
 		let l:quickfix_modes = [s:quickfix_mode_location, s:quickfix_mode_quickfix]
@@ -1611,7 +1611,7 @@ function! QFOpenSmart(qftype, focus) abort
 		return 0
 	endif
 
-	silent call SwitchQmode(a:qftype)
+	silent call SwitchQFMode(a:qftype)
 
 	const l:maxheight = 10
 	let l:qfheight = (l:numerror > l:maxheight) ? l:maxheight : l:numerror
