@@ -825,7 +825,7 @@ function! QuickfixCmd(count, cmds)
 		return
 	catch
 		redraw
-		echohl Error | echo printf('%s: %s', v:throwpoint, v:exception) | echohl NONE
+		echohl ErrorMsg | echo printf('%s: %s', v:throwpoint, v:exception) | echohl NONE
 	endtry
 endfunction
 nnoremap <silent> <C-q> :<C-u>call QuickfixCmd(v:count, <SID>QuickfixDict())<CR>
