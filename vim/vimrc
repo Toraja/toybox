@@ -893,6 +893,7 @@ nnoremap <silent> <expr> <C-t><C-n> ":\<C-u>".(v:count ? v:count : "")."tabnew\<
 nnoremap <silent> <expr> <C-t><C-o> ":\<C-u>".(v:count ? v:count : "")."tabonly\<CR>"
 nnoremap <silent> <expr> <C-t><C-q> ":\<C-u>".(v:count ? v:count : "")."tabclose\<CR>"
 nnoremap <silent> <expr> <C-t><C-d> ":\<C-u>".(v:count ? v:count : "")."tab split\<CR>"
+nnoremap <silent> <C-t><CR> <C-w><CR><C-w>T
 nnoremap <C-t><C-f> <C-w>gf
 nnoremap <C-n> gt
 nnoremap <C-p> gT
