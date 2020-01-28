@@ -758,7 +758,7 @@ vnoremap [Chief]S   y:call QuickSubstitute(@@, {'range': '%', 'exclusive': 1, 'c
 function! s:QuickfixDict()
 	return {
 				\ 'o': 'QFopenSmart '. s:quickfix_mode,
-				\ 's': 'close',
+				\ 't': 'ToggleQFWindow ' . s:quickfix_mode,
 				\ 'q': s:quickfix_mode,
 				\ 'n': 'next',
 				\ 'p': 'previous',
@@ -772,8 +772,8 @@ function! s:QuickfixDict()
 endfunction
 
 let s:quickfix_cmd_config = {
-			\ 'no_prepend_mode': ['o', 'm'],
-			\ 'no_count': ['o', 's', 'b', 'f', 'y', 'm'],
+			\ 'no_prepend_mode': ['o', 't', 'm'],
+			\ 'no_count': ['o', 't', 'b', 'f', 'y', 'm'],
 			\}
 
 function! s:PrependQuickfixMode(key, val)
@@ -863,6 +863,18 @@ function! SwitchQmode(...)
 	endif
 	echo printf('Quickfix mode changed from %s to %s', l:mode_from, l:mode_to)
 endfunction
+
+function! ToggleQFWindow(qftype) abort
+	let l:key = 'winid'
+	let l:opt = {l:key: 1}
+	let l:winid = a:qftype == s:quickfix_mode_quickfix ? getqflist(l:opt)[l:key] : getloclist(0, l:opt)[l:key]
+	if l:winid
+		execute win_id2win(l:winid) . 'close'
+		return
+	endif
+	call QFopenSmart(a:qftype, 0)
+endfunction
+command! -nargs=1 ToggleQFWindow call ToggleQFWindow(<q-args>)
 " --- || Quickfix/Location || }}}
 
 " {{{ || Buffer || ---
