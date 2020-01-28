@@ -791,7 +791,7 @@ function! QuickfixCmd(count, cmds)
 	let l:cmd_dict = map(copy(a:cmds), function('s:PrependQuickfixMode'))
 
 	while v:true
-		let l:user_input = GetChar()
+		let l:user_input = GetChar(v:true)
 		if l:user_input is 0
 			return
 		endif
@@ -1032,7 +1032,7 @@ if exists('g:plugs["nerdtree"]')
 		call DispOptionsOneLine("NERDTree", a:cmds)
 		let l:modify = 0
 		while v:true
-			let l:user_input = GetChar()
+			let l:user_input = GetChar(v:true)
 			if l:user_input is 0
 				return
 			endif
@@ -1317,16 +1317,24 @@ function! Preserve(command, linoff, coloff)
 	call cursor(l, c)
 endfunction
 
+fun s:RedrawCancel()
+	redraw
+	echo 'Cancelled'
+	return 0
+endf
+
 " getchar() with Ctrl+C to cancel
 " This returns numeric 0 if interrupted, so the value is compared using 'is'
-function! GetChar()
+function! GetChar(escape_means_cancel)
 	try
 		call inputsave()
-		return nr2char(getchar())
+		let l:char = nr2char(getchar())
+		if a:escape_means_cancel && l:char == "\<Esc>"
+			return s:RedrawCancel()
+		endif
+		return l:char
 	catch /^Vim:Interrupt$/
-		redraw
-		echo 'Cancelled'
-		return 0
+		return s:RedrawCancel()
 	finally
 		call inputrestore()
 	endtry
@@ -1334,7 +1342,7 @@ endfunction
 
 " input() with Ctrl+C to cancel
 " This returns numeric 0 if interrupted, so the value is compared using 'is'
-function! Input(...)
+function! Input(empty_means_cancel, ...)
 	let l:opts = {}
 	if a:0 > 0
 		if type(a:1) == v:t_dict " is dictionary
@@ -1349,11 +1357,13 @@ function! Input(...)
 	endif
 	try
 		call inputsave()
-		return input(l:opts)
+		let l:input = input(l:opts)
+		if a:empty_means_cancel && l:input == ''
+			return s:RedrawCancel()
+		endif
+		return l:input
 	catch /^Vim:Interrupt$/
-		redraw
-		echo 'Cancelled'
-		return 0
+		return s:RedrawCancel()
 	finally
 		call inputrestore()
 	endtry
@@ -1783,7 +1793,7 @@ function! Toggler()
 				\ 'w': 'wrap'
 				\ }
 	call DispOptions('Toggle option', l:options, 'Press a key: ')
-	let l:userinput = GetChar()
+	let l:userinput = GetChar(v:true)
 	" string == 0 is true so must return the default value
 	let l:option = get(l:options, l:userinput, "")
 	redraw	" clear concole so that 'Press ENTER or ...' will not be shown
@@ -1840,7 +1850,7 @@ function! RunCommands(cmddict, title)
 	let l:selectedFlag = ''
 	let [l:modify, l:bang] = [0, 0]
 	while v:true
-		let l:userInput = GetChar()
+		let l:userInput = GetChar(v:true)
 		if l:userInput is 0
 			return
 		endif
@@ -1880,7 +1890,7 @@ function! RunCommands(cmddict, title)
 
 	if l:modify
 		let l:orgCmd = l:cmd
-		let l:cmd = Input('>>> ', l:cmd)
+		let l:cmd = Input(v:true, '>>> ', l:cmd)
 		if l:cmd is 0
 			return
 		endif
