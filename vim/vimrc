@@ -950,6 +950,12 @@ if exists('g:plugs["vim-fugitive"]')
 endif
 " --- || vim-fugitive || }}}
 
+" {{{ || vim-gitgutter || ---
+if exists('g:plugs["vim-gitgutter"]')
+	let g:gitgutter_preview_win_floating = 0
+endif
+" --- || vim-fugitive || }}}
+
 " {{{ || powerline / airline || ---
 if !(exists('g:plugs["powerline"]') || exists('g:plugs["vim-airline"]'))
 	set statusline=(%{winnr()})				" window number
