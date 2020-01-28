@@ -324,11 +324,13 @@ if filereadable(s:vimdir . "/autoload/plug.vim")
 	Plug 'junegunn/fzf.vim'
 	" moving around
 	Plug 'easymotion/vim-easymotion'
+	Plug 'michaeljsmith/vim-indent-object'
 	" editting
 	Plug 'Yggdroot/indentLine'
 	Plug 'scrooloose/nerdcommenter'
 	Plug 'arthurxavierx/vim-caser'
 	Plug 'tpope/vim-surround'
+	Plug 'tpope/vim-eunuch'
 	Plug 'jiangmiao/auto-pairs'
 	Plug 'AndrewRadev/splitjoin.vim'
 	Plug 'tpope/vim-repeat'
