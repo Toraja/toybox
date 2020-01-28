@@ -663,13 +663,11 @@ function! QuickGrep(pattern, modify)
 	let l:grepArg = printf('/\V%s/gj %%', a:pattern)
 
 	if a:modify
-		let l:cursorAdjustment = "\<Left>\<Left>\<Left>\<Left>\<Left>"
-		call inputsave()
-		let l:grepArg = input(':lvimgrep ', l:grepArg . l:cursorAdjustment)
-		call inputrestore()
-
+		let l:cursorAdjustment = repeat("\<Left>", 5)
+		let l:grepArg = Input(':lvimgrep ', l:grepArg . l:cursorAdjustment)
 		" <Esc> was pressed
-		if len(l:grepArg) == 0
+		if empty(l:grepArg)
+			redraw
 			echo 'Cancelled'
 			return
 		endif
@@ -727,17 +725,12 @@ function! QuickSubstitute(corePattern, options)
 
 	let l:substituteCmd = printf(l:baseSubstituteCmd, l:range, l:searchPattern)
 
-	let l:cursorAdjustment = "\<Left>\<Left>\<Left>"
-	if len(a:corePattern) == 0
-		let l:cursorAdjustment .= "\<Left>"
-	endif
+	let l:cursorAdjustment = repeat("\<Left>", a:corePattern == '' ? 4 : 3)
 
-	call inputsave()
-	let l:substituteCmd = input(':', l:substituteCmd . l:cursorAdjustment)
-	call inputrestore()
-
+	let l:substituteCmd = Input(':', l:substituteCmd . l:cursorAdjustment)
 	" <Esc> was pressed
-	if len(l:substituteCmd) == 0
+	if empty(l:substituteCmd)
+		redraw
 		echo 'Cancelled'
 		return
 	endif
@@ -1704,7 +1697,8 @@ function! OpenFtplugins(...)
 		let l:files += GetFtplugins(l:ft)
 	endfor
 
-	if len(l:files) == 0
+	if empty(l:files)
+		redraw
 		echo 'No ftplugins found'
 		return
 	endif
