@@ -865,6 +865,33 @@ function! SwitchQFMode(...)
 	echo printf('Quickfix mode changed from %s to %s', l:mode_from, l:mode_to)
 endfunction
 
+" Open quickfix/location list with just enough height for errors but
+" no more than the maximum. Do nothing if no error is found.
+" @qftype [number] quickfix of location
+" @focus [boolean] whether to focus on quickfix window
+" @return [number] the number of errors in location list
+function! QFOpenSmart(qftype, focus) abort
+	let l:numerror = a:qftype == s:quickfix_mode_location ?
+				\ len(getloclist(0)) : len(getqflist())
+	if !l:numerror
+		redraw
+		echo 'No error'
+		return 0
+	endif
+
+	silent call SwitchQFMode(a:qftype)
+
+	const l:maxheight = 10
+	let l:qfheight = (l:numerror > l:maxheight) ? l:maxheight : l:numerror
+	execute a:qftype.'open'.l:qfheight
+	if !a:focus
+		wincmd p
+	endif
+
+	return l:numerror
+endf
+command! -bang -nargs=1 QFOpenSmart call QFOpenSmart(<f-args>, <bang>0)
+
 function! ToggleQFWindow(qftype) abort
 	let l:key = 'winid'
 	let l:opt = {l:key: 1}
@@ -1600,33 +1627,6 @@ function! TabnewMulti(...)
 	echo printf('%s file%s opened', l:filenum, l:filenum > 1 ? 's' : '')
 endfunction
 command! -complete=file -nargs=+ TabnewMulti call TabnewMulti(<f-args>)
-
-" Open quickfix/location list with just enough height for errors but
-" no more than the maximum. Do nothing if no error is found.
-" @qftype [number] quickfix of location
-" @focus [boolean] whether to focus on quickfix window
-" @return [number] the number of errors in location list
-function! QFOpenSmart(qftype, focus) abort
-	let l:numerror = a:qftype == s:quickfix_mode_location ?
-				\ len(getloclist(0)) : len(getqflist())
-	if !l:numerror
-		redraw
-		echo 'No error'
-		return 0
-	endif
-
-	silent call SwitchQFMode(a:qftype)
-
-	const l:maxheight = 10
-	let l:qfheight = (l:numerror > l:maxheight) ? l:maxheight : l:numerror
-	execute a:qftype.'open'.l:qfheight
-	if !a:focus
-		wincmd p
-	endif
-
-	return l:numerror
-endf
-command! -bang -nargs=1 QFOpenSmart call QFOpenSmart(<f-args>, <bang>0)
 
 " store the output of command to register 'r'
 function! RedirCmdOutputToReg(...)
