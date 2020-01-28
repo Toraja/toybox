@@ -161,6 +161,7 @@ set showcmd								" Show (partial) command in status line.
 set lazyredraw							" screen will not be redrawn till macro execution is done
 set tags=./tags;,./TAGS;,tags;,TAGS;
 set diffopt+=vertical
+set sessionoptions=blank,curdir,folds,tabpages,winsize
 
 " << command mode >>
 set history=300
