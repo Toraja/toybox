@@ -14,7 +14,7 @@ Set-Variable -Name MongoHome     -Value $db\mongo
 Set-Variable -Name EclipceHome   -Value $ide\eclipse
 Set-Variable -Name ArduinoHome   -Value $ide\arduino
 Set-Variable -Name PlantumlHome  -Value $tools\plantuml
-Set-Variable -Name QBHome        -Value $tools\qutebrowser
+Set-Variable -Name QBHome        -Value $env:ProgramFiles/qutebrowser
 Set-Variable -Name NodejsHome    -Value ${env:ProgramFiles}\nodejs
 Set-Variable -Name JavaHome      -Value $lang\java # this is symlink path pointing real java binary
 Set-Variable -Name VimHome       -Value $tools\Vim
