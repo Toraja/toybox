@@ -784,7 +784,8 @@ function! s:PrependQuickfixMode(key, val)
 endfunction
 
 function! QuickfixCmd(count, cmds)
-	call DispOptionsOneLine('Quickfix', {'<Space>': 'Display commands'})
+	let l:title = s:quickfix_mode_names[s:quickfix_mode]
+	call DispOptionsOneLine(l:title, {'<Space>': 'Display commands'})
 
 	let l:cmd_dict = map(copy(a:cmds), function('s:PrependQuickfixMode'))
 
@@ -795,7 +796,7 @@ function! QuickfixCmd(count, cmds)
 		endif
 		if l:user_input == "\<Space>"
 			redraw
-			call DispOptions('Quickfix:', l:cmd_dict, 'Press a key: ')
+			call DispOptions(l:title . ':', l:cmd_dict, 'Press a key: ')
 			continue
 		else
 			break
@@ -833,6 +834,10 @@ nnoremap <silent> <C-q> :<C-u>call QuickfixCmd(v:count, <SID>QuickfixDict())<CR>
 " value is l and c so that these can be simply prepended to quickfix commands
 let [s:quickfix_mode_location, s:quickfix_mode_quickfix] = ['l', 'c']
 let s:quickfix_mode = get(s:, 'quickfix_mode', s:quickfix_mode_location)
+let s:quickfix_mode_names = {
+			\ s:quickfix_mode_location: 'Location',
+			\ s:quickfix_mode_quickfix: 'Quickfix',
+			\}
 
 " Toggle quickfix mode if no argument is supplied.
 " Change to the mode if an argument is supplied.
@@ -850,17 +855,10 @@ function! SwitchQmode(...)
 		endif
 	endif
 
-	let l:mode_name_l = 'location'
-	let l:mode_name_q = 'quickfix'
-	if s:quickfix_mode == s:quickfix_mode_location
-		let s:quickfix_mode = s:quickfix_mode_quickfix
-		let l:mode_from = l:mode_name_l
-		let l:mode_to = l:mode_name_q
-	else
-		let s:quickfix_mode = s:quickfix_mode_location
-		let l:mode_from = l:mode_name_q
-		let l:mode_to = l:mode_name_l
-	endif
+	let l:mode_from = s:quickfix_mode_names[s:quickfix_mode]
+	let s:quickfix_mode = s:quickfix_mode == s:quickfix_mode_location ?
+				\ s:quickfix_mode_quickfix : s:quickfix_mode_location
+	let l:mode_to = s:quickfix_mode_names[s:quickfix_mode]
 	echo printf('Quickfix mode changed from %s to %s', l:mode_from, l:mode_to)
 endfunction
 
