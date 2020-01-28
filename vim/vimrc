@@ -684,7 +684,7 @@ function! QuickGrep(pattern, modify)
 		return
 	endtry
 
-	call QFopenSmart(s:quickfix_mode_location)
+	call QFopenSmart(s:quickfix_mode_location, 0)
 endfunction
 nnoremap <silent> [Captain]g :call QuickGrep('', 1)<CR>
 nnoremap <silent> + :call QuickGrep(expand("<cword>"), 0)<CR>
@@ -757,7 +757,7 @@ vnoremap [Chief]S   y:call QuickSubstitute(@@, {'range': '%', 'exclusive': 1, 'c
 " {{{ || Quickfix/Location || ---
 function! s:QuickfixDict()
 	return {
-				\ 'o': 'QFopenSmart '. s:quickfix_mode,
+				\ 'o': 'QFopenSmart! '. s:quickfix_mode,
 				\ 't': 'ToggleQFWindow ' . s:quickfix_mode,
 				\ 'q': s:quickfix_mode,
 				\ 'n': 'next',
@@ -1602,8 +1602,9 @@ command! -complete=file -nargs=+ TabnewMulti call TabnewMulti(<f-args>)
 " Open quickfix/location list with just enough height for errors but
 " no more than the maximum. Do nothing if no error is found.
 " @qftype [number] quickfix of location
+" @focus [boolean] whether to focus on quickfix window
 " @return [number] the number of errors in location list
-function! QFopenSmart(qftype) abort
+function! QFopenSmart(qftype, focus) abort
 	let l:numerror = a:qftype == s:quickfix_mode_location ?
 				\ len(getloclist(0)) : len(getqflist())
 	if !l:numerror
@@ -1617,11 +1618,13 @@ function! QFopenSmart(qftype) abort
 	const l:maxheight = 10
 	let l:qfheight = (l:numerror > l:maxheight) ? l:maxheight : l:numerror
 	execute a:qftype.'open'.l:qfheight
-	wincmd p
+	if !a:focus
+		wincmd p
+	endif
 
 	return l:numerror
 endf
-command! -nargs=1 QFopenSmart call QFopenSmart(<q-args>)
+command! -bang -nargs=1 QFopenSmart call QFopenSmart(<f-args>, <bang>0)
 
 " store the output of command to register 'r'
 function! RedirCmdOutputToReg(...)
@@ -1774,7 +1777,7 @@ function! MyMake(...) abort
 	endif
 	echohl Identifier | echo 'Making... ' | echohl NONE
 	execute l:cmd
-	let l:errorexists = QFopenSmart(s:quickfix_mode_location)
+	let l:errorexists = QFopenSmart(s:quickfix_mode_location, 0)
 	if !l:errorexists
 		" Without lclose, if location list is already open, it remains opened
 		" even when there is no error and window
@@ -2004,7 +2007,7 @@ function! FindGrep(edit, pattern, ...) abort
 	endfor
 	call setqflist(l:qflists)
 	call setqflist([], 'a', {'title': l:cmds})
-	call QFopenSmart(s:quickfix_mode_quickfix)
+	call QFopenSmart(s:quickfix_mode_quickfix, 0)
 endfunction
 command! -bar -bang -complete=file -nargs=* FindGrep call FindGrep(<bang>1, <f-args>)
 cnoreabbrev fig FindGrep <bar> " <pattern> [path] [filename]<HOME><C-Right>
