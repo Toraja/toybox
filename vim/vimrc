@@ -1343,8 +1343,6 @@ endif
 " --- || key mapping || }}}
 
 " {{{ || abbreviation || ---
-cnoreabbrev v vertical
-cnoreabbrev t tab
 cnoreabbrev ehco echo
 cnoreabbrev tn tabnew
 cnoreabbrev tm TabnewMulti
