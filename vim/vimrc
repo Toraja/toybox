@@ -1769,14 +1769,13 @@ function! DispOptions(title, option, message, ...)
 	echohl Function | echo a:message | echohl NONE
 endf
 
-" Display dictionary in accending order for expr mapping
-" (i.e. display in one line)
+" Display dictionary in accending order in oneline
 function! DispOptionsOneLine(title, option, ...)
 	let l:sortfunc = (a:0 >= 1) ? a:1 : ''
 
 	let l:output = []
 	for [k,v] in sort(items(a:option), l:sortfunc)
-		call add(l:output, printf('%s(%s)', v, k))
+		call add(l:output, printf('%s[%s]', v, k))
 	endfor
 	unlet k v
 	echohl Function | echo printf('-- %s --> %s: ', a:title, join(l:output, ", ")) | echohl NONE
