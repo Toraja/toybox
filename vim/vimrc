@@ -1758,24 +1758,26 @@ endfunction
 command! -nargs=* MyMake :call MyMake(<f-args>)
 
 " Display dictionary in accending order
-function! DispOptions(title, option, message, ...)
-	let l:sortfunc = (a:0 >= 1) ? a:1 : ''
+function! DispOptions(title, option, message, ...) abort
+	let l:SortFunc = (a:0 >= 1) ? a:1 : ''
+	let l:key_name = (a:0 >= 2) ? a:2 : ''
 
 	echohl Statement | echo a:title | echohl NONE
-	for [k,v] in sort(items(a:option), l:sortfunc)
-		echo printf('  %s: %s', k, v)
-		unlet k v
+	for [k,v] in sort(items(a:option), l:SortFunc)
+		echo printf('  %s: %s', k, (type(v) == v:t_dict ? v[l:key_name] : v))
 	endfor
+	unlet k v
 	echohl Function | echo a:message | echohl NONE
 endf
 
 " Display dictionary in accending order in oneline
-function! DispOptionsOneLine(title, option, ...)
-	let l:sortfunc = (a:0 >= 1) ? a:1 : ''
+function! DispOptionsOneLine(title, option, ...) abort
+	let l:SortFunc = (a:0 >= 1) ? a:1 : ''
+	let l:key_name = (a:0 >= 2) ? a:2 : ''
 
 	let l:output = []
-	for [k,v] in sort(items(a:option), l:sortfunc)
-		call add(l:output, printf('%s[%s]', v, k))
+	for [k,v] in sort(items(a:option), l:SortFunc)
+		call add(l:output, printf('%s[%s]', (type(v) == v:t_dict ? v[l:key_name] : v), k))
 	endfor
 	unlet k v
 	echohl Function | echo printf('-- %s --> %s: ', a:title, join(l:output, ", ")) | echohl NONE
@@ -1852,67 +1854,85 @@ function! SortItemsByValue(one, two)
 	return a:one[1] > a:two[1] ? 1 : -1
 endfunction
 
+" Like SortItemsByValue() but use nested value
+function! SortItemsByNestedValue(key, one, two)
+	return a:one[1][a:key] > a:two[1][a:key] ? 1 : -1
+endfunction
+
 " List up the commands in the given dictionary with keys to trigger.
 " Pressing flag key changes the way the function behaves.
 " @cmd_dict [dict] key: char to trigger the command, value: command to run
 " @title [string] text to display when invoked
 " @1 [dict] customised flag key
-function! RunCommands(cmddict, title, ...)
-	let l:flag_keys = a:0 > 0 && type(a:1) == v:t_dict ? a:1 : {}
-	let l:key_mod = get(l:flag_keys, 'mod', '-')
+" @2 [string] sort function for displaying commands
+function! RunCommands(cmd_dict, title, ...) abort
+	let l:flag_keys = a:0 >= 1 ? a:1 : {}
+	let l:SortFunc = a:0 >= 2 ? a:2 : ''
+
+	function! s:ArgProc() closure
+		let l:selected_flag .= l:key_arg
+		let l:add_arg = v:true
+		echohl Function | echon l:key_arg | echohl NONE
+	endfunction
+	function! s:DispProc() closure
+		redraw
+		call DispOptions('Commands:', a:cmd_dict, 'Press a key: '. l:selected_flag, l:SortFunc, 'cmd')
+	endfunction
+	function! s:BangProc() closure
+		let l:selected_flag .= l:key_bang
+		let l:bang = v:true
+		echohl Function | echon l:key_bang | echohl NONE
+	endfunction
+
+	let l:key_arg = get(l:flag_keys, 'arg', '-')
 	let l:key_disp = get(l:flag_keys, 'disp', '_')
 	let l:key_bang = get(l:flag_keys, 'bang', '!')
 	let l:flag_dict = {
-				\ l:key_mod: 'Modify command',
-				\ l:key_disp: 'Display commands',
-				\ l:key_bang: 'Run with !',
+				\ l:key_arg: {'desc': 'Add argument', 'func': function('s:ArgProc')},
+				\ l:key_disp: {'desc': 'Display commands', 'func': function('s:DispProc')},
+				\ l:key_bang: {'desc': 'Run with !', 'func': function('s:BangProc')},
 				\}
-	call DispOptionsOneLine(a:title, l:flag_dict)
+	call DispOptionsOneLine(a:title, l:flag_dict, '', 'desc')
 
 	let l:selected_flag = ''
-	let [l:modify, l:bang] = [v:false, v:false]
+	let [l:add_arg, l:bang] = [v:false, v:false]
 	while v:true
 		let l:user_input = GetChar(v:true)
 		if l:user_input is 0
 			return
 		endif
 		" remove() throws an error if key does not exist
-		silent! let l:flag_selected = remove(l:flag_dict, l:user_input) is 0
-		if l:flag_selected
+		silent! let l:flag_info = remove(l:flag_dict, l:user_input)
+		let l:flag_selected_or_user_input_is_not_flag = flag_info is 0
+		if l:flag_selected_or_user_input_is_not_flag
 			break
-		elseif l:user_input != l:key_disp
-			let l:selected_flag .= l:user_input
 		endif
-		if l:user_input == l:key_mod
-			let l:modify = v:true
-			echohl Function | echon l:key_mod | echohl NONE
-			continue
-		elseif l:user_input == l:key_disp
-			redraw
-			call DispOptions('Commands:', a:cmd_dict, 'Press a key: '.l:selected_flag, 'SortItemsByValue')
-			continue
-		elseif l:user_input == l:key_bang
-			let l:bang = v:true
-			echohl Function | echon l:key_bang | echohl NONE
-			continue
-		endif
+		call l:flag_info['func']()
 	endwhile
 
 	redraw
-	let l:cmd = get(a:cmd_dict, l:user_input, '')
-	if l:cmd == ''
+	let l:cmd_info = get(a:cmd_dict, l:user_input, {})
+	if empty(l:cmd_info)
 		" user press an unavailable key
 		echohl WarningMsg | echo printf('"%s" is not available.', l:user_input) | echohl NONE
 		return
 	endif
 
-	if l:bang
+	let l:cmd = l:cmd_info.cmd
+	if l:cmd_info.always_add_arg && !l:add_arg
+		let l:add_arg = v:true
+	endif
+	if l:bang && l:cmd_info.bangable
 		let l:cmd .= '!'
 	endif
 
-	if l:modify
+	if l:add_arg
 		let l:orgCmd = l:cmd
-		let l:cmd = Input(v:true, '>>> ', l:cmd)
+		let l:input_opt = {'prompt': ':' . l:cmd . ' '}
+		if l:cmd_info.completion != ''
+			let l:input_opt['completion'] = l:cmd_info.completion
+		endif
+		let l:cmd = Input(v:true, l:input_opt)
 		if l:cmd is 0
 			return
 		endif
@@ -1924,6 +1944,19 @@ function! RunCommands(cmddict, title, ...)
 	endif
 
 	execute l:cmd
+endfunction
+
+" @cmd [string] command to run
+" @always_add_arg [bool] whether to always modify the command
+" @bangable [bool] if false, bang flag will be ignored and command is run without !
+" @completion [string] command completion passed to input()
+function! MakeRunCommandsDictInfo(cmd, always_add_arg, bangable, completion) abort
+	return {
+				\ 'cmd': a:cmd,
+				\ 'always_add_arg': a:always_add_arg,
+				\ 'bangable': a:bangable,
+				\ 'completion': a:completion,
+				\}
 endfunction
 
 
@@ -1981,7 +2014,7 @@ endfunction
 function! s:MakeRunCommandsFlagDict(...)
 	let l:dict = {}
 	if a:0 >= 1
-		let l:dict['mod'] = a:1
+		let l:dict['arg'] = a:1
 	endif
 	if a:0 >= 2
 		let l:dict['disp'] = a:2

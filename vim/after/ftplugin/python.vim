@@ -12,8 +12,8 @@ augroup end
 
 function! s:PyCmds()
 	return {
-				\ 'r': 'Run',
-				\ 'm': 'silent lmake | QFOpenSmart l'
+				\ 'r': MakeRunCommandsDictInfo('Run', v:false, v:false, 'file'),
+				\ 'm': MakeRunCommandsDictInfo('MyMake', v:false, v:false, ''),
 				\ }
 endfunction
 
