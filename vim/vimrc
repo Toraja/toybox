@@ -1856,8 +1856,12 @@ endfunction
 " Pressing flag key changes the way the function behaves.
 " @cmd_dict [dict] key: char to trigger the command, value: command to run
 " @title [string] text to display when invoked
-function! RunCommands(cmd_dict, title)
-	let [l:key_mod, l:key_disp, l:key_bang, l:key_help] = ['-', '_', '!', '?']
+" @1 [dict] customised flag key
+function! RunCommands(cmddict, title, ...)
+	let l:flag_keys = a:0 > 0 && type(a:1) == v:t_dict ? a:1 : {}
+	let l:key_mod = get(l:flag_keys, 'mod', '-')
+	let l:key_disp = get(l:flag_keys, 'disp', '_')
+	let l:key_bang = get(l:flag_keys, 'bang', '!')
 	let l:flag_dict = {
 				\ l:key_mod: 'Modify command',
 				\ l:key_disp: 'Display commands',
