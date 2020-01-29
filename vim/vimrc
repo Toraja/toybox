@@ -1854,51 +1854,51 @@ endfunction
 
 " List up the commands in the given dictionary with keys to trigger.
 " Pressing flag key changes the way the function behaves.
-" @cmddict [dict] key: char to trigger the command, value: command to run
+" @cmd_dict [dict] key: char to trigger the command, value: command to run
 " @title [string] text to display when invoked
-function! RunCommands(cmddict, title)
-	let [l:keyMod, l:keyDisp, l:keyBang, l:keyHelp] = ['-', '_', '!', '?']
-	let l:flagDict = {
-				\ l:keyMod: 'Modify command',
-				\ l:keyDisp: 'Display commands',
-				\ l:keyBang: 'Run with !',
+function! RunCommands(cmd_dict, title)
+	let [l:key_mod, l:key_disp, l:key_bang, l:key_help] = ['-', '_', '!', '?']
+	let l:flag_dict = {
+				\ l:key_mod: 'Modify command',
+				\ l:key_disp: 'Display commands',
+				\ l:key_bang: 'Run with !',
 				\}
-	call DispOptionsOneLine(a:title, l:flagDict)
+	call DispOptionsOneLine(a:title, l:flag_dict)
 
-	let l:selectedFlag = ''
-	let [l:modify, l:bang] = [0, 0]
+	let l:selected_flag = ''
+	let [l:modify, l:bang] = [v:false, v:false]
 	while v:true
-		let l:userInput = GetChar(v:true)
-		if l:userInput is 0
+		let l:user_input = GetChar(v:true)
+		if l:user_input is 0
 			return
 		endif
 		" remove() throws an error if key does not exist
-		silent! let l:flagSelected = remove(l:flagDict, l:userInput) is 0
-		if l:flagSelected
+		silent! let l:flag_selected = remove(l:flag_dict, l:user_input) is 0
+		if l:flag_selected
 			break
-		elseif l:userInput != l:keyDisp
-			let l:selectedFlag .= l:userInput
+		elseif l:user_input != l:key_disp
+			let l:selected_flag .= l:user_input
 		endif
-		if l:userInput == l:keyMod
-			let l:modify = 1
-			echohl Function | echon l:keyMod | echohl NONE
+		if l:user_input == l:key_mod
+			let l:modify = v:true
+			echohl Function | echon l:key_mod | echohl NONE
 			continue
-		elseif l:userInput == l:keyDisp
+		elseif l:user_input == l:key_disp
 			redraw
-			call DispOptions('Commands:', a:cmddict, 'Press a key: '.l:selectedFlag, 'SortItemsByValue')
+			call DispOptions('Commands:', a:cmd_dict, 'Press a key: '.l:selected_flag, 'SortItemsByValue')
 			continue
-		elseif l:userInput == l:keyBang
-			let l:bang = 1
-			echohl Function | echon l:keyBang | echohl NONE
+		elseif l:user_input == l:key_bang
+			let l:bang = v:true
+			echohl Function | echon l:key_bang | echohl NONE
 			continue
 		endif
 	endwhile
 
-	redraw	" clear concole so that 'Press ENTER or ...' will not be shown
-	let l:cmd = get(a:cmddict, l:userInput, '')
+	redraw
+	let l:cmd = get(a:cmd_dict, l:user_input, '')
 	if l:cmd == ''
 		" user press an unavailable key
-		echohl WarningMsg | echo printf('"%s" is not available.', l:userInput) | echohl NONE
+		echohl WarningMsg | echo printf('"%s" is not available.', l:user_input) | echohl NONE
 		return
 	endif
 
