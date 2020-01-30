@@ -1869,10 +1869,10 @@ function! RunCommands(cmd_dict, title, ...) abort
 	let l:flag_keys = a:0 >= 1 ? a:1 : {}
 	let l:SortFunc = a:0 >= 2 ? a:2 : ''
 
-	function! s:ArgProc() closure
-		let l:selected_flag .= l:key_arg
-		let l:add_arg = v:true
-		echohl Function | echon l:key_arg | echohl NONE
+	function! s:ModProc() closure
+		let l:selected_flag .= l:key_mod
+		let l:modify = v:true
+		echohl Function | echon l:key_mod | echohl NONE
 	endfunction
 	function! s:DispProc() closure
 		redraw
@@ -1884,18 +1884,18 @@ function! RunCommands(cmd_dict, title, ...) abort
 		echohl Function | echon l:key_bang | echohl NONE
 	endfunction
 
-	let l:key_arg = get(l:flag_keys, 'arg', '-')
+	let l:key_mod = get(l:flag_keys, 'mod', '-')
 	let l:key_disp = get(l:flag_keys, 'disp', '_')
 	let l:key_bang = get(l:flag_keys, 'bang', '!')
 	let l:flag_dict = {
-				\ l:key_arg: {'desc': 'Add argument', 'func': function('s:ArgProc')},
+				\ l:key_mod: {'desc': 'Modify command', 'func': function('s:ModProc')},
 				\ l:key_disp: {'desc': 'Display commands', 'func': function('s:DispProc')},
 				\ l:key_bang: {'desc': 'Run with !', 'func': function('s:BangProc')},
 				\}
 	call DispOptionsOneLine(a:title, l:flag_dict, '', 'desc')
 
 	let l:selected_flag = ''
-	let [l:add_arg, l:bang] = [v:false, v:false]
+	let [l:modify, l:bang] = [v:false, v:false]
 	while v:true
 		let l:user_input = GetChar(v:true)
 		if l:user_input is 0
@@ -1919,14 +1919,14 @@ function! RunCommands(cmd_dict, title, ...) abort
 	endif
 
 	let l:cmd = l:cmd_info.cmd
-	if l:cmd_info.always_add_arg && !l:add_arg
-		let l:add_arg = v:true
+	if l:cmd_info.always_modify && !l:modify
+		let l:modify = v:true
 	endif
 	if l:bang && l:cmd_info.bangable
 		let l:cmd .= '!'
 	endif
 
-	if l:add_arg
+	if l:modify
 		let l:orgCmd = l:cmd
 		let l:input_opt = {'prompt': ':' . l:cmd . ' '}
 		if l:cmd_info.completion != ''
@@ -1947,13 +1947,13 @@ function! RunCommands(cmd_dict, title, ...) abort
 endfunction
 
 " @cmd [string] command to run
-" @always_add_arg [bool] whether to always modify the command
+" @always_modify [bool] whether to always modify the command
 " @bangable [bool] if false, bang flag will be ignored and command is run without !
 " @completion [string] command completion passed to input()
-function! MakeRunCommandsDictInfo(cmd, always_add_arg, bangable, completion) abort
+function! MakeRunCommandsDictInfo(cmd, always_modify, bangable, completion) abort
 	return {
 				\ 'cmd': a:cmd,
-				\ 'always_add_arg': a:always_add_arg,
+				\ 'always_modify': a:always_modify,
 				\ 'bangable': a:bangable,
 				\ 'completion': a:completion,
 				\}
@@ -2014,7 +2014,7 @@ endfunction
 function! s:MakeRunCommandsFlagDict(...)
 	let l:dict = {}
 	if a:0 >= 1
-		let l:dict['arg'] = a:1
+		let l:dict['mod'] = a:1
 	endif
 	if a:0 >= 2
 		let l:dict['disp'] = a:2
