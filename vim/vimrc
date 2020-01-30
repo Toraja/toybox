@@ -1786,7 +1786,7 @@ endf
 " Display dictionary in accending order for <expr> mapping
 " (i.e. modify 'cmdheight' to avoid 'Press ENTER or ...')
 function! DispOptionsExpr(title, option, message, ...) abort
-	let l:sortfunc = (a:0 >= 1) ? a:1 : ''
+	let l:SortFunc = (a:0 >= 1) ? a:1 : ''
 
 	let l:org_cmdheight = &cmdheight
 	" must be `let`, `execute set` does not work
@@ -1795,7 +1795,7 @@ function! DispOptionsExpr(title, option, message, ...) abort
 
 	let l:output = []
 	call add(l:output, a:title)
-	for [k,v] in sort(items(a:option), l:sortfunc)
+	for [k,v] in sort(items(a:option), l:SortFunc)
 		call add(l:output, printf('  %s: %s', k, v))
 	endfor
 	unlet k v
