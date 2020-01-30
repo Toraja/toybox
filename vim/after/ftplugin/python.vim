@@ -9,15 +9,16 @@ augroup my_python
 	autocmd BufWrite *.py Autoformat
 augroup end
 
-
-function! s:PyCmds()
-	return {
-				\ 'r': MakeRunCommandsDictInfo('Run', v:false, v:false, 'file'),
+function! s:MakePyCmds()
+	let l:py_cmds = {
+				\ 'r': MakeRunCommandsDictInfo('Run', v:false, v:false, ''),
 				\ 'm': MakeRunCommandsDictInfo('MyMake', v:false, v:false, ''),
 				\ }
+	function! s:PyCmds() closure
+		return l:py_cmds
+	endfunction
 endfunction
+call s:MakePyCmds()
+nnoremap <buffer> <expr> - RunCommandsExpr('Python Cmd', <SID>PyCmds())
 
 command! -buffer Run vsplit | terminal python %
-
-command! -buffer RunCommands call RunCommands(<SID>PyCmds(), 'Python Cmd')
-nnoremap <buffer> - :RunCommands<CR>

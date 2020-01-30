@@ -1,9 +1,7 @@
 " {{{ || vim-go || ---
 " Workaround to use script local variable in keymap
-function! s:GoCmds()
-			" \ 'b': (!has('nvim') && has('win32')) ? 'GoBuild %' : 'GoBuild',
-			" \ 'B': printf('call MyMake("%s")', expand("%")),
-	return {
+function! s:MakeGocmds()
+	let l:go_cmds = {
 				\ 'a': MakeRunCommandsDictInfo('GoAlternateSplit', v:false, v:true, ''),
 				\ 'A': MakeRunCommandsDictInfo('GoAlternateVSplit', v:false, v:true, ''),
 				\ 'b': MakeRunCommandsDictInfo('GoBuild', v:false, v:true, ''),
@@ -37,9 +35,12 @@ function! s:GoCmds()
 				\ 'w': MakeRunCommandsDictInfo('GoWhicherrs', v:false, v:false, ''),
 				\ 'W': MakeRunCommandsDictInfo('SwitchTermMode "current mode = '.g:go_term_mode, v:false, v:false, ''),
 				\ }
+	function! s:GoCmds() closure
+		return l:go_cmds
+	endfunction
 endfunction
-command! -buffer RunCommands call RunCommands(<SID>GoCmds(), 'Go commands', {}, function('SortItemsByNestedValue', ['cmd']))
-nnoremap <buffer> - :RunCommands<CR>
+call s:MakeGocmds()
+nnoremap <buffer> <expr> - RunCommandsExpr('Go commands', <SID>GoCmds(), {}, function('SortItemsByNestedValue', ['cmd']))
 command! -buffer -bang GoAlternateSplit call go#alternate#Switch(<bang>0, 'split')
 command! -buffer -bang GoAlternateVSplit call go#alternate#Switch(<bang>0, 'vsplit')
 
