@@ -1078,13 +1078,13 @@ if exists('g:plugs["nerdtree"]')
 	" augroup END
 	function! s:MakeNERDTreeCmds()
 		let l:nerd_tree_cmds = {
-					\ 't': MakeRunCommandsDictInfo('NERDTreeToggle', v:false, v:false, ''),
-					\ 'o': MakeRunCommandsDictInfo('NERDTreeFocus', v:false, v:false, ''),
-					\ 'v': MakeRunCommandsDictInfo('NERDTreeVCS', v:false, v:false, ''),
-					\ 'b': MakeRunCommandsDictInfo('NERDTreeFromBookmark', v:true, v:false, ''),
-					\ 'f': MakeRunCommandsDictInfo('NERDTreeFind', v:false, v:false, ''),
-					\ 'c': MakeRunCommandsDictInfo('NERDTreeCWD', v:false, v:false, ''),
-					\ 'r': MakeRunCommandsDictInfo('NERDTreeRefreshRoot', v:false, v:false, ''),
+					\ 't': MakeRunCommandsDictInfo('NERDTreeToggle', [], v:false, v:false),
+					\ 'o': MakeRunCommandsDictInfo('NERDTreeFocus', [], v:false, v:false),
+					\ 'v': MakeRunCommandsDictInfo('NERDTreeVCS', [], v:false, v:false),
+					\ 'b': MakeRunCommandsDictInfo('NERDTreeFromBookmark', [], v:true, v:false),
+					\ 'f': MakeRunCommandsDictInfo('NERDTreeFind', [], v:false, v:false),
+					\ 'c': MakeRunCommandsDictInfo('NERDTreeCWD', [], v:false, v:false),
+					\ 'r': MakeRunCommandsDictInfo('NERDTreeRefreshRoot', [], v:false, v:false),
 					\ }
 		function! s:NERDTreeCmds() closure
 			return l:nerd_tree_cmds
@@ -1954,21 +1954,33 @@ function! RunCommands(cmd_dict, title, ...) abort
 endfunction
 
 " @cmd [string] command to run
+" @args [list] list of dist which is {value: [string], eval: [bool]}
 " @always_modify [bool] whether to always modify the command
 " @bangable [bool] if false, bang flag will be ignored and command is run without !
-" @completion [string] command completion passed to input()
-function! MakeRunCommandsDictInfo(cmd, always_modify, bangable, completion) abort
+function! MakeRunCommandsDictInfo(cmd, args, always_modify, bangable) abort
 	return {
 				\ 'cmd': a:cmd,
+				\ 'args': a:args,
 				\ 'always_modify': a:always_modify,
 				\ 'bangable': a:bangable,
-				\ 'completion': a:completion,
 				\}
+endfunction
+
+function! MakeRunCommandsDictInfoArgs(list_list) abort
+	let l:args = []
+	for l:arg in a:list_list
+		let l:value = l:arg[0]
+		let l:eval = len(l:arg) > 1 ? l:arg[1] : v:false
+		call add(l:args, {'value': l:value, 'eval': l:eval})
+	endfor
+	return l:args
 endfunction
 
 " XXX not so cool
 " - hard to update selected flag on cmdline
 " - command reference cannot help but being single color
+" - message/cmd list in cmdline gets overwritten if something is output
+"   to cmdline (e.g. Goinfo by vim-go)
 function! RunCommandsExpr(title, cmds, ...) abort
 	let l:flag_keys = a:0 > 0 && type(a:1) == v:t_dict ? a:1 : {}
 	let l:SortFunc = a:0 >= 2 ? a:2 : ''
@@ -1978,10 +1990,26 @@ function! RunCommandsExpr(title, cmds, ...) abort
 	endfunction
 	function! s:DispProc() closure
 		redraw
-		call DispOptionsExpr(a:title, a:cmds, 'Press a key: ', l:SortFunc, 'cmd')
+		call DispOptionsExpr(a:title, l:cmds, 'Press a key: ', l:SortFunc, 'desc')
 	endfunction
 	function! s:BangProc() closure
 		let l:bang = v:true
+	endfunction
+	function! s:EvalCmdArgs(cmd_key, cmd_info) abort
+		let l:cmd_info = copy(a:cmd_info)
+
+		if empty(a:cmd_info.args)
+			let l:cmd_info.desc = l:cmd_info.cmd
+			return l:cmd_info
+		endif
+
+		let l:new_args = []
+		for l:arg in l:cmd_info.args
+			call add(l:new_args, l:arg.eval ? eval(l:arg.value) : l:arg.value)
+		endfor
+		let l:cmd_info.args = l:new_args
+		let l:cmd_info.desc = l:cmd_info.cmd . ' ' . join(l:new_args, ' ')
+		return l:cmd_info
 	endfunction
 
 	let l:key_mod = get(l:flag_keys, 'mod', '-')
@@ -1998,6 +2026,8 @@ function! RunCommandsExpr(title, cmds, ...) abort
 				\ l:key_bang: {'desc': 'Run with !', 'func': function('s:BangProc')},
 				\}
 	call DispOptionsOneLine(a:title, l:flag_dict, '', 'desc')
+
+	let l:cmds = map(copy(a:cmds), function('s:EvalCmdArgs'))
 
 	let [l:modify, l:displaying, l:bang] = [v:false, v:false, v:false]
 	while v:true
@@ -2016,22 +2046,23 @@ function! RunCommandsExpr(title, cmds, ...) abort
 	endwhile
 	mode
 
-	let l:cmd_info = get(a:cmds, l:user_input, {})
+	let l:cmd_info = get(l:cmds, l:user_input, {})
 	if empty(l:cmd_info)
 		" user press an unavailable key
 		echohl WarningMsg | echo printf('"%s" is not available.', l:user_input) | echohl NONE
 		return
 	endif
 
-	let l:cmd = l:cmd_info.cmd
 	if !l:modify && l:cmd_info.always_modify
 		let l:modify = v:true
 	endif
+	let l:cmd = l:cmd_info.cmd
 	if l:bang && l:cmd_info.bangable
 		let l:cmd .= '!'
 	endif
+	let l:arg = len(l:cmd_info.args) == 0 ? '' : ' ' . join(l:cmd_info.args)
 
-	return ':' . l:cmd . (l:modify ? "\<Space>": "\<CR>")
+	return ':' . l:cmd . l:arg . (l:modify ? "\<Space>": "\<CR>")
 endfunction
 
 function! s:MakeRunCommandsFlagDict(...)

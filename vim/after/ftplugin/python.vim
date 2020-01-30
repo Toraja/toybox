@@ -11,8 +11,8 @@ augroup end
 
 function! s:MakePyCmds()
 	let l:py_cmds = {
-				\ 'r': MakeRunCommandsDictInfo('Run', v:false, v:false, ''),
-				\ 'm': MakeRunCommandsDictInfo('MyMake', v:false, v:false, ''),
+				\ 'r': MakeRunCommandsDictInfo('Run', [], v:false, v:false),
+				\ 'm': MakeRunCommandsDictInfo('MyMake', [], v:false, v:false),
 				\ }
 	function! s:PyCmds() closure
 		return l:py_cmds
