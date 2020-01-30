@@ -1076,22 +1076,27 @@ if exists('g:plugs["nerdtree"]')
 	"     autocmd FileType nerdtree nnoremap <buffer> J gt
 	"     autocmd FileType nerdtree nnoremap <buffer> K gT
 	" augroup END
-	function! s:NERDTreeCmds()
-		return {
-					\ 't': 'NERDTreeToggle',
-					\ 'o': 'NERDTreeFocus',
-					\ 'v': 'NERDTreeVCS',
-					\ 'b': 'NERDTreeFromBookmark',
-					\ 'f': 'NERDTreeFind',
-					\ 'c': 'NERDTreeCWD',
-					\ 'r': 'NERDTreeRefreshRoot',
+	function! s:MakeNERDTreeCmds()
+		let l:nerd_tree_cmds = {
+					\ 't': MakeRunCommandsDictInfo('NERDTreeToggle', v:false, v:false, ''),
+					\ 'o': MakeRunCommandsDictInfo('NERDTreeFocus', v:false, v:false, ''),
+					\ 'v': MakeRunCommandsDictInfo('NERDTreeVCS', v:false, v:false, ''),
+					\ 'b': MakeRunCommandsDictInfo('NERDTreeFromBookmark', v:true, v:false, ''),
+					\ 'f': MakeRunCommandsDictInfo('NERDTreeFind', v:false, v:false, ''),
+					\ 'c': MakeRunCommandsDictInfo('NERDTreeCWD', v:false, v:false, ''),
+					\ 'r': MakeRunCommandsDictInfo('NERDTreeRefreshRoot', v:false, v:false, ''),
 					\ }
+		function! s:NERDTreeCmds() closure
+			return l:nerd_tree_cmds
+		endfunction
 	endfunction
-	function! s:NERDTreeAlwaysModifyList()
-		return ['b']
+	function! s:MakeNERDTreeFlagDict()
+		let l:nerd_tree_flags = s:MakeRunCommandsFlagDict(':', ';')
+		function! s:NERDTreeFlags() closure
+			return l:nerd_tree_flags
+		endfunction
 	endfunction
-	nnoremap <expr> [Chief]t RunCommandsExpr("NERDTree", <SID>NERDTreeCmds(),
-				\ <SID>NERDTreeAlwaysModifyList(), <SID>MakeRunCommandsFlagDict(':', ';'))
+	nnoremap <expr> [Chief]t RunCommandsExpr("NERDTree", <SID>NERDTreeCmds(), <SID>NERDTreeFlags())
 endif
 " --- || NERDTree || }}}
 
@@ -1787,6 +1792,7 @@ endf
 " (i.e. modify 'cmdheight' to avoid 'Press ENTER or ...')
 function! DispOptionsExpr(title, option, message, ...) abort
 	let l:SortFunc = (a:0 >= 1) ? a:1 : ''
+	let l:key_name = (a:0 >= 2) ? a:2 : ''
 
 	let l:org_cmdheight = &cmdheight
 	" must be `let`, `execute set` does not work
@@ -1796,7 +1802,7 @@ function! DispOptionsExpr(title, option, message, ...) abort
 	let l:output = []
 	call add(l:output, a:title)
 	for [k,v] in sort(items(a:option), l:SortFunc)
-		call add(l:output, printf('  %s: %s', k, v))
+		call add(l:output, printf('  %s: %s', k, (type(v) == v:t_dict ? v[l:key_name] : v)))
 	endfor
 	unlet k v
 	call add(l:output, a:message)
@@ -1960,12 +1966,24 @@ function! MakeRunCommandsDictInfo(cmd, always_modify, bangable, completion) abor
 				\}
 endfunction
 
-
 " XXX not so cool
 " - hard to update selected flag on cmdline
 " - command reference cannot help but being single color
-function! RunCommandsExpr(title, cmds, always_modify_list, ...) abort
+function! RunCommandsExpr(title, cmds, ...) abort
 	let l:flag_keys = a:0 > 0 && type(a:1) == v:t_dict ? a:1 : {}
+	let l:SortFunc = a:0 >= 2 ? a:2 : ''
+
+	function! s:ModProc() closure
+		let l:modify = v:true
+	endfunction
+	function! s:DispProc() closure
+		redraw
+		call DispOptionsExpr(a:title, a:cmds, 'Press a key: ', l:SortFunc, 'cmd')
+	endfunction
+	function! s:BangProc() closure
+		let l:bang = v:true
+	endfunction
+
 	let l:key_mod = get(l:flag_keys, 'mod', '-')
 	let l:key_disp = get(l:flag_keys, 'disp', '_')
 	let l:key_bang = get(l:flag_keys, 'bang', '!')
@@ -1974,7 +1992,12 @@ function! RunCommandsExpr(title, cmds, always_modify_list, ...) abort
 				\ l:key_disp: "Display commands",
 				\ l:key_bang: "Run with !",
 				\}
-	call DispOptionsOneLine(a:title, l:flag_dict)
+	let l:flag_dict = {
+				\ l:key_mod: {'desc': 'Modify command', 'func': function('s:ModProc')},
+				\ l:key_disp: {'desc': 'Display commands', 'func': function('s:DispProc')},
+				\ l:key_bang: {'desc': 'Run with !', 'func': function('s:BangProc')},
+				\}
+	call DispOptionsOneLine(a:title, l:flag_dict, '', 'desc')
 
 	let [l:modify, l:displaying, l:bang] = [v:false, v:false, v:false]
 	while v:true
@@ -1982,34 +2005,33 @@ function! RunCommandsExpr(title, cmds, always_modify_list, ...) abort
 		if l:user_input is 0
 			return
 		endif
-		if l:user_input == l:key_mod && !l:modify
-			let l:modify = v:true
-			continue
-		elseif l:user_input == l:key_disp && !l:displaying
-			let l:displaying = v:true
-			call DispOptionsExpr(a:title, a:cmds, 'Press a key: ')
-			continue
-		elseif l:user_input == l:key_bang && !l:bang
-			let l:bang = v:true
-			continue
-		else
+		" remove() throws an error if key does not exist
+		silent! let l:flag_info = remove(l:flag_dict, l:user_input)
+		let l:flag_selected_or_user_input_is_not_flag = flag_info is 0
+		if l:flag_selected_or_user_input_is_not_flag
 			break
 		endif
+
+		call l:flag_info['func']()
 	endwhile
 	mode
 
-	if !l:modify && index(a:always_modify_list, l:user_input) >= 0
-		let l:modify = v:true
-	endif
-
-	let l:cmd = get(a:cmds, l:user_input, '')
-	if l:cmd == ''
+	let l:cmd_info = get(a:cmds, l:user_input, {})
+	if empty(l:cmd_info)
 		" user press an unavailable key
 		echohl WarningMsg | echo printf('"%s" is not available.', l:user_input) | echohl NONE
 		return
 	endif
 
-	return ':' . l:cmd . (l:bang ? '!' : '') . (l:modify ? "\<Space>": "\<CR>")
+	let l:cmd = l:cmd_info.cmd
+	if !l:modify && l:cmd_info.always_modify
+		let l:modify = v:true
+	endif
+	if l:bang && l:cmd_info.bangable
+		let l:cmd .= '!'
+	endif
+
+	return ':' . l:cmd . (l:modify ? "\<Space>": "\<CR>")
 endfunction
 
 function! s:MakeRunCommandsFlagDict(...)
@@ -2099,6 +2121,9 @@ cnoreabbrev fig FindGrep <bar> " <pattern> [path] [filename]<HOME><C-Right>
 " --- || functions || }}}
 
 " load local vimrc
+call s:MakeNERDTreeCmds()
+call s:MakeNERDTreeFlagDict()
+
 if exists('g:plugs["vim-projectroot"]')
 	silent! execute 'source '.projectroot#guess().'/.vimrc_local'
 endif
