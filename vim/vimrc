@@ -1865,6 +1865,9 @@ endfunction
 " @title [string] text to display when invoked
 " @1 [dict] customised flag key
 " @2 [string] sort function for displaying commands
+" XXX no so cool
+" - In 'modify' mode, argument can be added but original command cannot be modified
+"   since completion does not work if there are preceding characters
 function! RunCommands(cmd_dict, title, ...) abort
 	let l:flag_keys = a:0 >= 1 ? a:1 : {}
 	let l:SortFunc = a:0 >= 2 ? a:2 : ''
@@ -1927,18 +1930,16 @@ function! RunCommands(cmd_dict, title, ...) abort
 	endif
 
 	if l:modify
-		let l:orgCmd = l:cmd
 		let l:input_opt = {'prompt': ':' . l:cmd . ' '}
 		if l:cmd_info.completion != ''
 			let l:input_opt['completion'] = l:cmd_info.completion
 		endif
-		let l:cmd = Input(v:true, l:input_opt)
-		if l:cmd is 0
+		let l:cmd_arg = Input(v:false, l:input_opt)
+		if l:cmd_arg is 0
 			return
 		endif
-		if l:cmd != l:orgCmd
-			call histadd(':', l:cmd)
-		endif
+		let l:cmd .= l:cmd_arg == '' ? '' : ' ' . l:cmd_arg
+		call histadd(':', l:cmd)
 	else
 		echo l:cmd
 	endif
