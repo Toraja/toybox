@@ -1078,6 +1078,7 @@ if exists('g:plugs["nerdtree"]')
 	" augroup END
 	function! s:MakeNERDTreeCmds()
 		let l:nerd_tree_cmds = {
+					\ 'n': MakeRunCommandsDictInfo('NERDTree', [], v:true, v:false),
 					\ 't': MakeRunCommandsDictInfo('NERDTreeToggle', [], v:false, v:false),
 					\ 'o': MakeRunCommandsDictInfo('NERDTreeFocus', [], v:false, v:false),
 					\ 'v': MakeRunCommandsDictInfo('NERDTreeVCS', [], v:false, v:false),
