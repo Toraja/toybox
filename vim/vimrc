@@ -748,8 +748,8 @@ nnoremap <Leader>s   :call QuickSubstitute(expand("<cword>"), {'range': '%'})<CR
 nnoremap <Leader>S   :call QuickSubstitute(expand("<cword>"), {'range': '%', 'case': 1})<CR>
 nnoremap [Chief]s    :call QuickSubstitute(expand("<cword>"), {'range': '%', 'exclusive': 1})<CR>
 nnoremap [Chief]S    :call QuickSubstitute(expand("<cword>"), {'range': '%', 'exclusive': 1, 'case': 1})<CR>
-vnoremap [Captain]s  :call QuickSubstitute('', {'range': '%', 'selection': 1})<CR>
-vnoremap [Captain]S  :call QuickSubstitute(@@, {'range': '%', 'selection': 1})<CR>
+vnoremap [Captain]s  :<C-u>call QuickSubstitute('', {'range': '%', 'selection': 1})<CR>
+vnoremap [Captain]S  :<C-u>call QuickSubstitute(@@, {'range': '%', 'selection': 1})<CR>
 vnoremap <Leader>s  y:call QuickSubstitute(@@, {'range': '%'})<CR>
 vnoremap <Leader>S  y:call QuickSubstitute(@@, {'range': '%', 'case': 1})<CR>
 vnoremap [Chief]s   y:call QuickSubstitute(@@, {'range': '%', 'exclusive': 1})<CR>
