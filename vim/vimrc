@@ -1554,7 +1554,7 @@ function! OpenFileOnEachLine() range
 	" call cursor(1, 1)
 	for l:linenum in range(a:firstline, a:lastline)
 		call cursor(l:linenum, 1)
-		let l:path = expand("<cfile>") 
+		let l:path = expand("<cfile>")
 		if !filereadable(l:path)
 			continue
 		endif
@@ -1655,7 +1655,7 @@ function! s:ExtCmdToPreview(cmd, append)
 		return
 	endtry
 
-	let l:vimcmd = a:append ? '$read !' :'%! ' 
+	let l:vimcmd = a:append ? '$read !' :'%! '
 	execute l:vimcmd.a:cmd
 	setlocal nomodified
 	wincmd p
