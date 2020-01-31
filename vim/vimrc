@@ -1174,12 +1174,6 @@ if exists('g:plugs["auto-pairs"]')
 endif
 " --- || auto-pairs || }}}
 
-" {{{ || vim-repeat || ---
-if exists('g:plugs["vim-repeat"]')
-	nmap <silent> U <Plug>(RepeatRedo)
-endif
-" --- || vim-repeat || }}}
-
 " {{{ || syntastic || ---
 if exists('g:plugs["syntastic"]')
 	" Do not complete automatically
