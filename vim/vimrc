@@ -1811,6 +1811,59 @@ function! DispOptionsExpr(title, option, message, ...) abort
 	let &cmdheight = l:org_cmdheight
 endf
 
+" @header [string] string to prepend
+" @footer [string] string to append
+" @indent_level [int] number of space to add in front of each dict entry
+" @1 [*] {func} argument for sort()
+" @2 [string] if {dict} has nested dict, key for the entry to use
+function! DictToListString(dict, sep, header, footer, indent_level, ...) abort
+	let l:SortFunc = (a:0 >= 1) ? a:1 : ''
+	let l:key_name = (a:0 >= 2) ? a:2 : ''
+
+	let l:entry_format = repeat(' ', a:indent_level) . '%s' . a:sep . '%s'
+	let l:list = []
+	for [k, v] in sort(items(a:dict), l:SortFunc)
+		call add(l:list, printf(l:entry_format, k, (type(v) == v:t_dict ? v[l:key_name] : v)))
+	endfor
+	unlet k v
+
+	if a:header != ''
+		call insert(l:list, a:header)
+	endif
+	if a:footer != ''
+		call add(l:list, a:footer)
+	endif
+
+	return join(l:list, "\n")
+endfunction
+
+" `echo` without "Press ENTER and ..." by changing 'cmdheight' if {content}
+" has more line number than 'cmdheight'.
+" If {return_callback} is true, you can reset the 'cmdheight' by calling
+" `reset_cmdheight()` of returned object. Otherwise 'cmdheight' is reset
+" immediately (intended to use with getchar/input())
+function! EchoAdjustingCmdheight(content, return_callback) abort
+	let l:org_cmdheight = &cmdheight
+	let l:cmdheight_changed = v:false
+
+	let l:line_count = count(a:content, "\n") + 1
+	" must be `let`, `execute set` does not work
+	let &cmdheight = l:line_count
+
+	mode " suppress white flash which somehow appears when expanding cmdline
+	echohl Question | echo a:content | echohl NONE
+
+	if a:return_callback
+		let l:callback = {}
+		function! l:callback.reset_cmdheight() closure
+			let &cmdheight = l:org_cmdheight
+		endfunction
+		return l:callback
+	endif
+
+	let &cmdheight = l:org_cmdheight
+endfunction
+
 function! Toggler()
 	let l:options = {
 				\ 'l': 'list',
@@ -1990,7 +2043,7 @@ function! RunCommandsExpr(title, cmds, ...) abort
 	endfunction
 	function! s:DispProc() closure
 		redraw
-		call DispOptionsExpr(a:title, l:cmds, 'Press a key: ', l:SortFunc, 'desc')
+		call EchoAdjustingCmdheight(l:output, v:false)
 	endfunction
 	function! s:BangProc() closure
 		let l:bang = v:true
@@ -2028,6 +2081,7 @@ function! RunCommandsExpr(title, cmds, ...) abort
 	call DispOptionsOneLine(a:title, l:flag_dict, '', 'desc')
 
 	let l:cmds = map(copy(a:cmds), function('s:EvalCmdArgs'))
+	let l:output = DictToListString(l:cmds, ': ', a:title, 'Press a key: ', 2, l:SortFunc, 'desc')
 
 	let [l:modify, l:displaying, l:bang] = [v:false, v:false, v:false]
 	while v:true
