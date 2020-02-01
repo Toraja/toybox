@@ -1,6 +1,6 @@
 " {{{ || vim-go || ---
 " Workaround to use script local variable in keymap
-function! s:MakeGocmds()
+function! s:InitGocmds()
 	let l:go_import_args = MakeRunCommandsDictInfoArgs([['expand("<cword>")', v:true]])
 	let l:switch_term_mode_args = MakeRunCommandsDictInfoArgs([['"current mode ='], ['g:go_term_mode', v:true]])
 	let l:go_run_args = MakeRunCommandsDictInfoArgs([['%']])
@@ -42,7 +42,7 @@ function! s:MakeGocmds()
 		return l:go_cmds
 	endfunction
 endfunction
-call s:MakeGocmds()
+call s:InitGocmds()
 nnoremap <buffer> <expr> - RunCommands('Go commands', <SID>GoCmds(), {}, function('SortItemsByNestedValue', ['cmd']))
 command! -buffer -bang GoAlternateSplit call go#alternate#Switch(<bang>0, 'split')
 command! -buffer -bang GoAlternateVSplit call go#alternate#Switch(<bang>0, 'vsplit')

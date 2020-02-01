@@ -1076,7 +1076,7 @@ if exists('g:plugs["nerdtree"]')
 	"     autocmd FileType nerdtree nnoremap <buffer> J gt
 	"     autocmd FileType nerdtree nnoremap <buffer> K gT
 	" augroup END
-	function! s:MakeNERDTreeCmds()
+	function! s:InitNERDTreeCmds()
 		let l:nerd_tree_cmds = {
 					\ 'n': MakeRunCommandsDictInfo('NERDTree', [], v:true, v:false),
 					\ 't': MakeRunCommandsDictInfo('NERDTreeToggle', [], v:false, v:false),
@@ -1091,7 +1091,7 @@ if exists('g:plugs["nerdtree"]')
 			return l:nerd_tree_cmds
 		endfunction
 	endfunction
-	function! s:MakeNERDTreeFlagDict()
+	function! s:InitNERDTreeFlagDict()
 		let l:nerd_tree_flags = s:MakeRunCommandsFlagDict(':', ';')
 		function! s:NERDTreeFlags() closure
 			return l:nerd_tree_flags
@@ -2160,8 +2160,8 @@ cnoreabbrev fig FindGrep <bar> " <pattern> [path] [filename]<HOME><C-Right>
 " --- || functions || }}}
 
 " load local vimrc
-call s:MakeNERDTreeCmds()
-call s:MakeNERDTreeFlagDict()
+call s:InitNERDTreeCmds()
+call s:InitNERDTreeFlagDict()
 
 if exists('g:plugs["vim-projectroot"]')
 	silent! execute 'source '.projectroot#guess().'/.vimrc_local'
