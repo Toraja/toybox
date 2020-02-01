@@ -97,13 +97,13 @@ set -l fzf_opts "--height=40%"\
     "--preview='bat --color=always {}'" \
     "--preview-window=hidden"
 set -l fzf_bind_opts "ctrl-space:toggle" \
-    "ctrl-t:top" \
+    "ctrl-o:top" \
     "ctrl-s:jump" \
-    "ctrl-v:page-down" \
-    "alt-v:page-up" \
     "alt-/:toggle-preview" \
     "alt-n:preview-down" \
     "alt-p:preview-up" \
+    "ctrl-v:preview-page-down" \
+    "alt-v:preview-page-up" \
     "alt-h:backward-kill-word" \
     "ctrl-k:kill-line"
 set -x FZF_DEFAULT_OPTS (string join -- " " $fzf_opts "--bind="(string join ',' $fzf_bind_opts))
