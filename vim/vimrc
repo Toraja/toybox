@@ -1757,6 +1757,23 @@ function! MyMake(...) abort
 endfunction
 command! -nargs=* MyMake :call MyMake(<f-args>)
 
+" Solution for restoring window height inside <expr> keymap
+" (<expr> does not allow `windo`)
+function! SaveWinheight() abort
+	let l:winheights = {}
+	for i in range(1, winnr('$'))
+		let l:winheights[win_getid(i)] = winheight(0)
+	endfor
+
+	function! l:winheights.restore() abort
+		for i in range(1, winnr('$'))
+			execute "resize " . self[win_getid(i)]
+		endfor
+	endfunction
+
+	return l:winheights
+endfunction
+
 " Display dictionary in accending order
 function! DispOptions(title, option, message, ...) abort
 	let l:SortFunc = (a:0 >= 1) ? a:1 : ''
@@ -1829,6 +1846,7 @@ function! EchoAdjustingCmdheight(content, header, footer, return_callback) abort
 
 	let l:line_count = count(a:content, "\n") + 1
 	if l:line_count > &cmdheight
+		let l:winheights = SaveWinheight()
 		" must be `let`, `execute set` does not work
 		let &cmdheight = l:line_count
 		let l:cmdheight_changed = v:true
@@ -1849,6 +1867,7 @@ function! EchoAdjustingCmdheight(content, header, footer, return_callback) abort
 		function! l:callback.reset_cmdheight() closure
 			if l:cmdheight_changed
 				let &cmdheight = l:org_cmdheight
+				call l:winheights.restore()
 			endif
 		endfunction
 		return l:callback
@@ -1856,6 +1875,7 @@ function! EchoAdjustingCmdheight(content, header, footer, return_callback) abort
 
 	if l:cmdheight_changed
 		let &cmdheight = l:org_cmdheight
+		call l:winheights.restore()
 	endif
 endfunction
 
