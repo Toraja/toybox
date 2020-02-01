@@ -1097,7 +1097,7 @@ if exists('g:plugs["nerdtree"]')
 			return l:nerd_tree_flags
 		endfunction
 	endfunction
-	nnoremap <expr> [Chief]t RunCommandsExpr("NERDTree", <SID>NERDTreeCmds(), <SID>NERDTreeFlags())
+	nnoremap <expr> [Chief]t RunCommands("NERDTree", <SID>NERDTreeCmds(), <SID>NERDTreeFlags())
 endif
 " --- || NERDTree || }}}
 
@@ -1933,94 +1933,6 @@ function! SortItemsByNestedValue(key, one, two)
 	return a:one[1][a:key] > a:two[1][a:key] ? 1 : -1
 endfunction
 
-" List up the commands in the given dictionary with keys to trigger.
-" Pressing flag key changes the way the function behaves.
-" @cmd_dict [dict] key: char to trigger the command, value: command to run
-" @title [string] text to display when invoked
-" @1 [dict] customised flag key
-" @2 [string] sort function for displaying commands
-" XXX no so cool
-" - In 'modify' mode, argument can be added but original command cannot be modified
-"   since completion does not work if there are preceding characters
-function! RunCommands(cmd_dict, title, ...) abort
-	let l:flag_keys = a:0 >= 1 ? a:1 : {}
-	let l:SortFunc = a:0 >= 2 ? a:2 : ''
-
-	function! s:ModProc() closure
-		let l:selected_flag .= l:key_mod
-		let l:modify = v:true
-		echohl Function | echon l:key_mod | echohl NONE
-	endfunction
-	function! s:DispProc() closure
-		redraw
-		call DispOptions('Commands:', a:cmd_dict, 'Press a key: '. l:selected_flag, l:SortFunc, 'cmd')
-	endfunction
-	function! s:BangProc() closure
-		let l:selected_flag .= l:key_bang
-		let l:bang = v:true
-		echohl Function | echon l:key_bang | echohl NONE
-	endfunction
-
-	let l:key_mod = get(l:flag_keys, 'mod', '-')
-	let l:key_disp = get(l:flag_keys, 'disp', '_')
-	let l:key_bang = get(l:flag_keys, 'bang', '!')
-	let l:flag_dict = {
-				\ l:key_mod: {'desc': 'Modify command', 'func': function('s:ModProc')},
-				\ l:key_disp: {'desc': 'Display commands', 'func': function('s:DispProc')},
-				\ l:key_bang: {'desc': 'Run with !', 'func': function('s:BangProc')},
-				\}
-	call DispOptionsOneLine(a:title, l:flag_dict, '', 'desc')
-
-	let l:selected_flag = ''
-	let [l:modify, l:bang] = [v:false, v:false]
-	while v:true
-		let l:user_input = GetChar(v:true)
-		if l:user_input is 0
-			return
-		endif
-		" remove() throws an error if key does not exist
-		silent! let l:flag_info = remove(l:flag_dict, l:user_input)
-		let l:flag_selected_or_user_input_is_not_flag = flag_info is 0
-		if l:flag_selected_or_user_input_is_not_flag
-			break
-		endif
-		call l:flag_info['func']()
-	endwhile
-
-	redraw
-	let l:cmd_info = get(a:cmd_dict, l:user_input, {})
-	if empty(l:cmd_info)
-		" user press an unavailable key
-		echohl WarningMsg | echo printf('"%s" is not available.', l:user_input) | echohl NONE
-		return
-	endif
-
-	let l:cmd = l:cmd_info.cmd
-	if l:cmd_info.always_modify && !l:modify
-		let l:modify = v:true
-	endif
-	if l:bang && l:cmd_info.bangable
-		let l:cmd .= '!'
-	endif
-
-	if l:modify
-		let l:input_opt = {'prompt': ':' . l:cmd . ' '}
-		if l:cmd_info.completion != ''
-			let l:input_opt['completion'] = l:cmd_info.completion
-		endif
-		let l:cmd_arg = Input(v:false, l:input_opt)
-		if l:cmd_arg is 0
-			return
-		endif
-		let l:cmd .= l:cmd_arg == '' ? '' : ' ' . l:cmd_arg
-		call histadd(':', l:cmd)
-	else
-		echo l:cmd
-	endif
-
-	execute l:cmd
-endfunction
-
 " @cmd [string] command to run
 " @args [list] list of dist which is {value: [string], eval: [bool]}
 " @always_modify [bool] whether to always modify the command
@@ -2044,7 +1956,7 @@ function! MakeRunCommandsDictInfoArgs(list_list) abort
 	return l:args
 endfunction
 
-function! RunCommandsExpr(title, cmds, ...) abort
+function! RunCommands(title, cmds, ...) abort
 	let l:flag_symbols = a:0 > 0 && type(a:1) == v:t_dict ? a:1 : {}
 	let l:SortFunc = a:0 >= 2 ? a:2 : ''
 

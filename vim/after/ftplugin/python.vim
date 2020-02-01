@@ -19,6 +19,6 @@ function! s:MakePyCmds()
 	endfunction
 endfunction
 call s:MakePyCmds()
-nnoremap <buffer> <expr> - RunCommandsExpr('Python Cmd', <SID>PyCmds())
+nnoremap <buffer> <expr> - RunCommands('Python Cmd', <SID>PyCmds())
 
 command! -buffer Run vsplit | terminal python %

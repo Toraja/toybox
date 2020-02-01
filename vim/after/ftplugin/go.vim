@@ -43,7 +43,7 @@ function! s:MakeGocmds()
 	endfunction
 endfunction
 call s:MakeGocmds()
-nnoremap <buffer> <expr> - RunCommandsExpr('Go commands', <SID>GoCmds(), {}, function('SortItemsByNestedValue', ['cmd']))
+nnoremap <buffer> <expr> - RunCommands('Go commands', <SID>GoCmds(), {}, function('SortItemsByNestedValue', ['cmd']))
 command! -buffer -bang GoAlternateSplit call go#alternate#Switch(<bang>0, 'split')
 command! -buffer -bang GoAlternateVSplit call go#alternate#Switch(<bang>0, 'vsplit')
 
