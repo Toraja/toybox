@@ -63,6 +63,7 @@ abbr --add --global gstl git stash list
 abbr --add --global gstp git stash pop
 abbr --add --global gstm git stash push -m
 abbr --add --global grb git rebase -i
+abbr --add --global grbs git rebase -i --autosquash --autostash
 abbr --add --global grbc git rebase --continue
 ## docker
 abbr --add --global do docker
