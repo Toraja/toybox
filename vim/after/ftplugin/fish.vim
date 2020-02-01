@@ -18,5 +18,5 @@ function! FishFormat(type, ...)
 	silent exec printf("%s,%s!fish_indent", l:start, l:end)
 endf
 
-nnoremap = :call SetOperatorFunc('FishFormat')<CR>g@
-vnoremap = :<C-u>call FishFormat(visualmode(), 1)<CR>
+nnoremap <buffer> = :call SetOperatorFunc('FishFormat')<CR>g@
+vnoremap <buffer> = :<C-u>call FishFormat(visualmode(), 1)<CR>
