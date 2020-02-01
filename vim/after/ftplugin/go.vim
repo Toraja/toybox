@@ -1,49 +1,49 @@
 " {{{ || vim-go || ---
 " Workaround to use script local variable in keymap
 function! s:InitGocmds()
-	let l:go_import_args = MakeRunCommandsDictInfoArgs([['expand("<cword>")', v:true]])
-	let l:switch_term_mode_args = MakeRunCommandsDictInfoArgs([['"current mode ='], ['g:go_term_mode', v:true]])
-	let l:go_run_args = MakeRunCommandsDictInfoArgs([['%']])
+	let l:go_import_args = MakeRunCmdsDictInfoArgs([['expand("<cword>")', v:true]])
+	let l:switch_term_mode_args = MakeRunCmdsDictInfoArgs([['"current mode ='], ['g:go_term_mode', v:true]])
+	let l:go_run_args = MakeRunCmdsDictInfoArgs([['%']])
 	let l:go_cmds = {
-				\ 'a': MakeRunCommandsDictInfo('GoAlternateSplit', [], v:false, v:true),
-				\ 'A': MakeRunCommandsDictInfo('GoAlternateVSplit', [], v:false, v:true),
-				\ 'b': MakeRunCommandsDictInfo('GoBuild', [], v:false, v:true),
-				\ 'B': MakeRunCommandsDictInfo('MyMake', [], v:false, v:false),
-				\ 'c': MakeRunCommandsDictInfo('GoCallers', [], v:false, v:false),
-				\ 'C': MakeRunCommandsDictInfo('GoCallees', [], v:false, v:false),
-				\ 'd': MakeRunCommandsDictInfo('GoDoc', [], v:false, v:false),
-				\ 'D': MakeRunCommandsDictInfo('GoDescribe', [], v:false, v:true),
-				\ 'e': MakeRunCommandsDictInfo('GoErrCheck', [], v:false, v:true),
-				\ 'f': MakeRunCommandsDictInfo('GoFillStruct', [], v:false, v:false),
-				\ 'F': MakeRunCommandsDictInfo('GoFmtAutoSaveToggle', [], v:false, v:false),
-				\ 'h': MakeRunCommandsDictInfo('!go test -bench .', [], v:false, v:false),
-				\ 'i': MakeRunCommandsDictInfo('GoAutoTypeInfoToggle', [], v:false, v:true),
-				\ 'I': MakeRunCommandsDictInfo('GoImport', l:go_import_args, v:false, v:true),
-				\ 'k': MakeRunCommandsDictInfo('GoCallstack', [], v:false, v:true),
-				\ 'l': MakeRunCommandsDictInfo('GoMetaLinter', [], v:false, v:true),
-				\ 'L': MakeRunCommandsDictInfo('GoMetaLinterAutoSaveToggle', [], v:false, v:false),
-				\ 'm': MakeRunCommandsDictInfo('GoImplements', [], v:false, v:false),
-				\ 'n': MakeRunCommandsDictInfo('call LanguageClient#textDocument_rename()', [], v:false, v:false),
-				\ 'o': MakeRunCommandsDictInfo('GoDecls', [], v:false, v:false),
-				\ 'O': MakeRunCommandsDictInfo('GoDeclsDir', [], v:false, v:false),
-				\ 'p': MakeRunCommandsDictInfo('GoChannelPeers', [], v:false, v:false),
-				\ 'r': MakeRunCommandsDictInfo('GoRun', l:go_run_args, v:false, v:true),
-				\ 'R': MakeRunCommandsDictInfo('GoReferrers', [], v:false, v:false),
-				\ 's': MakeRunCommandsDictInfo('GoSameIds', [], v:false, v:false),
-				\ 'S': MakeRunCommandsDictInfo('GoSameIdsClear', [], v:false, v:false),
-				\ 't': MakeRunCommandsDictInfo('GoTest', [], v:false, v:true),
-				\ 'T': MakeRunCommandsDictInfo('GoTestFunc', [], v:false, v:true),
-				\ 'v': MakeRunCommandsDictInfo('GoCoverage', [], v:false, v:true),
-				\ 'V': MakeRunCommandsDictInfo('GoCoverageClear', [], v:false, v:true),
-				\ 'w': MakeRunCommandsDictInfo('GoWhicherrs', [], v:false, v:false),
-				\ 'W': MakeRunCommandsDictInfo('SwitchTermMode', l:switch_term_mode_args, v:false, v:false),
+				\ 'a': MakeRunCmdsDictInfo('GoAlternateSplit', [], v:false, v:true),
+				\ 'A': MakeRunCmdsDictInfo('GoAlternateVSplit', [], v:false, v:true),
+				\ 'b': MakeRunCmdsDictInfo('GoBuild', [], v:false, v:true),
+				\ 'B': MakeRunCmdsDictInfo('MyMake', [], v:false, v:false),
+				\ 'c': MakeRunCmdsDictInfo('GoCallers', [], v:false, v:false),
+				\ 'C': MakeRunCmdsDictInfo('GoCallees', [], v:false, v:false),
+				\ 'd': MakeRunCmdsDictInfo('GoDoc', [], v:false, v:false),
+				\ 'D': MakeRunCmdsDictInfo('GoDescribe', [], v:false, v:true),
+				\ 'e': MakeRunCmdsDictInfo('GoErrCheck', [], v:false, v:true),
+				\ 'f': MakeRunCmdsDictInfo('GoFillStruct', [], v:false, v:false),
+				\ 'F': MakeRunCmdsDictInfo('GoFmtAutoSaveToggle', [], v:false, v:false),
+				\ 'h': MakeRunCmdsDictInfo('!go test -bench .', [], v:false, v:false),
+				\ 'i': MakeRunCmdsDictInfo('GoAutoTypeInfoToggle', [], v:false, v:true),
+				\ 'I': MakeRunCmdsDictInfo('GoImport', l:go_import_args, v:false, v:true),
+				\ 'k': MakeRunCmdsDictInfo('GoCallstack', [], v:false, v:true),
+				\ 'l': MakeRunCmdsDictInfo('GoMetaLinter', [], v:false, v:true),
+				\ 'L': MakeRunCmdsDictInfo('GoMetaLinterAutoSaveToggle', [], v:false, v:false),
+				\ 'm': MakeRunCmdsDictInfo('GoImplements', [], v:false, v:false),
+				\ 'n': MakeRunCmdsDictInfo('call LanguageClient#textDocument_rename()', [], v:false, v:false),
+				\ 'o': MakeRunCmdsDictInfo('GoDecls', [], v:false, v:false),
+				\ 'O': MakeRunCmdsDictInfo('GoDeclsDir', [], v:false, v:false),
+				\ 'p': MakeRunCmdsDictInfo('GoChannelPeers', [], v:false, v:false),
+				\ 'r': MakeRunCmdsDictInfo('GoRun', l:go_run_args, v:false, v:true),
+				\ 'R': MakeRunCmdsDictInfo('GoReferrers', [], v:false, v:false),
+				\ 's': MakeRunCmdsDictInfo('GoSameIds', [], v:false, v:false),
+				\ 'S': MakeRunCmdsDictInfo('GoSameIdsClear', [], v:false, v:false),
+				\ 't': MakeRunCmdsDictInfo('GoTest', [], v:false, v:true),
+				\ 'T': MakeRunCmdsDictInfo('GoTestFunc', [], v:false, v:true),
+				\ 'v': MakeRunCmdsDictInfo('GoCoverage', [], v:false, v:true),
+				\ 'V': MakeRunCmdsDictInfo('GoCoverageClear', [], v:false, v:true),
+				\ 'w': MakeRunCmdsDictInfo('GoWhicherrs', [], v:false, v:false),
+				\ 'W': MakeRunCmdsDictInfo('SwitchTermMode', l:switch_term_mode_args, v:false, v:false),
 				\ }
 	function! s:GoCmds() closure
 		return l:go_cmds
 	endfunction
 endfunction
 call s:InitGocmds()
-nnoremap <buffer> <expr> - RunCommands('Go commands', <SID>GoCmds(), {}, function('SortItemsByNestedValue', ['cmd']))
+nnoremap <buffer> <expr> - RunCmds('Go Cmds', <SID>GoCmds(), {}, function('SortItemsByNestedValue', ['cmd']))
 command! -buffer -bang GoAlternateSplit call go#alternate#Switch(<bang>0, 'split')
 command! -buffer -bang GoAlternateVSplit call go#alternate#Switch(<bang>0, 'vsplit')
 
