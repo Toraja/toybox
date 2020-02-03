@@ -1636,13 +1636,13 @@ endfunction
 command! -complete=command -nargs=+ RedirCmdOutputToReg :call RedirCmdOutputToReg(<f-args>)
 
 " redirect the output of external command into console
-function! OutputExtCmdToCmdlind(cmd)
+function! OutputShellCmdToCmdlind(cmd)
 	echo system(a:cmd)
 endfunction
-command! -complete=shellcmd -nargs=1 OutputExtCmdToCmdlind :call OutputExtCmdToCmdlind(<q-args>)
+command! -complete=shellcmd -nargs=1 OutputShellCmdToCmdlind :call OutputShellCmdToCmdlind(<q-args>)
 
 " redirect the output of external command into quickfix window
-function! s:ExtCmdToQF(exprref, cmd)
+function! s:ShellCmdToQF(exprref, cmd)
 	call a:exprref(a:cmd)
 	let l:errornum = len(getloclist(0))
 	if !l:errornum
@@ -1662,11 +1662,11 @@ endfunction
 function! s:LaddexprSystem(cmd)
 	laddexpr system(a:cmd)
 endfunction
-command! -complete=shellcmd -nargs=+ OutputExtCmdToQF :call <SID>ExtCmdToQF(function('s:LgetexprSystem'), <q-args>)
-command! -complete=shellcmd -nargs=+ AppendExtCmdToQF :call <SID>ExtCmdToQF(function('s:LaddexprSystem'), <q-args>)
+command! -complete=shellcmd -nargs=+ OutputShellCmdToQF :call <SID>ShellCmdToQF(function('s:LgetexprSystem'), <q-args>)
+command! -complete=shellcmd -nargs=+ AppendShellCmdToQF :call <SID>ShellCmdToQF(function('s:LaddexprSystem'), <q-args>)
 
 " redirect the output of external command into preview window
-function! s:ExtCmdToPreview(cmd, append)
+function! s:ShellCmdToPreview(cmd, append)
 	if !a:append
 		execute printf('pedit [%s]', a:cmd)
 	endif
@@ -1674,7 +1674,7 @@ function! s:ExtCmdToPreview(cmd, append)
 	try
 		wincmd P
 	catch /^Vim\%((\a\+)\)\=:E441:/
-		call s:ExtCmdToPreview(a:cmd, v:false)
+		call s:ShellCmdToPreview(a:cmd, v:false)
 		return
 	endtry
 
@@ -1683,8 +1683,8 @@ function! s:ExtCmdToPreview(cmd, append)
 	setlocal nomodified
 	wincmd p
 endfunction
-command! -complete=shellcmd -nargs=+ OutputExtCmdToPreview call <SID>ExtCmdToPreview(<q-args>, v:false)
-command! -complete=shellcmd -nargs=+ AppendExtCmdToPreview call <SID>ExtCmdToPreview(<q-args>, v:true)
+command! -complete=shellcmd -nargs=+ OutputShellCmdToPreview call <SID>ShellCmdToPreview(<q-args>, v:false)
+command! -complete=shellcmd -nargs=+ AppendShellCmdToPreview call <SID>ShellCmdToPreview(<q-args>, v:true)
 
 function! SetOperatorFunc(funcname)
 	execute 'set operatorfunc=' . a:funcname
