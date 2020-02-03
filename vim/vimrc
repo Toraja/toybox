@@ -1092,7 +1092,7 @@ if exists('g:plugs["nerdtree"]')
 		endfunction
 	endfunction
 	function! s:InitNERDTreeFlagDict()
-		let l:nerd_tree_flags = s:MakeRunCmdsFlagDict(':', ';')
+		let l:nerd_tree_flags = s:MakeRunCmdsFlagDict(';', "\<Space>")
 		function! s:NERDTreeFlags() closure
 			return l:nerd_tree_flags
 		endfunction
