@@ -667,33 +667,35 @@ endif
 " @pattern string to grep
 " @modify when non-zero, let the user modify the argument for vimgrep
 function! QuickGrep(pattern, modify)
-	let l:grepArg = printf('/\V%s/gj %%', a:pattern)
+	let l:vimgrep_cmd = 'lvimgrep '
+	let l:grep_arg = printf('/\V%s/gj %%', a:pattern)
 
 	if a:modify
-		let l:cursorAdjustment = repeat("\<Left>", 5)
-		let l:grepArg = Input(v:true, ':lvimgrep ', l:grepArg . l:cursorAdjustment)
-		if l:grepArg is 0
+		let l:cursor_adjustment = repeat("\<Left>", 5)
+		let l:grep_arg = Input(v:true, ':' . l:vimgrep_cmd, l:grep_arg . l:cursor_adjustment)
+		if l:grep_arg is 0
 			return
 		endif
 	endif
 
+	call histadd(':', l:vimgrep_cmd . l:grep_arg)
 	try
-		silent execute 'lvimgrep ' . l:grepArg
+		silent execute l:vimgrep_cmd . l:grep_arg
 	catch /^Vim\%((\a\+)\)\=:E480/	" catch error E480 - No match found
-		echohl WarningMsg | echo 'No match found' | echohl NONE
-		" 'lclose' in case location list is already opened
+		redraw
+		echohl ErrorMsg | echomsg v:exception | echohl NONE
 		silent lclose
 		return
 	endtry
 
 	call QFOpenSmart(s:quickfix_mode_location, 0)
 endfunction
-nnoremap <silent> [Captain]g :call QuickGrep('', 1)<CR>
-nnoremap <silent> + :call QuickGrep(expand("<cword>"), 0)<CR>
-nnoremap <silent> g+ :call QuickGrep('\<'.expand("<cword>").'\>', 0)<CR>
-nnoremap <silent> <Leader>+ QuickGrep(expand("<cWORD>"), 0)<CR>
-vnoremap <silent> + y:call QuickGrep(@@, 0)<CR>
-vnoremap <silent> g+ y:call QuickGrep('\<'.@@.'\>', 0)<CR>
+nnoremap <silent> [Captain]g  <Cmd>call QuickGrep('', 1)<CR>
+nnoremap <silent> +           <Cmd>call QuickGrep(expand("<cword>"), 0)<CR>
+nnoremap <silent> g+          <Cmd>call QuickGrep('\<'.expand("<cword>").'\>', 0)<CR>
+nnoremap <silent> <Leader>+   <Cmd>call QuickGrep(expand("<cWORD>"), 0)<CR>
+vnoremap <silent> +          y<Cmd>call QuickGrep(@@, 0)<CR>
+vnoremap <silent> g+         y<Cmd>call QuickGrep('\<'.@@.'\>', 0)<CR>
 " --- || Grep || }}}
 
 " {{{ || Replace || ---
@@ -704,56 +706,57 @@ vnoremap <silent> g+ y:call QuickGrep('\<'.@@.'\>', 0)<CR>
 "			selection:	none-zero means search area is only within selection
 "			case:		none-zero means case sensitive
 "			exclusive:	none-zero means pattern will be wrapped with \< \>
-function! QuickSubstitute(corePattern, options)
-	let l:optKeyRange = 'range'
-	let l:optKeyCase = 'case'
-	let l:optKeyExclusive = 'exclusive'
-	let l:optKeySelection = 'selection'
-	let l:baseSubstituteCmd = '%ssubstitute/%s\V//gc'
+function! QuickSubstitute(core_pattern, options)
+	let l:opt_key_range = 'range'
+	let l:opt_key_case = 'case'
+	let l:opt_key_exclusive = 'exclusive'
+	let l:opt_key_selection = 'selection'
+	let l:base_substitute_cmd = '%ssubstitute/%s\V//gc'
 
-	let l:range = has_key(a:options, l:optKeyRange) ? a:options[l:optKeyRange] : ''
+	let l:range = has_key(a:options, l:opt_key_range) ? a:options[l:opt_key_range] : ''
 
-	let l:searchPattern = ''
-	if has_key(a:options, l:optKeySelection)
-		let l:searchPattern .= a:options[l:optKeySelection] ? '\%V' : ''
+	let l:search_pattern = ''
+	if has_key(a:options, l:opt_key_selection)
+		let l:search_pattern .= a:options[l:opt_key_selection] ? '\%V' : ''
 	endif
-	if has_key(a:options, l:optKeyCase)
-		let l:searchPattern .= a:options[l:optKeyCase] ? '\C' : ''
+	if has_key(a:options, l:opt_key_case)
+		let l:search_pattern .= a:options[l:opt_key_case] ? '\C' : ''
 	endif
 	" check for exclusive should be the last so that pattern string comes after ordinary atoms
-	if has_key(a:options, l:optKeyExclusive) && a:options[l:optKeyExclusive] == 1
-		let l:searchPattern .= '\<' . a:corePattern . '\>'
+	if has_key(a:options, l:opt_key_exclusive) && a:options[l:opt_key_exclusive] == 1
+		let l:search_pattern .= '\<' . a:core_pattern . '\>'
 	else
-		let l:searchPattern .= a:corePattern
+		let l:search_pattern .= a:core_pattern
 	endif
 
-	let l:substituteCmd = printf(l:baseSubstituteCmd, l:range, l:searchPattern)
+	let l:substitute_cmd = printf(l:base_substitute_cmd, l:range, l:search_pattern)
 
-	let l:cursorAdjustment = repeat("\<Left>", a:corePattern == '' ? 4 : 3)
-	let l:substituteCmd = Input(v:true, ':', l:substituteCmd . l:cursorAdjustment)
-	if l:substituteCmd is 0
+	let l:cursor_adjustment = repeat("\<Left>", a:core_pattern == '' ? 4 : 3)
+	let l:substitute_cmd = Input(v:true, ':', l:substitute_cmd . l:cursor_adjustment)
+	if l:substitute_cmd is 0
 		return
 	endif
 
+	call histadd(':', l:substitute_cmd)
 	try
-		execute l:substituteCmd
-	catch /^Vim\%((\a\+)\)\=:E486/	" catch error E486 - Pattern not found
-		echohl WarningMsg | echo 'Pattern not found' | echohl NONE
-		return
+		execute l:substitute_cmd
+	catch /^Vim\%((\a\+)\)\=:E486/	" catch error E486 - No match found
+		redraw
+		echohl ErrorMsg | echomsg v:exception | echohl NONE
 	endtry
 endfunction
-nnoremap [Captain]s  :call QuickSubstitute('', {'range': '%'})<CR>
-nnoremap [Captain]S  :call QuickSubstitute('', {})<CR>
-nnoremap <Leader>s   :call QuickSubstitute(expand("<cword>"), {'range': '%'})<CR>
-nnoremap <Leader>S   :call QuickSubstitute(expand("<cword>"), {'range': '%', 'case': 1})<CR>
-nnoremap [Chief]s    :call QuickSubstitute(expand("<cword>"), {'range': '%', 'exclusive': 1})<CR>
-nnoremap [Chief]S    :call QuickSubstitute(expand("<cword>"), {'range': '%', 'exclusive': 1, 'case': 1})<CR>
-vnoremap [Captain]s  :<C-u>call QuickSubstitute('', {'range': '%', 'selection': 1})<CR>
-vnoremap [Captain]S  :<C-u>call QuickSubstitute(@@, {'range': '%', 'selection': 1})<CR>
-vnoremap <Leader>s  y:call QuickSubstitute(@@, {'range': '%'})<CR>
-vnoremap <Leader>S  y:call QuickSubstitute(@@, {'range': '%', 'case': 1})<CR>
-vnoremap [Chief]s   y:call QuickSubstitute(@@, {'range': '%', 'exclusive': 1})<CR>
-vnoremap [Chief]S   y:call QuickSubstitute(@@, {'range': '%', 'exclusive': 1, 'case': 1})<CR>
+nnoremap [Captain]s  <Cmd>call QuickSubstitute('', {'range': '%'})<CR>
+nnoremap [Captain]S  <Cmd>call QuickSubstitute('', {})<CR>
+nnoremap <Leader>s   <Cmd>call QuickSubstitute(expand("<cword>"), {'range': '%'})<CR>
+nnoremap <Leader>S   <Cmd>call QuickSubstitute(expand("<cword>"), {'range': '%', 'case': 1})<CR>
+nnoremap [Chief]s    <Cmd>call QuickSubstitute(expand("<cword>"), {'range': '%', 'exclusive': 1})<CR>
+nnoremap [Chief]S    <Cmd>call QuickSubstitute(expand("<cword>"), {'range': '%', 'exclusive': 1, 'case': 1})<CR>
+vnoremap [Captain]s  <Cmd>call QuickSubstitute('', {'range': '%', 'selection': 1})<CR>
+vnoremap [Captain]S  <Cmd>call QuickSubstitute(@@, {'range': '%', 'selection': 1})<CR>
+vnoremap <Leader>s  y<Cmd>call QuickSubstitute(@@, {'range': '%'})<CR>
+vnoremap <Leader>S  y<Cmd>call QuickSubstitute(@@, {'range': '%', 'case': 1})<CR>
+vnoremap [Chief]s   y<Cmd>call QuickSubstitute(@@, {'range': '%', 'exclusive': 1})<CR>
+vnoremap [Chief]S   y<Cmd>call QuickSubstitute(@@, {'range': '%', 'exclusive': 1, 'case': 1})<CR>
 " --- || Replace || }}}
 
 " {{{ || Quickfix/Location || ---
