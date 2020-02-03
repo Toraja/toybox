@@ -1226,20 +1226,45 @@ endif
 "
 " {{{ || fzf.vim || ---
 if exists('g:plugs["fzf.vim"]')
+	let g:fzf_command_prefix = 'Fzf'
 	imap <c-x><c-k> <plug>(fzf-complete-word)
 	imap <c-x><c-f> <plug>(fzf-complete-path)
 	imap <c-x><c-l> <plug>(fzf-complete-line)
-	cnoreabbrev ff  Files
-	cnoreabbrev fb  Buffers
-	cnoreabbrev fla Lines
-	cnoreabbrev fl  BLines
-	cnoreabbrev fw  Windows
-	cnoreabbrev fo  History
-	cnoreabbrev f:  History:
-	cnoreabbrev f/  History/
-	cnoreabbrev fca Commits
-	cnoreabbrev fc  BCommits
-	cnoreabbrev fh  Helptags
+
+	function! s:InitFzfCmds()
+		let l:fzf_cmds = {
+					\ 'f': MakeRunCmdsDictInfo(g:fzf_command_prefix . 'Files', [], v:false, v:false),
+					\ 'g': MakeRunCmdsDictInfo(g:fzf_command_prefix . 'GFiles', [], v:false, v:false),
+					\ 'G': MakeRunCmdsDictInfo(g:fzf_command_prefix . 'GFiles?', [], v:false, v:false),
+					\ 'b': MakeRunCmdsDictInfo(g:fzf_command_prefix . 'Buffers', [], v:false, v:false),
+					\ 'r': MakeRunCmdsDictInfo(g:fzf_command_prefix . 'Rg', [], v:false, v:false),
+					\ 'L': MakeRunCmdsDictInfo(g:fzf_command_prefix . 'Lines', [], v:false, v:false),
+					\ 'l': MakeRunCmdsDictInfo(g:fzf_command_prefix . 'BLines', [], v:false, v:false),
+					\ 'T': MakeRunCmdsDictInfo(g:fzf_command_prefix . 'Tags', [], v:false, v:false),
+					\ 't': MakeRunCmdsDictInfo(g:fzf_command_prefix . 'BTags', [], v:false, v:false),
+					\ 'k': MakeRunCmdsDictInfo(g:fzf_command_prefix . 'Marks', [], v:false, v:false),
+					\ 'w': MakeRunCmdsDictInfo(g:fzf_command_prefix . 'Windows', [], v:false, v:false),
+					\ 'y': MakeRunCmdsDictInfo(g:fzf_command_prefix . 'History', [], v:false, v:false),
+					\ ':': MakeRunCmdsDictInfo(g:fzf_command_prefix . 'History:', [], v:false, v:false),
+					\ '/': MakeRunCmdsDictInfo(g:fzf_command_prefix . 'History/', [], v:false, v:false),
+					\ 's': MakeRunCmdsDictInfo(g:fzf_command_prefix . 'Snippets', [], v:false, v:false),
+					\ 'C': MakeRunCmdsDictInfo(g:fzf_command_prefix . 'Commits', [], v:false, v:false),
+					\ 'c': MakeRunCmdsDictInfo(g:fzf_command_prefix . 'BCommits', [], v:false, v:false),
+					\ 'd': MakeRunCmdsDictInfo(g:fzf_command_prefix . 'Commands', [], v:false, v:false),
+					\ 'm': MakeRunCmdsDictInfo(g:fzf_command_prefix . 'Maps', [], v:false, v:false),
+					\ 'h': MakeRunCmdsDictInfo(g:fzf_command_prefix . 'Helptags', [], v:false, v:false),
+					\ }
+		function! s:FzfCmds() closure
+			return l:fzf_cmds
+		endfunction
+	endfunction
+	function! s:InitFzfFlagDict()
+		let l:fzf_flags = s:MakeRunCmdsFlagDict(';', "\<Space>")
+		function! s:FzfFlags() closure
+			return l:fzf_flags
+		endfunction
+	endfunction
+	nnoremap <expr> [Chief]f RunCmds("FZF", <SID>FzfCmds(), <SID>FzfFlags())
 endif
 " --- || fzf.vim || }}}
 
@@ -2162,6 +2187,8 @@ cnoreabbrev fig FindGrep <bar> " <pattern> [path] [filename]<HOME><C-Right>
 " load local vimrc
 call s:InitNERDTreeCmds()
 call s:InitNERDTreeFlagDict()
+call s:InitFzfCmds()
+call s:InitFzfFlagDict()
 
 if exists('g:plugs["vim-projectroot"]')
 	silent! execute 'source '.projectroot#guess().'/.vimrc_local'
