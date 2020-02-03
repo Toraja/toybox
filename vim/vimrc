@@ -1401,11 +1401,11 @@ endfunction
 function! Input(empty_means_cancel, ...)
 	let l:opts = {}
 	if a:0 > 0
-		if type(a:1) == v:t_dict " is dictionary
+		if type(a:1) == v:t_dict
 			let l:opts = a:1
 		else
-			let l:opts['prompt'] = (a:0 >= 1) ? a:1 : ''
-			let l:opts['default'] = (a:0 >= 2) ? a:2 : ''
+			let l:opts['prompt'] = get(a:000, 0, '')
+			let l:opts['default'] = get(a:000, 1, '')
 			if a:0 >= 3
 				let l:opts['completion'] = a:3
 			endif
@@ -1755,12 +1755,7 @@ command! -complete=filetype OpenFtplugins :call OpenFtplugins(<f-args>)
 
 " Set filetype again with the current buffer's file type
 function! SetFt(...)
-	if a:0
-		let l:ft = a:1
-	else
-		let l:ft = &filetype
-	endif
-	execute 'set filetype='.l:ft
+	execute 'set filetype=' . get(a:000, 0, &filetype)
 endfunction
 command! -nargs=? -complete=filetype SetFt :call SetFt(<f-args>)
 command! -nargs=? -complete=filetype SF :call SetFt(<f-args>)
@@ -1804,8 +1799,8 @@ endfunction
 
 " Display dictionary in accending order
 function! DispOptions(title, option, message, ...) abort
-	let l:SortFunc = (a:0 >= 1) ? a:1 : ''
-	let l:key_name = (a:0 >= 2) ? a:2 : ''
+	let l:SortFunc = get(a:000, 0, '')
+	let l:key_name = get(a:000, 1, '')
 
 	echohl Statement | echo a:title | echohl NONE
 	for [k,v] in sort(items(a:option), l:SortFunc)
@@ -1817,8 +1812,8 @@ endf
 
 " Display dictionary in accending order in oneline
 function! DispOptionsOneLine(title, option, ...) abort
-	let l:SortFunc = (a:0 >= 1) ? a:1 : ''
-	let l:key_name = (a:0 >= 2) ? a:2 : ''
+	let l:SortFunc = get(a:000, 0, '')
+	let l:key_name = get(a:000, 1, '')
 
 	echohl Function | echo printf('-- %s -> %s: ', a:title, DictToOneLineString(a:option, ', ', l:SortFunc, l:key_name)) | echohl NONE
 endf
@@ -1985,8 +1980,8 @@ function! MakeRunCmdsDictInfoArgs(list_list) abort
 endfunction
 
 function! RunCmds(title, cmds, ...) abort
-	let l:flag_symbols = a:0 > 0 && type(a:1) == v:t_dict ? a:1 : {}
-	let l:SortFunc = a:0 >= 2 ? a:2 : ''
+	let l:flag_symbols = get(a:000, 0, {})
+	let l:SortFunc = get(a:000, 1, '')
 
 	function! s:EvalCmdArgs(cmd_key, cmd_info) abort
 		let l:cmd_info = copy(a:cmd_info)
