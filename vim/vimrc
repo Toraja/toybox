@@ -2033,7 +2033,7 @@ function! RunCmds(title, cmds, ...) abort
 		return l:selected_flags
 	endfunction
 
-	let l:flag_option_str = DictToOneLineString(l:flags.all(), '', '', 'desc')
+	let l:flag_option_str = DictToOneLineString(l:flags.all(), ', ', '', 'desc')
 	let l:DisplayOptionPrompt = function('DisplayOptionPrompt', [a:title, l:flag_option_str])
 	call l:DisplayOptionPrompt()
 
