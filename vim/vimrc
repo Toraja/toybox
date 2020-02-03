@@ -731,7 +731,7 @@ function! QuickSubstitute(core_pattern, options)
 
 	let l:substitute_cmd = printf(l:base_substitute_cmd, l:range, l:search_pattern)
 
-	let l:cursor_adjustment = repeat("\<Left>", a:core_pattern == '' ? 4 : 3)
+	let l:cursor_adjustment = repeat("\<Left>", a:core_pattern is '' ? 4 : 3)
 	let l:substitute_cmd = Input(v:true, ':', l:substitute_cmd . l:cursor_adjustment)
 	if l:substitute_cmd is 0
 		return
@@ -817,7 +817,7 @@ function! QuickfixCmd(count, cmds)
 	endif
 
 	let l:cmd = get(l:cmd_dict, l:user_input, '')
-	if l:cmd == ''
+	if l:cmd is ''
 		echohl WarningMsg | echo printf('"%s" is not available.', l:user_input) | echohl NONE
 		return
 	endif
@@ -1414,7 +1414,7 @@ function! Input(empty_means_cancel, ...)
 	try
 		call inputsave()
 		let l:input = input(l:opts)
-		if a:empty_means_cancel && l:input == ''
+		if a:empty_means_cancel && l:input is ''
 			return s:RedrawCancel()
 		endif
 		return l:input
@@ -1452,7 +1452,7 @@ function! ConvertCtrlCharToNormal(char, case)
 	endif
 
 	let l:delta = get(l:deltas, a:case, '')
-	if l:delta == ''
+	if l:delta is ''
 		echoerr printf('Invalid argument: case must be either %s', [l:lowercase, l:uppercase])
 		return
 	endif
@@ -1919,7 +1919,7 @@ function! Toggler()
 	" string == 0 is true so must return the default value
 	let l:option = get(l:options, l:userinput, "")
 	redraw	" clear concole so that 'Press ENTER or ...' will not be shown
-	if l:option == ""
+	if l:option is ""
 		" user press an unavailable key
 		echohl WarningMsg
 		echo printf('"%s" is not available.', l:userinput)
@@ -2007,7 +2007,7 @@ function! RunCmds(title, cmds, ...) abort
 
 	let l:cmds_string = ''
 	function! s:UpdateDisplay() closure
-		if l:cmds_string == ''
+		if l:cmds_string is ''
 			let l:cmds_string = DictToListString(l:cmds, ': ', '  ', '', l:SortFunc, 'desc')
 		endif
 		let l:selected_flags = l:flags.selected_flags()
