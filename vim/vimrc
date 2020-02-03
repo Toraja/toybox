@@ -567,45 +567,51 @@ inoremap . .<C-g>u
 " used registers
 " r: RedirCmdOutputToReg
 " keymap for "z, "Z is defined in leader section
-nnoremap "" :registers<CR>
-nnoremap <Leader><Space> :call CopyRegisterToAnother('"', 'z')<CR>
+nnoremap "" <Cmd>registers<CR>
+nnoremap <Leader><Space> <Cmd>call CopyRegisterToAnother('"', 'z')<CR>
 if has('xterm_clipboard')
-	nnoremap [Chief]; :call CopyRegisterToAnother('"', '+')<CR>
+	nnoremap [Chief]; <Cmd>call CopyRegisterToAnother('"', '+')<CR>
 elseif has('clipboard')
-	nnoremap [Chief]; :call CopyRegisterToAnother('"', '*')<CR>
+	nnoremap [Chief]; <Cmd>call CopyRegisterToAnother('"', '*')<CR>
 endif
-nnoremap <Leader>r :call CopyRegisterToAnotherInteract()<CR>
-nnoremap <expr> [Chief]r SetRegister()
-nnoremap <expr> [Captain]r EditRegister()
+nnoremap <Leader>r <Cmd>call CopyRegisterToAnotherInteract()<CR>
+nnoremap [Chief]r <Cmd>call EditRegister()<CR>
 
-function! CopyRegisterToAnother(regFrom, regTo)
-	execute "let @" . a:regTo . " = @" . a:regFrom
-	execute "let l:regToCont = @" . a:regTo
-	echo "@" . a:regTo . " = " . l:regToCont
+function! CopyRegisterToAnother(reg_from, reg_to)
+	call setreg(a:reg_to, getreg(a:reg_from))
+	echo printf("@%s = %s", a:reg_to, getreg(a:reg_to))
 endfunction
 
 function! CopyRegisterToAnotherInteract()
 	registers
-	echo 'Enter register character to copy from:'
-	let l:regcharFrom = nr2char(getchar())
-	echo 'Enter register character to save into:'
-	let l:regcharTo = nr2char(getchar())
+	echo 'Register to copy from:'
+	let l:regchar_from = GetChar(v:true)
+	if l:regchar_from is 0
+		return
+	endif
+	echo 'Register to save into:'
+	let l:regchar_to = GetChar(v:true)
+	if l:regchar_to is 0
+		return
+	endif
 
-	call CopyRegisterToAnother(l:regcharFrom, l:regcharTo)
-endfunction
-
-function! SetRegister()
-	echo 'Enter register character to set:'
-	return ":call setreg('".nr2char(getchar())."','')\<Left>\<Left>"
+	call CopyRegisterToAnother(l:regchar_from, l:regchar_to)
 endfunction
 
 function! EditRegister()
-	echo 'Enter register character to edit:'
-	let l:regchar = nr2char(getchar())
-	" Using getreg() to get the register contents causes trouble
-	" if the register contains line feed/carriage return,
-	" so keybind is used instead.
-	return ":call setreg('".l:regchar."','\<C-r>".l:regchar."')\<Left>\<Left>"
+	echo 'Register to edit:'
+	" input() converts newline in {default} arguemnt to whitespace.
+	" Use <C-r> so that register contents is evaluated after input() is called.
+	let l:reg_char = GetChar(v:true)
+	if l:reg_char is 0
+		return
+	endif
+	redraw
+	let l:contents = Input(v:true, printf("Set register '%s' to:\n", l:reg_char), "\<C-r>". l:reg_char)
+	if l:contents is 0
+		return
+	endif
+	call setreg(l:reg_char, l:contents)
 endfunction
 
 " clear contents of all char registers
@@ -617,8 +623,8 @@ function! ClearCharRegisters()
 	endwhile
 endfunction
 
-command! -nargs=+ CopyRegisterToAnother :call CopyRegisterToAnother(<f-args>)
-command! ClearCharRegisters :call ClearCharRegisters()
+command! -nargs=+ CopyRegisterToAnother call CopyRegisterToAnother(<f-args>)
+command! ClearCharRegisters call ClearCharRegisters()
 " --- || register || }}}
 
 " {{{ || Mark || ---
