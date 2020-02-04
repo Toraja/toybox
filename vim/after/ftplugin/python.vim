@@ -11,14 +11,14 @@ augroup end
 
 function! s:InitPyCmds()
 	let l:py_cmds = {
-				\ 'r': MakeRunCmdsDictInfo('Run', [], v:false, v:false),
-				\ 'm': MakeRunCmdsDictInfo('MyMake', [], v:false, v:false),
+				\ 'r': runcmds#init#MakeDictInfo('Run', [], v:false, v:false),
+				\ 'm': runcmds#init#MakeDictInfo('MyMake', [], v:false, v:false),
 				\ }
 	function! s:PyCmds() closure
 		return l:py_cmds
 	endfunction
 endfunction
 call s:InitPyCmds()
-nnoremap <buffer> <expr> - RunCmds('Py Cmds', <SID>PyCmds())
+nnoremap <buffer> <expr> - runcmds#base#RunCmds('Py Cmds', <SID>PyCmds())
 
 command! -buffer Run vsplit | terminal python %
