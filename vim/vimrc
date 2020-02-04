@@ -304,8 +304,11 @@ if has('nvim')
 	packadd cfilter
 endif
 " Loadng plugins must be before keymapping or they will override my keymappings!
-if filereadable(s:vimdir . "/autoload/plug.vim")
-	call plug#begin(s:vimdir . '/bundle')
+let s:plugin_dir = s:vimdir . '/bundle'
+let s:vim_plug_file = s:plugin_dir . '/vim-plug/plug.vim'
+if filereadable(s:vim_plug_file)
+	execute 'source' . s:vim_plug_file
+	call plug#begin(s:plugin_dir)
 	Plug 'junegunn/vim-plug'
 	" git
 	Plug 'tpope/vim-fugitive'
