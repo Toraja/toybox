@@ -2146,21 +2146,9 @@ function! IsRegMultiline(reg)
 	return match(l:reg_content, '\r\|\n') >= 0
 endfunction
 
-" Run find & grep, then put result in quickfix window
-" @edit: whether to edit commands
-" @pattern: grep pattern
-" @1: path for find
-" @2: -name option for find
-function! FindGrep(edit, pattern, ...) abort
-	let l:path = a:0 >= 1 ? a:1 . ' ' : ''
-	let l:filename = a:0 >= 2 ? '-name ' . a:2 . ' ' : ''
-	let l:base_cmd = printf('find %s%s-type f -exec grep -Hn %s {} \;', l:path, l:filename, a:pattern)
-	let l:cmds = a:edit ? Input(v:true, '', l:base_cmd, 'file') : l:base_cmd
-	if l:cmds is 0
-		return
-	endif
-
-	let l:results = systemlist(l:cmds)
+" Capture the result of find & grep in quickfix window
+function! CaptureFindGrep(cmd) abort
+	let l:results = systemlist(a:cmd)
 	if v:shell_error
 		redraw
 		echohl WarningMsg | echo join(l:results) | echohl NONE
@@ -2183,11 +2171,11 @@ function! FindGrep(edit, pattern, ...) abort
 					\})
 	endfor
 	call setqflist(l:qflists)
-	call setqflist([], 'a', {'title': l:cmds})
+	call setqflist([], 'a', {'title': a:cmd})
 	call QFOpenSmart(s:quickfix_mode_quickfix, v:false, 0)
 endfunction
-command! -bar -bang -complete=file -nargs=* FindGrep call FindGrep(<bang>1, <f-args>)
-cnoreabbrev fig FindGrep <bar> " <pattern> [path] [filename]<HOME><C-Right>
+command! -complete=file -nargs=1 CaptureFindGrep call CaptureFindGrep(<q-args>)
+cnoreabbrev fig CaptureFindGrep find -type f -exec grep -Hn {} \\;<C-Left><C-Left><Left>
 " --- || functions || }}}
 
 " load local vimrc
