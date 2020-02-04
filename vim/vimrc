@@ -694,7 +694,7 @@ function! QuickGrep(pattern, modify)
 		return
 	endtry
 
-	call QFOpenSmart(s:quickfix_mode_location, 0)
+	call QFOpenSmart(s:quickfix_mode_location, v:false, 0)
 endfunction
 nnoremap <silent> [Captain]g  <Cmd>call QuickGrep('', 1)<CR>
 nnoremap <silent> +           <Cmd>call QuickGrep(expand("<cword>"), 0)<CR>
@@ -768,8 +768,9 @@ vnoremap [Chief]S   y<Cmd>call QuickSubstitute(@@, {'range': '%', 'exclusive': 1
 " {{{ || Quickfix/Location || ---
 function! s:QuickfixDict()
 	return {
-				\ 'o': 'QFOpenSmart! '. s:quickfix_mode,
+				\ 'o': 'QFOpenSmart! ' . s:quickfix_mode . ' ' . v:true,
 				\ 'q': 'ToggleQFWindow ' . s:quickfix_mode,
+				\ 's': 'close',
 				\ 'g': s:quickfix_mode,
 				\ 'n': 'next',
 				\ 'p': 'previous',
@@ -787,7 +788,7 @@ endfunction
 
 let s:quickfix_cmd_config = {
 			\ 'no_prepend_mode': ['o', 'q', 'm'],
-			\ 'no_count': ['o', 'q', 'b', 'y', 'm'],
+			\ 'no_count': ['o', 'q', 's', 'b', 'y', 'm'],
 			\}
 
 function! s:PrependQuickfixMode(key, val)
@@ -879,12 +880,13 @@ endfunction
 " Open quickfix/location list with just enough height for errors but
 " no more than the maximum. Close window if no error is found.
 " @qftype [number] quickfix of location
+" @open_empty [boolean] whether to open quickfix window when there is no error
 " @focus [boolean] whether to focus on quickfix window
 " @return [number] the number of errors in location list
-function! QFOpenSmart(qftype, focus) abort
+function! QFOpenSmart(qftype, open_empty, focus) abort
 	let l:numerror = a:qftype == s:quickfix_mode_location ?
 				\ len(getloclist(0)) : len(getqflist())
-	if !l:numerror
+	if !(l:numerror || a:open_empty)
 		execute a:qftype.'close'
 		return 0
 	endif
@@ -892,7 +894,7 @@ function! QFOpenSmart(qftype, focus) abort
 	silent call SwitchQFMode(a:qftype)
 
 	const l:maxheight = 10
-	let l:qfheight = (l:numerror > l:maxheight) ? l:maxheight : l:numerror
+	let l:qfheight = min([l:numerror, l:maxheight])
 	execute a:qftype.'open'.l:qfheight
 	if !a:focus
 		wincmd p
@@ -900,7 +902,7 @@ function! QFOpenSmart(qftype, focus) abort
 
 	return l:numerror
 endf
-command! -bang -nargs=1 QFOpenSmart call QFOpenSmart(<f-args>, <bang>0)
+command! -bang -nargs=+ QFOpenSmart call QFOpenSmart(<f-args>, <bang>0)
 
 function! ToggleQFWindow(qftype) abort
 	let l:key = 'winid'
@@ -910,7 +912,7 @@ function! ToggleQFWindow(qftype) abort
 		execute win_id2win(l:winid) . 'close'
 		return
 	endif
-	call QFOpenSmart(a:qftype, 0)
+	call QFOpenSmart(a:qftype, v:true, 0)
 endfunction
 command! -nargs=1 ToggleQFWindow call ToggleQFWindow(<q-args>)
 " --- || Quickfix/Location || }}}
@@ -1771,7 +1773,7 @@ function! MyMake(...) abort
 	let l:cmd = 'silent lmake! '.join(a:000)
 	echohl Identifier | echo 'Making... ' | echohl NONE
 	execute l:cmd
-	let l:errorexists = QFOpenSmart(s:quickfix_mode_location, 0)
+	let l:errorexists = QFOpenSmart(s:quickfix_mode_location, v:false, 0)
 	" On linux console, bash console will be shown when making and vim is
 	" brought back when make is done. This causes the contents of the file now
 	" shown properly. 'redraw!' to fix it.
@@ -2182,7 +2184,7 @@ function! FindGrep(edit, pattern, ...) abort
 	endfor
 	call setqflist(l:qflists)
 	call setqflist([], 'a', {'title': l:cmds})
-	call QFOpenSmart(s:quickfix_mode_quickfix, 0)
+	call QFOpenSmart(s:quickfix_mode_quickfix, v:false, 0)
 endfunction
 command! -bar -bang -complete=file -nargs=* FindGrep call FindGrep(<bang>1, <f-args>)
 cnoreabbrev fig FindGrep <bar> " <pattern> [path] [filename]<HOME><C-Right>
