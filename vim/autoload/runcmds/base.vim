@@ -2,23 +2,6 @@ function! runcmds#base#RunCmds(title, cmds, ...) abort
 	let l:flag_symbols = get(a:000, 0, {})
 	let l:SortFunc = get(a:000, 1, '')
 
-	function! s:EvalCmdArgs(cmd_key, cmd_info) abort
-		let l:cmd_info = copy(a:cmd_info)
-
-		if empty(a:cmd_info.args)
-			let l:cmd_info.desc = l:cmd_info.cmd
-			return l:cmd_info
-		endif
-
-		let l:new_args = []
-		for l:arg in l:cmd_info.args
-			call add(l:new_args, l:arg.eval ? eval(l:arg.value) : l:arg.value)
-		endfor
-		let l:cmd_info.args = l:new_args
-		let l:cmd_info.desc = l:cmd_info.cmd . ' ' . join(l:new_args, ' ')
-		return l:cmd_info
-	endfunction
-
 	let l:cmds_string = ''
 	function! s:UpdateDisplay() closure
 		if l:cmds_string is ''
@@ -28,7 +11,7 @@ function! runcmds#base#RunCmds(title, cmds, ...) abort
 		let l:selected_flags_display = strlen(l:selected_flags) == 0 ?
 					\ '' : printf('(%s)', l:flags.selected_flags())
 		redraw
-		if l:flag_disp.selected
+		if l:flags.info_of('disp').selected
 			call s:EchoAdjustingCmdheight(l:cmds_string, a:title,
 						\ 'Press a key > ' . l:selected_flags_display,
 						\ v:false)
@@ -38,43 +21,7 @@ function! runcmds#base#RunCmds(title, cmds, ...) abort
 		endif
 	endfunction
 
-	let l:flag_info = {}
-	function! l:flag_info.new(desc)
-		let l:info = copy(self)
-		let l:info.selected = v:false
-		let l:info.desc = a:desc
-		return l:info
-	endfunction
-	function! l:flag_info.toggle_selected()
-		let self.selected = !self.selected
-	endfunction
-
-	let l:flag_mod = l:flag_info.new('Modify command')
-	let l:flag_disp = l:flag_info.new('Display commands')
-	let l:flag_bang = l:flag_info.new('Run with !')
-
-	let l:flags = {}
-	let l:flags.registry = {
-				\ get(l:flag_symbols, 'mod', '-'): l:flag_mod,
-				\ get(l:flag_symbols, 'disp', '_'): l:flag_disp,
-				\ get(l:flag_symbols, 'bang', '!'): l:flag_bang,
-				\}
-	function! l:flags.all()
-		return self.registry
-	endfunction
-	function! l:flags.info_of(flag_symbol)
-		return get(self.registry, a:flag_symbol, {})
-	endfunction
-	function! l:flags.selected_flags()
-		let l:selected_flags = ''
-		for [l:flag_symbol, l:flag_info] in items(self.all())
-			if l:flag_info.selected
-				let l:selected_flags .= l:flag_symbol
-			endif
-		endfor
-		return l:selected_flags
-	endfunction
-
+	let l:flags = s:flags.new(l:flag_symbols)
 	let l:flag_option_str = DictToOneLineString(l:flags.all(), ', ', '', 'desc')
 	let l:DisplayOptionPrompt = function('s:DisplayOptionPrompt', [a:title, l:flag_option_str])
 	call l:DisplayOptionPrompt()
@@ -87,11 +34,11 @@ function! runcmds#base#RunCmds(title, cmds, ...) abort
 			return
 		endif
 
-		let l:flag_info = l:flags.info_of(l:user_input)
-		if empty(l:flag_info)
+		let l:flag = l:flags.info_of_symbol(l:user_input)
+		if empty(l:flag)
 			break
 		endif
-		call l:flag_info.toggle_selected()
+		call l:flag.toggle_selected()
 		call s:UpdateDisplay()
 	endwhile
 	mode
@@ -103,16 +50,87 @@ function! runcmds#base#RunCmds(title, cmds, ...) abort
 		return
 	endif
 
-	if !l:flag_mod.selected && l:cmd_info.always_modify
-		call l:flag_mod.toggle_selected()
+	if !l:flags.info_of('mod').selected && l:cmd_info.always_modify
+		call l:flags.info_of('mod').toggle_selected()
 	endif
 	let l:cmd = l:cmd_info.cmd
-	if l:flag_bang.selected && l:cmd_info.bangable
+	if l:flags.info_of('bang').selected && l:cmd_info.bangable
 		let l:cmd .= '!'
 	endif
 	let l:arg = len(l:cmd_info.args) == 0 ? '' : ' ' . join(l:cmd_info.args)
 
-	return ':' . l:cmd . l:arg . (l:flag_mod.selected ? "\<Space>": "\<CR>")
+	return ':' . l:cmd . l:arg . (l:flags.info_of('mod').selected ? "\<Space>": "\<CR>")
+endfunction
+
+let s:flag = {}
+function! s:flag.new(desc)
+	let l:info = copy(self)
+	let l:info.selected = v:false
+	let l:info.desc = a:desc
+	return l:info
+endfunction
+function! s:flag.toggle_selected()
+	let self.selected = !self.selected
+endfunction
+
+let s:flags = {}
+function! s:flags.new(flag_symbols) abort
+	let l:symbol_mod  = get(a:flag_symbols, 'mod', '-')
+	let l:symbol_disp = get(a:flag_symbols, 'disp', '_')
+	let l:symbol_bang = get(a:flag_symbols, 'bang', '!')
+
+	let l:flags = copy(self)
+	let l:flags.flag_key_symbol_map = {
+				\ 'mod' :l:symbol_mod,
+				\ 'disp':l:symbol_disp,
+				\ 'bang':l:symbol_bang,
+				\}
+	let l:flags.registry = {
+				\ l:symbol_mod : s:flag.new('Modify command'),
+				\ l:symbol_disp: s:flag.new('Display commands'),
+				\ l:symbol_bang: s:flag.new('Run with !'),
+				\}
+	return l:flags
+endfunction
+function! s:flags.all()
+	return self.registry
+endfunction
+function! s:flags.info_of(key)
+	let l:flag_symbol = get(self.flag_key_symbol_map, a:key, '')
+	if l:flag_symbol is ''
+		return {}
+	endif
+	return get(self.registry, l:flag_symbol, {})
+endfunction
+function! s:flags.info_of_symbol(char)
+	return get(self.registry, a:char, {})
+endfunction
+function! s:flags.selected_flags()
+	let l:selected_flags = ''
+	for [l:flag_symbol, l:flag] in items(self.all())
+		if l:flag.selected
+			let l:selected_flags .= l:flag_symbol
+		endif
+	endfor
+	return l:selected_flags
+endfunction
+
+" Update args and set desc in cmd_info using eval()
+function! s:EvalCmdArgs(cmd_key, cmd_info) abort
+	let l:cmd_info = copy(a:cmd_info)
+
+	if empty(a:cmd_info.args)
+		let l:cmd_info.desc = l:cmd_info.cmd
+		return l:cmd_info
+	endif
+
+	let l:new_args = []
+	for l:arg in l:cmd_info.args
+		call add(l:new_args, l:arg.eval ? eval(l:arg.value) : l:arg.value)
+	endfor
+	let l:cmd_info.args = l:new_args
+	let l:cmd_info.desc = l:cmd_info.cmd . ' ' . join(l:new_args, ' ')
+	return l:cmd_info
 endfunction
 
 function! s:DisplayOptionPrompt(title, option_str) abort
