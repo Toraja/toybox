@@ -10,7 +10,7 @@ let runcmds#init#cmd_info_key_bangable = 'bangable'
 " @args [list] list of dist which is {value: [string], eval: [bool]}
 " @always_modify [bool] whether to always modify the command
 " @bangable [bool] if false, bang flag will be ignored and command is run without !
-function! runcmds#init#MakeDictInfo(cmd, args, always_modify, bangable) abort
+function! runcmds#init#MakeCmdInfo(cmd, args, always_modify, bangable) abort
 	return {
 				\ g:runcmds#init#cmd_info_key_cmd: a:cmd,
 				\ g:runcmds#init#cmd_info_key_args: a:args,
@@ -23,7 +23,7 @@ endfunction
 " argument passed to a commands. The inner list is:
 "			0 [string] value passed to the command
 "			1 [bool] whether the value should be eval()ed
-function! runcmds#init#MakeDictInfoArgs(list_list) abort
+function! runcmds#init#MakeCmdArgsList(list_list) abort
 	let l:args = []
 	for l:arg in a:list_list
 		let l:value = l:arg[0]

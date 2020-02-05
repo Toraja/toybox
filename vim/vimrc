@@ -1092,14 +1092,14 @@ if exists('g:plugs["nerdtree"]')
 	" augroup END
 	function! s:InitNERDTreeCmds()
 		let l:nerd_tree_cmds = {
-					\ 'n': runcmds#init#MakeDictInfo('NERDTree', [], v:true, v:false),
-					\ 't': runcmds#init#MakeDictInfo('NERDTreeToggle', [], v:false, v:false),
-					\ 'o': runcmds#init#MakeDictInfo('NERDTreeFocus', [], v:false, v:false),
-					\ 'v': runcmds#init#MakeDictInfo('NERDTreeVCS', [], v:false, v:false),
-					\ 'b': runcmds#init#MakeDictInfo('NERDTreeFromBookmark', [], v:true, v:false),
-					\ 'f': runcmds#init#MakeDictInfo('NERDTreeFind', [], v:false, v:false),
-					\ 'c': runcmds#init#MakeDictInfo('NERDTreeCWD', [], v:false, v:false),
-					\ 'r': runcmds#init#MakeDictInfo('NERDTreeRefreshRoot', [], v:false, v:false),
+					\ 'n': runcmds#init#MakeCmdInfo('NERDTree', [], v:true, v:false),
+					\ 't': runcmds#init#MakeCmdInfo('NERDTreeToggle', [], v:false, v:false),
+					\ 'o': runcmds#init#MakeCmdInfo('NERDTreeFocus', [], v:false, v:false),
+					\ 'v': runcmds#init#MakeCmdInfo('NERDTreeVCS', [], v:false, v:false),
+					\ 'b': runcmds#init#MakeCmdInfo('NERDTreeFromBookmark', [], v:true, v:false),
+					\ 'f': runcmds#init#MakeCmdInfo('NERDTreeFind', [], v:false, v:false),
+					\ 'c': runcmds#init#MakeCmdInfo('NERDTreeCWD', [], v:false, v:false),
+					\ 'r': runcmds#init#MakeCmdInfo('NERDTreeRefreshRoot', [], v:false, v:false),
 					\ }
 		function! s:NERDTreeCmds() closure
 			return l:nerd_tree_cmds
@@ -1249,26 +1249,26 @@ if exists('g:plugs["fzf.vim"]')
 
 	function! s:InitFzfCmds()
 		let l:fzf_cmds = {
-					\ 'f': runcmds#init#MakeDictInfo(g:fzf_command_prefix . 'Files', [], v:false, v:false),
-					\ 'g': runcmds#init#MakeDictInfo(g:fzf_command_prefix . 'GFiles', [], v:false, v:false),
-					\ 'G': runcmds#init#MakeDictInfo(g:fzf_command_prefix . 'GFiles?', [], v:false, v:false),
-					\ 'b': runcmds#init#MakeDictInfo(g:fzf_command_prefix . 'Buffers', [], v:false, v:false),
-					\ 'r': runcmds#init#MakeDictInfo(g:fzf_command_prefix . 'Rg', [], v:false, v:false),
-					\ 'L': runcmds#init#MakeDictInfo(g:fzf_command_prefix . 'Lines', [], v:false, v:false),
-					\ 'l': runcmds#init#MakeDictInfo(g:fzf_command_prefix . 'BLines', [], v:false, v:false),
-					\ 'T': runcmds#init#MakeDictInfo(g:fzf_command_prefix . 'Tags', [], v:false, v:false),
-					\ 't': runcmds#init#MakeDictInfo(g:fzf_command_prefix . 'BTags', [], v:false, v:false),
-					\ 'k': runcmds#init#MakeDictInfo(g:fzf_command_prefix . 'Marks', [], v:false, v:false),
-					\ 'w': runcmds#init#MakeDictInfo(g:fzf_command_prefix . 'Windows', [], v:false, v:false),
-					\ 'y': runcmds#init#MakeDictInfo(g:fzf_command_prefix . 'History', [], v:false, v:false),
-					\ ':': runcmds#init#MakeDictInfo(g:fzf_command_prefix . 'History:', [], v:false, v:false),
-					\ '/': runcmds#init#MakeDictInfo(g:fzf_command_prefix . 'History/', [], v:false, v:false),
-					\ 's': runcmds#init#MakeDictInfo(g:fzf_command_prefix . 'Snippets', [], v:false, v:false),
-					\ 'C': runcmds#init#MakeDictInfo(g:fzf_command_prefix . 'Commits', [], v:false, v:false),
-					\ 'c': runcmds#init#MakeDictInfo(g:fzf_command_prefix . 'BCommits', [], v:false, v:false),
-					\ 'd': runcmds#init#MakeDictInfo(g:fzf_command_prefix . 'Commands', [], v:false, v:false),
-					\ 'm': runcmds#init#MakeDictInfo(g:fzf_command_prefix . 'Maps', [], v:false, v:false),
-					\ 'h': runcmds#init#MakeDictInfo(g:fzf_command_prefix . 'Helptags', [], v:false, v:false),
+					\ 'f': runcmds#init#MakeCmdInfo(g:fzf_command_prefix . 'Files', [], v:false, v:false),
+					\ 'g': runcmds#init#MakeCmdInfo(g:fzf_command_prefix . 'GFiles', [], v:false, v:false),
+					\ 'G': runcmds#init#MakeCmdInfo(g:fzf_command_prefix . 'GFiles?', [], v:false, v:false),
+					\ 'b': runcmds#init#MakeCmdInfo(g:fzf_command_prefix . 'Buffers', [], v:false, v:false),
+					\ 'r': runcmds#init#MakeCmdInfo(g:fzf_command_prefix . 'Rg', [], v:false, v:false),
+					\ 'L': runcmds#init#MakeCmdInfo(g:fzf_command_prefix . 'Lines', [], v:false, v:false),
+					\ 'l': runcmds#init#MakeCmdInfo(g:fzf_command_prefix . 'BLines', [], v:false, v:false),
+					\ 'T': runcmds#init#MakeCmdInfo(g:fzf_command_prefix . 'Tags', [], v:false, v:false),
+					\ 't': runcmds#init#MakeCmdInfo(g:fzf_command_prefix . 'BTags', [], v:false, v:false),
+					\ 'k': runcmds#init#MakeCmdInfo(g:fzf_command_prefix . 'Marks', [], v:false, v:false),
+					\ 'w': runcmds#init#MakeCmdInfo(g:fzf_command_prefix . 'Windows', [], v:false, v:false),
+					\ 'y': runcmds#init#MakeCmdInfo(g:fzf_command_prefix . 'History', [], v:false, v:false),
+					\ ':': runcmds#init#MakeCmdInfo(g:fzf_command_prefix . 'History:', [], v:false, v:false),
+					\ '/': runcmds#init#MakeCmdInfo(g:fzf_command_prefix . 'History/', [], v:false, v:false),
+					\ 's': runcmds#init#MakeCmdInfo(g:fzf_command_prefix . 'Snippets', [], v:false, v:false),
+					\ 'C': runcmds#init#MakeCmdInfo(g:fzf_command_prefix . 'Commits', [], v:false, v:false),
+					\ 'c': runcmds#init#MakeCmdInfo(g:fzf_command_prefix . 'BCommits', [], v:false, v:false),
+					\ 'd': runcmds#init#MakeCmdInfo(g:fzf_command_prefix . 'Commands', [], v:false, v:false),
+					\ 'm': runcmds#init#MakeCmdInfo(g:fzf_command_prefix . 'Maps', [], v:false, v:false),
+					\ 'h': runcmds#init#MakeCmdInfo(g:fzf_command_prefix . 'Helptags', [], v:false, v:false),
 					\ }
 		function! s:FzfCmds() closure
 			return l:fzf_cmds
