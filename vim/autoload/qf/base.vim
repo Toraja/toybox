@@ -10,7 +10,7 @@ function! qf#base#QuickfixCmd(count)
 	let l:title = s:qf_mode_names[s:qf_mode]
 	call DispOptionsOneLine(l:title, {'<Space>': 'Display commands'})
 
-	let l:cmd_dict = map(copy(s:qf_cmds), function('s:PrependQuickfixMode'))
+	let l:cmd_dict = map(copy(s:QFCmds()), function('s:PrependQuickfixMode'))
 
 	while v:true
 		let l:user_input = GetChar(v:true)
@@ -104,23 +104,25 @@ function! qf#base#QFOpenSmart(qftype, open_empty, focus) abort
 endf
 command! -bang -nargs=+ QFOpenSmart call qf#base#QFOpenSmart(<f-args>, <bang>0)
 
-let s:qf_cmds = {
-			\ 'o': 'QFOpenSmart! ' . s:qf_mode . ' 1',
-			\ 'q': 'ToggleQFWindow ' . s:qf_mode,
-			\ 's': 'close',
-			\ 'g': s:qf_mode,
-			\ 'n': 'next',
-			\ 'p': 'previous',
-			\ 'a': 'first',
-			\ 'e': 'last',
-			\ 'j': 'nfile',
-			\ 'k': 'pfile',
-			\ 'b': 'bottom',
-			\ 'y': 'history',
-			\ 'h': 'older',
-			\ 'l': 'newer',
-			\ 'm': printf('SwitchQFMode | " (current: %s)', s:qf_mode),
-			\}
+function! s:QFCmds() abort
+	return {
+				\ 'o': 'QFOpenSmart! ' . s:qf_mode . ' 1',
+				\ 'q': 'ToggleQFWindow ' . s:qf_mode,
+				\ 's': 'close',
+				\ 'g': s:qf_mode,
+				\ 'n': 'next',
+				\ 'p': 'previous',
+				\ 'a': 'first',
+				\ 'e': 'last',
+				\ 'j': 'nfile',
+				\ 'k': 'pfile',
+				\ 'b': 'bottom',
+				\ 'y': 'history',
+				\ 'h': 'older',
+				\ 'l': 'newer',
+				\ 'm': printf('SwitchQFMode | " (current: %s)', s:qf_mode),
+				\}
+endfunction
 
 let s:quickfix_cmd_config = {
 			\ 'no_prepend_mode': ['o', 'q', 'm'],
