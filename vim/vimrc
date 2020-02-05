@@ -1502,12 +1502,6 @@ function! RedirCmdOutputToReg(...)
 endfunction
 command! -complete=command -nargs=+ RedirCmdOutputToReg :call RedirCmdOutputToReg(<f-args>)
 
-" redirect the output of external command into console
-function! OutputShellCmdToCmdlind(cmd)
-	echo system(a:cmd)
-endfunction
-command! -complete=shellcmd -nargs=1 OutputShellCmdToCmdlind :call OutputShellCmdToCmdlind(<q-args>)
-
 " redirect the output of external command into quickfix window
 function! s:ShellCmdToQF(exprref, cmd)
 	call a:exprref(a:cmd)
