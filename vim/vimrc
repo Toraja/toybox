@@ -1224,6 +1224,11 @@ cnoreabbrev nt tabnew <Bar> terminal
 cnoreabbrev tt SetTitle
 " --- || abbreviation || }}}
 
+command! -complete=shellcmd -nargs=+ OutputShellCmdToQF call shell#base#ShellCmdToQF(<q-args>, v:false)
+command! -complete=shellcmd -nargs=+ AppendShellCmdToQF call shell#base#ShellCmdToQF(<q-args>, v:true)
+command! -complete=shellcmd -nargs=+ OutputShellCmdToPreview call shell#base#ShellCmdToPreview(<q-args>, v:false)
+command! -complete=shellcmd -nargs=+ AppendShellCmdToPreview call shell#base#ShellCmdToPreview(<q-args>, v:true)
+
 " {{{ || functions || ---
 " move back cursor before a command is executed
 " offset moves down and right n lines/columns to the original position
@@ -1496,51 +1501,6 @@ function! RedirCmdOutputToReg(...)
 	redir END
 endfunction
 command! -complete=command -nargs=+ RedirCmdOutputToReg :call RedirCmdOutputToReg(<f-args>)
-
-" redirect the output of external command into quickfix window
-function! s:ShellCmdToQF(exprref, cmd)
-	call a:exprref(a:cmd)
-	let l:errornum = len(getloclist(0))
-	if !l:errornum
-		redraw
-		echohl WarningMsg | echo 'No output from the command' | echohl NONE
-		return
-	endif
-	execute 'lopen' . (l:errornum > 10 ? '' : l:errornum)
-	set modifiable
-	silent! %substitute/^|| //g
-	set nomodified
-	wincmd p
-endfunction
-function! s:LgetexprSystem(cmd)
-	lgetexpr system(a:cmd)
-endfunction
-function! s:LaddexprSystem(cmd)
-	laddexpr system(a:cmd)
-endfunction
-command! -complete=shellcmd -nargs=+ OutputShellCmdToQF :call <SID>ShellCmdToQF(function('s:LgetexprSystem'), <q-args>)
-command! -complete=shellcmd -nargs=+ AppendShellCmdToQF :call <SID>ShellCmdToQF(function('s:LaddexprSystem'), <q-args>)
-
-" redirect the output of external command into preview window
-function! s:ShellCmdToPreview(cmd, append)
-	if !a:append
-		execute printf('pedit [%s]', a:cmd)
-	endif
-
-	try
-		wincmd P
-	catch /^Vim\%((\a\+)\)\=:E441:/
-		call s:ShellCmdToPreview(a:cmd, v:false)
-		return
-	endtry
-
-	let l:vimcmd = a:append ? '$read !' :'%! '
-	execute l:vimcmd.a:cmd
-	setlocal nomodified
-	wincmd p
-endfunction
-command! -complete=shellcmd -nargs=+ OutputShellCmdToPreview call <SID>ShellCmdToPreview(<q-args>, v:false)
-command! -complete=shellcmd -nargs=+ AppendShellCmdToPreview call <SID>ShellCmdToPreview(<q-args>, v:true)
 
 function! SetOperatorFunc(funcname)
 	execute 'set operatorfunc=' . a:funcname
