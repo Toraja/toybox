@@ -94,7 +94,7 @@ function! qf#base#QFOpenSmart(qftype, open_empty, focus) abort
 	silent call s:SwitchQFMode(a:qftype)
 
 	const l:maxheight = 10
-	let l:qfheight = min([l:numerror, l:maxheight])
+	let l:qfheight = max([min([l:numerror, l:maxheight]), 1])
 	execute a:qftype.'open'.l:qfheight
 	if !a:focus
 		wincmd p
@@ -105,7 +105,7 @@ endf
 command! -bang -nargs=+ QFOpenSmart call qf#base#QFOpenSmart(<f-args>, <bang>0)
 
 let s:qf_cmds = {
-			\ 'o': 'QFOpenSmart! ' . s:qf_mode . ' ' . v:true,
+			\ 'o': 'QFOpenSmart! ' . s:qf_mode . ' 1',
 			\ 'q': 'ToggleQFWindow ' . s:qf_mode,
 			\ 's': 'close',
 			\ 'g': s:qf_mode,
