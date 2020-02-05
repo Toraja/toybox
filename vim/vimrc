@@ -1224,11 +1224,6 @@ cnoreabbrev nt tabnew <Bar> terminal
 cnoreabbrev tt SetTitle
 " --- || abbreviation || }}}
 
-" {{{ || netrw || ---
-let g:netrw_winsize = 18
-let g:netrw_banner = 0
-" --- || netrw || }}}
-
 " {{{ || functions || ---
 " move back cursor before a command is executed
 " offset moves down and right n lines/columns to the original position
