@@ -697,7 +697,7 @@ function! QuickGrep(pattern, modify)
 		return
 	endtry
 
-	call QFOpenSmart(s:quickfix_mode_location, v:false, 0)
+	call qf#base#QFOpenSmart(g:qf#base#qf_mode_location, v:false, 0)
 endfunction
 nnoremap <silent> [Captain]g  <Cmd>call QuickGrep('', 1)<CR>
 nnoremap <silent> +           <Cmd>call QuickGrep(expand("<cword>"), 0)<CR>
@@ -769,155 +769,7 @@ vnoremap [Chief]S   y<Cmd>call QuickSubstitute(@@, {'range': '%', 'exclusive': 1
 " --- || Replace || }}}
 
 " {{{ || Quickfix/Location || ---
-function! s:QuickfixDict()
-	return {
-				\ 'o': 'QFOpenSmart! ' . s:quickfix_mode . ' ' . v:true,
-				\ 'q': 'ToggleQFWindow ' . s:quickfix_mode,
-				\ 's': 'close',
-				\ 'g': s:quickfix_mode,
-				\ 'n': 'next',
-				\ 'p': 'previous',
-				\ 'a': 'first',
-				\ 'e': 'last',
-				\ 'j': 'nfile',
-				\ 'k': 'pfile',
-				\ 'b': 'bottom',
-				\ 'y': 'history',
-				\ 'h': 'older',
-				\ 'l': 'newer',
-				\ 'm': printf('call SwitchQFMode() " (current: %s)', s:quickfix_mode),
-				\}
-endfunction
-
-let s:quickfix_cmd_config = {
-			\ 'no_prepend_mode': ['o', 'q', 'm'],
-			\ 'no_count': ['o', 'q', 's', 'b', 'y', 'm'],
-			\}
-
-function! s:PrependQuickfixMode(key, val)
-	if index(s:quickfix_cmd_config.no_prepend_mode, a:key) >= 0
-		return a:val
-	endif
-	return s:quickfix_mode . a:val
-endfunction
-
-function! QuickfixCmd(count, cmds)
-	let l:title = s:quickfix_mode_names[s:quickfix_mode]
-	call DispOptionsOneLine(l:title, {'<Space>': 'Display commands'})
-
-	let l:cmd_dict = map(copy(a:cmds), function('s:PrependQuickfixMode'))
-
-	while v:true
-		let l:user_input = GetChar(v:true)
-		if l:user_input is 0
-			return
-		endif
-		if l:user_input == "\<Space>"
-			redraw
-			call DispOptions(l:title . ':', l:cmd_dict, 'Press a key: ')
-			continue
-		else
-			break
-		endif
-	endwhile
-	redraw
-
-	if IsCtrlAlpha(l:user_input)
-		let l:user_input = ConvertCtrlCharToNormal(l:user_input, 1)
-	endif
-
-	let l:cmd = get(l:cmd_dict, l:user_input, '')
-	if l:cmd is ''
-		echohl WarningMsg | echo printf('"%s" is not available.', l:user_input) | echohl NONE
-		return
-	endif
-
-	let l:count = (a:count == 0) ? "" : a:count
-	if index(s:quickfix_cmd_config.no_count, l:user_input) < 0
-		let l:cmd = printf('%s %s', l:cmd, l:count)
-	endif
-
-	try
-		execute l:cmd
-	catch /^Vim\%((\a\+)\)\=:E\(42\|776\):/
-		echohl WarningMsg | echo 'No error in the list' | echohl NONE
-		return
-	catch
-		redraw
-		echohl ErrorMsg | echo printf('%s: %s', v:throwpoint, v:exception) | echohl NONE
-	endtry
-endfunction
-nnoremap <silent> <C-q> :<C-u>call QuickfixCmd(v:count, <SID>QuickfixDict())<CR>
-
-" value is l and c so that these can be simply prepended to quickfix commands
-let [s:quickfix_mode_location, s:quickfix_mode_quickfix] = ['l', 'c']
-let s:quickfix_mode = get(s:, 'quickfix_mode', s:quickfix_mode_location)
-let s:quickfix_mode_names = {
-			\ s:quickfix_mode_location: 'Location',
-			\ s:quickfix_mode_quickfix: 'Quickfix',
-			\}
-
-" Toggle quickfix mode if no argument is supplied.
-" Change to the mode if an argument is supplied.
-" @1: mode to change
-function! SwitchQFMode(...)
-	if a:0 >= 1
-		let l:mode_to_change = a:1
-		let l:quickfix_modes = [s:quickfix_mode_location, s:quickfix_mode_quickfix]
-		if index(l:quickfix_modes, l:mode_to_change) < 0
-			echoerr 'Invalid Argument: must be either ' . string(l:quickfix_modes)
-			return
-		endif
-		if s:quickfix_mode == l:mode_to_change
-			return
-		endif
-	endif
-
-	let l:mode_from = s:quickfix_mode_names[s:quickfix_mode]
-	let s:quickfix_mode = s:quickfix_mode == s:quickfix_mode_location ?
-				\ s:quickfix_mode_quickfix : s:quickfix_mode_location
-	let l:mode_to = s:quickfix_mode_names[s:quickfix_mode]
-	echo printf('Quickfix mode changed from %s to %s', l:mode_from, l:mode_to)
-endfunction
-
-" Open quickfix/location list with just enough height for errors but
-" no more than the maximum. Close window if no error is found.
-" @qftype [number] quickfix of location
-" @open_empty [boolean] whether to open quickfix window when there is no error
-" @focus [boolean] whether to focus on quickfix window
-" @return [number] the number of errors in location list
-function! QFOpenSmart(qftype, open_empty, focus) abort
-	let l:numerror = a:qftype == s:quickfix_mode_location ?
-				\ len(getloclist(0)) : len(getqflist())
-	if !(l:numerror || a:open_empty)
-		execute a:qftype.'close'
-		return 0
-	endif
-
-	silent call SwitchQFMode(a:qftype)
-
-	const l:maxheight = 10
-	let l:qfheight = min([l:numerror, l:maxheight])
-	execute a:qftype.'open'.l:qfheight
-	if !a:focus
-		wincmd p
-	endif
-
-	return l:numerror
-endf
-command! -bang -nargs=+ QFOpenSmart call QFOpenSmart(<f-args>, <bang>0)
-
-function! ToggleQFWindow(qftype) abort
-	let l:key = 'winid'
-	let l:opt = {l:key: 1}
-	let l:winid = a:qftype == s:quickfix_mode_quickfix ? getqflist(l:opt)[l:key] : getloclist(0, l:opt)[l:key]
-	if l:winid
-		execute win_id2win(l:winid) . 'close'
-		return
-	endif
-	call QFOpenSmart(a:qftype, v:true, 0)
-endfunction
-command! -nargs=1 ToggleQFWindow call ToggleQFWindow(<q-args>)
+nnoremap <silent> <C-q> <Cmd>call qf#base#QuickfixCmd(v:count)<CR>
 " --- || Quickfix/Location || }}}
 
 " {{{ || Buffer || ---
@@ -1780,7 +1632,7 @@ function! MyMake(...) abort
 	let l:cmd = 'silent lmake! '.join(a:000)
 	echohl Identifier | echo 'Making... ' | echohl NONE
 	execute l:cmd
-	let l:errorexists = QFOpenSmart(s:quickfix_mode_location, v:false, 0)
+	let l:errorexists = qf#base#QFOpenSmart(g:qf#base#qf_mode_location, v:false, 0)
 	" On linux console, bash console will be shown when making and vim is
 	" brought back when make is done. This causes the contents of the file now
 	" shown properly. 'redraw!' to fix it.
@@ -1943,7 +1795,7 @@ function! CaptureFindGrep(cmd) abort
 
 	let l:qflists = []
 	call setqflist([], ' ', {'lines': l:results,'title': a:cmd})
-	call QFOpenSmart(s:quickfix_mode_quickfix, v:false, 0)
+	call qf#base#QFOpenSmart(g:qf#base#qf_mode_quickfix, v:false, 0)
 endfunction
 command! -complete=file -nargs=1 CaptureFindGrep call CaptureFindGrep(<q-args>)
 cnoreabbrev fig CaptureFindGrep find -type f -exec grep -Hn {} \\;<C-Left><C-Left><Left>
