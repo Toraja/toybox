@@ -571,63 +571,15 @@ inoremap . .<C-g>u
 " r: RedirCmdOutputToReg
 " keymap for "z, "Z is defined in leader section
 nnoremap "" <Cmd>registers<CR>
-nnoremap <Leader><Space> <Cmd>call CopyRegisterToAnother('"', 'z')<CR>
+nnoremap <Leader><Space> <Cmd>call register#base#CopyRegisterToAnother('"', 'z')<CR>
 if has('xterm_clipboard')
-	nnoremap [Chief]; <Cmd>call CopyRegisterToAnother('"', '+')<CR>
+	nnoremap [Chief]; <Cmd>call register#base#CopyRegisterToAnother('"', '+')<CR>
 elseif has('clipboard')
-	nnoremap [Chief]; <Cmd>call CopyRegisterToAnother('"', '*')<CR>
+	nnoremap [Chief]; <Cmd>call register#base#CopyRegisterToAnother('"', '*')<CR>
 endif
-nnoremap <Leader>r <Cmd>call CopyRegisterToAnotherInteract()<CR>
-nnoremap [Chief]r <Cmd>call EditRegister()<CR>
-
-function! CopyRegisterToAnother(reg_from, reg_to)
-	call setreg(a:reg_to, getreg(a:reg_from))
-	echo printf("@%s = %s", a:reg_to, getreg(a:reg_to))
-endfunction
-
-function! CopyRegisterToAnotherInteract()
-	registers
-	echo 'Register to copy from:'
-	let l:regchar_from = GetChar(v:true)
-	if l:regchar_from is 0
-		return
-	endif
-	echo 'Register to save into:'
-	let l:regchar_to = GetChar(v:true)
-	if l:regchar_to is 0
-		return
-	endif
-
-	call CopyRegisterToAnother(l:regchar_from, l:regchar_to)
-endfunction
-
-function! EditRegister()
-	echo 'Register to edit:'
-	" input() converts newline in {default} arguemnt to whitespace.
-	" Use <C-r> so that register contents is evaluated after input() is called.
-	let l:reg_char = GetChar(v:true)
-	if l:reg_char is 0
-		return
-	endif
-	redraw
-	let l:contents = Input(v:true, printf("Set register '%s' to:\n", l:reg_char), "\<C-r>". l:reg_char)
-	if l:contents is 0
-		return
-	endif
-	call setreg(l:reg_char, l:contents)
-endfunction
-
-" clear contents of all char registers
-function! ClearCharRegisters()
-	let c='a'
-	while c <= 'z'
-		execute setreg(c, [])
-		let c = nr2char(1+char2nr(c))
-	endwhile
-endfunction
-
-command! -nargs=+ CopyRegisterToAnother call CopyRegisterToAnother(<f-args>)
-command! ClearCharRegisters call ClearCharRegisters()
+nnoremap <Leader>r <Cmd>call register#base#CopyRegisterToAnotherInteract()<CR>
+nnoremap [Chief]r <Cmd>call register#base#EditRegister()<CR>
+nnoremap [Captain]r <Cmd>call register#base#ClearCharRegisters()<CR>
 " --- || register || }}}
 
 " {{{ || Mark || ---
