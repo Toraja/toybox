@@ -36,10 +36,12 @@ function! register#base#EditRegister()
 endfunction
 
 " clear contents of all char registers
+" XXX this does not work on nvim
 function! register#base#ClearCharRegisters()
 	let c='a'
 	while c <= 'z'
-		execute setreg(c, [])
+		call setreg(c, [])
 		let c = nr2char(1+char2nr(c))
 	endwhile
+	echo 'All char registers have been cleared'
 endfunction
