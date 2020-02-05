@@ -1942,17 +1942,7 @@ function! CaptureFindGrep(cmd) abort
 	endif
 
 	let l:qflists = []
-	for l:result in l:results
-		let l:info=[]
-		call substitute(l:result, '\v(.*):(\d+):(.*)', '\=extend(l:info, [submatch(1), submatch(2), submatch(3)])', '')
-		call add(l:qflists, {
-					\ 'filename': l:info[0],
-					\ 'lnum': l:info[1],
-					\ 'text': l:info[2],
-					\})
-	endfor
-	call setqflist(l:qflists)
-	call setqflist([], 'a', {'title': a:cmd})
+	call setqflist([], ' ', {'lines': l:results,'title': a:cmd})
 	call QFOpenSmart(s:quickfix_mode_quickfix, v:false, 0)
 endfunction
 command! -complete=file -nargs=1 CaptureFindGrep call CaptureFindGrep(<q-args>)
