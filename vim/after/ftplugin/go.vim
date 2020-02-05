@@ -43,7 +43,7 @@ function! s:InitGocmds()
 	endfunction
 endfunction
 call s:InitGocmds()
-nnoremap <buffer> <expr> - runcmds#base#RunCmds('Go Cmds', <SID>GoCmds(), {}, function('SortItemsByNestedValue', ['cmd']))
+nnoremap <buffer> <expr> - runcmds#base#RunCmds('Go Cmds', <SID>GoCmds(), {}, function('SortItemsByNestedValue', [runcmds#init#cmd_info_key_cmd]))
 command! -buffer -bang GoAlternateSplit call go#alternate#Switch(<bang>0, 'split')
 command! -buffer -bang GoAlternateVSplit call go#alternate#Switch(<bang>0, 'vsplit')
 

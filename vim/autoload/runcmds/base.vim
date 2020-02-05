@@ -11,7 +11,7 @@ function! runcmds#base#RunCmds(title, cmds, ...) abort
 		let l:selected_flags_display = strlen(l:selected_flags) == 0 ?
 					\ '' : printf('(%s)', l:flags.selected_flags())
 		redraw
-		if l:flags.info_of('disp').selected
+		if l:flags.info_of(g:runcmds#init#flag_key_disp).selected
 			call s:EchoAdjustingCmdheight(l:cmds_string, a:title,
 						\ 'Press a key > ' . l:selected_flags_display,
 						\ v:false)
@@ -50,16 +50,16 @@ function! runcmds#base#RunCmds(title, cmds, ...) abort
 		return
 	endif
 
-	if !l:flags.info_of('mod').selected && l:cmd_info.always_modify
-		call l:flags.info_of('mod').toggle_selected()
+	if !l:flags.info_of(g:runcmds#init#flag_key_mod).selected && l:cmd_info.always_modify
+		call l:flags.info_of(g:runcmds#init#flag_key_mod).toggle_selected()
 	endif
 	let l:cmd = l:cmd_info.cmd
-	if l:flags.info_of('bang').selected && l:cmd_info.bangable
+	if l:flags.info_of(g:runcmds#init#flag_key_bang).selected && l:cmd_info.bangable
 		let l:cmd .= '!'
 	endif
 	let l:arg = len(l:cmd_info.args) == 0 ? '' : ' ' . join(l:cmd_info.args)
 
-	return ':' . l:cmd . l:arg . (l:flags.info_of('mod').selected ? "\<Space>": "\<CR>")
+	return ':' . l:cmd . l:arg . (l:flags.info_of(g:runcmds#init#flag_key_mod).selected ? "\<Space>": "\<CR>")
 endfunction
 
 let s:flag = {}
@@ -75,15 +75,15 @@ endfunction
 
 let s:flags = {}
 function! s:flags.new(flag_symbols) abort
-	let l:symbol_mod  = get(a:flag_symbols, 'mod', '-')
-	let l:symbol_disp = get(a:flag_symbols, 'disp', '_')
-	let l:symbol_bang = get(a:flag_symbols, 'bang', '!')
+	let l:symbol_mod  = get(a:flag_symbols, g:runcmds#init#flag_key_mod, '-')
+	let l:symbol_disp = get(a:flag_symbols, g:runcmds#init#flag_key_disp, '_')
+	let l:symbol_bang = get(a:flag_symbols, g:runcmds#init#flag_key_bang, '!')
 
 	let l:flags = copy(self)
 	let l:flags.flag_key_symbol_map = {
-				\ 'mod' :l:symbol_mod,
-				\ 'disp':l:symbol_disp,
-				\ 'bang':l:symbol_bang,
+				\ g:runcmds#init#flag_key_mod:l:symbol_mod,
+				\ g:runcmds#init#flag_key_disp:l:symbol_disp,
+				\ g:runcmds#init#flag_key_bang:l:symbol_bang,
 				\}
 	let l:flags.registry = {
 				\ l:symbol_mod : s:flag.new('Modify command'),

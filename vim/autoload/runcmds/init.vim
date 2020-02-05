@@ -1,13 +1,21 @@
+let runcmds#init#flag_key_mod = 'mod'
+let runcmds#init#flag_key_disp = 'disp'
+let runcmds#init#flag_key_bang = 'bang'
+let runcmds#init#cmd_info_key_cmd = 'cmd'
+let runcmds#init#cmd_info_key_args = 'args'
+let runcmds#init#cmd_info_key_always_modify = 'always_modify'
+let runcmds#init#cmd_info_key_bangable = 'bangable'
+
 " @cmd [string] command to run
 " @args [list] list of dist which is {value: [string], eval: [bool]}
 " @always_modify [bool] whether to always modify the command
 " @bangable [bool] if false, bang flag will be ignored and command is run without !
 function! runcmds#init#MakeDictInfo(cmd, args, always_modify, bangable) abort
 	return {
-				\ 'cmd': a:cmd,
-				\ 'args': a:args,
-				\ 'always_modify': a:always_modify,
-				\ 'bangable': a:bangable,
+				\ g:runcmds#init#cmd_info_key_cmd: a:cmd,
+				\ g:runcmds#init#cmd_info_key_args: a:args,
+				\ g:runcmds#init#cmd_info_key_always_modify: a:always_modify,
+				\ g:runcmds#init#cmd_info_key_bangable: a:bangable,
 				\}
 endfunction
 
@@ -28,13 +36,13 @@ endfunction
 function! runcmds#init#MakeFlagDict(...)
 	let l:dict = {}
 	if a:0 >= 1
-		let l:dict['mod'] = a:1
+		let l:dict[g:runcmds#init#flag_key_mod] = a:1
 	endif
 	if a:0 >= 2
-		let l:dict['disp'] = a:2
+		let l:dict[g:runcmds#init#flag_key_disp] = a:2
 	endif
 	if a:0 >= 3
-		let l:dict['bang'] = a:3
+		let l:dict[g:runcmds#init#flag_key_bang] = a:3
 	endif
 	return l:dict
 endfunction
