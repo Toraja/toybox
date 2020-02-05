@@ -22,7 +22,7 @@ endfunction
 " redirect the output of external command into preview window
 function! shell#base#ShellCmdToPreview(cmd, append)
 	if !a:append
-		execute printf('pedit [%s]', a:cmd)
+		execute printf('pedit +file\ [%s] %s', escape(a:cmd, ' \'), tempname())
 	endif
 
 	try
