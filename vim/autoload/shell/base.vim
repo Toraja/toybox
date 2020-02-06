@@ -21,6 +21,7 @@ endfunction
 
 " redirect the output of external command into preview window
 function! shell#base#ShellCmdToPreview(cmd, append)
+	let l:cwd = getcwd()
 	if !a:append
 		execute printf('pedit +file\ [%s] %s', escape(a:cmd, ' \'), tempname())
 	endif
@@ -32,8 +33,9 @@ function! shell#base#ShellCmdToPreview(cmd, append)
 		return
 	endtry
 
+	execute 'cd ' . l:cwd
 	let l:vimcmd = a:append ? '$read !' :'%! '
-	execute l:vimcmd.a:cmd
-	setlocal nomodified
+	execute l:vimcmd . a:cmd
+	setlocal nomodified bufhidden=delete
 	wincmd p
 endfunction
