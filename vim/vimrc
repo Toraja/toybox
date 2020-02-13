@@ -651,7 +651,7 @@ function! QuickGrep(pattern, modify)
 
 	call qf#base#QFOpenSmart(g:qf#base#qf_mode_location, v:false, 0)
 endfunction
-nnoremap <silent> [Captain]g  <Cmd>call QuickGrep('', 1)<CR>
+nnoremap <silent> [Captain]+  <Cmd>call QuickGrep('', 1)<CR>
 nnoremap <silent> +           <Cmd>call QuickGrep(expand("<cword>"), 0)<CR>
 nnoremap <silent> g+          <Cmd>call QuickGrep('\<'.expand("<cword>").'\>', 0)<CR>
 nnoremap <silent> <Leader>+   <Cmd>call QuickGrep(expand("<cWORD>"), 0)<CR>
@@ -822,20 +822,26 @@ if exists('g:plugs["vim-fugitive"]')
 	cnoreabbrev gs Gstatus
 	cnoreabbrev gl Git log
 	cnoreabbrev glg vertical sbuffer <Bar> Gllog
-	cnoreabbrev gcm Gcommit -m
 	cnoreabbrev gd Gdiffsplit
-	nnoremap <C-t>gs :tab Gstatus<CR>
-	nnoremap <C-t>gl :tab Git log<CR>
-	nnoremap [Chief]gs :vert Gstatus<CR>
-	nnoremap [Chief]gl :vert Git log<CR>
+	nnoremap <Leader>gs <Cmd>tab Gstatus<CR>
+	nnoremap <Leader>gl <Cmd>tab Git log<CR>
+	nnoremap [Chief]gs <Cmd>vertical Gstatus<CR>
+	nnoremap [Chief]gl <Cmd>vertical Git log<CR>
 endif
 " --- || vim-fugitive || }}}
 
 " {{{ || vim-gitgutter || ---
 if exists('g:plugs["vim-gitgutter"]')
 	let g:gitgutter_preview_win_floating = 0
+	nnoremap [Captain]gg <Cmd>GitGutter<CR>
 endif
-" --- || vim-fugitive || }}}
+" --- || vim-gitgutter || }}}
+
+" {{{ || git-blame.vim || ---
+if exists('g:plugs["git-blame.vim"]')
+	nnoremap [Captain]gb <Cmd>GitBlame<CR>
+endif
+" --- || git-blame.vim || }}}
 
 " {{{ || powerline / airline || ---
 if !(exists('g:plugs["powerline"]') || exists('g:plugs["vim-airline"]'))
