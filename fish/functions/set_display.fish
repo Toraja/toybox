@@ -7,5 +7,5 @@ end
 
 function wsl_display --description='DISPLAY for WSL'
     set ip (grep nameserver /etc/resolv.conf | awk '{print $2}')
-    set -xg DISPLAY $ip:0.0
+    set --export --global DISPLAY $ip:0.0
 end

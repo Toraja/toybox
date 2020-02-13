@@ -1,5 +1,5 @@
 function add_path --description "Add directory to PATH if the directory exists and not present in PATH variable, appending by default"
-    argparse --min-args=1 -x p,a 'p/prepend' 'a/append' -- $argv
+    argparse --min-args=1 --exclusive p,a 'p/prepend' 'a/append' -- $argv
     or return 1
 
     test -n "$_flag_prepend"

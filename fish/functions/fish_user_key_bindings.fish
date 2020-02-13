@@ -33,22 +33,22 @@ function fish_user_key_bindings
 
     # wrapper
     # clipbin is exported to use inside tmux.conf
-    if type -q clip.exe
-        set -gx clipbin 'clip.exe'
+    if type --quiet clip.exe
+        set --global --export clipbin 'clip.exe'
     else if type -q xsel
-        set -gx clipbin xsel -i --clipboard
+        set --global --export clipbin xsel -i --clipboard
     else if type -q xclip
-        set -gx clipbin xclip -selection c
+        set --global --export clipbin xclip -selection c
     end
-    if set -q TMUX
-        set -g clipper 'clip_to_tmux'
+    if set --query TMUX
+        set --global clipper 'clip_to_tmux'
         # Below does not work (`and` command not found), so keep using the function above
         # set -g clipper tmux load-buffer -\; and tmux save-buffer - \| $clipbin
-    else if set -q clipbin
-        set -g clipper $clipbin
+    else if set --query clipbin
+        set --global clipper $clipbin
     end
 
-    if set -q clipper
+    if set --query clipper
         bind \cq 'commandline -a \' | $clipper\''
         bind \eq 'wrap_in_echo_single \'$clipper\''
         bind \e\cq 'wrap_in_echo_double \'$clipper\''
@@ -75,25 +75,25 @@ function fish_user_key_bindings
     bind_wrapper \' \' \'
 
     # selection
-    bind -m selection \cx\x20 begin-selection
-    bind -M selection \cx\cx swap-selection-start-stop repaint
-    bind -M selection -m default \cx\x20 end-selection repaint
-    bind -M selection -m default \e end-selection repaint
-    bind -M selection -m default \cw kill-selection end-selection repaint
-    bind -M selection -m default \ek kill-selection end-selection repaint
-    bind -M selection \cp up-line
-    bind -M selection \cn down-line
-    bind -M selection \cf forward-char
-    bind -M selection \cb backward-char
-    bind -M selection \ef forward-word
-    bind -M selection \eb backward-word
-    bind -M selection \e\cf forward-bigword
-    bind -M selection \e\cb backward-bigword
-    bind -M selection \ca beginning-of-line
-    bind -M selection \ce end-of-line
-    bind -M selection \x1D forward-jump
+    bind --sets-mode selection \cx\x20 begin-selection
+    bind --mode selection \cx\cx swap-selection-start-stop repaint
+    bind --mode selection --sets-mode default \cx\x20 end-selection repaint
+    bind --mode selection --sets-mode default \e end-selection repaint
+    bind --mode selection --sets-mode default \cw kill-selection end-selection repaint
+    bind --mode selection --sets-mode default \ek kill-selection end-selection repaint
+    bind --mode selection \cp up-line
+    bind --mode selection \cn down-line
+    bind --mode selection \cf forward-char
+    bind --mode selection \cb backward-char
+    bind --mode selection \ef forward-word
+    bind --mode selection \eb backward-word
+    bind --mode selection \e\cf forward-bigword
+    bind --mode selection \e\cb backward-bigword
+    bind --mode selection \ca beginning-of-line
+    bind --mode selection \ce end-of-line
+    bind --mode selection \x1D forward-jump
     # Ctrl-Alt-] does not work, and \x1D does not work fow ALT key
-    bind -M selection \e] backward-jump
-    bind -M selection \e\; repeat-jump
-    bind -M selection \e, repeat-jump-reverse
+    bind --mode selection \e] backward-jump
+    bind --mode selection \e\; repeat-jump
+    bind --mode selection \e, repeat-jump-reverse
 end

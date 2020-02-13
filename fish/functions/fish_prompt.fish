@@ -4,7 +4,7 @@ function fish_prompt --description 'Write out the prompt'
     set prompt (colorise $status_color fish)
 
     # USER SHLVL CWD
-    set -a prompt :(colorise green $USER):(colorise yellow $SHLVL):(colorise green (prompt_pwd))
+    set --append prompt :(colorise green $USER):(colorise yellow $SHLVL):(colorise green (prompt_pwd))
 
     # git status
     git rev-parse --is-inside-work-tree >/dev/null 2>&1; and begin
@@ -12,7 +12,7 @@ function fish_prompt --description 'Write out the prompt'
         set git_color (test (count $git_status) -eq 0; and echo cyan; or echo magenta)
         set branch (git branch | grep '*' | awk '{print $2}')
         set git ' ['(colorise $git_color $branch)']'
-        set -a prompt $git
+        set --append prompt $git
     end
 
     # symbol
@@ -20,7 +20,7 @@ function fish_prompt --description 'Write out the prompt'
     if test $USER = 'root'
         set symbol '#'
     end
-    set -a prompt \n$symbol' '
+    set --append prompt \n$symbol' '
 
     string join '' $prompt
 end

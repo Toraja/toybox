@@ -7,16 +7,16 @@ tabs 4
 set fish_conf $__fish_config_dir/config.fish
 set fish_myfuncs $__fish_config_dir/myfuncs
 # add_unique is not available here
-not contains $fish_myfuncs $fish_function_path; and set -p fish_function_path $fish_myfuncs
+not contains $fish_myfuncs $fish_function_path; and set --prepend fish_function_path $fish_myfuncs
 set fish_prompt_pwd_dir_length 5 # setting to 0 disable shortening path in prompt_pwd
 
 # Environment variables
-set -x EDITOR vim
-set -x VISUAL vim
-set -x GOPATH $HOME/go
+set --export EDITOR vim
+set --export VISUAL vim
+set --export GOPATH $HOME/go
 # this is set in tmux-sensible but it has not effect on the first window
-test $TERM = 'screen'; and set -x TERM 'screen-256color'
-functions -q set_display; and set_display # set DISPLAY
+test $TERM = 'screen'; and set --export TERM 'screen-256color'
+functions --query set_display; and set_display # set DISPLAY
 
 # PATH
 ## local bin
@@ -33,7 +33,7 @@ alias nd='nextd'
 alias swappiness='cat /proc/sys/vm/swappiness'
 alias ll='ls -Ahlv'
 alias vim='vim -p'
-type -q nvim; and begin
+type --quiet nvim; and begin
     alias view='nvim -R'
     alias vimdiff='nvim -d'
 end
@@ -96,14 +96,14 @@ end
 
 # fzf
 ## variables
-set -l fzf_opts "--height=40%"\
+set --local fzf_opts "--height=40%"\
     "--tabstop=4"\
     "--multi" \
     "--reverse" \
     "--inline-info" \
     "--preview='bat --color=always {}'" \
     "--preview-window=hidden"
-set -l fzf_bind_opts "ctrl-space:toggle" \
+set --local fzf_bind_opts "ctrl-space:toggle" \
     "ctrl-o:top" \
     "ctrl-s:jump" \
     "alt-/:toggle-preview" \
@@ -113,11 +113,11 @@ set -l fzf_bind_opts "ctrl-space:toggle" \
     "alt-v:preview-page-up" \
     "alt-h:backward-kill-word" \
     "ctrl-k:kill-line"
-set -x FZF_DEFAULT_OPTS (string join -- " " $fzf_opts "--bind="(string join ',' $fzf_bind_opts))
+set --export FZF_DEFAULT_OPTS (string join -- " " $fzf_opts "--bind="(string join ',' $fzf_bind_opts))
 
 ## bindings
 # As my fish_user_key_bindings predates, fzf_key_bindings is not called automatically
-functions -q fzf_key_bindings; and fzf_key_bindings
+functions --query fzf_key_bindings; and fzf_key_bindings
 # and test (bind \ct | awk '{print $3}') = 'fzf-file-widget' # somehow fails (succeeds on command line)
 and begin
     bind \ct transpose-chars
