@@ -6,6 +6,7 @@ tabs 4
 # fish variables
 set fish_conf $__fish_config_dir/config.fish
 set fish_myfuncs $__fish_config_dir/myfuncs
+# add_unique is not available here
 not contains $fish_myfuncs $fish_function_path; and set -p fish_function_path $fish_myfuncs
 set fish_prompt_pwd_dir_length 5 # setting to 0 disable shortening path in prompt_pwd
 
@@ -18,8 +19,7 @@ test $TERM = 'screen'; and set -x TERM 'screen-256color'
 functions -q set_display; and set_display # set DISPLAY
 
 # PATH
-test -d /usr/local/go; and not contains /usr/local/go/bin $PATH; and set -xp PATH /usr/local/go/bin
-not contains $GOPATH/bin $PATH; and set -xp PATH $GOPATH/bin
+add_path --prepend /usr/local/go/bin $GOPATH/bin
 
 # alias
 alias rm='rm -i'
