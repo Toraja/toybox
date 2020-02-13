@@ -5,7 +5,8 @@ function fish_user_key_bindings
     bind \e\cf forward-bigword
     bind \e\cb backward-bigword
     bind \x1D forward-jump
-    bind \e\x1D backward-jump
+    # Ctrl-Alt-] does not work, and \x1D does not work fow ALT key
+    bind \e] backward-jump
     bind \e\; repeat-jump
     bind \e, repeat-jump-reverse
 
@@ -73,7 +74,7 @@ function fish_user_key_bindings
 
     # selection
     bind -m selection \cx\x20 begin-selection
-    bind -M selection -m default \cx\cx swap-selection-start-stop repaint
+    bind -M selection \cx\cx swap-selection-start-stop repaint
     bind -M selection -m default \cx\x20 end-selection repaint
     bind -M selection -m default \e end-selection repaint
     bind -M selection -m default \cw kill-selection end-selection repaint
@@ -89,7 +90,8 @@ function fish_user_key_bindings
     bind -M selection \ca beginning-of-line
     bind -M selection \ce end-of-line
     bind -M selection \x1D forward-jump
-    bind -M selection \e\x1D backward-jump
+    # Ctrl-Alt-] does not work, and \x1D does not work fow ALT key
+    bind -M selection \e] backward-jump
     bind -M selection \e\; repeat-jump
     bind -M selection \e, repeat-jump-reverse
 end
