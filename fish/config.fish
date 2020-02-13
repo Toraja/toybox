@@ -19,6 +19,9 @@ test $TERM = 'screen'; and set -x TERM 'screen-256color'
 functions -q set_display; and set_display # set DISPLAY
 
 # PATH
+## local bin
+add_path --prepend ~/.local/bin
+## GO
 add_path --prepend /usr/local/go/bin $GOPATH/bin
 
 # alias
