@@ -18,8 +18,10 @@ function fish_user_key_bindings
     bind \el downcase-word
 
     # search
-    bind \ep history-token-search-backward
-    bind \en history-token-search-forward
+    bind \ep history-prefix-search-backward
+    bind \en history-prefix-search-forward
+    bind \e\cp history-token-search-backward
+    bind \e\cn history-token-search-forward
 
     # misc
     bind \cg suppress-autosuggestion
