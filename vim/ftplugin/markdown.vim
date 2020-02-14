@@ -22,4 +22,11 @@ let g:surround_{char2nr('l')} = "[\r]()"
 let g:table_mode_corner = '|'
 let g:table_mode_disable_mappings = 1
 let g:table_mode_map_prefix = '<Leader><Bslash>'
-" --- || vim-markdown || }}}
+" --- || vim-table-mode || }}}
+
+" {{{ || markdown-preview || ---
+let mkdp_auto_close = 0
+if executable('firefox')
+	let g:mkdp_browser='firefox'
+endif
+" --- || markdown-preview || }}}

@@ -1,17 +1,20 @@
-setlocal textwidth=100
+setlocal textwidth=80
 setlocal tabstop=2 expandtab shiftwidth=2
-" setlocal comments-=fb:-,fb:*	" Can't remove them somehow
+" XXX comments settings are overridden by vim-markdown...
 setlocal comments=b:-,b:*,b:+,n:>
 setlocal comments+=b:1.,b:2.,b:3.,b:4.,b:5.,b:6.,b:7.,b:8.,b:9.
 setlocal formatoptions+=ro
 setlocal fileformat=unix
+setlocal conceallevel=0 " XXX AutoIndent overrides this..
 
 " --- vim-markdown ----------{{{
 silent! syntax clear mkdLineBreak
 nnoremap <buffer> <silent> <Leader>o :call Tocker(0)<CR>
 nnoremap <buffer> <silent> <Leader>O :call Tocker(1)<CR>
-nnoremap <buffer> <silent> <LocalLeader>- :HeaderDecrease<CR>
-nnoremap <buffer> <silent> <LocalLeader>= :HeaderIncrease<CR>
+nnoremap <buffer> <silent> <LocalLeader>- <Cmd>HeaderDecrease<CR>
+nnoremap <buffer> <silent> <LocalLeader>= <Cmd>HeaderIncrease<CR>
+vnoremap <buffer> <silent> <LocalLeader>- :HeaderDecrease<CR>
+vnoremap <buffer> <silent> <LocalLeader>= :HeaderIncrease<CR>
 
 function! Tocker(focus)
 	if get(b:, 'toc_win_id')
@@ -42,15 +45,8 @@ endfunction
 " {{{ || vim-table-mode || ---
 " This does not seem to work properly
 " silent TableModeEnable
-" --- || vim-markdown || }}}
+" --- || vim-table-mode || }}}
 
-inoremap <buffer> _ __<Left>
-inoremap <buffer> * ****<Left><Left>
-inoremap <buffer> *<Space> *<Space>
-inoremap <buffer> *<S-Space> *<Space>
-inoremap <buffer> ` ``<Left>
-inoremap <buffer> ``` ```<CR>```<Up>
-inoremap <buffer> ~ ~~~~<Left><Left>
 inoremap <buffer> <silent> <expr> <M-;> IToggleLinebreak()
 nnoremap <buffer> <silent> <expr> <M-;> ToggleLinebreak()
 vnoremap <buffer> <silent> <M-;> <Esc>:call VToggleLinebreak()<CR>
