@@ -74,7 +74,10 @@ if status --is-interactive
     abbr --add --global dob docker build --force-rm -t
     abbr --add --global doc docker container
     abbr --add --global docs docker container ls -a
+    abbr --add --global docip docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}'
     abbr --add --global dox docker exec -it
+    abbr --add --global dormx docker rm \(docker container ls -a -f status=exited -q\)
+    abbr --add --global dormsp docker rm \(docker stop \)
     abbr --add --global doi docker image
     abbr --add --global dois docker images -a
     abbr --add --global doisd docker images -f dangling=true -q
@@ -88,7 +91,8 @@ if status --is-interactive
     abbr --add --global dcu docker-compose up -d
     abbr --add --global dcub docker-compose up -d --build
     abbr --add --global dcl docker-compose logs --follow
-    abbr --add --global dcr docker-compose restart
+    abbr --add --global dcr docker-compose run
+    abbr --add --global dce docker-compose restart
 ## go
     abbr --add --global got go test
     abbr --add --global gotr go test -run
