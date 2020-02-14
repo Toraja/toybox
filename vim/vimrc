@@ -1193,7 +1193,7 @@ command! -complete=shellcmd -nargs=+ AppendShellCmdToPreview call shell#base#She
 function! Preserve(command, linoff, coloff)
 	let l = line(".") + a:linoff
 	let c = col(".") + a:coloff
-	echom a:command
+	echo a:command
 	execute a:command
 	call cursor(l, c)
 endfunction
