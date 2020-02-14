@@ -164,7 +164,7 @@ set diffopt+=vertical
 set sessionoptions=blank,curdir,folds,tabpages,winsize
 
 " << command mode >>
-set history=300
+set history=1000
 set wildignorecase						" command mode completion ignores case
 set wildignore+=*.swp,*.bak,*.class		" ignore files this specified extentions on completion
 set wildmenu							" display menu on command line completion
