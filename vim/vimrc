@@ -333,7 +333,6 @@ if filereadable(s:vim_plug_file)
 	Plug 'scrooloose/nerdcommenter'
 	Plug 'arthurxavierx/vim-caser'
 	Plug 'tpope/vim-surround'
-	Plug 'tpope/vim-eunuch'
 	Plug 'jiangmiao/auto-pairs'
 	Plug 'AndrewRadev/splitjoin.vim'
 	Plug 'tpope/vim-repeat'
