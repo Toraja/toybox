@@ -2,6 +2,28 @@
 
 ## docker-compose.yml
 
+### Variable substitution
+**Default value**  
+`${VARIABLE:-default}`
+
+**Error if not set**
+`${VARIABLE:?error msg}`  
+`error msg` is optional.  
+The below is an example of message by docker when the variable is not set.  
+`<error msg>` in the message will be replaced by the string you define along
+with the variable.
+```
+# message from docker-compose
+ERROR: Missing mandatory value for "image" option interpolating python-tdd_app_${ENV_TYPE:?} in service "app": <error msg>
+
+# message from docker stack
+invalid interpolation format for services.app.image: "required variable ENV_TYPE is missing a value: <error msg>". You may need to escape any $ with another $.
+```
+
+Colon after variable name means docker considers variable is not set when the
+variable IS set but EMPTY. With colon, the value of variable does not matter as
+long as the variable is defined.
+
 ### Environment variables
 **Terminology**
 - `.env` variables: variables defined in `.env` file
@@ -60,7 +82,6 @@ shared to the other.
 ```yaml
 services:
   app:
-....
     volumes:
       - type: volume
         source: static
@@ -71,9 +92,55 @@ services:
       - type: volume
         source: static
         target: /opt/app/static
-....
 volumes:
   static:
+```
+
+#### NFS volume
+
+##### Setup NFS
+Reference: [How to Install and Configure an NFS Server on Ubuntu 18.04 | Linuxize](https://linuxize.com/post/how-to-install-and-configure-an-nfs-server-on-ubuntu-18-04/)  
+
+**Senario**: `master` as NFS server, `app` and `web` as clients
+
+Install NFS server on `master` nodes
+```sh
+apt install nfs-kernel-server
+```
+
+Install NFS client on `app` and `web` nodes
+```sh
+apt install nfs-common
+```
+
+On `master`, create a directory to be shared.  
+Here, it will be `/nfs/static`.  
+To allow clients to write to NFS mount, `chmod` the directory.
+
+Next, add below to `/etc/exports`  
+(`app/web` can be IP address)
+```
+/nfs/static     app(rw,sync,no_subtree_check) web(ro,sync,no_subtree_check)
+```
+
+Then run the command below
+```sh
+sudo exportfs -ra
+```
+
+To check if successfully exported, run:
+```sh
+sudo exportfs -v
+```
+
+##### Compose file
+```yaml
+volumes:
+  static:
+    driver_opts:
+      type: nfs
+      o: addr=<ip/hostname>,rw # ip or DNS resolvable name of NFS server
+      device: ":/nfs/static" # path to NFS share on NFS server
 ```
 
 ### Networks
