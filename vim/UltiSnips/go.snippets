@@ -23,9 +23,15 @@ func(*testing.T)
 endsnippet
 
 snippet anf "anonymous"
-func(${1:condition}) ${2:return}{
+func(${1:param}) ${2:return}{
 	${0:${VISUAL}}
 }
+endsnippet
+
+snippet iife "Immediately Invoked Function Expression"
+func(${1:param}) ${2:return}{
+	${0:${VISUAL}}
+}(${3:arg})
 endsnippet
 
 snippet tc "test case struct"
