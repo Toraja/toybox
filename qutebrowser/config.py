@@ -81,10 +81,10 @@ c.zoom.levels = ['25%', '33%', '50%', '67%', '75%', '90%', '100%', '110%', '125%
 
 c.tabs.background = True
 c.url.searchengines = {
-    'DEFAULT': 'https://duckduckgo.com/?q={}',
-    'l': 'https://www.ldoceonline.com/dictionary/{}',
-    't': 'https://www.thesaurus.com/browse/{}?s=t'
-}
+        'DEFAULT': 'https://duckduckgo.com/?q={}',
+        'l': 'https://www.ldoceonline.com/dictionary/{}',
+        't': 'https://www.thesaurus.com/browse/{}?s=t'
+        }
 c.confirm_quit = ['downloads']
 c.new_instance_open_target = 'window'
 c.tabs.select_on_remove = 'last-used'
@@ -101,6 +101,12 @@ config.bind(';p', 'hint links run :open -p {hint-url}')
 config.unbind('<Ctrl+q>')
 config.bind('<Ctrl+Shift+q>', 'quit')
 config.unbind('<Ctrl+h>')
+config.unbind('d')
+config.unbind('D')
+config.unbind('xo')
+config.unbind('xO')
+config.bind('x', 'tab-close')
+config.bind('X', 'tab-close -o')
 
 # Bindings for command mode
 config.bind('<Alt+h>', 'rl-backward-kill-word', mode='command')
