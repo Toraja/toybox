@@ -1,6 +1,6 @@
 function! runcmds#base#RunCmds(title, cmds, ...) abort
 	let l:flag_symbols = get(a:000, 0, {})
-	let l:SortFunc = get(a:000, 1, '')
+	let l:SortFunc = get(a:000, 1, function('SortItemsCaseIns'))
 
 	let l:cmds_string = ''
 	function! s:UpdateDisplay() closure
@@ -143,7 +143,7 @@ endfunction
 " @sep [string] separator for key and value
 " @1 [string] prefix for each entry
 " @2 [string] suffiix for each entry
-" @3 [*] {func} argument for sort()
+" @3 [Funcref] argument for sort()
 " @4 [string] if {dict} has nested dict, key for the entry to use
 function! s:DictToListString(dict, sep, ...) abort
 	let l:prefix = get(a:000, 0, ', ')
