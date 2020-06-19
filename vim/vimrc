@@ -495,11 +495,6 @@ noremap <M-E> zL
 " {{{ || tag || ---
 nnoremap [t <C-t>
 nnoremap ]t :tag<CR>
-" [always use 'tjumg']
-nnoremap [Chief]<C-]> <C-w><C-v>g<C-]>
-nnoremap <C-]> g<C-]>
-nnoremap g<C-]> <C-]>
-nnoremap <C-t><C-]> :tab stjump <C-r><C-w><CR>
 " --- || tag || }}}
 
 " {{{ || editing || ---
@@ -1176,6 +1171,13 @@ if exists('g:plugs["LanguageClient-neovim"]')
 	command! LCImplementation call LanguageClient#textDocument_implementation()
 	command! LCRename call LanguageClient#textDocument_rename()
 	command! LCReference call LanguageClient#textDocument_references()
+
+	nnoremap <C-]> <Cmd>call LanguageClient#textDocument_definition()<CR>
+	nnoremap [Chief]<C-]> <Cmd>vertical split \| call LanguageClient#textDocument_definition()<CR>
+	nnoremap <C-t><C-]> <Cmd>tab split \| call LanguageClient#textDocument_definition()<CR>
+	nnoremap g<C-]> <Cmd>call LanguageClient#textDocument_implementation()<CR>
+	nnoremap [Chief]g<C-]> <Cmd>vertical split \| call LanguageClient#textDocument_implementation()<CR>
+	nnoremap <C-t>g<C-]> <Cmd>tab split \| call LanguageClient#textDocument_implementation()<CR>
 endif
 " --- || LanguageClient-neovim || }}}
 

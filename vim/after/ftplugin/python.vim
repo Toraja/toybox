@@ -22,7 +22,3 @@ function! s:InitPyCmds()
 endfunction
 call s:InitPyCmds()
 nnoremap <buffer> <expr> - runcmds#base#RunCmds('Py Cmds', <SID>PyCmds())
-
-nnoremap <buffer> <C-]> <Cmd>call LanguageClient#textDocument_definition()<CR>
-nnoremap <buffer> [Chief]<C-]> <Cmd>vertical split \| call LanguageClient#textDocument_definition()<CR>
-nnoremap <buffer> <C-t><C-]> <Cmd>tab split \| call LanguageClient#textDocument_definition()<CR>
