@@ -1,75 +1,11 @@
-setlocal foldmethod=marker
-setlocal foldmarker={,}
-setlocal foldlevel=3
 setlocal matchpairs+==:;
 
- " {{{ || abbreviation || ---
-" class
-inoreabbrev <buffer> cls class {<CR>}<Esc><Up>f{i
-inoreabbrev <buffer> pcls public class <C-r>=expand('%:t:r')<CR>{<CR>}<Esc>O
-inoreabbrev <buffer> clse class  extends {<CR>}<Esc><Up>tei
-inoreabbrev <buffer> pclse public class <C-r>=expand('%:t:r')<CR> extends {<CR>}<Esc><Up>f{i
-inoreabbrev <buffer> clsi class  implements {<CR>}<Esc><Up>tii
-inoreabbrev <buffer> pclsi public class <C-r>=expand('%:t:r')<CR> implements {<CR>}<Esc><Up>f{i
-inoreabbrev <buffer> clsei class  extends  implements {<CR>}<Esc><Up>tei
-inoreabbrev <buffer> pclsei public class <C-r>=expand('%:t:r')<CR> extends  implements {<CR>}<Esc><Up>4W<Left>i
-" abstract class
-inoreabbrev <buffer> acls abstract class {<CR>}<Esc><Up>f{i
-inoreabbrev <buffer> pacls public abstract class <C-r>=expand('%:t:r')<CR>{<CR>}<Esc>O
-inoreabbrev <buffer> aclse abstract class  extends {<CR>}<Esc><Up>tei
-inoreabbrev <buffer> paclse public abstract class <C-r>=expand('%:t:r')<CR> extends {<CR>}<Esc><Up>f{i
-inoreabbrev <buffer> aclsi abstract class  implements {<CR>}<Esc><Up>tii
-inoreabbrev <buffer> paclsi public abstract class <C-r>=expand('%:t:r')<CR> implements {<CR>}<Esc><Up>f{i
-inoreabbrev <buffer> aclsei abstract class  extends  implements {<CR>}<Esc><Up>tei
-inoreabbrev <buffer> paclsei public abstract class <C-r>=expand('%:t:r')<CR> extends  implements {<CR>}<Esc><Up>4W<Left>i
-" interface
-inoreabbrev <buffer> inf interface {<CR>}<Esc><Up>f{i
-inoreabbrev <buffer> pinf public interface <C-r>=expand('%:t:r')<CR>{<CR>}<Esc>O
-inoreabbrev <buffer> infe interface  extends {<CR>}<Esc><Up>tei
-inoreabbrev <buffer> pinfe public interface <C-r>=expand('%:t:r')<CR> extends {<CR>}<Esc><Up>f{
-" main
-inoreabbrev <buffer> main public static void main(String[] args){<CR>}<Esc>O
-" print
-inoreabbrev <buffer> sop System.out.print();<Left><Left>
-inoreabbrev <buffer> sof System.out.printf();<Left><Left>
-inoreabbrev <buffer> sol System.out.println();<Left><Left>
-inoreabbrev <buffer> sep System.err.print();<Left><Left>
-inoreabbrev <buffer> sef System.err.printf();<Left><Left>
-inoreabbrev <buffer> sel System.err.println();<Left><Left>
-" if
-inoreabbrev <buffer> if if(){<CR>}<Up><C-o>f)
-inoreabbrev <buffer> elif else if(){<CR>}<Up><C-o>f)
-inoreabbrev <buffer> else else{<CR>}
-inoreabbrev <buffer> ife if(){<CR>}<CR>else{<CR>}<Esc>3<Up>f)i
-inoreabbrev <buffer> ifee if(){<CR>}<CR>else if(){<CR>}<CR>else{<CR>}<Esc>5<Up>f)i
-" switch
-inoreabbrev <buffer> sw switch(){<CR>}<Esc>Ocase 1:<CR>break;<Esc><Up>2yy<Down>2gpOdefault:<CR>break;<Esc>8<Up>F)i
-" for
-inoreabbrev <buffer> for for(int i = 0; i < ; i++){<CR>}<Up><C-o>f<<Right><Right>
-inoreabbrev <buffer> fore for( : ){<CR>}<Up><C-o>t:
-" while
-inoreabbrev <buffer> wh while(){<CR>}<Up><C-o>f)
-inoreabbrev <buffer> do do{<CR>}while();<Left><Left>
-" try/catch
-" inoremap <buffer> <leader>abtry try{<CR>}<CR>catch(){<CR>}
-" iabbrev try <leader>abtry<Up><C-o>f)
-" iabbrev tryf <leader>abtry<CR>finally{}<Left><CR><Esc>2<Up>f)i
-inoreabbrev <buffer> try try{<CR><Up><Down><CR>}<CR>catch(){<CR><Up><Down><CR>}<Esc>2<Up>f)i
-inoreabbrev <buffer> tryf try{<CR><Up><Down><CR>}<CR>catch(){<CR><Up><Down><CR>}<CR>finally{<CR><Up><Down><CR>}<Esc>5<Up>f)i
-" --- || abbreviation || }}}
-
 " {{{ || keymap || ---
-" javadoc
-nnoremap <M-\> :set paste<CR>a/**<CR>* <CR>*/<Esc>:set nopaste<CR>=2<Up><Down>A
-inoremap <M-\> <C-\><C-o>:set paste<CR>/**<CR>* <CR>*/<Esc>:set nopaste<CR>=2<Up><Down>A
 " append semi-colon at the end of line
 nnoremap <M-;> A;<Esc>
 inoremap <M-;> <End>;
 nnoremap <M-:> A;<CR><Esc>
 inoremap <M-:> <End>;<CR>
-" swap completion method
-inoremap <buffer> <expr> <C-i> pumvisible() ? "\<C-o>" : "\<C-x>\<C-o>"
-inoremap <buffer> <expr> <M-i> pumvisible() ? "\<C-n>" : "\<C-x>\<C-n>"
 " --- || keymap || }}}
 
 " compile and run
