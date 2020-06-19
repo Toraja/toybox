@@ -1683,13 +1683,11 @@ function! SortItemsCaseIns(one, two)
 	if l:key1 ==# l:key2
 		return 1
 	endif
-	let l:keynum1 = char2nr(tolower(l:key1))
-	let l:keynum2 = char2nr(tolower(l:key2))
-	if l:keynum1 == l:keynum2
+	if l:key1 ==? l:key2
 		" same char but different case -> lowercase should precedes UPPERCASE
 		return char2nr(l:key1) > char2nr(l:key2) ? -1 : 1
 	endif
-	return l:keynum1 > l:keynum2 ? 1 : -1
+	return l:key1 > l:key2 ? 1 : -1
 endfunction
 
 " Function for sort() to sort 2D list based on the second element of inner array.
