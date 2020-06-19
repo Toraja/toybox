@@ -2,20 +2,21 @@ let runcmds#init#flag_key_mod = 'mod'
 let runcmds#init#flag_key_disp = 'disp'
 let runcmds#init#flag_key_bang = 'bang'
 let runcmds#init#cmd_info_key_cmd = 'cmd'
+let runcmds#init#cmd_info_key_bangable = 'bangable'
 let runcmds#init#cmd_info_key_args = 'args'
 let runcmds#init#cmd_info_key_always_modify = 'always_modify'
-let runcmds#init#cmd_info_key_bangable = 'bangable'
 
 " @cmd [string] command to run
-" @args [list] list of dist which is {value: [string], eval: [bool]}
-" @always_modify [bool] whether to always modify the command
-" @bangable [bool] if false, bang flag will be ignored and command is run without !
-function! runcmds#init#MakeCmdInfo(cmd, args, always_modify, bangable) abort
+" @1 [string] what to display instead of cmd
+" @2 [bool] if false, bang flag will be ignored and command is run without !
+" @3 [list] list of dictionary which is {value: [string], eval: [bool]}
+" @4 [bool] whether to always modify the command
+function! runcmds#init#MakeCmdInfo(cmd, ...) abort
 	return {
 				\ g:runcmds#init#cmd_info_key_cmd: a:cmd,
-				\ g:runcmds#init#cmd_info_key_args: a:args,
-				\ g:runcmds#init#cmd_info_key_always_modify: a:always_modify,
-				\ g:runcmds#init#cmd_info_key_bangable: a:bangable,
+				\ g:runcmds#init#cmd_info_key_bangable: get(a:000, 0, v:false),
+				\ g:runcmds#init#cmd_info_key_args: get(a:000, 1, []),
+				\ g:runcmds#init#cmd_info_key_always_modify: get(a:000, 2, v:false),
 				\}
 endfunction
 
