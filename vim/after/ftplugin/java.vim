@@ -71,151 +71,26 @@ endfunction
 command! -buffer -nargs=* Run :call Run(<f-args>)
 command! -buffer Compile :call Compile()
 
-" <Q-mode>
-" g:getter, s:setter, b:both, p:paste from @s and format
-nnoremap <buffer> [FTLeader] :call Qmode('n', 0)<CR>
-vnoremap <buffer> [FTLeader] :call Qmode('v', 0)<CR>
-nnoremap <buffer> <leader>[FTLeader] :call Qmode('n', 1)<CR>
-vnoremap <buffer> <leader>[FTLeader] :call Qmode('v', 1)<CR>
-function! Qmode(mode, append) range
-	echohl Statement
-	echo "-- Qmode -> [G]etter, [S]etter, [B]oth, [P]aste"
-	echohl NONE
-	" redraw updates the screen so that it prevents command/function output becoming multiple line
-	" and 'Press ENTER of type command to continue' from popping up
-	redraw
-	let l:char = nr2char(getchar())
-	if l:char == "g" || l:char == "\<C-g>"
-		call CreateGetterSetter(a:mode, 'g', a:append)
-	elseif l:char == "s" || l:char == "\<C-s>"
-		call CreateGetterSetter(a:mode, 's', a:append)
-	elseif l:char == "b" || l:char == "\<C-b>"
-		call CreateGetterSetter(a:mode, 'b', a:append)
-	elseif l:char == "p" || l:char == "\<C-p>"
-		let l:startline = line('.')
-		put! =g:GetterSetter
-		silent execute "normal! =" . l:startline . "gg"
-		" clear the command line
-		echo
-	else
-		echohl WarningMsg
-		echo 'Not an available option: '.l:char
-		echohl NONE
-	endif
+cnoreabbrev cl JCclassNew
+cnoreabbrev clf JCclassInFile
+
+function! s:InitCmds()
+	let l:cmds = DefaultCmds()
+	" let l:cmds['r'] = runcmds#init#MakeCmdInfo('Run')
+	let l:cmds.a = runcmds#init#MakeCmdInfo('JCgenerateAbstractMethods')
+	let l:cmds.c = runcmds#init#MakeCmdInfo('JCgenerateConstructor')
+	let l:cmds.C = runcmds#init#MakeCmdInfo('JCgenerateConstructorDefault')
+	let l:cmds.e = runcmds#init#MakeCmdInfo('JCgenerateEqualsAndHashCode')
+	let l:cmds.f = runcmds#init#MakeCmdInfo('Autoformat')
+	let l:cmds.g = runcmds#init#MakeCmdInfo('JCgenerateAccessorGetter')
+	let l:cmds.i = runcmds#init#MakeCmdInfo('JCimportAdd')
+	let l:cmds.s = runcmds#init#MakeCmdInfo('JCgenerateAccessorSetter')
+	let l:cmds.S = runcmds#init#MakeCmdInfo('JCgenerateToString')
+	let l:cmds.w = runcmds#init#MakeCmdInfo('JCgenerateAccessorSetterGetter')
+	let l:cmds.x = runcmds#init#MakeCmdInfo('JCgenerateAccessors')
+	function! s:GetCmds() closure
+		return l:cmds
+	endfunction
 endfunction
-
-" <getter/setter>
-" this function extracts variable type and name on the current line or within the selection,
-" creates getter/setter and then save them to register @s
-" the count of line in @s will be stored as g:GSetterLineCount
-" parameters:
-"	mode: [v]isual or [n]ormal
-"	method: [g]etter only, [s]etter only and [b]oth
-"	append: [0] overwrite the register, [^0] append to the register
-function! CreateGetterSetter(mode, method, append)
-	" validate argument 'mode' and set start and end line
-	if a:mode ==? 'v'
-		let l:startLineNum = line("'<")
-		let l:endLineNum = line("'>")
-	elseif a:mode ==? 'n'
-		let l:startLineNum = line(".")
-		let l:endLineNum = l:startLineNum
-	else
-		echohl Error
-			echo "Invalid argument: ".a:mode
-			echo "1st argument must be either 'n' or 'v'"
-		echohl none
-		return
-	endif
-
-	" validate argument 'method'
-	if a:method ==? 'g'
-		let l:xettercmd = 'let g:GetterSetter .= Getter(l:type, l:name)'
-		let l:msg = 'Getters'
-	elseif a:method ==? 's'
-		let l:xettercmd = 'let g:GetterSetter .= Setter(l:type, l:name)'
-		let l:msg = 'Setters'
-	elseif a:method ==? 'b'
-		let l:xettercmd = 'let g:GetterSetter .= GSetter(l:type, l:name)'
-		let l:msg = 'Getters and Setters'
-	else
-		echohl Error
-			echo "Invalid argument: ".a:method
-			echo "1st argument must be either 'g', 's' or 'b'"
-		echohl none
-		return
-	endif
-
-	let l:currentLineNum = l:startLineNum
-
-	" repeat from the start line to the end line
-	" clear register unless specified otherwise
-	if ! a:append
-		let g:GetterSetter = ''
-	endif
-	while l:currentLineNum <= l:endLineNum
-		" let l:tmplist = GetVarTypeName(getline(l:currentLineNum))
-		let [l:type, l:name] = GetVarTypeName(getline(l:currentLineNum))
-		let l:currentLineNum = l:currentLineNum + 1
-		" skip the iteration if type or name is empty
-		if !(len(l:type) && len(l:name))
-			continue
-		endif
-		execute l:xettercmd
-	endwhile
-
-	echo l:msg." have been created. [FTLeader]C-p to paste it."
-endfunction
-
-" extract variable type and name from lines and return those as list as in [type, name]
-" if the line is not for declaring variable, returns a list containing 2 empty
-function! GetVarTypeName(line)
-	" remove leading white spaces
-	let l:lineStr = substitute(a:line, '^\s*', '', '')
-
-	" remove all the modifier
-	let l:modifierRegexp = '\C^\s*\(public\|protected\|private\|final\|static\|synchronized\|volatile\|transient\)*\s\+'
-	while 1
-		let l:matchedStr = matchstr(l:lineStr, l:modifierRegexp)
-		if len(l:matchedStr) == 0
-			break
-		" elseif l:matchedStr =~# '\C^\s*static\s\+'
-			" let l:isStatic = 1
-		endif
-		let l:newLineStr = substitute(l:lineStr, l:modifierRegexp, '', '')
-		let l:lineStr = l:newLineStr
-	endwhile
-	" delete trailing characters ()
-	let l:newLineStr = substitute(l:lineStr, '\s*\(=.*\)*;.*$', '', '')
-	let l:lineStr = l:newLineStr
-	" validate whether l:lineStr consists of variable type and name. Skip the line if it does not.
-	" type pattern takes Array[][] and Generics<E>/<? extends E> into account (brackets could surrounded with whitespaces)
-	" Array that [] is appended to variable name is not supported
-	let l:typePtn = '[0-9A-Za-z_]\+\(\s*\(\s*\[\s*\]\)\+\|<\s*[0-9A-Za-z_?,<> ]*\s*>\)*'
-	let l:namePtn = '[0-9A-Za-z_]\+'
-	if l:lineStr =~# '^'.l:typePtn.'\s\+'.l:namePtn.'$' && l:lineStr !~# '^\s*return'
-		let l:typenNameList = [matchstr(l:lineStr, '^'.l:typePtn), matchstr(l:lineStr, l:namePtn.'$')]
-	else
-		let l:typenNameList = ['', '']
-	endif
-	return l:typenNameList
-endfunction
-
-function! Getter(type, name)
-	let l:capitalName = toupper(a:name[0]).a:name[1:]
-	return "public ".a:type." get".l:capitalName."(){\nreturn this.".a:name.";\n}\n\n"
-endfunction
-
-function! Setter(type, name)
-	let l:capitalName = toupper(a:name[0]).a:name[1:]
-	return "public void set".l:capitalName."(".a:type." ".a:name."){\nthis.".a:name." = ".a:name.";\n}\n\n"
-endfunction
-
-function! GSetter(type, name)
-	let l:GSetter = Getter(a:type, a:name) . Setter(a:type, a:name)
-	return l:GSetter
-endfunction
-
-command! -buffer -nargs=+ Getter :call Getter(<f-args>)
-command! -buffer -nargs=+ Setter :call Setter(<f-args>)
-command! -buffer -nargs=+ GSetter :call GSetter(<f-args>)
+call s:InitCmds()
+nnoremap <buffer> <expr> - runcmds#base#RunCmds('Run Cmds', <SID>GetCmds())

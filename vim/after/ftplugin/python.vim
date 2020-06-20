@@ -15,7 +15,7 @@ command! -buffer Run vsplit | terminal python %
 
 function! s:InitPyCmds()
 	let l:cmds = DefaultCmds()
-	let l:cmds['r'] = runcmds#init#MakeCmdInfo('Run')
+	let l:cmds.r = runcmds#init#MakeCmdInfo('Run')
 	function! s:PyCmds() closure
 		return l:cmds
 	endfunction

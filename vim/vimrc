@@ -366,6 +366,7 @@ if filereadable(s:vim_plug_file)
 	Plug 'myhere/vim-nodejs-complete', { 'for': 'javascript' }
 	Plug 'moll/vim-node', { 'for': 'javascript' }
 	Plug 'fatih/vim-go', { 'for': 'go', 'do': ':GoUpdateBinaries', 'tag': '*' }
+	Plug 'artur-shaik/vim-javacomplete2', { 'for': 'java' }
 	Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }
 	Plug 'mzlogin/vim-markdown-toc', { 'for': 'markdown' }
 	Plug 'dhruvasagar/vim-table-mode', { 'for': 'markdown' }
@@ -1016,8 +1017,7 @@ endif
 " --- || end of syntastic || }}}
 
 " {{{ || vim-autoformat || ---
-" tilde (~) must be expanded
-let g:formatterpath = [expand('~').'/.local/bin']
+let g:formatterpath = [$HOME . '/.local/bin', $HOME . '/garage/tools/formatters/astyle/build/gcc/bin/astyle']
 " --- || vim-autoformat || }}}
 
 " {{{ || easy-motion || ---
@@ -1153,13 +1153,12 @@ if exists('g:plugs["LanguageClient-neovim"]')
 				\ }
 
 	let s:def_cmds = {
-				\ 'f': runcmds#init#MakeCmdInfo('LCReference'),
-				\ 'i': runcmds#init#MakeCmdInfo('LCHover'),
-				\ 'm': runcmds#init#MakeCmdInfo('LCImplementation'),
+				\ 'h': runcmds#init#MakeCmdInfo('LCDocHighlight'),
+				\ 'H': runcmds#init#MakeCmdInfo('LCDocHighlightClear'),
+				\ 'I': runcmds#init#MakeCmdInfo('LCHover'),
 				\ 'n': runcmds#init#MakeCmdInfo('LCRename'),
-				\ 's': runcmds#init#MakeCmdInfo('LCDocHighlight'),
-				\ 'S': runcmds#init#MakeCmdInfo('LCDocHighlightClear'),
-				\ 'y': runcmds#init#MakeCmdInfo('LCDocSymbol'),
+				\ 'o': runcmds#init#MakeCmdInfo('LCDocSymbol'),
+				\ 'R': runcmds#init#MakeCmdInfo('LCReference'),
 				\ }
 	function! DefaultCmds()
 		return copy(s:def_cmds)
@@ -1169,7 +1168,6 @@ if exists('g:plugs["LanguageClient-neovim"]')
 	command! LCDocHighlightClear call LanguageClient#clearDocumentHighlight()
 	command! LCDocSymbol call LanguageClient#textDocument_documentSymbol()
 	command! LCHover call LanguageClient#textDocument_hover()
-	command! LCImplementation call LanguageClient#textDocument_implementation()
 	command! LCRename call LanguageClient#textDocument_rename()
 	command! LCReference call LanguageClient#textDocument_references()
 
