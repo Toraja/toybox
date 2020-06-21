@@ -1114,7 +1114,7 @@ if exists('g:plugs["LanguageClient-neovim"]')
 	let g:LanguageClient_serverCommands = {
 				\ 'go': ['gopls'],
 				\ 'java': [$HOME.'/toybox/vim/helper/java-lsp.sh'],
-				\ 'python': ['~/.local/bin/pyls']
+				\ 'python': [$HOME.'/.local/bin/pyls']
 				\ }
 	let g:LanguageClient_diagnosticsDisplay = {
 				\ 1: {
@@ -1146,6 +1146,8 @@ if exists('g:plugs["LanguageClient-neovim"]')
 				\     "virtualTexthl": "Todo",
 				\ },
 				\ }
+	let g:LanguageClient_loggingFile = expand('~/.local/share/nvim/LanguageClient.log')
+	let g:LanguageClient_serverStderr = expand('~/.local/share/nvim/LanguageServer.log')
 
 	let s:def_cmds = {
 				\ 'f': runcmds#init#MakeCmdInfo('LCFormat'),
