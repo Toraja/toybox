@@ -989,14 +989,12 @@ endif
 
 " {{{ || auto-pairs || ---
 if exists('g:plugs["auto-pairs"]')
-	let g:AutoPairsFlyMode = 1
 	let g:AutoPairsShortcutToggle = ''
 	let g:AutoPairsShortcutFastWrap = '<M-w>'
 	let g:AutoPairsShortcutJump = '<M-v>'
 	let g:AutoPairsShortcutBackInsert = '<M-\>'
 	let g:AutoPairsMapSpace = 0		" Enabling this maps <Space> to <C-]><C-R>=... and <C-]> is unwanted
 	inoremap <silent> <Space> <C-g>u<C-r>=AutoPairsSpace()<CR>
-	let g:AutoPairsMultilineClose = 0
 endif
 " --- || auto-pairs || }}}
 
