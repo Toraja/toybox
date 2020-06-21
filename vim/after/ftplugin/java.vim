@@ -1,21 +1,13 @@
+setlocal expandtab
 setlocal matchpairs+==:;
 
 " {{{ || keymap || ---
-" append semi-colon at the end of line
-nnoremap <M-;> A;<Esc>
-inoremap <M-;> <End>;
-nnoremap <M-:> A;<CR><Esc>
-inoremap <M-:> <End>;<CR>
+inoremap <buffer> <silent> <M-;> <Cmd>call AppendSemiColon()<CR>
+nnoremap <buffer> <silent> <M-;> <Cmd>call AppendSemiColon()<CR>
+vnoremap <buffer> <silent> <M-;> :call AppendSemiColon()<CR>
 " --- || keymap || }}}
 
 " compile and run
-" nnoremap <buffer> <F7> :call Compile()<CR>
-if has('win32')
-	" FIXME error is not displayed properly on quickfix window...
-	" Probably an encoding issue
-	setlocal shellpipe=2>
-	" setlocal errorformat=%A%f:%l:\ %m,%C%m
-endif
 setlocal makeprg=javac\ -classpath\ %:p:h\ %
 nnoremap <buffer> <F7> :silent lmake \| botright lwindow \| redraw!<CR>
 nnoremap <buffer> <F8> :call Run()<CR>
@@ -93,3 +85,13 @@ function! s:InitCmds()
 endfunction
 call s:InitCmds()
 nnoremap <buffer> <expr> - runcmds#base#RunCmds('Run Cmds', <SID>GetCmds())
+
+function! AppendSemiColon() range
+	for l:ln in range(a:firstline, a:lastline)
+		let l:lineStr = getline(l:ln)
+		if l:lineStr =~ ';$'
+			continue
+		endif
+		call setline(l:ln, l:lineStr . ';')
+	endfor
+endfunction
