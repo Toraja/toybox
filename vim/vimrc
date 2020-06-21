@@ -338,7 +338,6 @@ if filereadable(s:vim_plug_file)
 	Plug 'tpope/vim-repeat'
 	Plug 'junegunn/vim-easy-align'
 	Plug 'vim-syntastic/syntastic'
-	Plug 'Chiel92/vim-autoformat' " autocmd ':Autoformat' in ftplugin of desired language so that it will not interfere with other plugins (such as vim-go)
 	if has('nvim') " no completion for conventional vim as it takes so long to start up
 		Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 	endif
@@ -1016,10 +1015,6 @@ if exists('g:plugs["syntastic"]')
 endif
 " --- || end of syntastic || }}}
 
-" {{{ || vim-autoformat || ---
-let g:formatterpath = [$HOME . '/.local/bin', $HOME . '/garage/tools/formatters/astyle/build/gcc/bin/astyle']
-" --- || vim-autoformat || }}}
-
 " {{{ || easy-motion || ---
 if exists('g:plugs["vim-easymotion"]')
 	" this option unmap all easymotion-prefix including user defined ones
@@ -1153,6 +1148,7 @@ if exists('g:plugs["LanguageClient-neovim"]')
 				\ }
 
 	let s:def_cmds = {
+				\ 'f': runcmds#init#MakeCmdInfo('LCFormat'),
 				\ 'h': runcmds#init#MakeCmdInfo('LCDocHighlight'),
 				\ 'H': runcmds#init#MakeCmdInfo('LCDocHighlightClear'),
 				\ 'I': runcmds#init#MakeCmdInfo('LCHover'),
@@ -1164,6 +1160,7 @@ if exists('g:plugs["LanguageClient-neovim"]')
 		return copy(s:def_cmds)
 	endfunction
 
+	command! LCFormat call LanguageClient#textDocument_formatting()
 	command! LCDocHighlight call LanguageClient#textDocument_documentHighlight()
 	command! LCDocHighlightClear call LanguageClient#clearDocumentHighlight()
 	command! LCDocSymbol call LanguageClient#textDocument_documentSymbol()

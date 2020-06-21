@@ -2,9 +2,7 @@ augroup my_java
 	autocmd!
 	autocmd BufWrite *.java JCimportsRemoveUnused
 	autocmd BufWrite *.java JCimportsAddMissing
-	autocmd BufWrite *.java Autoformat
-	" somehow this is executed after saving so you need to save twice
-	" autocmd BufWritePre *.java call LanguageClient#textDocument_formatting()
+	autocmd BufWritePre *.java call LanguageClient#textDocument_formatting_sync()
 augroup end
 
 " {{{ || vim-javacomplete2 || ---

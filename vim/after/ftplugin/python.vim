@@ -6,9 +6,7 @@ setlocal makeprg=python\ %
 
 augroup my_python
 	autocmd!
-	autocmd BufWrite *.py Autoformat
-	" LanguageClient's formatter often crashes
-	" autocmd BufWrite *.py call LanguageClient#textDocument_formatting()
+	autocmd BufWrite *.py call LanguageClient#textDocument_formatting_sync()
 augroup end
 
 command! -buffer Run vsplit | terminal python %
