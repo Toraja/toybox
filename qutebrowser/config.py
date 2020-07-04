@@ -87,7 +87,7 @@ c.url.searchengines = {
         }
 c.confirm_quit = ['downloads']
 c.new_instance_open_target = 'window'
-c.tabs.select_on_remove = 'last-used'
+c.tabs.select_on_remove = 'prev'
 
 # Bindings for normal mode
 config.bind('<Ctrl+n>', 'tab-next')
