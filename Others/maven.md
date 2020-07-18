@@ -1,5 +1,66 @@
 # Maven
 
+## Set java (compiler) version
+Replace `(version)` with the desired version such as `14`.
+```xml
+<plugin>
+  <groupId>org.apache.maven.plugins</groupId>
+  <artifactId>maven-compiler-plugin</artifactId>
+  <version>3.8.1</version>
+  <configuration>
+    <release>(version)</release>
+  </configuration>
+</plugin>
+```
+
+## Include all dependencies in jar
+By default, jar includes the binary of the project only. This is not convenient
+if you want to run the app on a container.  
+To include dependencies, add the below to `pom.xml`.
+```xml
+<plugin>
+  <groupId>org.apache.maven.plugins</groupId>
+  <artifactId>maven-assembly-plugin</artifactId>
+  <executions>
+    <execution>
+      <phase>package</phase>
+      <goals>
+        <goal>single</goal>
+      </goals>
+      <configuration>
+        <archive>
+          <manifest>
+            <mainClass>(FQN of main class)</mainClass>
+          </manifest>
+        </archive>
+        <descriptorRefs>
+          <descriptorRef>jar-with-dependencies</descriptorRef>
+        </descriptorRefs>
+      </configuration>
+    </execution>
+  </executions>
+</plugin>
+```
+
+## Download source code of dependencies
+```xml
+<plugin>
+  <groupId>org.apache.maven.plugins</groupId>
+  <artifactId>maven-dependency-plugin</artifactId>
+  <version>3.1.1</version>
+  <executions>
+    <execution>
+      <id>download-sources</id>
+      <goals>
+        <goal>sources</goal>
+      </goals>
+      <configuration>
+      </configuration>
+    </execution>
+  </executions>
+</plugin>
+```
+
 ## How to filter files
 1. Prepare filter properties for each environment  
    (i.e. files in which variables and values for the environment are defined)  
@@ -175,11 +236,50 @@ To exclude materials from packaging, add below to pom.xml.
 </configuration>
 ```
 
+## Command Line Refernces
+**Create a project**  
+`mvn archetype:generate -DgroupId=<root dir name> -DartifactId=<project name> -DarchetypeArtifactId=<archetype> -DinteractiveMode=false`  
+`<archetype>` should be `maven-archetype-quickstart` for normal project and `maven-archetype-webapp` for webapp.  
+
+**Making sure all the dependency is ready**  
+`mvn dependency:tree`  
+
+**Install dependencies**  
+`mvn install`  
+
+**Run main method**  
+add below to `pom.xml`  
+```xml
+<plugin>
+  <groupId>org.codehaus.mojo</groupId>
+  <artifactId>exec-maven-plugin</artifactId>
+  <version>3.0.0</version>
+  <executions>
+    <execution>
+      <goals>
+        <goal>java</goal>
+      </goals>
+    </execution>
+  </executions>
+  <configuration>
+    <mainClass>(FQN of main class)</mainClass>
+  </configuration>
+</plugin>
+```
+And run:  
+`mvn exec:java`  
+
+**Run test**  
+`mvn test`  
+
+**Make jar**  
+`mvn package`  
+
 ## Note
 When maven complains that **No compiler is provided**  
 http://roufid.com/no-compiler-is-provided-in-this-environment/
 
-## Source
+## Reference
 How to separate UT and IT  
 [Integration Testing With Maven
 ](https://www.petrikainulainen.net/programming/maven/integration-testing-with-maven/)
