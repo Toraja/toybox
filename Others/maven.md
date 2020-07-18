@@ -1,6 +1,6 @@
-## Maven
+# Maven
 
-### How to filter files
+## How to filter files
 1. Prepare filter properties for each environment  
    (i.e. files in which variables and values for the environment are defined)  
 2. Add where filter properties are stored to pom.xml  
@@ -19,7 +19,7 @@
    (**src/main/resources** and **src/test/resources** seem to be filtered by default.)  
 4. Run maven compile  
 
-### Add directories to classpath
+## Add directories to classpath
 The below is an example of adding directories for IT.  
 After modifying pom.xml, right click the project -> *Maven* -> *Update Project*  
 It should create directories but create manually if not.  
@@ -68,7 +68,7 @@ It should create directories but create manually if not.
 </plugin>
 ```
 
-### Separate Unit test and Integration test
+## Separate Unit test and Integration test
 What you need to do is:
 1. Define profile for each environment in pom.xml
 2. Add *maven-surefire-plugin* and *maven-failsafe-plugin*  
@@ -112,8 +112,8 @@ What you need to do is:
       </plugin>
       ```
 
-### Run
-#### Default
+## Run
+### Default
 Maven can be executed from *Run* -> *Run As* -> [Maven Option]  
 Options are:  
 * Maven build (With keyboard shortcut)  
@@ -129,7 +129,7 @@ Options are:
 * Maven test  
   Run active test  
 
-#### Run Configuration
+### Run Configuration
 Run maven with specified goals and profile  
 * Integration test  
   Put *integration-test* and *verify* in goals  
@@ -139,7 +139,7 @@ Run maven with specified goals and profile
   *clean* may be put before those (any problem without *clean*?)  
   war (or the archive type specifed in *packaging* tag) file is output under target directory by default  
 
-### Webapp
+## Webapp
 To filter frontend materials, add below to pom.xml.  
 ```xml
 <plugin>
@@ -175,11 +175,11 @@ To exclude materials from packaging, add below to pom.xml.
 </configuration>
 ```
 
-### Note
+## Note
 When maven complains that **No compiler is provided**  
 http://roufid.com/no-compiler-is-provided-in-this-environment/
 
-### Source
+## Source
 How to separate UT and IT  
 [Integration Testing With Maven
 ](https://www.petrikainulainen.net/programming/maven/integration-testing-with-maven/)
