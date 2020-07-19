@@ -366,6 +366,7 @@ if filereadable(s:vim_plug_file)
 	Plug 'moll/vim-node', { 'for': 'javascript' }
 	Plug 'fatih/vim-go', { 'for': 'go', 'do': ':GoUpdateBinaries', 'tag': '*' }
 	Plug 'artur-shaik/vim-javacomplete2', { 'for': 'java' }
+	Plug 'mikelue/vim-maven-plugin', { 'for': 'java' }
 	Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }
 	Plug 'mzlogin/vim-markdown-toc', { 'for': 'markdown' }
 	Plug 'dhruvasagar/vim-table-mode', { 'for': 'markdown' }

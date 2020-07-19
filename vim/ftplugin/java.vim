@@ -1,7 +1,5 @@
 augroup my_java
 	autocmd!
-	autocmd BufWrite *.java JCimportsRemoveUnused
-	autocmd BufWrite *.java JCimportsAddMissing
 	autocmd BufWritePre *.java call LanguageClient#textDocument_formatting_sync()
 augroup end
 
