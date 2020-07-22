@@ -21,6 +21,8 @@ functions --query set_display; and set_display # set DISPLAY
 # PATH
 ## local bin
 add_path --prepend ~/.local/bin
+## Java
+add_path --prepend /usr/local/java/bin
 ## GO
 add_path --prepend /usr/local/go/bin $GOPATH/bin
 
