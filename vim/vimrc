@@ -172,6 +172,10 @@ set wildmenu							" display menu on command line completion
 set wildmode=longest,full				" command mode completion method (complete to longest, complete one by one)
 " --- || options || }}}
 
+" {{{ || highlight || ---
+highlight ColorColumn ctermbg=6 guibg=DarkCyan
+" --- || highlight || }}}
+
 " {{{ || automatically enter paste mode when pasting || ---
 if &term =~ "xterm"
 	let &t_ti .= "\e[?2004h"
@@ -332,6 +336,7 @@ if filereadable(s:vim_plug_file)
 	Plug 'easymotion/vim-easymotion'
 	Plug 'michaeljsmith/vim-indent-object'
 	" editting
+	Plug 'editorconfig/editorconfig-vim'
 	Plug 'Yggdroot/indentLine'
 	Plug 'scrooloose/nerdcommenter'
 	Plug 'arthurxavierx/vim-caser'
