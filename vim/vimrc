@@ -173,6 +173,7 @@ set wildmode=longest,full				" command mode completion method (complete to longe
 " --- || options || }}}
 
 " {{{ || highlight || ---
+highlight Pmenu ctermfg=254 ctermbg=22 gui=bold guibg=Blue
 highlight ColorColumn ctermbg=6 guibg=DarkCyan
 " --- || highlight || }}}
 
@@ -349,6 +350,7 @@ if filereadable(s:vim_plug_file)
 	if has('nvim') " no completion for conventional vim as it takes so long to start up
 		Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 	endif
+	Plug 'Shougo/echodoc.vim'
 	Plug 'autozimu/LanguageClient-neovim', {
 				\ 'branch': 'next',
 				\ 'do': has('win32') ? 'powershell install.ps1' : 'bash install.sh',
@@ -1224,6 +1226,12 @@ if exists('g:plugs["deoplete.nvim"]')
 	inoremap <silent> <expr> <C-i> pumvisible() ? "\<C-n>" : deoplete#manual_complete()
 endif
 " --- || deoplete || }}}
+
+" {{{ || echodoc.vim || ---
+let g:echodoc#enable_at_startup = 1
+let g:echodoc#type = 'floating'
+highlight link EchoDocFloat Pmenu
+" --- || echodoc.vim || }}}
 
 " --- || plugin mapping and option || }}}
 
