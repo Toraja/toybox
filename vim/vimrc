@@ -1159,27 +1159,27 @@ if exists('g:plugs["LanguageClient-neovim"]')
 	let g:LanguageClient_serverStderr = expand('~/.local/share/nvim/LanguageServer.log')
 
 	let s:def_cmds = {
-				\ 'a': runcmds#init#MakeCmdInfo('LCCodeAction'),
-				\ 'd': runcmds#init#MakeCmdInfo('LCHover'),
-				\ 'f': runcmds#init#MakeCmdInfo('LCFormat'),
-				\ 'h': runcmds#init#MakeCmdInfo('LCDocHighlight'),
-				\ 'H': runcmds#init#MakeCmdInfo('LCDocHighlightClear'),
-				\ 'n': runcmds#init#MakeCmdInfo('LCRename'),
-				\ 'o': runcmds#init#MakeCmdInfo('LCDocSymbol'),
-				\ 'R': runcmds#init#MakeCmdInfo('LCReference'),
+				\ 'a': runcmds#init#MakeCmdInfo('LcnCodeAction'),
+				\ 'd': runcmds#init#MakeCmdInfo('LcnHover'),
+				\ 'f': runcmds#init#MakeCmdInfo('LcnFormat'),
+				\ 'h': runcmds#init#MakeCmdInfo('LcnDocHighlight'),
+				\ 'H': runcmds#init#MakeCmdInfo('LcnDocHighlightClear'),
+				\ 'n': runcmds#init#MakeCmdInfo('LcnRename'),
+				\ 'o': runcmds#init#MakeCmdInfo('LcnDocSymbol'),
+				\ 'R': runcmds#init#MakeCmdInfo('LcnReference'),
 				\ }
 	function! DefaultCmds()
 		return copy(s:def_cmds)
 	endfunction
 
-	command! LCCodeAction call LanguageClient#textDocument_codeAction()
-	command! LCFormat call LanguageClient#textDocument_formatting()
-	command! LCDocHighlight call LanguageClient#textDocument_documentHighlight()
-	command! LCDocHighlightClear call LanguageClient#clearDocumentHighlight()
-	command! LCDocSymbol call LanguageClient#textDocument_documentSymbol()
-	command! LCHover call LanguageClient#textDocument_hover()
-	command! LCRename call LanguageClient#textDocument_rename()
-	command! LCReference call LanguageClient#textDocument_references()
+	command! LcnCodeAction call LanguageClient#textDocument_codeAction()
+	command! LcnFormat call LanguageClient#textDocument_formatting()
+	command! LcnDocHighlight call LanguageClient#textDocument_documentHighlight()
+	command! LcnDocHighlightClear call LanguageClient#clearDocumentHighlight()
+	command! LcnDocSymbol call LanguageClient#textDocument_documentSymbol()
+	command! LcnHover call LanguageClient#textDocument_hover()
+	command! LcnRename call LanguageClient#textDocument_rename()
+	command! LcnReference call LanguageClient#textDocument_references()
 
 	nnoremap <C-]> <Cmd>call LanguageClient#textDocument_definition()<CR>
 	nnoremap <C-w><C-]> <Cmd>split \| call LanguageClient#textDocument_definition()<CR>
