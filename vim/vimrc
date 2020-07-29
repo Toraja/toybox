@@ -1189,6 +1189,7 @@ if exists('g:plugs["LanguageClient-neovim"]')
 	nnoremap <C-w><C-]> <Cmd>split \| call LanguageClient#textDocument_implementation()<CR>
 	nnoremap [Chief]g<C-]> <Cmd>vertical split \| call LanguageClient#textDocument_implementation()<CR>
 	nnoremap <C-t>g<C-]> <Cmd>tab split \| call LanguageClient#textDocument_implementation()<CR>
+	inoremap <C-g><C-h> <Cmd>call LanguageClient#textDocument_signatureHelp()<CR>
 endif
 " --- || LanguageClient-neovim || }}}
 
