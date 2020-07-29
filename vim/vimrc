@@ -44,6 +44,7 @@ if !empty(v:servername)
 endif
 set laststatus=2						" always display status bar
 set showtabline=2						" always display tabline
+set shortmess+=c
 
 " {{{ || Compose tabline || ---
 function! MyTabLine()
