@@ -155,7 +155,7 @@ set directory=$HOME/.vim/swap,$HOME/vimfiles/swap,.			" directory to store swap.
 set cpoptions+=Iy						" I:autoindent is not removed when moving to other lines
 set whichwrap+=<,>						" allow <Left> and <Right> in move to other lines
 set complete+=k							" ins-completion option (include dictionary search)
-set completeopt=longest,menuone			" ins-completion mothod (complete to longest, display menu even though only one match)
+set completeopt=longest,menuone,preview	" ins-completion mothod (complete to longest, display menu even though only one match)
 set splitbelow splitright				" splitted windows goes to below or right
 set showcmd								" Show (partial) command in status line.
 set lazyredraw							" screen will not be redrawn till macro execution is done
@@ -295,6 +295,8 @@ if has("autocmd")
 			" XXX this causes GoRun to enter insert mode
 			" autocmd TermOpen * startinsert
 		" endif
+		" paired with completeopt=preview
+		autocmd CompleteDone * pclose
 	augroup END
 endif
 " --- || autocmd || }}}
