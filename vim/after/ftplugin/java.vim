@@ -2,9 +2,9 @@ setlocal expandtab
 setlocal matchpairs+==:;
 
 " {{{ || keymap || ---
-inoremap <buffer> <silent> <M-;> <Cmd>call AppendSemiColon()<CR>
-nnoremap <buffer> <silent> <M-;> <Cmd>call AppendSemiColon()<CR>
-vnoremap <buffer> <silent> <M-;> :call AppendSemiColon()<CR>
+inoremap <buffer> <silent> <M-;> <Cmd>call edit#semicolon#Append()<CR>
+nnoremap <buffer> <silent> <M-;> <Cmd>call edit#semicolon#Append()<CR>
+vnoremap <buffer> <silent> <M-;> :call edit#semicolon#Append()<CR>
 " --- || keymap || }}}
 
 " compile and run
@@ -86,13 +86,3 @@ function! s:InitCmds()
 endfunction
 call s:InitCmds()
 nnoremap <buffer> <expr> - runcmds#base#RunCmds('Run Cmds', <SID>GetCmds())
-
-function! AppendSemiColon() range
-	for l:ln in range(a:firstline, a:lastline)
-		let l:lineStr = getline(l:ln)
-		if l:lineStr =~ ';$'
-			continue
-		endif
-		call setline(l:ln, l:lineStr . ';')
-	endfor
-endfunction
