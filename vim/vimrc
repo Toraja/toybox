@@ -876,7 +876,7 @@ endif
 " --- || powerline / airline || }}}
 
 " {{{ || indentLine || ---
-let g:indentLine_fileTypeExclude = ['markdown']
+let g:indentLine_fileTypeExclude = ['markdown', 'json', 'nerdtree']
 let g:indentLine_bufTypeExclude = ['help', 'terminal']
 " --- || indentLine || }}}
 
