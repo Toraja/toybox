@@ -547,7 +547,7 @@ inoremap <C-j> <Esc>o
 inoremap <M-j> <Esc>O
 " [Other editing]
 vnoremap y ygv<Esc>|	"place cursor after the selection when yanking
-noremap Y y$
+nnoremap Y y$
 vnoremap <silent> <C-a> <C-a>gv
 vnoremap <silent> <C-x> <C-x>gv
 nnoremap <silent> g<C-a> :call search("[0-9]", 'be', line('.'))<CR><C-a>
@@ -1005,7 +1005,6 @@ if exists('g:plugs["vim-projectroot"]')
 endif
 " --- || vim-projectroot || }}}
 
-
 " {{{ || auto-pairs || ---
 if exists('g:plugs["auto-pairs"]')
 	let g:AutoPairsShortcutToggle = ''
@@ -1058,7 +1057,7 @@ if exists('g:plugs["vim-easymotion"]')
 	map <Bar> <Plug>(easymotion-prev)
 endif
 " --- || easy-motion || }}}
-"
+
 " {{{ || fzf.vim || ---
 if exists('g:plugs["fzf.vim"]')
 	let g:fzf_command_prefix = 'Fzf'
@@ -1120,7 +1119,7 @@ if exists('g:plugs["ultisnips"]')
 	cnoreabbrev us call UltiSnips#
 endif
 " --- || UltiSnips || }}}
-"
+
 " {{{ || LanguageClient-neovim || ---
 if exists('g:plugs["LanguageClient-neovim"]')
 	set hidden
