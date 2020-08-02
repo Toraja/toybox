@@ -377,6 +377,10 @@ if filereadable(s:vim_plug_file)
 	Plug 'moll/vim-node', { 'for': 'javascript' }
 	Plug 'fatih/vim-go', { 'for': 'go', 'do': ':GoUpdateBinaries', 'tag': '*' }
 	Plug 'artur-shaik/vim-javacomplete2', { 'for': 'java' }
+	Plug 'phpactor/phpactor', {'for': 'php', 'branch': 'master', 'do': 'composer install --no-dev -o'}
+	Plug 'stephpy/vim-php-cs-fixer', { 'for': 'php' }
+	Plug 'StanAngeloff/php.vim', { 'for': 'php' }
+	Plug 'noahfrederick/vim-laravel' " not only for php as not all project files are php
 	Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }
 	Plug 'mzlogin/vim-markdown-toc', { 'for': 'markdown' }
 	Plug 'dhruvasagar/vim-table-mode', { 'for': 'markdown' }
@@ -1153,6 +1157,7 @@ if exists('g:plugs["LanguageClient-neovim"]')
 	let g:LanguageClient_serverCommands = {
 				\ 'go': ['gopls'],
 				\ 'java': [$HOME.'/toybox/vim/helper/java-lsp.sh'],
+				\ 'php': [s:plugin_dir . '/phpactor/bin/phpactor', 'language-server'],
 				\ 'python': [$HOME.'/.local/bin/pyls']
 				\ }
 	let g:LanguageClient_diagnosticsDisplay = {
