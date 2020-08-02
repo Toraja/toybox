@@ -30,6 +30,7 @@ function fish_user_key_bindings
     bind \cx\cp __fish_paginate
     bind \cx\cl __fish_list_current_token
     bind \cx\ca "commandline -a \" | xargs \"; commandline -f end-of-line"
+    bind \cx\co "commandline --insert (git rev-parse --show-toplevel)/"
 
     # wrapper
     # clipbin is exported to use inside tmux.conf
