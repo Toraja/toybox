@@ -338,6 +338,7 @@ if filereadable(s:vim_plug_file)
 	Plug 'easymotion/vim-easymotion'
 	Plug 'michaeljsmith/vim-indent-object'
 	" editting
+	Plug 'bfredl/nvim-miniyank'
 	Plug 'editorconfig/editorconfig-vim'
 	Plug 'Yggdroot/indentLine'
 	Plug 'scrooloose/nerdcommenter'
@@ -515,12 +516,7 @@ nnoremap ]t :tag<CR>
 " {{{ || editing || ---
 nnoremap <M-x> "_x
 nnoremap <M-X> "_X
-nnoremap <expr> p IsRegMultiline(v:register) ? "p=']" : "p"
-nnoremap <expr> P IsRegMultiline(v:register) ? "P=']" : "P"
-nnoremap <expr> gp IsRegMultiline(v:register) ? "p'[=']']" : "p"
-nnoremap <expr> gP IsRegMultiline(v:register) ? "P'[=']']" : "P"
-nnoremap [Captain]p p
-nnoremap [Captain]P P
+nnoremap =p =']
 vnoremap p "_c<C-r>"<Esc>
 vnoremap P "_c<C-r>"<Esc>
 " [insert/command mode]
@@ -874,6 +870,14 @@ elseif exists('g:plugs["vim-airline"]')
 	let g:airline_section_c = '(%{winnr()}) %<%F%m %#__accent_red#%{airline#util#wrap(airline#parts#readonly(),0)}%#__restore__#'
 endif
 " --- || powerline / airline || }}}
+
+" {{{ || nvim-miniyank || ---
+let g:miniyank_maxitems = 20
+map p <Plug>(miniyank-autoput)
+map P <Plug>(miniyank-autoPut)
+map <leader>p <Plug>(miniyank-cycle)
+map <leader>P <Plug>(miniyank-cycleback)
+" --- || nvim-miniyank || }}}
 
 " {{{ || indentLine || ---
 let g:indentLine_fileTypeExclude = ['markdown', 'json', 'nerdtree']
