@@ -333,6 +333,7 @@ if filereadable(s:vim_plug_file)
 	Plug 'ctrlpvim/ctrlp.vim'		" required by vim-go GoDecls
 	Plug exists('fzfdir') ? fzfdir : '~/garage/tools/fzf'
 	Plug 'junegunn/fzf.vim'
+	Plug 'tpope/vim-projectionist'
 	" moving around
 	Plug 'easymotion/vim-easymotion'
 	Plug 'michaeljsmith/vim-indent-object'
@@ -376,7 +377,6 @@ if filereadable(s:vim_plug_file)
 	Plug 'moll/vim-node', { 'for': 'javascript' }
 	Plug 'fatih/vim-go', { 'for': 'go', 'do': ':GoUpdateBinaries', 'tag': '*' }
 	Plug 'artur-shaik/vim-javacomplete2', { 'for': 'java' }
-	Plug 'mikelue/vim-maven-plugin', { 'for': 'java' }
 	Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }
 	Plug 'mzlogin/vim-markdown-toc', { 'for': 'markdown' }
 	Plug 'dhruvasagar/vim-table-mode', { 'for': 'markdown' }
@@ -1115,6 +1115,27 @@ if exists('g:plugs["ctrlp.vim"]')
 endif
 " --- || ctrlp || }}}
 
+" {{{ || vim-projectionist || ---
+let g:projectionist_heuristics = {
+			\   "src/main/java/|src/test/java/": {
+			\     "src/main/java/*.java": {
+			\       "alternate": "src/test/java/{}Test.java",
+			\       "type": "main"
+			\     },
+			\     "src/test/java/*.java": {
+			\       "alternate": "src/main/java/{}.java",
+			\       "type": "test"
+			\     },
+			\     "src/main/resources/*": {
+			\       "type": "resource"
+			\     },
+			\     "src/test/resources/*": {
+			\       "type": "tresource"
+			\     }
+			\   }
+			\ }
+" --- || vim-projectionist || }}}
+
 " {{{ || UltiSnips || ---
 if exists('g:plugs["ultisnips"]')
 	let g:UltiSnipsExpandTrigger="<C-]>"
@@ -1176,6 +1197,8 @@ if exists('g:plugs["LanguageClient-neovim"]')
 				\ 'n': runcmds#init#MakeCmdInfo('LcnRename'),
 				\ 'o': runcmds#init#MakeCmdInfo('LcnDocSymbol'),
 				\ 'R': runcmds#init#MakeCmdInfo('LcnReference'),
+				\ 's': runcmds#init#MakeCmdInfo('AS'),
+				\ 'S': runcmds#init#MakeCmdInfo('AV'),
 				\ }
 	function! DefaultCmds()
 		return copy(s:def_cmds)
