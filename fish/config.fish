@@ -33,7 +33,7 @@ alias mv='mv -i'
 alias pd='prevd'
 alias nd='nextd'
 alias swappiness='cat /proc/sys/vm/swappiness'
-alias ll='ls -Ahlv'
+alias ll='ls -Ahlv --group-directories-first'
 alias vim='vim -p'
 type --quiet nvim; and begin
     alias view='nvim -R'
