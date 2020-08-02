@@ -326,7 +326,7 @@ if filereadable(s:vim_plug_file)
 	Plug 'vim-airline/vim-airline'
 	Plug 'vim-airline/vim-airline-themes'
 	" finder (path/dir/file/buffer/tac/etc.)
-	Plug 'scrooloose/nerdtree' ", { 'on': 'NERDTreeToggle' }
+	Plug 'scrooloose/nerdtree'
 	Plug 'dbakker/vim-projectroot'
 	Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
 	Plug 'ctrlpvim/ctrlp.vim'		" required by vim-go GoDecls
@@ -887,7 +887,12 @@ if exists('g:plugs["nerdtree"]')
 	let g:NERDTreeShowLineNumbers = 1
 	let g:NERDTreeSortHiddenFirst = 1
 	let g:NERDTreeShowHidden=1
-	let g:NERDTreeQuitOnOpen=1
+	let g:NERDTreeQuitOnOpen=3
+	let g:NERDTreeUseTCD=1
+	let g:NERDTreeCustomOpenArgs={
+				\ 'file': {'reuse': 'all', 'where': 't', 'keepopen': 1, 'stay': 1},
+				\ 'dir': {'reuse': 'all', 'where': 't', 'keepopen': 1, 'stay': 1}
+				\ }
 	" call NERDTreeAddKeyMap({
 	"     \ 'key': 'J',
 	"     \ 'callback': {-> feedkeys('gt')},
