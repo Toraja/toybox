@@ -982,12 +982,16 @@ if exists('g:plugs["vim-surround"]')
 	" pre-defined mappings that are useful are:
 	" t: "<[tag]>\r</[tag]>" <- [tag] will be replaced by user input
 	" f: "[function](\r)" <- [function] will be replaced by user input
-	let g:surround_{char2nr('p')} = "(\r)"
-	let g:surround_{char2nr('o')} = "[\r]"
-	let g:surround_{char2nr('r')} = "{\r}"
-	let g:surround_{char2nr('v')} = "<\r>"
-	let g:surround_{char2nr('q')} = "\"\r\""
-	let g:surround_{char2nr('x')} = "'\r'"
+	let g:surround_no_mappings = 1
+	nmap dr  <Plug>Dsurround
+	nmap cr  <Plug>Csurround
+	nmap cR  <Plug>CSurround
+	nmap yr  <Plug>Ysurround
+	nmap yR  <Plug>YSurround
+	nmap yrr <Plug>Yssurround
+	nmap yRR <Plug>YSsurround
+	xmap R   <Plug>VSurround
+	xmap gR  <Plug>VgSurround
 	let g:surround_{char2nr('d')} = "${\r}"
 	let g:surround_{char2nr('D')} = "\"${\r}\""
 	let g:surround_{char2nr('s')} = "$(\r)"
@@ -1043,9 +1047,7 @@ if exists('g:plugs["vim-easymotion"]')
 	let g:EasyMotion_startofline = 0
 	" mapping easymotion-prefix prevents <Leader><Leader> from being mapped
 	" map <S-F12> <Plug>(easymotion-prefix)
-	nmap s <Plug>(easymotion-prefix)
-	vmap s <Plug>(easymotion-prefix)
-	omap v <Plug>(easymotion-prefix)
+	map s <Plug>(easymotion-prefix)
 	map f <Plug>(easymotion-fl)
 	map F <Plug>(easymotion-Fl)
 	map t <Plug>(easymotion-tl)
@@ -1237,6 +1239,10 @@ let g:echodoc#enable_at_startup = 1
 let g:echodoc#type = 'floating'
 highlight link EchoDocFloat Pmenu
 " --- || echodoc.vim || }}}
+
+" {{{ || vim-abolish || ---
+let g:abolish_no_mappings = 1
+" --- || vim-abolish || }}}
 
 " --- || plugin mapping and option || }}}
 
