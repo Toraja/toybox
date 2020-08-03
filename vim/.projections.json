@@ -1,0 +1,9 @@
+{
+  "vimrc": {"type": "vimrc"},
+  "gvimrc": {"type": "gvimrc"},
+  "autoload/*.vim": {"type": "autoload"},
+  "ftdetect/*.vim": {"type": "ftdetect"},
+  "ftplugin/*.vim": {"type": "ftplugin"},
+  "helper/*": {"type": "helper"},
+  "UltiSnips/*.snippets": {"type": "snippets"}
+}
