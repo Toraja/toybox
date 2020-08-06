@@ -79,14 +79,14 @@ if status --is-interactive
     abbr --add --global doc docker container
     abbr --add --global docs docker container ls -a
     abbr --add --global docip docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}'
+    abbr --add --global docp docker container prune
+    abbr --add --global docsr docker rm \(docker stop \)
     abbr --add --global dox docker exec -it
-    abbr --add --global dormx docker rm \(docker container ls -a -f status=exited -q\)
-    abbr --add --global dormsp docker rm \(docker stop \)
     abbr --add --global doi docker image
     abbr --add --global dois docker images -a
     abbr --add --global doisd docker images -f dangling=true -q
-    abbr --add --global dorid docker rmi \(docker images -f dangling=true -q\)
-    abbr --add --global dorif docker rmi \(docker images -a -f reference=\'\' -q\)
+    abbr --add --global doip docker image prune -f
+    abbr --add --global doirr docker rmi \(docker images -a -f reference=\'\' -q\)
     abbr --add --global dor docker run -it --name
     abbr --add --global dord docker run -d --name
     abbr --add --global dc docker-compose
