@@ -331,7 +331,7 @@ if filereadable(s:vim_plug_file)
 	Plug 'dbakker/vim-projectroot'
 	Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
 	Plug 'ctrlpvim/ctrlp.vim'		" required by vim-go GoDecls
-	Plug exists('fzfdir') ? fzfdir : '~/garage/tools/fzf'
+	Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 	Plug 'junegunn/fzf.vim'
 	Plug 'tpope/vim-projectionist'
 	" moving around
