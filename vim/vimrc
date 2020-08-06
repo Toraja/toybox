@@ -315,7 +315,7 @@ endif
 let s:plugin_dir = s:vimdir . '/bundle'
 let s:vim_plug_file = s:plugin_dir . '/vim-plug/plug.vim'
 if filereadable(s:vim_plug_file)
-	execute 'source' . s:vim_plug_file
+	execute 'source ' . s:vim_plug_file
 	call plug#begin(s:plugin_dir)
 	Plug 'junegunn/vim-plug'
 	" git
