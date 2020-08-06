@@ -8,7 +8,12 @@ Check coding standard like missing PHPDoc and too long lines
 Works like findbugs
 
 **PHPStan**  
-Works like compilor and find errors
+Works like compilor and find errors.  
+You can ignore all the errors that exists at the project generation, which is
+when you have not touched anything by running:
+```
+vendor/bin/phpstan analyse --generate-baseline
+```
 
 **PHP-CS-Fixer**  
 Formatting tool  
