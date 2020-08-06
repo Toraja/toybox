@@ -88,14 +88,13 @@ c.url.searchengines = {
 c.confirm_quit = ['downloads']
 c.new_instance_open_target = 'window'
 c.tabs.select_on_remove = 'prev'
+c.editor.command = ['C:\\Users\\Asus\\garage\\tools\\Neovim\\bin\\nvim-qt.exe', '{file}']
 
 # Bindings for normal mode
-config.bind('<Ctrl+n>', 'tab-next')
-config.bind('<Ctrl+p>', 'tab-prev')
-config.bind('<Alt+p>', 'tab-move -')
-config.bind('<Alt+n>', 'tab-move +')
-config.unbind('J')
-config.unbind('K')
+config.bind('<Ctrl+l>', 'tab-next')
+config.bind('<Ctrl+h>', 'tab-prev')
+config.bind('<Alt+l>', 'tab-move +')
+config.bind('<Alt+h>', 'tab-move -')
 config.bind(';k', 'hint all delete')
 config.bind(';p', 'hint links run :open -p {hint-url}')
 config.unbind('<Ctrl+q>')
@@ -118,3 +117,6 @@ config.bind('<Ctrl+p>', 'completion-item-focus --history prev', mode='command')
 # Bindings for insert mode
 config.unbind('<Ctrl+e>', mode='insert')
 config.bind('<Alt+e>', 'open-editor', mode='insert')
+
+# Bindings for passthrough mode
+config.bind('<Ctrl+\>', 'leave-mode', mode='passthrough')
