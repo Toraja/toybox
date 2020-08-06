@@ -91,19 +91,19 @@ c.tabs.select_on_remove = 'prev'
 c.editor.command = ['C:\\Users\\Asus\\garage\\tools\\Neovim\\bin\\nvim-qt.exe', '{file}']
 
 # Bindings for normal mode
+config.unbind('d')
+config.unbind('D')
+config.unbind('xo')
+config.unbind('xO')
+config.unbind('<Ctrl+q>')
+
 config.bind('<Ctrl+l>', 'tab-next')
 config.bind('<Ctrl+h>', 'tab-prev')
 config.bind('<Alt+l>', 'tab-move +')
 config.bind('<Alt+h>', 'tab-move -')
 config.bind(';k', 'hint all delete')
 config.bind(';p', 'hint links run :open -p {hint-url}')
-config.unbind('<Ctrl+q>')
 config.bind('<Ctrl+Shift+q>', 'quit')
-config.unbind('<Ctrl+h>')
-config.unbind('d')
-config.unbind('D')
-config.unbind('xo')
-config.unbind('xO')
 config.bind('x', 'tab-close')
 config.bind('X', 'tab-close -o')
 
