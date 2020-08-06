@@ -876,8 +876,8 @@ endif
 let g:miniyank_maxitems = 20
 map p <Plug>(miniyank-autoput)
 map P <Plug>(miniyank-autoPut)
-map <leader>p <Plug>(miniyank-cycle)
-map <leader>P <Plug>(miniyank-cycleback)
+map <M-p> <Plug>(miniyank-cycle)
+map <M-P> <Plug>(miniyank-cycleback)
 " --- || nvim-miniyank || }}}
 
 " {{{ || indentLine || ---
