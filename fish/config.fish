@@ -23,6 +23,8 @@ functions --query set_display; and set_display # set DISPLAY
 add_path --prepend ~/.local/bin
 ## Java
 add_path --prepend /usr/local/java/bin
+## PHP
+add_path --prepend ~/.composer/vendor/bin
 ## GO
 add_path --prepend /usr/local/go/bin $GOPATH/bin
 
