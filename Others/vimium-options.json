@@ -1,15 +1,19 @@
 {
-  "settingsVersion": "1.63.3",
+  "settingsVersion": "1.66",
   "exclusionRules": [
     {
       "pattern": "https?://mail.google.com/*",
+      "passKeys": ""
+    },
+    {
+      "pattern": "https?://keep.google.com/*",
       "passKeys": ""
     }
   ],
   "filterLinkHints": false,
   "waitForEnterForFilteredHints": true,
   "hideHud": false,
-  "keyMappings": "\" -- scroll --\nmap <C-f> scrollFullPageDown\nmap <C-b> scrollFullPageUp\nmap <C-d> scrollPageDown\nmap <C-u> scrollPageUp\nunmap d\n\n\" -- navigation --\nmap ' Marks.activateGotoMode\n\n\" -- open --\nmap p openCopiedUrlInNewTab\nmap P openCopiedUrlInCurrentTab\nmap t Vomnibar.activateInNewTab\n\n\" -- link --\nmap <C-F> LinkHints.activateModeToOpenInNewForegroundTab\nmap ;f LinkHints.activateModeToOpenInNewForegroundTab\nmap ;F LinkHints.activateModeWithQueue\nmap ,f LinkHints.activateModeToOpenIncognito\n\n\" -- tab --\nmap J nextTab\nmap K previousTab\nmap <a-J> moveTabRight\nmap <a-K> moveTabLeft\nmap <a-t> visitPreviousTab\nmap e visitPreviousTab\nmap u restoreTab",
+  "keyMappings": "unmap d\n\n\" -- scroll --\nmap <C-f> scrollFullPageDown\nmap <C-b> scrollFullPageUp\nmap <C-d> scrollPageDown\nmap <C-u> scrollPageUp\n\n\" -- navigation --\nmap ' Marks.activateGotoMode\n\n\" -- open --\nmap p openCopiedUrlInNewTab\nmap P openCopiedUrlInCurrentTab\nmap go Vomnibar.activateEditUrl\nmap gO Vomnibar.activateEditUrlInNewTab\n\n\" -- link --\nmap ;f LinkHints.activateModeToOpenInNewForegroundTab\nmap ;r LinkHints.activateModeWithQueue\nmap ;p LinkHints.activateModeToOpenIncognito\nmap ;y LinkHints.activateModeToCopyLinkUrl\nmap ;d LinkHints.activateModeToDownloadLink\n\n\" -- tab --\nmap <C-l> nextTab\nmap <C-h> previousTab\nmap <a-l> moveTabRight\nmap <a-h> moveTabLeft\nmap e visitPreviousTab\nmap u restoreTab\nmap gC duplicateTab\nmap gD moveTabToNewWindow\nmap dL closeTabsOnLeft\nmap dH closeTabsOnRight",
   "linkHintCharacters": "jdkslghrueiwotyvncmb",
   "linkHintNumbers": "0123456789",
   "newTabUrl": "about:newtab",
