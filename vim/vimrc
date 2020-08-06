@@ -749,10 +749,10 @@ nnoremap <silent> <expr> <C-t><C-q> ":\<C-u>".(v:count ? v:count : "")."tabclose
 nnoremap <silent> <expr> <C-t><C-d> ":\<C-u>".(v:count ? v:count : "")."tab split\<CR>"
 nnoremap <silent> <C-t><CR> <C-w><CR><C-w>T
 nnoremap <C-t><C-f> <C-w>gf
-nnoremap <C-n> gt
-nnoremap <C-p> gT
-nnoremap <silent> <expr> <M-n> ":\<C-u>silent! tabmove+".v:count1."<CR>"
-nnoremap <silent> <expr> <M-p> ":\<C-u>silent! tabmove-".v:count1."<CR>"
+nnoremap <C-l> gt
+nnoremap <C-h> gT
+nnoremap <silent> <expr> <M-l> ":\<C-u>silent! tabmove+".v:count1."<CR>"
+nnoremap <silent> <expr> <M-h> ":\<C-u>silent! tabmove-".v:count1."<CR>"
 for n in range(1, 9)
 	execute printf("nnoremap <M-%s> %sgt", n, n)
 endfor
@@ -809,6 +809,7 @@ nnoremap [Captain]<F3> :SetFt<CR>
 nnoremap Q gQ
 noremap [Chief]: :<C-p>
 nnoremap <silent> <Leader>b :buffers<CR>
+nnoremap <M-c> <Cmd>mode<CR>
 " [insert/command mode]
 cnoremap <C-j> <Tab>
 inoremap <M-o> <C-\><C-o>
@@ -826,7 +827,7 @@ inoremap <C-g><C-]> <Esc>ciw<C-r>"<C-]>
 
 " {{{ || vim-fugitive || ---
 if exists('g:plugs["vim-fugitive"]')
-	let g:fugitive_no_maps = 1
+	" let g:fugitive_no_maps = 1 " To prevent <C-n/p> to be mapped
 	cnoreabbrev gs Gstatus
 	cnoreabbrev gl Git log
 	cnoreabbrev glg vertical sbuffer <Bar> Gllog
