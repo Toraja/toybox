@@ -107,6 +107,10 @@ config.bind('<Ctrl+Shift+q>', 'quit')
 config.bind('x', 'tab-close')
 config.bind('X', 'tab-close -o')
 
+# Bindings for caret mode
+config.bind('L', 'move-to-end-of-line', mode='caret')
+config.bind('H', 'move-to-start-of-line', mode='caret')
+
 # Bindings for command mode
 config.bind('<Alt+h>', 'rl-backward-kill-word', mode='command')
 config.bind('<Ctrl+d>', 'rl-delete-char', mode='command')
