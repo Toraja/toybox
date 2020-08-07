@@ -828,13 +828,13 @@ inoremap <C-g><C-]> <Esc>ciw<C-r>"<C-]>
 " {{{ || vim-fugitive || ---
 if exists('g:plugs["vim-fugitive"]')
 	" let g:fugitive_no_maps = 1 " To prevent <C-n/p> to be mapped
-	cnoreabbrev gs Gstatus
+	cnoreabbrev gs Git
 	cnoreabbrev gl Git log
 	cnoreabbrev glg vertical sbuffer <Bar> Gllog
-	cnoreabbrev gd Gdiffsplit
-	nnoremap <Leader>gs <Cmd>tab Gstatus<CR>
+	cnoreabbrev gd Gvdiffsplit
+	nnoremap <Leader>gs <Cmd>tab Git<CR>
 	nnoremap <Leader>gl <Cmd>tab Git log<CR>
-	nnoremap [Chief]gs <Cmd>vertical Gstatus<CR>
+	nnoremap [Chief]gs <Cmd>vertical Git<CR>
 	nnoremap [Chief]gl <Cmd>vertical Git log<CR>
 endif
 " --- || vim-fugitive || }}}
