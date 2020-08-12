@@ -8,6 +8,95 @@ else
 endif
 " --- || variables || }}}
 
+" {{{ || plugin || ---
+if has('nvim')
+	packadd cfilter
+endif
+" Loadng plugins must be before keymapping or they will override my keymappings!
+let s:plugin_dir = s:vimdir . '/bundle'
+let s:vim_plug_file = s:plugin_dir . '/vim-plug/plug.vim'
+if filereadable(s:vim_plug_file)
+	execute 'source ' . s:vim_plug_file
+	call plug#begin(s:plugin_dir)
+	Plug 'junegunn/vim-plug'
+	" git
+	Plug 'tpope/vim-fugitive'
+	Plug 'airblade/vim-gitgutter'
+	Plug 'zivyangll/git-blame.vim'
+	" look & feel
+	" Plug 'powerline/powerline'	" error occurs and donno how to fix
+	Plug 'vim-airline/vim-airline'
+	Plug 'vim-airline/vim-airline-themes'
+	" finder (path/dir/file/buffer/tac/etc.)
+	Plug 'scrooloose/nerdtree'
+	Plug 'dbakker/vim-projectroot'
+	Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
+	Plug 'ctrlpvim/ctrlp.vim'		" required by vim-go GoDecls
+	Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+	Plug 'junegunn/fzf.vim'
+	Plug 'tpope/vim-projectionist'
+	" moving around
+	Plug 'easymotion/vim-easymotion'
+	Plug 'michaeljsmith/vim-indent-object'
+	" editting
+	Plug 'bfredl/nvim-miniyank'
+	Plug 'editorconfig/editorconfig-vim'
+	Plug 'Yggdroot/indentLine'
+	Plug 'scrooloose/nerdcommenter'
+	Plug 'arthurxavierx/vim-caser'
+	Plug 'tpope/vim-surround'
+	Plug 'jiangmiao/auto-pairs'
+	Plug 'AndrewRadev/splitjoin.vim'
+	Plug 'tpope/vim-repeat'
+	Plug 'junegunn/vim-easy-align'
+	Plug 'vim-syntastic/syntastic'
+	if has('nvim') " no completion for conventional vim as it takes so long to start up
+		Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+	endif
+	Plug 'Shougo/echodoc.vim'
+	Plug 'autozimu/LanguageClient-neovim', {
+				\ 'branch': 'next',
+				\ 'do': has('win32') ? 'powershell install.ps1' : 'bash install.sh',
+				\ }
+	Plug 'SirVer/ultisnips'
+	Plug 'honza/vim-snippets'
+	Plug 'vim-utils/vim-husk'
+	" misc
+	Plug 'tpope/vim-abolish'
+	Plug 'tmux-plugins/vim-tmux-focus-events'
+	Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }} " hook cannot be called (function not found) if language specific
+
+	" Language specific
+	Plug 'dag/vim-fish', { 'for': 'fish' }
+	if executable('npm')
+		Plug 'ternjs/tern_for_vim', { 'for': 'javascript', 'do': 'npm install' }
+		Plug 'carlitux/deoplete-ternjs', { 'for': 'javascript', 'do': 'npm install -g tern' }
+	endif
+	Plug 'othree/jspc.vim', { 'for': 'javascript' }
+	Plug 'jelera/vim-javascript-syntax', { 'for': 'javascript' }    " <- The order matters! First comes first serves (for syntax at least)
+	Plug 'pangloss/vim-javascript', { 'for': 'javascript' }         " <- syntax of vim-javascript is ugly
+	Plug 'myhere/vim-nodejs-complete', { 'for': 'javascript' }
+	Plug 'moll/vim-node', { 'for': 'javascript' }
+	Plug 'fatih/vim-go', { 'for': 'go', 'do': ':GoUpdateBinaries', 'tag': '*' }
+	Plug 'artur-shaik/vim-javacomplete2', { 'for': 'java' }
+	Plug 'phpactor/phpactor', {'for': 'php', 'branch': 'master', 'do': 'composer install --no-dev -o'}
+	Plug 'stephpy/vim-php-cs-fixer', { 'for': 'php' }
+	Plug 'StanAngeloff/php.vim', { 'for': 'php' }
+	Plug 'noahfrederick/vim-laravel' " not only for php as not all project files are php
+	Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }
+	Plug 'mzlogin/vim-markdown-toc', { 'for': 'markdown' }
+	Plug 'dhruvasagar/vim-table-mode', { 'for': 'markdown' }
+	Plug 'cespare/vim-toml', { 'for': 'toml' }
+	Plug 'PProvost/vim-ps1', { 'for': 'ps1' }
+	Plug 'aklt/plantuml-syntax', { 'for': 'plantuml' }
+	call plug#end()
+else
+	" these are called by plug#end()
+	filetype plugin indent on
+	syntax enable
+endif
+" --- || plugin || }}}
+
 " {{{ || options || ---
 
 " << system >>
@@ -307,98 +396,8 @@ if has("autocmd")
 endif
 " --- || autocmd || }}}
 
-" {{{ || plugin loading || ---
-if has('nvim')
-	packadd cfilter
-endif
-" Loadng plugins must be before keymapping or they will override my keymappings!
-let s:plugin_dir = s:vimdir . '/bundle'
-let s:vim_plug_file = s:plugin_dir . '/vim-plug/plug.vim'
-if filereadable(s:vim_plug_file)
-	execute 'source ' . s:vim_plug_file
-	call plug#begin(s:plugin_dir)
-	Plug 'junegunn/vim-plug'
-	" git
-	Plug 'tpope/vim-fugitive'
-	Plug 'airblade/vim-gitgutter'
-	Plug 'zivyangll/git-blame.vim'
-	" look & feel
-	" Plug 'powerline/powerline'	" error occurs and donno how to fix
-	Plug 'vim-airline/vim-airline'
-	Plug 'vim-airline/vim-airline-themes'
-	" finder (path/dir/file/buffer/tac/etc.)
-	Plug 'scrooloose/nerdtree'
-	Plug 'dbakker/vim-projectroot'
-	Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
-	Plug 'ctrlpvim/ctrlp.vim'		" required by vim-go GoDecls
-	Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-	Plug 'junegunn/fzf.vim'
-	Plug 'tpope/vim-projectionist'
-	" moving around
-	Plug 'easymotion/vim-easymotion'
-	Plug 'michaeljsmith/vim-indent-object'
-	" editting
-	Plug 'bfredl/nvim-miniyank'
-	Plug 'editorconfig/editorconfig-vim'
-	Plug 'Yggdroot/indentLine'
-	Plug 'scrooloose/nerdcommenter'
-	Plug 'arthurxavierx/vim-caser'
-	Plug 'tpope/vim-surround'
-	Plug 'jiangmiao/auto-pairs'
-	Plug 'AndrewRadev/splitjoin.vim'
-	Plug 'tpope/vim-repeat'
-	Plug 'junegunn/vim-easy-align'
-	Plug 'vim-syntastic/syntastic'
-	if has('nvim') " no completion for conventional vim as it takes so long to start up
-		Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-	endif
-	Plug 'Shougo/echodoc.vim'
-	Plug 'autozimu/LanguageClient-neovim', {
-				\ 'branch': 'next',
-				\ 'do': has('win32') ? 'powershell install.ps1' : 'bash install.sh',
-				\ }
-	Plug 'SirVer/ultisnips'
-	Plug 'honza/vim-snippets'
-	Plug 'vim-utils/vim-husk'
-	" misc
-	Plug 'tpope/vim-abolish'
-	Plug 'tmux-plugins/vim-tmux-focus-events'
-	Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }} " hook cannot be called (function not found) if language specific
-
-	" Language specific
-	Plug 'dag/vim-fish', { 'for': 'fish' }
-	if executable('npm')
-		Plug 'ternjs/tern_for_vim', { 'for': 'javascript', 'do': 'npm install' }
-		Plug 'carlitux/deoplete-ternjs', { 'for': 'javascript', 'do': 'npm install -g tern' }
-	endif
-	Plug 'othree/jspc.vim', { 'for': 'javascript' }
-	Plug 'jelera/vim-javascript-syntax', { 'for': 'javascript' }    " <- The order matters! First comes first serves (for syntax at least)
-	Plug 'pangloss/vim-javascript', { 'for': 'javascript' }         " <- syntax of vim-javascript is ugly
-	Plug 'myhere/vim-nodejs-complete', { 'for': 'javascript' }
-	Plug 'moll/vim-node', { 'for': 'javascript' }
-	Plug 'fatih/vim-go', { 'for': 'go', 'do': ':GoUpdateBinaries', 'tag': '*' }
-	Plug 'artur-shaik/vim-javacomplete2', { 'for': 'java' }
-	Plug 'phpactor/phpactor', {'for': 'php', 'branch': 'master', 'do': 'composer install --no-dev -o'}
-	Plug 'stephpy/vim-php-cs-fixer', { 'for': 'php' }
-	Plug 'StanAngeloff/php.vim', { 'for': 'php' }
-	Plug 'noahfrederick/vim-laravel' " not only for php as not all project files are php
-	Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }
-	Plug 'mzlogin/vim-markdown-toc', { 'for': 'markdown' }
-	Plug 'dhruvasagar/vim-table-mode', { 'for': 'markdown' }
-	Plug 'cespare/vim-toml', { 'for': 'toml' }
-	Plug 'PProvost/vim-ps1', { 'for': 'ps1' }
-	Plug 'aklt/plantuml-syntax', { 'for': 'plantuml' }
-	call plug#end()
-else
-	" these are called by plug#end()
-	filetype plugin indent on
-	syntax enable
-endif
-" --- || plugin loading || }}}
-
 " {{{ || key mapping || ---
 
-" {{{ || my mapping || ---
 " {{{ || Leader || ---
 noremap <Space> <Nop>
 let mapleader = "\<Space>"
@@ -821,7 +820,7 @@ cnoremap <M-@> <Home>let @" = '<End>'
 inoremap <C-g><C-]> <Esc>ciw<C-r>"<C-]>
 " --- || Others || }}}
 
-" --- || my mapping || }}}
+" --- || key mapping || }}}
 
 " {{{ || plugin mapping and option || ---
 
@@ -1282,8 +1281,6 @@ let g:abolish_no_mappings = 1
 " --- || vim-abolish || }}}
 
 " --- || plugin mapping and option || }}}
-
-" --- || key mapping || }}}
 
 " {{{ || abbreviation || ---
 cnoreabbrev ehco echo
