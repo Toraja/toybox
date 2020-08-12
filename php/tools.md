@@ -15,6 +15,13 @@ when you have not touched anything by running:
 vendor/bin/phpstan analyse --generate-baseline
 ```
 
+**Psalm**
+Basically does type checking.  
+Run the command below to initialise.  
+```
+./vendor/bin/psalm --init
+```
+
 **PHP-CS-Fixer**  
 Formatting tool  
 Nice helper to write config file:
