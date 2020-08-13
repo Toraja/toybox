@@ -49,7 +49,7 @@ if filereadable(s:vim_plug_file)
 	Plug 'AndrewRadev/splitjoin.vim'
 	Plug 'tpope/vim-repeat'
 	Plug 'junegunn/vim-easy-align'
-	Plug 'vim-syntastic/syntastic'
+	Plug 'neomake/neomake'
 	if has('nvim') " no completion for conventional vim as it takes so long to start up
 		Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 	endif
@@ -1232,6 +1232,11 @@ if exists('g:plugs["LanguageClient-neovim"]')
 	inoremap <C-g><C-h> <Cmd>call LanguageClient#textDocument_signatureHelp()<CR>
 endif
 " --- || LanguageClient-neovim || }}}
+
+" {{{ || neomake || ---
+call neomake#configure#automake('w')
+let g:neomake_open_list = 2
+" --- || neomake || }}}
 
 " {{{ || deoplete || ---
 if exists('g:plugs["deoplete.nvim"]')

@@ -19,6 +19,11 @@ silent! nunmap <Leader>pcd
 let g:PhpactorRootDirectoryStrategy = function('projectroot#guess')
 " --- || phpactor || }}}
 
+" {{{ || neomake || ---
+let g:neomake_php_phpcs_args_standard = 'PSR2'
+let g:neomake_php_phpstan_args = ['analyse', '--error-format', 'raw', '--no-progress']
+" --- || neomake || }}}
+
 inoremap <buffer> <silent> <M-;> <Cmd>call edit#semicolon#Append()<CR>
 nnoremap <buffer> <silent> <M-;> <Cmd>call edit#semicolon#Append()<CR>
 vnoremap <buffer> <silent> <M-;> :call edit#semicolon#Append()<CR>
@@ -32,6 +37,7 @@ function! s:InitPhpCmds()
 	let l:cmds.f = runcmds#init#MakeCmdInfo('call PhpCsFixerFixFile()')
 	let l:cmds.F = runcmds#init#MakeCmdInfo('PhpactorTransform')
 	let l:cmds.i = runcmds#init#MakeCmdInfo('PhpactorImportMissingClasses')
+	let l:cmds.l = runcmds#init#MakeCmdInfo('NeomakeProject phpstan')
 	let l:cmds.m = runcmds#init#MakeCmdInfo('PhpactorMoveFile')
 	let l:cmds.M = runcmds#init#MakeCmdInfo('PhpactorContextMenu')
 	let l:cmds.r = runcmds#init#MakeCmdInfo('Run')
