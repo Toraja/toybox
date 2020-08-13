@@ -15,6 +15,10 @@ when you have not touched anything by running:
 vendor/bin/phpstan analyse --generate-baseline
 ```
 
+**Larastan**
+Extension for PHPStan tailored for laravel.  
+Install `--dev orchestral/testbench` as well if error occurs.
+
 **Psalm**
 Basically does type checking.  
 Run the command below to initialise.  
