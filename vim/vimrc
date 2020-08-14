@@ -137,6 +137,7 @@ set shortmess+=c
 
 " {{{ || Compose tabline || ---
 function! MyTabLine()
+	let l:max_fname_length = 20
 	let l:tabline = ''
 	for l:cnt in range(tabpagenr('$'))
 		let l:tabpagecnt = l:cnt + 1
@@ -180,29 +181,17 @@ function! MyTabLine()
 				let l:tabline .= '[No Name]'
 			endif
 		else
-			" let l:tabline .= pathshorten(fnamemodify(l:fname, ':.'))
-			let l:tabline .= fnamemodify(l:fname, ':t')
+			let l:modified_fname = fnamemodify(l:fname, ':t')
+			let l:fnamelen = len(l:modified_fname)
+			if l:fnamelen > l:max_fname_length
+				let l:modified_fname = l:modified_fname[l:fnamelen-l:max_fname_length:]
+			endif
+			let l:tabline .= l:modified_fname
 		endif
 		let l:tabline .= ' '
-
-		" attempt to limit tablabel characters
-		" if l:fnamelen == 0
-		" let l:fname = '[No Name]'
-		" else
-		" let l:shortfname = pathshorten(fnamemodify(l:fname, ':.'))
-		" let l:shortfnamelen = strlen(l:shortfname)
-		" if l:shortfnamelen > 15
-		" let l:fname = l:shortfname[l:shortfnamelen - 15:l:shortfnamelen]
-		" else
-		" let l:fname = l:shortfname
-		" endif
-		" endif
-		" let l:tabline .= l:fname . ' '
 	endfor
 
-	" after the last tab fill with TabLineFill and reset tab page nr
-	" let l:tabline .= '%#TabLineFill#%T'
-	" ^^ what's the trailing '%T'?
+	" after the last tab fill with TabLineFill
 	let l:tabline .= '%#TabLineFill#'
 
 	return l:tabline
