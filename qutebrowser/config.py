@@ -88,7 +88,8 @@ c.url.searchengines = {
 c.confirm_quit = ['downloads']
 c.new_instance_open_target = 'window'
 c.tabs.select_on_remove = 'prev'
-c.editor.command = ['C:\\Users\\Asus\\garage\\tools\\Neovim\\bin\\nvim-qt.exe', '{file}']
+import os
+c.editor.command = [os.environ['USERPROFILE'] + '\\garage\\tools\\Neovim\\bin\\nvim-qt.exe', '{file}']
 
 # Bindings for normal mode
 config.unbind('d')
