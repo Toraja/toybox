@@ -98,6 +98,9 @@ config.unbind('xo')
 config.unbind('xO')
 config.unbind('<Ctrl+q>')
 
+config.bind('j', 'run-with-count 2 scroll down')
+config.bind('k', 'run-with-count 2 scroll up')
+
 config.bind('<Ctrl+l>', 'tab-next')
 config.bind('<Ctrl+h>', 'tab-prev')
 config.bind('<Alt+l>', 'tab-move +')
