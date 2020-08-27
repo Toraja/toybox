@@ -65,8 +65,9 @@ if status --is-interactive
     abbr --add --global ga git add
     abbr --add --global gai git add -i
     abbr --add --global gcm git commit -m
-    abbr --add --global gco git checkout
+    abbr --add --global gw git switch
     abbr --add --global gr git reset
+    abbr --add --global grs git restore
     abbr --add --global gst git stash
     abbr --add --global gstl git stash list
     abbr --add --global gstp git stash pop
