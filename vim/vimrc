@@ -62,6 +62,7 @@ if filereadable(s:vim_plug_file)
 	Plug 'honza/vim-snippets'
 	Plug 'vim-utils/vim-husk'
 	" misc
+	Plug 'sheerun/vim-polyglot'
 	Plug 'tpope/vim-abolish'
 	Plug 'tmux-plugins/vim-tmux-focus-events'
 	Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }} " hook cannot be called (function not found) if language specific
@@ -73,22 +74,16 @@ if filereadable(s:vim_plug_file)
 		Plug 'carlitux/deoplete-ternjs', { 'for': 'javascript', 'do': 'npm install -g tern' }
 	endif
 	Plug 'othree/jspc.vim', { 'for': 'javascript' }
-	Plug 'jelera/vim-javascript-syntax', { 'for': 'javascript' }    " <- The order matters! First comes first serves (for syntax at least)
-	Plug 'pangloss/vim-javascript', { 'for': 'javascript' }         " <- syntax of vim-javascript is ugly
+	Plug 'jelera/vim-javascript-syntax', { 'for': 'javascript' }
 	Plug 'myhere/vim-nodejs-complete', { 'for': 'javascript' }
 	Plug 'moll/vim-node', { 'for': 'javascript' }
 	Plug 'fatih/vim-go', { 'for': 'go', 'do': ':GoUpdateBinaries', 'tag': '*' }
 	Plug 'artur-shaik/vim-javacomplete2', { 'for': 'java' }
 	Plug 'phpactor/phpactor', {'for': 'php', 'branch': 'master', 'do': 'composer install --no-dev -o'}
 	Plug 'stephpy/vim-php-cs-fixer', { 'for': 'php' }
-	Plug 'StanAngeloff/php.vim', { 'for': 'php' }
 	Plug 'noahfrederick/vim-laravel' " not only for php as not all project files are php
-	Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }
 	Plug 'mzlogin/vim-markdown-toc', { 'for': 'markdown' }
 	Plug 'dhruvasagar/vim-table-mode', { 'for': 'markdown' }
-	Plug 'cespare/vim-toml', { 'for': 'toml' }
-	Plug 'PProvost/vim-ps1', { 'for': 'ps1' }
-	Plug 'aklt/plantuml-syntax', { 'for': 'plantuml' }
 	call plug#end()
 else
 	" these are called by plug#end()
