@@ -91,6 +91,7 @@ if status --is-interactive
     abbr --add --global doirr docker rmi \(docker images -a -f reference=\'\' -q\)
     abbr --add --global dor docker run -it --name
     abbr --add --global dord docker run -d --name
+    abbr --add --global dolt sudo truncate -s 0 \(docker inspect --format='{{.LogPath}}' \)
     abbr --add --global dow docker swarm
     abbr --add --global dowi docker swarm init --advertise-addr \(hostname -i\)
     abbr --add --global dost docker stack
