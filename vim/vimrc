@@ -1007,6 +1007,7 @@ if exists('g:plugs["auto-pairs"]')
 	let g:AutoPairsShortcutJump = '<M-v>'
 	let g:AutoPairsShortcutBackInsert = '<M-\>'
 	let g:AutoPairsMapSpace = 0		" Enabling this maps <Space> to <C-]><C-R>=... and <C-]> is unwanted
+	let g:AutoPairsMultilineClose = 0
 	inoremap <silent> <Space> <C-g>u<C-r>=AutoPairsSpace()<CR>
 endif
 " --- || auto-pairs || }}}
