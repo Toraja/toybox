@@ -38,6 +38,7 @@ if filereadable(s:vim_plug_file)
 	" moving around
 	Plug 'easymotion/vim-easymotion'
 	Plug 'michaeljsmith/vim-indent-object'
+	Plug 'bkad/CamelCaseMotion'
 	" editting
 	Plug 'bfredl/nvim-miniyank'
 	Plug 'editorconfig/editorconfig-vim'
@@ -432,11 +433,6 @@ inoremap <C-p> <Up>
 inoremap <C-n> <Down>
 " --- || insert/command mode || }}}
 
-" [go to next/last upper case character]
-nnoremap <silent> <M-w> :call search("[A-Z_]", '', line('.'))<CR>
-nnoremap <silent> <M-b> :call search("[A-Z_]", 'b', line('.'))<CR>
-vnoremap <silent> <M-w> ompo<Esc>:call search("[A-Z_]")<CR>vg`po
-vnoremap <silent> <M-b> ompo<Esc>:call search("[A-Z_]", 'b')<CR>vg`po
 " [always search forward/backword]
 " noremap <expr> <Bslash> getcharsearch().forward ? ';' : ','
 " noremap <expr> <Bar> getcharsearch().forward ? ',' : ';'
@@ -447,8 +443,6 @@ onoremap <silent> al :normal! VggoG<CR>
 onoremap <silent> u :normal! ^v$h<CR>
 " line including indent
 onoremap <silent> U :normal! 0v$h<CR>
-onoremap <silent> im :call SelectCamelWord()<CR>
-vnoremap <silent> im :<C-u>call SelectCamelWord()<CR>
 " XXX these do not work if the cursor is on the last element
 " as in /cursor/is/he|re
 onoremap <silent> ad :call SelectPair('${', '', '}', 1)<CR>
@@ -1053,6 +1047,17 @@ if exists('g:plugs["vim-easymotion"]')
 	map <Bar> <Plug>(easymotion-prev)
 endif
 " --- || easy-motion || }}}
+
+" {{{ || CamelCaseMotion || ---
+if exists('g:plugs["CamelCaseMotion"]')
+    map <silent> <M-w> <Plug>CamelCaseMotion_w
+    map <silent> <M-b> <Plug>CamelCaseMotion_b
+    omap <silent> im <Plug>CamelCaseMotion_ie
+    xmap <silent> im <Plug>CamelCaseMotion_ie
+    omap <silent> am <Plug>CamelCaseMotion_iw
+    xmap <silent> am <Plug>CamelCaseMotion_iw
+endif
+" --- || CamelCaseMotion || }}}
 
 " {{{ || fzf.vim || ---
 if exists('g:plugs["fzf.vim"]')
