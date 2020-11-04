@@ -41,6 +41,7 @@ function! s:InitPhpCmds()
 	let l:cmds.m = runcmds#init#MakeCmdInfo('PhpactorMoveFile')
 	let l:cmds.M = runcmds#init#MakeCmdInfo('PhpactorContextMenu')
 	let l:cmds.r = runcmds#init#MakeCmdInfo('Run')
+	let l:cmds.5 = runcmds#init#MakeCmdInfo('!php artisan l5:generate')
 	function! s:PhpCmds() closure
 		return l:cmds
 	endfunction
