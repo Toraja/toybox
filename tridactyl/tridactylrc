@@ -1,0 +1,62 @@
+" create symlink ~/.config/tridactyl/tridactylrc to this file
+colorscheme dark
+
+set smoothscroll true
+
+bind --mode=normal ;f hint -t
+bind --mode=normal ;n hint -wp
+bind --mode=visual n findnext 1
+bind --mode=visual N findnext -1
+bind --mode=normal e buffer #
+bind --mode=normal <C-h> tabprev
+bind --mode=normal <C-l> tabnext
+bind --mode=normal <A-h> tabmove -1
+bind --mode=normal <A-l> tabmove +1
+
+bind --mode=ex <C-n> ex.next_completion
+bind --mode=ex <C-p> ex.prev_completion
+bind --mode=ex <C-b> text.backward_char
+bind --mode=ex <C-f> text.forward_char
+bind --mode=ex <C-a> text.beginning_of_line
+" bind --mode=ex <A-a> text.
+bind --mode=ex <C-h> text.delete_backward_char
+bind --mode=ex <A-h> text.backward_kill_word
+bind --mode=ex <C-d> text.delete_char
+" bind --mode=ex <C-A-u> text.kill_whole_line " XXX Ctrl + Alt does not work
+bind --mode=ex <A-u> text.upcase_word
+bind --mode=ex <A-l> text.downcase_word
+bind --mode=ex <A-c> text.capitalize_word
+
+bind --mode=input <C-b> text.backward_char
+bind --mode=input <C-f> text.forward_char
+bind --mode=input <A-b> text.backward_word
+bind --mode=input <A-f> text.forward_word
+bind --mode=input <C-a> text.beginning_of_line
+bind --mode=input <C-e> text.end_of_line
+" bind --mode=ex <A-a> text.
+bind --mode=input <C-h> text.delete_backward_char
+bind --mode=input <A-h> text.backward_kill_word
+bind --mode=input <C-d> text.delete_char
+bind --mode=input <A-d> text.kill_word
+bind --mode=input <C-k> text.kill_line
+" bind --mode=input <C-A-u> text.kill_whole_line
+bind --mode=input <A-u> text.upcase_word
+bind --mode=input <A-l> text.downcase_word
+bind --mode=input <A-c> text.capitalize_word
+
+bind --mode=insert <C-b> text.backward_char
+bind --mode=insert <C-f> text.forward_char
+bind --mode=insert <A-b> text.backward_word
+bind --mode=insert <A-f> text.forward_word
+bind --mode=insert <C-a> text.beginning_of_line
+bind --mode=insert <C-e> text.end_of_line
+" bind --mode=ex <A-a> text.
+bind --mode=insert <C-h> text.delete_backward_char
+bind --mode=insert <A-h> text.backward_kill_word
+bind --mode=insert <C-d> text.delete_char
+bind --mode=insert <A-d> text.kill_word
+bind --mode=insert <C-k> text.kill_line
+" bind --mode=insert <C-A-u> text.kill_whole_line
+bind --mode=insert <A-u> text.upcase_word
+bind --mode=insert <A-l> text.downcase_word
+bind --mode=insert <A-c> text.capitalize_word
