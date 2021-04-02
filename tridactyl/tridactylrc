@@ -1,19 +1,50 @@
-" create symlink ~/.config/tridactyl/tridactylrc to this file
+" create symlink ~/.config/tridactyl/tridactylrc or ~/.tridactylrc to this file
 colorscheme dark
 
 set smoothscroll true
 
+bind --mode=normal O fillcmdline tabopen
+bind --mode=normal go current_url open
+bind --mode=normal gO current_url tabopen
+bind --mode=normal gw fillcmdline winopen -private
+bind --mode=normal p clipboard tabopen
+bind --mode=normal P clipboard open
+bind --mode=normal b fillcmdline bmarks
+bind --mode=normal b fillcmdline bmarks -t
+
 bind --mode=normal ;f hint -t
 bind --mode=normal ;n hint -wp
-bind --mode=visual n findnext 1
-bind --mode=visual N findnext -1
+
+bind --mode=normal / fillcmdline find
+bind --mode=normal ? fillcmdline find -?
+bind --mode=normal n findnext 1
+bind --mode=normal N findnext -1
+bind --mode=normal <A-u> nohlsearch
+
+unbind --mode=normal <C-6>
 bind --mode=normal e buffer #
+bind --mode=normal <A-1> tab 1
+bind --mode=normal <A-2> tab 2
+bind --mode=normal <A-3> tab 3
+bind --mode=normal <A-4> tab 4
+bind --mode=normal <A-5> tab 5
+bind --mode=normal <A-6> tab 6
+bind --mode=normal <A-7> tab 7
+bind --mode=normal <A-8> tab 8
+bind --mode=normal <A-9> tab 0
 bind --mode=normal <C-h> tabprev
 bind --mode=normal <C-l> tabnext
 bind --mode=normal <A-h> tabmove -1
 bind --mode=normal <A-l> tabmove +1
+bind --mode=normal gC tabduplicate
+bind --mode=normal gD tabdetach
+bind --mode=normal gG tabpush
+bind --mode=normal x tabclose
 
-bind --mode=ex <C-n> ex.next_completion
+bind --mode=normal s stop
+
+bind --mode=ex <C-n> ex.next_completion " XXX <C-n> cannot be overridden
+bind --mode=ex <C-i> ex.next_completion
 bind --mode=ex <C-p> ex.prev_completion
 bind --mode=ex <C-b> text.backward_char
 bind --mode=ex <C-f> text.forward_char
@@ -22,7 +53,7 @@ bind --mode=ex <C-a> text.beginning_of_line
 bind --mode=ex <C-h> text.delete_backward_char
 bind --mode=ex <A-h> text.backward_kill_word
 bind --mode=ex <C-d> text.delete_char
-" bind --mode=ex <C-A-u> text.kill_whole_line " XXX Ctrl + Alt does not work
+bind --mode=ex <AC-u> text.kill_whole_line " XXX Ctrl + Alt does not work
 bind --mode=ex <A-u> text.upcase_word
 bind --mode=ex <A-l> text.downcase_word
 bind --mode=ex <A-c> text.capitalize_word
@@ -39,7 +70,7 @@ bind --mode=input <A-h> text.backward_kill_word
 bind --mode=input <C-d> text.delete_char
 bind --mode=input <A-d> text.kill_word
 bind --mode=input <C-k> text.kill_line
-" bind --mode=input <C-A-u> text.kill_whole_line
+bind --mode=input <AC-u> text.kill_whole_line
 bind --mode=input <A-u> text.upcase_word
 bind --mode=input <A-l> text.downcase_word
 bind --mode=input <A-c> text.capitalize_word
@@ -56,7 +87,7 @@ bind --mode=insert <A-h> text.backward_kill_word
 bind --mode=insert <C-d> text.delete_char
 bind --mode=insert <A-d> text.kill_word
 bind --mode=insert <C-k> text.kill_line
-" bind --mode=insert <C-A-u> text.kill_whole_line
+bind --mode=insert <AC-u> text.kill_whole_line
 bind --mode=insert <A-u> text.upcase_word
 bind --mode=insert <A-l> text.downcase_word
 bind --mode=insert <A-c> text.capitalize_word
