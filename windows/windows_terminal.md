@@ -10,10 +10,10 @@ Go to ubuntu section `profiles -> list`
 #### Change starting directory
 1. add `"startingDirectory": "//wsl$/Ubuntu/<linux path to directory>"` to the
    section.  
-   eg. `"//wsl$/Ubuntu/home/user"`
+   eg. `"startingDirectory": "//wsl$/Ubuntu/home/user"`
 
 #### Change font
 1. add `"fontFace": "Consolas"` to the section
 
 #### Change cursor shape
-1. add` "cursorShape": "filledBox"` to the section
+1. add `"cursorShape": "filledBox"` to the section
