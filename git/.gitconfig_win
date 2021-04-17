@@ -5,7 +5,8 @@
 	path = ~/toybox/git/.gitconfig
 
 [core]
-	sshCommand = C:/Windows/System32/OpenSSH/ssh.exe
+	# necessary for old windows
+	# sshCommand = C:/Windows/System32/OpenSSH/ssh.exe
 
 [diff]
 	tool = gvimdiff
@@ -21,3 +22,6 @@
 	trustExitCode = false
 
 ; vim: filetype=gitconfig
+[user]
+	email = toraja.blend.french@gmail.com
+	name = Toraja
