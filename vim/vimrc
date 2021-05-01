@@ -1,11 +1,7 @@
 " {{{ || variables || ---
 " filereadable() does not expand ~ (tilde) to home directory.
 " Workaround is to use $HOME or expand()
-if has('win32')
-	let s:vimdir = expand("~/vimfiles")
-else
-	let s:vimdir = expand("~/.vim")
-endif
+let s:vimdir = expand("~/.vim")
 " --- || variables || }}}
 
 " {{{ || plugin || ---
@@ -849,11 +845,13 @@ endif
 " --- || powerline / airline || }}}
 
 " {{{ || nvim-miniyank || ---
-let g:miniyank_maxitems = 20
-map p <Plug>(miniyank-autoput)
-map P <Plug>(miniyank-autoPut)
-map <M-p> <Plug>(miniyank-cycle)
-map <M-P> <Plug>(miniyank-cycleback)
+if exists('g:plugs["nvim-miniyank"]')
+	let g:miniyank_maxitems = 20
+	map p <Plug>(miniyank-autoput)
+	map P <Plug>(miniyank-autoPut)
+	map <M-p> <Plug>(miniyank-cycle)
+	map <M-P> <Plug>(miniyank-cycleback)
+endif
 " --- || nvim-miniyank || }}}
 
 " {{{ || indentLine || ---
@@ -1224,8 +1222,10 @@ endif
 " --- || LanguageClient-neovim || }}}
 
 " {{{ || neomake || ---
-call neomake#configure#automake('w')
-let g:neomake_open_list = 2
+if exists('g:plugs["neomake"]')
+	call neomake#configure#automake('w')
+	let g:neomake_open_list = 2
+endif
 " --- || neomake || }}}
 
 " {{{ || deoplete || ---
