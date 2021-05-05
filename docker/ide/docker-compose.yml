@@ -8,7 +8,11 @@ services:
         - COMPOSE_VERSION=${COMPOSE_VERSION:?set value in .env file}
         - GIT_USER_NAME=${GIT_USER_NAME:?set value in .env file}
         - GIT_USER_EMAIL=${GIT_USER_EMAIL:?set value in .env file}
+        - GIT_HUB_SSH_KEY=${GIT_HUB_SSH_KEY:?set value in .env file}
     volumes:
+      # Be aware that if the volume created beforehand exists, this covers up
+      # files copied or created during build. In such case, delete the volume
+      # and run `docker-compose up` again.
       - type: volume
         source: home
         target: /home/mojito
