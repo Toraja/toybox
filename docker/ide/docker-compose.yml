@@ -1,6 +1,6 @@
 version: '3.9'
 services:
-  ide:
+  base:
     build:
       context: ctx
       args:
