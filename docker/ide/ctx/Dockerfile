@@ -1,12 +1,12 @@
 FROM alpine:latest
 
-# --update-cache option is equivalent of running apk update beforehand
+# `--update-cache` option is equivalent of running `apk update` beforehand
+# The line starting with `docker...` is required by docker-compose
 RUN apk add --update-cache --no-cache \
     shadow curl less mandoc man-pages \
     openssh-client bash fish \
     docker py-pip python3-dev libffi-dev openssl-dev gcc libc-dev rust cargo make \
     neovim git tmux ncurses firefox
-# The line starting with `docker...` required by docker-compose
 
 # TODO keychain
 
@@ -17,13 +17,11 @@ RUN curl -L "https://github.com/docker/compose/releases/download/"${COMPOSE_VERS
     -o /usr/local/bin/docker-compose \
     && chmod +x /usr/local/bin/docker-compose
 
-ARG user=mojito
-RUN useradd --create-home --shell /usr/bin/fish ${user}
-USER ${user}
+ARG USER
+RUN useradd --create-home --shell /usr/bin/fish ${USER}
+USER ${USER}
 
-WORKDIR /home/${user}
-
-# RUN git clone git@github.com:Toraja/toybox.git
+WORKDIR /home/${USER}
 
 # git
 ARG GIT_USER_NAME
@@ -31,6 +29,8 @@ ARG GIT_USER_EMAIL
 COPY ./gitconfig .gitconfig
 RUN git config --global user.name ${GIT_USER_NAME} \
     && git config --global user.email ${GIT_USER_EMAIL}
+
+# RUN git clone git@github.com:Toraja/toybox.git
 
 # fish
 # TODO

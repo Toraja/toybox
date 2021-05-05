@@ -13,7 +13,9 @@
   ```
 - Add user to docker group  
   `sudo usermod -aG docker <user>`
-- Generate RSA key and put on Github
+- Generate ssh key and put on Github
+  `ssh-keygen -t rsa -b 4096 -C '<description>' -f '/home/<user>/.ssh/<key_file_name>'`
+- Create ssh config
 - Run `mkdir ~/workspace`
 
 ### Misc
