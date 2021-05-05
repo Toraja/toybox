@@ -2,6 +2,10 @@
 ### Shutdown the vm
 `wsl.exe --shutdown`
 
+## Setup
+- Link to windows home directory
+  `ln -s /mnt/c/Users/mojito/ ~/winhome`
+
 ## Configuration
 ### Startup
 You can configure things like mount path, network and inter-operability by  
