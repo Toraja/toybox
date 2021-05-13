@@ -1,6 +1,7 @@
 {
   "vimrc": {"type": "vimrc"},
   "gvimrc": {"type": "gvimrc"},
+  "after/*.vim": {"type": "after"},
   "autoload/*.vim": {"type": "autoload"},
   "ftdetect/*.vim": {"type": "ftdetect"},
   "ftplugin/*.vim": {"type": "ftplugin"},
