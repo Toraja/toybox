@@ -6,11 +6,10 @@ let g:vim_markdown_folding_disabled = 1
 " --- || vim-markdown || }}}
 
 " {{{ || vim-surround || ---
-let g:surround_{char2nr('i')} = "_\r_"
+let g:surround_{char2nr('i')} = "*\r*"
 let g:surround_{char2nr('c')} = "`\r`"
 let g:surround_{char2nr('C')} = "```\n\r\n```"
-let g:surround_{char2nr('*')} = "**\r**"
-let g:surround_{char2nr('b')} = "**\r**"
+let g:surround_{char2nr('8')} = "**\r**"
 let g:surround_{char2nr('~')} = "~~\r~~"
 let g:surround_{char2nr('k')} = "~~\r~~"
 let g:surround_{char2nr('l')} = "[\r]()"
