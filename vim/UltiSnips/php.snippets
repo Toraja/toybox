@@ -1,3 +1,15 @@
 snippet re "return"
 return ${0}
 endsnippet
+
+snippet trans "DB::transaction()"
+DB::beginTransaction();
+try {
+	${0:${VISUAL}}
+
+	DB::commit();
+} catch (\Exception $e) {
+	DB::rollBack();
+	throw $e;
+}
+endsnippet
