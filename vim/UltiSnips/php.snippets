@@ -2,7 +2,7 @@ snippet re "return"
 return ${0}
 endsnippet
 
-snippet trans "DB::transaction()"
+snippet tran "DB::transaction()"
 DB::beginTransaction();
 try {
 	${0:${VISUAL}}
@@ -38,7 +38,7 @@ $testData = [
 
 foreach ($testData as $td) {
 	$caseName = $this->getCaseName($td->desc);
-	$response = $this->asMember()->${1:postJson}(route('${2:xxx}.${3:create}'), $td->param);
+	$response = $this->asMember()->${1:post}Json(route('${2:xxx}.${3:store}'), $td->param);
 	$this->logger->logResponse($response, $caseName);
 }
 endsnippet
