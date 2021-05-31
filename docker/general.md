@@ -1,7 +1,7 @@
 # Docker in general
 
 ## Troubleshoot
-- `docker login` fails
+- `docker login` fails  
   Install `gnupg2` and `pass` package
 
 ## Best practice
@@ -10,10 +10,10 @@
 
 ## Useful commands
 **Find images matching name**  
-Specify the as reference. Wildcard can be used but it does not match '/'.  
+Specify the image name as reference. Wildcard can be used but it does not match '/'.  
 i.e. To match `toraja/alps`, it must be `toraja/*` or `*/alps`.  
 ```
-docker images -a -f reference=''
+docker images -a -f reference='<image name>'
 ```
 
 **Find modifed files/directory since the container is created**
