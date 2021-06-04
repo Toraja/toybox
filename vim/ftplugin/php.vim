@@ -20,8 +20,15 @@ let g:PhpactorRootDirectoryStrategy = function('projectroot#guess')
 " --- || phpactor || }}}
 
 " {{{ || neomake || ---
-let g:neomake_php_phpcs_args_standard = 'PSR2'
+" refernce: https://github.com/Phantas0s/.dotfiles/blob/master/nvim/pluggedconf/neomake.nvimrc
+" let g:neomake_php_phpcs_args_standard = 'PSR2'
+let g:neomake_php_phpcs_args_standard = 'phpcs-laravel' " emielmolenaar/phpcs-laravel
 let g:neomake_php_phpstan_args = ['analyse', '--error-format', 'raw', '--no-progress']
+let s:phpmd_excludes = 'tests/Feature/,tests/Unit/,database/migrations/'
+let g:neomake_php_phpmd_maker = {
+            \ 'args': ['%:p', 'text', 'codesize,design,unusedcode,naming', '--exclude', s:phpmd_excludes],
+            \ 'errorformat': '%W%f:%l%\s%\s%#%m',
+            \ }
 " --- || neomake || }}}
 
 inoremap <buffer> <silent> <M-;> <Cmd>call edit#semicolon#Append()<CR>
