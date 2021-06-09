@@ -1274,6 +1274,27 @@ let g:echodoc#enable_at_startup = 1
 let g:abolish_no_mappings = 1
 " --- || vim-abolish || }}}
 
+" {{{ || vim-laravel || ---
+if exists('g:plugs["vim-laravel"]')
+	augroup init_laravel
+	autocmd!
+	autocmd User ProjectionistDetect
+			\ if exists('b:laravel_root') |
+			\   call projectionist#append(b:laravel_root, {
+			\     'storage/logs/*.log': { 'type': 'log' },
+			\     'storage/logs/laravel.log': { 'type': 'log' },
+			\     'app/Http/Controllers/*.php': { 
+			\         'alternate': 'tests/Unit/Controllers/{}Test.php',
+			\     },
+			\     'app/Models/*.php': { 
+			\         'alternate': 'tests/Unit/Models/{}Test.php',
+			\     }
+			\   }) |
+			\ endif
+	augroup END
+endif
+" --- || deoplete || }}}
+
 " --- || plugin mapping and option || }}}
 
 " {{{ || abbreviation || ---
