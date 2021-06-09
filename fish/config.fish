@@ -100,7 +100,8 @@ if status --is-interactive
     abbr --add --global dosvl docker service logs
     abbr --add --global dc docker-compose
     abbr --add --global dcx docker-compose exec
-    abbr --add --global dcd docker-compose down -v
+    abbr --add --global dcb docker-compose build
+    abbr --add --global dcd docker-compose down
     abbr --add --global dcu docker-compose up -d
     abbr --add --global dcub docker-compose up -d --build
     abbr --add --global dcl docker-compose logs --follow
