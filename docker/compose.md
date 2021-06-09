@@ -25,11 +25,13 @@ variable IS set but EMPTY. With colon, the value of variable does not matter as
 long as the variable is defined.
 
 ### Environment variables
-**Terminology**
+#### Terminology
+These are terminologies that are used in this section.
 - `.env` variables: variables defined in `.env` file
 - `compose` variables: variables listed under `environment` key
 - `env_file` variables: variables defined in a file listed under `env_file` key
 
+#### Characteristics of each environment variables
 - `.env` variables will be accessible from within compose file.
 - `.env` variables are for docker and not accessible from containers unless they
   are `compose` or `env_file` variables.
@@ -45,7 +47,8 @@ long as the variable is defined.
   Note that `ENTRYPOINT` and `CMD` are runtime so `.env` variables are
   accessible from the command.
 
-<span id=env_example>**Eg. Use environment variables inside Dockerfile**</span>
+<span id="env_example"></span>
+#### Example use of environment variables inside Dockerfile
 
 Scneario: Build process requires `ENV_TYPE` environment variables to be defined.  
 (The example below assumes `ENV_TYPE` is already defined on the host or inside
