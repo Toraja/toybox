@@ -744,7 +744,6 @@ endif
 " {{{ || Suspend/Close/Exit || ---
 nnoremap ZB :bdelete!<CR>
 nnoremap ZT :windo quit!<CR>
-nnoremap <C-w><C-e> :confirm tabonly<CR>:bufdo confirm bdelete<CR>
 nnoremap <C-w><C-a> :windo confirm quit<CR>
 nnoremap <C-w>A :confirm qall<CR>
 " --- || Suspend/Close/Exit || }}}
