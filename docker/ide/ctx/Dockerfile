@@ -1,5 +1,6 @@
 FROM ubuntu:latest
 
+# --- alpine ---
 # Using alpine, it fails to install pip module `pynvim` ...
 # FROM alpine:latest
 
@@ -11,24 +12,34 @@ FROM ubuntu:latest
 #     docker py-pip python3-dev libffi-dev openssl-dev gcc libc-dev rust cargo make \
 #     neovim neovim-doc git tmux ncurses keychain fzf
 
+# NOTE installing docker-compose using pip takes too long time
+# ARG COMPOSE_VERSION
+# RUN curl -L "https://github.com/docker/compose/releases/download/"${COMPOSE_VERSION}"/docker-compose-$(uname -s)-$(uname -m)" \
+#     -o /usr/local/bin/docker-compose \
+#     && chmod +x /usr/local/bin/docker-compose
+# --------------
+
 # `unminimize` is required to use `man`
 RUN yes | unminimize
 # Official Debian and Ubuntu images automatically run apt-get clean, so explicit invocation is not required.
+# Set up to install docker
 RUN apt-get update && apt-get install --no-install-recommends --yes \
-    sudo curl less man locales \
-    openssh-client fish docker python3-pip \
+    apt-transport-https ca-certificates curl gnupg lsb-release \
+    && curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg \
+    && echo \
+        "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu \
+        $(lsb_release -cs) stable" | tee /etc/apt/sources.list.d/docker.list > /dev/null
+# Install docker and other packages
+RUN apt-get update && apt-get install --no-install-recommends --yes \
+    sudo less man locales openssh-client fish \
+    docker-ce docker-ce-cli containerd.io python3-pip \
     neovim git tmux keychain fzf \
     && rm -rf /var/lib/apt/lists/*
 
 # Without this, `man` complains that $LC_* is not set
 RUN locale-gen en_US.UTF-8
 
-# NOTE installing docker-compose using pip takes too long time
-# RUN pip install docker-compose
-ARG COMPOSE_VERSION
-RUN curl -L "https://github.com/docker/compose/releases/download/"${COMPOSE_VERSION}"/docker-compose-$(uname -s)-$(uname -m)" \
-    -o /usr/local/bin/docker-compose \
-    && chmod +x /usr/local/bin/docker-compose
+RUN pip install docker-compose
 
 ARG USER
 RUN useradd --create-home --shell /usr/bin/fish ${USER} \
