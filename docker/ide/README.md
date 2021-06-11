@@ -4,12 +4,14 @@
 ### Docker related
 - Install `docker`
 - Install `pip` and `docker-compose`
-- Add `~/.local/bin` to  `$PATH` in `.bashrc`.  
-  That is where `pip` installs `docker-compose`.
+- Add below `.bashrc`.  
   ```sh
+  # docker-compose is installed here
   if [[ ! ${PATH} =~ "${HOME}/.local/bin" ]]; then
     export PATH=${PATH}:${HOME}/.local/bin
   fi
+  # disable Ctrl-s and Ctrl-q keybind
+  stty -ixon
   ```
 - Add user to docker group  
   `sudo usermod -aG docker <user>`
