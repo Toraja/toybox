@@ -31,6 +31,7 @@ if filereadable(s:vim_plug_file)
 	Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 	Plug 'junegunn/fzf.vim'
 	Plug 'tpope/vim-projectionist'
+	Plug 'c-brenn/fuzzy-projectionist.vim'
 	" moving around
 	Plug 'easymotion/vim-easymotion'
 	Plug 'michaeljsmith/vim-indent-object'
@@ -63,6 +64,7 @@ if filereadable(s:vim_plug_file)
 	Plug 'tpope/vim-abolish'
 	Plug 'tmux-plugins/vim-tmux-focus-events'
 	Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }} " hook cannot be called (function not found) if language specific
+	Plug 'tyru/open-browser.vim'
 
 	" Language specific
 	Plug 'dag/vim-fish', { 'for': 'fish' }
@@ -81,6 +83,7 @@ if filereadable(s:vim_plug_file)
 	Plug 'noahfrederick/vim-laravel' " not only for php as not all project files are php
 	Plug 'mzlogin/vim-markdown-toc', { 'for': 'markdown' }
 	Plug 'dhruvasagar/vim-table-mode', { 'for': 'markdown' }
+	Plug 'weirongxu/plantuml-previewer.vim', { 'for': 'plantuml' }
 	call plug#end()
 else
 	" these are called by plug#end()
