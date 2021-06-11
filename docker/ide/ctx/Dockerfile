@@ -1,12 +1,27 @@
-FROM alpine:latest
+FROM ubuntu:latest
+
+# Using alpine, it fails to install pip module `pynvim` ...
+# FROM alpine:latest
 
 # `--update-cache` option is equivalent of running `apk update` beforehand
-# The line starting with `docker...` is required by docker-compose
-RUN apk add --update-cache --no-cache \
-    shadow curl less mandoc man-pages \
-    openssh-client bash fish \
-    docker py-pip python3-dev libffi-dev openssl-dev gcc libc-dev rust cargo make \
-    neovim git tmux ncurses firefox keychain
+# packages after `docker` is required by docker-compose
+# RUN apk add --update-cache --no-cache \
+#     sudo shadow curl less mandoc man-pages \
+#     openssh-client bash fish \
+#     docker py-pip python3-dev libffi-dev openssl-dev gcc libc-dev rust cargo make \
+#     neovim neovim-doc git tmux ncurses keychain fzf
+
+# `unminimize` is required to use `man`
+RUN yes | unminimize
+# Official Debian and Ubuntu images automatically run apt-get clean, so explicit invocation is not required.
+RUN apt-get update && apt-get install --no-install-recommends --yes \
+    sudo curl less man locales \
+    openssh-client fish docker python3-pip \
+    neovim git tmux keychain fzf \
+    && rm -rf /var/lib/apt/lists/*
+
+# Without this, `man` complains that $LC_* is not set
+RUN locale-gen en_US.UTF-8
 
 # NOTE installing docker-compose using pip takes too long time
 # RUN pip install docker-compose
@@ -16,7 +31,8 @@ RUN curl -L "https://github.com/docker/compose/releases/download/"${COMPOSE_VERS
     && chmod +x /usr/local/bin/docker-compose
 
 ARG USER
-RUN useradd --create-home --shell /usr/bin/fish ${USER}
+RUN useradd --create-home --shell /usr/bin/fish ${USER} \
+    && echo "%"${USER}" ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/${USER}
 USER ${USER}
 
 WORKDIR /home/${USER}
@@ -31,25 +47,33 @@ RUN git clone https://github.com/Toraja/toybox.git \
     && git -C toybox remote set-url origin git@github.com:Toraja/toybox.git
 
 # fish
-ARG GIT_HUB_SSH_KEY
+RUN fish -c 'curl -sL https://git.io/fisher | source && fisher install \
+    jorgebucaran/fisher \
+    decors/fish-colored-man \
+    gazorby/fish-abbreviation-tips \
+    laughedelic/fish_logo \
+    laughedelic/pisces \
+    markcial/upto \
+    oh-my-fish/plugin-pj'
 COPY --chown=${USER}:${USER} ./config.fish .config/fish/
-RUN echo "eval (keychain --quiet --agents ssh --eval ${GIT_HUB_SSH_KEY})" >> .config/fish/config.fish
-
-# vim
-# TODO alias vim to nvim
-# RUN mkdir -p .config/nvim .vim/swap .vim/bundle \
-#     && ln -s ~/toybox/nvim/init.vim ~/.config/nvim/ \
-#     && ln -s ~/toybox/nvim/ginit.vim ~/.config/nvim/ \
-#     && ln -s ~/toybox/vim/after ~/.vim/after \
-#     && ln -s ~/toybox/vim/autoload ~/.vim/autoload \
-#     && ln -s ~/toybox/vim/ftdetect ~/.vim/ftdetect \
-#     && ln -s ~/toybox/vim/ftplugin ~/.vim/ftplugin \
-#     && ln -s ~/toybox/vim/UltiSnips ~/.vim/UltiSnips \
-#     && git clone https://github.com/junegunn/vim-plug.git .vim/bundle/vim-plug
+RUN ln -s ~/toybox/fish/functions ~/.config/fish/myfuncs
 
 # tmux
-# TODO
-# RUN ln -s ~/toybox/tmux/.tmux.conf ~/.tmux.conf \
-#     && .tmux/plugins/tpm/bin/install_plugins
+RUN git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm \
+    && ln -s ~/toybox/tmux/.tmux.conf ~/.tmux.conf \
+    && ~/.tmux/plugins/tpm/bin/install_plugins
+
+# vim
+# required by deoplote.nvim
+RUN python3 -m pip install --user --upgrade pynvim
+RUN mkdir -p .config/nvim .vim/swap .vim/bundle \
+    && ln -s ~/toybox/nvim/init.vim ~/.config/nvim/ \
+    && ln -s ~/toybox/nvim/ginit.vim ~/.config/nvim/ \
+    && ln -s ~/toybox/vim/after ~/.vim/after \
+    && ln -s ~/toybox/vim/autoload ~/.vim/autoload \
+    && ln -s ~/toybox/vim/ftdetect ~/.vim/ftdetect \
+    && ln -s ~/toybox/vim/ftplugin ~/.vim/ftplugin \
+    && ln -s ~/toybox/vim/UltiSnips ~/.vim/UltiSnips \
+    && git clone https://github.com/junegunn/vim-plug.git .vim/bundle/vim-plug
 
 CMD ["tail", "-f", "/dev/null"]
