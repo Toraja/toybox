@@ -23,8 +23,14 @@ set fish_prompt_pwd_dir_length 5 # setting to 0 disable shortening path in promp
 set --export EDITOR vim
 set --export VISUAL vim
 set --export GOPATH $HOME/go
-# this is set in tmux-sensible but it has not effect on the first window
-test $TERM = 'screen'; and set --export TERM 'screen-256color'
+switch $TERM
+    case 'xterm'
+        # This is required to enable 256 color inside tmux on docker container
+        set --export TERM 'xterm-256color'
+    case 'screen'
+        # this is set in tmux-sensible but it has not effect on the first window
+        set --export TERM 'screen-256color'
+end
 functions --query set_display; and set_display # set DISPLAY
 
 # PATH
