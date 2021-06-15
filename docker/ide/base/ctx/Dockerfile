@@ -51,8 +51,8 @@ COPY --chown=${USER}:${USER} ./config.fish .config/fish/
 RUN ln -s ~/toybox/fish/functions ~/.config/fish/myfuncs
 
 # tmux
+COPY --chown=${USER}:${USER} ./tmux.conf .tmux.conf
 RUN git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm \
-    && ln -s ~/toybox/tmux/.tmux.conf ~/.tmux.conf \
     && ~/.tmux/plugins/tpm/bin/install_plugins
 
 # vim
