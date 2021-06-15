@@ -12,4 +12,14 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 ARG USER
 USER ${USER}
 
+RUN composer global require --dev \
+    emielmolenaar/phpcs-laravel \
+    friendsofphp/php-cs-fixer \
+    nunomaduro/larastan \
+    phpstan/phpstan \
+    phpmd/phpmd \
+    squizlabs/php_codesniffer
+# phpactor is installed via vim's plugin manager since phpactor is likely to cause
+# conflicts with other packages.
+
 CMD ["tail", "-f", "/dev/null"]
