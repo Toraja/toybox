@@ -46,9 +46,9 @@ RUN fish -c 'curl -sL https://git.io/fisher | source && fisher install \
     laughedelic/fish_logo \
     laughedelic/pisces \
     markcial/upto \
-    oh-my-fish/plugin-pj'
+    oh-my-fish/plugin-pj' \
+    && ln -s ~/toybox/fish/functions ~/.config/fish/myfuncs
 COPY --chown=${USER}:${USER} ./config.fish .config/fish/
-RUN ln -s ~/toybox/fish/functions ~/.config/fish/myfuncs
 
 # tmux
 COPY --chown=${USER}:${USER} ./tmux.conf .tmux.conf
@@ -56,9 +56,9 @@ RUN git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm \
     && ~/.tmux/plugins/tpm/bin/install_plugins
 
 # vim
-# required by deoplote.nvim
-RUN python3 -m pip install --user --upgrade pynvim
-RUN mkdir -p .config/nvim .vim/swap .vim/bundle \
+# pynvim required by deoplote.nvim
+RUN python3 -m pip install --user --upgrade pynvim \
+    && mkdir -p .config/nvim .vim/swap .vim/bundle \
     && ln -s ~/toybox/nvim/init.vim ~/.config/nvim/ \
     && ln -s ~/toybox/nvim/ginit.vim ~/.config/nvim/ \
     && ln -s ~/toybox/vim/after ~/.vim/after \
