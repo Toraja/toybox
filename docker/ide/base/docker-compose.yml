@@ -1,6 +1,6 @@
 version: '3.9'
 services:
-  base:
+  ide:
     environment:
       - GIT_HUB_SSH_KEY
     build:
