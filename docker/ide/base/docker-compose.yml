@@ -3,6 +3,7 @@ services:
   ide:
     environment:
       - GIT_HUB_SSH_KEY
+      - DISPLAY # setting the same value as WSL works in container as well
     build:
       context: ctx
       args:

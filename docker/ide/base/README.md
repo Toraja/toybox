@@ -29,4 +29,4 @@
 
 ### Misc
 - Create symlink to windows home `/mnt/c/User/<user>`
-- Set up X window
+- Install X server and set `DISPLAY` environment variable
