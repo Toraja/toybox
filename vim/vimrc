@@ -1230,7 +1230,9 @@ endif
 
 " {{{ || neomake || ---
 if exists('g:plugs["neomake"]')
-	call neomake#configure#automake('w')
+	if exists('neomake#configure#automake')
+		call neomake#configure#automake('w')
+	endif
 	let g:neomake_open_list = 2
 endif
 " --- || neomake || }}}
