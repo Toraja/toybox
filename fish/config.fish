@@ -39,10 +39,9 @@ add_path --prepend ~/.local/bin
 ## Java
 add_path --prepend /usr/local/java/bin
 ## PHP
-add_path --prepend ~/.composer/vendor/bin # version 1
-add_path --prepend ~/.config/composer/vendor/bin # version 2
+add_path --prepend ~/.composer/vendor/bin ~/.config/composer/vendor/bin # version 1 / 2
 ## GO
-add_path --prepend /usr/local/go/bin $GOPATH/bin
+add_path --prepend /usr/local/go/bin
 
 # alias
 alias rm='rm -i'
