@@ -1153,7 +1153,7 @@ if exists('g:plugs["LanguageClient-neovim"]')
 	let g:LanguageClient_changeThrottle = 0.5
 	let g:LanguageClient_diagnosticsList = "Location"
 	let g:LanguageClient_serverCommands = {
-				\ 'go': ['gopls'],
+				\ 'go': [$GOPATH . '/bin/gopls'],
 				\ 'java': [$HOME.'/toybox/vim/helper/java-lsp.sh'],
 				\ 'php': [s:plugin_dir . '/phpactor/bin/phpactor', 'language-server'],
 				\ 'python': [$HOME.'/.local/bin/pyls']
