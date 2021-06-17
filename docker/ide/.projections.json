@@ -1,0 +1,5 @@
+{
+  "base/*": {"type": "ideBase"},
+  "go/*": {"type": "ideGo"},
+  "php/*": {"type": "idePhp"}
+}
