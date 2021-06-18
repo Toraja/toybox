@@ -1230,9 +1230,11 @@ endif
 
 " {{{ || neomake || ---
 if exists('g:plugs["neomake"]')
-	if exists('neomake#configure#automake')
+	try
 		call neomake#configure#automake('w')
-	endif
+	catch /^Vim\%((\a\+)\)\=:E117/
+		" The function does not exist. Ignore it.
+	endtry
 	let g:neomake_open_list = 2
 endif
 " --- || neomake || }}}
