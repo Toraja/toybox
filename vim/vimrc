@@ -1154,7 +1154,7 @@ if exists('g:plugs["LanguageClient-neovim"]')
 	let g:LanguageClient_diagnosticsList = "Location"
 	let g:LanguageClient_serverCommands = {
 				\ 'go': [$GOPATH . '/bin/gopls'],
-				\ 'java': [$HOME.'/toybox/vim/helper/java-lsp.sh'],
+				\ 'java': [$HOME.'/toybox/vim/helper/java-lsp.sh', '-data', getcwd()],
 				\ 'php': [s:plugin_dir . '/phpactor/bin/phpactor', 'language-server'],
 				\ 'python': [$HOME.'/.local/bin/pyls']
 				\ }
