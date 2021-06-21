@@ -6,9 +6,14 @@
 ## Procedure
 1. Install VcXsrv on windows
 1. Run VcXsrv (installed as XLaunch)
+  - VcXsrv will listen on port 6000 by default
+  - Allow public network on firewall setting  
+    Tried [this config](https://skeptric.com/wsl2-xserver/) which does not
+    require public network but could not make it work...
   - Check `Disable access control` on Extra setting page  
     or authentication will be required
-  - VcXsrv will listen on port 6000 by default
+  - Save config and put the config in start up folder.  
+    To open start up folder, press `Win + R` and enter `shell:startup`.
 1. Get ip address of windows machine
   - WSL 1: `localhost`
   - WSL 2: `nameserver` in `/etc/resolv.conf` or IP address under `Ethernet adapter vEthernet (WSL)` of `ipconfig`
