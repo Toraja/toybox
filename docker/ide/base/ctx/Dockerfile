@@ -63,4 +63,14 @@ RUN python3 -m pip install --user --upgrade pynvim \
     && ln -s ~/toybox/vim/UltiSnips ~/.vim/UltiSnips \
     && git clone https://github.com/junegunn/vim-plug.git .vim/bundle/vim-plug
 
+# Setup symlink to host home directory to reduce bind mount
+# This also enables replacing those links with actual files when symlink is inappriate
+# Here cloned toybox directory is moved so that it can be used in case host's toybox is unavailable
+RUN mkdir ~/build \
+    && mv ~/toybox ~/build/ \
+    && ln -s ~/hosthome/workspace ~/workspace \
+    && ln -s ~/hosthome/.ssh ~/.ssh \
+    && ln -s ~/hosthome/.docker ~/.docker \
+    && ln -s ~/hosthome/toybox ~/toybox
+
 CMD ["tail", "-f", "/dev/null"]
