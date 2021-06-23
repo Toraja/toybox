@@ -9,8 +9,6 @@ services:
       args:
         - USER=mojito
         # - COMPOSE_VERSION=${COMPOSE_VERSION:?set value in .env file} # required if downloading docker-compose via curl
-        - GIT_USER_NAME=${GIT_USER_NAME:?set value in .env file}
-        - GIT_USER_EMAIL=${GIT_USER_EMAIL:?set value in .env file}
     volumes:
       # Be aware if the volume which was previously created exists.
       # It covers up files copied or created during build. In such case,

@@ -30,13 +30,8 @@ USER ${USER}
 WORKDIR /home/${USER}
 
 # git
-ARG GIT_USER_NAME
-ARG GIT_USER_EMAIL
 COPY ./gitconfig .gitconfig
-RUN git clone https://github.com/Toraja/toybox.git \
-    && git -C toybox config user.name ${GIT_USER_NAME} \
-    && git -C toybox config user.email ${GIT_USER_EMAIL} \
-    && git -C toybox remote set-url origin git@github.com:Toraja/toybox.git
+RUN git clone https://github.com/Toraja/toybox.git
 
 # fish
 RUN fish -c 'curl -sL https://git.io/fisher | source && fisher install \
