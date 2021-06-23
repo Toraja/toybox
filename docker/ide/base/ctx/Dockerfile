@@ -30,7 +30,7 @@ USER ${USER}
 WORKDIR /home/${USER}
 
 # git
-COPY ./gitconfig .gitconfig
+COPY --chown=${USER}:${USER} ./gitconfig .gitconfig
 RUN git clone https://github.com/Toraja/toybox.git
 
 # fish
