@@ -12,6 +12,14 @@
   fi
   # disable Ctrl-s and Ctrl-q keybind
   stty -ixon
+  # set DISPLAY automatically
+  if grep -q -i microsoft /proc/version; then
+      # WSL
+      ip=$(grep nameserver /etc/resolv.conf | awk '{print $2}')
+      export DISPLAY="$ip:0.0"
+  fi
+  # Required to use wgl (WSL GUI component)
+  export LIBGL_ALWAYS_INDIRECT=1
   ```
 - Add user to docker group  
   `sudo usermod -aG docker <user>`
