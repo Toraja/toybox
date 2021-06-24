@@ -41,7 +41,7 @@ add_path --prepend /usr/local/java/bin
 ## PHP
 add_path --prepend ~/.composer/vendor/bin ~/.config/composer/vendor/bin # version 1 / 2
 ## GO
-add_path --prepend /usr/local/go/bin
+add_path --prepend /usr/local/go/bin $GOPATH/bin # some tools in GOPATH needs to be run
 
 # alias
 alias rm='rm -i'
