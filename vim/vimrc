@@ -83,6 +83,7 @@ if filereadable(s:vim_plug_file)
 	if executable('composer')
 		Plug 'phpactor/phpactor', {'for': 'php', 'branch': 'master', 'do': 'composer install --no-dev -o'}
 	endif
+	Plug 'vim-php/tagbar-phpctags.vim', {'for': 'php'}
 	" Plug 'stephpy/vim-php-cs-fixer', { 'for': 'php' }
 	Plug 'aeke/vim-php-cs-fixer', { 'for': 'php' } " Use this fork as the original has a bug
 	Plug 'noahfrederick/vim-laravel' " not only for php as not all project files are php
