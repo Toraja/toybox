@@ -11,10 +11,11 @@ RUN apt-get update && apt-get install --no-install-recommends --yes \
     && echo "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | tee /etc/apt/sources.list.d/docker.list > /dev/null \
     && apt-add-repository ppa:fish-shell/release-3
 # Install docker and other packages
+# ctags required by Tagbar vim plugin
 RUN apt-get update && apt-get install --no-install-recommends --yes \
     sudo less man locales openssh-client fish \
     docker-ce docker-ce-cli containerd.io python3-pip \
-    neovim git tmux keychain fzf xclip \
+    neovim git tmux keychain fzf xclip ctags \
     && rm -rf /var/lib/apt/lists/*
 
 # Without this, `man` complains that $LC_* is not set
