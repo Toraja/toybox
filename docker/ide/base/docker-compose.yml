@@ -30,5 +30,6 @@ services:
       - type: bind
         source: ${HOST_HOME:?}
         target: /home/mojito/hosthome
+    network_mode: "host"
 volumes:
   home:
