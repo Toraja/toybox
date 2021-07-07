@@ -534,6 +534,9 @@ vnoremap <silent> <C-x> <C-x>gv
 nnoremap <silent> g<C-a> :call search("[0-9]", 'be', line('.'))<CR><C-a>
 nnoremap <silent> g<C-x> :call search("[0-9]", 'be', line('.'))<CR><C-x>
 nnoremap d. /\s\+$<CR>"_dgn|	" delete trailing spaces
+inoremap <silent> <M-,> <Cmd>call edit#base#Append(',')<CR>
+nnoremap <silent> <M-,> <Cmd>call edit#base#Append(',')<CR>
+vnoremap <silent> <M-,> :call edit#base#Append(',')<CR>
 " [move line]
 " nnoremap <silent> <expr> <M-j> ":\<C-u>silent! move .+".v:count1."\<CR>=="
 " nnoremap <silent> <expr> <M-k> ":\<C-u>silent! move .-".(v:count1+1)."\<CR>=="
