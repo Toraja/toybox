@@ -2,9 +2,9 @@ setlocal expandtab
 setlocal matchpairs+==:;
 
 " {{{ || keymap || ---
-inoremap <buffer> <silent> <M-;> <Cmd>call edit#semicolon#Append()<CR>
-nnoremap <buffer> <silent> <M-;> <Cmd>call edit#semicolon#Append()<CR>
-vnoremap <buffer> <silent> <M-;> :call edit#semicolon#Append()<CR>
+inoremap <buffer> <silent> <M-;> <Cmd>call edit#base#Append(';')<CR>
+nnoremap <buffer> <silent> <M-;> <Cmd>call edit#base#Append(';')<CR>
+vnoremap <buffer> <silent> <M-;> :call edit#base#Append(';')<CR>
 " --- || keymap || }}}
 
 " compile and run
