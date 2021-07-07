@@ -1,5 +1,6 @@
 setlocal expandtab
 setlocal shiftwidth=2
 
-nnoremap <buffer> <M-;> m'A;<Esc>`'
-inoremap <buffer> <M-;> <End>;
+inoremap <buffer> <silent> <M-;> <Cmd>call edit#base#Append(';')<CR>
+nnoremap <buffer> <silent> <M-;> <Cmd>call edit#base#Append(';')<CR>
+vnoremap <buffer> <silent> <M-;> :call edit#base#Append(';')<CR>
