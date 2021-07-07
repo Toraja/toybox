@@ -68,10 +68,6 @@ if filereadable(s:vim_plug_file)
 
 	" Language specific
 	Plug 'dag/vim-fish', { 'for': 'fish' }
-	if executable('npm')
-		Plug 'ternjs/tern_for_vim', { 'for': 'javascript', 'do': 'npm install' }
-		Plug 'carlitux/deoplete-ternjs', { 'for': 'javascript', 'do': 'npm install -g tern' }
-	endif
 	Plug 'othree/jspc.vim', { 'for': 'javascript' }
 	Plug 'jelera/vim-javascript-syntax', { 'for': 'javascript' }
 	Plug 'myhere/vim-nodejs-complete', { 'for': 'javascript' }
