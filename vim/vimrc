@@ -1012,21 +1012,6 @@ if exists('g:plugs["auto-pairs"]')
 endif
 " --- || auto-pairs || }}}
 
-" {{{ || syntastic || ---
-if exists('g:plugs["syntastic"]')
-	" Do not complete automatically
-	let g:syntastic_mode_map = {
-				\ "mode": "passive",
-				\ "active_filetypes": [],
-				\ "passive_filetypes": [] }
-	let g:syntastic_always_populate_loc_list = 1
-	let g:syntastic_aggregating_errors = 1
-	let g:syntastic_auto_loc_list = 1
-	let g:syntastic_check_on_open = 0
-	let g:syntastic_check_on_wq = 0
-endif
-" --- || end of syntastic || }}}
-
 " {{{ || easy-motion || ---
 if exists('g:plugs["vim-easymotion"]')
 	" this option unmap all easymotion-prefix including user defined ones
