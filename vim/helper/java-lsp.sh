@@ -2,8 +2,8 @@
 
 # Reference: https://github.com/autozimu/LanguageClient-neovim/wiki/Java
 
-# TODO set value to repo's root directory
-server={{ your server installation location }}
+# Set repo's parent directory
+server=$HOME
 
 java \
     -Declipse.application=org.eclipse.jdt.ls.core.id1 \
