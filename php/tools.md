@@ -29,7 +29,28 @@ Run the command below to initialise.
 **PHP-CS-Fixer**  
 Formatting tool  
 Nice helper to write config file:
-https://mlocati.github.io/php-cs-fixer-configurator/
+https://mlocati.github.io/php-cs-fixer-configurator/  
+
+My config:
+```php
+<?php
+return PhpCsFixer\Config::create()
+    ->setRules([
+        '@PSR2' => true,
+        'binary_operator_spaces' => [
+            'default' => 'single_space',
+            'operators' => [
+                '=>' => 'align_single_space',
+            ]
+        ],
+    ])
+;
+```
+
+
+**phan**
+Modern code analyser.  
+https://php.libhunt.com/phan-alternatives
 
 # Vim Plugins
 ## PHP in general

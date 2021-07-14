@@ -31,7 +31,8 @@ REPO: https://github.com/phpactor/phpactor
 ```sh
 composer global require phpactor/phpactor
 ```
-or use `vim-plug` for vim
+For vim, install is as vim plugin because as the document states, it might
+confilics with other libraries.
 
 ### Start Server
 ```sh
