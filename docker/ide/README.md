@@ -18,3 +18,9 @@
 ### WSL
 - Create symlink to windows home `/mnt/c/User/<user>`
 - Install X server and set `DISPLAY` environment variable
+
+## Start IDE container
+Containers are separated by language.  
+Each language requires `base` IDE image be built. Run `make base` to build the
+docker image.
+Run `make <language>` to start and get inside the container.
