@@ -1,28 +1,6 @@
 # IDE Container
 
 ## Things to do on Host machine
-### Docker related
-- Install `docker`
-- Install `pip` and `docker-compose`
-- Add below `.bashrc`.  
-  ```sh
-  # docker-compose is installed here
-  if [[ ! ${PATH} =~ "${HOME}/.local/bin" ]]; then
-    export PATH=${PATH}:${HOME}/.local/bin
-  fi
-  # disable Ctrl-s and Ctrl-q keybind
-  stty -ixon
-  # set DISPLAY automatically
-  if grep -q -i microsoft /proc/version; then
-      # WSL
-      ip=$(grep nameserver /etc/resolv.conf | awk '{print $2}')
-      export DISPLAY="$ip:0.0"
-  fi
-  # Required to use wgl (WSL GUI component)
-  export LIBGL_ALWAYS_INDIRECT=1
-  ```
-- Add user to docker group  
-  `sudo usermod -aG docker <user>`
 - Generate ssh key and put on Github
   `ssh-keygen -t rsa -b 4096 -C '<description>' -f '/home/<user>/.ssh/<key_file_name>'`
 - Create ssh config
@@ -31,10 +9,12 @@
       User <github user>
       IdentityFile <path to key file>
   ```
-- Run `mkdir ~/workspace`
-- Change docker's detach key (refer to `general.md`)
+- Clone toybox
+	`git clone https://github.com/Toraja/toybox.git ~/toybox`
+	`ln -s ~/toybox/docker/ide/ ~/ide`
+- Install `make` and run `make` in `../host-setup/`
 - Run `cp .env.example .env` and set appropriate values.
 
-### Misc
+### WSL
 - Create symlink to windows home `/mnt/c/User/<user>`
 - Install X server and set `DISPLAY` environment variable

@@ -1,0 +1,17 @@
+# ----------------------------
+# Added by host setup makefile
+# ----------------------------
+# docker-compose is installed here
+if [[ ! ${PATH} =~ "${HOME}/.local/bin" ]]; then
+  export PATH=${PATH}:${HOME}/.local/bin
+fi
+# disable Ctrl-s and Ctrl-q keybind
+stty -ixon
+# set DISPLAY automatically
+if grep -q -i microsoft /proc/version; then
+    # WSL
+    ip=$(grep nameserver /etc/resolv.conf | awk '{print $2}')
+    export DISPLAY="$ip:0.0"
+fi
+# Required to use wgl (WSL GUI component)
+export LIBGL_ALWAYS_INDIRECT=1
