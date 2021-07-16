@@ -57,4 +57,8 @@ docker-compose-install:
 	apt-get update
 	apt-get install --no-install-recommends --yes python3-pip
 	pip install docker-compose
+
+.PHONY: misc
+misc:
 	mkdir ~/workspace
+	ln -s ~/toybox/docker/ide ~/ide
