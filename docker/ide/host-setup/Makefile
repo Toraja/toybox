@@ -22,19 +22,20 @@ bashrc:
 fish:
 	apt-get update
 	apt-get install --no-install-recommends --yes software-properties-common
-	apt-add-repository ppa:fish-shell/release-3
+	apt-add-repository --yes ppa:fish-shell/release-3
 	apt-get update
 	apt-get install --no-install-recommends --yes fish
-	chsh -s $(shell which fish)
+	chsh -s $$(which fish)
 
 .PHONY: docker
 docker: docker-clean docker-add-repository docker-install-engine docker-compose-install
-	usermod -aG docker $(shell whoami)
+	usermod -aG docker $$(whoami)
 	cp -r ./docker ~/.docker
 
 .PHONY: docker-clean
 docker-clean:
-	apt-get remove docker docker-engine docker.io containerd runc
+	@# docker-engine does not exist as package
+	apt-get remove docker docker.io containerd runc
 
 .PHONY: docker-add-repository
 docker-add-repository:
@@ -42,9 +43,9 @@ docker-add-repository:
 	apt-get install --no-install-recommends --yes apt-transport-https ca-certificates curl gnupg lsb-release
 	curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
 	@# check CPU architecure and exit if it does not match
-	@if [ $(shell uname -m) != 'x86_64' ]; then echo the CPU architecure is not supported; exit 1; fi
+	@if [ $$(uname -m) != 'x86_64' ]; then echo the CPU architecure is not supported; exit 1; fi
 	echo "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu \
-		$(lsb_release -cs) stable" | tee /etc/apt/sources.list.d/docker.list > /dev/null
+		$$(lsb_release -cs) stable" | tee /etc/apt/sources.list.d/docker.list > /dev/null
 
 .PHONY: docker-install-engine
 docker-install-engine: # prerequisites commented out for reusability -- docker-clean docker-add-repository
