@@ -1,25 +1,41 @@
+SHELL = /bin/bash
+
+define validate_arg
+	@if [[ -z "$(i)" ]]; then echo 'Specify IDE as in `i=<ide>`'; exit 1; fi
+endef
+
 .DEFAULT_GOAL := dummy
 
-define start_ide
-	docker-compose -f ./$(1)/docker-compose.yml up -d \
-		&& docker-compose -f ./$(1)/docker-compose.yml exec ide fish
-endef
-
-define build_image
-	docker-compose -f ./$(1)/docker-compose.yml build
-endef
-
+.PHONY: dummy
 dummy:
 	@echo Select a target.
 
-base:
-	$(call build_image, base)
+.PHONY: build
+build:
+	$(call validate_arg)
+	docker-compose -f ./$(i)/docker-compose.yml build
 
-go:
-	$(call start_ide, go)
+.PHONY: up
+up:
+	$(call validate_arg)
+	docker-compose -f ./$(i)/docker-compose.yml up
 
-java:
-	$(call start_ide, java)
+.PHONY: start
+start:
+	$(call validate_arg)
+	docker-compose -f ./$(i)/docker-compose.yml up -d
 
-php:
-	$(call start_ide, php)
+.PHONY: enter
+enter: start
+	$(call validate_arg)
+	docker-compose -f ./$(i)/docker-compose.yml exec ide fish
+
+.PHONY: down
+down:
+	$(call validate_arg)
+	docker-compose -f ./$(i)/docker-compose.yml down
+
+.PHONY: destroy
+destroy:
+	$(call validate_arg)
+	docker-compose -f ./$(i)/docker-compose.yml down -v
