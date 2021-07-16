@@ -21,6 +21,6 @@
 
 ## Start IDE container
 Containers are separated by language.  
-Each language requires `base` IDE image be built. Run `make base` to build the
+Each language requires `base` IDE image be built. Run `make build i=base` to build the
 docker image.
-Run `make <language>` to start and get inside the container.
+Run `make enter <language>` to start and get inside the container.
