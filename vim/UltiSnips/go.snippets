@@ -54,7 +54,7 @@ endsnippet
 
 snippet fort "for each test case"
 for ${1:_}, c := range tc {
-	${2:result} := ${0}
+	${2:actual} := ${0}
 	if $2 != c.want {
 		t.Errorf("Case: %s, Got: %+v, Want: %+v\n", c.name, $2, c.want)
 	}
@@ -63,7 +63,7 @@ endsnippet
 
 snippet fortde "for each test case with DeepEqual"
 for ${1:_}, c := range tc {
-	${2:result} := ${0}
+	${2:actual} := ${0}
 	if !reflect.DeepEqual($2, c.want) {
 		t.Errorf("Case: %s, Got: %+v, Want: %+v\n", c.name, $2, c.want)
 	}
