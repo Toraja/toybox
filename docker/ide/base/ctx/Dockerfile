@@ -15,7 +15,7 @@ RUN apt-get update && apt-get install --no-install-recommends --yes \
 RUN apt-get update && apt-get install --no-install-recommends --yes \
     sudo less man locales openssh-client fish \
     docker-ce docker-ce-cli containerd.io python3-pip \
-    neovim git tmux keychain fzf xclip ctags \
+    neovim git tmux keychain fzf xclip ctags make \
     && rm -rf /var/lib/apt/lists/*
 
 # Without this, `man` complains that $LC_* is not set
