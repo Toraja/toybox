@@ -31,6 +31,9 @@ services:
       - type: bind
         source: ${HOST_HOME:?}
         target: /home/mojito/hosthome
+      - type: bind
+        source: ${HOST_HOME:?}/workspace
+        target: /home/mojito/workspace
     network_mode: "host"
 volumes:
   home:

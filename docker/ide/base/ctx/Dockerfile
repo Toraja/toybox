@@ -69,7 +69,6 @@ RUN python3 -m pip install --user --upgrade pynvim \
 # Here cloned toybox directory is moved so that it can be used in case host's toybox is unavailable
 RUN mkdir ~/build \
     && mv ~/toybox ~/build/ \
-    && ln -s ~/hosthome/workspace ~/workspace \
     && ln -s ~/hosthome/.ssh ~/.ssh \
     && ln -s ~/hosthome/.docker ~/.docker \
     && ln -s ~/hosthome/toybox ~/toybox
