@@ -11,7 +11,6 @@
   ```
 - Clone toybox
 	`git clone https://github.com/Toraja/toybox.git ~/toybox`
-	`ln -s ~/toybox/docker/ide/ ~/ide`
 - Install `make` and run `make` in `../host-setup/`
 - Run `cp .env.example .env` and set appropriate values.
 

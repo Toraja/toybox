@@ -16,4 +16,6 @@ RUN curl -fsSL -o go.tar.gz https://golang.org/dl/go${GO_VERSION}.linux-${GO_ARC
 ARG USER
 USER ${USER}
 
+RUN ln -s ~/hosthome/go ~/go
+
 CMD ["tail", "-f", "/dev/null"]

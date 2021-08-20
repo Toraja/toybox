@@ -54,7 +54,8 @@ RUN git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm \
 # vim
 # pynvim required by deoplote.nvim
 RUN python3 -m pip install --user --upgrade pynvim \
-    && mkdir -p .config/nvim .vim/swap .vim/bundle \
+    && mkdir -p .config/nvim .vim/swap \
+    && ln -s ~/hosthome/.vim/bundle ~/.vim/bundle \
     && ln -s ~/toybox/nvim/init.vim ~/.config/nvim/ \
     && ln -s ~/toybox/nvim/ginit.vim ~/.config/nvim/ \
     && ln -s ~/toybox/vim/after ~/.vim/after \

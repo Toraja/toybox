@@ -60,5 +60,6 @@ docker-compose-install:
 
 .PHONY: misc
 misc:
-	mkdir ~/workspace
+	@# use `-p` to avoid error in case any of these directory already exists
+	mkdir -p ~/workspace ~/.vim/bundle ~/go
 	ln -s ~/toybox/docker/ide ~/ide
