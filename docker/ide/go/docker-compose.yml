@@ -1,39 +1,7 @@
 version: '3.9'
 services:
   ide:
-    environment:
-      - GIT_HUB_SSH_KEY
-      - DISPLAY # setting the same value as WSL works in container as well
     build:
-      context: ctx
       args:
-        - USER=mojito
         - GO_VERSION
         - GO_ARCH
-    volumes:
-      # Be aware if the volume which was previously created exists.
-      # It covers up files copied or created during build. In such case,
-      # delete the volume and run `docker-compose up` again.
-      - type: volume
-        source: home
-        target: /home/mojito
-      # bind socket file so that the same docker can be used inside containers
-      - type: bind
-        source: /var/run/docker.sock
-        target: /var/run/docker.sock
-      # Binding below two timezone file sync timezone of containers to the host machine
-      - type: bind
-        source: /etc/timezone
-        target: /etc/timezone
-      - type: bind
-        source: /etc/localtime
-        target: /etc/localtime
-      - type: bind
-        source: ${HOST_HOME:?}
-        target: /home/mojito/hosthome
-      - type: bind
-        source: ${HOST_HOME:?}/workspace
-        target: /home/mojito/workspace
-    network_mode: "host"
-volumes:
-  home:
