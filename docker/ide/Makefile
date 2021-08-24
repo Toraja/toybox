@@ -38,6 +38,11 @@ enter: start
 	$(call validate_arg)
 	$(base_cmd) exec ide fish
 
+.PHONY: stop
+stop:
+	$(call validate_arg)
+	$(base_cmd) stop
+
 .PHONY: down
 down:
 	$(call validate_arg)
