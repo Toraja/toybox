@@ -13,42 +13,38 @@ endef
 dummy:
 	@echo Select a target.
 
-.PHONY: config
-config:
+.PHONY: validate_arg
+validate_arg:
 	$(call validate_arg)
+
+.PHONY: config
+config: validate_arg
 	$(base_cmd) config
 
 .PHONY: build
-build:
-	$(call validate_arg)
+build: validate_arg
 	$(base_cmd) build
 
 .PHONY: up
-up:
-	$(call validate_arg)
+up: validate_arg
 	$(base_cmd) up
 
 .PHONY: start
-start:
-	$(call validate_arg)
+start: validate_arg
 	$(base_cmd) up -d
 
 .PHONY: enter
 enter: start
-	$(call validate_arg)
 	$(base_cmd) exec ide fish
 
 .PHONY: stop
-stop:
-	$(call validate_arg)
+stop: validate_arg
 	$(base_cmd) stop
 
 .PHONY: down
-down:
-	$(call validate_arg)
+down: validate_arg
 	$(base_cmd) down
 
 .PHONY: destroy
-destroy:
-	$(call validate_arg)
+destroy: validate_arg
 	$(base_cmd) down -v
