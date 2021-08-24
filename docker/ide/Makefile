@@ -13,24 +13,28 @@ endef
 dummy:
 	@echo Select a target.
 
+.PHONY: docker_service
+docker_service:
+	@./start-docker-service.sh
+
 .PHONY: validate_arg
 validate_arg:
 	$(call validate_arg)
 
 .PHONY: config
-config: validate_arg
+config: validate_arg docker_service
 	$(base_cmd) config
 
 .PHONY: build
-build: validate_arg
+build: validate_arg docker_service
 	$(base_cmd) build
 
 .PHONY: up
-up: validate_arg
+up: validate_arg docker_service
 	$(base_cmd) up
 
 .PHONY: start
-start: validate_arg
+start: validate_arg docker_service
 	$(base_cmd) up -d
 
 .PHONY: enter
@@ -38,13 +42,13 @@ enter: start
 	$(base_cmd) exec ide fish
 
 .PHONY: stop
-stop: validate_arg
+stop: validate_arg docker_service
 	$(base_cmd) stop
 
 .PHONY: down
-down: validate_arg
+down: validate_arg docker_service
 	$(base_cmd) down
 
 .PHONY: destroy
-destroy: validate_arg
+destroy: validate_arg docker_service
 	$(base_cmd) down -v
