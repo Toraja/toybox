@@ -44,6 +44,8 @@ RUN fish -c 'curl -sL https://git.io/fisher | source && fisher install \
     markcial/upto \
     oh-my-fish/plugin-pj \
     evanlucas/fish-kubectl-completions' \
+    && mkdir -p ~/.config/fish/conf.d \
+    && ln -s ~/toybox/fish/conf.d/abbr.fish ~/.config/fish/conf.d/abbr.fish \
     && ln -s ~/toybox/fish/functions ~/.config/fish/myfuncs
 COPY --chown=${USER}:${USER} ./config.fish .config/fish/
 
