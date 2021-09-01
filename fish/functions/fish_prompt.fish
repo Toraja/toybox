@@ -11,6 +11,7 @@ function fish_prompt --description 'Write out the prompt'
         set git_status (git status --porcelain)
         set git_color (test (count $git_status) -eq 0; and echo cyan; or echo magenta)
         set branch (git branch | grep '*' | awk '{print $2}')
+        test -z $branch; and set branch '(none)'
         set git ' ['(colorise $git_color $branch)']'
         set --append prompt $git
     end
