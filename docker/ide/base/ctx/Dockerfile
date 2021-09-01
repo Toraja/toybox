@@ -42,7 +42,8 @@ RUN fish -c 'curl -sL https://git.io/fisher | source && fisher install \
     laughedelic/fish_logo \
     laughedelic/pisces \
     markcial/upto \
-    oh-my-fish/plugin-pj' \
+    oh-my-fish/plugin-pj \
+    evanlucas/fish-kubectl-completions' \
     && ln -s ~/toybox/fish/functions ~/.config/fish/myfuncs
 COPY --chown=${USER}:${USER} ./config.fish .config/fish/
 
