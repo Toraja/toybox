@@ -66,7 +66,6 @@ RUN python3 -m pip install --user --upgrade pynvim \
     && ln -s ~/toybox/vim/ftdetect ~/.vim/ftdetect \
     && ln -s ~/toybox/vim/ftplugin ~/.vim/ftplugin \
     && ln -s ~/toybox/vim/UltiSnips ~/.vim/UltiSnips \
-    && git clone https://github.com/junegunn/vim-plug.git .vim/bundle/vim-plug
 
 # Setup symlink to host home directory to reduce bind mount
 # This also enables replacing those links with actual files when symlink is inappriate
