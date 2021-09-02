@@ -67,25 +67,32 @@ if filereadable(s:vim_plug_file)
 	Plug 'tyru/open-browser.vim'
 
 	" Language specific
-	Plug 'dag/vim-fish', { 'for': 'fish' }
-	Plug 'othree/jspc.vim', { 'for': 'javascript' }
-	Plug 'jelera/vim-javascript-syntax', { 'for': 'javascript' }
-	Plug 'myhere/vim-nodejs-complete', { 'for': 'javascript' }
-	Plug 'moll/vim-node', { 'for': 'javascript' }
+	" <fish>
+	Plug 'dag/vim-fish'
+	" <js>
+	Plug 'othree/jspc.vim'
+	Plug 'jelera/vim-javascript-syntax'
+	Plug 'myhere/vim-nodejs-complete'
+	Plug 'moll/vim-node'
+	" <go>
 	if executable('go')
-		Plug 'fatih/vim-go', { 'for': 'go', 'do': ':GoUpdateBinaries', 'tag': '*' }
+		Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries', 'tag': '*' }
 	endif
-	Plug 'artur-shaik/vim-javacomplete2', { 'for': 'java' }
+	" <java>
+	Plug 'artur-shaik/vim-javacomplete2'
+	" <php>
 	if executable('composer')
-		Plug 'phpactor/phpactor', {'for': 'php', 'branch': 'master', 'do': 'composer install --no-dev -o'}
+		Plug 'phpactor/phpactor', {'branch': 'master', 'do': 'composer install --no-dev -o'}
 	endif
-	Plug 'vim-php/tagbar-phpctags.vim', {'for': 'php'}
-	" Plug 'stephpy/vim-php-cs-fixer', { 'for': 'php' }
-	Plug 'aeke/vim-php-cs-fixer', { 'for': 'php' } " Use this fork as the original has a bug
-	Plug 'noahfrederick/vim-laravel' " not only for php as not all project files are php
-	Plug 'mzlogin/vim-markdown-toc', { 'for': 'markdown' }
-	Plug 'dhruvasagar/vim-table-mode', { 'for': 'markdown' }
-	Plug 'weirongxu/plantuml-previewer.vim', { 'for': 'plantuml' }
+	Plug 'vim-php/tagbar-phpctags.vim'
+	" Plug 'stephpy/vim-php-cs-fixer'
+	Plug 'aeke/vim-php-cs-fixer' " Use this fork as the original has a bug
+	Plug 'noahfrederick/vim-laravel'
+	" <markdown>
+	Plug 'mzlogin/vim-markdown-toc'
+	Plug 'dhruvasagar/vim-table-mode'
+	" <plantuml>
+	Plug 'weirongxu/plantuml-previewer.vim'
 	call plug#end()
 else
 	" these are called by plug#end()
