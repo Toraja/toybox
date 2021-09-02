@@ -1847,6 +1847,15 @@ function! CaptureFindGrep(cmd) abort
 endfunction
 command! -complete=file -nargs=1 CaptureFindGrep call CaptureFindGrep(<q-args>)
 cnoreabbrev fig CaptureFindGrep find -type f -exec grep -Hn {} \\;<C-Left><C-Left><Left>
+
+function! InstallPluginManager()
+	if !executable('git')
+		echo 'Install `git` first'
+		return
+	endif
+
+	!git clone https://github.com/junegunn/vim-plug.git ~/.vim/bundle/vim-plug
+endfunction
 " --- || functions || }}}
 
 " load local vimrc
