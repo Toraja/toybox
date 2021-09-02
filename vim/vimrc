@@ -70,9 +70,6 @@ if filereadable(s:vim_plug_file)
 	" <fish>
 	Plug 'dag/vim-fish'
 	" <js>
-	Plug 'othree/jspc.vim'
-	Plug 'jelera/vim-javascript-syntax'
-	Plug 'myhere/vim-nodejs-complete'
 	Plug 'moll/vim-node'
 	" <go>
 	if executable('go')
