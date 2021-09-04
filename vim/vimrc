@@ -62,6 +62,7 @@ if filereadable(s:vim_plug_file)
 	" misc
 	Plug 'sheerun/vim-polyglot'
 	Plug 'tpope/vim-abolish'
+	Plug 'vim-test/vim-test'
 	Plug 'tmux-plugins/vim-tmux-focus-events'
 	Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }} " hook cannot be called (function not found) if language specific
 	Plug 'tyru/open-browser.vim'
