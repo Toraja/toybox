@@ -63,15 +63,15 @@ nmap <buffer> <C-t><C-]> :tab split<CR><Plug>(go-def)
 nmap <buffer> [t <Plug>(go-def-pop)
 nmap <buffer> ]t <Plug>(go-def-stack)
 
-cnoreabbrev bld GoBuild
-cnoreabbrev cov GoCoverage
-cnoreabbrev fm GoFmt
-cnoreabbrev grs GoGuruScope
-cnoreabbrev im GoImport
-cnoreabbrev ima GoImportAs
-cnoreabbrev ims GoImports
-cnoreabbrev ml GoMetaLinter
-cnoreabbrev mlt GoMetaLinterAutoSaveToggle
+cnoreabbrev gbl GoBuild
+cnoreabbrev gcv GoCoverage
+cnoreabbrev gfm GoFmt
+cnoreabbrev ggs GoGuruScope
+cnoreabbrev gim GoImport
+cnoreabbrev gima GoImportAs
+cnoreabbrev gims GoImports
+cnoreabbrev gml GoMetaLinter
+cnoreabbrev gmlt GoMetaLinterAutoSaveToggle
 
 " --- || vim-go || }}}
 
