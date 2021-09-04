@@ -69,7 +69,7 @@ cnoreabbrev clf JCclassInFile
 function! s:InitCmds()
 	let l:cmds = DefaultCmds()
 	" let l:cmds['r'] = runcmds#init#MakeCmdInfo('Run')
-	let l:cmds.A = runcmds#init#MakeCmdInfo('JCgenerateAbstractMethods')
+	" TODO change key char: let l:cmds.A = runcmds#init#MakeCmdInfo('JCgenerateAbstractMethods')
 	let l:cmds.c = runcmds#init#MakeCmdInfo('JCgenerateConstructor')
 	let l:cmds.C = runcmds#init#MakeCmdInfo('JCgenerateConstructorDefault')
 	let l:cmds.e = runcmds#init#MakeCmdInfo('JCgenerateEqualsAndHashCode')

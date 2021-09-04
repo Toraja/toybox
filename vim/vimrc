@@ -1183,7 +1183,8 @@ if exists('g:plugs["LanguageClient-neovim"]')
 	let g:LanguageClient_serverStderr = expand('~/.local/share/nvim/LanguageServer.log')
 
 	let s:def_cmds = {
-				\ 'a': runcmds#init#MakeCmdInfo('LcnCodeAction'),
+				\ 'a': runcmds#init#MakeCmdInfo('AV'),
+				\ 'A': runcmds#init#MakeCmdInfo('LcnCodeAction'),
 				\ 'd': runcmds#init#MakeCmdInfo('LcnHover'),
 				\ 'f': runcmds#init#MakeCmdInfo('LcnFormat'),
 				\ 'h': runcmds#init#MakeCmdInfo('LcnDocHighlight'),
@@ -1191,8 +1192,6 @@ if exists('g:plugs["LanguageClient-neovim"]')
 				\ 'n': runcmds#init#MakeCmdInfo('LcnRename'),
 				\ 'o': runcmds#init#MakeCmdInfo('LcnDocSymbol'),
 				\ 'R': runcmds#init#MakeCmdInfo('LcnReference'),
-				\ 's': runcmds#init#MakeCmdInfo('AS'),
-				\ 'S': runcmds#init#MakeCmdInfo('AV'),
 				\ }
 	function! DefaultCmds()
 		return copy(s:def_cmds)

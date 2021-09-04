@@ -5,7 +5,7 @@ function! s:InitGocmds()
 	let l:switch_term_mode_args = runcmds#init#MakeCmdArgsList([['"current mode ='], ['g:go_term_mode', v:true]])
 	let l:go_run_args = runcmds#init#MakeCmdArgsList([['%']])
 	let l:go_cmds = {
-				\ 'a': runcmds#init#MakeCmdInfo('GoFillStruct'),
+				\ 'a': runcmds#init#MakeCmdInfo('GoAlternateVSplit', v:true),
 				\ 'b': runcmds#init#MakeCmdInfo('GoBuild', v:true),
 				\ 'B': runcmds#init#MakeCmdInfo('!go test -bench .'),
 				\ 'c': runcmds#init#MakeCmdInfo('GoCallers'),
@@ -13,7 +13,6 @@ function! s:InitGocmds()
 				\ 'd': runcmds#init#MakeCmdInfo('GoDoc'),
 				\ 'D': runcmds#init#MakeCmdInfo('GoDescribe', v:true),
 				\ 'e': runcmds#init#MakeCmdInfo('GoErrCheck', v:true),
-				\ 'f': runcmds#init#MakeCmdInfo('GoImports'),
 				\ 'F': runcmds#init#MakeCmdInfo('GoFmtAutoSaveToggle'),
 				\ 'g': runcmds#init#MakeCmdInfo('GoDebugTestFunc'),
 				\ 'h': runcmds#init#MakeCmdInfo('GoSameIds'),
@@ -30,8 +29,7 @@ function! s:InitGocmds()
 				\ 'p': runcmds#init#MakeCmdInfo('GoChannelPeers'),
 				\ 'r': runcmds#init#MakeCmdInfo('GoRun', v:true, l:go_run_args),
 				\ 'R': runcmds#init#MakeCmdInfo('GoReferrers'),
-				\ 's': runcmds#init#MakeCmdInfo('GoAlternateSplit', v:true),
-				\ 'S': runcmds#init#MakeCmdInfo('GoAlternateVSplit', v:true),
+				\ 's': runcmds#init#MakeCmdInfo('GoFillStruct'),
 				\ 't': runcmds#init#MakeCmdInfo('TestNearest -v', v:true),
 				\ 'T': runcmds#init#MakeCmdInfo('GoTest', v:true),
 				\ 'v': runcmds#init#MakeCmdInfo('GoCoverage', v:true),
