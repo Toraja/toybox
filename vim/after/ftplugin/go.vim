@@ -4,9 +4,9 @@ function! s:InitGocmds()
 	let l:go_import_args = runcmds#init#MakeCmdArgsList([['expand("<cword>")', v:true]])
 	let l:switch_term_mode_args = runcmds#init#MakeCmdArgsList([['"current mode ='], ['g:go_term_mode', v:true]])
 	let l:go_run_args = runcmds#init#MakeCmdArgsList([['%']])
+	let l:test_nearest_args = runcmds#init#MakeCmdArgsList([['-v']])
 	let l:go_cmds = {
 				\ 'a': runcmds#init#MakeCmdInfo('GoAlternateVSplit', v:true),
-				\ 'b': runcmds#init#MakeCmdInfo('GoBuild', v:true),
 				\ 'B': runcmds#init#MakeCmdInfo('!go test -bench .'),
 				\ 'c': runcmds#init#MakeCmdInfo('GoCallers'),
 				\ 'C': runcmds#init#MakeCmdInfo('GoCallees'),
@@ -14,7 +14,8 @@ function! s:InitGocmds()
 				\ 'D': runcmds#init#MakeCmdInfo('GoDescribe', v:true),
 				\ 'e': runcmds#init#MakeCmdInfo('GoErrCheck', v:true),
 				\ 'F': runcmds#init#MakeCmdInfo('GoFmtAutoSaveToggle'),
-				\ 'g': runcmds#init#MakeCmdInfo('GoDebugTestFunc'),
+				\ 'g': runcmds#init#MakeCmdInfo('GoDebugBreakpoint'),
+				\ 'G': runcmds#init#MakeCmdInfo('tab split | GoDebugTestFunc'),
 				\ 'h': runcmds#init#MakeCmdInfo('GoSameIds'),
 				\ 'H': runcmds#init#MakeCmdInfo('GoSameIdsClear'),
 				\ 'i': runcmds#init#MakeCmdInfo('GoImport', v:true, l:go_import_args),
@@ -30,7 +31,8 @@ function! s:InitGocmds()
 				\ 'r': runcmds#init#MakeCmdInfo('GoRun', v:true, l:go_run_args),
 				\ 'R': runcmds#init#MakeCmdInfo('GoReferrers'),
 				\ 's': runcmds#init#MakeCmdInfo('GoFillStruct'),
-				\ 't': runcmds#init#MakeCmdInfo('TestNearest -v', v:true),
+				\ 'S': runcmds#init#MakeCmdInfo('GoAddTags'),
+				\ 't': runcmds#init#MakeCmdInfo('TestNearest', v:false, l:test_nearest_args),
 				\ 'T': runcmds#init#MakeCmdInfo('GoTest', v:true),
 				\ 'v': runcmds#init#MakeCmdInfo('GoCoverage', v:true),
 				\ 'V': runcmds#init#MakeCmdInfo('GoCoverageClear', v:true),
