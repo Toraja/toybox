@@ -1,3 +1,13 @@
+" {{{ || LanguageClient-neovim || ---
+" Do not show doc when CompletionChanged as vim-go shows it inside preview window
+let g:LanguageClient_showCompletionDocs = v:false
+
+" Use vim-go completion instead so that fuzzy match can be used
+set omnifunc=go#complete#Complete
+let g:LanguageClient_setOmnifunc = v:false
+inoremap <buffer> <silent> <expr> <C-i> pumvisible() ? "\<C-n>" : "\<C-x><C-o>"
+" --- || LanguageClient-neovim || }}}
+
 " {{{ || vim-go || ---
 " Workaround to use script local variable in keymap
 function! s:InitGocmds()
