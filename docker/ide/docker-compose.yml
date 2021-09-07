@@ -4,6 +4,7 @@ services:
     environment:
       - GIT_HUB_SSH_KEY
       - DISPLAY # setting the same value as WSL works in container as well
+      - COMPOSE_PROJECT_NAME # referring this inside container tells you which container you are in
     build:
       context: ./${COMPOSE_PROJECT_NAME:?}/ctx
       args:
