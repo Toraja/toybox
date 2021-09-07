@@ -14,8 +14,10 @@ RUN curl -fsSL -o go.tar.gz https://golang.org/dl/go${GO_VERSION}.linux-${GO_ARC
     && rm go.tar.gz
 
 ARG USER
-USER ${USER}
+# create directory with USER as the owner so that mounted volume will be accessible (not owned by root)
+RUN mkdir -p /home/${USER}/go && chown ${USER}:${USER} /home/${USER}/go
+VOLUME /home/${USER}/go
 
-RUN ln -s ~/hosthome/go ~/go
+USER ${USER}
 
 CMD ["tail", "-f", "/dev/null"]

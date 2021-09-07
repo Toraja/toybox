@@ -15,6 +15,9 @@ services:
       - type: volume
         source: home
         target: /home/mojito
+      - type: volume
+        source: vim-plugin
+        target: /home/mojito/.vim/bundle
       # bind socket file so that the same docker can be used inside containers
       - type: bind
         source: /var/run/docker.sock
@@ -37,3 +40,5 @@ services:
     network_mode: "host"
 volumes:
   home:
+  vim-plugin:
+    external: true

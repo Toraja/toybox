@@ -5,3 +5,11 @@ services:
       args:
         - GO_VERSION
         - GO_ARCH
+    volumes:
+      - type: volume
+        source: gopath
+        target: /home/mojito/go
+volumes:
+  gopath:
+    # external to prevent accidental deletion (but prone to `prune` command)
+    external: true

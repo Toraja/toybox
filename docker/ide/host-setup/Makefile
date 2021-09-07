@@ -28,9 +28,7 @@ fish:
 	chsh -s $$(which fish)
 
 .PHONY: docker
-docker: docker-clean docker-add-repository docker-install-engine docker-compose-install
-	usermod -aG docker $$(whoami)
-	cp -r ./docker ~/.docker
+docker: docker-clean docker-add-repository docker-install-engine docker-compose-install docker-setup
 
 .PHONY: docker-clean
 docker-clean:
@@ -58,9 +56,15 @@ docker-compose-install:
 	apt-get install --no-install-recommends --yes python3-pip
 	pip install docker-compose
 
+.PHONY: docker-setup
+docker-setup:
+	usermod -aG docker $$(whoami)
+	cp -r ./docker ~/.docker
+	docker create volume vim-plugin
+	docker create volume gopath
+
 .PHONY: misc
 misc:
 	@# use `-p` to avoid error in case any of these directory already exists
 	mkdir -p ~/workspace ~/.vim/bundle ~/go
 	ln -s ~/toybox/docker/ide ~/ide
-	git clone https://github.com/junegunn/vim-plug.git ~/.vim/bundle/vim-plug
