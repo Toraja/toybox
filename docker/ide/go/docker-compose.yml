@@ -1,6 +1,8 @@
 version: '3.9'
 services:
   ide:
+    environment:
+      - CGO_ENABLED=${CGO_ENABLED:-0}
     build:
       args:
         - GO_VERSION
