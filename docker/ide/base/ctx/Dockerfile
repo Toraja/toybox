@@ -4,7 +4,7 @@ FROM ubuntu:latest
 RUN yes | unminimize
 # Official Debian and Ubuntu images automatically run apt-get clean, so explicit invocation is not required.
 # Set up to install docker and add PPA
-RUN apt-get update && apt-get install --no-install-recommends --yes \
+RUN apt-get update && apt-get upgrade && apt-get install --no-install-recommends --yes \
     apt-transport-https ca-certificates curl gnupg lsb-release \
     software-properties-common \
     && curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg \
