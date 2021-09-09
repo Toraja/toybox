@@ -9,6 +9,7 @@ services:
       context: ./${COMPOSE_PROJECT_NAME:?}/ctx
       args:
         - USER=mojito
+        - CPU_ARCH
     volumes:
       # Be aware if the volume which was previously created exists.
       # It covers up files copied or created during build. In such case,
