@@ -17,14 +17,11 @@ RUN apt-get update && apt-get upgrade && apt-get install --no-install-recommends
 # Rename bat/fd, which name named differently than other distro, by creating symlink
 RUN apt-get update && apt-get install --no-install-recommends --yes \
     sudo less man-db locales tree openssh-client fish \
-    build-essential procps file git \
     docker-ce docker-ce-cli containerd.io python3-pip \
-    neovim tmux keychain fzf xclip exuberant-ctags bat fd-find ripgrep \
+    git neovim tmux keychain fzf xclip make exuberant-ctags bat fd-find ripgrep \
     && rm -rf /var/lib/apt/lists/* \
     && ln -n $(which batcat) $(dirname $(which batcat))/bat \
     && ln -n $(which fdfind) $(dirname $(which fdfind))/fd
-
-RUN curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh | bash
 
 # Without this, `man` complains that $LC_* is not set
 RUN locale-gen en_US.UTF-8
