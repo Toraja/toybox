@@ -1,4 +1,5 @@
-FROM ubuntu:latest
+ARG IMAGE_TAG
+FROM ubuntu:${IMAGE_TAG:-rolling}
 
 # `unminimize` is required to use `man`
 RUN yes | unminimize

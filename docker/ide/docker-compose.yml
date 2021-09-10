@@ -8,6 +8,7 @@ services:
     build:
       context: ./${COMPOSE_PROJECT_NAME:?}/ctx
       args:
+        - IMAGE_TAG
         - USER=mojito
         - CPU_ARCH
     volumes:
