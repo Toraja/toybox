@@ -21,6 +21,11 @@ docker images -a -f reference='<image name>'
 docker diff CONTAINER
 ```
 
+**View list of commands applied to an image (like Dockerfile)**
+```
+docker [image] history --no-trunc <image name>
+```
+
 ## Change detach key
 By default, detach key is bound to Ctrl-p, and it causes glitchy behaviour when
 working inside containers (e.g. `sh`, `vim`).  
