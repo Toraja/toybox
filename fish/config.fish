@@ -32,6 +32,7 @@ switch $TERM
         set --export TERM 'screen-256color'
 end
 functions --query set_display; and set_display # set DISPLAY
+set --export LESS iR
 
 # PATH
 ## local bin
@@ -50,7 +51,9 @@ alias mv='mv -i'
 alias pd='prevd'
 alias nd='nextd'
 alias swappiness='cat /proc/sys/vm/swappiness'
-alias ll='ls -Ahlv --group-directories-first'
+function ll
+    ls -Ahlv --group-directories-first --color=always $argv | less -FiRX
+end
 type --quiet nvim; and begin
     alias vim='nvim -p'
     alias view='nvim -R'
