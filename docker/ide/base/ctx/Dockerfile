@@ -14,19 +14,24 @@ RUN apt-get update && apt-get upgrade && apt-get install --no-install-recommends
     && apt-add-repository ppa:fish-shell/release-3
 # Install docker and other packages
 # ctags required by Tagbar vim plugin
+# Rename bat/fd, which name named differently than other distro, by creating symlink
 RUN apt-get update && apt-get install --no-install-recommends --yes \
-    sudo less man locales openssh-client fish \
+    sudo less man-db locales tree openssh-client fish \
     build-essential procps file git \
     docker-ce docker-ce-cli containerd.io python3-pip \
-    neovim tmux keychain fzf xclip exuberant-ctags \
-    && rm -rf /var/lib/apt/lists/*
+    neovim tmux keychain fzf xclip exuberant-ctags bat fd-find ripgrep \
+    && rm -rf /var/lib/apt/lists/* \
+    && ln -n $(which batcat) $(dirname $(which batcat))/bat \
+    && ln -n $(which fdfind) $(dirname $(which fdfind))/fd
 
 RUN curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh | bash
 
 # Without this, `man` complains that $LC_* is not set
 RUN locale-gen en_US.UTF-8
 
-RUN pip install docker-compose
+RUN pip install docker-compose httpie glances
+
+RUN curl -fsSL https://raw.githubusercontent.com/jesseduffield/lazydocker/master/scripts/install_update_linux.sh | bash
 
 ARG USER
 RUN useradd --create-home --groups docker --shell /usr/bin/fish ${USER} \
