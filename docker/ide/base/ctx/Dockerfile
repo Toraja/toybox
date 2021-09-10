@@ -17,16 +17,15 @@ RUN apt-get update && apt-get upgrade && apt-get install --no-install-recommends
 # Install docker and other packages
 # ctags required by Tagbar vim plugin
 # Rename bat/fd, which name named differently than other distro, by creating symlink
+# Without `locale-gen`, `man` complains that $LC_* is not set
 RUN apt-get update && apt-get install --no-install-recommends --yes \
     sudo less man-db locales tree openssh-client fish \
     docker-ce docker-ce-cli containerd.io python3-pip kubectl \
     git neovim tmux keychain fzf xclip make exuberant-ctags bat fd-find ripgrep \
     && rm -rf /var/lib/apt/lists/* \
     && ln -n $(which batcat) $(dirname $(which batcat))/bat \
-    && ln -n $(which fdfind) $(dirname $(which fdfind))/fd
-
-# Without this, `man` complains that $LC_* is not set
-RUN locale-gen en_US.UTF-8
+    && ln -n $(which fdfind) $(dirname $(which fdfind))/fd \
+    && locale-gen en_US.UTF-8
 
 RUN pip install docker-compose httpie glances
 
