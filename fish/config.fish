@@ -65,12 +65,13 @@ alias fugitive 'vim -c 0Git'
 
 # fzf
 ## variables
+set --local fzf_previewer (type -q bat; and echo bat; or echo cat)
 set --local fzf_opts "--height=40%"\
     "--tabstop=4"\
     "--multi" \
     "--reverse" \
     "--inline-info" \
-    "--preview='bat --color=always {}'" \
+    "--preview='$fzf_previewer --color=always {}'" \
     "--preview-window=hidden"
 set --local fzf_bind_opts "ctrl-space:toggle" \
     "ctrl-o:top" \

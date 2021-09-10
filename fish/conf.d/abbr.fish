@@ -6,7 +6,12 @@ if status --is-interactive
     abbr --add --global aplg apt list --upgradable
 ## shell
     abbr --add --global mg mkdirgo
-    abbr --add --global fig find -type f -exec grep -Hn {} \\\;
+    if type --query fd && type --query rg
+        set fig_cmd 'fd -t f -X rg --color=always'
+    else
+        set fig_cmd 'find -type f -exec grep -Hn {} ;'
+    end
+    abbr --add --global fig $fig_cmd
 ## git
     abbr --add --global gb git branch
     abbr --add --global gs git status
