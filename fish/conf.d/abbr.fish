@@ -68,6 +68,27 @@ if status --is-interactive
     abbr --add --global dcl docker-compose logs --follow
     abbr --add --global dcr docker-compose run
     abbr --add --global dce docker-compose restart
+## kubectl
+    abbr --add --global kc kubectl
+    abbr --add --global kca kubectl apply -f
+    abbr --add --global kcb kubectl describe
+    abbr --add --global kcc kubectl create
+    abbr --add --global kcd kubectl delete
+    abbr --add --global kcdp kubectl delete pods
+    abbr --add --global kcds kubectl delete svc
+    abbr --add --global kcf kubectl config
+    abbr --add --global kcfgns kubectl config get-contexts
+    abbr --add --global kcfsns kubectl config set-context --current --namespace
+    abbr --add --global kcg kubectl get
+    abbr --add --global kcgd kubectl get deployments
+    abbr --add --global kcgp kubectl get pods
+    abbr --add --global kcgs kubectl get services
+    abbr --add --global kcl kubectl logs
+    abbr --add --global kco kubectl rollout
+    abbr --add --global kcoh kubectl rollout history
+    abbr --add --global kcos kubectl rollout status
+    abbr --add --global kcou kubectl rollout undo
+    abbr --add --global kcx kubectl exec -it
 ## go
     abbr --add --global got go test
     abbr --add --global gotr go test -run
