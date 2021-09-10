@@ -11,13 +11,15 @@ RUN apt-get update && apt-get upgrade && apt-get install --no-install-recommends
     software-properties-common \
     && curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg \
     && echo "deb [arch="${CPU_ARCH}" signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | tee /etc/apt/sources.list.d/docker.list > /dev/null \
-    && apt-add-repository ppa:fish-shell/release-3
+    && apt-add-repository ppa:fish-shell/release-3 \
+    && curl -fsSLo /usr/share/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg \
+    && echo "deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | tee /etc/apt/sources.list.d/kubernetes.list
 # Install docker and other packages
 # ctags required by Tagbar vim plugin
 # Rename bat/fd, which name named differently than other distro, by creating symlink
 RUN apt-get update && apt-get install --no-install-recommends --yes \
     sudo less man-db locales tree openssh-client fish \
-    docker-ce docker-ce-cli containerd.io python3-pip \
+    docker-ce docker-ce-cli containerd.io python3-pip kubectl \
     git neovim tmux keychain fzf xclip make exuberant-ctags bat fd-find ripgrep \
     && rm -rf /var/lib/apt/lists/* \
     && ln -n $(which batcat) $(dirname $(which batcat))/bat \
@@ -28,7 +30,9 @@ RUN locale-gen en_US.UTF-8
 
 RUN pip install docker-compose httpie glances
 
-RUN curl -fsSL https://raw.githubusercontent.com/jesseduffield/lazydocker/master/scripts/install_update_linux.sh | bash
+RUN curl -fsSL https://raw.githubusercontent.com/jesseduffield/lazydocker/master/scripts/install_update_linux.sh | bash \
+    && curl -fsSL https://raw.githubusercontent.com/rancher/k3d/main/install.sh | bash \
+    && echo -e "\n127.0.0.1 registry.local # local docker registry for k3d" >> /etc/hosts
 
 ARG USER
 RUN useradd --create-home --groups docker --shell /usr/bin/fish ${USER} \
@@ -51,9 +55,10 @@ RUN fish -c 'curl -sL https://git.io/fisher | source && fisher install \
     markcial/upto \
     oh-my-fish/plugin-pj \
     evanlucas/fish-kubectl-completions' \
-    && mkdir -p ~/.config/fish/conf.d \
+    && mkdir -p ~/.config/fish/conf.d ~/.config/fish/completions \
     && ln -s ~/toybox/fish/conf.d/abbr.fish ~/.config/fish/conf.d/abbr.fish \
-    && ln -s ~/toybox/fish/functions ~/.config/fish/myfuncs
+    && ln -s ~/toybox/fish/functions ~/.config/fish/myfuncs \
+    && k3d completion fish > ~/.config/fish/completions/k3d.fish
 COPY --chown=${USER}:${USER} ./config.fish .config/fish/
 
 # tmux
