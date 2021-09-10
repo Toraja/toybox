@@ -13,6 +13,7 @@ bind --mode=normal b fillcmdline bmarks
 bind --mode=normal b fillcmdline bmarks -t
 
 bind --mode=normal ;f hint -t
+bind --mode=normal ;r hint -qb
 bind --mode=normal ;n hint -wp
 
 bind --mode=normal / fillcmdline find
@@ -59,8 +60,7 @@ bind --mode=ex <A-u> text.upcase_word
 bind --mode=ex <A-l> text.downcase_word
 bind --mode=ex <A-c> text.capitalize_word
 
-" seems like <A-a> to select is firefox's default
-" js if(navigator.platform.includes('Win')) { bind --mode=input <A-a> js document.activeElement.select(); }
+js if(navigator.platform.includes('Win')) { bind --mode=input <A-a> js document.activeElement.select(); }
 bind --mode=input <C-b> text.backward_char
 bind --mode=input <C-f> text.forward_char
 bind --mode=input <A-b> text.backward_word
@@ -77,7 +77,7 @@ bind --mode=input <A-u> text.upcase_word
 bind --mode=input <A-l> text.downcase_word
 bind --mode=input <A-c> text.capitalize_word
 
-" js if(navigator.platform.includes('Win')) { bind --mode=insert <A-a> js document.activeElement.select(); }
+js if(navigator.platform.includes('Win')) { bind --mode=insert <A-a> js document.activeElement.select(); }
 bind --mode=insert <C-b> text.backward_char
 bind --mode=insert <C-f> text.forward_char
 bind --mode=insert <A-b> text.backward_word
