@@ -53,7 +53,7 @@ RUN fish -c 'curl -sL https://git.io/fisher | source && fisher install \
     markcial/upto \
     oh-my-fish/plugin-pj \
     evanlucas/fish-kubectl-completions' \
-    && ln -s ~/toybox/fish/conf.d/abbr.fish ~/.config/fish/conf.d/ \
+    && ln -s ~/toybox/fish/conf.d/* ~/.config/fish/conf.d/ \
     && ln -s ~/toybox/fish/functions ~/.config/fish/myfuncs \
     && k3d completion fish > ~/.config/fish/completions/k3d.fish
 COPY --chown=${USER}:${USER} ./config.fish .config/fish/
