@@ -16,9 +16,12 @@ RUN apt-get update && apt-get upgrade && apt-get install --no-install-recommends
 # ctags required by Tagbar vim plugin
 RUN apt-get update && apt-get install --no-install-recommends --yes \
     sudo less man locales openssh-client fish \
+    build-essential procps file git \
     docker-ce docker-ce-cli containerd.io python3-pip \
-    neovim git tmux keychain fzf xclip ctags make \
+    neovim tmux keychain fzf xclip exuberant-ctags \
     && rm -rf /var/lib/apt/lists/*
+
+RUN curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh | bash
 
 # Without this, `man` complains that $LC_* is not set
 RUN locale-gen en_US.UTF-8
