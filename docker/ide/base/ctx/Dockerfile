@@ -50,12 +50,10 @@ RUN fish -c 'curl -sL https://git.io/fisher | source && fisher install \
     decors/fish-colored-man \
     gazorby/fish-abbreviation-tips \
     laughedelic/fish_logo \
-    laughedelic/pisces \
     markcial/upto \
     oh-my-fish/plugin-pj \
     evanlucas/fish-kubectl-completions' \
-    && mkdir -p ~/.config/fish/conf.d ~/.config/fish/completions \
-    && ln -s ~/toybox/fish/conf.d/abbr.fish ~/.config/fish/conf.d/abbr.fish \
+    && ln -s ~/toybox/fish/conf.d/abbr.fish ~/.config/fish/conf.d/ \
     && ln -s ~/toybox/fish/functions ~/.config/fish/myfuncs \
     && k3d completion fish > ~/.config/fish/completions/k3d.fish
 COPY --chown=${USER}:${USER} ./config.fish .config/fish/
