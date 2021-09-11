@@ -1,10 +1,17 @@
+# WSL
+
 ## Basic
 ### Shutdown the vm
 `wsl.exe --shutdown`
 
 ## Setup
-- Link to windows home directory
-  `ln -s /mnt/c/Users/mojito/ ~/winhome`
+- Link to windows home directory  
+  `ln -s /mnt/c/Users/<user>/ ~/winhome`
+- Set `DISPLAY` environment varialbe to use `xclip`.  
+  - Install X server [VcXsrv](https://sourceforge.net/projects/vcxsrv/)
+  - The value of `DISPLAY` needs to be the IP address of `nameserver` in
+    `/etc/resolv.conf` with `:0.0` appended.  
+    e.g. `172.24.16.1:0.0`
 
 ## Configuration
 ### Startup
