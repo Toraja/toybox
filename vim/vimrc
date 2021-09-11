@@ -1233,33 +1233,9 @@ endif
 if exists('g:plugs["deoplete.nvim"]')
 	let g:deoplete#enable_at_startup = 1
 	if has('win32')
-		" On Windows, it is 1 by default, and only available on nvim
-		" Seems not necessary to change on nvim (fast enough already)
-		" call deoplete#custom#option('num_processes', 2)
 		" cmd is "python.exe" so deoplete (yarp?) cannot find it by default
 		let g:python3_host_prog="python"
 	endif
-	" FIXME This tells deoplete to use 'omnifunc' for completion.
-	" i.e. &omnifunc will be set to some deoplete function
-	" But currently it fails to load matching from omnifunc
-	" call deoplete#custom#option({
-	"             \ 'complete_method': 'omnifunc',
-	"             \})
-	" FIXME these just don't work
-	" call deoplete#custom#source('omni', 'input_patterns', {
-	"             \ 'vim': '.*',
-	"             \ 'javascript': '.*',
-	"             \})
-	" call deoplete#custom#source('omni', 'functions', {
-	"             \ 'vim': ['syntaxcomplete#Complete'],
-	"             \ 'javascript': [ 'tern#Complete', 'jspc#omni' ],
-	"             \})
-	" The below 2 lines are necessary, apparently.
-	" HOWEVER, these disable normal omni completion as well.
-	" i.e. when I press <C-x><C-o>, no match will be found.
-	" let g:tern#command = ['tern']
-	" let g:tern#arguments = ['--persistent']
-
 	inoremap <silent> <expr> <C-i> pumvisible() ? "\<C-n>" : deoplete#manual_complete()
 endif
 " --- || deoplete || }}}
