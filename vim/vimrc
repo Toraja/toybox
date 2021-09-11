@@ -73,9 +73,7 @@ if filereadable(s:vim_plug_file)
 	" <js>
 	Plug 'moll/vim-node'
 	" <go>
-	if executable('go')
-		Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries', 'tag': '*' }
-	endif
+	Plug 'fatih/vim-go', { 'tag': '*' } " Do not run `GoUpdateBinaries` post-hook as it takes a long time
 	" <java>
 	Plug 'artur-shaik/vim-javacomplete2'
 	" <php>
