@@ -1,6 +1,0 @@
-version: '3.9'
-services:
-  ide:
-    # build:
-      # args:
-        # - COMPOSE_VERSION=${COMPOSE_VERSION:?set value in .env file} # required if downloading docker-compose via curl
