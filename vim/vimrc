@@ -814,6 +814,7 @@ if exists('g:plugs["vim-fugitive"]')
 	cnoreabbrev gl Git log
 	cnoreabbrev glg vertical sbuffer <Bar> Gllog
 	cnoreabbrev gd Gvdiffsplit
+	cnoreabbrev gp Git push
 	nnoremap <Leader>gs <Cmd>tab Git<CR>
 	nnoremap <Leader>gl <Cmd>tab Git log<CR>
 	nnoremap [Chief]gs <Cmd>vertical Git<CR>
