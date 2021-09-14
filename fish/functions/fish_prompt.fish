@@ -3,6 +3,9 @@ function fish_prompt --description 'Write out the prompt'
     set status_color (test $status -eq 0; and echo cyan; or echo red)
     set prompt (colorise $status_color fish)
 
+    # CDE (if inside cde container)
+    test -n "$CDE"; and set --append prompt :(colorise yellow $CDE)
+
     # USER SHLVL CWD
     set --append prompt :(colorise green $USER):(colorise yellow $SHLVL):(colorise green (prompt_pwd))
 
