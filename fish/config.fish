@@ -23,6 +23,7 @@ set fish_prompt_pwd_dir_length 5 # setting to 0 disable shortening path in promp
 set --export EDITOR vim
 set --export VISUAL vim
 set --export GOPATH $HOME/go
+set --export DOCKER_BUILDKIT 1
 switch $TERM
     case 'xterm'
         # This is required to enable 256 color inside tmux on docker container
