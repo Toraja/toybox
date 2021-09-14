@@ -1,3 +1,4 @@
 {
-  "detachKeys": "ctrl-^,^"
+  "detachKeys": "ctrl-^,^",
+  "pruneFilters": ["label!=prune=false"]
 }
