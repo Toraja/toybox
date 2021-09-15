@@ -24,9 +24,9 @@ if filereadable(s:vim_plug_file)
 	Plug 'vim-airline/vim-airline'
 	Plug 'vim-airline/vim-airline-themes'
 	" finder (path/dir/file/buffer/tac/etc.)
-	Plug 'scrooloose/nerdtree'
+	Plug 'preservim/nerdtree'
 	Plug 'dbakker/vim-projectroot'
-	Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
+	Plug 'preservim/tagbar'
 	Plug 'ctrlpvim/ctrlp.vim'		" required by vim-go GoDecls
 	Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 	Plug 'junegunn/fzf.vim'
@@ -40,7 +40,7 @@ if filereadable(s:vim_plug_file)
 	Plug 'bfredl/nvim-miniyank'
 	Plug 'editorconfig/editorconfig-vim'
 	Plug 'Yggdroot/indentLine'
-	Plug 'scrooloose/nerdcommenter'
+	Plug 'preservim/nerdcommenter'
 	Plug 'arthurxavierx/vim-caser'
 	Plug 'tpope/vim-surround'
 	Plug 'jiangmiao/auto-pairs'
