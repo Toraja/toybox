@@ -14,26 +14,28 @@ function! s:InitGocmds()
 	let l:go_import_args = runcmds#init#MakeCmdArgsList([['expand("<cword>")', v:true]])
 	let l:switch_term_mode_args = runcmds#init#MakeCmdArgsList([['"current mode ='], ['g:go_term_mode', v:true]])
 	let l:go_run_args = runcmds#init#MakeCmdArgsList([['%']])
-	let l:test_nearest_args = runcmds#init#MakeCmdArgsList([['-v']])
+	let l:go_test_func_new_tab_focus_args = runcmds#init#MakeCmdArgsList([['-v']])
+	let l:go_test_file_args = runcmds#init#MakeCmdArgsList([['-v']])
 	let l:go_cmds = {
 				\ 'a': runcmds#init#MakeCmdInfo('GoAlternateVSplit', v:true),
 				\ 'B': runcmds#init#MakeCmdInfo('!go test -bench .'),
 				\ 'c': runcmds#init#MakeCmdInfo('GoCallers'),
 				\ 'C': runcmds#init#MakeCmdInfo('GoCallees'),
 				\ 'd': runcmds#init#MakeCmdInfo('GoDoc'),
-				\ 'D': runcmds#init#MakeCmdInfo('GoDescribe', v:true),
+				\ 'D': runcmds#init#MakeCmdInfo('GoDescribe'),
 				\ 'e': runcmds#init#MakeCmdInfo('GoErrCheck', v:true),
 				\ 'F': runcmds#init#MakeCmdInfo('GoFmtAutoSaveToggle'),
 				\ 'g': runcmds#init#MakeCmdInfo('GoDebugBreakpoint'),
-				\ 'G': runcmds#init#MakeCmdInfo('tab split | GoDebugTestFunc'),
+				\ 'G': runcmds#init#MakeCmdInfo('GoDebugTestFuncNewTab'),
 				\ 'h': runcmds#init#MakeCmdInfo('GoSameIds'),
 				\ 'H': runcmds#init#MakeCmdInfo('GoSameIdsClear'),
-				\ 'i': runcmds#init#MakeCmdInfo('GoImport', v:true, l:go_import_args),
-				\ 'I': runcmds#init#MakeCmdInfo('GoAutoTypeInfoToggle', v:true),
-				\ 'k': runcmds#init#MakeCmdInfo('GoCallstack', v:true),
+				\ 'i': runcmds#init#MakeCmdInfo('GoInfo'),
+				\ 'I': runcmds#init#MakeCmdInfo('GoAutoTypeInfoToggle'),
+				\ 'k': runcmds#init#MakeCmdInfo('GoCallstack'),
 				\ 'l': runcmds#init#MakeCmdInfo('GoMetaLinter', v:true),
 				\ 'L': runcmds#init#MakeCmdInfo('GoMetaLinterAutoSaveToggle'),
 				\ 'm': runcmds#init#MakeCmdInfo('GoImplements'),
+				\ 'M': runcmds#init#MakeCmdInfo('GoImport', v:true, l:go_import_args),
 				\ 'n': runcmds#init#MakeCmdInfo('call LanguageClient#textDocument_rename()'),
 				\ 'o': runcmds#init#MakeCmdInfo('GoDecls'),
 				\ 'O': runcmds#init#MakeCmdInfo('GoDeclsDir'),
@@ -42,8 +44,9 @@ function! s:InitGocmds()
 				\ 'R': runcmds#init#MakeCmdInfo('GoReferrers'),
 				\ 's': runcmds#init#MakeCmdInfo('GoFillStruct'),
 				\ 'S': runcmds#init#MakeCmdInfo('GoAddTags'),
-				\ 't': runcmds#init#MakeCmdInfo('TestNearest', v:false, l:test_nearest_args),
-				\ 'T': runcmds#init#MakeCmdInfo('GoTest', v:true),
+				\ 't': runcmds#init#MakeCmdInfo('GoTestFuncNewTabFocus', v:false, l:go_test_func_new_tab_focus_args),
+				\ 'T': runcmds#init#MakeCmdInfo('GoTestFile', v:false, l:go_test_file_args),
+				\ '': runcmds#init#MakeCmdInfo('GoTestRecursive', v:false),
 				\ 'v': runcmds#init#MakeCmdInfo('GoCoverage', v:true),
 				\ 'V': runcmds#init#MakeCmdInfo('GoCoverageClear', v:true),
 				\ 'w': runcmds#init#MakeCmdInfo('GoWhicherrs'),
@@ -57,12 +60,60 @@ call s:InitGocmds()
 nnoremap <buffer> <expr> - runcmds#base#RunCmds('Go Cmds', <SID>GoCmds(), {}, function('SortItemsByNestedValue', [runcmds#init#cmd_info_key_cmd]))
 command! -buffer -bang GoAlternateSplit call go#alternate#Switch(<bang>0, 'split')
 command! -buffer -bang GoAlternateVSplit call go#alternate#Switch(<bang>0, 'vsplit')
+command! -buffer -bang -nargs=* GoDebugTestFunc tab split | GoDebugTestFunc <q-args>
+command! -buffer -bang -nargs=* GoTestFile TestFile <q-args>
+command! -buffer -bang -nargs=* GoTestRecursive RunInNewTabTerminal! go test ./... <q-args>
 
 function! SwitchTermMode()
 	let g:go_term_mode = (g:go_term_mode == 'vsplit') ? 'split' : 'vsplit'
 	echo 'g:go_term_mode = '.g:go_term_mode
 endfunction
 command! -buffer -nargs=0 SwitchTermMode call SwitchTermMode()
+
+let s:testifySuiteMethodPattern = 'func ([A-Za-z0-9_]\+ \*\([A-Za-z0-9_]\+\)) \(Test[A-Za-z0-9_]\+\).*'
+
+function! GetNearestTestSuiteMethodLineNum() abort
+	return search(s:testifySuiteMethodPattern, "bcnW")
+endfunction
+
+function! GetNearestTestFuncLineNum() abort
+	return search('func \(Test\|Example\)', "bcnW")
+endfunction
+
+function! TestNearestSuiteMethod(args) abort
+	" commented out are simple version
+	" let l:line = search('func ([A-Za-z0-9_]\+ \*[A-Za-z0-9_]\+) Test', "bcnW")
+	let l:line = GetNearestTestSuiteMethodLineNum()
+
+	if l:line == 0
+		echohl WarningMsg ("No test found immediate to cursor")
+	endif
+
+	let l:decl = getline(l:line)
+	" let l:declSplitList = split(l:decl, ' ')
+	" let l:type = l:declSplitList[2][1:-2]
+	" let l:func = l:declSplitList[3][:-2]
+	let l:type = substitute(l:decl, s:testifySuiteMethodPattern, '\1', '')
+	let l:func = substitute(l:decl, s:testifySuiteMethodPattern, '\2', '')
+
+	execute printf('RunInNewTabTerminal! go test -run Test%s/%s$ %s', l:type, l:func, a:args)
+endfunction
+
+function! GoTestFuncNewTabFocus(args) abort
+	let l:suiteLineNum = GetNearestTestSuiteMethodLineNum()
+	let l:testFuncLineNum = GetNearestTestFuncLineNum()
+	let l:closestLineNum = max([l:suiteLineNum, l:testFuncLineNum])
+	if l:closestLineNum == 0
+		echohl WarningMsg ("No test found immediate to cursor")
+	endif
+
+	if l:closestLineNum == l:suiteLineNum
+		call TestNearestSuiteMethod(a:args)
+	else
+		execute 'TestNearest ' . a:args
+	endif
+endfunction
+command! -buffer -nargs=* GoTestFuncNewTabFocus call GoTestFuncNewTabFocus(<q-args>)
 
 nmap <buffer> gd <Plug>(go-def)
 nmap <buffer> <C-]> <Plug>(go-def)
