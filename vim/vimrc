@@ -1836,6 +1836,15 @@ function! InstallPluginManager()
 
 	!git clone https://github.com/junegunn/vim-plug.git ~/.vim/bundle/vim-plug
 endfunction
+
+function! RunInNewTabTerminal(shellCmd, focus) abort
+	let l:vimCmd = 'tab split term://' . a:shellCmd
+	if a:focus
+		let l:vimCmd .= ' | startinsert'
+	endif
+	execute l:vimCmd
+endfunction
+command! -complete=shellcmd -nargs=+ -bang RunInNewTabTerminal call RunInNewTabTerminal(<q-args>, <bang>0)
 " --- || functions || }}}
 
 " load local vimrc
