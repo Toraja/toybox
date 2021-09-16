@@ -75,7 +75,9 @@ if filereadable(s:vim_plug_file)
 	" <go>
 	Plug 'fatih/vim-go', { 'tag': '*' } " Do not run `GoUpdateBinaries` post-hook as it takes a long time
 	" <java>
-	Plug 'artur-shaik/vim-javacomplete2'
+	if executable('java')
+		Plug 'artur-shaik/vim-javacomplete2' " complains if there is no java executable
+	endif
 	" <php>
 	if executable('composer')
 		Plug 'phpactor/phpactor', {'branch': 'master', 'do': 'composer install --no-dev -o'}
