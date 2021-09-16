@@ -27,7 +27,9 @@ if exists('g:plugs["vim-go"]')
 				\ 'gofmt': '-s',
 				\ 'goimports': '',
 				\ }
-	let g:go_metalinter_command = "golangci-lint"
+	" let g:go_metalinter_command = "golangci-lint"
+	let g:go_metalinter_command = "gopls"
+	let g:go_gopls_staticcheck = v:true
 	let g:go_metalinter_autosave = 1
 	let g:go_metalinter_deadline = "10s"
 	let g:go_metalinter_autosave_enabled = ['vet', 'revive']
