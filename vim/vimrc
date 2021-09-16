@@ -1067,7 +1067,7 @@ if exists('g:plugs["fzf.vim"]')
 					\ 'g': runcmds#init#MakeCmdInfo(g:fzf_command_prefix . 'GFiles'),
 					\ 'G': runcmds#init#MakeCmdInfo(g:fzf_command_prefix . 'GFiles?'),
 					\ 'b': runcmds#init#MakeCmdInfo(g:fzf_command_prefix . 'Buffers'),
-					\ 'r': runcmds#init#MakeCmdInfo(g:fzf_command_prefix . 'Rg'),
+					\ 'r': runcmds#init#MakeCmdInfo(g:fzf_command_prefix . 'Rg', v:false, [], v:true),
 					\ 'L': runcmds#init#MakeCmdInfo(g:fzf_command_prefix . 'Lines'),
 					\ 'l': runcmds#init#MakeCmdInfo(g:fzf_command_prefix . 'BLines'),
 					\ 'T': runcmds#init#MakeCmdInfo(g:fzf_command_prefix . 'Tags'),
