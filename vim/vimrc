@@ -1253,6 +1253,16 @@ let g:echodoc#enable_at_startup = 1
 let g:abolish_no_mappings = 1
 " --- || vim-abolish || }}}
 
+" {{{ || vim-test || ---
+if has('nvim')
+	" By default, tab is opened left to the current tab, and that makes
+	" closing the test tab focus the tab left to the original tab.
+	" The below configuration opens the test right to the original tab.
+	let test#neovim#term_position = "tab"
+	let test#strategy = 'neovim'
+endif
+" --- || vim-test || }}}
+
 " {{{ || vim-laravel || ---
 if exists('g:plugs["vim-laravel"]')
 	augroup init_laravel
