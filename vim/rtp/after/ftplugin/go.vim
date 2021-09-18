@@ -76,17 +76,19 @@ function! GetNearestTestSuiteMethodLineNum() abort
 	return search(s:testifySuiteMethodPattern, "bcnW")
 endfunction
 
+let s:testFuncPattern = 'func \(Test\|Example\)'
+
 function! GetNearestTestFuncLineNum() abort
-	return search('func \(Test\|Example\)', "bcnW")
+	return search(s:testFuncPattern, "bcnW")
 endfunction
 
 function! TestNearestSuiteMethod(args) abort
 	" commented out are simple version
 	" let l:line = search('func ([A-Za-z0-9_]\+ \*[A-Za-z0-9_]\+) Test', "bcnW")
 	let l:line = GetNearestTestSuiteMethodLineNum()
-
 	if l:line == 0
-		echohl WarningMsg ("No test found immediate to cursor")
+		echohl WarningMsg | echo "No test found immediate to cursor" | echohl NONE
+		return
 	endif
 
 	let l:decl = getline(l:line)
@@ -95,8 +97,22 @@ function! TestNearestSuiteMethod(args) abort
 	" let l:func = l:declSplitList[3][:-2]
 	let l:type = substitute(l:decl, s:testifySuiteMethodPattern, '\1', '')
 	let l:func = substitute(l:decl, s:testifySuiteMethodPattern, '\2', '')
+	let l:capitalisedType = util#string#Capitalise(l:type)
+	let l:upperType = util#string#ToUpperFirstCamelWord(l:type)
+	let l:fileDir = expand('%:h')
 
-	execute printf('RunInNewTabTerminal! go test -run Test%s/%s$ %s', l:type, l:func, a:args)
+	let l:cmdTemplate = 'RunInNewTabTerminal! go test ./%s -run Test%s/%s$ %s'
+	let l:cmd = printf(l:cmdTemplate, l:fileDir, l:capitalisedType, l:func, a:args)
+	if search(s:testFuncPattern . l:capitalisedType . '(', 'bnw') == 0
+		let l:cmd = printf(l:cmdTemplate, l:fileDir, l:upperType, l:func, a:args)
+		if search(s:testFuncPattern . l:upperType . '(', 'bnw') == 0
+			echohl WarningMsg | echo "No test runner found. Try modify the command and execute:" | echohl NONE
+			let l:cmd = Input(1, ':', l:cmd)
+			call histadd(':', l:cmd)
+		endif
+	endif
+
+	execute l:cmd
 endfunction
 
 function! GoTestFuncNewTabFocus(args) abort
