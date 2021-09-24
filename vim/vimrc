@@ -64,7 +64,6 @@ if filereadable(s:vim_plug_file)
 	Plug 'tpope/vim-abolish'
 	Plug 'vim-test/vim-test'
 	Plug 'tmux-plugins/vim-tmux-focus-events'
-	Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }} " hook cannot be called (function not found) if language specific
 	Plug 'tyru/open-browser.vim'
 
 	" Language specific
@@ -87,6 +86,7 @@ if filereadable(s:vim_plug_file)
 	Plug 'aeke/vim-php-cs-fixer' " Use this fork as the original has a bug
 	Plug 'noahfrederick/vim-laravel'
 	" <markdown>
+	Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }}
 	Plug 'mzlogin/vim-markdown-toc'
 	Plug 'dhruvasagar/vim-table-mode'
 	" <plantuml>
