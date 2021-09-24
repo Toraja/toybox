@@ -1,5 +1,5 @@
-## Tips
-### Useful commands
+# Tips
+## Useful commands
 **Export-Csv**  
 Output the piped value to a file. Each property of the output becomes the column of csv.  
 
@@ -14,8 +14,8 @@ Export-Csv ~\Desktop\csv.csv -Encoding utf8 -NoTypeInformation
 **Netstat Equivalent**  
 Get-NetTCPConnection
 
-### Data Type
-#### Array
+## Data Type
+### Array
 ```
 # initialisation
 $var = @('apple', 'banana', 'coconut')
@@ -27,7 +27,7 @@ $var.Get(1)
 $var += 'durian'  # $var.Add() does not work because Array IS FIXED SIZE
 ```
 
-#### Hashtable
+### Hashtable
 ```
 # initialisation
 $var = @{a='apple'; b='banana'; c='coconut'}
@@ -44,7 +44,7 @@ $var['d'] = 'durian'
 $var.Add('d', 'durian')
 ```
 
-#### Custom Object
+### Custom Object
 ```
 # initialisation
 ## 1
@@ -57,6 +57,6 @@ Add-Member -InputObject $o -MemberType NoteProperty -Name b -Value banana
 ### Refer to the link under Object-Oriented. Method can be added in this way.
 ```
 
-### Object-Oriented
+## Object-Oriented
 Static, Inheritence, Enum etc...
 [Powershell v5 Classes & Concepts](https://xainey.github.io/2016/powershell-classes-and-concepts/)
