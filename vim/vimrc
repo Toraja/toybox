@@ -917,6 +917,7 @@ if exists('g:plugs["nerdtree"]')
 	function! s:InitNERDTreeCmds()
 		let l:nerd_tree_cmds = {
 					\ 'n': runcmds#init#MakeCmdInfo('NERDTree', v:false, [], v:true),
+					\ 'N': runcmds#init#MakeCmdInfo('NERDTree %:h'),
 					\ 't': runcmds#init#MakeCmdInfo('NERDTreeToggle'),
 					\ 'o': runcmds#init#MakeCmdInfo('NERDTreeFocus'),
 					\ 'v': runcmds#init#MakeCmdInfo('NERDTreeVCS'),
@@ -1066,6 +1067,7 @@ if exists('g:plugs["fzf.vim"]')
 	function! s:InitFzfCmds()
 		let l:fzf_cmds = {
 					\ 'f': runcmds#init#MakeCmdInfo(g:fzf_command_prefix . 'Files'),
+					\ 'F': runcmds#init#MakeCmdInfo(g:fzf_command_prefix . 'Files %:h'),
 					\ 'g': runcmds#init#MakeCmdInfo(g:fzf_command_prefix . 'GFiles'),
 					\ 'G': runcmds#init#MakeCmdInfo(g:fzf_command_prefix . 'GFiles?'),
 					\ 'b': runcmds#init#MakeCmdInfo(g:fzf_command_prefix . 'Buffers'),
