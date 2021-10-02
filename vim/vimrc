@@ -1272,10 +1272,10 @@ if exists('g:plugs["vim-laravel"]')
 			\   call projectionist#append(b:laravel_root, {
 			\     'storage/logs/*.log': { 'type': 'log' },
 			\     'storage/logs/laravel.log': { 'type': 'log' },
-			\     'app/Http/Controllers/*.php': { 
+			\     'app/Http/Controllers/*.php': {
 			\         'alternate': 'tests/Unit/Controllers/{}Test.php',
 			\     },
-			\     'app/Models/*.php': { 
+			\     'app/Models/*.php': {
 			\         'alternate': 'tests/Unit/Models/{}Test.php',
 			\     }
 			\   }) |
