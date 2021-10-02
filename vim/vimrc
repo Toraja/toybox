@@ -1301,8 +1301,7 @@ cnoreabbrev th tab help
 cnoreabbrev bold browse oldfiles
 cnoreabbrev st new <Bar> terminal
 cnoreabbrev vt vnew <Bar> terminal
-cnoreabbrev nt tabnew <Bar> terminal
-cnoreabbrev tt SetTitle
+cnoreabbrev tt tabnew <Bar> terminal
 " --- || abbreviation || }}}
 
 command! -complete=shellcmd -nargs=+ OutputShellCmdToQF call shell#base#ShellCmdToQF(<q-args>, v:false)
@@ -1667,7 +1666,7 @@ function! SetFt(...)
 	execute 'set filetype=' . get(a:000, 0, &filetype)
 endfunction
 command! -nargs=? -complete=filetype SetFt :call SetFt(<f-args>)
-command! -nargs=? -complete=filetype SF :call SetFt(<f-args>)
+cnoreabbrev sf SetFt
 
 " 'lmake' without moving to location list window
 function! MyMake(...) abort
