@@ -858,7 +858,8 @@ if exists('g:plugs["powerline"]')
 elseif exists('g:plugs["vim-airline"]')
 	set noshowmode
 	let g:airline_theme='cool'
-	let g:airline_section_c = '(%{winnr()}) %<%F%m %#__accent_red#%{airline#util#wrap(airline#parts#readonly(),0)}%#__restore__#'
+	let g:airline_section_b = ''
+	let g:airline_section_c = '(%{winnr()}) %<%{fnamemodify(getcwd(), ":~")} | %{expand("%")}%m %#__accent_red#%{airline#util#wrap(airline#parts#readonly(),0)}%#__restore__#'
 endif
 " --- || powerline / airline || }}}
 
