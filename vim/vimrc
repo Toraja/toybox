@@ -20,7 +20,6 @@ if filereadable(s:vim_plug_file)
 	Plug 'airblade/vim-gitgutter'
 	Plug 'zivyangll/git-blame.vim'
 	" look & feel
-	" Plug 'powerline/powerline'	" error occurs and donno how to fix
 	Plug 'vim-airline/vim-airline'
 	Plug 'vim-airline/vim-airline-themes'
 	" finder (path/dir/file/buffer/tac/etc.)
@@ -842,26 +841,21 @@ if exists('g:plugs["git-blame.vim"]')
 endif
 " --- || git-blame.vim || }}}
 
-" {{{ || powerline / airline || ---
-if !(exists('g:plugs["powerline"]') || exists('g:plugs["vim-airline"]'))
+" {{{ || airline || ---
+if !exists('g:plugs["vim-airline"]')
 	set statusline=(%{winnr()})				" window number
 	set statusline+=%f						" relative path
 	set statusline+=[%{strlen(&fenc)?&fenc:'none'},%{&ff}]	" [file encoding,file format]
 	set statusline+=%y%r%m					" file type; readonly flag; modified flag
 	set statusline+=%=%c,%l/%L%6.6P			" right align; current column,line/total line; percentage with fixed width of 6 chars
 endif
-if exists('g:plugs["powerline"]')
-	set noshowmode
-	python3 from powerline.vim import setup as powerline_setup
-	python3 powerline_setup()
-	python3 del powerline_setup
-elseif exists('g:plugs["vim-airline"]')
+if exists('g:plugs["vim-airline"]')
 	set noshowmode
 	let g:airline_theme='cool'
 	let g:airline_section_b = ''
 	let g:airline_section_c = '(%{winnr()}) %<%{fnamemodify(getcwd(), ":~")} | %{expand("%")}%m %#__accent_red#%{airline#util#wrap(airline#parts#readonly(),0)}%#__restore__#'
 endif
-" --- || powerline / airline || }}}
+" --- || airline || }}}
 
 " {{{ || nvim-miniyank || ---
 if exists('g:plugs["nvim-miniyank"]')
