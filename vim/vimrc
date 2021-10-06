@@ -25,7 +25,10 @@ if filereadable(s:vim_plug_file)
 	Plug 'vim-airline/vim-airline-themes'
 	" finder (path/dir/file/buffer/tac/etc.)
 	Plug 'preservim/nerdtree'
-	Plug 'francoiscabrol/ranger.vim'
+	if executable('ranger')
+		Plug 'francoiscabrol/ranger.vim'
+		Plug 'rbgrouleff/bclose.vim' " ranger.vim depends on it
+	endif
 	Plug 'dbakker/vim-projectroot'
 	Plug 'preservim/tagbar'
 	Plug 'ctrlpvim/ctrlp.vim'		" required by vim-go GoDecls
@@ -891,7 +894,6 @@ if exists('g:plugs["nerdtree"]')
 	let g:NERDTreeShowHidden=1
 	let g:NERDTreeQuitOnOpen=3
 	let g:NERDTreeUseTCD=1
-	let g:NERDTreeHijackNetrw = 0 " let ranger do the job
 	let g:NERDTreeCustomOpenArgs={
 				\ 'file': {'reuse': 'all', 'where': 't', 'keepopen': 1, 'stay': 1},
 				\ 'dir': {'reuse': 'all', 'where': 't', 'keepopen': 1, 'stay': 1}
@@ -947,11 +949,18 @@ endif
 
 " {{{ || ranger.vim || ---
 if exists('g:plugs["ranger.vim"]')
+	let g:NERDTreeHijackNetrw = 0 " this is NERDTree setting
 	let g:ranger_map_keys = 0
 	let g:ranger_replace_netrw = 1
 	nnoremap [Chief]e <Cmd>tab split \| Ranger<CR>
 endif
 " --- || ranger.vim || }}}"
+
+" {{{ || bclose.vim || ---
+if exists('g:plugs["bclose.vim"]')
+	let g:bclose_no_plugin_maps = v:true
+endif
+" --- || bclose.vim || }}}"
 
 " {{{ || tagbar || ---
 if exists('g:plugs["tagbar"]')
