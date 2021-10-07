@@ -1873,6 +1873,18 @@ function! RunInNewTabTerminal(shellCmd, focus) abort
 	execute l:vimCmd
 endfunction
 command! -complete=shellcmd -nargs=+ -bang RunInNewTabTerminal call RunInNewTabTerminal(<q-args>, <bang>0)
+
+function! DeleteHiddenBuffers()
+	let tpbl = []
+	call map(range(1, tabpagenr('$')), 'extend(tpbl, tabpagebuflist(v:val))')
+
+	let l:hidden_bufs = filter(range(1, bufnr('$')), 'bufexists(v:val) && index(tpbl, v:val) == -1')
+
+	for l:hidden_buf in l:hidden_bufs
+		silent execute 'bwipeout' l:hidden_buf
+	endfor
+endfunction
+command! DeleteHiddenBuffers call DeleteHiddenBuffers()
 " --- || functions || }}}
 
 " load local vimrc
