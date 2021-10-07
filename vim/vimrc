@@ -610,7 +610,6 @@ nnoremap <C-g> /<C-r><C-w>
 xnoremap <C-g> y/<C-r>"
 nnoremap g<C-g> /\<Lt><C-r><C-w>\>
 xnoremap g<C-g> y\<Lt>/<C-r>"\>
-nnoremap g[i :psearch /<C-r><C-w>/<CR>
 " [toggle highlight]
 if exists('v:hlsearch')
 	nnoremap <silent> <expr> <M-u> (&hlsearch && v:hlsearch ? ':nohlsearch<CR>' : ':set hlsearch<CR>')
@@ -785,7 +784,6 @@ endif
 " {{{ || Others || ---
 map <S-Space> <Space>
 nnoremap <C-s> :update<CR>
-nnoremap <F1> K
 if has('gui')
 	nnoremap <F3> :source $MYVIMRC<CR>:source $MYGVIMRC<CR>
 else
@@ -795,15 +793,11 @@ nnoremap <Leader><F3> :tabnew $MYVIMRC<CR>
 nnoremap [Chief]<F3> :call OpenFtplugins(&ft)<CR>
 nnoremap [Captain]<F3> :SetFt<CR>
 nnoremap Q gQ
-noremap [Chief]: :<C-p>
-nnoremap <silent> <Leader>b :buffers<CR>
 nnoremap <M-c> <Cmd>mode<CR>
 " [insert/command mode]
 cnoremap <C-j> <Tab>
-inoremap <M-o> <C-\><C-o>
 cnoremap <expr> <C-p> wildmenumode() ? "\<C-p>" : "\<Up>"
 cnoremap <expr> <C-n> wildmenumode() ? "\<C-n>" : "\<Down>"
-cnoremap <M-i> <C-d>
 cnoremap <M-@> <Home>let @" = '<End>'
 " retry triggering abbreviation
 inoremap <C-g><C-]> <Esc>ciw<C-r>"<C-]>
