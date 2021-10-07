@@ -883,6 +883,7 @@ if exists('g:plugs["nerdtree"]')
 	let g:NERDTreeShowHidden=1
 	let g:NERDTreeQuitOnOpen=3
 	let g:NERDTreeUseTCD=1
+	let g:NERDTreeWinSize = 40
 	let g:NERDTreeCustomOpenArgs={
 				\ 'file': {'reuse': 'all', 'where': 't', 'keepopen': 1, 'stay': 1},
 				\ 'dir': {'reuse': 'all', 'where': 't', 'keepopen': 1, 'stay': 1}
