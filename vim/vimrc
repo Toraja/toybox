@@ -494,8 +494,8 @@ endfunction
 " --- || cursor motion || }}}
 
 " {{{ || scrolling || ---
-noremap <C-u> 5<C-u>
-noremap <C-d> 5<C-d>
+noremap <C-u> 10<C-y>
+noremap <C-d> 10<C-e>
 noremap <M-y> zh
 noremap <M-e> zl
 noremap <M-Y> zH
