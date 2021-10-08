@@ -59,8 +59,10 @@ if filereadable(s:vim_plug_file)
 				\ 'branch': 'next',
 				\ 'do': has('win32') ? 'powershell install.ps1' : 'bash install.sh',
 				\ }
-	Plug 'SirVer/ultisnips'
+	" Plug 'SirVer/ultisnips'
 	Plug 'honza/vim-snippets'
+	Plug 'Shougo/neosnippet.vim'
+	Plug 'Shougo/neosnippet-snippets'
 	Plug 'vim-utils/vim-husk'
 	" misc
 	Plug 'sheerun/vim-polyglot'
@@ -252,7 +254,9 @@ set history=1000
 set wildignorecase						" command mode completion ignores case
 set wildignore+=*.swp,*.bak,*.class		" ignore files this specified extentions on completion
 set wildmenu							" display menu on command line completion
-set wildcharm=<Tab>						" This enables cycling through popup version of wildmenu with <expr> keymap
+" neosnippet behaves strangely if 'wildcharm' is set to <Tab>, so use another key to workaround
+" set wildcharm=<Tab>						" This enables cycling through popup version of wildmenu with <expr> keymap
+set wildcharm=<F10>
 set wildmode=full,longest:full			" command mode completion method
 " --- || options || }}}
 
@@ -510,7 +514,8 @@ inoremap <C-u> <C-g>u<C-u>
 cnoremap <expr> <C-q> Expander()
 inoremap <expr> <C-y> pumvisible() ? "\<C-y>" : "<C-g>u\<C-r>\""
 cnoremap <expr> <C-y> wildmenumode() ? "\<C-e>" : "\<C-r>\""
-cnoremap <expr> <Tab> wildmenumode() ? "\<C-n>" : "\<Tab>"
+" cnoremap <expr> <Tab> wildmenumode() ? "\<C-n>" : "\<Tab>"
+cnoremap <expr> <Tab> wildmenumode() ? "\<C-n>" : "\<F10>"
 cnoremap <expr> <C-g> wildmenumode() ? "\<Down>" : "\<C-g>"
 cnoremap <expr> <C-t> wildmenumode() ? "\<Up>" : "\<C-t>"
 noremap! <M-y> <C-r>*
@@ -1151,6 +1156,16 @@ if exists('g:plugs["ultisnips"]')
 	cnoreabbrev us call UltiSnips#
 endif
 " --- || UltiSnips || }}}
+
+" {{{ || neosnippet.vim || ---
+if exists('g:plugs["neosnippet.vim"]')
+	let g:neosnippet#enable_snipmate_compatibility = 1
+	let g:neosnippet#snippets_directory = '~/toybox/vim/rtp/neoppets/'
+	imap <C-]> <Plug>(neosnippet_expand_or_jump)
+	smap <C-]> <Plug>(neosnippet_expand_or_jump)
+	xmap <C-]> <Plug>(neosnippet_expand_target)
+endif
+" --- || neosnippet.vim || }}}
 
 " {{{ || LanguageClient-neovim || ---
 if exists('g:plugs["LanguageClient-neovim"]')
