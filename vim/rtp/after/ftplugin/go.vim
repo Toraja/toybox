@@ -153,3 +153,4 @@ cnoreabbrev gmlt GoMetaLinterAutoSaveToggle
 
 " --- || vim-go || }}}
 
+nnoremap yx vaBVy%p
