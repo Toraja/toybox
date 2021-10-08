@@ -90,6 +90,8 @@ if filereadable(s:vim_plug_file)
 	" Plug 'stephpy/vim-php-cs-fixer'
 	Plug 'aeke/vim-php-cs-fixer' " Use this fork as the original has a bug
 	Plug 'noahfrederick/vim-laravel'
+	" <wiki>
+	Plug 'vimwiki/vimwiki'
 	" <markdown>
 	Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }}
 	Plug 'mzlogin/vim-markdown-toc'
