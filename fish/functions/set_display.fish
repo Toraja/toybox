@@ -1,6 +1,11 @@
 function set_display --description='Wrapper for setting DISPLAY'
     is_display_set; and return;
 
+    is_inside_docker; and begin
+        wsl_docker
+        return
+    end
+
     # grep --quiet --ignore-case microsoft /proc/version; and begin
     # grep on alpine linux does not support long options
     grep -q -i microsoft /proc/version; and begin
@@ -16,4 +21,12 @@ end
 
 function is_display_set --description='Check if DISPLAY is set'
     return (test -n "$DISPLAY")
+end
+
+function wsl_docker --description='DISPLAY for docker container'
+    set --export --global DISPLAY host.docker.internal:0.0
+end
+
+function is_inside_docker --description='Check if it is inside docker container'
+    return (test -f "/.dockerenv")
 end
