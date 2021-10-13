@@ -1,4 +1,4 @@
-set conceallevel=2
+setlocal conceallevel=2
 
 let g:vimwiki_key_mappings = {
 			\ 'all_maps': 0,

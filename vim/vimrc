@@ -143,6 +143,8 @@ endif
 set laststatus=2						" always display status bar
 set showtabline=2						" always display tabline
 set shortmess+=c
+set conceallevel=2
+set concealcursor=nv
 
 " {{{ || Compose tabline || ---
 function! MyTabLine()
@@ -874,6 +876,7 @@ endif
 " --- || nvim-miniyank || }}}
 
 " {{{ || indentLine || ---
+let g:indentLine_setConceal = 0
 let g:indentLine_fileTypeExclude = ['markdown', 'json', 'nerdtree']
 let g:indentLine_bufTypeExclude = ['help', 'terminal']
 " --- || indentLine || }}}
