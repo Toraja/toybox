@@ -1793,6 +1793,7 @@ endfunction
 
 function! Toggler()
 	let l:options = {
+				\ 'e': 'expandtab',
 				\ 'l': 'list',
 				\ 'p': 'paste',
 				\ 'r': 'relativenumber',
