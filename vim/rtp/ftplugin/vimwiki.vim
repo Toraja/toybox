@@ -1,17 +1,7 @@
 setlocal conceallevel=2
 
-let g:vimwiki_key_mappings = {
-			\ 'all_maps': 0,
-			\ 'global': 0,
-			\ 'headers': 1,
-			\ 'text_objs': 0,
-			\ 'table_format': 0,
-			\ 'table_mappings': 0,
-			\ 'lists': 0,
-			\ 'links': 0,
-			\ 'html': 0,
-			\ 'mouse': 0,
-			\ }
+nmap <buffer> o <Plug>VimwikiListo
+nmap <buffer> O <Plug>VimwikiListO
 
 function! s:InitWikiCmds()
 	let l:wiki_cmds = {
