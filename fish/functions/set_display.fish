@@ -1,7 +1,9 @@
 function set_display --description='Wrapper for setting DISPLAY'
     is_display_set; and return;
 
-    is_inside_docker; and begin
+    # If docker desktop uses WSL as backend, IP address in /etc/resolv.conf does
+    # not work. Use docker instead.
+    is_inside_docker || is_docker_desktop; and begin
         wsl_docker
         return
     end
@@ -29,4 +31,8 @@ end
 
 function is_inside_docker --description='Check if it is inside docker container'
     return (test -f "/.dockerenv")
+end
+
+function is_docker_desktop --description='Check if docker desktop uses WSL as backedn'
+    return (grep -q -i host.docker.internal /etc/hosts)
 end
