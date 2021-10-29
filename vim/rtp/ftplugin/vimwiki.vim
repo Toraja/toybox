@@ -1,5 +1,8 @@
 setlocal conceallevel=2
 
+highlight link VimwikiDelText Conceal
+highlight link VimwikiCode Constant
+
 nmap <buffer> o <Plug>VimwikiListo
 nmap <buffer> O <Plug>VimwikiListO
 
