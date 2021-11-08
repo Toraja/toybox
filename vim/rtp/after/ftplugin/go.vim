@@ -17,7 +17,7 @@ function! s:InitGocmds()
 	let l:go_test_func_new_tab_focus_args = runcmds#init#MakeCmdArgsList([['-v']])
 	let l:go_test_file_args = runcmds#init#MakeCmdArgsList([['-v']])
 	let l:go_cmds = {
-				\ 'a': runcmds#init#MakeCmdInfo('GoAlternateVSplit', v:true),
+				\ 'a': runcmds#init#MakeCmdInfo('GoAlternateVSplit!', v:false),
 				\ 'B': runcmds#init#MakeCmdInfo('!go test -bench .'),
 				\ 'c': runcmds#init#MakeCmdInfo('GoCallers'),
 				\ 'C': runcmds#init#MakeCmdInfo('GoCallees'),
