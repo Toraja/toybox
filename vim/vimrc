@@ -15,6 +15,7 @@ if filereadable(s:vim_plug_file)
 	execute 'source ' . s:vim_plug_file
 	call plug#begin(s:plugin_dir)
 	Plug 'junegunn/vim-plug'
+	" Plug 'vim-denops/denops.vim'
 	" git
 	Plug 'tpope/vim-fugitive'
 	Plug 'airblade/vim-gitgutter'
@@ -54,6 +55,8 @@ if filereadable(s:vim_plug_file)
 	if has('nvim') " no completion for conventional vim as it takes so long to start up
 		Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 	endif
+	" Plug 'Shougo/ddc.vim'
+	" Plug 'Shougo/ddc-nvim-lsp'
 	Plug 'Shougo/echodoc.vim'
 	Plug 'autozimu/LanguageClient-neovim', {
 				\ 'branch': 'next',
@@ -62,6 +65,7 @@ if filereadable(s:vim_plug_file)
 	" Plug 'SirVer/ultisnips'
 	Plug 'honza/vim-snippets'
 	Plug 'Shougo/neosnippet.vim'
+	" Plug 'Shougo/deoppet.nvim' " snipmate not supported yet
 	Plug 'Shougo/neosnippet-snippets'
 	Plug 'vim-utils/vim-husk'
 	" misc
@@ -1177,6 +1181,23 @@ if exists('g:plugs["neosnippet.vim"]')
 endif
 " --- || neosnippet.vim || }}}
 
+" {{{ || deoppet.nvim || ---
+if exists('g:plugs["deoppet.nvim"]')
+	imap <C-]>  <Plug>(deoppet_expand)
+	imap <C-s>  <Plug>(deoppet_jump_forward)
+	imap <M-s>  <Plug>(deoppet_jump_backward)
+	xmap <C-l>  <Plug>(deoppet_select_text)
+	xmap <C-x>  <Plug>(deoppet_cut_text)
+	call deoppet#initialize()
+	let s:snippetDirs = []
+	call extend(s:snippetDirs, globpath(&runtimepath, 'snippets', 1, 1))
+	call extend(s:snippetDirs, globpath(&runtimepath, 'UltiSnips', 1, 1))
+	call extend(s:snippetDirs, globpath(&runtimepath, 'neosnippets', 1, 1))
+	echom s:snippetDirs
+	call deoppet#custom#option('snippets', map(s:snippetDirs, { _, val -> { 'path': val } }))
+endif
+" --- || deoppet.nvim || }}}
+
 " {{{ || LanguageClient-neovim || ---
 if exists('g:plugs["LanguageClient-neovim"]')
 	set hidden
@@ -1279,6 +1300,19 @@ if exists('g:plugs["deoplete.nvim"]')
 	inoremap <silent> <expr> <C-i> pumvisible() ? "\<C-n>" : deoplete#manual_complete()
 endif
 " --- || deoplete || }}}
+
+" {{{ || ddc || ---
+if exists('g:plugs["ddc.vim"]')
+	inoremap <silent> <expr> <C-i> pumvisible() ? "\<C-n>" : ddc#map#complete()
+	call ddc#custom#patch_global('sources', ['around', 'nvim-lsp'])
+	call ddc#custom#patch_global('sourceOptions', {
+				\ '_': { 'matchers': ['matcher_head'] },
+				\ 'nvim-lsp': {
+					\   'mark': 'L',
+					\   'forceCompletionPattern': '\.\w*|:\w*|->\w*' },
+					\ })
+endif
+" --- || ddc || }}}
 
 " {{{ || echodoc.vim || ---
 let g:echodoc#enable_at_startup = 1
