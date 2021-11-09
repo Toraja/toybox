@@ -1293,11 +1293,12 @@ endif
 " {{{ || deoplete || ---
 if exists('g:plugs["deoplete.nvim"]')
 	let g:deoplete#enable_at_startup = 1
+	call deoplete#custom#source('_', 'smart_case', v:true)
 	if has('win32')
 		" cmd is "python.exe" so deoplete (yarp?) cannot find it by default
 		let g:python3_host_prog="python"
 	endif
-	inoremap <silent> <expr> <C-i> pumvisible() ? "\<C-n>" : deoplete#manual_complete()
+	inoremap <silent> <expr> <C-i> pumvisible() ? "\<C-n>" : deoplete#complete()
 endif
 " --- || deoplete || }}}
 
