@@ -33,6 +33,6 @@ function is_inside_docker --description='Check if it is inside docker container'
     return (test -f "/.dockerenv")
 end
 
-function is_docker_desktop --description='Check if docker desktop uses WSL as backedn'
-    return (grep -q -i host.docker.internal /etc/hosts)
+function is_docker_desktop --description='Check if docker desktop uses WSL as backend'
+    return (grep -q -i host.docker.internal /etc/hosts && docker ps &>/dev/null)
 end
