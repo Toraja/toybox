@@ -1075,6 +1075,12 @@ if exists('g:plugs["vim-easymotion"]')
 endif
 " --- || easy-motion || }}}
 
+" {{{ || vim-indent-object || ---
+if exists('g:plugs["vim-indent-object"]')
+	nmap yx yaI']p
+endif
+" --- || vim-indent-object || }}}
+
 " {{{ || CamelCaseMotion || ---
 if exists('g:plugs["CamelCaseMotion"]')
     map <silent> <M-w> <Plug>CamelCaseMotion_w
