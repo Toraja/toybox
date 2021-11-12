@@ -39,6 +39,7 @@ if filereadable(s:vim_plug_file)
 	" moving around
 	Plug 'easymotion/vim-easymotion'
 	Plug 'michaeljsmith/vim-indent-object'
+	Plug 'jeetsukumaran/vim-indentwise'
 	Plug 'bkad/CamelCaseMotion'
 	" editting
 	Plug 'bfredl/nvim-miniyank'
@@ -1080,6 +1081,12 @@ if exists('g:plugs["vim-indent-object"]')
 	nmap yx yaI']p
 endif
 " --- || vim-indent-object || }}}
+
+" {{{ || vim-indentwise || ---
+	map { <Plug>(IndentWisePreviousEqualIndent)
+	map } <Plug>(IndentWiseNextEqualIndent)
+" --- || vim-indentwise || }}}
+
 
 " {{{ || CamelCaseMotion || ---
 if exists('g:plugs["CamelCaseMotion"]')
