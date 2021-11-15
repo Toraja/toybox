@@ -1,5 +1,7 @@
 " {{{ || vim-go || ---
 if exists('g:plugs["vim-go"]')
+	" let go_debug=['shell-commands'] " output vim-go's actual shell command
+
 	let g:go_doc_keywordprg_enabled = 0     " disable K to open GoDoc
 	let g:go_doc_popup_window = 1
 	let g:go_jump_to_error = 0
