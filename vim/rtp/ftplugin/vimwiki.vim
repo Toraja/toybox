@@ -11,7 +11,7 @@ function! s:InitWikiCmds()
 				\ 'c': runcmds#init#MakeCmdInfo('ConcealToggle'),
 				\ 'd': runcmds#init#MakeCmdInfo('VimwikiToggleListItem'),
 				\ 'g': runcmds#init#MakeCmdInfo('VimwikiTabnewLink'),
-				\ 'l': runcmds#init#MakeCmdInfo('VimwikiListToggle'),
+				\ 'l': runcmds#init#MakeCmdInfo('VimwikiListToggleNoInsert'),
 				\ 'p': runcmds#init#MakeCmdInfo('ToDoAddPomodoro'),
 				\ 'r': runcmds#init#MakeCmdInfo('VimwikiIndex'),
 				\ 's': runcmds#init#MakeCmdInfo('ToDoToggleStarted'),
@@ -22,6 +22,13 @@ function! s:InitWikiCmds()
 endfunction
 call s:InitWikiCmds()
 nnoremap <buffer> <expr> - runcmds#base#RunCmds('Wiki Cmds', <SID>WikiCmds(), {})
+
+function! VimwikiListToggleNoInsert() abort
+	let l:cmd = 'call vimwiki#lst#toggle_list_item()'
+	call Preserve(l:cmd, 0, 0)
+	stopinsert
+endfunction
+command! -buffer VimwikiListToggleNoInsert call VimwikiListToggleNoInsert()
 
 function! ConcealToggle() abort
 	execute printf('setlocal conceallevel=%d', &conceallevel ? 0 : 2)
