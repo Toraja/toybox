@@ -823,6 +823,28 @@ inoremap <C-g><C-]> <Esc>ciw<C-r>"<C-]>
 
 " --- || key mapping || }}}
 
+" {{{ || functions || ---
+" https://stackoverflow.com/questions/24027506/get-a-vim-scripts-snr
+" Return the <SNR> of a script.
+" Args:
+"   script_name : (str) The name of a sourced script.
+" Return:
+"   (int) The <SNR> of the script; if the script isn't found, -1.
+func! GetScriptNumber(script_name)
+	redir => scriptnames
+	silent! scriptnames
+	redir END
+
+	for script in split(l:scriptnames, "\n")
+		if l:script =~ a:script_name
+			return str2nr(split(l:script, ":")[0])
+		endif
+	endfor
+
+	return -1
+endfunc
+" --- || functions || }}}
+
 " {{{ || plugin mapping and option || ---
 
 " {{{ || vim-fugitive || ---
@@ -1082,10 +1104,21 @@ endif
 " --- || vim-indent-object || }}}
 
 " {{{ || vim-indentwise || ---
+if exists('g:plugs["vim-indentwise"]')
+	function! s:SetupVimIndentwise() abort
+		let l:vim_indentwise_snr = GetScriptNumber("vim-indentwise")
+		let l:move_to_indent_depth_ref = printf('<SNR>%d_move_to_indent_depth(1, "==", 0, "o")', l:vim_indentwise_snr)
+		function! s:MoveToIndentDepthRef() closure
+			return l:move_to_indent_depth_ref
+		endfunction
+	endfunction
+	call s:SetupVimIndentwise()
+	onoremap <Plug>(IndentWisePreviousEqualIndent) V:<C-U>call eval(<SID>MoveToIndentDepthRef())<CR>
+	onoremap <Plug>(IndentWiseNextEqualIndent)     V:<C-U>call eval(<SID>MoveToIndentDepthRef())<CR>
 	map { <Plug>(IndentWisePreviousEqualIndent)
 	map } <Plug>(IndentWiseNextEqualIndent)
+endif
 " --- || vim-indentwise || }}}
-
 
 " {{{ || CamelCaseMotion || ---
 if exists('g:plugs["CamelCaseMotion"]')
