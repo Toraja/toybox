@@ -92,8 +92,7 @@ if filereadable(s:vim_plug_file)
 		Plug 'phpactor/phpactor', {'branch': 'master', 'do': 'composer install --no-dev -o'}
 	endif
 	Plug 'vim-php/tagbar-phpctags.vim'
-	" Plug 'stephpy/vim-php-cs-fixer'
-	Plug 'aeke/vim-php-cs-fixer' " Use this fork as the original has a bug
+	Plug 'stephpy/vim-php-cs-fixer'
 	Plug 'noahfrederick/vim-laravel'
 	" <wiki>
 	Plug 'vimwiki/vimwiki'
@@ -1348,6 +1347,10 @@ if has('nvim')
 	let test#strategy = 'neovim'
 endif
 " --- || vim-test || }}}
+
+" {{{ || stephpy/vim-php-cs-fixer || ---
+let g:php_cs_fixer_enable_default_mapping = 0
+" --- || stephpy/vim-php-cs-fixer || }}}
 
 " {{{ || vim-laravel || ---
 if exists('g:plugs["vim-laravel"]')
