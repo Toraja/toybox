@@ -17,7 +17,7 @@ set fish_conf $__fish_config_dir/config.fish
 set fish_myfuncs $__fish_config_dir/myfuncs
 # add_unique is not available here
 not contains $fish_myfuncs $fish_function_path; and set --prepend fish_function_path $fish_myfuncs
-set fish_prompt_pwd_dir_length 5 # setting to 0 disable shortening path in prompt_pwd
+set fish_prompt_pwd_dir_length 0 # setting to 0 disable shortening path in prompt_pwd
 
 # Environment variables
 set --export EDITOR vim
