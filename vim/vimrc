@@ -7,6 +7,7 @@ let s:vimdir = expand("~/.vim")
 " {{{ || plugin || ---
 if has('nvim')
 	packadd cfilter
+	packadd termdebug
 endif
 " Loadng plugins must be before keymapping or they will override my keymappings!
 let s:plugin_dir = s:vimdir . '/bundle'
@@ -846,6 +847,10 @@ endfunc
 " --- || functions || }}}
 
 " {{{ || plugin mapping and option || ---
+
+" {{{ || termdebug || ---
+let g:termdebug_wide = 1
+" --- || termdebug || }}}
 
 " {{{ || vim-fugitive || ---
 if exists('g:plugs["vim-fugitive"]')
