@@ -1260,36 +1260,6 @@ if exists('g:plugs["LanguageClient-neovim"]')
 				\ 'php': [s:plugin_dir . '/phpactor/bin/phpactor', 'language-server'],
 				\ 'python': [$HOME.'/.local/bin/pyls']
 				\ }
-	let g:LanguageClient_diagnosticsDisplay = {
-				\ 1: {
-				\     "name": "Error",
-				\     "texthl": "ALEError",
-				\     "signText": "E",
-				\     "signTexthl": "Error",
-				\     "virtualTexthl": "Error",
-				\ },
-				\ 2: {
-				\     "name": "Warning",
-				\     "texthl": "ALEWarning",
-				\     "signText": "W",
-				\     "signTexthl": "Search",
-				\     "virtualTexthl": "Todo",
-				\ },
-				\ 3: {
-				\     "name": "Information",
-				\     "texthl": "ALEInfo",
-				\     "signText": "I",
-				\     "signTexthl": "Todo",
-				\     "virtualTexthl": "Todo",
-				\ },
-				\ 4: {
-				\     "name": "Hint",
-				\     "texthl": "ALEInfo",
-				\     "signText": "H",
-				\     "signTexthl": "Todo",
-				\     "virtualTexthl": "Todo",
-				\ },
-				\ }
 	let g:LanguageClient_loggingFile = expand('~/.local/share/nvim/LanguageClient.log')
 	let g:LanguageClient_serverStderr = expand('~/.local/share/nvim/LanguageServer.log')
 
