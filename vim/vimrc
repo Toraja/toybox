@@ -1278,6 +1278,8 @@ if exists('g:plugs["LanguageClient-neovim"]')
 		return copy(s:def_cmds)
 	endfunction
 
+	autocmd WinLeave __LCNHover__ call nvim_win_set_option(win_getid(), 'winhl', 'Normal:Normal')
+
 	command! LcnCodeAction call LanguageClient#textDocument_codeAction()
 	command! LcnFormat call LanguageClient#textDocument_formatting()
 	command! LcnDocHighlight call LanguageClient#textDocument_documentHighlight()
