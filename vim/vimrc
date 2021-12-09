@@ -492,7 +492,6 @@ vnoremap <silent> iu T_ot_
 onoremap <silent> iu :normal! T_vt_<CR>
 vnoremap <silent> au T_of_
 onoremap <silent> au :normal! T_vf_<CR>
-nnoremap [Chief]v :call SetOperatorFunc('VisualOperator')<CR>g@
 function! VisualOperator(operatortype)
 	if a:operatortype ==# 'v'
 		normal! `<v`>
@@ -784,7 +783,7 @@ nnoremap <C-w>A :confirm qall<CR>
 " --- || Suspend/Close/Exit || }}}
 
 " {{{ || Terminal || ---
-tnoremap <C-\><C-\> <C-\><C-n>
+tnoremap <M-c> <C-\><C-n>
 if &shell =~ 'cmd'
 	tnoremap <C-p> <Up>
 	tnoremap <C-n> <Down>
@@ -850,6 +849,40 @@ endfunc
 
 " {{{ || termdebug || ---
 let g:termdebug_wide = 1
+function! s:InitTermdebugCmds()
+	let l:cmds = {
+				\ 'a': runcmds#init#MakeCmdInfo('Arguments'),
+				\ 'b': runcmds#init#MakeCmdInfo('Break'),
+				\ 'B': runcmds#init#MakeCmdInfo('Clear'),
+				\ 'c': runcmds#init#MakeCmdInfo('Continue'),
+				\ 'f': runcmds#init#MakeCmdInfo('Finish'),
+				\ 'g': runcmds#init#MakeCmdInfo('GdbIns'),
+				\ 'i': runcmds#init#MakeCmdInfo('Step'),
+				\ 'n': runcmds#init#MakeCmdInfo('Over'),
+				\ 'o': runcmds#init#MakeCmdInfo('Program'),
+				\ 'r': runcmds#init#MakeCmdInfo('Run'),
+				\ 's': runcmds#init#MakeCmdInfo('Source'),
+				\ 'x': runcmds#init#MakeCmdInfo('Stop'),
+				\ }
+	function! s:TermdebugCmds() closure
+		return l:cmds
+	endfunction
+endfunction
+function! s:InitTermdebugFlagDict()
+	let l:flags = runcmds#init#MakeFlagDict(';', "\<Space>")
+	function! s:TermdebugFlags() closure
+		return l:flags
+	endfunction
+endfunction
+call s:InitTermdebugCmds()
+call s:InitTermdebugFlagDict()
+nnoremap <expr> <nowait> [Chief]g runcmds#base#RunCmds("Debug", <SID>TermdebugCmds(), <SID>TermdebugFlags())
+
+function! GdbIns() abort
+	Gdb
+	startinsert
+endfunction
+command! -buffer GdbIns call GdbIns()
 " --- || termdebug || }}}
 
 " {{{ || vim-fugitive || ---
@@ -860,23 +893,23 @@ if exists('g:plugs["vim-fugitive"]')
 	cnoreabbrev glg vertical sbuffer <Bar> Gllog
 	cnoreabbrev gd Gvdiffsplit
 	cnoreabbrev gp Git push
-	nnoremap <Leader>gs <Cmd>tab Git<CR>
-	nnoremap <Leader>gl <Cmd>tab Git log<CR>
-	nnoremap [Chief]gs <Cmd>vertical Git<CR>
-	nnoremap [Chief]gl <Cmd>vertical Git log<CR>
+	nnoremap <Leader>vs <Cmd>tab Git<CR>
+	nnoremap <Leader>vl <Cmd>tab Git log<CR>
+	nnoremap [Chief]vs <Cmd>vertical Git<CR>
+	nnoremap [Chief]vl <Cmd>vertical Git log<CR>
 endif
 " --- || vim-fugitive || }}}
 
 " {{{ || vim-gitgutter || ---
 if exists('g:plugs["vim-gitgutter"]')
 	let g:gitgutter_preview_win_floating = 0
-	nnoremap [Captain]gg <Cmd>GitGutter<CR>
+	nnoremap [Captain]vv <Cmd>GitGutter<CR>
 endif
 " --- || vim-gitgutter || }}}
 
 " {{{ || git-blame.vim || ---
 if exists('g:plugs["git-blame.vim"]')
-	nnoremap [Captain]gb <Cmd>GitBlame<CR>
+	nnoremap [Captain]vb <Cmd>GitBlame<CR>
 endif
 " --- || git-blame.vim || }}}
 
