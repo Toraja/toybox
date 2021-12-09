@@ -1,5 +1,6 @@
 if status --is-interactive
 ## ubuntu
+    abbr --add --global api sudo apt install
     abbr --add --global apd sudo apt update
     abbr --add --global apg sudo apt upgrade
     abbr --add --global apl apt list
