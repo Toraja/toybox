@@ -92,6 +92,7 @@ if filereadable(s:vim_plug_file)
 	if executable('composer')
 		Plug 'phpactor/phpactor', {'branch': 'master', 'do': 'composer install --no-dev -o'}
 	endif
+	Plug 'rust-lang/rust.vim'
 	Plug 'vim-php/tagbar-phpctags.vim'
 	Plug 'stephpy/vim-php-cs-fixer'
 	Plug 'noahfrederick/vim-laravel'
@@ -1292,7 +1293,8 @@ if exists('g:plugs["LanguageClient-neovim"]')
 				\ 'java': [$HOME.'/toybox/vim/helper/java-lsp.sh', '-data', getcwd()],
 				\ 'javascript': ['typescript-language-server', '--stdio'],
 				\ 'php': [s:plugin_dir . '/phpactor/bin/phpactor', 'language-server'],
-				\ 'python': [$HOME.'/.local/bin/pyls']
+				\ 'python': [$HOME.'/.local/bin/pyls'],
+				\ 'rust': ['rustup', 'run', !empty($RUST_VERSION) ? $RUST_VERSION : 'stable', 'rls'],
 				\ }
 	let g:LanguageClient_loggingFile = expand('~/.local/share/nvim/LanguageClient.log')
 	let g:LanguageClient_serverStderr = expand('~/.local/share/nvim/LanguageServer.log')
