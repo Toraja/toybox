@@ -449,6 +449,16 @@ vnoremap L g_
 vnoremap J j
 vnoremap K k
 
+snoremap <C-f> <Right>
+snoremap <C-b> <Left>
+snoremap <C-p> <Up>
+snoremap <C-n> <Down>
+snoremap <M-f> <S-Right>
+snoremap <M-b> <S-Left>
+snoremap <M-p> <S-Up>
+snoremap <M-n> <S-Down>
+snoremap <C-i> <ESC>i
+
 " {{{ || insert/command mode || ---
 inoremap <C-b> <Left>
 inoremap <C-f> <Right>
