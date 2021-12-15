@@ -1314,6 +1314,7 @@ if exists('g:plugs["LanguageClient-neovim"]')
 				\ 'a': runcmds#init#MakeCmdInfo('AV'),
 				\ 'A': runcmds#init#MakeCmdInfo('LcnCodeAction'),
 				\ 'd': runcmds#init#MakeCmdInfo('LcnHover'),
+				\ 'D': runcmds#init#MakeCmdInfo('LcnHoverClose'),
 				\ 'f': runcmds#init#MakeCmdInfo('LcnFormat'),
 				\ 'h': runcmds#init#MakeCmdInfo('LcnDocHighlight'),
 				\ 'H': runcmds#init#MakeCmdInfo('LcnDocHighlightClear'),
@@ -1333,6 +1334,7 @@ if exists('g:plugs["LanguageClient-neovim"]')
 	command! LcnDocHighlightClear call LanguageClient#clearDocumentHighlight()
 	command! LcnDocSymbol call LanguageClient#textDocument_documentSymbol()
 	command! LcnHover call LanguageClient#textDocument_hover()
+	command! LcnHoverClose call LanguageClient#closeFloatingHover()
 	command! LcnRename call LanguageClient#textDocument_rename()
 	command! LcnReference call LanguageClient#textDocument_references()
 
