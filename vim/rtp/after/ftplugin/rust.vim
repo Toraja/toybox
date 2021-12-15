@@ -17,3 +17,6 @@ function! s:InitRustCmds()
 endfunction
 call s:InitRustCmds()
 nnoremap <buffer> <expr> - runcmds#base#RunCmds('Rust Cmds', <SID>RustCmds(), {}, function('SortItemsByNestedValue', [runcmds#init#cmd_info_key_cmd]))
+
+let b:AutoPairs = extend(g:AutoPairs, {'<': '>'})
+silent! call remove(b:AutoPairs, "'")
