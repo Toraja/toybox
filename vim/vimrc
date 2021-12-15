@@ -1154,6 +1154,7 @@ endif
 
 " {{{ || vim-indentwise || ---
 if exists('g:plugs["vim-indentwise"]')
+	" reference: https://github.com/jeetsukumaran/vim-indentwise/issues/12#issuecomment-591092209
 	function! s:SetupVimIndentwise() abort
 		let l:vim_indentwise_snr = GetScriptNumber("vim-indentwise")
 		let l:move_to_indent_depth_ref = printf('<SNR>%d_move_to_indent_depth(1, "==", 0, "o")', l:vim_indentwise_snr)
