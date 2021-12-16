@@ -2,6 +2,9 @@ inoremap <buffer> <silent> <M-;> <Cmd>call edit#base#Append(';')<CR>
 nnoremap <buffer> <silent> <M-;> <Cmd>call edit#base#Append(';')<CR>
 vnoremap <buffer> <silent> <M-;> :call edit#base#Append(';')<CR>
 
+" This is useful for parameter signature added by autocompletion
+inoremap <buffer> <silent> <C-q> <C-o>cib
+
 function! s:InitRustCmds()
 	let l:override_cmds = {
 				\ 'b': runcmds#init#MakeCmdInfo('Cbuild'),
