@@ -559,10 +559,10 @@ inoremap <M-c> <Esc>guiwgU<right>ea
 nnoremap <expr> <CR> &filetype == 'qf' ? "\<CR>" : "i\<CR>\<Esc>"
 nnoremap <M-m> mpo<Esc>0Dg`p|	"insert blank line below
 nnoremap <M-M> mpO<Esc>0Dg`p|	"insert blank line above
-nnoremap <C-j> o<Esc>
-nnoremap <M-j> O<Esc>
-inoremap <C-j> <Esc>o
-inoremap <M-j> <Esc>O
+nnoremap <M-j> o<Esc>
+nnoremap <M-J> O<Esc>
+inoremap <M-j> <Esc>o
+inoremap <M-J> <Esc>O
 " [Other editing]
 vnoremap y ygv<Esc>|	"place cursor after the selection when yanking
 nnoremap Y y$
