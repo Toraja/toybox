@@ -1305,8 +1305,9 @@ if exists('g:plugs["LanguageClient-neovim"]')
 				\ 'javascript': ['typescript-language-server', '--stdio'],
 				\ 'php': [s:plugin_dir . '/phpactor/bin/phpactor', 'language-server'],
 				\ 'python': [executable('/usr/local/bin/pyls') ? '/usr/local/bin/pyls' : $HOME.'/.local/bin/pyls'],
-				\ 'rust': ['rustup', 'run', !empty($RUST_VERSION) ? $RUST_VERSION : 'stable', 'rls'],
+				\ 'rust': ['rustup', 'run', 'nightly', 'rust-analyzer'],
 				\ }
+				" \ 'rust': ['rustup', 'run', !empty($RUST_VERSION) ? $RUST_VERSION : 'stable', 'rls'],
 	let g:LanguageClient_loggingFile = expand('~/.local/share/nvim/LanguageClient.log')
 	let g:LanguageClient_serverStderr = expand('~/.local/share/nvim/LanguageServer.log')
 
