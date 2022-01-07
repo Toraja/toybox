@@ -32,7 +32,18 @@ options     head
 snippet     ifl
 abbr        if let
 options     head
-    if let Some(${1}) = ${2} {
+    if let ${1:#:Some()} = ${2} {
         ${0:TARGET}
     }
 
+snippet     pmod
+abbr        pub mod
+options     head
+    pub mod ${1:#:mod_name} {
+        ${0:TARGET}
+    }
+
+snippet     sf
+abbr        String::from()
+options     word
+    String::from("${0}")
