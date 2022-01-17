@@ -1823,7 +1823,7 @@ function! OpenFtplugins(...)
 		silent execute 'tabnew '.l:file
 	endfor
 endfunction
-command! -complete=filetype OpenFtplugins :call OpenFtplugins(<f-args>)
+command! -nargs=+ -complete=filetype OpenFtplugins :call OpenFtplugins(<f-args>)
 
 " Set filetype again with the current buffer's file type
 function! SetFt(...)
