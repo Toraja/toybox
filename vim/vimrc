@@ -234,11 +234,11 @@ set formatoptions+=jmM
 set nofixendofline                      " Preserve the current EOL state
 set ttimeoutlen=0						" This prevents <Esc> to hang in input mode on Linux terminal
 if has('persistent_undo')
-	if !isdirectory($HOME . '/.local/share/nvim/undo')
-		call mkdir($HOME . '/.local/share/nvim/undo', 'p')
+	if !isdirectory($HOME . '/.vim/undo')
+		call mkdir($HOME . '/.vim/undo', 'p')
 	endif
 	set undofile						" enable undo beyond sessions
-	set undodir=$HOME/.local/share/nvim/undo,.
+	set undodir=$HOME/.vim/undo,.
 endif
 
 " << search >>
@@ -249,10 +249,10 @@ set hlsearch							" highlight the match
 set matchpairs+=<:>						" % command jumps between <> as well
 
 " << others >>
-if !isdirectory($HOME . '/.local/share/nvim/swap')
-	call mkdir($HOME . '/.local/share/nvim/swap', 'p')
+if !isdirectory($HOME . '/.vim/swap')
+	call mkdir($HOME . '/.vim/swap', 'p')
 endif
-set directory=$HOME/.local/share/nvim/swap,.
+set directory=$HOME/.vim/swap,.
 set cpoptions+=Iy						" I:autoindent is not removed when moving to other lines
 set whichwrap+=<,>						" allow <Left> and <Right> in move to other lines
 set complete+=k							" ins-completion option (include dictionary search)
