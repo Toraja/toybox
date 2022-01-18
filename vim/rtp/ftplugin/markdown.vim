@@ -24,8 +24,27 @@ let g:table_mode_map_prefix = '<Leader><Bslash>'
 " --- || vim-table-mode || }}}
 
 " {{{ || markdown-preview || ---
-let mkdp_auto_close = 0
+" let $NVIM_MKDP_LOG_FILE = expand('~/tmp/mkdp.log') " default location is <plugin root>/app/mkdp.log
+" let $NVIM_MKDP_LOG_LEVEL = 'debug'
+let g:mkdp_auto_close = 0
+let g:mkdp_echo_preview_url = 1
+let g:mkdp_page_title = '${name}'
 if executable('firefox')
 	let g:mkdp_browser='firefox'
 endif
+
+function! s:MkdpPublish()
+	let g:mkdp_open_to_the_world = 1
+endfunction
+command! MkdpPublish call s:MkdpPublish()
+
+function! s:MkdpUnpublish()
+	let g:mkdp_open_to_the_world = 0
+endfunction
+command! MkdpUnpublish call s:MkdpUnpublish()
+
+function! s:MkdpSetPort(port)
+	let g:mkdp_port = a:port
+endfunction
+command! -nargs=1 MkdpSetPort call s:MkdpSetPort(<q-args>)
 " --- || markdown-preview || }}}
