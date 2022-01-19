@@ -16,6 +16,7 @@ function fish_user_key_bindings
     bind \e\cd kill-bigword
     bind \e\cu kill-whole-line
     bind \el downcase-word
+    bind --key nul 'commandline --insert " " && commandline -f backward-char'
 
     # search
     bind \ep history-prefix-search-backward
