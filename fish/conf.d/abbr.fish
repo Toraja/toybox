@@ -13,6 +13,8 @@ if status --is-interactive
         set fig_cmd 'find -type f -exec grep -Hn {} ;'
     end
     abbr --add --global fig $fig_cmd
+## tmux
+    abbr --add --global ta tmux attach
 ## git
     abbr --add --global gb git branch
     abbr --add --global gs git status
