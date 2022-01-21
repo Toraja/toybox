@@ -548,8 +548,6 @@ inoremap <M-d> <C-g>u<C-\><C-o>"_dw
 inoremap <C-k> <C-g>u<C-\><C-o>"_D
 inoremap <M-h> <C-g>u<C-w>
 cnoremap <M-h> <C-w>
-inoremap <M-n> <C-e>
-inoremap <M-p> <C-y>
 inoremap <M-t> <C-d>
 " [UPPER/lowercase & Capitalize]
 inoremap <M-u> <Esc>gUiwea
