@@ -1303,15 +1303,36 @@ if exists('g:plugs["LanguageClient-neovim"]')
 				\ 'javascript': ['typescript-language-server', '--stdio'],
 				\ 'php': [s:plugin_dir . '/phpactor/bin/phpactor', 'language-server'],
 				\ 'python': [executable('/usr/local/bin/pyls') ? '/usr/local/bin/pyls' : $HOME.'/.local/bin/pyls'],
-				\ 'rust': ['rustup', 'run', 'nightly', 'rust-analyzer'],
+				\ 'rust': {
+				\   'name': 'rust-analyzer',
+				\   'command': ['rustup', 'run', 'nightly', 'rust-analyzer'],
+				\   'initializationOptions': {
+				\     'completion': {
+				\       'addCallParenthesis ': v:false,
+				\       'addCallArgumentSnippets': v:false,
+				\     },
+				\   },
+				\ },
 				\ }
+				" seems below rust-analyzer init options do not work
+				" \     'completion': {
+				" \       'addCallParenthesis ': v:false,
+				" \     },
+				" \     'callInfo': {
+				" \       'full': v:false,
+				" \     },
+				" \     'hover': {
+				" \       'documentation': v:false,
+				" \     },
+				" \     'hoverActions': {
+				" \       'enable': v:false,
+				" \     },
 				" \ 'rust': ['rustup', 'run', !empty($RUST_VERSION) ? $RUST_VERSION : 'stable', 'rls'],
 	let g:LanguageClient_loggingFile = expand('~/.local/share/nvim/LanguageClient.log')
 	let g:LanguageClient_serverStderr = expand('~/.local/share/nvim/LanguageServer.log')
 
 	let s:def_cmds = {
 				\ 'a': runcmds#init#MakeCmdInfo('AV'),
-				\ 'A': runcmds#init#MakeCmdInfo('LcnCodeAction'),
 				\ 'd': runcmds#init#MakeCmdInfo('LcnHover'),
 				\ 'D': runcmds#init#MakeCmdInfo('LcnHoverClose'),
 				\ 'f': runcmds#init#MakeCmdInfo('LcnFormat'),
@@ -1320,6 +1341,7 @@ if exists('g:plugs["LanguageClient-neovim"]')
 				\ 'n': runcmds#init#MakeCmdInfo('LcnRename'),
 				\ 'o': runcmds#init#MakeCmdInfo('LcnDocSymbol'),
 				\ 'R': runcmds#init#MakeCmdInfo('LcnReference'),
+				\ '0': runcmds#init#MakeCmdInfo('LcnCodeAction'),
 				\ }
 	function! DefaultCmds()
 		return copy(s:def_cmds)
