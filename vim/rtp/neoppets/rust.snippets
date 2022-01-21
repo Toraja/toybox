@@ -1,33 +1,44 @@
 snippet     rt
 abbr        return
-options     head
+options     word
     return 
 
-snippet     me
-abbr        fn (self, args) {}
-options     head
-    fn ${1:#:func_name}(${2:#:&}self${3:#:, args}) {
+snippet     fn
+abbr        fn (args) {}
+options     word
+    fn ${1:#:func_name}(${2:#:args}) ${3:#:-> ()} {
         ${0:TARGET}
     }
 
-snippet     me-
+snippet     me
 abbr        fn (self, args) {}
-options     head
-    fn ${1:#:func_name}(${2:#:&}self${3:#:, args}) -> ${4:#:()} {
+options     word
+    fn ${1:#:func_name}(${2:#:&}self${3:#:, args}) ${4:#:-> ()} {
         ${0:TARGET}
     }
 
 snippet     matres
 abbr        match Result
-options     head
+options     word
     match ${1} {
-        Ok(${2}) => {
-            ${3}
-        },
-        Err(e) => {
-            ${4}
-        },
+        Ok(${2}) => ${3},
+        Err(e) => ${4},
     }
+
+snippet     letmat
+abbr        let match
+options     head
+    let ${1} = match ${2} {
+        ${3} => ${4}
+    };
+
+snippet     letmatres
+abbr        let match Result
+options     head
+    let ${1} = match ${2} {
+        Ok(${3}) => ${4},
+        Err(e) => ${5},
+    };
 
 snippet     ifl
 abbr        if let

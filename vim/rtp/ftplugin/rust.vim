@@ -13,3 +13,9 @@ function! CrunIns() abort
 	startinsert
 endfunction
 command! -buffer CrunIns call CrunIns()
+
+function! RustToggleBackTrace() abort
+	let $RUST_BACKTRACE = !$RUST_BACKTRACE
+	echo '$RUST_BACKTRACE = ' . $RUST_BACKTRACE
+endfunction
+command! -buffer RustToggleBackTrace call RustToggleBackTrace()
