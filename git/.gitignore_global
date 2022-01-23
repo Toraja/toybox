@@ -1,13 +1,13 @@
 # temporary file
 *.swp
 
-# compiled file
-*.class
-*.exe
-
 # tag file
 tags
 
 # vscode related
 .vscode
 debug.test
+
+# asdf
+.tool-versions
+.envrc
