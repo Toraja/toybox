@@ -98,3 +98,10 @@ and begin
     bind \co fzf-file-widget
     bind \eo fzf-cd-widget
 end
+
+# asdf
+source ~/.asdf/asdf.fish
+asdf exec direnv hook fish | source
+function direnv
+    asdf exec direnv $argv
+end
