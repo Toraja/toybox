@@ -463,6 +463,10 @@ inoremap <C-b> <Left>
 inoremap <C-f> <Right>
 inoremap <M-f> <C-Right>
 inoremap <M-b> <C-Left>
+inoremap <M-e> <Esc>ea
+inoremap <M-E> <Esc>Ea
+inoremap <M-e> <Esc>ea
+inoremap <M-E> <Esc>Ea
 imap <silent> <Home> <C-o><Home>
 imap <C-a> <Home>
 inoremap <expr> <C-e> pumvisible() ? "\<C-e>" : "\<End>"
