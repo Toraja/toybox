@@ -100,8 +100,10 @@ and begin
 end
 
 # asdf
-source ~/.asdf/asdf.fish
-asdf exec direnv hook fish | source
-function direnv
-    asdf exec direnv $argv
+test -f ~/.asdf/asdf.fish; and begin
+    source ~/.asdf/asdf.fish
+    asdf exec direnv hook fish | source
+    function direnv
+        asdf exec direnv $argv
+    end
 end
