@@ -30,7 +30,6 @@ if filereadable(s:vim_plug_file)
 		Plug 'francoiscabrol/ranger.vim'
 		Plug 'rbgrouleff/bclose.vim' " ranger.vim depends on it
 	endif
-	Plug 'dbakker/vim-projectroot'
 	Plug 'preservim/tagbar'
 	Plug 'ctrlpvim/ctrlp.vim'		" required by vim-go GoDecls
 	Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
@@ -71,6 +70,7 @@ if filereadable(s:vim_plug_file)
 	Plug 'Shougo/neosnippet-snippets'
 	Plug 'vim-utils/vim-husk'
 	" misc
+	Plug 'ahmedkhalf/project.nvim'
 	Plug 'sheerun/vim-polyglot'
 	Plug 'tpope/vim-abolish'
 	Plug 'vim-test/vim-test'
@@ -1123,12 +1123,6 @@ if exists('g:plugs["vim-surround"]')
 endif
 " --- || vim-surround || }}}
 
-" {{{ || vim-projectroot || ---
-if exists('g:plugs["vim-projectroot"]')
-	cnoreabbrev pj <C-r>=ProjectRootGuess()<C-m>
-endif
-" --- || vim-projectroot || }}}
-
 " {{{ || auto-pairs || ---
 if exists('g:plugs["auto-pairs"]')
 	let g:AutoPairsShortcutToggle = ''
@@ -1435,6 +1429,15 @@ let g:echodoc#enable_at_startup = 1
 " let g:echodoc#type = 'floating'
 " highlight link EchoDocFloat Pmenu
 " --- || echodoc.vim || }}}
+
+" {{{ || project.nvim || ---
+lua << EOF
+  require("project_nvim").setup {
+    show_hidden = false,
+	patterns = { "Cargo.toml", ".git", "_darcs", ".hg", ".bzr", ".svn", "Makefile", "package.json" },
+  }
+EOF
+" --- || project.nvim || }}}
 
 " {{{ || vim-abolish || ---
 let g:abolish_no_mappings = 1
@@ -2047,8 +2050,3 @@ function! DeleteHiddenBuffers()
 endfunction
 command! DeleteHiddenBuffers call DeleteHiddenBuffers()
 " --- || functions || }}}
-
-" load local vimrc
-if exists('g:plugs["vim-projectroot"]')
-	silent! execute 'source '.projectroot#guess().'/.vimrc_local'
-endif
