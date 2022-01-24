@@ -824,6 +824,26 @@ cnoremap <expr> <C-n> wildmenumode() ? "\<C-n>" : "\<Down>"
 cnoremap <M-@> <Home>let @" = '<End>'
 " retry triggering abbreviation
 inoremap <C-g><C-]> <Esc>ciw<C-r>"<C-]>
+
+function! s:InitNiceCmds()
+	let l:cmds = {
+				\ 'c': runcmds#init#MakeCmdInfo('lcd %:p:h | echo "lcd -> " . expand("%:p:h")'),
+				\ 'd': runcmds#init#MakeCmdInfo('echo "current dir: " . getcwd()'),
+				\ 'p': runcmds#init#MakeCmdInfo('echo "filepath: " . expand("%:p")'),
+				\ }
+	function! s:NiceCmds() closure
+		return l:cmds
+	endfunction
+endfunction
+function! s:InitNiceFlagDict()
+	let l:flags = runcmds#init#MakeFlagDict(';', "\<Space>")
+	function! s:NiceFlags() closure
+		return l:flags
+	endfunction
+endfunction
+call s:InitNiceCmds()
+call s:InitNiceFlagDict()
+nnoremap <expr> _ runcmds#base#RunCmds("Nice", <SID>NiceCmds(), <SID>NiceFlags())
 " --- || Others || }}}
 
 " --- || key mapping || }}}
@@ -1914,30 +1934,6 @@ function! DictToOneLineString(dict, ...) abort
 	endfor
 	return join(l:output, l:separator)
 endfunction
-
-function! Toggler()
-	let l:options = {
-				\ 'e': 'expandtab',
-				\ 'l': 'list',
-				\ 'p': 'paste',
-				\ 'r': 'relativenumber',
-				\ 'w': 'wrap'
-				\ }
-	call DispOptions('Toggle option', l:options, 'Press a key: ')
-	let l:userinput = GetChar(v:true)
-	" string == 0 is true so must return the default value
-	let l:option = get(l:options, l:userinput, "")
-	redraw	" clear concole so that 'Press ENTER or ...' will not be shown
-	if l:option is ""
-		" user press an unavailable key
-		echohl WarningMsg
-		echo printf('"%s" is not available.', l:userinput)
-		echohl NONE
-		return
-	endif
-	execute 'set '.l:option.'! '.l:option.'?'
-endf
-nnoremap _ :call Toggler()<CR>
 
 " Function for sort() to sort 2D list based on the first element of inner array.
 " Main usage is to sort list returned by items({dict}).
