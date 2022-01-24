@@ -633,10 +633,6 @@ nnoremap <silent> g<M-*> :let @/="\\C\\<<C-r><C-w>\\>"<CR>:call histadd("search"
 nnoremap <silent> <Leader>* :let @/="\\V<C-r>=escape(expand("<cWORD>"), "/\"")<CR>"<CR>:call histadd("search", @/)<CR>:set hlsearch<CR>
 vnoremap <silent> * y:let @/="\\V<C-r>=escape(@@, "/\"")<CR>"<CR>:call histadd("search", @/)<CR>:set hlsearch<CR>
 vnoremap <silent> g* y:let @/="\\V\\<<C-r>=escape(@@, "/\"")<CR>\\>"<CR>:call histadd("search", @/)<CR>:set hlsearch<CR>
-nnoremap <C-g> /<C-r><C-w>
-xnoremap <C-g> y/<C-r>"
-nnoremap g<C-g> /\<Lt><C-r><C-w>\>
-xnoremap g<C-g> y\<Lt>/<C-r>"\>
 " [toggle highlight]
 if exists('v:hlsearch')
 	nnoremap <silent> <expr> <M-u> (&hlsearch && v:hlsearch ? ':nohlsearch<CR>' : ':set hlsearch<CR>')
