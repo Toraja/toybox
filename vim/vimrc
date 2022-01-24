@@ -1132,8 +1132,8 @@ endif
 " {{{ || auto-pairs || ---
 if exists('g:plugs["auto-pairs"]')
 	let g:AutoPairsShortcutToggle = ''
-	let g:AutoPairsShortcutFastWrap = '<M-w>'
-	let g:AutoPairsShortcutJump = '<M-v>'
+	let g:AutoPairsShortcutFastWrap = '<M-p>'
+	let g:AutoPairsShortcutJump = '<M-n>'
 	let g:AutoPairsShortcutBackInsert = '<M-\>'
 	let g:AutoPairsMapSpace = 0		" Enabling this maps <Space> to <C-]><C-R>=... and <C-]> is unwanted
 	let g:AutoPairsMultilineClose = 0
