@@ -881,7 +881,7 @@ function! s:InitTermdebugFlagDict()
 endfunction
 call s:InitTermdebugCmds()
 call s:InitTermdebugFlagDict()
-nnoremap <expr> <nowait> [Chief]g runcmds#base#RunCmds("Debug", <SID>TermdebugCmds(), <SID>TermdebugFlags())
+nnoremap <expr> [Chief]g runcmds#base#RunCmds("Debug", <SID>TermdebugCmds(), <SID>TermdebugFlags())
 
 function! GdbIns() abort
 	Gdb
@@ -902,19 +902,23 @@ if exists('g:plugs["vim-fugitive"]')
 	nnoremap <Leader>vl <Cmd>tab Git log<CR>
 	nnoremap <C-w><Leader>vs <Cmd>vertical Git<CR>
 	nnoremap <C-w><Leader>vl <Cmd>vertical Git log<CR>
+	nnoremap <Leader>vB <Cmd>Git blame<CR>
 endif
 " --- || vim-fugitive || }}}
 
 " {{{ || vim-gitgutter || ---
 if exists('g:plugs["vim-gitgutter"]')
 	let g:gitgutter_preview_win_floating = 0
-	nnoremap [Captain]vv <Cmd>GitGutter<CR>
+	nnoremap <Leader>vhh <Cmd>GitGutter<CR>
+    nmap <Leader>vhp <Plug>(GitGutterPreviewHunk)
+    nmap <Leader>vhs <Plug>(GitGutterStageHunk)
+    nmap <Leader>vhu <Plug>(GitGutterUndoHunk)
 endif
 " --- || vim-gitgutter || }}}
 
 " {{{ || git-blame.vim || ---
 if exists('g:plugs["git-blame.vim"]')
-	nnoremap [Captain]vb <Cmd>GitBlame<CR>
+	nnoremap <Leader>vb <Cmd>GitBlame<CR>
 endif
 " --- || git-blame.vim || }}}
 
