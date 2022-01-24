@@ -54,6 +54,8 @@ if status --is-interactive
     abbr --add --global dor docker run -it --name
     abbr --add --global dord docker run -d --name
     abbr --add --global dolt sudo truncate -s 0 \(docker inspect --format='{{.LogPath}}' \)
+    abbr --add --global dov docker volume
+    abbr --add --global dovs docker volume ls
 ## docker swarm
     abbr --add --global dow docker swarm
     abbr --add --global dowi docker swarm init --advertise-addr \(hostname -i\)
