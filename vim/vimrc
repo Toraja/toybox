@@ -1481,6 +1481,7 @@ let g:vimwiki_key_mappings = {
 			\ 'html': 0,
 			\ 'mouse': 0,
 			\ }
+let g:vimwiki_folding = 'list'
 " --- || vimwiki || }}}
 
 " --- || plugin mapping and option || }}}
