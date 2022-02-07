@@ -6,12 +6,13 @@ vnoremap <buffer> <silent> <M-;> :call edit#base#Append(';')<CR>
 inoremap <buffer> <silent> <C-q> <Left><C-o>cib
 
 function! s:InitRustCmds()
+	let l:rust_test_args = runcmds#init#MakeCmdArgsList([['--'], ['--show-output']])
 	let l:override_cmds = {
 				\ 'b': runcmds#init#MakeCmdInfo('Cbuild'),
 				\ 'B': runcmds#init#MakeCmdInfo('RustToggleBackTrace'),
 				\ 'g': runcmds#init#MakeCmdInfo('Cdebug'),
 				\ 'r': runcmds#init#MakeCmdInfo('CrunIns'),
-				\ 't': runcmds#init#MakeCmdInfo('RustTest'),
+				\ 't': runcmds#init#MakeCmdInfo('RustTest', v:false, l:rust_test_args),
 				\ 'T': runcmds#init#MakeCmdInfo('Ctest'),
 				\ }
 	let l:cmds = extend(DefaultCmds(), l:override_cmds)
