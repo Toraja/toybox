@@ -8,11 +8,11 @@ function! Cdebug() abort
 endfunction
 command! -buffer Cdebug call Cdebug()
 
-function! CrunIns() abort
-	Crun
+function! CrunIns(args) abort
+	execute 'Crun ' . a:args
 	startinsert
 endfunction
-command! -buffer CrunIns call CrunIns()
+command! -buffer -nargs=* CrunIns call CrunIns(<q-args>)
 
 function! RustToggleBackTrace() abort
 	let $RUST_BACKTRACE = !$RUST_BACKTRACE
