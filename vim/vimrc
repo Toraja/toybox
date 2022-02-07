@@ -1315,6 +1315,11 @@ if exists('g:plugs["LanguageClient-neovim"]')
 	set hidden
 	let g:LanguageClient_changeThrottle = 0.5
 	let g:LanguageClient_diagnosticsList = "Location"
+	let g:LanguageClient_hoverMarginSize = 2
+	let g:LanguageClient_preferredMarkupKind = ['markdown', 'plaintext']
+	let g:LanguageClient_useVirtualText = 'Diagnostics'
+	let g:LanguageClient_completionPreferTextEdit = 1
+	let g:LanguageClient_floatingHoverHighlight = 'Normal:Normal'
 	let g:LanguageClient_serverCommands = {
 				\ 'go': [$GOPATH . '/bin/gopls'],
 				\ 'java': [$HOME.'/toybox/vim/helper/java-lsp.sh', '-data', getcwd()],
@@ -1326,25 +1331,12 @@ if exists('g:plugs["LanguageClient-neovim"]')
 				\   'command': ['rustup', 'run', 'nightly', 'rust-analyzer'],
 				\   'initializationOptions': {
 				\     'completion': {
-				\       'addCallParenthesis ': v:false,
+				\       'addCallParenthesis': v:false,
 				\       'addCallArgumentSnippets': v:false,
 				\     },
 				\   },
 				\ },
 				\ }
-				" seems below rust-analyzer init options do not work
-				" \     'completion': {
-				" \       'addCallParenthesis ': v:false,
-				" \     },
-				" \     'callInfo': {
-				" \       'full': v:false,
-				" \     },
-				" \     'hover': {
-				" \       'documentation': v:false,
-				" \     },
-				" \     'hoverActions': {
-				" \       'enable': v:false,
-				" \     },
 				" \ 'rust': ['rustup', 'run', !empty($RUST_VERSION) ? $RUST_VERSION : 'stable', 'rls'],
 	let g:LanguageClient_loggingFile = expand('~/.local/share/nvim/LanguageClient.log')
 	let g:LanguageClient_serverStderr = expand('~/.local/share/nvim/LanguageServer.log')
@@ -1364,8 +1356,6 @@ if exists('g:plugs["LanguageClient-neovim"]')
 	function! DefaultCmds()
 		return copy(s:def_cmds)
 	endfunction
-
-	autocmd WinLeave __LCNHover__ call nvim_win_set_option(win_getid(), 'winhl', 'Normal:Normal')
 
 	command! LcnCodeAction call LanguageClient#textDocument_codeAction()
 	command! LcnFormat call LanguageClient#textDocument_formatting()
