@@ -3,17 +3,22 @@ abbr        return
 options     word
     return 
 
+snippet     vec
+abbr        vector
+options     word
+    vec![${0}]
+
 snippet     fn
 abbr        fn (args) {}
 options     word
-    fn ${1:#:func_name}(${2:#:args}) ${3:#:-> ()} {
+    fn ${1:#:func_name}(${2:#:args}) ${3:#:->  }{
         ${0:TARGET}
     }
 
 snippet     me
 abbr        fn (self, args) {}
 options     word
-    fn ${1:#:func_name}(${2:#:&}self${3:#:, args}) ${4:#:-> ()} {
+    fn ${1:#:func_name}(${2:#:&}self${3:#:, args}) ${4:#:->  }{
         ${0:TARGET}
     }
 
@@ -58,3 +63,12 @@ snippet     sf
 abbr        String::from()
 options     word
     String::from("${0}")
+
+snippet     from
+abbr        impl From trait
+options     head
+    impl From<${1}> for ${2} {
+        fn from(${3}: $1) -> Self {
+            ${0}
+        }
+    }
