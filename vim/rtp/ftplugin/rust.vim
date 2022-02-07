@@ -1,7 +1,11 @@
 let g:rustfmt_autosave = 1
 
+function! Croot() abort
+	return fnamemodify(findfile('Cargo.toml', '.;'), ':p:h')
+endfunction
+
 function! Cdebug() abort
-	let l:pj_root = fnamemodify(findfile('Cargo.toml', '.;'), ':p:h')
+	let l:pj_root = Croot()
 	let l:binary_name = fnamemodify(l:pj_root, ':t')
 	let l:binary_path = l:pj_root . '/target/debug/' . l:binary_name
 	execute 'Termdebug ' . l:binary_path
