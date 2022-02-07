@@ -5,13 +5,14 @@ highlight link VimwikiCode Constant
 
 nmap <buffer> o <Plug>VimwikiListo
 nmap <buffer> O <Plug>VimwikiListO
+nmap <buffer> <C-]> <Plug>VimwikiFollowLink
+nmap <buffer> <C-t><C-]> <Plug>VimwikiTabnewLink
+nmap <buffer> <C-w><C-]> <Plug>VimwikiVSplitLink
 
 function! s:InitWikiCmds()
 	let l:wiki_cmds = {
 				\ 'c': runcmds#init#MakeCmdInfo('ConcealToggle'),
 				\ 'd': runcmds#init#MakeCmdInfo('VimwikiToggleListItem'),
-				\ 'g': runcmds#init#MakeCmdInfo('VimwikiTabnewLink'),
-				\ 'G': runcmds#init#MakeCmdInfo('VimwikiVSplitLink'),
 				\ 'l': runcmds#init#MakeCmdInfo('VimwikiListToggleNoInsert'),
 				\ 'p': runcmds#init#MakeCmdInfo('ToDoAddPomodoro'),
 				\ 'r': runcmds#init#MakeCmdInfo('VimwikiIndex'),
