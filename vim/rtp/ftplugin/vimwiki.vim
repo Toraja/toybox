@@ -11,6 +11,7 @@ function! s:InitWikiCmds()
 				\ 'c': runcmds#init#MakeCmdInfo('ConcealToggle'),
 				\ 'd': runcmds#init#MakeCmdInfo('VimwikiToggleListItem'),
 				\ 'g': runcmds#init#MakeCmdInfo('VimwikiTabnewLink'),
+				\ 'G': runcmds#init#MakeCmdInfo('VimwikiVSplitLink'),
 				\ 'l': runcmds#init#MakeCmdInfo('VimwikiListToggleNoInsert'),
 				\ 'p': runcmds#init#MakeCmdInfo('ToDoAddPomodoro'),
 				\ 'r': runcmds#init#MakeCmdInfo('VimwikiIndex'),
