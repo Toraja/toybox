@@ -107,3 +107,6 @@ test -f ~/.asdf/asdf.fish; and begin
         asdf exec direnv $argv
     end
 end
+
+# taskwarrior
+set --export TASKRC ~/.config/taskwarrior/taskrc

@@ -97,4 +97,6 @@ if status --is-interactive
 ## go
     abbr --add --global got go test
     abbr --add --global gotr go test -run
+## taskwarrior
+    abbr --add --global tt taskwarrior-tui
 end
