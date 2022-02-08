@@ -37,7 +37,7 @@ function! ConcealToggle() abort
 endfunction
 command! -buffer ConcealToggle call ConcealToggle()
 
-let s:todo_line_ptn = '^\(\t*- \[.\+\]\) \(.*\)'
+let s:todo_line_ptn = '^\([ \t]*- \[.\+\]\) \(.*\)'
 let s:started_symbol = 'STARTED '
 
 function! ToDoToggleStarted() abort
