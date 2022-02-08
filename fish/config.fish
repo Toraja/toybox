@@ -20,8 +20,8 @@ not contains $fish_myfuncs $fish_function_path; and set --prepend fish_function_
 set fish_prompt_pwd_dir_length 0 # setting to 0 disable shortening path in prompt_pwd
 
 # Environment variables
-set --export EDITOR vim
-set --export VISUAL vim
+set --export EDITOR nvim
+set --export VISUAL nvim
 set --export GOPATH $HOME/go
 set --export DOCKER_BUILDKIT 1
 switch $TERM
