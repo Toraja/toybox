@@ -17,6 +17,8 @@ if status --is-interactive
     abbr --add --global ta tmux attach
 ## git
     abbr --add --global gb git branch
+    abbr --add --global gbo git branch -vv \| grep gone
+    abbr --add --global gfp git fetch --prune origin
     abbr --add --global gs git status
     abbr --add --global gl git log
     abbr --add --global glf 'git log --oneline | fzf | awk \'{print $1}\''
