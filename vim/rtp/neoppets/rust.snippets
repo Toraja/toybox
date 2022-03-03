@@ -30,6 +30,14 @@ options     word
         Err(e) => ${4},
     }
 
+snippet     matopt
+abbr        match Option
+options     word
+    match ${1} {
+        Some(${2}) => ${3},
+        None => ${4},
+    }
+
 snippet     letmat
 abbr        let match
 options     head
@@ -72,3 +80,11 @@ options     head
             ${0}
         }
     }
+
+snippet     ttest
+abbr        tokio test
+options     head
+	#[tokio::test]
+	async fn ${1:test_function_name}() {
+		${0}
+	}
