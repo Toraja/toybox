@@ -18,6 +18,7 @@ if status --is-interactive
 ## git
     abbr --add --global gb git branch
     abbr --add --global gbo git branch -vv \| grep gone
+    abbr --add --global gbod git branch -vv \| grep gone \| awk '\'{print $1}\'' \| xargs git branch -d
     abbr --add --global gfp git fetch --prune origin
     abbr --add --global gs git status
     abbr --add --global gl git log
