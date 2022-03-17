@@ -233,6 +233,7 @@ set iminsert=0 imsearch=-1				" prevent entering Japaneve input mode when enteri
 set shellslash							" always use forward slash
 set formatoptions+=jmM
 set nofixendofline                      " Preserve the current EOL state
+set timeoutlen=600
 set ttimeoutlen=0						" This prevents <Esc> to hang in input mode on Linux terminal
 if has('persistent_undo')
 	if !isdirectory($HOME . '/.vim/undo')
