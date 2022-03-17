@@ -1678,14 +1678,6 @@ function! SelectBtwCols(sln, spos, eln, epos)
 	silent execute printf("normal! :call cursor(%s, %s)\<CR>v:call cursor(%s, %s)\<CR>v`<", a:sln, a:spos, a:eln, a:epos)
 endf
 
-function! SelectCamelWord()
-	let l:crntLine = line('.')
-	let l:camelRegexp = '[A-Za-z][a-z]*'
-	let [_, l:spos] = searchpos(l:camelRegexp, 'bc', l:crntLine)
-	let [_, l:epos] = searchpos(l:camelRegexp, 'ce', l:crntLine)
-	call SelectBtwCols(l:crntLine, l:spos, l:crntLine, l:epos)
-endfunction
-
 function! SelectPair(start, middle, end, include)
 	" NOTE: searchpairpos works a little weird as illustrated below
 	" With 'c' option, if the cursor is on the first char of 'start' string (with 'b' option, last char of 'end' string),
