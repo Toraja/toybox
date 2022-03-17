@@ -917,44 +917,6 @@ endfunc
 
 " {{{ || plugin mapping and option || ---
 
-" {{{ || termdebug || ---
-let g:termdebug_wide = 1
-function! s:InitTermdebugCmds()
-	let l:cmds = {
-				\ 'a': runcmds#init#MakeCmdInfo('Arguments'),
-				\ 'b': runcmds#init#MakeCmdInfo('Break'),
-				\ 'B': runcmds#init#MakeCmdInfo('Clear'),
-				\ 'c': runcmds#init#MakeCmdInfo('Continue'),
-				\ 'f': runcmds#init#MakeCmdInfo('Finish'),
-				\ 'g': runcmds#init#MakeCmdInfo('GdbIns'),
-				\ 'i': runcmds#init#MakeCmdInfo('Step'),
-				\ 'n': runcmds#init#MakeCmdInfo('Over'),
-				\ 'o': runcmds#init#MakeCmdInfo('Program'),
-				\ 'r': runcmds#init#MakeCmdInfo('Run'),
-				\ 's': runcmds#init#MakeCmdInfo('Source'),
-				\ 'x': runcmds#init#MakeCmdInfo('Stop'),
-				\ }
-	function! s:TermdebugCmds() closure
-		return l:cmds
-	endfunction
-endfunction
-function! s:InitTermdebugFlagDict()
-	let l:flags = runcmds#init#MakeFlagDict(';', "\<Space>")
-	function! s:TermdebugFlags() closure
-		return l:flags
-	endfunction
-endfunction
-call s:InitTermdebugCmds()
-call s:InitTermdebugFlagDict()
-nnoremap <expr> [Chief]g runcmds#base#RunCmds("Debug", <SID>TermdebugCmds(), <SID>TermdebugFlags())
-
-function! GdbIns() abort
-	Gdb
-	startinsert
-endfunction
-command! -buffer GdbIns call GdbIns()
-" --- || termdebug || }}}
-
 " {{{ || which-key || ---
 highlight WhichKeyFloat ctermbg=237
 highlight link WhichKey Type
@@ -996,6 +958,37 @@ lua << EOF
   }
 EOF
 " --- || which-key || }}}
+
+" {{{ || termdebug || ---
+let g:termdebug_wide = 1
+
+lua << EOF
+  local wk = require("which-key")
+  wk.register({
+    g = {
+      name = "termdebug",
+      a = { "<Cmd>Arguments<CR>", "Set arguments to the next :Run" },
+      b = { "<Cmd>Break<CR>", "Add breakpoint" },
+      B = { "<Cmd>Clear<CR>", "Clear breakpoint" },
+      c = { "<Cmd>Continue<CR>", "Continue" },
+      f = { "<Cmd>Finish<CR>", "Finish" },
+      g = { "<Cmd>GdbIns<CR>", "Jump to gbd" },
+      i = { "<Cmd>Step<CR>", "Step in" },
+      n = { "<Cmd>Over<CR>", "Step over" },
+      o = { "<Cmd>Program<CR>", "Jump to program" },
+      r = { "<Cmd>Run<CR>", "Run the program with arguments" },
+      s = { "<Cmd>Source<CR>", "Jump to source" },
+      x = { "<Cmd>Stop<CR>", "Stop (interrupt the program)" },
+    },
+  }, { prefix = vim.g.chief_key })
+EOF
+
+function! GdbIns() abort
+	Gdb
+	startinsert
+endfunction
+command! -buffer GdbIns call GdbIns()
+" --- || termdebug || }}}
 
 " {{{ || vim-fugitive || ---
 if exists('g:plugs["vim-fugitive"]')
