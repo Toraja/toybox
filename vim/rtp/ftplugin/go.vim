@@ -44,6 +44,14 @@ if exists('g:plugs["vim-go"]')
 endif
 " --- || vim-go || }}}
 
+" {{{ || vim-test || ---
+if exists('g:plugs["vim-test"]')
+	if executable('richgo')
+		let test#go#runner = 'richgo'
+	endif
+endif
+" --- || vim-test || }}}
+
 " {{{ || neomake || ---
 " Disable and let vim-go do the work
 let g:neomake_go_enabled_makers = []
