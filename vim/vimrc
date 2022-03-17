@@ -1864,9 +1864,10 @@ endfunction
 " Get ftplugins (including after) for the specified file type and return them as a list
 function! GetFtplugins(filetype)
 	let l:files = []
-	let l:trailingfn = '/ftplugin/'.a:filetype.'.vim'
-	let l:ftppath = s:vimdir.l:trailingfn
-	let l:aftppath = s:vimdir.'/after'.l:trailingfn
+	let l:basedir = expand('~/toybox/vim/rtp/')
+	let l:trailing_path = 'ftplugin/' . a:filetype . '.vim'
+	let l:ftppath = l:basedir . l:trailing_path
+	let l:aftppath = l:basedir . 'after/' . l:trailing_path
 
 	if filereadable(l:ftppath)
 		call add(l:files, l:ftppath)
