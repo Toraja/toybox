@@ -1006,7 +1006,7 @@ lua << EOF
       -- fugitive
       s = { "<Cmd>tab Git<CR>", "vim-fugitive" },
       lt = { "<Cmd>tab Git log<CR>", "git log [tab]" },
-      lw = { "<Cmd>vertical Git log<CR>", "git log [vert]" },
+      lv = { "<Cmd>vertical Git log<CR>", "git log [vert]" },
       B = { "<Cmd>Git blame<CR>", "git blame entire file" },
       -- gitgutter
       h = {
