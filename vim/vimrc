@@ -631,15 +631,32 @@ let g:AnnoyingSpaces = "\\s\\+$\\| \\+\\t\\+\\|\\t\\+ \\+"
 nnoremap n nzx
 nnoremap N Nzx
 nnoremap <silent> [Captain]/ :let @/ = ''<CR>
-" TODO change these to use function like QuickGrep
-nnoremap <silent> * :let @/="\\V<C-r><C-w>"<CR>:call histadd("search", @/)<CR>:set hlsearch<CR>
-nnoremap <silent> g* :let @/="\\<<C-r><C-w>\\>"<CR>:call histadd("search", @/)<CR>:set hlsearch<CR>
-nnoremap <silent> <M-*> :let @/="\\V\\C<C-r><C-w>"<CR>:call histadd("search", @/)<CR>:set hlsearch<CR>
-nnoremap <silent> g<M-*> :let @/="\\C\\<<C-r><C-w>\\>"<CR>:call histadd("search", @/)<CR>:set hlsearch<CR>
-nnoremap <silent> <Leader>* :let @/="\\V<C-r>=escape(expand("<cWORD>"), "/\"")<CR>"<CR>:call histadd("search", @/)<CR>:set hlsearch<CR>
-vnoremap <silent> * y:let @/="\\V<C-r>=escape(@@, "/\"")<CR>"<CR>:call histadd("search", @/)<CR>:set hlsearch<CR>
-vnoremap <silent> g* y:let @/="\\V\\<<C-r>=escape(@@, "/\"")<CR>\\>"<CR>:call histadd("search", @/)<CR>:set hlsearch<CR>
-" [toggle highlight]
+function! HighlightWord(visual, angle_bracket, whole_word, case_sesitive) abort
+	if a:visual
+		let l:word = GetLastSelection()
+	else
+		let l:word_range = a:whole_word ? '<cWORD>' : '<cword>'
+		let l:word = expand(l:word_range)
+	endif
+	if a:angle_bracket
+		let l:word = '\<' . l:word . '\>'
+	endif
+	if a:case_sesitive
+		let l:word = '\C' . l:word
+	endif
+
+	call setreg('/', l:word)
+	call histadd('search', l:word)
+	" somehow this does not highlight
+	" set hlsearch
+endfunction
+nnoremap <silent> * <Cmd>call HighlightWord(0, 0, 0, 0)<CR><Cmd>set hlsearch<CR>
+nnoremap <silent> g* <Cmd>call HighlightWord(0, 1, 0, 0)<CR><Cmd>set hlsearch<CR>
+nnoremap <silent> <M-*> <Cmd>call HighlightWord(0, 0, 0, 1)<CR><Cmd>set hlsearch<CR>
+nnoremap <silent> g<M-*> <Cmd>call HighlightWord(0, 1, 0, 1)<CR><Cmd>set hlsearch<CR>
+nnoremap <silent> <Leader>* <Cmd>call HighlightWord(0, 0, 1, 0)<CR><Cmd>set hlsearch<CR>
+vnoremap <silent> * <Esc><Cmd>call HighlightWord(1, 0, 0, 0)<CR><Cmd>set hlsearch<CR>
+vnoremap <silent> g* <Esc><Cmd>call HighlightWord(1, 1, 0, 0)<CR><Cmd>set hlsearch<CR>
 if exists('v:hlsearch')
 	nnoremap <silent> <expr> <M-u> (&hlsearch && v:hlsearch ? ':nohlsearch<CR>' : ':set hlsearch<CR>')
 else
@@ -1667,6 +1684,12 @@ function! Expander()
 	endif
 
 	return l:cmd
+endfunction
+
+function! GetLastSelection() abort
+	let l:start = col("'<") - 1
+	let l:end = col("'>") - 1
+	return getline('.')[l:start : l:end]
 endfunction
 
 function! SelectBtwCols(sln, spos, eln, epos)
