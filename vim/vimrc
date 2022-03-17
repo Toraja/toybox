@@ -693,12 +693,24 @@ function! QuickGrep(pattern, modify)
 
 	call qf#base#QFOpenSmart(g:qf#base#qf_mode_location, v:false, 0)
 endfunction
-nnoremap <silent> [Captain]+  <Cmd>call QuickGrep('', 1)<CR>
-nnoremap <silent> +           <Cmd>call QuickGrep(expand("<cword>"), 0)<CR>
-nnoremap <silent> g+          <Cmd>call QuickGrep('\<'.expand("<cword>").'\>', 0)<CR>
-nnoremap <silent> <Leader>+   <Cmd>call QuickGrep(expand("<cWORD>"), 0)<CR>
-vnoremap <silent> +          y<Cmd>call QuickGrep(@@, 0)<CR>
-vnoremap <silent> g+         y<Cmd>call QuickGrep('\<'.@@.'\>', 0)<CR>
+lua << EOF
+  local wk = require("which-key")
+  wk.register({
+    g = {
+      name = "vimgrep",
+      g = { "<Cmd>call QuickGrep(expand('<cword>'), 0)<CR>", "" },
+      w = { "<Cmd>call QuickGrep('\\<' . expand('<cword>') . '\\>', 0)<CR>", "\\< \\>" },
+      ["<Space>"] = { "<Cmd>call QuickGrep('', 1)<CR>", "" },
+    },
+  }, { prefix = "<Leader>" })
+  wk.register({
+    g = {
+      name = "vimgrep",
+      g = { "y<Cmd>call QuickGrep(@@, 0)<CR>", "yanked" },
+      w = { "y<Cmd>call QuickGrep('\\<' . @@ . '\\>', 0)<CR>", "\\< \\>" },
+    },
+  }, { prefix = "<Leader>", mode = "v" })
+EOF
 " --- || Grep || }}}
 
 " {{{ || Replace || ---
@@ -714,7 +726,7 @@ function! QuickSubstitute(core_pattern, options)
 	let l:opt_key_case = 'case'
 	let l:opt_key_exclusive = 'exclusive'
 	let l:opt_key_selection = 'selection'
-	let l:base_substitute_cmd = '%ssubstitute/%s\V//gc'
+	let l:base_substitute_cmd = '%ssubstitute/\V%s//gc'
 
 	let l:range = has_key(a:options, l:opt_key_range) ? a:options[l:opt_key_range] : ''
 
@@ -748,18 +760,37 @@ function! QuickSubstitute(core_pattern, options)
 		echohl ErrorMsg | echomsg v:exception | echohl NONE
 	endtry
 endfunction
-nnoremap [Captain]s  <Cmd>call QuickSubstitute('', {'range': '%'})<CR>
-nnoremap [Captain]S  <Cmd>call QuickSubstitute('', {})<CR>
-nnoremap <Leader>s   <Cmd>call QuickSubstitute(expand("<cword>"), {'range': '%'})<CR>
-nnoremap <Leader>S   <Cmd>call QuickSubstitute(expand("<cword>"), {'range': '%', 'case': 1})<CR>
-nnoremap [Chief]s    <Cmd>call QuickSubstitute(expand("<cword>"), {'range': '%', 'exclusive': 1})<CR>
-nnoremap [Chief]S    <Cmd>call QuickSubstitute(expand("<cword>"), {'range': '%', 'exclusive': 1, 'case': 1})<CR>
-vnoremap [Captain]s  <Cmd>call QuickSubstitute('', {'range': '%', 'selection': 1})<CR>
-vnoremap [Captain]S  <Cmd>call QuickSubstitute(@@, {'range': '%', 'selection': 1})<CR>
-vnoremap <Leader>s  y<Cmd>call QuickSubstitute(@@, {'range': '%'})<CR>
-vnoremap <Leader>S  y<Cmd>call QuickSubstitute(@@, {'range': '%', 'case': 1})<CR>
-vnoremap [Chief]s   y<Cmd>call QuickSubstitute(@@, {'range': '%', 'exclusive': 1})<CR>
-vnoremap [Chief]S   y<Cmd>call QuickSubstitute(@@, {'range': '%', 'exclusive': 1, 'case': 1})<CR>
+lua << EOF
+  local wk = require("which-key")
+  wk.register({
+    s = {
+      name = "Substitute",
+      s = { "<Cmd>call QuickSubstitute(expand('<cword>'), {'range': '%'})<CR>", "case insensitive" },
+      c = { "<Cmd>call QuickSubstitute(expand('<cword>'), {'range': '%', 'case': 1})<CR>", "case sensitive" },
+      w = {
+        name = "\\< \\>",
+        s = { "<Cmd>call QuickSubstitute(expand('<cword>'), {'range': '%', 'exclusive': 1})<CR>", "case insensitive" },
+        c = { "<Cmd>call QuickSubstitute(expand('<cword>'), {'range': '%', 'exclusive': 1, 'case': 1})<CR>", "case sensitive" },
+      },
+      ["<Space>"] = { "<Cmd>call QuickSubstitute('', {'range': '%'})<CR>", "manual" },
+      ["."] = { "<Cmd>call QuickSubstitute('', {})<CR>", "manual on current line" },
+    },
+  }, { prefix = "<Leader>" })
+  wk.register({
+    s = {
+      name = "Substitute",
+      s = { "y<Cmd>call QuickSubstitute(@@, {'range': '%'})<CR>", "case insensitive" },
+      c = { "y<Cmd>call QuickSubstitute(@@, {'range': '%', 'case': 1})<CR>", "case sensitive" },
+      w = {
+        name = "\\< \\>",
+        s = { "y<Cmd>call QuickSubstitute(@@, {'range': '%', 'exclusive': 1})<CR>", "case insensitive" },
+        c = { "y<Cmd>call QuickSubstitute(@@, {'range': '%', 'exclusive': 1, 'case': 1})<CR>", "case sensitive" },
+      },
+      ["<Space>"] = { "<Esc><Cmd>call QuickSubstitute('', {'range': '%', 'selection': 1})<CR>", "manual within selection" },
+      ["."] = { "<Esc><Cmd>call QuickSubstitute(@@, {'range': '%', 'selection': 1})<CR>", "@@ within selection" },
+    },
+  }, { prefix = "<Leader>", mode = "v" })
+EOF
 " --- || Replace || }}}
 
 " {{{ || Quickfix/Location || ---
