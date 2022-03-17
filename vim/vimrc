@@ -36,6 +36,7 @@ if filereadable(s:vim_plug_file)
 	Plug 'junegunn/fzf.vim'
 	Plug 'tpope/vim-projectionist'
 	Plug 'c-brenn/fuzzy-projectionist.vim'
+	Plug 'folke/which-key.nvim'
 	" moving around
 	Plug 'easymotion/vim-easymotion'
 	Plug 'michaeljsmith/vim-indent-object'
@@ -362,14 +363,15 @@ if has("autocmd")
 		autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 	augroup END
 
-	" hightlight for unwanted spaces
+	" highlight for unwanted spaces
+	highlight AnnoyingSpaces ctermbg=237
 	augroup highlighter
 		autocmd!
 		" highlight trailing whitespaces and mixed whitespaces except for help files
 		" VimEnter does not do the job somehow
 		if has('nvim')
 			" SpellRare (under curl) does not work on nvim
-			autocmd BufWinEnter,InsertEnter,InsertLeave * match Visual /\s\+$\| \+\t\+\|\t\+ \+/
+			autocmd BufWinEnter,InsertEnter,InsertLeave * match AnnoyingSpaces /\s\+$\| \+\t\+\|\t\+ \+/
 		else
 			autocmd BufWinEnter,InsertEnter,InsertLeave * match SpellRare /\s\+$\| \+\t\+\|\t\+ \+/
 		endif
@@ -413,16 +415,17 @@ endif
 " {{{ || Leader || ---
 noremap <Space> <Nop>
 let mapleader = "\<Space>"
-nnoremap <Leader> "z
-vnoremap <Leader> "z
+" nnoremap <Leader> "z
+" vnoremap <Leader> "z
 
 noremap <C-Space> <Nop>
 " Use local leader for ftplugins
 let maplocalleader = "\<C-Space>"
-nnoremap <LocalLeader> "Z
-vnoremap <LocalLeader> "Z
+" nnoremap <LocalLeader> "Z
+" vnoremap <LocalLeader> "Z
 
 map ; [Chief]
+let g:chief_key = ';'
 if has('xterm_clipboard')
 	nnoremap [Chief] "+
 	vnoremap [Chief] "+
@@ -596,8 +599,7 @@ inoremap . .<C-g>u
 " used registers
 " r: RedirCmdOutputToReg
 " keymap for "z, "Z is defined in leader section
-nnoremap "" <Cmd>registers<CR>
-nnoremap <Leader><Space> <Cmd>call register#base#CopyRegisterToAnother('"', 'z')<CR>
+" nnoremap <Leader><Space> <Cmd>call register#base#CopyRegisterToAnother('"', 'z')<CR>
 if has('xterm_clipboard')
 	nnoremap [Chief]; <Cmd>call register#base#CopyRegisterToAnother('"', '+')<CR>
 elseif has('clipboard')
@@ -827,26 +829,17 @@ cnoremap <expr> <C-n> wildmenumode() ? "\<C-n>" : "\<Down>"
 cnoremap <M-@> <Home>let @" = '<End>'
 " retry triggering abbreviation
 inoremap <C-g><C-]> <Esc>ciw<C-r>"<C-]>
-
-function! s:InitNiceCmds()
-	let l:cmds = {
-				\ 'c': runcmds#init#MakeCmdInfo('lcd %:p:h | echo "lcd -> " . expand("%:p:h")'),
-				\ 'd': runcmds#init#MakeCmdInfo('echo "current dir: " . getcwd()'),
-				\ 'p': runcmds#init#MakeCmdInfo('echo "filepath: " . expand("%:p")'),
-				\ }
-	function! s:NiceCmds() closure
-		return l:cmds
-	endfunction
-endfunction
-function! s:InitNiceFlagDict()
-	let l:flags = runcmds#init#MakeFlagDict(';', "\<Space>")
-	function! s:NiceFlags() closure
-		return l:flags
-	endfunction
-endfunction
-call s:InitNiceCmds()
-call s:InitNiceFlagDict()
-nnoremap <expr> _ runcmds#base#RunCmds("Nice", <SID>NiceCmds(), <SID>NiceFlags())
+lua << EOF
+  local wk = require("which-key")
+  wk.register({
+    ["_"] = {
+      name = "nice ones",
+      c = { "<Cmd>lcd %:p:h | echo 'lcd -> ' . expand('%:p:h')<CR>", "lcd to the file's dir" },
+      d = { "<Cmd>echo 'current dir: ' . getcwd()<CR>", "Print current dir" },
+      p = { "<Cmd>echo 'filepath: ' . expand('%:p')<CR>", "Print current file's absolute path" },
+    },
+  })
+EOF
 " --- || Others || }}}
 
 " --- || key mapping || }}}
@@ -913,6 +906,48 @@ endfunction
 command! -buffer GdbIns call GdbIns()
 " --- || termdebug || }}}
 
+" {{{ || which-key || ---
+highlight WhichKeyFloat ctermbg=237
+highlight link WhichKey Type
+highlight link WhichKeyDesc Type
+lua << EOF
+  require("which-key").setup {
+    plugins = {
+      presets = {
+        operators = false, -- adds help for operators like d, y, ...
+      },
+    },
+    operators = {
+      d = "Delete",
+      c = "Change",
+      y = "Yank (copy)",
+      ["g~"] = "Toggle case",
+      ["gu"] = "Lowercase",
+      ["gU"] = "Uppercase",
+      [">"] = "Indent right",
+      ["<lt>"] = "Indent left",
+      ["zf"] = "Create fold",
+      ["!"] = "Filter though external program",
+      -- ["v"] = "Visual Character Mode",
+      gc = "Comments"
+    },
+	window = {
+      border = "none", -- none, single, double, shadow
+      position = "bottom", -- bottom, top
+      margin = { 0, 0, 0, 0 }, -- extra window margin [top, right, bottom, left]
+      padding = { 1, 2, 1, 2 }, -- extra window padding [top, right, bottom, left]
+      winblend = 0 -- value between 0-100 0 for fully opaque and 100 for fully transparent
+    },
+    layout = {
+      height = { min = 4, max = 25 }, -- min and max height of the columns
+      width = { min = 20, max = 50 }, -- min and max width of the columns
+      spacing = 5, -- spacing between columns
+      align = "left", -- align columns left, center or right
+    },
+  }
+EOF
+" --- || which-key || }}}
+
 " {{{ || vim-fugitive || ---
 if exists('g:plugs["vim-fugitive"]')
 	" let g:fugitive_no_maps = 1 " To prevent <C-n/p> to be mapped
@@ -921,27 +956,40 @@ if exists('g:plugs["vim-fugitive"]')
 	cnoreabbrev glg vertical sbuffer <Bar> Gllog
 	cnoreabbrev gd Gvdiffsplit
 	cnoreabbrev gp Git push
-	nnoremap <Leader>vs <Cmd>tab Git<CR>
-	nnoremap <Leader>vl <Cmd>tab Git log<CR>
-	nnoremap <C-w><Leader>vs <Cmd>vertical Git<CR>
-	nnoremap <C-w><Leader>vl <Cmd>vertical Git log<CR>
-	nnoremap <Leader>vB <Cmd>Git blame<CR>
+lua << EOF
+  local wk = require("which-key")
+  wk.register({
+    v = {
+      name = "VCS",
+      -- fugitive
+      s = { "<Cmd>tab Git<CR>", "vim-fugitive" },
+      lt = { "<Cmd>tab Git log<CR>", "git log [tab]" },
+      lw = { "<Cmd>vertical Git log<CR>", "git log [vert]" },
+      B = { "<Cmd>Git blame<CR>", "git blame entire file" },
+      -- gitgutter
+      h = {
+		name = "GitGutter",
+        h = { "<Cmd>GitGutter<CR>", "GitGutter Reload"},
+        p = { "<Plug>(GitGutterPreviewHunk)", "GitGutter Preview Hunk" },
+        s = { "<Plug>(GitGutterStageHunk)", "GitGutter Stage Hunk" },
+        u = { "<Plug>(GitGutterUndoHunk)", "GitGutter Undo Hunk" },
+      },
+      -- git-blame
+      b = { "<Cmd>GitBlame<CR>", "git blame current line" },
+    },
+  }, { prefix = "<Leader>" })
+EOF
 endif
 " --- || vim-fugitive || }}}
 
 " {{{ || vim-gitgutter || ---
 if exists('g:plugs["vim-gitgutter"]')
 	let g:gitgutter_preview_win_floating = 0
-	nnoremap <Leader>vhh <Cmd>GitGutter<CR>
-    nmap <Leader>vhp <Plug>(GitGutterPreviewHunk)
-    nmap <Leader>vhs <Plug>(GitGutterStageHunk)
-    nmap <Leader>vhu <Plug>(GitGutterUndoHunk)
 endif
 " --- || vim-gitgutter || }}}
 
 " {{{ || git-blame.vim || ---
 if exists('g:plugs["git-blame.vim"]')
-	nnoremap <Leader>vb <Cmd>GitBlame<CR>
 endif
 " --- || git-blame.vim || }}}
 
@@ -1053,8 +1101,18 @@ if exists('g:plugs["ranger.vim"]')
 	let g:NERDTreeHijackNetrw = 0 " this is NERDTree setting
 	let g:ranger_map_keys = 0
 	let g:ranger_replace_netrw = 1
-	nnoremap [Chief]e <Cmd>tab split \| Ranger<CR>
 endif
+lua << EOF
+  local wk = require("which-key")
+  wk.register({
+    e = {
+      name = "Ranger", -- optional group name
+      t = { "<Cmd>tab split | Ranger<CR>", "Ranger [tab]" },
+      v = { "<Cmd>call OpenRangerIn('%:p:h', 'vnew ')<CR>", "Ranger [vert]" },
+      w = { "<Cmd>call OpenRangerIn('%:p:h', 'new ')<CR>", "Ranger [horz]" },
+    },
+  }, { prefix = vim.g.chief_key })
+EOF
 " --- || ranger.vim || }}}"
 
 " {{{ || bclose.vim || ---
@@ -1338,13 +1396,25 @@ if exists('g:plugs["LanguageClient-neovim"]')
 	command! LcnRename call LanguageClient#textDocument_rename()
 	command! LcnReference call LanguageClient#textDocument_references()
 
-	nnoremap <C-]> <Cmd>call LanguageClient#textDocument_definition()<CR>
-	nnoremap <C-w><C-]> <Cmd>vertical split \| call LanguageClient#textDocument_definition()<CR>
-	nnoremap <C-t><C-]> <Cmd>tab split \| call LanguageClient#textDocument_definition()<CR>
-	nnoremap g<C-]> <Cmd>call LanguageClient#textDocument_implementation()<CR>
-	nnoremap <C-w><C-g><C-]> <Cmd>vertical split \| call LanguageClient#textDocument_implementation()<CR>
-	nnoremap <C-t><C-g><C-]> <Cmd>tab split \| call LanguageClient#textDocument_implementation()<CR>
-	inoremap <C-g><C-h> <Cmd>call LanguageClient#textDocument_signatureHelp()<CR>
+lua << EOF
+  local wk = require("which-key")
+  wk.register({
+    ["<C-]>"] = {
+      name = "Go to Definition",
+      ["<C-]>"] = { "<Cmd>call LanguageClient#textDocument_definition()<CR>", "Definition" },
+      ["<C-w>"] = { "<Cmd>split | call LanguageClient#textDocument_definition()<CR>", "Definition [horz]" },
+      ["<C-v>"] = { "<Cmd>vertical split | call LanguageClient#textDocument_definition()<CR>", "Definition [vert]" },
+      ["<C-t>"] = { "<Cmd>tab split | call LanguageClient#textDocument_definition()<CR>", "Definition [tab]" },
+      ["<C-g>"] = {
+        name = "Implementation",
+        ["<C-]>"] = { "<Cmd>call LanguageClient#textDocument_implementation()<CR>", "Implementation" },
+        ["<C-w>"] = { "<Cmd>split | call LanguageClient#textDocument_implementation()<CR>", "Implementation [horz]" },
+        ["<C-v>"] = { "<Cmd>vertical split | call LanguageClient#textDocument_implementation()<CR>", "Implementation [vert]" },
+        ["<C-t>"] = { "<Cmd>tab split | call LanguageClient#textDocument_implementation()<CR>", "Implementation [tab]" },
+      },
+    },
+  })
+EOF
 endif
 " --- || LanguageClient-neovim || }}}
 

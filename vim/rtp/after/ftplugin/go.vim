@@ -133,12 +133,22 @@ command! -buffer -nargs=* GoTestFuncNewTabFocus call GoTestFuncNewTabFocus(<q-ar
 
 nmap <buffer> gd <Plug>(go-def)
 nmap <buffer> <C-]> <Plug>(go-def)
-" use custom split/tab as vim-go providing function does not open window/tab
-" if the destination is on the same file
-nmap <buffer> <C-w><C-]> <C-w>v<Plug>(go-def)
-nmap <buffer> <C-t><C-]> :tab split<CR><Plug>(go-def)
 nmap <buffer> [t <Plug>(go-def-pop)
 nmap <buffer> ]t <Plug>(go-def-stack)
+lua << EOF
+  local wk = require("which-key")
+  wk.register({
+	["<C-]>"] = {
+      name = "Go to Definition",
+      -- go-def-xxx does not open window/tab if the destination is on the same file
+      name = "Force new window",
+      ["<C-]>"] = { "<Plug>(go-def)", "Definition" },
+      ["<C-w>"] = { "<C-w>w<Plug>(go-def)", "Definition [horz]"  },
+      ["<C-v>"] = { "<C-w>v<Plug>(go-def)", "Definition [vert]" },
+      ["<C-t>"] = { "<Cmd>tab split<CR><Plug>(go-def)", "Definition [tab]" },
+	},
+  }, { noremap=false, buffer=0 })
+EOF
 
 cnoreabbrev gbl GoBuild
 cnoreabbrev gcv GoCoverage
