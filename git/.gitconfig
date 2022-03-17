@@ -32,3 +32,6 @@
 	pager = true
 [pull]
 	rebase = false
+
+[ghq]
+	root = ~/workspace
