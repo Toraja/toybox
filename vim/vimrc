@@ -69,6 +69,8 @@ if filereadable(s:vim_plug_file)
         \ 'branch': 'next',
         \ 'do': has('win32') ? 'powershell install.ps1' : 'bash install.sh',
         \ }
+  " Plug 'neovim/nvim-lspconfig'
+  " Plug 'simrat39/rust-tools.nvim'
   " Plug 'SirVer/ultisnips'
   Plug 'honza/vim-snippets'
   Plug 'Shougo/neosnippet.vim'
@@ -117,6 +119,19 @@ else
   syntax enable
 endif
 " --- || plugin || }}}
+
+" lua << EOF
+"   require('lspconfig').rust_analyzer.setup{}
+"   -- local opts = { noremap=true, silent=true }
+"   local opts = { noremap=true }
+"   vim.api.nvim_set_keymap('n', 'K', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
+
+"   require('rust-tools').setup({
+"     server = {
+"       cmd = { "rustup", "run", "nightly", "rust-analyzer" }
+"     },
+"   })
+" EOF
 
 " {{{ || options || ---
 
