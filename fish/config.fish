@@ -86,6 +86,12 @@ set --local fzf_bind_opts "ctrl-space:toggle" \
     "alt-v:preview-page-up" \
     "alt-h:backward-kill-word" \
     "ctrl-k:kill-line"
+if type --query fd
+    set --export FZF_DEFAULT_COMMAND 'fd --hidden --exclude .git'
+else
+    set --export FZF_DEFAULT_COMMAND 'find .'
+end
+set --export FZF_CTRL_T_COMMAND "$FZF_DEFAULT_COMMAND"
 set --export FZF_DEFAULT_OPTS (string join -- " " $fzf_opts "--bind="(string join ',' $fzf_bind_opts))
 
 ## bindings
