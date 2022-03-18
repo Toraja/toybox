@@ -1,6 +1,6 @@
 augroup my_java
-	autocmd!
-	autocmd BufWritePre *.java call LanguageClient#textDocument_formatting_sync()
+  autocmd!
+  autocmd BufWritePre *.java call LanguageClient#textDocument_formatting_sync()
 augroup end
 
 " {{{ || vim-javacomplete2 || ---

@@ -7,68 +7,67 @@ highlight Pmenu guibg=seagreen
 highlight link QuickFixLine PmenuSbar
 " --- || highlight || }}}
 
-
 " {{{ || Options ||---
 if has('nvim')
-	let g:Guifont='Consolas:h12'
+  let g:Guifont='Consolas:h12'
 elseif has('win32')
-	set guifont=Lucida_Console:h11:cANSI:qDRAFT
+  set guifont=Lucida_Console:h11:cANSI:qDRAFT
 else
-	set guifont=Monospace\ 11
+  set guifont=Monospace\ 11
 endif
 set t_vb=
 set winaltkeys=no
 set guioptions-=T
 
-function! MyGuiTabLabel()		" --- Setup Tab label {{{
-	let l:label = ''
-	let l:bufnrlist = tabpagebuflist(v:lnum)
+function! MyGuiTabLabel()   " --- Setup Tab label {{{
+  let l:label = ''
+  let l:bufnrlist = tabpagebuflist(v:lnum)
 
-	" Add '+' if one of the buffers in the tab page is modified
-	for l:bufnr in l:bufnrlist
-		if getbufvar(l:bufnr, "&modified")
-			let l:label = '+'
-			break
-		endif
-	endfor
+  " Add '+' if one of the buffers in the tab page is modified
+  for l:bufnr in l:bufnrlist
+    if getbufvar(l:bufnr, "&modified")
+      let l:label = '+'
+      break
+    endif
+  endfor
 
-	" Append spacer tab number
-	let l:label .= v:lnum
+  " Append spacer tab number
+  let l:label .= v:lnum
 
-	" Append the number of windows in the tab page if more than one
-	let l:wincount = tabpagewinnr(v:lnum, '$')
-	if l:wincount > 1
-		let l:label .= ':' . l:wincount
-	endif
+  " Append the number of windows in the tab page if more than one
+  let l:wincount = tabpagewinnr(v:lnum, '$')
+  if l:wincount > 1
+    let l:label .= ':' . l:wincount
+  endif
 
-	"Append spacer
-	let l:label .= ' '
+  "Append spacer
+  let l:label .= ' '
 
-	" Append the buffer name
-	let l:fname = bufname(l:bufnrlist[tabpagewinnr(v:lnum) - 1])
-	if strlen(l:fname) == 0
-		if &filetype ==# 'qf'
-			let l:label .= '[Location List]'
-		else
-			let l:label .= '[No Name]'
-		endif
-	else
-		let l:label .= fnamemodify(l:fname, ':t')
-	endif
-	return l:label
+  " Append the buffer name
+  let l:fname = bufname(l:bufnrlist[tabpagewinnr(v:lnum) - 1])
+  if strlen(l:fname) == 0
+    if &filetype ==# 'qf'
+      let l:label .= '[Location List]'
+    else
+      let l:label .= '[No Name]'
+    endif
+  else
+    let l:label .= fnamemodify(l:fname, ':t')
+  endif
+  return l:label
 endfunction " }}}
 if !has('nvim')
-	set guitablabel=%{MyGuiTabLabel()}
+  set guitablabel=%{MyGuiTabLabel()}
 endif
 
 " --- || Options || }}}
 
 " {{{ || Autocmd || ---
 if has('autocmd')
-	" nvim does not support simalt
-	if !has('nvim') && has('win32')
-		autocmd GUIEnter * simalt ~x
-	endif
+  " nvim does not support simalt
+  if !has('nvim') && has('win32')
+    autocmd GUIEnter * simalt ~x
+  endif
 endif
 " --- || Autocmd || }}}
 
