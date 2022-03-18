@@ -80,8 +80,8 @@ set --local fzf_bind_opts "ctrl-space:toggle" \
     "ctrl-o:top" \
     "ctrl-s:jump" \
     "alt-/:toggle-preview" \
-    "alt-n:preview-down" \
-    "alt-p:preview-up" \
+    "alt-j:preview-down" \
+    "alt-k:preview-up" \
     "ctrl-v:preview-page-down" \
     "alt-v:preview-page-up" \
     "alt-h:backward-kill-word" \
