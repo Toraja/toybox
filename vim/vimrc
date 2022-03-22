@@ -718,16 +718,16 @@ lua << EOF
   wk.register({
     g = {
       name = "vimgrep",
-      g = { "<Cmd>call QuickGrep(expand('<cword>'), 0)<CR>", "" },
-      w = { "<Cmd>call QuickGrep('\\<' . expand('<cword>') . '\\>', 0)<CR>", "\\< \\>" },
-      ["<Space>"] = { "<Cmd>call QuickGrep('', 1)<CR>", "" },
+      ["<Space>"] = { "<Cmd>call QuickGrep(expand('<cword>'), 0)<CR>", "<cword>" },
+      x = { "<Cmd>call QuickGrep('\\<' . expand('<cword>') . '\\>', 0)<CR>", "<cword> exclusive" },
+      [":"] = { "<Cmd>call QuickGrep('', 1)<CR>", "manual" },
     },
   }, { prefix = "<Leader>" })
   wk.register({
     g = {
       name = "vimgrep",
-      g = { "y<Cmd>call QuickGrep(@@, 0)<CR>", "yanked" },
-      w = { "y<Cmd>call QuickGrep('\\<' . @@ . '\\>', 0)<CR>", "\\< \\>" },
+      ["<Space>"] = { "y<Cmd>call QuickGrep(@@, 0)<CR>", "selected" },
+      x = { "y<Cmd>call QuickGrep('\\<' . @@ . '\\>', 0)<CR>", "selected exclusive" },
     },
   }, { prefix = "<Leader>", mode = "v" })
 EOF
@@ -785,29 +785,28 @@ lua << EOF
   wk.register({
     s = {
       name = "Substitute",
-      s = { "<Cmd>call QuickSubstitute(expand('<cword>'), {'range': '%'})<CR>", "case insensitive" },
+      ["<Space>"] = { "<Cmd>call QuickSubstitute(expand('<cword>'), {'range': '%'})<CR>", "case insensitive" },
       c = { "<Cmd>call QuickSubstitute(expand('<cword>'), {'range': '%', 'case': 1})<CR>", "case sensitive" },
-      w = {
-        name = "\\< \\>",
-        s = { "<Cmd>call QuickSubstitute(expand('<cword>'), {'range': '%', 'exclusive': 1})<CR>", "case insensitive" },
+      x = {
+        name = "exclusive",
+      ["<Space>"] = { "<Cmd>call QuickSubstitute(expand('<cword>'), {'range': '%', 'exclusive': 1})<CR>", "case insensitive" },
         c = { "<Cmd>call QuickSubstitute(expand('<cword>'), {'range': '%', 'exclusive': 1, 'case': 1})<CR>", "case sensitive" },
       },
-      ["<Space>"] = { "<Cmd>call QuickSubstitute('', {'range': '%'})<CR>", "manual" },
+      [":"] = { "<Cmd>call QuickSubstitute('', {'range': '%'})<CR>", "manual" },
       ["."] = { "<Cmd>call QuickSubstitute('', {})<CR>", "manual on current line" },
     },
   }, { prefix = "<Leader>" })
   wk.register({
     s = {
       name = "Substitute",
-      s = { "y<Cmd>call QuickSubstitute(@@, {'range': '%'})<CR>", "case insensitive" },
+      ["<Space>"] = { "y<Cmd>call QuickSubstitute(@@, {'range': '%'})<CR>", "case insensitive" },
       c = { "y<Cmd>call QuickSubstitute(@@, {'range': '%', 'case': 1})<CR>", "case sensitive" },
-      w = {
-        name = "\\< \\>",
-        s = { "y<Cmd>call QuickSubstitute(@@, {'range': '%', 'exclusive': 1})<CR>", "case insensitive" },
+      x = {
+        name = "exclusive",
+        ["<Space>"] = { "y<Cmd>call QuickSubstitute(@@, {'range': '%', 'exclusive': 1})<CR>", "case insensitive" },
         c = { "y<Cmd>call QuickSubstitute(@@, {'range': '%', 'exclusive': 1, 'case': 1})<CR>", "case sensitive" },
       },
-      ["<Space>"] = { "<Esc><Cmd>call QuickSubstitute('', {'range': '%', 'selection': 1})<CR>", "manual within selection" },
-      ["."] = { "<Esc><Cmd>call QuickSubstitute(@@, {'range': '%', 'selection': 1})<CR>", "@@ within selection" },
+      [":"] = { "<Esc><Cmd>call QuickSubstitute('', {'range': '%', 'selection': 1})<CR>", "manual within selection" },
     },
   }, { prefix = "<Leader>", mode = "v" })
 EOF
