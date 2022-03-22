@@ -13,6 +13,7 @@ function! s:InitWikiCmds()
 	let l:wiki_cmds = {
 				\ 'c': runcmds#init#MakeCmdInfo('ConcealToggle'),
 				\ 'd': runcmds#init#MakeCmdInfo('VimwikiToggleListItem'),
+				\ 'D': runcmds#init#MakeCmdInfo('VimwikiRemoveSingleCB'),
 				\ 'l': runcmds#init#MakeCmdInfo('VimwikiListToggleNoInsert'),
 				\ 'p': runcmds#init#MakeCmdInfo('ToDoAddPomodoro'),
 				\ 'r': runcmds#init#MakeCmdInfo('VimwikiIndex'),
