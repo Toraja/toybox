@@ -651,14 +651,14 @@ let g:AnnoyingSpaces = "\\s\\+$\\| \\+\\t\\+\\|\\t\\+ \\+"
 nnoremap n nzx
 nnoremap N Nzx
 nnoremap <silent> [Captain]/ :let @/ = ''<CR>
-function! HighlightWord(visual, angle_bracket, whole_word, case_sesitive) abort
+function! HighlightWord(visual, exclusive, whole_word, case_sesitive) abort
   if a:visual
-    let l:word = GetLastSelection()
+    let l:word = GetVisualText()
   else
     let l:word_range = a:whole_word ? '<cWORD>' : '<cword>'
     let l:word = expand(l:word_range)
   endif
-  if a:angle_bracket
+  if a:exclusive
     let l:word = '\<' . l:word . '\>'
   endif
   if a:case_sesitive
@@ -1727,12 +1727,6 @@ function! Expander()
   endif
 
   return l:cmd
-endfunction
-
-function! GetLastSelection() abort
-  let l:start = col("'<") - 1
-  let l:end = col("'>") - 1
-  return getline('.')[l:start : l:end]
 endfunction
 
 function! SelectBtwCols(sln, spos, eln, epos)
