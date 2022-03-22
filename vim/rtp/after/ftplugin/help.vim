@@ -1,3 +1,9 @@
-nnoremap <buffer> <C-]><C-]> g<C-]>
-nnoremap <buffer> <C-]><C-v> <C-w><C-v>g<C-]>
-nnoremap <buffer> <C-]><C-t> :tab stjump <C-r><C-w><CR>
+lua << EOF
+  local wk = require("which-key")
+  wk.register({
+		["<C-]>"] = { "<C-]>", "Help" },
+		["<C-w><C-]>"] = { "<C-w>g<C-]>", "Help [horz]"  },
+		["[Vert]<C-]>"] = { "<C-w><C-v>g<C-]>", "Help [vert]" },
+		["<C-t><C-]>"] = { "<C-w><C-v>g<C-]><C-w>T", "Help [tab]" },
+  }, { buffer=0 })
+EOF

@@ -436,14 +436,12 @@ endif
 " {{{ || Leader || ---
 noremap <Space> <Nop>
 let mapleader = "\<Space>"
-" nnoremap <Leader> "z
-" vnoremap <Leader> "z
 
-noremap <C-Space> <Nop>
 " Use local leader for ftplugins
-let maplocalleader = "\<C-Space>"
-" nnoremap <LocalLeader> "Z
-" vnoremap <LocalLeader> "Z
+" let maplocalleader = "\<C-Space>"
+
+let g:vert_key = "\<C-Space>"
+map <C-Space> [Vert]
 
 map ; [Chief]
 let g:chief_key = ';'
@@ -1460,19 +1458,19 @@ if exists('g:plugs["LanguageClient-neovim"]')
 lua << EOF
   local wk = require("which-key")
   wk.register({
-    ["<C-]>"] = {
-      name = "Go to Definition",
-      ["<C-]>"] = { "<Cmd>call LanguageClient#textDocument_definition()<CR>", "Definition" },
-      ["<C-w>"] = { "<Cmd>split | call LanguageClient#textDocument_definition()<CR>", "Definition [horz]" },
-      ["<C-v>"] = { "<Cmd>vertical split | call LanguageClient#textDocument_definition()<CR>", "Definition [vert]" },
-      ["<C-t>"] = { "<Cmd>tab split | call LanguageClient#textDocument_definition()<CR>", "Definition [tab]" },
-      ["<C-g>"] = {
-        name = "Implementation",
-        ["<C-]>"] = { "<Cmd>call LanguageClient#textDocument_implementation()<CR>", "Implementation" },
-        ["<C-w>"] = { "<Cmd>split | call LanguageClient#textDocument_implementation()<CR>", "Implementation [horz]" },
-        ["<C-v>"] = { "<Cmd>vertical split | call LanguageClient#textDocument_implementation()<CR>", "Implementation [vert]" },
-        ["<C-t>"] = { "<Cmd>tab split | call LanguageClient#textDocument_implementation()<CR>", "Implementation [tab]" },
-      },
+    ["<C-]>"] = { "<Cmd>call LanguageClient#textDocument_definition()<CR>", "Definition" },
+    ["g<C-]>"] = { "<Cmd>call LanguageClient#textDocument_implementation()<CR>", "Implementation" },
+    ["<C-w>"] = {
+      ["<C-]>"] = { "<Cmd>split | call LanguageClient#textDocument_definition()<CR>", "Definition [horz]" },
+      ["<C-g><C-]>"] = { "<Cmd>split | call LanguageClient#textDocument_implementation()<CR>", "Implementation [horz]" },
+    },
+    ["[Vert]"] = {
+      ["<C-]>"] = { "<Cmd>vertical split | call LanguageClient#textDocument_definition()<CR>", "Definition [vert]" },
+      ["<C-g><C-]>"] = { "<Cmd>vertical split | call LanguageClient#textDocument_implementation()<CR>", "Implementation [vert]" },
+    },
+    ["<C-t>"] = {
+      ["<C-]>"] = { "<Cmd>tab split | call LanguageClient#textDocument_definition()<CR>", "Definition [tab]" },
+      ["<C-g><C-]>"] = { "<Cmd>tab split | call LanguageClient#textDocument_implementation()<CR>", "Implementation [tab]" },
     },
   })
 EOF
