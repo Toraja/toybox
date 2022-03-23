@@ -32,9 +32,9 @@ let g:neomake_php_phpmd_maker = {
             \ }
 " --- || neomake || }}}
 
-inoremap <buffer> <silent> <M-;> <Cmd>call edit#base#Append(';')<CR>
-nnoremap <buffer> <silent> <M-;> <Cmd>call edit#base#Append(';')<CR>
-vnoremap <buffer> <silent> <M-;> :call edit#base#Append(';')<CR>
+inoremap <buffer> <silent> <M-;> <Cmd>call edit#base#ToggleTrailing(';')<CR>
+nnoremap <buffer> <silent> <M-;> <Cmd>call edit#base#ToggleTrailing(';')<CR>
+vnoremap <buffer> <silent> <M-;> :call edit#base#ToggleTrailing(';')<CR>
 
 command! -buffer Run vsplit | terminal php %
 
