@@ -1080,7 +1080,7 @@ endif
 
 " {{{ || indentLine || ---
 let g:indentLine_setConceal = 0
-let g:indentLine_fileTypeExclude = ['markdown', 'json', 'nerdtree', 'man']
+let g:indentLine_fileTypeExclude = ['markdown', 'vimwiki', 'json', 'nerdtree', 'man']
 let g:indentLine_bufTypeExclude = ['help', 'terminal']
 " --- || indentLine || }}}
 
