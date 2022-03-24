@@ -32,6 +32,7 @@ function fish_user_key_bindings
     bind \cx\ch "commandline --append -- ' --help'; __fish_paginate"
     bind \cx\cl __fish_list_current_token
     bind \cx\ca "commandline -a \" | xargs \"; commandline -f end-of-line"
+    bind \cx\cf "commandline -a \" | fzf \"; commandline -f end-of-line"
     bind \cx\co "commandline --insert (git rev-parse --show-toplevel)/"
 
     # wrapper
