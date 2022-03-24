@@ -651,7 +651,7 @@ nnoremap N Nzx
 nnoremap <silent> [Captain]/ :let @/ = ''<CR>
 function! HighlightWord(visual, exclusive, whole_word, case_sesitive) abort
   if a:visual
-    let l:word = GetVisualText()
+    let l:word = GetVisualText(v:false)
   else
     let l:word_range = a:whole_word ? '<cWORD>' : '<cword>'
     let l:word = expand(l:word_range)
@@ -1905,10 +1905,12 @@ function! GetOperatorText(operatortype, noline)
   return @"
 endfunction
 
-function! GetVisualText()
+function! GetVisualText(stay_in_visual)
   normal! gvy
   let l:result = getreg('"')
-  normal! gv
+  if a:stay_in_visual
+    normal! gv
+  endif
   return l:result
 endfunction
 
