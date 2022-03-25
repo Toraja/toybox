@@ -37,8 +37,13 @@ if filereadable(s:vim_plug_file)
   endif
   Plug 'preservim/tagbar'
   Plug 'ctrlpvim/ctrlp.vim'   " required by vim-go GoDecls
-  Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-  Plug 'junegunn/fzf.vim'
+  " Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+  " Plug 'junegunn/fzf.vim'
+  " Plug 'kyazdani42/nvim-web-devicons' " required by fzf-lua
+  " Plug 'ibhagwan/fzf-lua', {'branch': 'main'}
+  Plug 'nvim-lua/plenary.nvim'
+  Plug 'nvim-telescope/telescope.nvim'
+  Plug 'nvim-telescope/telescope-ghq.nvim'
   Plug 'tpope/vim-projectionist'
   Plug 'c-brenn/fuzzy-projectionist.vim'
   Plug 'folke/which-key.nvim'
@@ -1285,36 +1290,191 @@ endif
 " --- || CamelCaseMotion || }}}
 
 " {{{ || fzf.vim || ---
-if exists('g:plugs["fzf.vim"]')
-  let g:fzf_command_prefix = 'Fzf'
-    let g:fzf_buffers_jump = 1
-  imap <c-x><c-k> <plug>(fzf-complete-word)
-  imap <c-x><c-f> <plug>(fzf-complete-path)
-  imap <c-x><c-l> <plug>(fzf-complete-line)
+" if exists('g:plugs["fzf.vim"]')
+"   let g:fzf_command_prefix = 'Fzf'
+"     let g:fzf_buffers_jump = 1
+"   imap <c-x><c-k> <plug>(fzf-complete-word)
+"   imap <c-x><c-f> <plug>(fzf-complete-path)
+"   imap <c-x><c-l> <plug>(fzf-complete-line)
 
+"   function! s:InitFzfCmds()
+"     let l:fzf_cmds = {
+"           \ 'f': runcmds#init#MakeCmdInfo(g:fzf_command_prefix . 'Files'),
+"           \ 'F': runcmds#init#MakeCmdInfo(g:fzf_command_prefix . 'Files %:h'),
+"           \ 'g': runcmds#init#MakeCmdInfo(g:fzf_command_prefix . 'GFiles'),
+"           \ 'G': runcmds#init#MakeCmdInfo(g:fzf_command_prefix . 'GFiles?'),
+"           \ 'b': runcmds#init#MakeCmdInfo(g:fzf_command_prefix . 'Buffers'),
+"           \ 'r': runcmds#init#MakeCmdInfo(g:fzf_command_prefix . 'Rgh', v:false, [], v:true),
+"           \ 'R': runcmds#init#MakeCmdInfo(g:fzf_command_prefix . 'Rg', v:false, [], v:true),
+"           \ 'L': runcmds#init#MakeCmdInfo(g:fzf_command_prefix . 'Lines'),
+"           \ 'l': runcmds#init#MakeCmdInfo(g:fzf_command_prefix . 'BLines'),
+"           \ 'T': runcmds#init#MakeCmdInfo(g:fzf_command_prefix . 'Tags'),
+"           \ 't': runcmds#init#MakeCmdInfo(g:fzf_command_prefix . 'BTags'),
+"           \ 'k': runcmds#init#MakeCmdInfo(g:fzf_command_prefix . 'Marks'),
+"           \ 'w': runcmds#init#MakeCmdInfo(g:fzf_command_prefix . 'Windows'),
+"           \ 'y': runcmds#init#MakeCmdInfo(g:fzf_command_prefix . 'History'),
+"           \ ':': runcmds#init#MakeCmdInfo(g:fzf_command_prefix . 'History:'),
+"           \ '/': runcmds#init#MakeCmdInfo(g:fzf_command_prefix . 'History/'),
+"           \ 's': runcmds#init#MakeCmdInfo(g:fzf_command_prefix . 'Snippets'),
+"           \ 'C': runcmds#init#MakeCmdInfo(g:fzf_command_prefix . 'Commits'),
+"           \ 'c': runcmds#init#MakeCmdInfo(g:fzf_command_prefix . 'BCommits'),
+"           \ 'd': runcmds#init#MakeCmdInfo(g:fzf_command_prefix . 'Commands'),
+"           \ 'm': runcmds#init#MakeCmdInfo(g:fzf_command_prefix . 'Maps'),
+"           \ 'h': runcmds#init#MakeCmdInfo(g:fzf_command_prefix . 'Helptags'),
+"           \ 'q': runcmds#init#MakeCmdInfo(g:fzf_command_prefix . 'Ghq'),
+"           \ }
+"     function! s:FzfCmds() closure
+"       return l:fzf_cmds
+"     endfunction
+"   endfunction
+"   function! s:InitFzfFlagDict()
+"     let l:fzf_flags = runcmds#init#MakeFlagDict(';', "\<Space>")
+"     function! s:FzfFlags() closure
+"       return l:fzf_flags
+"     endfunction
+"   endfunction
+"   call s:InitFzfCmds()
+"   call s:InitFzfFlagDict()
+"   nnoremap <expr> [Chief]f runcmds#base#RunCmds("FZF", <SID>FzfCmds(), <SID>FzfFlags())
+
+" command! -bang -nargs=* -complete=dir FzfRgh call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case --hidden -- ".shellescape(<q-args>), 1, fzf#vim#with_preview(), <bang>0)
+" command! -bang -nargs=* FzfGhq call fzf#run(fzf#wrap({'source': 'ghq list --full-path', 'sink': 'NERDTree'}))
+" endif
+" --- || fzf.vim || }}}
+
+" {{{ || fzf-lua || ---
+" XXX No ghq support nor customization?
+" lua << EOF
+" local wk = require("which-key")
+"   local fzf = require('fzf-lua')
+"   fzf.setup {
+"     winopts = {
+"       preview = {
+"         horizontal = 'right:50%',     -- right|left:size
+"       },
+"     },
+"     grep = {
+"       rg_opts = "--column --line-number --no-heading --color=always --smart-case --max-columns=512 --hidden --glob !.git",
+"     },
+"   }
+" EOF
+  " function! s:InitFzfCmds()
+  "   let l:fzf_cmds = {
+  "         \ 'b': runcmds#init#MakeCmdInfo('FzfLua buffers'),
+  "         \ 'f': runcmds#init#MakeCmdInfo('FzfLua files cwd=.'),
+  "         \ 'F': runcmds#init#MakeCmdInfo('FzfLua files cwd=%:h'),
+  "         \ 'o': runcmds#init#MakeCmdInfo('FzfLua oldfiles'),
+  "         \ 'L': runcmds#init#MakeCmdInfo('FzfLua lines'),
+  "         \ 'l': runcmds#init#MakeCmdInfo('FzfLua blines'),
+  "         \ 't': runcmds#init#MakeCmdInfo('FzfLua tabs'),
+  "         \ 'r': runcmds#init#MakeCmdInfo('FzfLua grep cwd=.'),
+  "         \ 'g': runcmds#init#MakeCmdInfo('FzfLua git_files'),
+  "         \ 'G': runcmds#init#MakeCmdInfo('FzfLua git_status'),
+  "         \ 'C': runcmds#init#MakeCmdInfo('FzfLua git_commits'),
+  "         \ 'c': runcmds#init#MakeCmdInfo('FzfLua git_bcommits'),
+  "         \ 'h': runcmds#init#MakeCmdInfo('FzfLua help_tags'),
+  "         \ 'd': runcmds#init#MakeCmdInfo('FzfLua commands'),
+  "         \ ':': runcmds#init#MakeCmdInfo('FzfLua command_history'),
+  "         \ '/': runcmds#init#MakeCmdInfo('FzfLua search_history'),
+  "         \ 'k': runcmds#init#MakeCmdInfo('FzfLua marks'),
+  "         \ 'm': runcmds#init#MakeCmdInfo('FzfLua keymaps'),
+  "         \ 's': runcmds#init#MakeCmdInfo('FzfLua spell_suggest'),
+  "         \ 'q': runcmds#init#MakeCmdInfo('FzfLua ghq'),
+  "         \ }
+  "   function! s:FzfCmds() closure
+  "     return l:fzf_cmds
+  "   endfunction
+  " endfunction
+  " function! s:InitFzfFlagDict()
+  "   let l:fzf_flags = runcmds#init#MakeFlagDict(';', "\<Space>")
+  "   function! s:FzfFlags() closure
+  "     return l:fzf_flags
+  "   endfunction
+  " endfunction
+  " call s:InitFzfCmds()
+  " call s:InitFzfFlagDict()
+  " nnoremap <expr> [Chief]f runcmds#base#RunCmds("FZF", <SID>FzfCmds(), <SID>FzfFlags())
+" --- || fzf-lua || }}}
+
+" {{{ || telescope.nvim || ---
+lua << EOF
+local action_set = require('telescope.actions.set')
+local action = require('telescope.actions')
+require('telescope').setup{
+  defaults = {
+    vimgrep_arguments = {
+      "rg",
+      "--color=never",
+      "--no-heading",
+      "--with-filename",
+      "--line-number",
+      "--column",
+      "--smart-case",
+      "--hidden",
+      "--glob", "!.git",
+    },
+    sorting_strategy = 'ascending',
+    layout_config={
+      prompt_position = "top",
+    },
+    mappings = {
+      n = {
+        ["<C-d>"] = function(bufnr) action_set.scroll_results(bufnr, 1) end,
+        ["<C-u>"] = function(bufnr) action_set.scroll_results(bufnr, 0) end,
+        ["<M-j>"] = function(bufnr) action_set.scroll_previewer(bufnr, 1) end,
+        ["<M-k>"] = function(bufnr) action_set.scroll_previewer(bufnr, 0) end,
+      },
+      i = {
+        ["<C-j>"] = function(bufnr)
+          action.add_selection(bufnr)
+          action.move_selection_worse(bufnr)
+        end,
+        ["<C-d>"] = { "<DEL>", type = "command" },
+        ["<C-u>"] = { "<C-u>", type = "command" },
+        ["<M-j>"] = function(bufnr) action_set.scroll_previewer(bufnr, 1) end,
+        ["<M-k>"] = function(bufnr) action_set.scroll_previewer(bufnr, 0) end,
+        ["<C-v>"] = function(bufnr) action_set.scroll_results(bufnr, 1) end,
+        ["<M-v>"] = function(bufnr) action_set.scroll_results(bufnr, 0) end,
+      },
+    },
+  },
+  pickers = {
+    -- Default configuration for builtin pickers goes here:
+    find_files = {
+      find_command = {"fd", "--type", "f", "--hidden", "--exclude", ".git"},
+    },
+    -- Now the picker_config_key will be applied every time you call this
+    -- builtin picker
+  },
+  extensions = {
+    -- Your extension configuration goes here:
+    -- extension_name = {
+    --   extension_config_key = value,
+    -- }
+    -- please take a look at the readme of the extension you want to configure
+  },
+}
+EOF
   function! s:InitFzfCmds()
     let l:fzf_cmds = {
-          \ 'f': runcmds#init#MakeCmdInfo(g:fzf_command_prefix . 'Files'),
-          \ 'F': runcmds#init#MakeCmdInfo(g:fzf_command_prefix . 'Files %:h'),
-          \ 'g': runcmds#init#MakeCmdInfo(g:fzf_command_prefix . 'GFiles'),
-          \ 'G': runcmds#init#MakeCmdInfo(g:fzf_command_prefix . 'GFiles?'),
-          \ 'b': runcmds#init#MakeCmdInfo(g:fzf_command_prefix . 'Buffers'),
-          \ 'r': runcmds#init#MakeCmdInfo(g:fzf_command_prefix . 'Rg', v:false, [], v:true),
-          \ 'L': runcmds#init#MakeCmdInfo(g:fzf_command_prefix . 'Lines'),
-          \ 'l': runcmds#init#MakeCmdInfo(g:fzf_command_prefix . 'BLines'),
-          \ 'T': runcmds#init#MakeCmdInfo(g:fzf_command_prefix . 'Tags'),
-          \ 't': runcmds#init#MakeCmdInfo(g:fzf_command_prefix . 'BTags'),
-          \ 'k': runcmds#init#MakeCmdInfo(g:fzf_command_prefix . 'Marks'),
-          \ 'w': runcmds#init#MakeCmdInfo(g:fzf_command_prefix . 'Windows'),
-          \ 'y': runcmds#init#MakeCmdInfo(g:fzf_command_prefix . 'History'),
-          \ ':': runcmds#init#MakeCmdInfo(g:fzf_command_prefix . 'History:'),
-          \ '/': runcmds#init#MakeCmdInfo(g:fzf_command_prefix . 'History/'),
-          \ 's': runcmds#init#MakeCmdInfo(g:fzf_command_prefix . 'Snippets'),
-          \ 'C': runcmds#init#MakeCmdInfo(g:fzf_command_prefix . 'Commits'),
-          \ 'c': runcmds#init#MakeCmdInfo(g:fzf_command_prefix . 'BCommits'),
-          \ 'd': runcmds#init#MakeCmdInfo(g:fzf_command_prefix . 'Commands'),
-          \ 'm': runcmds#init#MakeCmdInfo(g:fzf_command_prefix . 'Maps'),
-          \ 'h': runcmds#init#MakeCmdInfo(g:fzf_command_prefix . 'Helptags'),
+          \ 'f': runcmds#init#MakeCmdInfo('Telescope find_files search_dirs=.'),
+          \ 'r': runcmds#init#MakeCmdInfo('Telescope live_grep search_dirs=.'),
+          \ 'b': runcmds#init#MakeCmdInfo('Telescope buffers'),
+          \ 'o': runcmds#init#MakeCmdInfo('Telescope oldfiles'),
+          \ 'l': runcmds#init#MakeCmdInfo('Telescope current_buffer_fuzzy_find'),
+          \ 'g': runcmds#init#MakeCmdInfo('Telescope git_files'),
+          \ 'G': runcmds#init#MakeCmdInfo('Telescope git_status'),
+          \ 'C': runcmds#init#MakeCmdInfo('Telescope git_commits'),
+          \ 'c': runcmds#init#MakeCmdInfo('Telescope git_bcommits'),
+          \ 'h': runcmds#init#MakeCmdInfo('Telescope help_tags'),
+          \ 'd': runcmds#init#MakeCmdInfo('Telescope commands'),
+          \ ':': runcmds#init#MakeCmdInfo('Telescope command_history'),
+          \ '/': runcmds#init#MakeCmdInfo('Telescope search_history'),
+          \ 'k': runcmds#init#MakeCmdInfo('Telescope marks'),
+          \ 'm': runcmds#init#MakeCmdInfo('Telescope keymaps'),
+          \ 's': runcmds#init#MakeCmdInfo('Telescope spell_suggest'),
+          \ 'H': runcmds#init#MakeCmdInfo('Telescope highlights'),
+          \ 'q': runcmds#init#MakeCmdInfo('Telescope ghq list'),
           \ }
     function! s:FzfCmds() closure
       return l:fzf_cmds
@@ -1329,8 +1489,7 @@ if exists('g:plugs["fzf.vim"]')
   call s:InitFzfCmds()
   call s:InitFzfFlagDict()
   nnoremap <expr> [Chief]f runcmds#base#RunCmds("FZF", <SID>FzfCmds(), <SID>FzfFlags())
-endif
-" --- || fzf.vim || }}}
+" --- || telescope.nvim || }}}
 
 " {{{ || ctrlp || ---
 if exists('g:plugs["ctrlp.vim"]')
