@@ -67,23 +67,22 @@ alias fugitive 'vim -c 0Git'
 # fzf
 ## variables
 set --local fzf_previewer (type -q bat; and echo bat; or echo cat)
-set --local fzf_opts "--height=40%"\
+set --local fzf_opts "--height=50%"\
     "--tabstop=4"\
     "--multi" \
     "--reverse" \
     "--inline-info" \
-    "--preview='$fzf_previewer --color=always {}'" \
-    "--preview-window=hidden"
+    "--preview='$fzf_previewer --color=always {}'"
 set --local fzf_bind_opts "ctrl-space:toggle" \
-    "tab:down" \
-    "ctrl-j:toggle+down" \
+    "ctrl-i:toggle-out" \
+    "ctrl-alt-i:toggle-in" \
     "ctrl-o:top" \
     "ctrl-s:jump" \
-    "alt-/:toggle-preview" \
-    "alt-j:preview-down" \
-    "alt-k:preview-up" \
-    "ctrl-v:preview-page-down" \
-    "alt-v:preview-page-up" \
+    "ctrl-/:toggle-preview" \
+    "alt-j:preview-half-page-down" \
+    "alt-k:preview-half-page-up" \
+    "alt-g:preview-top" \
+    "alt-G:preview-bottom" \
     "alt-h:backward-kill-word" \
     "ctrl-k:kill-line"
 if type --query fd
