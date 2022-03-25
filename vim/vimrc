@@ -82,7 +82,6 @@ if filereadable(s:vim_plug_file)
   Plug 'sheerun/vim-polyglot'
   Plug 'tpope/vim-abolish'
   Plug 'vim-test/vim-test'
-  Plug 'tmux-plugins/vim-tmux-focus-events'
   Plug 'tyru/open-browser.vim'
 
   " Language specific
