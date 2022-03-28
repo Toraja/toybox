@@ -29,8 +29,11 @@ if filereadable(s:vim_plug_file)
   " look & feel
   Plug 'vim-airline/vim-airline'
   Plug 'vim-airline/vim-airline-themes'
+  " nvim-web-devicons requires external font such as https://www.nerdfonts.com/
+  " Plug 'kyazdani42/nvim-web-devicons' " for file icons
   " finder (path/dir/file/buffer/tac/etc.)
   Plug 'preservim/nerdtree'
+  " Plug 'kyazdani42/nvim-tree.lua'
   if executable('ranger')
     Plug 'francoiscabrol/ranger.vim'
     Plug 'rbgrouleff/bclose.vim' " ranger.vim depends on it
@@ -39,7 +42,6 @@ if filereadable(s:vim_plug_file)
   Plug 'ctrlpvim/ctrlp.vim'   " required by vim-go GoDecls
   " Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
   " Plug 'junegunn/fzf.vim'
-  " Plug 'kyazdani42/nvim-web-devicons' " required by fzf-lua
   " Plug 'ibhagwan/fzf-lua', {'branch': 'main'}
   Plug 'nvim-lua/plenary.nvim'
   Plug 'nvim-telescope/telescope.nvim'
@@ -1158,6 +1160,39 @@ if exists('g:plugs["nerdtree"]')
   nnoremap <expr> [Chief]t runcmds#base#RunCmds("NERDTree", <SID>NERDTreeCmds(), <SID>NERDTreeFlags())
 endif
 " --- || NERDTree || }}}
+
+" {{{ || nvim-tree.lua || ---
+" XXX Without icons it's not eye friendly
+" lua << EOF
+" require("nvim-tree").setup {
+"   hijack_netrw = false,
+" }
+" EOF
+" if exists('g:plugs["nvim-tree.lua"]')
+"   function! s:InitNvimTreeCmds()
+"     let l:nerd_tree_cmds = {
+"           \ 'n': runcmds#init#MakeCmdInfo('NvimTreeOpen', v:false, [], v:true),
+"           \ 'N': runcmds#init#MakeCmdInfo('NvimTreeOpen %:h'),
+"           \ 't': runcmds#init#MakeCmdInfo('NvimTreeToggle'),
+"           \ 'o': runcmds#init#MakeCmdInfo('NvimTreeFocus'),
+"           \ 'f': runcmds#init#MakeCmdInfo('NvimTreeFindFile'),
+"           \ 'r': runcmds#init#MakeCmdInfo('NvimTreeRefresh'),
+"           \ }
+"     function! s:NvimTreeCmds() closure
+"       return l:nerd_tree_cmds
+"     endfunction
+"   endfunction
+"   function! s:InitNvimTreeFlagDict()
+"     let l:nerd_tree_flags = runcmds#init#MakeFlagDict(';', "\<Space>")
+"     function! s:NvimTreeFlags() closure
+"       return l:nerd_tree_flags
+"     endfunction
+"   endfunction
+"   call s:InitNvimTreeCmds()
+"   call s:InitNvimTreeFlagDict()
+"   nnoremap <expr> [Chief]t runcmds#base#RunCmds("NvimTree", <SID>NvimTreeCmds(), <SID>NvimTreeFlags())
+" endif
+" --- || nvim-tree.lua || }}}
 
 " {{{ || ranger.vim || ---
 if exists('g:plugs["ranger.vim"]')
