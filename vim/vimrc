@@ -1648,6 +1648,7 @@ if exists('g:plugs["LanguageClient-neovim"]')
         \   },
         \ },
         \ }
+        " \ 'go': [$GOPATH . '/bin/gopls'],
         " \ 'rust': ['rustup', 'run', !empty($RUST_VERSION) ? $RUST_VERSION : 'stable', 'rls'],
   let g:LanguageClient_loggingFile = expand('~/.local/share/nvim/LanguageClient.log')
   let g:LanguageClient_serverStderr = expand('~/.local/share/nvim/LanguageServer.log')
