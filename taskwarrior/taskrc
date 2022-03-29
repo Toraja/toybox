@@ -41,4 +41,6 @@ urgency.user.tag.awaiting.coefficient=-5.0
 uda.taskwarrior-tui.selection.bold=no
 uda.taskwarrior-tui.selection.reverse=yes
 uda.taskwarrior-tui.quick-tag.name=awaiting
-uda.taskwarrior-tui.keyconfig.modify=:
+
+uda.taskwarrior-tui.style.report.completion-pane=white on black
+uda.taskwarrior-tui.style.report.completion-pane-highlight=bold cyan on black
