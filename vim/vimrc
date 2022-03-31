@@ -66,9 +66,9 @@ if filereadable(s:vim_plug_file)
   Plug 'tpope/vim-repeat'
   Plug 'junegunn/vim-easy-align'
   Plug 'neomake/neomake'
-  if has('nvim') " no completion for conventional vim as it takes so long to start up
-    Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-  endif
+  " if has('nvim') " no completion for conventional vim as it takes so long to start up
+  "   Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+  " endif
   " Plug 'Shougo/ddc.vim'
   " Plug 'Shougo/ddc-nvim-lsp'
   Plug 'Shougo/echodoc.vim'
@@ -77,12 +77,20 @@ if filereadable(s:vim_plug_file)
   "       \ 'do': has('win32') ? 'powershell install.ps1' : 'bash install.sh',
   "       \ }
   Plug 'neovim/nvim-lspconfig'
+  Plug 'hrsh7th/nvim-cmp'
+  Plug 'hrsh7th/cmp-nvim-lsp'
+  Plug 'hrsh7th/cmp-buffer'
+  Plug 'hrsh7th/cmp-path'
+  Plug 'hrsh7th/cmp-cmdline'
   Plug 'simrat39/rust-tools.nvim'
-  " Plug 'SirVer/ultisnips'
   Plug 'honza/vim-snippets'
-  Plug 'Shougo/neosnippet.vim'
+  Plug 'L3MON4D3/LuaSnip'
+  Plug 'saadparwaiz1/cmp_luasnip'
+  " Plug 'SirVer/ultisnips'
+  " Plug 'quangnguyen30192/cmp-nvim-ultisnips'
+  " Plug 'Shougo/neosnippet.vim'
   " Plug 'Shougo/deoppet.nvim' " snipmate not supported yet
-  Plug 'Shougo/neosnippet-snippets'
+  " Plug 'Shougo/neosnippet-snippets'
   Plug 'vim-utils/vim-husk'
   " misc
   Plug 'ahmedkhalf/project.nvim'
@@ -135,6 +143,7 @@ set fileencodings^=utf-8
 if has('unix')
   set shell=/bin/bash
 endif
+execute 'set runtimepath^=' . expand('<sfile>:p')
 
 " << looks and feel >>
 set background=dark           " color scheme for dark background
@@ -291,7 +300,8 @@ set wildmode=full,longest:full      " command mode completion method
 " --- || options || }}}
 
 " {{{ || highlight || ---
-highlight Pmenu ctermfg=254 ctermbg=22 gui=bold guibg=Blue
+highlight PmenuSel ctermfg=254 ctermbg=240 gui=bold guibg=Blue
+highlight Pmenu ctermfg=254 ctermbg=236 guibg=DarkGrey
 highlight ColorColumn ctermbg=6 guibg=DarkCyan
 " --- || highlight || }}}
 
@@ -1689,7 +1699,6 @@ endif
 
 " {{{ || nvim-lspconfig || ---
 lua << EOF
-  require('lspconfig').rust_analyzer.setup{}
   vim.lsp.set_log_level("debug")
   -- local opts = { noremap=true, silent=true }
   local opts = { noremap=true }
@@ -1728,6 +1737,92 @@ function! DefaultCmds()
   return copy(s:def_cmds)
 endfunction
 " --- || nvim-lspconfig || }}}
+
+" {{{ || nvim-cmp || ---
+lua <<EOF
+  local cmp = require('cmp')
+  cmp.setup({
+    snippet = {
+      -- REQUIRED - you must specify a snippet engine
+      expand = function(args)
+        -- vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
+        require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
+        -- require('snippy').expand_snippet(args.body) -- For `snippy` users.
+        -- vim.fn["UltiSnips#Anon"](args.body) -- For `ultisnips` users.
+      end,
+    },
+    mapping = {
+      ['<M-j>'] = cmp.mapping(cmp.mapping.scroll_docs(4), { 'i', 'c' }),
+      ['<M-k>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i', 'c' }),
+      ['<Tab>'] = cmp.mapping(function(fallback)
+        if cmp.visible() then
+          cmp.select_next_item()
+        else
+          cmp.complete()
+        end
+      end, { 'i', 'c' }),
+      ['<C-y>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+      ['<C-e>'] = cmp.mapping({
+        i = cmp.mapping.abort(),
+        c = cmp.mapping.close(),
+      }),
+    },
+    sources = cmp.config.sources({
+      { name = 'nvim_lsp' },
+      -- { name = 'vsnip' }, -- For vsnip users.
+      { name = 'luasnip' }, -- For luasnip users.
+      -- { name = 'ultisnips' }, -- For ultisnips users.
+      -- { name = 'snippy' }, -- For snippy users.
+    }, {
+      { name = 'buffer' },
+    })
+  })
+
+  -- Set configuration for specific filetype.
+  -- cmp.setup.filetype('gitcommit', {
+  --   sources = cmp.config.sources({
+  --     { name = 'cmp_git' }, -- You can specify the `cmp_git` source if you were installed it.
+  --   }, {
+  --     { name = 'buffer' },
+  --   })
+  -- })
+
+  -- Use buffer source for `/` (if you enabled `native_menu`, this won't work anymore).
+  cmp.setup.cmdline('/', {
+    sources = {
+      { name = 'buffer' }
+    }
+  })
+
+  -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
+  cmp.setup.cmdline(':', {
+    sources = cmp.config.sources({
+      { name = 'path' }
+    }, {
+      { name = 'cmdline' }
+    })
+  })
+
+  -- Enable some language servers with the additional completion capabilities offered by nvim-cmp
+  local servers = { 'gopls' } -- , 'rust_analyzer'
+  for _, lsp in ipairs(servers) do
+    require('lspconfig')[lsp].setup {
+      -- on_attach = my_custom_on_attach,
+      capabilities = capabilities,
+    }
+  end
+EOF
+" --- || nvim-cmp || }}}
+
+" {{{ || LuaSnip || ---
+lua << EOF
+  require("luasnip.loaders.from_vscode").lazy_load() -- enable LSP style snippets
+  require("luasnip.loaders.from_snipmate").lazy_load()
+  vim.api.nvim_set_keymap("i", "<C-]>", "<Plug>luasnip-expand-or-jump", {})
+  vim.api.nvim_set_keymap("i", "<C-s>", "<Plug>luasnip-jump-next", {})
+  vim.api.nvim_set_keymap("i", "<M-s>", "<Plug>luasnip-jump-prev", {})
+EOF
+" --- || LuaSnip || }}}
 
 " {{{ || rust-tools.nvim || ---
 lua << EOF
