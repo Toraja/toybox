@@ -1,6 +1,6 @@
 {
   "return": {
-    "prefix": "rt",
+    "prefix": "re",
     "body": ["return"],
     "description": "return"
   },
@@ -65,7 +65,7 @@
     "prefix": "pmod",
     "body": [
       "pub mod ${1:name} {",
-      "    ${2:TM_SELECTED_TEXT}",
+      "    ${2:${TM_SELECTED_TEXT}}",
       "}"
     ],
     "description": "pub mod … { … }"

@@ -1,0 +1,41 @@
+{
+  "return": {
+    "prefix": "re",
+    "body": ["return"],
+    "description": "return"
+  },
+  "else if": {
+    "prefix": "elif",
+    "body": [
+      "else if ${1:condition} {",
+      "\t${2:${TM_SELECTED_TEXT}}",
+      "}"
+    ],
+    "description": "else if clause"
+  },
+  "reflect.DeepEqual": {
+    "prefix": "de",
+    "body": [
+      "reflect.DeepEqual(${1:x}, ${2:y})"
+    ],
+    "description": "reflect.DeepEqual()"
+  },
+  "closure": {
+    "prefix": "cl",
+    "body": [
+      "func(${1:param}) ${2:return}{",
+      "\t${3:${TM_SELECTED_TEXT}}",
+      "}"
+    ],
+    "description": "closure"
+  },
+  "Immediately Invoked Function Expression": {
+    "prefix": "iife",
+    "body": [
+      "func(${1:param}) ${2:return}{",
+      "\t${4:${TM_SELECTED_TEXT}}",
+      "}(${3:arg})"
+    ],
+    "description": "Immediately Invoked Function Expression"
+  }
+}

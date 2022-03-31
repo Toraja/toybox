@@ -6,8 +6,12 @@
   "contributes": {
     "snippets": [
       {
+        "language": "go",
+        "path": "./snippets/go.json"
+      },
+      {
         "language": "rust",
-        "path": "./rust.json"
+        "path": "./snippets/rust.json"
       }
     ]
   }
