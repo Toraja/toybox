@@ -301,9 +301,7 @@ set history=1000
 set wildignorecase            " command mode completion ignores case
 set wildignore+=*.swp,*.bak,*.class   " ignore files this specified extentions on completion
 set wildmenu              " display menu on command line completion
-" neosnippet behaves strangely if 'wildcharm' is set to <Tab>, so use another key to workaround
-" set wildcharm=<Tab>           " This enables cycling through popup version of wildmenu with <expr> keymap
-set wildcharm=<F10>
+set wildcharm=<Tab>           " This enables cycling through popup version of wildmenu with <expr> keymap
 set wildmode=full,longest:full      " command mode completion method
 " --- || options || }}}
 
