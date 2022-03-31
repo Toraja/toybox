@@ -144,7 +144,14 @@ set fileencodings^=utf-8
 if has('unix')
   set shell=/bin/bash
 endif
-execute 'set runtimepath^=' . expand('<sfile>:p:h') . '/rtp/snippets'
+set runtimepath^=~/.vim runtimepath+=~/.vim/after
+let s:sfile_dir = expand('<sfile>:p:h')
+let s:rtp_dir = s:sfile_dir . '/rtp'
+let s:after_dir = s:rtp_dir . '/after'
+let s:snippets_dir = s:rtp_dir . '/snippets'
+execute 'set runtimepath^=' . s:rtp_dir . ',' . s:snippets_dir
+execute 'set runtimepath+=' . s:after_dir
+let &packpath = &runtimepath
 
 " << looks and feel >>
 set background=dark           " color scheme for dark background
