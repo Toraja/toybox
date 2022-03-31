@@ -12,7 +12,7 @@ function add_path --description "Add directory to PATH if the directory exists a
     end
 
     if test (count $paths_to_add) -eq 0
-        return 0
+        return 1
     end
 
     add_unique $flag PATH $paths_to_add
