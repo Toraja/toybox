@@ -83,7 +83,8 @@ if filereadable(s:vim_plug_file)
   Plug 'hrsh7th/cmp-path'
   Plug 'hrsh7th/cmp-cmdline'
   Plug 'simrat39/rust-tools.nvim'
-  Plug 'honza/vim-snippets'
+  " Plug 'honza/vim-snippets'
+  Plug 'rafamadriz/friendly-snippets'
   Plug 'L3MON4D3/LuaSnip'
   Plug 'saadparwaiz1/cmp_luasnip'
   " Plug 'SirVer/ultisnips'
@@ -143,7 +144,7 @@ set fileencodings^=utf-8
 if has('unix')
   set shell=/bin/bash
 endif
-execute 'set runtimepath^=' . expand('<sfile>:p')
+execute 'set runtimepath^=' . expand('<sfile>:p:h') . '/rtp/snippets'
 
 " << looks and feel >>
 set background=dark           " color scheme for dark background
@@ -1816,11 +1817,14 @@ EOF
 
 " {{{ || LuaSnip || ---
 lua << EOF
+  -- Both sources can be enabled at the same time
   require("luasnip.loaders.from_vscode").lazy_load() -- enable LSP style snippets
-  require("luasnip.loaders.from_snipmate").lazy_load()
-  vim.api.nvim_set_keymap("i", "<C-]>", "<Plug>luasnip-expand-or-jump", {})
-  vim.api.nvim_set_keymap("i", "<C-s>", "<Plug>luasnip-jump-next", {})
-  vim.api.nvim_set_keymap("i", "<M-s>", "<Plug>luasnip-jump-prev", {})
+  -- require("luasnip.loaders.from_snipmate").lazy_load()
+  for _, mode in ipairs({"i", "s"}) do
+    vim.api.nvim_set_keymap(mode, "<C-]>", "<Plug>luasnip-expand-or-jump", {})
+    vim.api.nvim_set_keymap(mode, "<C-s>", "<Plug>luasnip-jump-next", {})
+    vim.api.nvim_set_keymap(mode, "<M-s>", "<Plug>luasnip-jump-prev", {})
+  end
 EOF
 " --- || LuaSnip || }}}
 
