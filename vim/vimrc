@@ -252,7 +252,7 @@ set tabline=%!MyTabLine()
 highlight TabLine term=reverse cterm=bold,reverse gui=reverse
 
 " << editing >>
-set tabstop=4 noexpandtab shiftwidth=4  " change tab width
+set expandtab                           " use whitespaces for indentation
 set autoindent smartindent              " indentation support
 set shiftround                          " round tab width for > and < command
 set fileformats=unix,dos,mac            " Prefer Unix over Windows over OSX formats
