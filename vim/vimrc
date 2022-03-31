@@ -1822,6 +1822,7 @@ EOF
 
 " {{{ || LuaSnip || ---
 lua << EOF
+  require("luasnip").config.setup({store_selection_keys="<C-]>"})
   -- Both sources can be enabled at the same time
   require("luasnip.loaders.from_vscode").lazy_load() -- enable LSP style snippets
   -- require("luasnip.loaders.from_snipmate").lazy_load()
