@@ -24,6 +24,7 @@ set --export EDITOR nvim
 set --export VISUAL nvim
 set --export GOPATH $HOME/go
 set --export DOCKER_BUILDKIT 1
+set --export LIBGL_ALWAYS_INDIRECT 1 # this might improve GUI performance
 switch $TERM
     case 'xterm'
         # This is required to enable 256 color inside tmux on docker container
