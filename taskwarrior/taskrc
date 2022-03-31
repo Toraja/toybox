@@ -38,6 +38,21 @@ report.next.columns=id,start.age,entry.age,depends,priority,project,tags,recur,s
 report.next.labels=ID,Active,Age,Deps,P,Project,Tag,Recur,S,Due,Remain,Until,Description,Urg
 report.next.sort=urgency-
 
+# See https://taskwarrior.org/docs/urgency.html
+# urgency.user.tag.next.coefficient=  # +next tag [default: 15.0]
+# urgency.due.coefficient=            # overdue or near due date [default: 12.0]
+# urgency.blocking.coefficient=       # blocking other tasks [default: 8.0]
+urgency.uda.priority.H.coefficient=3.0  # high Priority [default: 6.0]
+urgency.uda.priority.M.coefficient=0.0  # medium Priority [default: 3.9]
+urgency.uda.priority.L.coefficient=-3.0 # low Priority [default: 1.8]
+# urgency.scheduled.coefficient=      # scheduled tasks [default: 5.0]
+# urgency.active.coefficient=         # already started tasks [default: 4.0]
+# urgency.age.coefficient=            # coefficient for age [default: 2.0]
+urgency.annotations.coefficient=0.0     # has annotations [default: 1.0]
+urgency.tags.coefficient=0.0            # has tags [default:  #1.0]
+urgency.project.coefficient=0.0         # assigned to any project [default: #1.0]
+# urgency.waiting.coefficient=        # waiting task [default: -3.0]
+# urgency.blocked.coefficient=        # blocked by other tasks [default: -5.0]
 urgency.user.tag.awaiting.coefficient=-5.0
 
 uda.taskwarrior-tui.selection.bold=no
