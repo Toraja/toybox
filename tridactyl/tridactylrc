@@ -22,6 +22,7 @@ bind --mode=normal n findnext 1
 bind --mode=normal N findnext -1
 bind --mode=normal <A-u> nohlsearch
 
+unbind --mode=normal d
 unbind --mode=normal <C-6>
 bind --mode=normal e buffer #
 bind --mode=normal <A-1> tab 1
