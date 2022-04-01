@@ -645,11 +645,6 @@ noremap ` '
 nnoremap <Leader>m :<C-u>marks<CR>
 " --- || Mark || }}}
 
-" {{{ || Completion || ---
-inoremap <expr> <C-l> pumvisible() ? "\<C-n>" : "\<C-x>\<C-n>"
-inoremap <expr> <C-i> pumvisible() ? "\<C-n>" : "\<C-x>\<C-o>"
-" --- || Completion || }}}
-
 " {{{ || Search || ---
 " AnnoyingSpaces: trailing white spaces or mixture of space and tab
 let g:AnnoyingSpaces = "\\s\\+$\\| \\+\\t\\+\\|\\t\\+ \\+"
@@ -1767,11 +1762,22 @@ lua <<EOF
           cmp.complete()
         end
       end, { 'i', 'c' }),
-      ['<C-y>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
-      ['<C-e>'] = cmp.mapping({
-        i = cmp.mapping.abort(),
-        c = cmp.mapping.close(),
-      }),
+      ['<C-l>'] = cmp.mapping(function(fallback)
+        if cmp.visible() then
+          cmp.select_next_item()
+        else
+          cmp.complete({
+            config = {
+              sources = {
+                { name = 'buffer' }
+              }
+            }
+          })
+        end
+      end, { 'i', 'c' }),
+      ['<C-y>'] = cmp.mapping(cmp.mapping.confirm({ select = true }), { 'i', 'c' }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+      ['<C-o>'] = cmp.mapping(cmp.mapping.confirm({ select = true }), { 'i', 'c' }),
+      ['<C-e>'] = cmp.mapping(cmp.mapping.abort(), { 'i', 'c' }),
     },
     sources = cmp.config.sources({
       { name = 'nvim_lsp' },
