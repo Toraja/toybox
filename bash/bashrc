@@ -23,12 +23,6 @@ tabs -4			# set tab width
 ## PS1
 [[ $EUID -eq 0 ]] && PS_Symbol='#' || PS_Symbol='$'
 PS1="\[\e[32m\]\u:${SHLVL}:\w \[\e[0m\]\\n${PS_Symbol} "
-if [[ -n "$VIM" ]]; then
-	PS1=$(sed 's/\\u/\\u(vim)/' <<< "${PS1}")
-fi
-if [[ -n "$STY" ]]; then
-	PS1=$(sed 's/\\u/\\u(scr)/' <<< "${PS1}")
-fi
 ## Others
 export EDITOR=vim	# set default editor to vim
 export VISUAL=vim	# set default editor to vim
