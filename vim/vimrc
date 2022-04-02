@@ -444,6 +444,7 @@ endif
 
 " {{{ || Leader || ---
 noremap <Space> <Nop>
+sunmap <Space>
 let mapleader = "\<Space>"
 
 " Use local leader for ftplugins
@@ -456,28 +457,31 @@ map ; [Chief]
 let g:chief_key = ';'
 if has('xterm_clipboard')
   nnoremap [Chief] "+
-  vnoremap [Chief] "+
+  xnoremap [Chief] "+
 else
   nnoremap [Chief] "*
-  vnoremap [Chief] "*
+  xnoremap [Chief] "*
 endif
 
 map , [Captain]
 nnoremap [Captain] "_
-vnoremap [Captain] "_
+xnoremap [Captain] "_
 " --- || Leader || }}}
 
 " {{{ || cursor motion || ---
 noremap j gj
 noremap k gk
+sunmap j
+sunmap k
 noremap <expr> <silent> <Home> col('.') == match(getline('.'),'\S')+1 ? '0' : '^'
 map H <Home>
+sunmap H
 nnoremap L $
 onoremap L $
-vnoremap L g_
+xnoremap L g_
 " J & K below is to prevent accidental line join and opening help
-vnoremap J j
-vnoremap K k
+xnoremap J j
+xnoremap K k
 
 snoremap <C-f> <Right>
 snoremap <C-b> <Left>
@@ -508,7 +512,7 @@ inoremap <C-n> <Down>
 " [always search forward/backword]
 " noremap <expr> <Bslash> getcharsearch().forward ? ';' : ','
 " noremap <expr> <Bar> getcharsearch().forward ? ',' : ';'
-vnoremap al ggoG$
+xnoremap al ggoG$
 " all
 onoremap <silent> al :normal! VggoG<CR>
 " line without indent
@@ -518,24 +522,24 @@ onoremap <silent> U :normal! 0v$h<CR>
 " XXX these do not work if the cursor is on the last element
 " as in /cursor/is/he|re
 onoremap <silent> ad :call SelectPair('${', '', '}', 1)<CR>
-vnoremap <silent> ad :<C-u>call SelectPair('${', '', '}', 1)<CR>
+xnoremap <silent> ad :<C-u>call SelectPair('${', '', '}', 1)<CR>
 onoremap <silent> ie :call SelectElement()<CR>
-vnoremap <silent> ie :<C-u>call SelectElement()<CR>
-vnoremap <silent> i, T,ot,
+xnoremap <silent> ie :<C-u>call SelectElement()<CR>
+xnoremap <silent> i, T,ot,
 onoremap <silent> i, :normal! T,vt,<CR>
-vnoremap <silent> a, T,of,
+xnoremap <silent> a, T,of,
 onoremap <silent> a, :normal! T,vf,<CR>
-vnoremap <silent> i. T.ot.
+xnoremap <silent> i. T.ot.
 onoremap <silent> i. :normal! T.vt.<CR>
-vnoremap <silent> a. T.of.
+xnoremap <silent> a. T.of.
 onoremap <silent> a. :normal! T.vf.<CR>
-vnoremap <silent> i/ T/ot/
+xnoremap <silent> i/ T/ot/
 onoremap <silent> i/ :normal! T/vt/<CR>
-vnoremap <silent> a/ T/of/
+xnoremap <silent> a/ T/of/
 onoremap <silent> a/ :normal! T/vf/<CR>
-vnoremap <silent> iu T_ot_
+xnoremap <silent> iu T_ot_
 onoremap <silent> iu :normal! T_vt_<CR>
-vnoremap <silent> au T_of_
+xnoremap <silent> au T_of_
 onoremap <silent> au :normal! T_vf_<CR>
 function! VisualOperator(operatortype)
   if a:operatortype ==# 'v'
@@ -564,8 +568,9 @@ nnoremap ]t :tag<CR>
 nnoremap <M-x> "_x
 nnoremap <M-X> "_X
 nnoremap =p =']
-vnoremap p "_c<C-r>"<Esc>
-vnoremap P "_c<C-r>"<Esc>
+xnoremap p "_c<C-r>"<Esc>
+xnoremap P "_c<C-r>"<Esc>
+snoremap <C-h> <BS>i
 " [insert/command mode]
 noremap! <C-Space> <Space><Left>
 inoremap <C-w> <C-g>u<C-w>
@@ -596,7 +601,7 @@ nnoremap <M-o> o<Esc>
 nnoremap <M-O> O<Esc>
 nnoremap <C-j> i<CR><Esc><Up><End>a
 " [Other editing]
-vnoremap y ygv<Esc>|  "place cursor after the selection when yanking
+xnoremap y ygv<Esc>|  "place cursor after the selection when yanking
 nnoremap Y y$
 vnoremap <silent> <C-a> <C-a>gv
 vnoremap <silent> <C-x> <C-x>gv
@@ -642,6 +647,8 @@ nnoremap yp <Cmd>let @* = expand('%:p') \| echo expand('%:p') 'copied to clipboa
 " {{{ || Mark || ---
 noremap ' `
 noremap ` '
+sunmap '
+sunmap `
 nnoremap <Leader>m :<C-u>marks<CR>
 " --- || Mark || }}}
 
@@ -677,8 +684,8 @@ nnoremap <silent> g* <Cmd>call HighlightWord(0, 1, 0, 0)<CR><Cmd>set hlsearch<CR
 nnoremap <silent> <M-*> <Cmd>call HighlightWord(0, 0, 0, 1)<CR><Cmd>set hlsearch<CR>
 nnoremap <silent> g<M-*> <Cmd>call HighlightWord(0, 1, 0, 1)<CR><Cmd>set hlsearch<CR>
 nnoremap <silent> <Leader>* <Cmd>call HighlightWord(0, 0, 1, 0)<CR><Cmd>set hlsearch<CR>
-vnoremap <silent> * <Esc><Cmd>call HighlightWord(1, 0, 0, 0)<CR><Cmd>set hlsearch<CR>
-vnoremap <silent> g* <Esc><Cmd>call HighlightWord(1, 1, 0, 0)<CR><Cmd>set hlsearch<CR>
+xnoremap <silent> * <Esc><Cmd>call HighlightWord(1, 0, 0, 0)<CR><Cmd>set hlsearch<CR>
+xnoremap <silent> g* <Esc><Cmd>call HighlightWord(1, 1, 0, 0)<CR><Cmd>set hlsearch<CR>
 if exists('v:hlsearch')
   nnoremap <silent> <expr> <M-u> (&hlsearch && v:hlsearch ? ':nohlsearch<CR>' : ':set hlsearch<CR>')
 else
