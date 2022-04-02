@@ -29,6 +29,7 @@ abbr --add --global gf git fetch
 abbr --add --global gfp git fetch --prune --prune-tags
 abbr --add --global gs git status
 abbr --add --global gl git log
+abbr --add --global glu git log origin..HEAD
 abbr --add --global glf 'git log --oneline | fzf | awk \'{print $1}\''
 abbr --add --global gd git diff
 abbr --add --global gdc git diff --cached
@@ -108,6 +109,9 @@ abbr --add --global kcoh kubectl rollout history
 abbr --add --global kcos kubectl rollout status
 abbr --add --global kcou kubectl rollout undo
 abbr --add --global kcx kubectl exec -it
+
+## terraform
+abbr --add --global tf terraform
 
 ## go
 abbr --add --global got go test
