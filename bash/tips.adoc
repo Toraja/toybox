@@ -1,0 +1,21 @@
+= bash
+
+== Trouble Shooting
+
+Bash completion emits error saying `LC_TYPE` blah blah blah::
+Set the below environment variables.
+[source,shell]
+----
+export LANG=en_US.UTF-8
+export LC_ALL=en_US.UTF-8
+----
+
+Command in bashrc is not run in non interactive shell::
+Remove the below part in bashrc or add commands before that.
+[source,shell]
+----
+case $- in
+    *i*) ;;
+      *) return;;
+esac
+----
