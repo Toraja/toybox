@@ -1283,6 +1283,15 @@ if exists('g:plugs["vim-easymotion"]')
   map s. <Plug>(easymotion-repeat)
   map <Bslash> <Plug>(easymotion-next)
   map <Bar> <Plug>(easymotion-prev)
+  sunmap s
+  sunmap f
+  sunmap F
+  sunmap t
+  sunmap T
+  sunmap s/
+  sunmap s.
+  sunmap <Bslash>
+  sunmap <Bar>
 endif
 " --- || easy-motion || }}}
 
