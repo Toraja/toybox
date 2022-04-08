@@ -73,7 +73,8 @@ set --local fzf_opts "--height=50%"\
     "--multi" \
     "--reverse" \
     "--inline-info" \
-    "--preview='$fzf_previewer --color=always {}'"
+    "--preview='$fzf_previewer --color=always {}'" \
+    "--preview-window=hidden"
 set --local fzf_bind_opts "ctrl-space:toggle" \
     "ctrl-i:toggle-out" \
     "ctrl-alt-i:toggle-in" \
