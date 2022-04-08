@@ -17,7 +17,7 @@ function ghq_dirty --description "List dirty repos paths"
         if [ $status -eq 0 ]
             test -z (git -C $repo remote); and continue
             set --local current_branch (git -C $repo branch | grep '*' | awk '{ print $2 }')
-            git -C $repo diff-index --quiet origin/$current_branch -- ; or echo "$repo [unpushed commits]"
+            git -C $repo diff-index --quiet origin/$current_branch -- &>/dev/null; or echo "$repo [unpushed commits]"
         else
             echo $repo
             test -n "$_flag_status"; and git -C $repo status --short
