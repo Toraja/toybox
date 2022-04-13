@@ -1,12 +1,13 @@
 # do this on your local file
-# if status --is-interactive
-#     keychain --quiet --agents ssh <filename>
-# end
-#
-# begin
-#     set -l HOSTNAME (hostname)
-#     if test -f ~/.keychain/$HOSTNAME-fish
-#         source ~/.keychain/$HOSTNAME-fish
+# # if status --is-interactive
+#     if test -f <filename>
+#         keychain --quiet --agents ssh <filename>
+#     end
+#     begin
+#         set -l HOSTNAME (hostname)
+#         if test -f ~/.keychain/$HOSTNAME-fish
+#             source ~/.keychain/$HOSTNAME-fish
+#         end
 #     end
 # end
 
