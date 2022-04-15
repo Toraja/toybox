@@ -186,63 +186,62 @@ set concealcursor=nv
 " {{{ || Compose tabline || ---
 function! MyTabLine()
   let l:max_fname_length = 20
-  let l:tabline = ''
+  let l:tabs = []
   for l:cnt in range(tabpagenr('$'))
     let l:tabpagecnt = l:cnt + 1
+    let l:buflist = tabpagebuflist(l:tabpagecnt)
 
     " select the highlighting
     if l:tabpagecnt == tabpagenr()
-      let l:tabline .= '%#TabLineSel#'
+      let l:highlight = '%#TabLineSel#'
     else
-      let l:tabline .= '%#TabLine#'
+      let l:highlight = '%#TabLine#'
     endif
 
-    " compose tabline
-    let l:tabline .= ' '
     " Add '+' if one of the buffers in the tab page is modified
-    let l:buflist = tabpagebuflist(l:tabpagecnt)
-    " Add '+' if one of the buffers in the tab page is modified
+    let modified = ''
     for l:bufnr in l:buflist
       if getbufvar(l:bufnr, "&modified")
-        let l:tabline .= '+'
+        let l:modified .= '+'
         break
       endif
     endfor
-    " Add tab number
-    let l:tabline .= l:tabpagecnt
+
     " Add window number if more than 1 is opened
-    let l:wincnt = tabpagewinnr(l:tabpagecnt, '$')
-    if l:wincnt > 1
-      let l:tabline .= ':' . l:wincnt
-    endif
-    let l:tabline .= ' '
+    " let l:wincnt = tabpagewinnr(l:tabpagecnt, '$')
+    " if l:wincnt > 1
+    "   let l:tabtitle .= ':' . l:wincnt
+    " endif
+
     " Add file name
     let l:winnr = tabpagewinnr(l:tabpagecnt)
     let l:curbufnr = l:buflist[l:winnr - 1]
-    let l:fname = bufname(l:curbufnr)
-    let l:fnamelen = strlen(l:fname)
+    let l:filepath= bufname(l:curbufnr)
+    let l:fnamelen = strlen(l:filepath)
     if l:fnamelen == 0
-      " TODO distinguish Location List and Quickfix List
       if getbufvar(l:curbufnr, "&filetype") ==# 'qf'
-        let l:tabline .= '[Loc List]'
+        let win_info_dict = getwininfo(win_getid())[0]
+        if get(win_info_dict, 'loclist', 0)
+          let l:filename = '[Location]'
+        else
+          let l:filename = '[Quickfix]'
+        endif
       else
-        let l:tabline .= '[No Name]'
+        let l:filename = '[No Name]'
       endif
     else
-      let l:modified_fname = fnamemodify(l:fname, ':t')
-      let l:fnamelen = len(l:modified_fname)
+      let l:filename = fnamemodify(l:filepath, ':t')
+      let l:fnamelen = strlen(l:filename)
       if l:fnamelen > l:max_fname_length
-        let l:modified_fname = l:modified_fname[l:fnamelen-l:max_fname_length:]
+        let l:filename = l:filename[:l:max_fname_length]
       endif
-      let l:tabline .= l:modified_fname
     endif
-    let l:tabline .= ' '
+
+    call add(l:tabs, printf('%s %s%s %s ', l:highlight, l:modified, l:tabpagecnt, l:filename))
   endfor
 
-  " after the last tab fill with TabLineFill
-  let l:tabline .= '%#TabLineFill#'
-
-  return l:tabline
+  " fill with TabLineFill after the last tab
+  return ' ' . join(l:tabs, '%#TabLine#|') . '%#TabLineFill#'
 endfunction
 
 set tabline=%!MyTabLine()
