@@ -1724,8 +1724,8 @@ endif
 lua << EOF
   vim.lsp.set_log_level("debug")
   -- local opts = { noremap=true, silent=true }
-  local opts = { noremap=true }
-  vim.api.nvim_buf_set_keymap(bufnr, 'i', '<C-g><C-h>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
+  local opts = { noremap = true }
+  vim.api.nvim_set_keymap('i', '<C-g><C-h>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
   local wk = require("which-key")
   wk.register({
     ["<C-]>"] = { "<Cmd>lua vim.lsp.buf.definition()<CR>", "Definition" },
@@ -1743,6 +1743,32 @@ lua << EOF
       ["<C-g><C-]>"] = { "<Cmd>tab split | lua vim.lsp.buf.implementation<CR>", "Implementation [tab]" },
     },
   })
+  local lspconfig = require('lspconfig')
+  local capabilities = vim.lsp.protocol.make_client_capabilities()
+  capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
+  capabilities.textDocument.completion.completionItem.resolveSupport = {
+    properties = {
+      'documentation',
+      'detail',
+      'additionalTextEdits', -- XXX currently failing to enable auto import for rust-analyzer
+    }
+  }
+  local servers = { 'gopls', 'rust_analyzer' }
+  for _, lsp in pairs(servers) do
+    lspconfig[lsp].setup ({
+      capabilities = capabilities,
+    })
+  end
+  lspconfig['rust_analyzer'].setup({
+    cmd = { "rustup", "run", "nightly", "rust-analyzer" },
+    init_options = {
+      completion = {
+        addCallParenthesis = false,
+        addCallArgumentSnippets = false,
+      },
+    },
+  })
+  -- 'rust': ['rustup', 'run', !empty($RUST_VERSION) ? $RUST_VERSION : 'stable', 'rust-analyzer'],
 EOF
 let s:def_cmds = {
       \ 'a': runcmds#init#MakeCmdInfo('AV'),
@@ -1850,15 +1876,6 @@ lua <<EOF
       { name = 'cmdline' }
     })
   })
-
-  -- Enable some language servers with the additional completion capabilities offered by nvim-cmp
-  local servers = { 'gopls' } -- , 'rust_analyzer'
-  for _, lsp in ipairs(servers) do
-    require('lspconfig')[lsp].setup {
-      -- on_attach = my_custom_on_attach,
-      capabilities = capabilities,
-    }
-  end
 EOF
 " --- || nvim-cmp || }}}
 
@@ -1875,16 +1892,6 @@ lua << EOF
   end
 EOF
 " --- || LuaSnip || }}}
-
-" {{{ || rust-tools.nvim || ---
-lua << EOF
-  require('rust-tools').setup({
-    server = {
-      cmd = { "rustup", "run", "nightly", "rust-analyzer" }
-    },
-  })
-EOF
-" --- || rust-tools.nvim || }}}
 
 " {{{ || neomake || ---
 if exists('g:plugs["neomake"]')
