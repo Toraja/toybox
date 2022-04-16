@@ -7,7 +7,7 @@ let s:vimdir = expand("~/.vim")
 " {{{ || plugin || ---
 " {{{ || vim-polyglot || ---
 " This must be prior to plugin loading
-let g:polyglot_disabled = ['vim']
+" let g:polyglot_disabled = ['vim']
 " --- || vim-polyglot || }}}
 
 if has('nvim')
@@ -234,7 +234,8 @@ set tabline=%!MyTabLine()
 highlight TabLine term=reverse cterm=bold,reverse gui=reverse
 
 " << editing >>
-set expandtab                           " use whitespaces for indentation
+" tabstop has to be set or vim-polyglot will sets it to 2
+set tabstop=4 shiftwidth=4 expandtab    " change tab width and use whitespaces instead of tab char
 set autoindent smartindent              " indentation support
 set shiftround                          " round tab width for > and < command
 set fileformats=unix,dos,mac            " Prefer Unix over Windows over OSX formats
