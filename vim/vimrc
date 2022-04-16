@@ -1620,6 +1620,10 @@ lua <<EOF
         -- vim.fn["UltiSnips#Anon"](args.body) -- For `ultisnips` users.
       end,
     },
+    window = {
+      completion = cmp.config.window.bordered(),
+      documentation = cmp.config.window.bordered(),
+    },
     mapping = {
       ['<M-j>'] = cmp.mapping(cmp.mapping.scroll_docs(4), { 'i', 'c' }),
       ['<M-k>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i', 'c' }),
@@ -1630,19 +1634,24 @@ lua <<EOF
           cmp.complete()
         end
       end, { 'i', 'c' }),
-      ['<C-n>'] = cmp.mapping(function(fallback)
-        if cmp.visible() then
-          cmp.select_next_item()
-        else
-          fallback()
-        end
-      end, { 'i', 'c' }),
-      ['<C-p>'] = cmp.mapping(function(fallback)
+      ['<C-M-i>'] = cmp.mapping(function(fallback)
         if cmp.visible() then
           cmp.select_prev_item()
         else
           fallback()
         end
+      end, { 'i', 'c' }),
+      ['<C-n>'] = cmp.mapping(function(fallback)
+        if cmp.visible() then
+          cmp.close()
+        end
+        fallback()
+      end, { 'i', 'c' }),
+      ['<C-p>'] = cmp.mapping(function(fallback)
+        if cmp.visible() then
+          cmp.close()
+        end
+        fallback()
       end, { 'i', 'c' }),
       ['<C-l>'] = cmp.mapping(function(fallback)
         if cmp.visible() then
