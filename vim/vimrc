@@ -1479,8 +1479,9 @@ lua << EOF
 -- See https://github.com/nvim-telescope/telescope.nvim/issues/1661
 -- vim.cmd "autocmd User TelescopePreviewerLoaded setlocal number" -- Add line number to preview
 
-local action_set = require('telescope.actions.set')
 local action = require('telescope.actions')
+local action_set = require('telescope.actions.set')
+local action_layout = require('telescope.actions.layout')
 require('telescope').setup{
   defaults = {
     vimgrep_arguments = {
@@ -1508,6 +1509,7 @@ require('telescope').setup{
       i = {
         ["<Esc>"] = action.close,
         ["<C-\\>"] = { "<Esc>", type = "command" },
+        ["<C-_>"] = action_layout.toggle_preview,
         ["<C-i>"] = function(bufnr)
           action.toggle_selection(bufnr)
           action.move_selection_worse(bufnr)
