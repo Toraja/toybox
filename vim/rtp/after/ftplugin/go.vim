@@ -41,7 +41,6 @@ function! s:InitGocmds()
 				\ 'O': runcmds#init#MakeCmdInfo('GoDeclsDir'),
 				\ 'p': runcmds#init#MakeCmdInfo('GoChannelPeers'),
 				\ 'r': runcmds#init#MakeCmdInfo('GoRun', v:true, l:go_run_args),
-				\ 'R': runcmds#init#MakeCmdInfo('GoReferrers'),
 				\ 's': runcmds#init#MakeCmdInfo('GoFillStruct'),
 				\ 'S': runcmds#init#MakeCmdInfo('GoAddTags'),
 				\ 't': runcmds#init#MakeCmdInfo('GoTestFuncNewTabFocus', v:false, l:go_test_func_new_tab_focus_args),
@@ -52,6 +51,7 @@ function! s:InitGocmds()
 				\ 'w': runcmds#init#MakeCmdInfo('GoWhicherrs'),
 				\ 'W': runcmds#init#MakeCmdInfo('SwitchTermMode', v:false, l:switch_term_mode_args),
 				\ }
+	let l:go_cmds = extend(DefaultCmds(), l:go_cmds)
 	function! s:GoCmds() closure
 		return l:go_cmds
 	endfunction

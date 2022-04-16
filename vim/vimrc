@@ -1619,11 +1619,9 @@ let s:def_cmds = {
       \ 'a': runcmds#init#MakeCmdInfo('AV'),
       \ 'd': runcmds#init#MakeCmdInfo('lua vim.lsp.buf.hover()'),
       \ 'f': runcmds#init#MakeCmdInfo('lua vim.lsp.buf.formatting()'),
-      \ 'h': runcmds#init#MakeCmdInfo('LcnDocHighlight'),
-      \ 'H': runcmds#init#MakeCmdInfo('LcnDocHighlightClear'),
       \ 'n': runcmds#init#MakeCmdInfo('lua vim.lsp.buf.rename()'),
       \ 'q': runcmds#init#MakeCmdInfo('lua vim.diagnostic.setloclist()'),
-      \ 'R': runcmds#init#MakeCmdInfo('lua vim.lsp.buf.references()'),
+      \ 'R': runcmds#init#MakeCmdInfo('Trouble lsp_references'),
       \ '0': runcmds#init#MakeCmdInfo('lua vim.lsp.buf.code_action()'),
       \ }
       " \ 'o': runcmds#init#MakeCmdInfo('LcnDocSymbol'),
