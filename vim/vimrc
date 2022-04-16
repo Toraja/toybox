@@ -77,6 +77,7 @@ if filereadable(s:vim_plug_file)
   Plug 'saadparwaiz1/cmp_luasnip'
   Plug 'vim-utils/vim-husk'
   " misc
+  Plug 'folke/lsp-trouble.nvim'
   Plug 'ahmedkhalf/project.nvim'
   Plug 'sheerun/vim-polyglot'
   Plug 'tpope/vim-abolish'
@@ -702,7 +703,7 @@ function! QuickGrep(pattern, modify)
     return
   endtry
 
-  call qf#base#QFOpenSmart(g:qf#base#qf_mode_location, v:false, 0)
+  " call qf#base#QFOpenSmart(g:qf#base#qf_mode_location, v:false, 0)
 endfunction
 lua << EOF
   local wk = require("which-key")
@@ -804,7 +805,28 @@ EOF
 " --- || Replace || }}}
 
 " {{{ || Quickfix/Location || ---
-nnoremap <silent> <C-q> <Cmd>call qf#base#QuickfixCmd(v:count)<CR>
+" nnoremap <silent> <C-q> <Cmd>call qf#base#QuickfixCmd(v:count)<CR>
+lua << EOF
+  local trouble = require("trouble")
+  trouble.setup({
+    padding = false, -- add an extra new line on top of the list
+    auto_close = true, -- automatically close the list when you have no diagnostics
+  })
+  local wk = require("which-key")
+  wk.register({
+    ["<C-q>"] = {
+      name = "Trouble",
+      ["<C-q>"] = { function() trouble.toggle({ auto = true }) end, "Trouble toggle" },
+      ["<C-r>"] = { "<Cmd>TroubleRefresh<CR>", "Trouble refresh" },
+      ["<C-e>"] = { function() trouble.open("document_diagnostics", "auto=true") end, "Troube document diagnostics" },
+      ["<C-w>"] = { function() trouble.open("workspace_diagnostics", "auto=true") end, "Trouble workspace diagnostics" },
+      ["<C-f>"] = { function() trouble.open("quickfix", "auto=true") end, "Trouble quickfix" },
+      ["<C-l>"] = { function() trouble.open("loclist", "auto=true") end, "Trouble loclist" },
+      ["<C-n>"] = { function() trouble.next({skip_groups = true, jump = true}) end, "Trouble next" },
+      ["<C-p>"] = { function() trouble.previous({skip_groups = true, jump = true}) end, "Trouble previous" },
+    },
+  })
+EOF
 " --- || Quickfix/Location || }}}
 
 " {{{ || Buffer || ---
@@ -1403,6 +1425,7 @@ lua << EOF
 local action = require('telescope.actions')
 local action_set = require('telescope.actions.set')
 local action_layout = require('telescope.actions.layout')
+local trouble = require("trouble.providers.telescope")
 require('telescope').setup{
   defaults = {
     vimgrep_arguments = {
@@ -1426,8 +1449,10 @@ require('telescope').setup{
         ["<C-u>"] = function(bufnr) action_set.scroll_results(bufnr, 0) end,
         ["<M-j>"] = function(bufnr) action_set.scroll_previewer(bufnr, 1) end,
         ["<M-k>"] = function(bufnr) action_set.scroll_previewer(bufnr, 0) end,
+        ["<c-q>"] = trouble.open_with_trouble,
       },
       i = {
+        ["<c-q>"] = trouble.open_with_trouble,
         ["<Esc>"] = action.close,
         ["<C-\\>"] = { "<Esc>", type = "command" },
         ["<C-_>"] = action_layout.toggle_preview,
