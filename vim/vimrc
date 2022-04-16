@@ -21,7 +21,6 @@ if filereadable(s:vim_plug_file)
   execute 'source ' . s:vim_plug_file
   call plug#begin(s:plugin_dir)
   Plug 'junegunn/vim-plug'
-  " Plug 'vim-denops/denops.vim'
   " git
   Plug 'tpope/vim-fugitive'
   Plug 'airblade/vim-gitgutter'
@@ -32,7 +31,6 @@ if filereadable(s:vim_plug_file)
   " nvim-web-devicons requires external font such as https://www.nerdfonts.com/
   Plug 'kyazdani42/nvim-web-devicons' " for file icons
   " finder (path/dir/file/buffer/tac/etc.)
-  " Plug 'preservim/nerdtree'
   Plug 'kyazdani42/nvim-tree.lua'
   if executable('ranger')
     Plug 'francoiscabrol/ranger.vim'
@@ -66,11 +64,6 @@ if filereadable(s:vim_plug_file)
   Plug 'tpope/vim-repeat'
   Plug 'junegunn/vim-easy-align'
   Plug 'neomake/neomake'
-  " if has('nvim') " no completion for conventional vim as it takes so long to start up
-  "   Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-  " endif
-  " Plug 'Shougo/ddc.vim'
-  " Plug 'Shougo/ddc-nvim-lsp'
   Plug 'Shougo/echodoc.vim'
   " Plug 'autozimu/LanguageClient-neovim', {
   "       \ 'branch': 'next',
@@ -83,15 +76,9 @@ if filereadable(s:vim_plug_file)
   Plug 'hrsh7th/cmp-path'
   Plug 'hrsh7th/cmp-cmdline'
   Plug 'simrat39/rust-tools.nvim'
-  " Plug 'honza/vim-snippets'
   Plug 'rafamadriz/friendly-snippets'
   Plug 'L3MON4D3/LuaSnip'
   Plug 'saadparwaiz1/cmp_luasnip'
-  " Plug 'SirVer/ultisnips'
-  " Plug 'quangnguyen30192/cmp-nvim-ultisnips'
-  " Plug 'Shougo/neosnippet.vim'
-  " Plug 'Shougo/deoppet.nvim' " snipmate not supported yet
-  " Plug 'Shougo/neosnippet-snippets'
   Plug 'vim-utils/vim-husk'
   " misc
   Plug 'ahmedkhalf/project.nvim'
@@ -1104,67 +1091,6 @@ if exists('g:plugs["nerdcommenter"]')
 endif
 " --- || NERDCommenter || }}}
 
-" {{{ || NERDTree || ---
-if exists('g:plugs["nerdtree"]')
-  let g:NERDTreeShowLineNumbers = 1
-  let g:NERDTreeSortHiddenFirst = 1
-  let g:NERDTreeShowHidden=1
-  let g:NERDTreeQuitOnOpen=3
-  let g:NERDTreeUseTCD=1
-  let g:NERDTreeWinSize = 40
-  let g:NERDTreeCustomOpenArgs={
-        \ 'file': {'reuse': 'all', 'where': 't', 'keepopen': 1, 'stay': 1},
-        \ 'dir': {'reuse': 'all', 'where': 't', 'keepopen': 1, 'stay': 1}
-        \ }
-  " call NERDTreeAddKeyMap({
-  "     \ 'key': 'J',
-  "     \ 'callback': {-> feedkeys('gt')},
-  "     \ 'quickhelpText': 'use my own J mapping',
-  "     \ 'scope': 'Node',
-  "     \ 'override': 1})
-  " call NERDTreeAddKeyMap({
-  "     \ 'key': 'K',
-  "     \ 'callback': {-> feedkeys('gt')},
-  "     \ 'quickhelpText': 'use my own K mapping',
-  "     \ 'scope': 'Node',
-  "     \ 'override': 1})
-  " NERDTreeAddKeyMap() overrides keybinds only with the same scope
-  " (J/K are 'Node' scope)
-  " So use autocmd to override no matter what scope default mapping is in
-  " <buffer> is necessary to override
-  " augroup nerd_tree
-  "     autocmd!
-  "     autocmd FileType nerdtree nnoremap <buffer> J gt
-  "     autocmd FileType nerdtree nnoremap <buffer> K gT
-  " augroup END
-  function! s:InitNERDTreeCmds()
-    let l:nerd_tree_cmds = {
-          \ 'n': runcmds#init#MakeCmdInfo('NERDTree', v:false, [], v:true),
-          \ 'N': runcmds#init#MakeCmdInfo('NERDTree %:h'),
-          \ 't': runcmds#init#MakeCmdInfo('NERDTreeToggle'),
-          \ 'o': runcmds#init#MakeCmdInfo('NERDTreeFocus'),
-          \ 'v': runcmds#init#MakeCmdInfo('NERDTreeVCS'),
-          \ 'b': runcmds#init#MakeCmdInfo('NERDTreeFromBookmark', v:false, [], v:true),
-          \ 'f': runcmds#init#MakeCmdInfo('NERDTreeFind'),
-          \ 'c': runcmds#init#MakeCmdInfo('NERDTreeCWD'),
-          \ 'r': runcmds#init#MakeCmdInfo('NERDTreeRefreshRoot'),
-          \ }
-    function! s:NERDTreeCmds() closure
-      return l:nerd_tree_cmds
-    endfunction
-  endfunction
-  function! s:InitNERDTreeFlagDict()
-    let l:nerd_tree_flags = runcmds#init#MakeFlagDict(';', "\<Space>")
-    function! s:NERDTreeFlags() closure
-      return l:nerd_tree_flags
-    endfunction
-  endfunction
-  call s:InitNERDTreeCmds()
-  call s:InitNERDTreeFlagDict()
-  nnoremap <expr> [Chief]t runcmds#base#RunCmds("NERDTree", <SID>NERDTreeCmds(), <SID>NERDTreeFlags())
-endif
-" --- || NERDTree || }}}
-
 " {{{ || nvim-tree.lua || ---
 lua << EOF
 require("nvim-tree").setup ({
@@ -1615,114 +1541,14 @@ if exists('g:plugs["ultisnips"]')
 endif
 " --- || UltiSnips || }}}
 
-" {{{ || neosnippet.vim || ---
-if exists('g:plugs["neosnippet.vim"]')
-  let g:neosnippet#enable_snipmate_compatibility = 1
-  let g:neosnippet#snippets_directory = '~/toybox/vim/rtp/neoppets/'
-  imap <C-]> <Plug>(neosnippet_expand)
-  imap <C-s> <Plug>(neosnippet_jump)
-  smap <C-s> <Plug>(neosnippet_jump)
-  xmap <C-]> <Plug>(neosnippet_expand_target)
-endif
-" --- || neosnippet.vim || }}}
-
-" {{{ || deoppet.nvim || ---
-if exists('g:plugs["deoppet.nvim"]')
-  imap <C-]>  <Plug>(deoppet_expand)
-  imap <C-s>  <Plug>(deoppet_jump_forward)
-  imap <M-s>  <Plug>(deoppet_jump_backward)
-  xmap <C-l>  <Plug>(deoppet_select_text)
-  xmap <C-x>  <Plug>(deoppet_cut_text)
-  call deoppet#initialize()
-  let s:snippetDirs = []
-  call extend(s:snippetDirs, globpath(&runtimepath, 'snippets', 1, 1))
-  call extend(s:snippetDirs, globpath(&runtimepath, 'UltiSnips', 1, 1))
-  call extend(s:snippetDirs, globpath(&runtimepath, 'neosnippets', 1, 1))
-  echom s:snippetDirs
-  call deoppet#custom#option('snippets', map(s:snippetDirs, { _, val -> { 'path': val } }))
-endif
-" --- || deoppet.nvim || }}}
-
-" {{{ || LanguageClient-neovim || ---
-if exists('g:plugs["LanguageClient-neovim"]')
-  set hidden
-  let g:LanguageClient_changeThrottle = 0.5
-  let g:LanguageClient_diagnosticsList = "Location"
-  let g:LanguageClient_hoverMarginSize = 2
-  let g:LanguageClient_preferredMarkupKind = ['markdown', 'plaintext']
-  let g:LanguageClient_useVirtualText = 'Diagnostics'
-  let g:LanguageClient_completionPreferTextEdit = 1
-  let g:LanguageClient_floatingHoverHighlight = 'Normal:Normal'
-  let g:LanguageClient_serverCommands = {
-        \ 'java': [$HOME.'/toybox/vim/helper/java-lsp.sh', '-data', getcwd()],
-        \ 'javascript': ['typescript-language-server', '--stdio'],
-        \ 'php': [s:plugin_dir . '/phpactor/bin/phpactor', 'language-server'],
-        \ 'python': [executable('/usr/local/bin/pyls') ? '/usr/local/bin/pyls' : $HOME.'/.local/bin/pyls'],
-        \ 'rust': {
-        \   'name': 'rust-analyzer',
-        \   'command': ['rustup', 'run', 'nightly', 'rust-analyzer'],
-        \   'initializationOptions': {
-        \     'completion': {
-        \       'addCallParenthesis': v:false,
-        \       'addCallArgumentSnippets': v:false,
-        \     },
-        \   },
-        \ },
-        \ }
-        " \ 'go': [$GOPATH . '/bin/gopls'],
-        " \ 'rust': ['rustup', 'run', !empty($RUST_VERSION) ? $RUST_VERSION : 'stable', 'rls'],
-  let g:LanguageClient_loggingFile = expand('~/.local/share/nvim/LanguageClient.log')
-  let g:LanguageClient_serverStderr = expand('~/.local/share/nvim/LanguageServer.log')
-
-  let s:def_cmds = {
-        \ 'a': runcmds#init#MakeCmdInfo('AV'),
-        \ 'd': runcmds#init#MakeCmdInfo('LcnHover'),
-        \ 'D': runcmds#init#MakeCmdInfo('LcnHoverClose'),
-        \ 'f': runcmds#init#MakeCmdInfo('LcnFormat'),
-        \ 'h': runcmds#init#MakeCmdInfo('LcnDocHighlight'),
-        \ 'H': runcmds#init#MakeCmdInfo('LcnDocHighlightClear'),
-        \ 'n': runcmds#init#MakeCmdInfo('LcnRename'),
-        \ 'o': runcmds#init#MakeCmdInfo('LcnDocSymbol'),
-        \ 'R': runcmds#init#MakeCmdInfo('LcnReference'),
-        \ '0': runcmds#init#MakeCmdInfo('LcnCodeAction'),
-        \ }
-  function! DefaultCmds()
-    return copy(s:def_cmds)
-  endfunction
-
-  command! LcnCodeAction call LanguageClient#textDocument_codeAction()
-  command! LcnFormat call LanguageClient#textDocument_formatting()
-  command! LcnDocHighlight call LanguageClient#textDocument_documentHighlight()
-  command! LcnDocHighlightClear call LanguageClient#clearDocumentHighlight()
-  command! LcnDocSymbol call LanguageClient#textDocument_documentSymbol()
-  command! LcnHover call LanguageClient#textDocument_hover()
-  command! LcnHoverClose call LanguageClient#closeFloatingHover()
-  command! LcnRename call LanguageClient#textDocument_rename()
-  command! LcnReference call LanguageClient#textDocument_references()
-
-lua << EOF
-  local wk = require("which-key")
-  wk.register({
-    ["<C-]>"] = { "<Cmd>call LanguageClient#textDocument_definition()<CR>", "Definition" },
-    ["g<C-]>"] = { "<Cmd>call LanguageClient#textDocument_implementation()<CR>", "Implementation" },
-    ["<C-w>"] = {
-      ["<C-]>"] = { "<Cmd>split | call LanguageClient#textDocument_definition()<CR>", "Definition [horz]" },
-      ["<C-g><C-]>"] = { "<Cmd>split | call LanguageClient#textDocument_implementation()<CR>", "Implementation [horz]" },
-    },
-    ["[Vert]"] = {
-      ["<C-]>"] = { "<Cmd>vertical split | call LanguageClient#textDocument_definition()<CR>", "Definition [vert]" },
-      ["<C-g><C-]>"] = { "<Cmd>vertical split | call LanguageClient#textDocument_implementation()<CR>", "Implementation [vert]" },
-    },
-    ["<C-t>"] = {
-      ["<C-]>"] = { "<Cmd>tab split | call LanguageClient#textDocument_definition()<CR>", "Definition [tab]" },
-      ["<C-g><C-]>"] = { "<Cmd>tab split | call LanguageClient#textDocument_implementation()<CR>", "Implementation [tab]" },
-    },
-  })
-EOF
-endif
-" --- || LanguageClient-neovim || }}}
-
 " {{{ || nvim-lspconfig || ---
+
+" let g:LanguageClient_completionPreferTextEdit = 1
+" 'java': [$HOME.'/toybox/vim/helper/java-lsp.sh', '-data', getcwd()],
+" 'javascript': ['typescript-language-server', '--stdio'],
+" 'php': [s:plugin_dir . '/phpactor/bin/phpactor', 'language-server'],
+" 'python': [executable('/usr/local/bin/pyls') ? '/usr/local/bin/pyls' : $HOME.'/.local/bin/pyls'],
+" 'go': [$GOPATH . '/bin/gopls'],
 lua << EOF
   vim.lsp.set_log_level("debug")
   -- local opts = { noremap=true, silent=true }
@@ -1905,31 +1731,6 @@ if exists('g:plugs["neomake"]')
   let g:neomake_open_list = 2
 endif
 " --- || neomake || }}}
-
-" {{{ || deoplete || ---
-if exists('g:plugs["deoplete.nvim"]')
-  let g:deoplete#enable_at_startup = 1
-  call deoplete#custom#source('_', 'smart_case', v:true)
-  if has('win32')
-    " cmd is "python.exe" so deoplete (yarp?) cannot find it by default
-    let g:python3_host_prog="python"
-  endif
-  inoremap <silent> <expr> <C-i> pumvisible() ? "\<C-n>" : deoplete#complete()
-endif
-" --- || deoplete || }}}
-
-" {{{ || ddc || ---
-if exists('g:plugs["ddc.vim"]')
-  inoremap <silent> <expr> <C-i> pumvisible() ? "\<C-n>" : ddc#map#complete()
-  call ddc#custom#patch_global('sources', ['around', 'nvim-lsp'])
-  call ddc#custom#patch_global('sourceOptions', {
-        \ '_': { 'matchers': ['matcher_head'] },
-        \ 'nvim-lsp': {
-          \   'mark': 'L',
-          \   'forceCompletionPattern': '\.\w*|:\w*|->\w*' },
-          \ })
-endif
-" --- || ddc || }}}
 
 " {{{ || echodoc.vim || ---
 let g:echodoc#enable_at_startup = 1
