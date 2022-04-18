@@ -1634,6 +1634,12 @@ endfunction
 " {{{ || nvim-cmp || ---
 lua <<EOF
   local cmp = require('cmp')
+  local function close_and_fallback(fallback)
+    if cmp.visible() then
+      cmp.close()
+    end
+    fallback()
+  end
   cmp.setup({
     snippet = {
       -- REQUIRED - you must specify a snippet engine
@@ -1665,18 +1671,8 @@ lua <<EOF
           fallback()
         end
       end, { 'i', 'c' }),
-      ['<C-n>'] = cmp.mapping(function(fallback)
-        if cmp.visible() then
-          cmp.close()
-        end
-        fallback()
-      end, { 'i', 'c' }),
-      ['<C-p>'] = cmp.mapping(function(fallback)
-        if cmp.visible() then
-          cmp.close()
-        end
-        fallback()
-      end, { 'i', 'c' }),
+      ['<C-n>'] = cmp.mapping(close_and_fallback, { 'i', 'c' }),
+      ['<C-p>'] = cmp.mapping(close_and_fallback, { 'i', 'c' }),
       ['<C-l>'] = cmp.mapping(function(fallback)
         if cmp.visible() then
           cmp.select_next_item()
@@ -1692,7 +1688,8 @@ lua <<EOF
       end, { 'i', 'c' }),
       ['<C-y>'] = cmp.mapping(cmp.mapping.confirm({ select = true }), { 'i', 'c' }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
       ['<C-o>'] = cmp.mapping(cmp.mapping.confirm({ select = true }), { 'i', 'c' }),
-      ['<C-e>'] = cmp.mapping(cmp.mapping.abort(), { 'i', 'c' }),
+      ['<C-e>'] = cmp.mapping(close_and_fallback, { 'i', 'c' }),
+      ['<C-g>'] = cmp.mapping(cmp.mapping.abort(), { 'i', 'c' }),
     },
     sources = cmp.config.sources({
       { name = 'nvim_lsp' },
