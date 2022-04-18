@@ -949,7 +949,8 @@ endfunc
 " {{{ || plugin mapping and option || ---
 
 " {{{ || which-key || ---
-highlight WhichKeyFloat ctermbg=237
+highlight link FloatBorder Nromal
+highlight link WhichKeyFloat Nromal
 highlight link WhichKey Type
 highlight link WhichKeyDesc Type
 lua << EOF
@@ -974,7 +975,7 @@ lua << EOF
       gc = "Comments"
     },
   window = {
-      border = "none", -- none, single, double, shadow
+      border = "rounded", -- none, single, double, shadow
       position = "bottom", -- bottom, top
       margin = { 0, 0, 0, 0 }, -- extra window margin [top, right, bottom, left]
       padding = { 1, 2, 1, 2 }, -- extra window padding [top, right, bottom, left]
