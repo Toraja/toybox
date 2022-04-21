@@ -874,7 +874,7 @@ nnoremap <C-w>A :confirm qall<CR>
 " --- || Suspend/Close/Exit || }}}
 
 " {{{ || Terminal || ---
-tnoremap <M-c> <C-\><C-n>
+tnoremap <nowait> <C-\> <C-\><C-n>
 if &shell =~ 'cmd'
   tnoremap <C-p> <Up>
   tnoremap <C-n> <Down>
