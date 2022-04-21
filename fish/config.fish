@@ -77,8 +77,9 @@ set --local fzf_opts "--height=50%"\
     "--preview='$fzf_previewer --color=always {}'" \
     "--preview-window=hidden"
 set --local fzf_bind_opts "ctrl-space:toggle" \
-    "ctrl-i:toggle-out" \
-    "ctrl-alt-i:toggle-in" \
+    "ctrl-i:down" \
+    "ctrl-j:toggle-out" \
+    "ctrl-alt-j:toggle-in" \
     "ctrl-o:top" \
     "ctrl-s:jump" \
     "ctrl-/:toggle-preview" \
