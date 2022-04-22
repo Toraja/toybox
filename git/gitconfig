@@ -25,5 +25,11 @@
 [pull]
 	rebase = false
 
+[user]
+    useConfigOnly = true
+
+[includeIf "gitdir:~/workspace/github.com/Toraja/"]
+    path = ~/toybox/git/personal.gitconfig
+
 [ghq]
 	root = ~/workspace
