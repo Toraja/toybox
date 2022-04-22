@@ -22,14 +22,6 @@
 	excludesfile = ~/.gitignore_global
 [mergetool "vimdiff"]
 	trustExitCode = false
-[color]
-	; these are for old git prior to 1.18.4
-	status = auto
-	diff = auto
-	branch = auto
-	interactive = auto
-	ui = true
-	pager = true
 [pull]
 	rebase = false
 
