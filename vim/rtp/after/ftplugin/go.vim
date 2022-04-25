@@ -21,7 +21,6 @@ function! s:InitGocmds()
 				\ 'B': runcmds#init#MakeCmdInfo('!go test -bench .'),
 				\ 'c': runcmds#init#MakeCmdInfo('GoCallers'),
 				\ 'C': runcmds#init#MakeCmdInfo('GoCallees'),
-				\ 'd': runcmds#init#MakeCmdInfo('GoDoc'),
 				\ 'D': runcmds#init#MakeCmdInfo('GoDescribe'),
 				\ 'e': runcmds#init#MakeCmdInfo('GoErrCheck', v:true),
 				\ 'F': runcmds#init#MakeCmdInfo('GoFmtAutoSaveToggle'),
@@ -51,6 +50,7 @@ function! s:InitGocmds()
 				\ 'w': runcmds#init#MakeCmdInfo('GoWhicherrs'),
 				\ 'W': runcmds#init#MakeCmdInfo('SwitchTermMode', v:false, l:switch_term_mode_args),
 				\ }
+				" \ 'd': runcmds#init#MakeCmdInfo('GoDoc'),
 	let l:go_cmds = extend(DefaultCmds(), l:go_cmds)
 	function! s:GoCmds() closure
 		return l:go_cmds
