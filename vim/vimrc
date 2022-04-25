@@ -949,8 +949,8 @@ endfunc
 " {{{ || plugin mapping and option || ---
 
 " {{{ || which-key || ---
-highlight link FloatBorder Nromal
-highlight link WhichKeyFloat Nromal
+highlight link FloatBorder Normal
+highlight link WhichKeyFloat Normal
 highlight link WhichKey Type
 highlight link WhichKeyDesc Type
 lua << EOF
@@ -1568,8 +1568,10 @@ endif
 " 'javascript': ['typescript-language-server', '--stdio'],
 " 'php': [s:plugin_dir . '/phpactor/bin/phpactor', 'language-server'],
 " 'python': [executable('/usr/local/bin/pyls') ? '/usr/local/bin/pyls' : $HOME.'/.local/bin/pyls'],
+highlight link NormalFloat Normal
 lua << EOF
-  vim.lsp.set_log_level("debug")
+  -- vim.lsp.set_log_level("debug")
+
   -- local opts = { noremap=true, silent=true }
   local opts = { noremap = true }
   vim.api.nvim_set_keymap('i', '<C-g><C-h>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
@@ -1590,6 +1592,7 @@ lua << EOF
       ["<C-g><C-]>"] = { "<Cmd>tab split | lua vim.lsp.buf.implementation<CR>", "Implementation [tab]" },
     },
   })
+
   local lspconfig = require('lspconfig')
   local capabilities = vim.lsp.protocol.make_client_capabilities()
   capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
@@ -1600,6 +1603,23 @@ lua << EOF
       'additionalTextEdits', -- XXX currently failing to enable auto import for rust-analyzer
     }
   }
+
+  -- Set border for floating window
+  -- This does not work
+  -- LSP settings (for overriding per client)
+  -- local handlers =  {
+  --   ["textDocument/hover"] =  vim.lsp.with(vim.lsp.handlers.hover, { border = 'rounded' }),
+  --   ["textDocument/signatureHelp"] =  vim.lsp.with(vim.lsp.handlers.signature_help, { border = 'rounded' }),
+  -- }
+  local orig_util_open_floating_preview = vim.lsp.util.open_floating_preview
+  function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)
+    opts = opts or {}
+    opts.border = opts.border or 'rounded'
+    -- opts.max_width = opts.border or 100 -- <- this causes error
+    opts.max_width = 100
+    return orig_util_open_floating_preview(contents, syntax, opts, ...)
+  end
+
   local servers = { 'gopls', 'rust_analyzer' }
   for _, lsp in pairs(servers) do
     lspconfig[lsp].setup ({
