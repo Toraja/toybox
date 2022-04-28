@@ -48,10 +48,15 @@ abbr --add --global gstm git stash push -m
 abbr --add --global grb git rebase -i
 abbr --add --global grbs git rebase -i --autosquash --autostash
 abbr --add --global grbc git rebase --continue
+abbr --add --global gwt git worktree
+abbr --add --global gwta git worktree add
+abbr --add --global gwtl git worktree list
+abbr --add --global gwtr git worktree remove
 
 ## docker
 abbr --add --global do docker
 abbr --add --global dob docker build --force-rm -t
+abbr --add --global dobp docker builder prune -a
 abbr --add --global doc docker container
 abbr --add --global docs docker container ls -a
 abbr --add --global docip docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}'
@@ -61,13 +66,16 @@ abbr --add --global dox docker exec -it
 abbr --add --global doi docker image
 abbr --add --global dois docker images -a
 abbr --add --global doisd docker images -f dangling=true -q
-abbr --add --global doip docker image prune -f
+abbr --add --global doip docker image prune -a
 abbr --add --global doirr docker rmi \(docker images -a -f reference=\'\' -q\)
-abbr --add --global dor docker run -it --name
-abbr --add --global dord docker run -d --name
+abbr --add --global dor docker run -it --rm --name
+abbr --add --global dord docker run -d --rm --name
 abbr --add --global dolt sudo truncate -s 0 \(docker inspect --format='{{.LogPath}}' \)
 abbr --add --global dov docker volume
 abbr --add --global dovs docker volume ls
+abbr --add --global dovs docker volume prune
+abbr --add --global doyd docker system df -v
+abbr --add --global doyd docker system prune -a --volumes
 
 ## docker swarm
 abbr --add --global dow docker swarm
