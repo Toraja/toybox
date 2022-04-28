@@ -3,7 +3,7 @@
 	clean = git-lfs clean %f
 	smudge = git-lfs smudge %f
 [push]
-	default = simple
+	default = current
 [diff]
 	tool = vimdiff
 [merge]
