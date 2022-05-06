@@ -73,9 +73,9 @@ abbr --add --global dord docker run -d --rm --name
 abbr --add --global dolt sudo truncate -s 0 \(docker inspect --format='{{.LogPath}}' \)
 abbr --add --global dov docker volume
 abbr --add --global dovs docker volume ls
-abbr --add --global dovs docker volume prune
+abbr --add --global dovp docker volume prune
 abbr --add --global doyd docker system df -v
-abbr --add --global doyd docker system prune -a --volumes
+abbr --add --global doyp docker system prune -a --volumes
 
 ## docker swarm
 abbr --add --global dow docker swarm
