@@ -85,16 +85,16 @@ abbr --add --global dostd docker stack deploy
 abbr --add --global dosv docker service
 abbr --add --global dosvl docker service logs
 
-## docker-compose
-abbr --add --global dc docker-compose
-abbr --add --global dcx docker-compose exec
-abbr --add --global dcb docker-compose build
-abbr --add --global dcd docker-compose down
-abbr --add --global dcu docker-compose up -d
-abbr --add --global dcub docker-compose up -d --build
-abbr --add --global dcl docker-compose logs --follow
-abbr --add --global dcr docker-compose run
-abbr --add --global dce docker-compose restart
+## docker compose
+abbr --add --global dc docker compose
+abbr --add --global dcx docker compose exec
+abbr --add --global dcb docker compose build
+abbr --add --global dcd docker compose down
+abbr --add --global dcu docker compose up -d
+abbr --add --global dcub docker compose up -d --build
+abbr --add --global dcl docker compose logs --follow
+abbr --add --global dcr docker compose run
+abbr --add --global dce docker compose restart
 
 ## kubectl
 abbr --add --global kc kubectl
