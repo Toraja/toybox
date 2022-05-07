@@ -26,6 +26,13 @@ docker diff CONTAINER
 docker [image] history --no-trunc <image name>
 ```
 
+Rename volume (kind of)
+```
+docker volume create --name <new_volume>
+docker run --rm -it -v <old_volume>:/from -v <new_volume>:/to alpine ash -c "cd /from ; cp -a . /to"
+docker volume rm <old_volume>
+```
+
 ## Change detach key
 By default, detach key is bound to Ctrl-p, and it causes glitchy behaviour when
 working inside containers (e.g. `sh`, `vim`).  
