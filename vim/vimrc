@@ -1120,6 +1120,9 @@ require("nvim-tree").setup ({
     enable = true,
     update_cwd = true,
   },
+  git = {
+    ignore = false,
+  }
 })
 EOF
 if exists('g:plugs["nvim-tree.lua"]')
