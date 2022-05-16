@@ -1122,7 +1122,15 @@ require("nvim-tree").setup ({
   },
   git = {
     ignore = false,
-  }
+  },
+  view = {
+    mappings = {
+      list = {
+        { key = "<C-e>", action = '' },
+        { key = "H",     action = '' },
+      },
+    },
+  },
 })
 EOF
 if exists('g:plugs["nvim-tree.lua"]')
