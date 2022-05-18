@@ -1,25 +1,30 @@
 #!/bin/bash
 
+br_red="\e[91m"
+br_yellow="\e[93m"
+br_blue="\e[94m"
+normal="\e[0m"
+
 # get commit number of specified one, 2nd last commit by default
 # -l: only display recent one line logs up to 30
-# -f: with f option, display file name as well
+# -f: display file name as well
 while getopts :hl OPT; do
 	case ${OPT} in
 		h)
-			echoc -l blue "get specified commit number, 2nd last commit by default."
-			echoc -l blue "option:"
-			echoc -l blue "\tl: only display recent logs."
+			echo -e "${br_blue}get specified commit number, 2nd last commit by default.${normal}"
+			echo -e "${br_blue}option:${normal}"
+			echo -e "${br_blue}\tl: only display recent logs.${normal}"
 			exit 0
 			;;
 		l)
 			listonly=1
 			;;
 		\?)
-			echoc -l yellow "unknown option ${OPTARG}"
+			echo -e "${br_yellow}unknown option ${OPTARG}${normal}"
 			exit 2
 			;;
 		:)
-			echoc -l yellow "option ${OPTARG} requires an argument"
+			echo -e "${br_yellow}option ${OPTARG} requires an argument${normal}"
 			exit 2
 			;;
 		*)
@@ -44,7 +49,7 @@ else
 fi
 # Validate argument
 if [[ ${histnum} -gt 30 ]]; then
-	echoc -l red "Argument must be digits less than or equal to 30"
+	echo -e "${br_red}Argument must be digits less than or equal to 30${normal}"
 	exit 1
 fi
 

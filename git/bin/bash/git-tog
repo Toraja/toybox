@@ -2,15 +2,19 @@
 
 pattern="${1}"
 
+red="\e[31m"
+yellow="\e[33m"
+normal="\e[0m"
+
 if [[ -z "${pattern}" ]]; then
-	echoc red "specify tag pattern"
+	echo -e "${red}specify tag pattern${normal}"
 	exit 2
 fi
 
 tags=$(git tag -l *"${pattern}"*)
 
 if [[ -z "${tags}" ]]; then
-	echoc yellow "no matched tag"
+	echo -e "${yellow}no matched tag${normal}"
 	exit
 fi
 
