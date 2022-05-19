@@ -917,6 +917,7 @@ lua << EOF
       c = { "<Cmd>lcd %:p:h | echo 'lcd -> ' . expand('%:p:h')<CR>", "lcd to the file's dir" },
       d = { "<Cmd>echo 'current dir: ' . getcwd()<CR>", "Print current dir" },
       p = { "<Cmd>echo 'filepath: ' . expand('%:p')<CR>", "Print current file's absolute path" },
+      w = { "<Cmd>set wrap!<CR>", "Toggle wrap" },
     },
   })
 EOF
