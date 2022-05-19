@@ -35,7 +35,6 @@ function! s:InitGocmds()
 				\ 'L': runcmds#init#MakeCmdInfo('GoMetaLinterAutoSaveToggle'),
 				\ 'm': runcmds#init#MakeCmdInfo('GoImplements'),
 				\ 'M': runcmds#init#MakeCmdInfo('GoImport', v:true, l:go_import_args),
-				\ 'n': runcmds#init#MakeCmdInfo('call LanguageClient#textDocument_rename()'),
 				\ 'o': runcmds#init#MakeCmdInfo('GoDecls'),
 				\ 'O': runcmds#init#MakeCmdInfo('GoDeclsDir'),
 				\ 'p': runcmds#init#MakeCmdInfo('GoChannelPeers'),
