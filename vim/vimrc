@@ -1639,7 +1639,6 @@ lua << EOF
     })
   end
   lspconfig['rust_analyzer'].setup({
-    cmd = { "rustup", "run", "nightly", "rust-analyzer" },
     init_options = {
       completion = {
         addCallParenthesis = false,
