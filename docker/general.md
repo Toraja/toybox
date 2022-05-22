@@ -8,31 +8,6 @@
 - Place `ARG` as later as possible since the change in the value causes to
   invalidate all the later images and not to cache.
 
-## Useful commands
-**Find images matching name**  
-Specify the image name as reference. Wildcard can be used but it does not match '/'.  
-i.e. To match `toraja/alps`, it must be `toraja/*` or `*/alps`.  
-```
-docker images -a -f reference='<image name>'
-```
-
-**Find modifed files/directory since the container is created**
-```
-docker diff CONTAINER
-```
-
-**View list of commands applied to an image (like Dockerfile)**
-```
-docker [image] history --no-trunc <image name>
-```
-
-Rename volume (kind of)
-```
-docker volume create --name <new_volume>
-docker run --rm -it -v <old_volume>:/from -v <new_volume>:/to alpine ash -c "cd /from ; cp -a . /to"
-docker volume rm <old_volume>
-```
-
 ## Change detach key
 By default, detach key is bound to Ctrl-p, and it causes glitchy behaviour when
 working inside containers (e.g. `sh`, `vim`).  
