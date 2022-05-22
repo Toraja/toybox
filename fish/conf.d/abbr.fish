@@ -32,6 +32,7 @@ abbr --add --global gl git log
 abbr --add --global glu git log origin..HEAD
 abbr --add --global glf 'git log --oneline | fzf | awk \'{print $1}\''
 abbr --add --global gd git diff
+abbr --add --global gdn git diff --name-only
 abbr --add --global gdc git diff --cached
 abbr --add --global gdt git difftool
 abbr --add --global gdtc git difftool --cached
