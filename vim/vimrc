@@ -43,6 +43,7 @@ if filereadable(s:vim_plug_file)
   " Plug 'ibhagwan/fzf-lua', {'branch': 'main'}
   Plug 'nvim-lua/plenary.nvim'
   Plug 'nvim-telescope/telescope.nvim'
+  Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
   Plug 'nvim-telescope/telescope-ghq.nvim'
   Plug 'tpope/vim-projectionist'
   Plug 'c-brenn/fuzzy-projectionist.vim'
@@ -1495,6 +1496,7 @@ require('telescope').setup{
     -- please take a look at the readme of the extension you want to configure
   },
 }
+require('telescope').load_extension('fzf')
 EOF
 function! s:InitFzfCmds()
   let l:fzf_cmds = {
