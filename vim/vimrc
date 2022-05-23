@@ -48,7 +48,7 @@ if filereadable(s:vim_plug_file)
   Plug 'c-brenn/fuzzy-projectionist.vim'
   Plug 'folke/which-key.nvim'
   " moving around
-  Plug 'easymotion/vim-easymotion'
+  Plug 'phaazon/hop.nvim'
   Plug 'michaeljsmith/vim-indent-object'
   Plug 'jeetsukumaran/vim-indentwise'
   Plug 'bkad/CamelCaseMotion'
@@ -1228,41 +1228,35 @@ if exists('g:plugs["auto-pairs"]')
 endif
 " --- || auto-pairs || }}}
 
-" {{{ || easy-motion || ---
-if exists('g:plugs["vim-easymotion"]')
-  " this option unmap all easymotion-prefix including user defined ones
-  " let g:EasyMotion_do_mapping = 0
-  let g:EasyMotion_smartcase = 1
-  let g:EasyMotion_use_upper = 1
-  let g:EasyMotion_keys = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ;'
-  let g:EasyMotion_enter_jump_first = 1
-  let g:EasyMotion_space_jump_first = 1
-  let g:EasyMotion_off_screen_search = 1
-  " this disables highlighting by `n` command, but you need easymotion-next/prev to move around
-  let g:EasyMotion_add_search_history = 1
-  let g:EasyMotion_startofline = 0
-  " mapping easymotion-prefix prevents <Leader><Leader> from being mapped
-  " map <S-F12> <Plug>(easymotion-prefix)
-  map s <Plug>(easymotion-prefix)
-  map f <Plug>(easymotion-fl)
-  map F <Plug>(easymotion-Fl)
-  map t <Plug>(easymotion-tl)
-  map T <Plug>(easymotion-Tl)
-  map s/ <Plug>(easymotion-sn)
-  map s. <Plug>(easymotion-repeat)
-  map <Bslash> <Plug>(easymotion-next)
-  map <Bar> <Plug>(easymotion-prev)
-  sunmap s
-  sunmap f
-  sunmap F
-  sunmap t
-  sunmap T
-  sunmap s/
-  sunmap s.
-  sunmap <Bslash>
-  sunmap <Bar>
-endif
-" --- || easy-motion || }}}
+" {{{ || hop.nvim || ---
+lua << EOF
+
+require('hop').setup{
+  keys = 'asdghklqwertyuiopzxcvbnmfj;',
+  uppercase_labels = true,
+}
+for _, mode in ipairs({'n', 'v', 'o'}) do
+  vim.api.nvim_set_keymap(mode, 'f', "<Cmd>HopChar1CurrentLineAC<CR>", {})
+  vim.api.nvim_set_keymap(mode, 'F', "<Cmd>HopChar1CurrentLineBC<CR>", {})
+  vim.api.nvim_set_keymap(mode, 'sw', "<Cmd>HopWordAC<CR>", {})
+  vim.api.nvim_set_keymap(mode, 'sb', "<Cmd>HopWordBC<CR>", {})
+  vim.api.nvim_set_keymap(mode, 'sj', "<Cmd>HopLineAC<CR>", {})
+  vim.api.nvim_set_keymap(mode, 'sk', "<Cmd>HopLineBC<CR>", {})
+  vim.api.nvim_set_keymap(mode, 's/', "<Cmd>HopPatternAC<CR>", {})
+  vim.api.nvim_set_keymap(mode, 's?', "<Cmd>HopPatternBC<CR>", {})
+end
+vim.api.nvim_set_keymap('o', 'f', "<Cmd>lua require('hop').hint_char1({ direction = require'hop.hint'.HintDirection.AFTER_CURSOR,  current_line_only = true, inclusive_jump = true })<cr>", {})
+vim.api.nvim_set_keymap('o', 'F', "<Cmd>lua require('hop').hint_char1({ direction = require'hop.hint'.HintDirection.BEFORE_CURSOR, current_line_only = true, inclusive_jump = true })<cr>", {})
+vim.api.nvim_set_keymap('o', 't', "<Cmd>lua require('hop').hint_char1({ direction = require'hop.hint'.HintDirection.AFTER_CURSOR,  current_line_only = true })<cr>", {})
+vim.api.nvim_set_keymap('o', 'T', "<Cmd>lua require('hop').hint_char1({ direction = require'hop.hint'.HintDirection.BEFORE_CURSOR, current_line_only = true })<cr>", {})
+
+-- repeating is not implemented yet
+-- map s. <Plug>(easymotion-repeat)
+-- map <Bslash> <Plug>(easymotion-next)
+-- map <Bar> <Plug>(easymotion-prev)
+
+EOF
+" --- || hop.nvim || }}}
 
 " {{{ || vim-indent-object || ---
 if exists('g:plugs["vim-indent-object"]')
