@@ -905,8 +905,10 @@ nnoremap [Captain]<F3> :SetFt<CR>
 nnoremap Q gQ
 nnoremap <M-c> <Cmd>mode<CR>
 " [insert/command mode]
-cnoremap <expr> <C-p> wildmenumode() ? "\<C-p>" : "\<Up>"
-cnoremap <expr> <C-n> wildmenumode() ? "\<C-n>" : "\<Down>"
+" cnoremap <expr> <C-p> wildmenumode() ? "\<C-p>" : "\<Up>"
+" cnoremap <expr> <C-n> wildmenumode() ? "\<C-n>" : "\<Down>"
+cnoremap <M-p> <Up>
+cnoremap <M-n> <Down>
 cnoremap <M-@> <Home>let @" = '<End>'
 " retry triggering abbreviation
 inoremap <C-g><C-]> <Esc>ciw<C-r>"<C-]>
@@ -1668,6 +1670,15 @@ lua <<EOF
     end
     fallback()
   end
+  local function cmp_visible_or_fallback(action)
+    return function(fallback)
+      if cmp.visible() then
+        action()
+        return
+      end
+      fallback()
+    end
+  end
   cmp.setup({
     snippet = {
       -- REQUIRED - you must specify a snippet engine
@@ -1699,8 +1710,8 @@ lua <<EOF
           fallback()
         end
       end, { 'i', 'c' }),
-      ['<C-n>'] = cmp.mapping(close_and_fallback, { 'i', 'c' }),
-      ['<C-p>'] = cmp.mapping(close_and_fallback, { 'i', 'c' }),
+      ['<C-n>'] = cmp.mapping(cmp_visible_or_fallback(cmp.select_next_item), { 'i', 'c' }),
+      ['<C-p>'] = cmp.mapping(cmp_visible_or_fallback(cmp.select_prev_item), { 'i', 'c' }),
       ['<C-l>'] = cmp.mapping(function(fallback)
         if cmp.visible() then
           cmp.select_next_item()
