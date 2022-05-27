@@ -1235,7 +1235,7 @@ endif
 lua << EOF
 
 require('hop').setup{
-  keys = 'asdghklqwertyuiopzxcvbnmfj;',
+  keys = 'asdfghjklqwertyuiopzxcvbnm;',
   uppercase_labels = true,
 }
 for _, mode in ipairs({'n', 'v', 'o'}) do
