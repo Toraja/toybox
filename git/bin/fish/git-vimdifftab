@@ -4,16 +4,15 @@ function usage
     set -l usage \
 "
 USAGE:
-    "(basename (status --current-filename))" [OPTION]
+    "(basename (status --current-filename))" [OPTION] COMMIT [PATH...]
 OPTIONS:
     -f, --fzf    Select files using fzf
     -h, --help   Display this help
-    -n, --parent Get diff from `HEAD~{n}`
 "
     echo $usage
 end
 
-argparse 'h/help' 'f/fzf' 'n/parent=' -- $argv
+argparse --min-args=2 'h/help' 'f/fzf' -- $argv
 or exit 1
 
 set -q _flag_help; and begin
@@ -21,10 +20,11 @@ set -q _flag_help; and begin
     exit
 end
 
-set commitish
-set -q _flag_parent; and set commitish "HEAD~$_flag_parent"
+set commitish $argv[1]
 
-set diff_files (git diff --name-only --relative $commitish)
+test (count $argv) -ge 0
+
+set diff_files (git diff --name-only --relative $commitish $argv[2..])
 test (count $diff_files) -eq 0; and begin
     echo no diff found
     exit 0
