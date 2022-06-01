@@ -5,9 +5,9 @@
 [push]
 	default = current
 [diff]
-	tool = vimdiff
+	tool = nvimdiff
 [merge]
-	tool = vimdiff
+	tool = nvimdiff
 [difftool]
 	prompt = false
 [alias]
@@ -20,7 +20,7 @@
 [core]
 	autocrlf = false
 	excludesfile = ~/.gitignore_global
-[mergetool "vimdiff"]
+[mergetool "nvimdiff"]
 	trustExitCode = false
 [pull]
 	rebase = false
