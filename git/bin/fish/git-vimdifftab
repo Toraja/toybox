@@ -12,8 +12,10 @@ OPTIONS:
     echo $usage
 end
 
-argparse --min-args=2 'h/help' 'f/fzf' -- $argv
-or exit 1
+argparse --min-args=1 'h/help' 'f/fzf' -- $argv; or begin
+    usage
+    exit 1
+end
 
 set -q _flag_help; and begin
     usage
@@ -37,4 +39,4 @@ set -q _flag_fzf; and begin
     test (count $diff_files) -eq 0; and exit 0
 end
 
-echo $diff_files | xargs vim -p -c "tabdo Gdiffsplit $commitish"
+echo $diff_files | xargs nvim -p -c "tabdo Gdiffsplit $commitish"
