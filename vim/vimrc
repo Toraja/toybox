@@ -23,7 +23,7 @@ if filereadable(s:vim_plug_file)
   Plug 'junegunn/vim-plug'
   " git
   Plug 'tpope/vim-fugitive'
-  Plug 'airblade/vim-gitgutter'
+  Plug 'lewis6991/gitsigns.nvim'
   Plug 'zivyangll/git-blame.vim'
   " look & feel
   Plug 'vim-airline/vim-airline'
@@ -1044,14 +1044,10 @@ lua << EOF
       lt = { "<Cmd>tab Git log<CR>", "git log [tab]" },
       lv = { "<Cmd>vertical Git log<CR>", "git log [vert]" },
       B = { "<Cmd>Git blame<CR>", "git blame entire file" },
-      -- gitgutter
-      h = {
-    name = "GitGutter",
-        h = { "<Cmd>GitGutter<CR>", "GitGutter Reload"},
-        p = { "<Plug>(GitGutterPreviewHunk)", "GitGutter Preview Hunk" },
-        s = { "<Plug>(GitGutterStageHunk)", "GitGutter Stage Hunk" },
-        u = { "<Plug>(GitGutterUndoHunk)", "GitGutter Undo Hunk" },
-      },
+      -- gitsings
+      -- h = {
+      --   name = "gitsigns",
+      -- },
       -- git-blame
       b = { "<Cmd>GitBlame<CR>", "git blame current line" },
     },
@@ -1060,11 +1056,50 @@ EOF
 endif
 " --- || vim-fugitive || }}}
 
-" {{{ || vim-gitgutter || ---
-if exists('g:plugs["vim-gitgutter"]')
-  let g:gitgutter_preview_win_floating = 0
-endif
-" --- || vim-gitgutter || }}}
+" {{{ || gitsigns || ---
+lua << EOF
+require('gitsigns').setup{
+  on_attach = function(bufnr)
+    local gs = package.loaded.gitsigns
+
+    local function map(mode, l, r, opts)
+      opts = opts or {}
+      opts.buffer = bufnr
+      vim.keymap.set(mode, l, r, opts)
+    end
+
+    -- Navigation
+    map('n', ']c', function()
+      if vim.wo.diff then return ']c' end
+      vim.schedule(function() gs.next_hunk() end)
+      return '<Ignore>'
+    end, {expr=true})
+
+    map('n', '[c', function()
+      if vim.wo.diff then return '[c' end
+      vim.schedule(function() gs.prev_hunk() end)
+      return '<Ignore>'
+    end, {expr=true})
+
+    -- Actions
+    map({'n', 'v'}, '<leader>vhs', ':Gitsigns stage_hunk<CR>')
+    map({'n', 'v'}, '<leader>vhr', ':Gitsigns reset_hunk<CR>')
+    map('n', '<leader>vhu', gs.undo_stage_hunk)
+    map('n', '<leader>vhS', gs.stage_buffer)
+    map('n', '<leader>vhR', gs.reset_buffer)
+    map('n', '<leader>vhp', gs.preview_hunk)
+    map('n', '<leader>vhb', function() gs.blame_line{full=true} end)
+    map('n', '<leader>vtb', gs.toggle_current_line_blame)
+    map('n', '<leader>vhd', gs.diffthis)
+    map('n', '<leader>vhD', function() gs.diffthis('~') end)
+    map('n', '<leader>vtd', gs.toggle_deleted)
+
+    -- Text object
+    map({'o', 'x'}, 'ih', ':<C-U>Gitsigns select_hunk<CR>')
+  end
+}
+EOF
+" --- || gitsigns || }}}
 
 " {{{ || git-blame.vim || ---
 if exists('g:plugs["git-blame.vim"]')
