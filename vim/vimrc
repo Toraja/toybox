@@ -1503,7 +1503,7 @@ require('telescope').setup{
         ["<Esc>"] = action.close,
         ["<C-\\>"] = { "<Esc>", type = "command" },
         ["<C-_>"] = action_layout.toggle_preview,
-        ["<C-i>"] = action.move_selection_worse,
+        ["<Tab>"] = action.move_selection_worse,
         ["<C-j>"] = function(bufnr)
           action.toggle_selection(bufnr)
           action.move_selection_worse(bufnr)
