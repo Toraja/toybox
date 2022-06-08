@@ -812,6 +812,7 @@ lua << EOF
   trouble.setup({
     padding = false, -- add an extra new line on top of the list
     auto_close = true, -- automatically close the list when you have no diagnostics
+    auto_preview = false, -- automatically preview the location of the diagnostic. <esc> to close preview and go back to last window
   })
   local wk = require("which-key")
   wk.register({
