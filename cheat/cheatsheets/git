@@ -1,0 +1,20 @@
+# git complains that it "would clobber existing tag"
+git fetch --tags -f
+
+
+# selective checkout with sparse-checkout
+
+## setup
+git init
+git remote add origin <URL>
+git config core.sparseCheckout true
+git sparse-checkout init
+### specify path to checkout
+git sparse-checkout set [path...]
+git pull origin <branch to checkout>
+
+## list checked out stuff
+git sparse-checkout list
+
+## disable
+git sparse-checkout disable
