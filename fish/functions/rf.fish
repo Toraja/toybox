@@ -1,6 +1,18 @@
 function rf --description 'fzf rg result and output file name'
-    argparse --min-args=1 'h/hidden' 'o/open' -- $argv
-    or return 1
+    set --local usage \
+"
+USAGE:
+    "(basename (status current-function))" [OPTION] QUERY [PATH]
+OPTIONS:
+    -o, --open   Open selected files in nvim
+    -H, --hidden Include hidden files
+"
+
+    argparse --min-args=1 'H/hidden' 'o/open' -- $argv
+    or begin
+        echo $usage
+        return 1
+    end
 
     set query $argv[1]
     set path $argv[2]
