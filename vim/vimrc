@@ -1680,6 +1680,11 @@ lua << EOF
         addCallParenthesis = false,
         addCallArgumentSnippets = false,
       },
+      diagnostics = {
+        disabled = {
+          "inactive-code",
+        },
+      },
     },
   })
   -- 'rust': ['rustup', 'run', !empty($RUST_VERSION) ? $RUST_VERSION : 'stable', 'rust-analyzer'],
