@@ -1,4 +1,14 @@
 {
+  "print": {
+    "prefix": "pr",
+    "body": ["print!(\"${1:{\\}}\")"],
+    "description": "print macro"
+  },
+  "println": {
+    "prefix": "pln",
+    "body": ["println!(\"${1:{\\}}\"${2:, })"],
+    "description": "println macro"
+  },
   "return": {
     "prefix": "re",
     "body": ["return"],
