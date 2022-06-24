@@ -1822,6 +1822,8 @@ lua << EOF
     vim.api.nvim_set_keymap(mode, "<C-s>", "<Plug>luasnip-jump-next", {})
     vim.api.nvim_set_keymap(mode, "<M-s>", "<Plug>luasnip-jump-prev", {})
   end
+  vim.api.nvim_set_keymap("s", "<Tab>", "<Esc>i", { noremap = true })
+  vim.api.nvim_set_keymap("s", "<C-a>", "<Esc>a", { noremap = true })
 EOF
 " --- || LuaSnip || }}}
 
