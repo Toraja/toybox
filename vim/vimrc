@@ -2449,15 +2449,26 @@ function! RunInNewTabTerminal(shellCmd, focus) abort
 endfunction
 command! -complete=shellcmd -nargs=+ -bang RunInNewTabTerminal call RunInNewTabTerminal(<q-args>, <bang>0)
 
-function! DeleteHiddenBuffers()
-  let tpbl = []
-  call map(range(1, tabpagenr('$')), 'extend(tpbl, tabpagebuflist(v:val))')
+lua << EOF
+function delete_hidden_buffers()
+  local array = require('util.array')
 
-  let l:hidden_bufs = filter(range(1, bufnr('$')), 'bufexists(v:val) && index(tpbl, v:val) == -1')
+  local visible_buffers = {}
+  for i = 1, vim.fn.tabpagenr('$') do
+    array.append(visible_buffers, vim.fn.tabpagebuflist(i))
+  end
 
-  for l:hidden_buf in l:hidden_bufs
-    silent execute 'bwipeout' l:hidden_buf
-  endfor
-endfunction
-command! DeleteHiddenBuffers call DeleteHiddenBuffers()
+  local hidden_bufs = {}
+  for i = 1, vim.fn.bufnr('$') do
+    if vim.fn.bufexists(i) == 1 and not array.contains(visible_buffers, i) then
+      table.insert(hidden_bufs, i)
+    end
+  end
+
+  for _, bufnr in ipairs(hidden_bufs) do
+    vim.cmd(string.format('silent bwipeout %s', bufnr))
+  end
+end
+vim.api.nvim_create_user_command('DeleteHiddenBuffers', delete_hidden_buffers, {})
+EOF
 " --- || functions || }}}
