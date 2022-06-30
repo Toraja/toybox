@@ -2452,21 +2452,21 @@ lua << EOF
 function delete_hidden_buffers()
   local array = require('util.array')
 
-  local visible_buffers = {}
+  local visible_buffers = array.new()
   for i = 1, vim.fn.tabpagenr('$') do
-    array.append(visible_buffers, vim.fn.tabpagebuflist(i))
+    visible_buffers:append(vim.fn.tabpagebuflist(i))
   end
 
-  local hidden_bufs = {}
+  local hidden_bufs = array.new()
   for i = 1, vim.fn.bufnr('$') do
-    if vim.fn.bufexists(i) == 1 and not array.contains(visible_buffers, i) then
-      table.insert(hidden_bufs, i)
+    if vim.fn.bufexists(i) == 1 and not visible_buffers:contains(i) then
+      hidden_bufs:insert(i)
     end
   end
 
-  for _, bufnr in ipairs(hidden_bufs) do
+  hidden_bufs:for_each(function(bufnr)
     vim.cmd(string.format('silent bwipeout %s', bufnr))
-  end
+  end)
 end
 vim.api.nvim_create_user_command('DeleteHiddenBuffers', delete_hidden_buffers, {})
 EOF
