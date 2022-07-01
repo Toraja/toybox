@@ -46,9 +46,9 @@ endfunction
 " silent TableModeEnable
 " --- || vim-table-mode || }}}
 
-inoremap <buffer> <silent> <M-;> <Cmd>call ToggleLinebreak()<CR>
-nnoremap <buffer> <silent> <M-;> <Cmd>call ToggleLinebreak()<CR>
-vnoremap <buffer> <silent> <M-;> :call ToggleLinebreak()<CR>
+inoremap <buffer> <silent> <M-;> <Cmd>call ToggleLineBreakMD()<CR>
+nnoremap <buffer> <silent> <M-;> <Cmd>call ToggleLineBreakMD()<CR>
+vnoremap <buffer> <silent> <M-;> :call ToggleLineBreakMD()<CR>
 
 " TODO implement toggle list, task etc
 
@@ -70,7 +70,7 @@ inoreabbrev <buffer> indent <span style="margin-left: 1em"></span>
 " The following lines are treated only if necessary.
 " i.e. if 3 lines are selected and the first and the third line does not have linebreak
 " while the second line does, the second line remains no changed.
-function! ToggleLinebreak() range
+function! ToggleLineBreakMD() range
 	let l:first_line = getline(a:firstline)
 	let l:first_line_has_linebreak = match(l:first_line, '\s\s\+$') >= 0
 	let l:replacement = l:first_line_has_linebreak ? '' : '  '

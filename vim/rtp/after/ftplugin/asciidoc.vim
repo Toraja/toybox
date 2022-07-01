@@ -1,9 +1,9 @@
 setlocal tabstop=2 expandtab shiftwidth=2
 
-inoremap <buffer> <silent> <M-;> <Cmd>call ToggleLinebreak()<CR>
-nnoremap <buffer> <silent> <M-;> <Cmd>call ToggleLinebreak()<CR>
+inoremap <buffer> <silent> <M-;> <Cmd>call ToggleLineBreakAdoc()<CR>
+nnoremap <buffer> <silent> <M-;> <Cmd>call ToggleLineBreakAdoc()<CR>
 
-function! ToggleLinebreak()
+function! ToggleLineBreakAdoc()
 	let l:linebreak = ' +'
 	let l:line = getline('.')
 	let l:line_has_linebreak = match(l:line, l:linebreak . '$') >= 0
