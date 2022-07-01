@@ -1,3 +1,5 @@
+set shiftwidth=4 tabstop=4
+
 " {{{ || vim-go || ---
 " Workaround to use script local variable in keymap
 function! s:InitGocmds()
