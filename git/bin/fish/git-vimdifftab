@@ -39,4 +39,4 @@ set -q _flag_fzf; and begin
     test (count $diff_files) -eq 0; and exit 0
 end
 
-echo $diff_files | xargs nvim -p -c "tabdo Gdiffsplit $commitish"
+echo $diff_files | xargs nvim -p -c "tabdo Gdiffsplit $commitish | wincmd r"
