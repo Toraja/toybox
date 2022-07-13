@@ -1814,8 +1814,10 @@ EOF
 lua << EOF
   require("luasnip").config.setup({store_selection_keys="<C-]>"})
   -- Both sources can be enabled at the same time
-  require("luasnip.loaders.from_vscode").lazy_load() -- enable LSP style snippets
+  local ls_vscode = require("luasnip.loaders.from_vscode")
+  ls_vscode.lazy_load() -- enable LSP style snippets
   -- require("luasnip.loaders.from_snipmate").lazy_load()
+
   for _, mode in ipairs({"i", "s"}) do
     vim.api.nvim_set_keymap(mode, "<C-]>", "<Plug>luasnip-expand-or-jump", {})
     vim.api.nvim_set_keymap(mode, "<C-s>", "<Plug>luasnip-jump-next", {})
@@ -1823,6 +1825,8 @@ lua << EOF
   end
   vim.api.nvim_set_keymap("s", "<Tab>", "<Esc>i", { noremap = true })
   vim.api.nvim_set_keymap("s", "<C-a>", "<Esc>a", { noremap = true })
+
+  vim.api.nvim_create_user_command('LuaSnipLoadSnippetsVSCode', ls_vscode.load, {})
 EOF
 " --- || LuaSnip || }}}
 
