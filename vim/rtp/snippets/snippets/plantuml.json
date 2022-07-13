@@ -1,0 +1,29 @@
+{
+  "note left multiline": {
+    "prefix": "notelm",
+    "body": [
+      "note left",
+      "  ${1}",
+      "end note"
+    ],
+    "description": "note left multiline"
+  },
+  "note right multiline": {
+    "prefix": "noterm",
+    "body": [
+      "note right",
+      "  ${1}",
+      "end note"
+    ],
+    "description": "note right multiline"
+  },
+  "note over multiline": {
+    "prefix": "noteom",
+    "body": [
+      "note over ${1:participant}",
+      "  ${2}",
+      "end note"
+    ],
+    "description": "note over multiline"
+  }
+}

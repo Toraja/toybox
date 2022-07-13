@@ -14,6 +14,10 @@
         "path": "./snippets/go.json"
       },
       {
+        "language": "plantuml",
+        "path": "./snippets/plantuml.json"
+      },
+      {
         "language": "rust",
         "path": "./snippets/rust.json"
       }
