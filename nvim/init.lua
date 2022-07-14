@@ -1,6 +1,85 @@
-function delete_hidden_buffers()
-  local array = require('util.array')
+require('plugins')
+local array = require('util.array')
+local wk = require("which-key")
 
+array.new({'cfilter', 'termdebug'}):for_each(function(pack)
+  vim.cmd('packadd ' .. pack)
+end)
+
+vim.g.termdebug_wide = 1
+wk.register({
+  g = {
+    name = "termdebug",
+    a = { "<Cmd>Arguments<CR>", "Set arguments to the next :Run" },
+    b = { "<Cmd>Break<CR>", "Add breakpoint" },
+    B = { "<Cmd>Clear<CR>", "Clear breakpoint" },
+    c = { "<Cmd>Continue<CR>", "Continue" },
+    f = { "<Cmd>Finish<CR>", "Finish" },
+    g = { "<Cmd>GdbIns<CR>", "Jump to gbd" },
+    i = { "<Cmd>Step<CR>", "Step in" },
+    n = { "<Cmd>Over<CR>", "Step over" },
+    o = { "<Cmd>Program<CR>", "Jump to program" },
+    r = { "<Cmd>Run<CR>", "Run the program with arguments" },
+    s = { "<Cmd>Source<CR>", "Jump to source" },
+    x = { "<Cmd>Stop<CR>", "Stop (interrupt the program)" },
+  },
+}, { prefix = vim.g.chief_key })
+
+wk.register({
+  g = {
+    name = "vimgrep",
+    ["<Space>"] = { "<Cmd>call QuickGrep(expand('<cword>'), 0)<CR>", "<cword>" },
+    x = { "<Cmd>call QuickGrep('\\<' . expand('<cword>') . '\\>', 0)<CR>", "<cword> exclusive" },
+    [":"] = { "<Cmd>call QuickGrep('', 1)<CR>", "manual" },
+  },
+}, { prefix = "<Leader>" })
+wk.register({
+  g = {
+    name = "vimgrep",
+    ["<Space>"] = { "y<Cmd>call QuickGrep(@@, 0)<CR>", "selected" },
+    x = { "y<Cmd>call QuickGrep('\\<' . @@ . '\\>', 0)<CR>", "selected exclusive" },
+  },
+}, { prefix = "<Leader>", mode = "v" })
+
+wk.register({
+  s = {
+    name = "Substitute",
+    ["<Space>"] = { "<Cmd>call QuickSubstitute(expand('<cword>'), {'range': '%'})<CR>", "case insensitive" },
+    c = { "<Cmd>call QuickSubstitute(expand('<cword>'), {'range': '%', 'case': 1})<CR>", "case sensitive" },
+    x = {
+      name = "exclusive",
+    ["<Space>"] = { "<Cmd>call QuickSubstitute(expand('<cword>'), {'range': '%', 'exclusive': 1})<CR>", "case insensitive" },
+      c = { "<Cmd>call QuickSubstitute(expand('<cword>'), {'range': '%', 'exclusive': 1, 'case': 1})<CR>", "case sensitive" },
+    },
+    [":"] = { "<Cmd>call QuickSubstitute('', {'range': '%'})<CR>", "manual" },
+    ["."] = { "<Cmd>call QuickSubstitute('', {})<CR>", "manual on current line" },
+  },
+}, { prefix = "<Leader>" })
+wk.register({
+  s = {
+    name = "Substitute",
+    ["<Space>"] = { "y<Cmd>call QuickSubstitute(@@, {'range': '%'})<CR>", "case insensitive" },
+    c = { "y<Cmd>call QuickSubstitute(@@, {'range': '%', 'case': 1})<CR>", "case sensitive" },
+    x = {
+      name = "exclusive",
+      ["<Space>"] = { "y<Cmd>call QuickSubstitute(@@, {'range': '%', 'exclusive': 1})<CR>", "case insensitive" },
+      c = { "y<Cmd>call QuickSubstitute(@@, {'range': '%', 'exclusive': 1, 'case': 1})<CR>", "case sensitive" },
+    },
+    [":"] = { "<Esc><Cmd>call QuickSubstitute('', {'range': '%', 'selection': 1})<CR>", "manual within selection" },
+  },
+}, { prefix = "<Leader>", mode = "v" })
+
+wk.register({
+  ["_"] = {
+    name = "nice ones",
+    c = { "<Cmd>lcd %:p:h | echo 'lcd -> ' . expand('%:p:h')<CR>", "lcd to the file's dir" },
+    d = { "<Cmd>echo 'current dir: ' . getcwd()<CR>", "Print current dir" },
+    p = { "<Cmd>echo 'filepath: ' . expand('%:p')<CR>", "Print current file's absolute path" },
+    w = { "<Cmd>set wrap!<CR>", "Toggle wrap" },
+  },
+})
+
+function delete_hidden_buffers()
   local visible_buffers = array.new()
   for i = 1, vim.fn.tabpagenr('$') do
     visible_buffers:append(vim.fn.tabpagebuflist(i))

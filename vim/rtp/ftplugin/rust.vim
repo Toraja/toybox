@@ -1,4 +1,6 @@
+" {{{ || rust.vim || ---
 let g:rustfmt_autosave = 1
+" --- || rust.vim || }}}"
 
 function! Croot() abort
   return fnamemodify(findfile('Cargo.toml', '.;'), ':p:h')

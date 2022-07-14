@@ -5,15 +5,80 @@ let s:vimdir = expand("~/.vim")
 " --- || variables || }}}
 
 " {{{ || plugin || ---
-" NOTE: Plugin loading is moved to plugins.lua
-
+if has('nvim')
+  packadd cfilter
+  packadd termdebug
+endif
 " Loadng plugins must be before keymapping or they will override my keymappings!
 let s:plugin_dir = s:vimdir . '/bundle'
 let s:vim_plug_file = s:plugin_dir . '/vim-plug/plug.vim'
 if filereadable(s:vim_plug_file)
   execute 'source ' . s:vim_plug_file
   call plug#begin(s:plugin_dir)
+  Plug 'junegunn/vim-plug'
+  " git
+  Plug 'tpope/vim-fugitive'
+  Plug 'lewis6991/gitsigns.nvim'
+  Plug 'zivyangll/git-blame.vim'
+  " look & feel
+  Plug 'vim-airline/vim-airline'
+  Plug 'vim-airline/vim-airline-themes'
+  " nvim-web-devicons requires external font such as https://www.nerdfonts.com/
+  Plug 'kyazdani42/nvim-web-devicons' " for file icons
+  " finder (path/dir/file/buffer/tac/etc.)
+  Plug 'kyazdani42/nvim-tree.lua'
+  if executable('ranger')
+    Plug 'francoiscabrol/ranger.vim'
+    Plug 'rbgrouleff/bclose.vim' " ranger.vim depends on it
+  endif
+  Plug 'preservim/tagbar'
+  Plug 'ctrlpvim/ctrlp.vim'   " required by vim-go GoDecls
+  " Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+  " Plug 'junegunn/fzf.vim'
+  " Plug 'ibhagwan/fzf-lua', {'branch': 'main'}
+  Plug 'nvim-lua/plenary.nvim'
+  Plug 'nvim-telescope/telescope.nvim'
+  Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
+  Plug 'nvim-telescope/telescope-ghq.nvim'
+  Plug 'tpope/vim-projectionist'
+  Plug 'c-brenn/fuzzy-projectionist.vim'
+  Plug 'folke/which-key.nvim'
+  " moving around
+  Plug 'phaazon/hop.nvim'
+  Plug 'michaeljsmith/vim-indent-object'
+  Plug 'jeetsukumaran/vim-indentwise'
+  Plug 'bkad/CamelCaseMotion'
+  " editting
+  Plug 'bfredl/nvim-miniyank'
+  Plug 'editorconfig/editorconfig-vim'
+  Plug 'Yggdroot/indentLine'
+  Plug 'preservim/nerdcommenter'
+  Plug 'arthurxavierx/vim-caser'
+  Plug 'tpope/vim-surround'
+  Plug 'jiangmiao/auto-pairs'
+  Plug 'AndrewRadev/splitjoin.vim'
+  Plug 'tpope/vim-repeat'
+  Plug 'junegunn/vim-easy-align'
   Plug 'neomake/neomake'
+  Plug 'Shougo/echodoc.vim'
+  Plug 'neovim/nvim-lspconfig'
+  Plug 'hrsh7th/nvim-cmp'
+  Plug 'hrsh7th/cmp-nvim-lsp'
+  Plug 'hrsh7th/cmp-buffer'
+  Plug 'hrsh7th/cmp-path'
+  Plug 'hrsh7th/cmp-cmdline'
+  Plug 'simrat39/rust-tools.nvim'
+  Plug 'rafamadriz/friendly-snippets'
+  Plug 'L3MON4D3/LuaSnip'
+  Plug 'saadparwaiz1/cmp_luasnip'
+  Plug 'vim-utils/vim-husk'
+  " misc
+  Plug 'folke/lsp-trouble.nvim'
+  Plug 'ahmedkhalf/project.nvim'
+  Plug 'sheerun/vim-polyglot'
+  Plug 'tpope/vim-abolish'
+  Plug 'vim-test/vim-test'
+  Plug 'tyru/open-browser.vim'
 
   " Language specific
   " <fish>
@@ -30,11 +95,10 @@ if filereadable(s:vim_plug_file)
   if executable('composer')
     Plug 'phpactor/phpactor', {'branch': 'master', 'do': 'composer install --no-dev -o'}
   endif
+  Plug 'rust-lang/rust.vim'
   Plug 'vim-php/tagbar-phpctags.vim'
   Plug 'stephpy/vim-php-cs-fixer'
   Plug 'noahfrederick/vim-laravel'
-  " <rust>
-  Plug 'rust-lang/rust.vim'
   " <wiki>
   Plug 'vimwiki/vimwiki'
   " <markdown>
@@ -636,6 +700,24 @@ function! QuickGrep(pattern, modify)
 
   " call qf#base#QFOpenSmart(g:qf#base#qf_mode_location, v:false, 0)
 endfunction
+lua << EOF
+  local wk = require("which-key")
+  wk.register({
+    g = {
+      name = "vimgrep",
+      ["<Space>"] = { "<Cmd>call QuickGrep(expand('<cword>'), 0)<CR>", "<cword>" },
+      x = { "<Cmd>call QuickGrep('\\<' . expand('<cword>') . '\\>', 0)<CR>", "<cword> exclusive" },
+      [":"] = { "<Cmd>call QuickGrep('', 1)<CR>", "manual" },
+    },
+  }, { prefix = "<Leader>" })
+  wk.register({
+    g = {
+      name = "vimgrep",
+      ["<Space>"] = { "y<Cmd>call QuickGrep(@@, 0)<CR>", "selected" },
+      x = { "y<Cmd>call QuickGrep('\\<' . @@ . '\\>', 0)<CR>", "selected exclusive" },
+    },
+  }, { prefix = "<Leader>", mode = "v" })
+EOF
 " --- || Grep || }}}
 
 " {{{ || Replace || ---
@@ -685,7 +767,63 @@ function! QuickSubstitute(core_pattern, options)
     echohl ErrorMsg | echomsg v:exception | echohl NONE
   endtry
 endfunction
+lua << EOF
+  local wk = require("which-key")
+  wk.register({
+    s = {
+      name = "Substitute",
+      ["<Space>"] = { "<Cmd>call QuickSubstitute(expand('<cword>'), {'range': '%'})<CR>", "case insensitive" },
+      c = { "<Cmd>call QuickSubstitute(expand('<cword>'), {'range': '%', 'case': 1})<CR>", "case sensitive" },
+      x = {
+        name = "exclusive",
+      ["<Space>"] = { "<Cmd>call QuickSubstitute(expand('<cword>'), {'range': '%', 'exclusive': 1})<CR>", "case insensitive" },
+        c = { "<Cmd>call QuickSubstitute(expand('<cword>'), {'range': '%', 'exclusive': 1, 'case': 1})<CR>", "case sensitive" },
+      },
+      [":"] = { "<Cmd>call QuickSubstitute('', {'range': '%'})<CR>", "manual" },
+      ["."] = { "<Cmd>call QuickSubstitute('', {})<CR>", "manual on current line" },
+    },
+  }, { prefix = "<Leader>" })
+  wk.register({
+    s = {
+      name = "Substitute",
+      ["<Space>"] = { "y<Cmd>call QuickSubstitute(@@, {'range': '%'})<CR>", "case insensitive" },
+      c = { "y<Cmd>call QuickSubstitute(@@, {'range': '%', 'case': 1})<CR>", "case sensitive" },
+      x = {
+        name = "exclusive",
+        ["<Space>"] = { "y<Cmd>call QuickSubstitute(@@, {'range': '%', 'exclusive': 1})<CR>", "case insensitive" },
+        c = { "y<Cmd>call QuickSubstitute(@@, {'range': '%', 'exclusive': 1, 'case': 1})<CR>", "case sensitive" },
+      },
+      [":"] = { "<Esc><Cmd>call QuickSubstitute('', {'range': '%', 'selection': 1})<CR>", "manual within selection" },
+    },
+  }, { prefix = "<Leader>", mode = "v" })
+EOF
 " --- || Replace || }}}
+
+" {{{ || Quickfix/Location || ---
+" nnoremap <silent> <C-q> <Cmd>call qf#base#QuickfixCmd(v:count)<CR>
+lua << EOF
+  local trouble = require("trouble")
+  trouble.setup({
+    padding = false, -- add an extra new line on top of the list
+    auto_close = true, -- automatically close the list when you have no diagnostics
+    auto_preview = false, -- automatically preview the location of the diagnostic. <esc> to close preview and go back to last window
+  })
+  local wk = require("which-key")
+  wk.register({
+    ["<C-q>"] = {
+      name = "Trouble",
+      ["<C-q>"] = { function() trouble.toggle({ auto = true }) end, "Trouble toggle" },
+      ["<C-r>"] = { "<Cmd>TroubleRefresh<CR>", "Trouble refresh" },
+      ["<C-e>"] = { function() trouble.open("document_diagnostics", "auto=true") end, "Troube document diagnostics" },
+      ["<C-w>"] = { function() trouble.open("workspace_diagnostics", "auto=true") end, "Trouble workspace diagnostics" },
+      ["<C-f>"] = { function() trouble.open("quickfix", "auto=true") end, "Trouble quickfix" },
+      ["<C-l>"] = { function() trouble.open("loclist", "auto=true") end, "Trouble loclist" },
+      ["<C-n>"] = { function() trouble.next({skip_groups = true, jump = true}) end, "Trouble next" },
+      ["<C-p>"] = { function() trouble.previous({skip_groups = true, jump = true}) end, "Trouble previous" },
+    },
+  })
+EOF
+" --- || Quickfix/Location || }}}
 
 " {{{ || Buffer || ---
 command! BufOnly %bdelete | edit#
@@ -769,6 +907,18 @@ cnoremap <M-n> <Down>
 cnoremap <M-@> <Home>let @" = '<End>'
 " retry triggering abbreviation
 inoremap <C-g><C-]> <Esc>ciw<C-r>"<C-]>
+lua << EOF
+  local wk = require("which-key")
+  wk.register({
+    ["_"] = {
+      name = "nice ones",
+      c = { "<Cmd>lcd %:p:h | echo 'lcd -> ' . expand('%:p:h')<CR>", "lcd to the file's dir" },
+      d = { "<Cmd>echo 'current dir: ' . getcwd()<CR>", "Print current dir" },
+      p = { "<Cmd>echo 'filepath: ' . expand('%:p')<CR>", "Print current file's absolute path" },
+      w = { "<Cmd>set wrap!<CR>", "Toggle wrap" },
+    },
+  })
+EOF
 " --- || Others || }}}
 
 " --- || key mapping || }}}
@@ -797,7 +947,73 @@ endfunc
 
 " {{{ || plugin mapping and option || ---
 
+" {{{ || which-key || ---
+highlight link FloatBorder Normal
+highlight link WhichKeyFloat Normal
+highlight link WhichKey Type
+highlight link WhichKeyDesc Type
+lua << EOF
+  require("which-key").setup {
+    plugins = {
+      presets = {
+        operators = false, -- adds help for operators like d, y, ...
+      },
+    },
+    operators = {
+      d = "Delete",
+      c = "Change",
+      y = "Yank (copy)",
+      ["g~"] = "Toggle case",
+      ["gu"] = "Lowercase",
+      ["gU"] = "Uppercase",
+      [">"] = "Indent right",
+      ["<lt>"] = "Indent left",
+      ["zf"] = "Create fold",
+      ["!"] = "Filter though external program",
+      -- ["v"] = "Visual Character Mode",
+      gc = "Comments"
+    },
+    window = {
+      border = "rounded", -- none, single, double, shadow
+      position = "bottom", -- bottom, top
+      margin = { 0, 0, 0, 0 }, -- extra window margin [top, right, bottom, left]
+      padding = { 1, 2, 1, 2 }, -- extra window padding [top, right, bottom, left]
+      winblend = 0 -- value between 0-100 0 for fully opaque and 100 for fully transparent
+    },
+    layout = {
+      height = { min = 4, max = 25 }, -- min and max height of the columns
+      width = { min = 20, max = 50 }, -- min and max width of the columns
+      spacing = 5, -- spacing between columns
+      align = "left", -- align columns left, center or right
+    },
+  }
+EOF
+" --- || which-key || }}}
+
 " {{{ || termdebug || ---
+let g:termdebug_wide = 1
+
+lua << EOF
+  local wk = require("which-key")
+  wk.register({
+    g = {
+      name = "termdebug",
+      a = { "<Cmd>Arguments<CR>", "Set arguments to the next :Run" },
+      b = { "<Cmd>Break<CR>", "Add breakpoint" },
+      B = { "<Cmd>Clear<CR>", "Clear breakpoint" },
+      c = { "<Cmd>Continue<CR>", "Continue" },
+      f = { "<Cmd>Finish<CR>", "Finish" },
+      g = { "<Cmd>GdbIns<CR>", "Jump to gbd" },
+      i = { "<Cmd>Step<CR>", "Step in" },
+      n = { "<Cmd>Over<CR>", "Step over" },
+      o = { "<Cmd>Program<CR>", "Jump to program" },
+      r = { "<Cmd>Run<CR>", "Run the program with arguments" },
+      s = { "<Cmd>Source<CR>", "Jump to source" },
+      x = { "<Cmd>Stop<CR>", "Stop (interrupt the program)" },
+    },
+  }, { prefix = vim.g.chief_key })
+EOF
+
 function! GdbIns() abort
   Gdb
   startinsert
@@ -805,7 +1021,154 @@ endfunction
 command! -buffer GdbIns call GdbIns()
 " --- || termdebug || }}}
 
+" {{{ || vim-fugitive || ---
+if exists('g:plugs["vim-fugitive"]')
+  " let g:fugitive_no_maps = 1 " To prevent <C-n/p> to be mapped
+  cnoreabbrev gs Git
+  cnoreabbrev gl Git log
+  cnoreabbrev glg vertical sbuffer <Bar> Gllog
+  cnoreabbrev gd Gvdiffsplit
+  cnoreabbrev gp Git push
+lua << EOF
+  local wk = require("which-key")
+  wk.register({
+    v = {
+      name = "VCS",
+      -- fugitive
+      s = { "<Cmd>tab Git<CR>", "vim-fugitive" },
+      lt = { "<Cmd>tab Git log<CR>", "git log [tab]" },
+      lv = { "<Cmd>vertical Git log<CR>", "git log [vert]" },
+      B = { "<Cmd>Git blame<CR>", "git blame entire file" },
+      -- gitsings
+      -- h = {
+      --   name = "gitsigns",
+      -- },
+      -- git-blame
+      b = { "<Cmd>GitBlame<CR>", "git blame current line" },
+    },
+  }, { prefix = "<Leader>" })
+EOF
+endif
+" --- || vim-fugitive || }}}
+
+" {{{ || gitsigns || ---
+lua << EOF
+require('gitsigns').setup{
+  on_attach = function(bufnr)
+    local gs = package.loaded.gitsigns
+
+    local function map(mode, l, r, opts)
+      opts = opts or {}
+      opts.buffer = bufnr
+      vim.keymap.set(mode, l, r, opts)
+    end
+
+    -- Navigation
+    map('n', ']c', function()
+      if vim.wo.diff then return ']c' end
+      vim.schedule(function() gs.next_hunk() end)
+      return '<Ignore>'
+    end, {expr=true})
+
+    map('n', '[c', function()
+      if vim.wo.diff then return '[c' end
+      vim.schedule(function() gs.prev_hunk() end)
+      return '<Ignore>'
+    end, {expr=true})
+
+    -- Actions
+    map({'n', 'v'}, '<leader>vhs', ':Gitsigns stage_hunk<CR>')
+    map({'n', 'v'}, '<leader>vhr', ':Gitsigns reset_hunk<CR>')
+    map('n', '<leader>vhu', gs.undo_stage_hunk)
+    map('n', '<leader>vhS', gs.stage_buffer)
+    map('n', '<leader>vhR', gs.reset_buffer)
+    map('n', '<leader>vhp', gs.preview_hunk)
+    map('n', '<leader>vhb', function() gs.blame_line{full=true} end)
+    map('n', '<leader>vtb', gs.toggle_current_line_blame)
+    map('n', '<leader>vhd', gs.diffthis)
+    map('n', '<leader>vhD', function() gs.diffthis('~') end)
+    map('n', '<leader>vtd', gs.toggle_deleted)
+
+    -- Text object
+    map({'o', 'x'}, 'ih', ':<C-U>Gitsigns select_hunk<CR>')
+  end
+}
+EOF
+" --- || gitsigns || }}}
+
+" {{{ || git-blame.vim || ---
+if exists('g:plugs["git-blame.vim"]')
+endif
+" --- || git-blame.vim || }}}
+
+" {{{ || airline || ---
+if !exists('g:plugs["vim-airline"]')
+  set statusline=(%{winnr()})       " window number
+  set statusline+=%f            " relative path
+  set statusline+=[%{strlen(&fenc)?&fenc:'none'},%{&ff}]  " [file encoding,file format]
+  set statusline+=%y%r%m          " file type; readonly flag; modified flag
+  set statusline+=%=%c,%l/%L%6.6P     " right align; current column,line/total line; percentage with fixed width of 6 chars
+endif
+if exists('g:plugs["vim-airline"]')
+  set noshowmode
+  let g:airline_theme='cool'
+  let g:airline_section_b = ''
+  let g:airline_section_c = '(%{winnr()}) %<%{fnamemodify(getcwd(), ":~")} | %{expand("%")}%m %#__accent_red#%{airline#util#wrap(airline#parts#readonly(),0)}%#__restore__#'
+endif
+" --- || airline || }}}
+
+" {{{ || nvim-miniyank || ---
+if exists('g:plugs["nvim-miniyank"]')
+  let g:miniyank_maxitems = 20
+  map p <Plug>(miniyank-autoput)
+  map P <Plug>(miniyank-autoPut)
+  map <M-p> <Plug>(miniyank-cycle)
+  map <M-P> <Plug>(miniyank-cycleback)
+endif
+" --- || nvim-miniyank || }}}
+
+" {{{ || indentLine || ---
+let g:indentLine_setConceal = 0
+let g:indentLine_fileTypeExclude = ['markdown', 'vimwiki', 'json', 'nerdtree', 'NvimTree', 'man']
+let g:indentLine_bufTypeExclude = ['help', 'terminal']
+" --- || indentLine || }}}
+
+" {{{ || NERDCommenter || ---
+if exists('g:plugs["nerdcommenter"]')
+  let g:NERDSpaceDelims = 1       " Add spaces after comment delimiters
+  let g:NERDDefaultAlign = 'left'
+  nnoremap <silent> <C-\> :call nerdcommenter#Comment("n","toggle")<CR>
+  vnoremap <silent> <C-\> :call nerdcommenter#Comment("n","toggle")<CR>
+  inoremap <silent> <C-\> <C-o>:call nerdcommenter#Comment("n","toggle")<CR>
+endif
+" --- || NERDCommenter || }}}
+
 " {{{ || nvim-tree.lua || ---
+lua << EOF
+require("nvim-tree").setup ({
+  hijack_netrw = false,
+  respect_buf_cwd = true,
+  update_cwd = true,
+  update_focused_file = {
+    enable = true,
+    update_cwd = true,
+  },
+  git = {
+    ignore = false,
+  },
+  view = {
+    mappings = {
+      list = {
+        { key = "<C-e>", action = '' },
+        { key = "H",     action = '' },
+      },
+    },
+  },
+  renderer = {
+    highlight_opened_files = "all",
+  },
+})
+EOF
 function! s:InitNvimTreeCmds()
   let l:nvim_tree_cmds = {
         \ 'n': runcmds#init#MakeCmdInfo('NvimTreeOpen', v:false, [], v:true),
@@ -830,7 +1193,231 @@ call s:InitNvimTreeFlagDict()
 nnoremap <expr> [Chief]t runcmds#base#RunCmds("NvimTree", <SID>NvimTreeCmds(), <SID>NvimTreeFlags())
 " --- || nvim-tree.lua || }}}
 
+" {{{ || ranger.vim || ---
+if exists('g:plugs["ranger.vim"]')
+  let g:NERDTreeHijackNetrw = 0 " this is NERDTree setting
+  let g:ranger_map_keys = 0
+  let g:ranger_replace_netrw = 1
+endif
+lua << EOF
+  local wk = require("which-key")
+  wk.register({
+    e = {
+      name = "Ranger", -- optional group name
+      t = { "<Cmd>tab split | Ranger<CR>", "Ranger [tab]" },
+      v = { "<Cmd>call OpenRangerIn('%:p:h', 'vnew ')<CR>", "Ranger [vert]" },
+      w = { "<Cmd>call OpenRangerIn('%:p:h', 'new ')<CR>", "Ranger [horz]" },
+    },
+  }, { prefix = vim.g.chief_key })
+EOF
+" --- || ranger.vim || }}}"
+
+" {{{ || bclose.vim || ---
+if exists('g:plugs["bclose.vim"]')
+  let g:bclose_no_plugin_maps = v:true
+endif
+" --- || bclose.vim || }}}"
+
+" {{{ || tagbar || ---
+if exists('g:plugs["tagbar"]')
+  nnoremap <Leader>o :TagbarToggle<CR>
+  nnoremap <Leader>O :TagbarOpen fj<CR>
+endif
+" --- || tagbar || }}}
+
+" {{{ || vim-surround || ---
+if exists('g:plugs["vim-surround"]')
+  " set characters and correspondng wrappers
+  " value for variable have to be surrounded by "", not ''
+  " pre-defined mappings that are useful are:
+  " t: "<[tag]>\r</[tag]>" <- [tag] will be replaced by user input
+  " f: "[function](\r)" <- [function] will be replaced by user input
+  let g:surround_no_mappings = 1
+  nmap dr  <Plug>Dsurround
+  nmap cr  <Plug>Csurround
+  nmap cR  <Plug>CSurround
+  nmap yr  <Plug>Ysurround
+  nmap yR  <Plug>YSurround
+  nmap yrr <Plug>Yssurround
+  nmap yRR <Plug>YSsurround
+  xmap R   <Plug>VSurround
+  xmap gR  <Plug>VgSurround
+  let g:surround_{char2nr('d')} = "${\r}"
+  let g:surround_{char2nr('D')} = "\"${\r}\""
+  let g:surround_{char2nr('s')} = "$(\r)"
+  let g:surround_{char2nr('S')} = "\"$(\r)\""
+endif
+" --- || vim-surround || }}}
+
+" {{{ || auto-pairs || ---
+if exists('g:plugs["auto-pairs"]')
+  let g:AutoPairsShortcutToggle = ''
+  let g:AutoPairsShortcutFastWrap = '<M-p>'
+  let g:AutoPairsShortcutJump = '<M-n>'
+  let g:AutoPairsShortcutBackInsert = '<M-\>'
+  let g:AutoPairsMapSpace = 0   " Enabling this maps <Space> to <C-]><C-R>=... and <C-]> is unwanted
+  let g:AutoPairsMultilineClose = 0
+  inoremap <silent> <Space> <C-g>u<C-r>=AutoPairsSpace()<CR>
+endif
+" --- || auto-pairs || }}}
+
+" {{{ || hop.nvim || ---
+lua << EOF
+
+require('hop').setup{
+  keys = 'asdfghjklqwertyuiopzxcvbnm;',
+  uppercase_labels = true,
+}
+for _, mode in ipairs({'n', 'v', 'o'}) do
+  vim.api.nvim_set_keymap(mode, 'f', "<Cmd>HopChar1CurrentLineAC<CR>", {})
+  vim.api.nvim_set_keymap(mode, 'F', "<Cmd>HopChar1CurrentLineBC<CR>", {})
+  vim.api.nvim_set_keymap(mode, 'sw', "<Cmd>HopWordAC<CR>", {})
+  vim.api.nvim_set_keymap(mode, 'sb', "<Cmd>HopWordBC<CR>", {})
+  vim.api.nvim_set_keymap(mode, 'sj', "<Cmd>HopLineAC<CR>", {})
+  vim.api.nvim_set_keymap(mode, 'sk', "<Cmd>HopLineBC<CR>", {})
+  vim.api.nvim_set_keymap(mode, 's/', "<Cmd>HopPatternAC<CR>", {})
+  vim.api.nvim_set_keymap(mode, 's?', "<Cmd>HopPatternBC<CR>", {})
+end
+vim.api.nvim_set_keymap('o', 'f', "<Cmd>lua require('hop').hint_char1({ direction = require'hop.hint'.HintDirection.AFTER_CURSOR,  current_line_only = true, inclusive_jump = true })<cr>", {})
+vim.api.nvim_set_keymap('o', 'F', "<Cmd>lua require('hop').hint_char1({ direction = require'hop.hint'.HintDirection.BEFORE_CURSOR, current_line_only = true, inclusive_jump = true })<cr>", {})
+vim.api.nvim_set_keymap('o', 't', "<Cmd>lua require('hop').hint_char1({ direction = require'hop.hint'.HintDirection.AFTER_CURSOR,  current_line_only = true })<cr>", {})
+vim.api.nvim_set_keymap('o', 'T', "<Cmd>lua require('hop').hint_char1({ direction = require'hop.hint'.HintDirection.BEFORE_CURSOR, current_line_only = true })<cr>", {})
+
+-- repeating is not implemented yet
+-- map s. <Plug>(easymotion-repeat)
+-- map <Bslash> <Plug>(easymotion-next)
+-- map <Bar> <Plug>(easymotion-prev)
+
+EOF
+" --- || hop.nvim || }}}
+
+" {{{ || vim-indent-object || ---
+if exists('g:plugs["vim-indent-object"]')
+  nmap yx yaI']p
+endif
+" --- || vim-indent-object || }}}
+
+" {{{ || vim-indentwise || ---
+if exists('g:plugs["vim-indentwise"]')
+  " reference: https://github.com/jeetsukumaran/vim-indentwise/issues/12#issuecomment-591092209
+  function! s:SetupVimIndentwise() abort
+    let l:vim_indentwise_snr = GetScriptNumber("vim-indentwise")
+    let l:move_to_indent_depth_ref = printf('<SNR>%d_move_to_indent_depth(1, "==", 0, "o")', l:vim_indentwise_snr)
+    function! s:MoveToIndentDepthRef() closure
+      return l:move_to_indent_depth_ref
+    endfunction
+  endfunction
+  call s:SetupVimIndentwise()
+  onoremap <Plug>(IndentWisePreviousEqualIndent) V:<C-U>call eval(<SID>MoveToIndentDepthRef())<CR>
+  onoremap <Plug>(IndentWiseNextEqualIndent)     V:<C-U>call eval(<SID>MoveToIndentDepthRef())<CR>
+  map { <Plug>(IndentWisePreviousEqualIndent)
+  map } <Plug>(IndentWiseNextEqualIndent)
+endif
+" --- || vim-indentwise || }}}
+
+" {{{ || CamelCaseMotion || ---
+if exists('g:plugs["CamelCaseMotion"]')
+  map <silent> <M-w> <Plug>CamelCaseMotion_w
+  map <silent> <M-b> <Plug>CamelCaseMotion_b
+  omap <silent> im <Plug>CamelCaseMotion_ie
+  xmap <silent> im <Plug>CamelCaseMotion_ie
+  omap <silent> am <Plug>CamelCaseMotion_iw
+  xmap <silent> am <Plug>CamelCaseMotion_iw
+endif
+" --- || CamelCaseMotion || }}}
+
+" {{{ || fzf.vim || ---
+" if exists('g:plugs["fzf.vim"]')
+"   let g:fzf_command_prefix = 'Fzf'
+"     let g:fzf_buffers_jump = 1
+"   imap <c-x><c-k> <plug>(fzf-complete-word)
+"   imap <c-x><c-f> <plug>(fzf-complete-path)
+"   imap <c-x><c-l> <plug>(fzf-complete-line)
+
+"   function! s:InitFzfCmds()
+"     let l:fzf_cmds = {
+"           \ 'f': runcmds#init#MakeCmdInfo(g:fzf_command_prefix . 'Files'),
+"           \ 'F': runcmds#init#MakeCmdInfo(g:fzf_command_prefix . 'Files %:h'),
+"           \ 'g': runcmds#init#MakeCmdInfo(g:fzf_command_prefix . 'GFiles'),
+"           \ 'G': runcmds#init#MakeCmdInfo(g:fzf_command_prefix . 'GFiles?'),
+"           \ 'b': runcmds#init#MakeCmdInfo(g:fzf_command_prefix . 'Buffers'),
+"           \ 'r': runcmds#init#MakeCmdInfo(g:fzf_command_prefix . 'Rgh', v:false, [], v:true),
+"           \ 'R': runcmds#init#MakeCmdInfo(g:fzf_command_prefix . 'Rg', v:false, [], v:true),
+"           \ 'L': runcmds#init#MakeCmdInfo(g:fzf_command_prefix . 'Lines'),
+"           \ 'l': runcmds#init#MakeCmdInfo(g:fzf_command_prefix . 'BLines'),
+"           \ 'T': runcmds#init#MakeCmdInfo(g:fzf_command_prefix . 'Tags'),
+"           \ 't': runcmds#init#MakeCmdInfo(g:fzf_command_prefix . 'BTags'),
+"           \ 'k': runcmds#init#MakeCmdInfo(g:fzf_command_prefix . 'Marks'),
+"           \ 'w': runcmds#init#MakeCmdInfo(g:fzf_command_prefix . 'Windows'),
+"           \ 'y': runcmds#init#MakeCmdInfo(g:fzf_command_prefix . 'History'),
+"           \ ':': runcmds#init#MakeCmdInfo(g:fzf_command_prefix . 'History:'),
+"           \ '/': runcmds#init#MakeCmdInfo(g:fzf_command_prefix . 'History/'),
+"           \ 's': runcmds#init#MakeCmdInfo(g:fzf_command_prefix . 'Snippets'),
+"           \ 'C': runcmds#init#MakeCmdInfo(g:fzf_command_prefix . 'Commits'),
+"           \ 'c': runcmds#init#MakeCmdInfo(g:fzf_command_prefix . 'BCommits'),
+"           \ 'd': runcmds#init#MakeCmdInfo(g:fzf_command_prefix . 'Commands'),
+"           \ 'm': runcmds#init#MakeCmdInfo(g:fzf_command_prefix . 'Maps'),
+"           \ 'h': runcmds#init#MakeCmdInfo(g:fzf_command_prefix . 'Helptags'),
+"           \ 'q': runcmds#init#MakeCmdInfo(g:fzf_command_prefix . 'Ghq'),
+"           \ }
+"     function! s:FzfCmds() closure
+"       return l:fzf_cmds
+"     endfunction
+"   endfunction
+"   function! s:InitFzfFlagDict()
+"     let l:fzf_flags = runcmds#init#MakeFlagDict(';', "\<Space>")
+"     function! s:FzfFlags() closure
+"       return l:fzf_flags
+"     endfunction
+"   endfunction
+"   call s:InitFzfCmds()
+"   call s:InitFzfFlagDict()
+"   nnoremap <expr> [Chief]f runcmds#base#RunCmds("FZF", <SID>FzfCmds(), <SID>FzfFlags())
+
+" command! -bang -nargs=* -complete=dir FzfRgh call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case --hidden -- ".shellescape(<q-args>), 1, fzf#vim#with_preview(), <bang>0)
+" command! -bang -nargs=* FzfGhq call fzf#run(fzf#wrap({'source': 'ghq list --full-path', 'sink': 'NERDTree'}))
+" endif
+" --- || fzf.vim || }}}
+
 " {{{ || fzf-lua || ---
+" lua << EOF
+"   local wk = require("which-key")
+"   local fzf = require('fzf-lua')
+"   fzf.setup {
+"     winopts = {
+"       preview = {
+"         horizontal = 'right:50%',     -- right|left:size
+"       },
+"     },
+"     keymap = {
+"       builtin = {
+"         -- command name (rhs) differs from ones of fzf
+"         -- e.g. `preview-half-page-down` does not work
+"         ["<M-j>"] = "preview-page-down",
+"         ["<M-k>"] = "preview-page-up",
+"         ["<M-g>"] = "preview-page-reset",
+"       },
+"     },
+"     grep = {
+"       rg_opts = "--column --line-number --no-heading --color=always --smart-case --max-columns=512 --hidden --glob !.git",
+"     },
+"   }
+"   function fzf_lua_ghq()
+"     local fzf = require('fzf-lua')
+"     fzf.files({
+"       cmd = "ghq list --full-path",
+"       prompt = 'Repo❯ ',
+"       actions = {
+"         ["default"] = function(selected)
+"           -- FIXME the second fzf-lua does not enter insert mode automatically
+"           fzf.files({
+"             cwd = selected[1],
+"           })
+"         end,
+"       },
+"     })
+"   end
+" EOF
 " function! s:InitFzfCmds()
 "   let l:fzf_cmds = {
 "         \ 'b': runcmds#init#MakeCmdInfo('FzfLua buffers'),
@@ -870,6 +1457,79 @@ nnoremap <expr> [Chief]t runcmds#base#RunCmds("NvimTree", <SID>NvimTreeCmds(), <
 " --- || fzf-lua || }}}
 
 " {{{ || telescope.nvim || ---
+lua << EOF
+-- NOTE This does not work properly at the moment...
+-- See https://github.com/nvim-telescope/telescope.nvim/issues/1661
+-- vim.cmd "autocmd User TelescopePreviewerLoaded setlocal number" -- Add line number to preview
+
+local action = require('telescope.actions')
+local action_set = require('telescope.actions.set')
+local action_layout = require('telescope.actions.layout')
+local trouble = require("trouble.providers.telescope")
+require('telescope').setup{
+  defaults = {
+    vimgrep_arguments = {
+      "rg",
+      "--color=never",
+      "--no-heading",
+      "--with-filename",
+      "--line-number",
+      "--column",
+      "--smart-case",
+      "--hidden",
+      "--glob", "!.git",
+    },
+    sorting_strategy = 'ascending',
+    layout_config={
+      prompt_position = "top",
+    },
+    mappings = {
+      n = {
+        ["<C-d>"] = function(bufnr) action_set.scroll_results(bufnr, 1) end,
+        ["<C-u>"] = function(bufnr) action_set.scroll_results(bufnr, 0) end,
+        ["<M-j>"] = function(bufnr) action_set.scroll_previewer(bufnr, 1) end,
+        ["<M-k>"] = function(bufnr) action_set.scroll_previewer(bufnr, 0) end,
+        ["<c-q>"] = trouble.open_with_trouble,
+      },
+      i = {
+        ["<c-q>"] = trouble.open_with_trouble,
+        ["<Esc>"] = action.close,
+        ["<C-\\>"] = { "<Esc>", type = "command" },
+        ["<C-_>"] = action_layout.toggle_preview,
+        ["<Tab>"] = action.move_selection_worse,
+        ["<C-j>"] = function(bufnr)
+          action.toggle_selection(bufnr)
+          action.move_selection_worse(bufnr)
+        end,
+        ["<C-M-j>"] = function(bufnr)
+          action.toggle_selection(bufnr)
+          action.move_selection_better(bufnr)
+        end,
+        ["<C-d>"] = { "<DEL>", type = "command" },
+        ["<C-u>"] = { "<C-u>", type = "command" },
+        ["<M-j>"] = function(bufnr) action_set.scroll_previewer(bufnr, 0.5) end,
+        ["<M-k>"] = function(bufnr) action_set.scroll_previewer(bufnr, -0.5) end,
+      },
+    },
+  },
+  pickers = {
+    -- Default configuration for builtin pickers goes here:
+    find_files = {
+      find_command = {"fd", "--type", "f", "--hidden", "--exclude", ".git"},
+    },
+    -- Now the picker_config_key will be applied every time you call this
+    -- builtin picker
+  },
+  extensions = {
+    -- Your extension configuration goes here:
+    -- extension_name = {
+    --   extension_config_key = value,
+    -- }
+    -- please take a look at the readme of the extension you want to configure
+  },
+}
+require('telescope').load_extension('fzf')
+EOF
 function! s:InitFzfCmds()
   let l:fzf_cmds = {
         \ 'f': runcmds#init#MakeCmdInfo('Telescope find_files search_dirs=.'),
@@ -906,8 +1566,123 @@ call s:InitFzfFlagDict()
 nnoremap <expr> [Chief]f runcmds#base#RunCmds("FZF", <SID>FzfCmds(), <SID>FzfFlags())
 " --- || telescope.nvim || }}}
 
+" {{{ || ctrlp || ---
+if exists('g:plugs["ctrlp.vim"]')
+  " for now, just disable the default mapping to prevent from <C-p> to be overridden
+  let g:ctrlp_map = '<F13>'
+endif
+" --- || ctrlp || }}}
+
+" {{{ || vim-projectionist || ---
+let g:projectionist_heuristics = {
+      \   "src/main/java/|src/test/java/": {
+      \     "src/main/java/*.java": {
+      \       "alternate": "src/test/java/{}Test.java",
+      \       "type": "main"
+      \     },
+      \     "src/test/java/*.java": {
+      \       "alternate": "src/main/java/{}.java",
+      \       "type": "test"
+      \     },
+      \     "src/main/resources/*": {
+      \       "type": "resource"
+      \     },
+      \     "src/test/resources/*": {
+      \       "type": "tresource"
+      \     }
+      \   }
+      \ }
+" --- || vim-projectionist || }}}
+
+" {{{ || UltiSnips || ---
+if exists('g:plugs["ultisnips"]')
+  let g:UltiSnipsExpandTrigger="<C-]>"
+  let g:UltiSnipsJumpForwardTrigger="<C-s>"
+  let g:UltiSnipsJumpBackwardTrigger="<M-s>"
+  cnoreabbrev us call UltiSnips#
+endif
+" --- || UltiSnips || }}}
+
 " {{{ || nvim-lspconfig || ---
+" 'java': [$HOME.'/toybox/vim/helper/java-lsp.sh', '-data', getcwd()],
+" 'javascript': ['typescript-language-server', '--stdio'],
+" 'php': [s:plugin_dir . '/phpactor/bin/phpactor', 'language-server'],
+" 'python': [executable('/usr/local/bin/pyls') ? '/usr/local/bin/pyls' : $HOME.'/.local/bin/pyls'],
+highlight link NormalFloat Normal
+lua << EOF
+  -- vim.lsp.set_log_level("debug")
+
+  -- local opts = { noremap=true, silent=true }
+  local opts = { noremap = true }
+  vim.api.nvim_set_keymap('i', '<C-g><C-h>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
+  local wk = require("which-key")
+  wk.register({
+    ["<C-]>"] = { "<Cmd>lua vim.lsp.buf.definition()<CR>", "Definition" },
+    ["g<C-]>"] = { "<Cmd>lua vim.lsp.buf.implementation<CR>", "Implementation" },
+    ["<C-w>"] = {
+      ["<C-]>"] = { "<Cmd>split | lua vim.lsp.buf.definition()<CR>", "Definition [horz]" },
+      ["<C-g><C-]>"] = { "<Cmd>split | lua vim.lsp.buf.implementation<CR>", "Implementation [horz]" },
+    },
+    ["[Vert]"] = {
+      ["<C-]>"] = { "<Cmd>vertical split | lua vim.lsp.buf.definition()<CR>", "Definition [vert]" },
+      ["<C-g><C-]>"] = { "<Cmd>vertical split | lua vim.lsp.buf.implementation<CR>", "Implementation [vert]" },
+    },
+    ["<C-t>"] = {
+      ["<C-]>"] = { "<Cmd>tab split | lua vim.lsp.buf.definition()<CR>", "Definition [tab]" },
+      ["<C-g><C-]>"] = { "<Cmd>tab split | lua vim.lsp.buf.implementation<CR>", "Implementation [tab]" },
+    },
+  })
+
+  local lspconfig = require('lspconfig')
+  local capabilities = vim.lsp.protocol.make_client_capabilities()
+  capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
+  capabilities.textDocument.completion.completionItem.resolveSupport = {
+    properties = {
+      'documentation',
+      'detail',
+      'additionalTextEdits', -- XXX currently failing to enable auto import for rust-analyzer
+    }
+  }
+
+  -- Set border for floating window
+  -- This does not work
+  -- LSP settings (for overriding per client)
+  -- local handlers =  {
+  --   ["textDocument/hover"] =  vim.lsp.with(vim.lsp.handlers.hover, { border = 'rounded' }),
+  --   ["textDocument/signatureHelp"] =  vim.lsp.with(vim.lsp.handlers.signature_help, { border = 'rounded' }),
+  -- }
+  local orig_util_open_floating_preview = vim.lsp.util.open_floating_preview
+  function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)
+    opts = opts or {}
+    opts.border = opts.border or 'rounded'
+    -- opts.max_width = opts.border or 100 -- <- this causes error
+    opts.max_width = 100
+    return orig_util_open_floating_preview(contents, syntax, opts, ...)
+  end
+
+  local servers = { 'gopls', 'rust_analyzer' }
+  for _, lsp in pairs(servers) do
+    lspconfig[lsp].setup ({
+      capabilities = capabilities,
+    })
+  end
+  lspconfig['rust_analyzer'].setup({
+    init_options = {
+      completion = {
+        addCallParenthesis = false,
+        addCallArgumentSnippets = false,
+      },
+      diagnostics = {
+        disabled = {
+          "inactive-code",
+        },
+      },
+    },
+  })
+  -- 'rust': ['rustup', 'run', !empty($RUST_VERSION) ? $RUST_VERSION : 'stable', 'rust-analyzer'],
+EOF
 let s:def_cmds = {
+      \ 'a': runcmds#init#MakeCmdInfo('AV'),
       \ 'd': runcmds#init#MakeCmdInfo('lua vim.lsp.buf.hover()'),
       \ 'f': runcmds#init#MakeCmdInfo('lua vim.lsp.buf.formatting()'),
       \ 'n': runcmds#init#MakeCmdInfo('lua vim.lsp.buf.rename()'),
@@ -921,6 +1696,133 @@ function! DefaultCmds()
 endfunction
 " --- || nvim-lspconfig || }}}
 
+" {{{ || nvim-cmp || ---
+lua <<EOF
+  local cmp = require('cmp')
+  local function close_and_fallback(fallback)
+    if cmp.visible() then
+      cmp.close()
+    end
+    fallback()
+  end
+  local function cmp_visible_or_fallback(action)
+    return function(fallback)
+      if cmp.visible() then
+        action()
+        return
+      end
+      fallback()
+    end
+  end
+  cmp.setup({
+    snippet = {
+      -- REQUIRED - you must specify a snippet engine
+      expand = function(args)
+        -- vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
+        require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
+        -- require('snippy').expand_snippet(args.body) -- For `snippy` users.
+        -- vim.fn["UltiSnips#Anon"](args.body) -- For `ultisnips` users.
+      end,
+    },
+    window = {
+      completion = cmp.config.window.bordered(),
+      documentation = cmp.config.window.bordered(),
+    },
+    mapping = {
+      ['<M-j>'] = cmp.mapping(cmp.mapping.scroll_docs(4), { 'i', 'c' }),
+      ['<M-k>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i', 'c' }),
+      ['<Tab>'] = cmp.mapping(function(fallback)
+        if cmp.visible() then
+          cmp.select_next_item()
+        else
+          cmp.complete()
+        end
+      end, { 'i', 'c' }),
+      ['<C-M-i>'] = cmp.mapping(function(fallback)
+        if cmp.visible() then
+          cmp.select_prev_item()
+        else
+          fallback()
+        end
+      end, { 'i', 'c' }),
+      ['<C-n>'] = cmp.mapping(cmp_visible_or_fallback(cmp.select_next_item), { 'i', 'c' }),
+      ['<C-p>'] = cmp.mapping(cmp_visible_or_fallback(cmp.select_prev_item), { 'i', 'c' }),
+      ['<C-l>'] = cmp.mapping(function(fallback)
+        if cmp.visible() then
+          cmp.select_next_item()
+        else
+          cmp.complete({
+            config = {
+              sources = {
+                { name = 'buffer' }
+              }
+            }
+          })
+        end
+      end, { 'i', 'c' }),
+      ['<C-y>'] = cmp.mapping(cmp.mapping.confirm({ select = true }), { 'i', 'c' }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+      ['<C-o>'] = cmp.mapping(cmp.mapping.confirm({ select = true }), { 'i', 'c' }),
+      ['<C-e>'] = cmp.mapping(close_and_fallback, { 'i', 'c' }),
+      ['<C-g>'] = cmp.mapping(cmp.mapping.abort(), { 'i', 'c' }),
+    },
+    sources = cmp.config.sources({
+      { name = 'nvim_lsp' },
+      -- { name = 'vsnip' }, -- For vsnip users.
+      { name = 'luasnip' }, -- For luasnip users.
+      -- { name = 'ultisnips' }, -- For ultisnips users.
+      -- { name = 'snippy' }, -- For snippy users.
+    }, {
+      { name = 'buffer' },
+    })
+  })
+
+  -- Set configuration for specific filetype.
+  -- cmp.setup.filetype('gitcommit', {
+  --   sources = cmp.config.sources({
+  --     { name = 'cmp_git' }, -- You can specify the `cmp_git` source if you were installed it.
+  --   }, {
+  --     { name = 'buffer' },
+  --   })
+  -- })
+
+  -- Use buffer source for `/` (if you enabled `native_menu`, this won't work anymore).
+  cmp.setup.cmdline('/', {
+    sources = {
+      { name = 'buffer' }
+    }
+  })
+
+  -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
+  cmp.setup.cmdline(':', {
+    sources = cmp.config.sources({
+      { name = 'path' }
+    }, {
+      { name = 'cmdline' }
+    })
+  })
+EOF
+" --- || nvim-cmp || }}}
+
+" {{{ || LuaSnip || ---
+lua << EOF
+  require("luasnip").config.setup({store_selection_keys="<C-]>"})
+  -- Both sources can be enabled at the same time
+  local ls_vscode = require("luasnip.loaders.from_vscode")
+  ls_vscode.lazy_load() -- enable LSP style snippets
+  -- require("luasnip.loaders.from_snipmate").lazy_load()
+
+  for _, mode in ipairs({"i", "s"}) do
+    vim.api.nvim_set_keymap(mode, "<C-]>", "<Plug>luasnip-expand-or-jump", {})
+    vim.api.nvim_set_keymap(mode, "<C-s>", "<Plug>luasnip-jump-next", {})
+    vim.api.nvim_set_keymap(mode, "<M-s>", "<Plug>luasnip-jump-prev", {})
+  end
+  vim.api.nvim_set_keymap("s", "<Tab>", "<Esc>i", { noremap = true })
+  vim.api.nvim_set_keymap("s", "<C-a>", "<Esc>a", { noremap = true })
+
+  vim.api.nvim_create_user_command('LuaSnipLoadSnippetsVSCode', ls_vscode.load, {})
+EOF
+" --- || LuaSnip || }}}
+
 " {{{ || neomake || ---
 if exists('g:plugs["neomake"]')
   try
@@ -932,9 +1834,60 @@ if exists('g:plugs["neomake"]')
 endif
 " --- || neomake || }}}
 
+" {{{ || echodoc.vim || ---
+let g:echodoc#enable_at_startup = 1
+" floating breads UltiSnips' function to jump between markers
+" let g:echodoc#type = 'floating'
+" highlight link EchoDocFloat Pmenu
+" --- || echodoc.vim || }}}
+
+" {{{ || project.nvim || ---
+lua << EOF
+  require("project_nvim").setup {
+    show_hidden = false,
+  patterns = { "Cargo.toml", ".git", "_darcs", ".hg", ".bzr", ".svn", "Makefile", "package.json" },
+  }
+EOF
+" --- || project.nvim || }}}
+
+" {{{ || vim-abolish || ---
+let g:abolish_no_mappings = 1
+" --- || vim-abolish || }}}
+
+" {{{ || vim-test || ---
+if has('nvim')
+  " By default, tab is opened left to the current tab, and that makes
+  " closing the test tab focus the tab left to the original tab.
+  " The below configuration opens the test right to the original tab.
+  let test#neovim#term_position = "tab"
+  let test#strategy = 'neovim'
+endif
+" --- || vim-test || }}}
+
 " {{{ || stephpy/vim-php-cs-fixer || ---
 let g:php_cs_fixer_enable_default_mapping = 0
 " --- || stephpy/vim-php-cs-fixer || }}}
+
+" {{{ || vim-laravel || ---
+if exists('g:plugs["vim-laravel"]')
+  augroup init_laravel
+  autocmd!
+  autocmd User ProjectionistDetect
+      \ if exists('b:laravel_root') |
+      \   call projectionist#append(b:laravel_root, {
+      \     'storage/logs/*.log': { 'type': 'log' },
+      \     'storage/logs/laravel.log': { 'type': 'log' },
+      \     'app/Http/Controllers/*.php': {
+      \       'alternate': 'tests/Unit/Controllers/{}Test.php',
+      \     },
+      \     'app/Models/*.php': {
+      \       'alternate': 'tests/Unit/Models/{}Test.php',
+      \     }
+      \   }) |
+      \ endif
+  augroup END
+endif
+" --- || vim-laravel || }}}
 
 " {{{ || vimwiki || ---
 let g:vimwiki_key_mappings = {
