@@ -96,7 +96,6 @@ function delete_hidden_buffers()
     vim.cmd(string.format('silent bwipeout %s', bufnr))
   end)
 end
-
 vim.api.nvim_create_user_command('DeleteHiddenBuffers', delete_hidden_buffers, {})
 
 function plugin_reload()
@@ -129,3 +128,19 @@ function plugin_resync()
   plugin_reload()
   require('packer').sync()
 end
+wk.register({
+  ['<F3>'] = {
+    name = 'Source rc file',
+    ['<F3>'] = { '<Cmd>source $MYVIMRC<CR>', 'Reload $MYVIMRC' },
+    g = { '<Cmd>source $MYGVIMRC<CR>', 'Reload $MYGVIMRC' },
+    f = { '<Cmd>SetFt<CR>', 'Reload ftplugin' },
+    r = { plugin_recompile, 'Recompile plugins' },
+    i = { plugin_install_recompile, 'Install plugins and compile' },
+    s = { plugin_resync, 'Resync plugins' },
+    o = {
+      name = 'Open',
+      v = { '<Cmd>tabnew $MYVIMRC<CR>', 'Open $MYVIMRC' },
+      f = { '<Cmd>call OpenFtplugins(&ft)<CR>', "Open ftplugins" },
+    },
+  },
+})

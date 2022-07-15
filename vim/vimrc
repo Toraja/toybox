@@ -751,14 +751,14 @@ endif
 " {{{ || Others || ---
 map <S-Space> <Space>
 nnoremap <C-s> :update<CR>
-if has('gui')
-  nnoremap <F3> :source $MYVIMRC<CR>:source $MYGVIMRC<CR>
-else
-  nnoremap <F3> :source $MYVIMRC<CR>
-endif
-nnoremap <Leader><F3> :tabnew $MYVIMRC<CR>
-nnoremap [Chief]<F3> :call OpenFtplugins(&ft)<CR>
-nnoremap [Captain]<F3> :SetFt<CR>
+" if has('gui')
+"   nnoremap <F3> :source $MYVIMRC<CR>:source $MYGVIMRC<CR>
+" else
+"   nnoremap <F3> :source $MYVIMRC<CR>
+" endif
+" nnoremap <Leader><F3> :tabnew $MYVIMRC<CR>
+" nnoremap [Chief]<F3> :call OpenFtplugins(&ft)<CR>
+" nnoremap [Captain]<F3> :SetFt<CR>
 nnoremap Q gQ
 nnoremap <M-c> <Cmd>mode<CR>
 " [insert/command mode]
