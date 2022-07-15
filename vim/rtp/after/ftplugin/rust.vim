@@ -22,6 +22,3 @@ function! s:InitRustCmds()
 endfunction
 call s:InitRustCmds()
 nnoremap <buffer> <expr> - runcmds#base#RunCmds('Rust Cmds', <SID>RustCmds(), {})
-
-let b:AutoPairs = extend(g:AutoPairs, {'<': '>'})
-silent! call remove(b:AutoPairs, "'")

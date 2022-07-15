@@ -470,7 +470,24 @@ return require('packer').startup(function(use)
     end,
   }
   use {
+	"windwp/nvim-autopairs",
+    config = function()
+      local ap = require("nvim-autopairs")
+      local Rule = require('nvim-autopairs.rule')
+      ap.setup({
+        map_c_h = true,
+        map_c_w = true,
+      })
+      ap.remove_rule("'")
+      ap.add_rules({
+        Rule('<', '>', { 'rust' }),
+        Rule("'", "'", { '-rust' }),
+      })
+    end
+  }
+  use {
     'jiangmiao/auto-pairs',
+    disable = true,
     config = function()
       vim.g.AutoPairsShortcutToggle = ''
       vim.g.AutoPairsShortcutFastWrap = '<M-p>'
