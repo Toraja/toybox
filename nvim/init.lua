@@ -98,3 +98,34 @@ function delete_hidden_buffers()
 end
 
 vim.api.nvim_create_user_command('DeleteHiddenBuffers', delete_hidden_buffers, {})
+
+function plugin_reload()
+  package.loaded['plugins'] = nil
+  require('plugins')
+end
+function plugin_recompile()
+  vim.api.nvim_create_autocmd('User', {
+    pattern = 'PackerCompileDone',
+    callback = function()
+      print('Compiling plugins completed')
+      return true
+    end
+  })
+  plugin_reload()
+  require('packer').compile()
+end
+function plugin_install_recompile()
+  vim.api.nvim_create_autocmd('User', {
+    pattern = 'PackerComplete',
+    callback = function()
+      require('packer').compile()
+      return true
+    end
+  })
+  plugin_reload()
+  require('packer').install()
+end
+function plugin_resync()
+  plugin_reload()
+  require('packer').sync()
+end
