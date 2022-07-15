@@ -257,17 +257,19 @@ return require('packer').startup(function(use)
       { 'nvim-lua/plenary.nvim' },
       { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' },
       { 'nvim-telescope/telescope-ghq.nvim' },
+      { 'nvim-telescope/telescope-packer.nvim' },
     },
     config = function()
       -- NOTE This does not work properly at the moment...
       -- See https://github.com/nvim-telescope/telescope.nvim/issues/1661
       -- vim.cmd "autocmd User TelescopePreviewerLoaded setlocal number" -- Add line number to preview
 
+      local telescope = require('telescope')
       local action = require('telescope.actions')
       local action_set = require('telescope.actions.set')
       local action_layout = require('telescope.actions.layout')
       local trouble = require("trouble.providers.telescope")
-      require('telescope').setup{
+      telescope.setup{
         defaults = {
           vimgrep_arguments = {
             "rg",
@@ -329,8 +331,9 @@ return require('packer').startup(function(use)
           -- please take a look at the readme of the extension you want to configure
         },
       }
-      require('telescope').load_extension('fzf')
-      require('telescope').load_extension('ghq')
+      telescope.load_extension('fzf')
+      telescope.load_extension('ghq')
+      telescope.load_extension("packer")
     end,
   }
 

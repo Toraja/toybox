@@ -890,6 +890,7 @@ function! s:InitFzfCmds()
         \ 's': runcmds#init#MakeCmdInfo('Telescope spell_suggest'),
         \ 'H': runcmds#init#MakeCmdInfo('Telescope highlights'),
         \ 'q': runcmds#init#MakeCmdInfo('Telescope ghq list'),
+        \ 'p': runcmds#init#MakeCmdInfo('Telescope packer'),
         \ }
   function! s:FzfCmds() closure
     return l:fzf_cmds
