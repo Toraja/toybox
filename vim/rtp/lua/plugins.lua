@@ -480,6 +480,11 @@ return require('packer').startup(function(use)
       ap.setup({
         map_c_h = true,
         map_c_w = true,
+        fast_wrap = {
+          map = '<M-p>',
+          keys = 'asdfghjklqwertyuiopzxcvbnm',
+          end_keys = ';',
+        },
       })
       ap.remove_rule("'")
       ap.add_rules({
