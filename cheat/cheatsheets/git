@@ -1,8 +1,4 @@
-# git complains that it "would clobber existing tag"
-git fetch --tags -f
-
-
-# selective checkout with sparse-checkout
+# --- selective checkout with sparse-checkout ---
 
 ## setup
 git init
@@ -18,3 +14,29 @@ git sparse-checkout list
 
 ## disable
 git sparse-checkout disable
+
+# --- view files ---
+
+## view file content at the commit / in the branch
+git show <commitish>:<path>
+
+# --- diff ---
+
+## list modified files for a commit
+git diff-tree --no-commit-id --name-only -r <commit>
+
+# --- remote repo ---
+
+## delete
+git push origin :<branch>
+
+# --- tag ---
+
+## git complains that it "would clobber existing tag"
+git fetch --tags -f
+
+## list
+### tags that matches the pattern
+git tag [-l (pattern)]
+### tags and their hash (not the commit hash the tags are attached to)
+git show-ref --tags
