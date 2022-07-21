@@ -1,0 +1,15 @@
+= Git
+:toc:
+
+== ssh
+
+To clone my repository using ssh:
+
+. Setup ssh key
+. Setup ssh config to use the ssh key for host `personal.github.com`
+. Clone repository using the host in ssh config into somewhere under
+`~/workspace/github.com/Toraja/`
+** The domain in repository URL must be prepended with `personal.` to match the
+host in ssh config
+** The clone destination must be under `~/workspace/github.com/Toraja/` so that
+git automatically modify URL to match the one in ssh config
