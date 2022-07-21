@@ -503,6 +503,7 @@ inoremap <C-k> <C-g>u<C-\><C-o>"_D
 inoremap <M-h> <C-g>u<C-w>
 cnoremap <M-h> <C-w>
 inoremap <M-t> <C-d>
+inoremap <C-j> <CR><Esc><Up>A
 " [UPPER/lowercase & Capitalize]
 inoremap <M-u> <Esc>gUiwea
 inoremap <M-l> <Esc>guiwea
@@ -513,7 +514,7 @@ nnoremap <M-m> mpo<Esc>0Dg`p| "insert blank line below
 nnoremap <M-M> mpO<Esc>0Dg`p| "insert blank line above
 nnoremap <M-o> o<Esc>
 nnoremap <M-O> O<Esc>
-nnoremap <C-j> i<CR><Esc><Up><End>a
+nnoremap <C-j> i<CR><Esc><Up><End>
 " [Other editing]
 xnoremap y ygv<Esc>|  "place cursor after the selection when yanking
 nnoremap Y y$
