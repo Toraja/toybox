@@ -19,4 +19,4 @@ function! FishFormat(type, ...)
 endf
 
 nnoremap <buffer> = :call SetOperatorFunc('FishFormat')<CR>g@
-vnoremap <buffer> = :<C-u>call FishFormat(visualmode(), 1)<CR>
+xnoremap <buffer> = :<C-u>call FishFormat(visualmode(), 1)<CR>

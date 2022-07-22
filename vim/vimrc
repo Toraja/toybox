@@ -518,20 +518,20 @@ nnoremap <C-j> i<CR><Esc><Up><End>
 " [Other editing]
 xnoremap y ygv<Esc>|  "place cursor after the selection when yanking
 nnoremap Y y$
-vnoremap <silent> <C-a> <C-a>gv
-vnoremap <silent> <C-x> <C-x>gv
+xnoremap <silent> <C-a> <C-a>gv
+xnoremap <silent> <C-x> <C-x>gv
 nnoremap <silent> g<C-a> :call search("[0-9]", 'be', line('.'))<CR><C-a>
 nnoremap <silent> g<C-x> :call search("[0-9]", 'be', line('.'))<CR><C-x>
 nnoremap d. /\s\+$<CR>"_dgn|  " delete trailing spaces
 inoremap <silent> <M-,> <Cmd>call edit#base#ToggleTrailing(',')<CR>
 nnoremap <silent> <M-,> <Cmd>call edit#base#ToggleTrailing(',')<CR>
-vnoremap <silent> <M-,> :call edit#base#ToggleTrailing(',')<CR>
+xnoremap <silent> <M-,> :call edit#base#ToggleTrailing(',')<CR>
 " [move line]
 " nnoremap <silent> <expr> <M-j> ":\<C-u>silent! move .+".v:count1."\<CR>=="
 " nnoremap <silent> <expr> <M-k> ":\<C-u>silent! move .-".(v:count1+1)."\<CR>=="
 " ones for visual mode requires range ('<,'>) to work as intended
-" vnoremap <silent> <expr> <M-j> ":\<C-u>silent! '<,'>move '>+".(v:count1)."\<CR>gv=gv"
-" vnoremap <silent> <expr> <M-k> ":\<C-u>silent! '<,'>move '<-".(v:count1+1)."\<CR>gv=gv"
+" xnoremap <silent> <expr> <M-j> ":\<C-u>silent! '<,'>move '>+".(v:count1)."\<CR>gv=gv"
+" xnoremap <silent> <expr> <M-k> ":\<C-u>silent! '<,'>move '<-".(v:count1+1)."\<CR>gv=gv"
 " [undo redo]
 nnoremap U <Nop>
 inoremap <C-_> <C-o>u

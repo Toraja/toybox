@@ -361,14 +361,14 @@ return require('packer').startup(function(use)
           hint_offset = 1, -- XXX this stops 1 char before the specified char
         })
       end
-      vim.keymap.set({'n','v','o'}, 'f', "<Cmd>HopChar1CurrentLineAC<CR>")
-      vim.keymap.set({'n','v','o'}, 'F', "<Cmd>HopChar1CurrentLineBC<CR>")
-      vim.keymap.set({'n','v','o'}, 'sw', "<Cmd>HopWordAC<CR>")
-      vim.keymap.set({'n','v','o'}, 'sb', "<Cmd>HopWordBC<CR>")
-      vim.keymap.set({'n','v','o'}, 'sj', "<Cmd>HopLineAC<CR>")
-      vim.keymap.set({'n','v','o'}, 'sk', "<Cmd>HopLineBC<CR>")
-      vim.keymap.set({'n','v','o'}, 's/', "<Cmd>HopPatternAC<CR>")
-      vim.keymap.set({'n','v','o'}, 's?', "<Cmd>HopPatternBC<CR>")
+      vim.keymap.set({'n','x','o'}, 'f', "<Cmd>HopChar1CurrentLineAC<CR>")
+      vim.keymap.set({'n','x','o'}, 'F', "<Cmd>HopChar1CurrentLineBC<CR>")
+      vim.keymap.set({'n','x','o'}, 'sw', "<Cmd>HopWordAC<CR>")
+      vim.keymap.set({'n','x','o'}, 'sb', "<Cmd>HopWordBC<CR>")
+      vim.keymap.set({'n','x','o'}, 'sj', "<Cmd>HopLineAC<CR>")
+      vim.keymap.set({'n','x','o'}, 'sk', "<Cmd>HopLineBC<CR>")
+      vim.keymap.set({'n','x','o'}, 's/', "<Cmd>HopPatternAC<CR>")
+      vim.keymap.set({'n','x','o'}, 's?', "<Cmd>HopPatternBC<CR>")
       vim.keymap.set('o', 't', hop_forward_to)
       vim.keymap.set('o', 'T', hop_backward_to)
 
@@ -387,19 +387,19 @@ return require('packer').startup(function(use)
   use {
     'jeetsukumaran/vim-indentwise',
     config = function()
-      vim.keymap.set ({'n','v','o'}, '{', '<Plug>(IndentWisePreviousEqualIndent)', { desc = 'Previous equal indent' })
-      vim.keymap.set ({'n','v','o'}, '}', '<Plug>(IndentWiseNextEqualIndent)', { desc = 'Next equal indent' })
+      vim.keymap.set ({'n','x','o'}, '{', '<Plug>(IndentWisePreviousEqualIndent)', { desc = 'Previous equal indent' })
+      vim.keymap.set ({'n','x','o'}, '}', '<Plug>(IndentWiseNextEqualIndent)', { desc = 'Next equal indent' })
     end
   }
   use {
     'bkad/CamelCaseMotion',
     config = function()
-      vim.keymap.set({'n','v','o'}, '<M-w>', '<Plug>CamelCaseMotion_w', { silent = true })
-      vim.keymap.set({'n','v','o'}, '<M-b>', '<Plug>CamelCaseMotion_b', { silent = true })
+      vim.keymap.set({'n','x','o'}, '<M-w>', '<Plug>CamelCaseMotion_w', { silent = true })
+      vim.keymap.set({'n','x','o'}, '<M-b>', '<Plug>CamelCaseMotion_b', { silent = true })
       vim.keymap.set('o', 'im', '<Plug>CamelCaseMotion_ie', { silent = true, desc = 'Inner camel' })
-      vim.keymap.set('v', 'im', '<Plug>CamelCaseMotion_ie', { silent = true, desc = 'Inner camel' })
+      vim.keymap.set('x', 'im', '<Plug>CamelCaseMotion_ie', { silent = true, desc = 'Inner camel' })
       vim.keymap.set('o', 'am', '<Plug>CamelCaseMotion_iw', { silent = true, desc = 'A camel' })
-      vim.keymap.set('v', 'am', '<Plug>CamelCaseMotion_iw', { silent = true, desc = 'A camel' })
+      vim.keymap.set('x', 'am', '<Plug>CamelCaseMotion_iw', { silent = true, desc = 'A camel' })
     end
   }
 
@@ -408,10 +408,10 @@ return require('packer').startup(function(use)
     'bfredl/nvim-miniyank',
     config = function()
       vim.g.miniyank_maxitems = 20
-      vim.keymap.set({'n','v','o'}, 'p'    , '<Plug>(miniyank-autoput)'  )
-      vim.keymap.set({'n','v','o'}, 'P'    , '<Plug>(miniyank-autoPut)'  )
-      vim.keymap.set({'n','v','o'}, '<M-p>', '<Plug>(miniyank-cycle)'    )
-      vim.keymap.set({'n','v','o'}, '<M-P>', '<Plug>(miniyank-cycleback)')
+      vim.keymap.set({'n','x','o'}, 'p'    , '<Plug>(miniyank-autoput)'  )
+      vim.keymap.set({'n','x','o'}, 'P'    , '<Plug>(miniyank-autoPut)'  )
+      vim.keymap.set({'n','x','o'}, '<M-p>', '<Plug>(miniyank-cycle)'    )
+      vim.keymap.set({'n','x','o'}, '<M-P>', '<Plug>(miniyank-cycleback)')
     end,
   }
   use 'editorconfig/editorconfig-vim'
@@ -444,7 +444,7 @@ return require('packer').startup(function(use)
     config = function()
       vim.g.NERDSpaceDelims = 1 -- Add spaces after comment delimiters
       vim.g.NERDDefaultAlign = 'left'
-      vim.keymap.set({'n','v', 'i'}, '<C-\\>', '<Plug>NERDCommenterToggle')
+      vim.keymap.set({'n','x', 'i'}, '<C-\\>', '<Plug>NERDCommenterToggle')
     end
   }
   use 'arthurxavierx/vim-caser'

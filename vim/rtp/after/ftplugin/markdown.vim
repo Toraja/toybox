@@ -12,8 +12,8 @@ nnoremap <buffer> <silent> <Leader>o :call Tocker(0)<CR>
 nnoremap <buffer> <silent> <Leader>O :call Tocker(1)<CR>
 nnoremap <buffer> <silent> <LocalLeader>- <Cmd>HeaderDecrease<CR>
 nnoremap <buffer> <silent> <LocalLeader>= <Cmd>HeaderIncrease<CR>
-vnoremap <buffer> <silent> <LocalLeader>- :HeaderDecrease<CR>
-vnoremap <buffer> <silent> <LocalLeader>= :HeaderIncrease<CR>
+xnoremap <buffer> <silent> <LocalLeader>- :HeaderDecrease<CR>
+xnoremap <buffer> <silent> <LocalLeader>= :HeaderIncrease<CR>
 
 function! Tocker(focus)
 	if get(b:, 'toc_win_id')
@@ -48,7 +48,7 @@ endfunction
 
 inoremap <buffer> <silent> <M-;> <Cmd>call ToggleLineBreakMD()<CR>
 nnoremap <buffer> <silent> <M-;> <Cmd>call ToggleLineBreakMD()<CR>
-vnoremap <buffer> <silent> <M-;> :call ToggleLineBreakMD()<CR>
+xnoremap <buffer> <silent> <M-;> :call ToggleLineBreakMD()<CR>
 
 " TODO implement toggle list, task etc
 
