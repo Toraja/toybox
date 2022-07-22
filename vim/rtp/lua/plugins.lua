@@ -194,7 +194,7 @@ return require('packer').startup(function(use)
       wk.register({
         e = {
           name = "Ranger",
-          t = { "<Cmd>tab split | Ranger<CR>", "Ranger [tab]" },
+          t = { "<Cmd>RangerCurrentFileNewTab<CR>", "Ranger [tab]" },
           v = { "<Cmd>call OpenRangerIn('%:p:h', 'vnew ')<CR>", "Ranger [vert]" },
           w = { "<Cmd>call OpenRangerIn('%:p:h', 'new ')<CR>", "Ranger [horz]" },
         },
