@@ -1,6 +1,18 @@
 lu = require('luaunit')
 array = require('array')
 
+function test_insert_uniq_inserts_when_element_does_not_exist()
+    local x = array.new({'a', 'c'})
+    x:insert_uniq('e')
+    lu.assertEquals(x, {'a', 'c', 'e'})
+end
+
+function test_insert_uniq_does_not_insert_when_element_exists()
+    local x = array.new({'a', 'c'})
+    x:insert_uniq('a')
+    lu.assertEquals(x, {'a', 'c'})
+end
+
 function test_append_to_empty_self()
     local x = array.new()
     x:append({3, 4, 5})

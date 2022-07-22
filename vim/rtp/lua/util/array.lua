@@ -6,7 +6,14 @@ local function new(o)
 	})
 end
 
---- Append another array.
+--- Insert element to Array only if the Array does not contain the element.
+-- @param elm element to insert
+function Array:insert_uniq(elm)
+  if not self:contains(elm) then
+    table.insert(self, elm)
+  end
+end
+
 --- Append another Array.
 -- @param another (Array) array to append
 function Array:append(another)
