@@ -13,3 +13,6 @@ build = {
       array = "array.lua"
    }
 }
+dependencies = {
+  "luaunit"
+}
