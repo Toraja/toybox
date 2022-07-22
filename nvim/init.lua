@@ -79,6 +79,8 @@ wk.register({
   },
 })
 
+vim.keymap.set('i', '<C-g><C-q>', '<C-o>gql<End>')
+
 function delete_hidden_buffers()
   local visible_buffers = array.new()
   for i = 1, vim.fn.tabpagenr('$') do
