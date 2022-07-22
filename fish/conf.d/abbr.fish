@@ -24,7 +24,7 @@ abbr --add --global ta tmux attach
 ## git
 abbr --add --global gb git branch
 abbr --add --global gbo git branch -vv \| grep gone
-abbr --add --global gbod git branch -vv \| grep gone \| awk '\'{print $1}\'' \| xargs git branch -d
+abbr --add --global gbod git branch -vv \| grep gone \| awk '\'{print $1}\'' \| xargs -r git branch -d
 abbr --add --global gf git fetch
 abbr --add --global gfp git fetch --prune --prune-tags
 abbr --add --global gs git status
