@@ -1037,13 +1037,6 @@ function! Input(empty_means_cancel, ...)
   endtry
 endfunction
 
-" add elements only if the specified list does not contain the same value
-function! AddUniq(list, elm)
-  if index(a:list, a:elm) == -1
-    call add(a:list, a:elm)
-  endif
-endfunction
-
 function! IsCtrlAlpha(char)
   let l:char_num = char2nr(a:char)
   return char2nr("\<C-a>") <= l:char_num && l:char_num <= char2nr("\<C-z>")
@@ -1140,45 +1133,9 @@ function! SelectElement()
   call SelectBtwCols(l:sln, l:spos, l:eln, l:epos)
 endf
 
-function! SetTitle(title)
-  let l:escapedTitle = escape(a:title, ' \')
-  execute 'set titlestring=' . l:escapedTitle
-  set title
-endfunction
-command! -nargs=1 SetTitle :call SetTitle(<q-args>)
-
-" get full path of all window of all tab, then save them into @* or @"
-" depending on the availability of 'clipboard' option
-function! ClipAllWinTabPaths()
-  let l:lasttabnr = tabpagenr()
-
-  if has('clipboard')
-    let l:register = '*'
-  else
-    let l:register = '"'
-  endif
-
-  let l:patharr = []
-  tabdo windo call AddUniq(l:patharr, expand('%:p'))
-  call setreg(l:register, join(l:patharr, "\n"))
-
-  execute "tabnext " . l:lasttabnr
-
-  if !has('clipboard')
-    $ tabnew
-    put
-    global/^$/delete
-  endif
-endfunction
-command! ClipAllWinTabPaths :call ClipAllWinTabPaths()
-
 " Open files on each line one file in one tab
 function! OpenFileOnEachLine() range
-  " silent global/^$/delete
-  " let l:linecnt = 1
   let l:cmd = ""
-  " let l:totallinenum = line("$")
-  " call cursor(1, 1)
   for l:linenum in range(a:firstline, a:lastline)
     call cursor(l:linenum, 1)
     let l:path = expand("<cfile>")
@@ -1187,11 +1144,6 @@ function! OpenFileOnEachLine() range
     endif
     let l:cmd .= "tabnew ".l:path." \<Bar> "
   endfor
-  " while l:linecnt <= l:totallinenum
-  "     call cursor(l:linecnt, 1)
-  "     let l:cmd = l:cmd . "tabnew " . expand("<cfile>") . " \<Bar> "
-  "     let l:linecnt = l:linecnt + 1
-  " endwhile
   execute l:cmd
 endfunction
 command! -range=% OpenFileOnEachLine <line1>,<line2>call OpenFileOnEachLine()
@@ -1427,6 +1379,7 @@ function! SortItemsByNestedValue(key, one, two)
   return a:one[1][a:key] > a:two[1][a:key] ? 1 : -1
 endfunction
 
+" Open diff of 2 files
 function! s:diff(...)
   if a:0 != 2
     echoerr 'Diff takes exactly 2 arguments'
@@ -1449,11 +1402,6 @@ function! s:diff(...)
   execute 'diffsplit '.l:fullpath2
 endfunction
 command! -complete=file -nargs=+ Diff :call s:diff(<f-args>)
-
-function! IsRegMultiline(reg)
-  let l:reg_content = getreg(a:reg)
-  return match(l:reg_content, '\r\|\n') >= 0
-endfunction
 
 " Capture the result of find & grep in quickfix window
 function! CaptureFindGrep(cmd) abort
