@@ -98,6 +98,28 @@ function delete_hidden_buffers()
 end
 vim.api.nvim_create_user_command('DeleteHiddenBuffers', delete_hidden_buffers, {})
 
+function qf_files_open()
+  local qflist = array.new(vim.fn.getqflist())
+  if #qflist == 0 then
+    print('qflist is empty')
+    return
+  end
+
+  local current_tab_number = vim.fn.tabpagenr()
+
+  qflist:for_each(function(qf)
+    local filepath = qf['text']
+    if vim.fn.filereadable(filepath) == 1 then
+      vim.cmd('tabnew ' .. filepath)
+    else
+      print(string.format('%s not found', filepath))
+    end
+  end)
+
+  vim.cmd('tabnext ' .. current_tab_number)
+end
+vim.api.nvim_create_user_command('QfFilesOpen', qf_files_open, {})
+
 function plugin_reload()
   package.loaded['plugins'] = nil
   require('plugins')
