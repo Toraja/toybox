@@ -642,15 +642,27 @@ return require('packer').startup(function(use)
               cmp.complete()
             end
           end, { 'i', 'c' }),
-          ['<C-M-i>'] = cmp.mapping(function(fallback)
-            if cmp.visible() then
-              cmp.select_prev_item()
-            else
-              fallback()
-            end
-          end, { 'i', 'c' }),
-          ['<C-n>'] = cmp.mapping(cmp_visible_or_fallback(cmp.select_next_item), { 'i', 'c' }),
-          ['<C-p>'] = cmp.mapping(cmp_visible_or_fallback(cmp.select_prev_item), { 'i', 'c' }),
+          ['<M-Tab>'] = cmp.mapping(cmp_visible_or_fallback(cmp.select_prev_item), { 'i', 'c' }),
+          ['<C-n>'] = cmp.mapping({
+              i = cmp_visible_or_fallback(cmp.select_next_item),
+              c = function(fallback)
+                if cmp.visible() and cmp.get_active_entry() ~= nil then
+                  cmp.select_next_item()
+                else
+                  fallback()
+                end
+              end,
+          }),
+          ['<C-p>'] = cmp.mapping({
+            i = cmp_visible_or_fallback(cmp.select_prev_item),
+            c = function(fallback)
+              if cmp.visible() and cmp.get_active_entry() ~= nil then
+                cmp.select_prev_item()
+              else
+                fallback()
+              end
+            end,
+          }),
           ['<C-l>'] = cmp.mapping(function(fallback)
             if cmp.visible() then
               cmp.select_next_item()
