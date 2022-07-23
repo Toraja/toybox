@@ -769,6 +769,28 @@ return require('packer').startup(function(use)
           ["<C-p>"] = { function() trouble.previous({skip_groups = true, jump = true}) end, "Trouble previous" },
         },
       })
+      -- Attempt to replace quickfix window with Trouble.
+      -- This ends up an error like `Not allowed to edit another buffer now`.
+      -- local function replace_qflist_with_trouble()
+      --   if vim.o.buftype ~= 'quickfix' then
+      --     return
+      --   end
+      --   local is_loclist = vim.fn.getwininfo(vim.fn.win_getid())[1]['loclist'] == 1
+      --   if is_loclist then
+      --     lclose
+      --     vim.cmd('Trouble loclist')
+      --   else
+      --     cclose
+      --     vim.cmd('Trouble quickfix')
+      --   end
+      -- end
+      -- vim.api.nvim_create_user_command('TroubleHijackQfWin', replace_qflist_with_trouble, {})
+      -- vim.cmd([[
+      --   augroup trouble_hijack_qf_win
+      --     autocmd!
+      --     autocmd BufWinEnter * TroubleHijackQfWin
+      --   augroup END
+      -- ]])
     end
   }
   use {
