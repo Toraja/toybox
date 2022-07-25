@@ -14,16 +14,16 @@ OPTIONS:
         return 1
     end
 
-    set query $argv[1]
+    set query "$argv[1]"
     set path $argv[2]
     set rg_cmd 'rg --column --line-number --no-heading --color=always --smart-case --glob !.git'
     test -n "$_flag_hidden"; and set rg_cmd "$rg_cmd --hidden"
-    set rg_cmd "$rg_cmd -- $query $path"
+    set rg_cmd "$rg_cmd -- '$query' $path"
     set fzf_cmd "fzf --ansi --delimiter : --preview 'bat --style=full --color=always --highlight-line {2} {1}' --preview-window '~3,+{2}+3/2'"
 
     test -z "$_flag_open"; and begin
         # XXX want to colour the output but grep colours filenames as well ...
-        eval "$rg_cmd | $fzf_cmd | grep $query"
+        eval "$rg_cmd | $fzf_cmd | grep '$query'"
         return
     end
 
