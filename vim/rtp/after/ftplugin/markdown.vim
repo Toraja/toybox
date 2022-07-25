@@ -41,29 +41,12 @@ function! Tocker(focus)
 endfunction
 " --- end of vim-markdown ---}}}
 
-" {{{ || vim-table-mode || ---
-" This does not seem to work properly
-" silent TableModeEnable
-" --- || vim-table-mode || }}}
-
 inoremap <buffer> <silent> <M-;> <Cmd>call ToggleLineBreakMD()<CR>
 nnoremap <buffer> <silent> <M-;> <Cmd>call ToggleLineBreakMD()<CR>
 xnoremap <buffer> <silent> <M-;> :call ToggleLineBreakMD()<CR>
 
-" TODO implement toggle list, task etc
-
 inoreabbrev <buffer> TODO <mark>TODO</mark> <span style="color: green"></span>  <Esc>F<i
 inoreabbrev <buffer> todo <mark>TODO</mark> <span style="color: green"></span>  <Esc>F<i
-inoreabbrev <buffer> color <span style="color: "></span>  <Esc>F<i
-inoreabbrev <buffer> unchk &#9744;
-inoreabbrev <buffer> chk &#9745;
-inoreabbrev <buffer> mdchk &#9635;
-inoreabbrev <buffer> space &#8192;
-inoreabbrev <buffer> indent <span style="margin-left: 1em"></span>
-" inoreabbrev <buffer> uncheck <input type="checkbox" />
-" inoreabbrev <buffer> check <input type="checkbox" checked />
-
-" *** refer to this for Unicode character: https://unicode-table.com/en/
 
 " Add or remove linebreak for selected lines.
 " Whether add or remove is determined by whether the first line has linebreak or not.
