@@ -956,6 +956,39 @@ let g:vimwiki_key_mappings = {
 " let g:vimwiki_folding = 'list'
 " --- || vimwiki || }}}
 
+" {{{ || markdown-preview || ---
+" let $NVIM_MKDP_LOG_FILE = expand('~/tmp/mkdp.log') " default location is <plugin root>/app/mkdp.log
+" let $NVIM_MKDP_LOG_LEVEL = 'debug'
+let g:mkdp_auto_close = 0
+let g:mkdp_echo_preview_url = 1
+let g:mkdp_page_title = '${name}'
+if executable('firefox')
+	let g:mkdp_browser='firefox'
+endif
+let g:mkdp_filetypes = ['markdown', 'plantuml']
+
+function! s:MarkdownPreviewPublish()
+	let g:mkdp_open_to_the_world = 1
+endfunction
+command! MarkdownPreviewPublish call s:MarkdownPreviewPublish()
+
+function! s:MarkdownPreviewUnpublish()
+	let g:mkdp_open_to_the_world = 0
+endfunction
+command! MarkdownPreviewUnpublish call s:MarkdownPreviewUnpublish()
+
+function! s:MarkdownPreviewSetPort(port)
+	let g:mkdp_port = a:port
+endfunction
+command! -nargs=1 MarkdownPreviewSetPort call s:MarkdownPreviewSetPort(<q-args>)
+
+function! s:MarkdownPreviewPublishWithPort(port)
+	let g:mkdp_port = a:port
+	let g:mkdp_open_to_the_world = 1
+endfunction
+command! -nargs=1 MarkdownPreviewPublishWithPort call s:MarkdownPreviewPublishWithPort(<q-args>)
+" --- || markdown-preview || }}}
+
 " --- || plugin mapping and option || }}}
 
 " {{{ || abbreviation || ---
