@@ -90,7 +90,8 @@ set --local fzf_bind_opts "ctrl-space:toggle" \
     "ctrl-i:down" \
     "ctrl-j:toggle-out" \
     "ctrl-alt-j:toggle-in" \
-    "ctrl-o:top" \
+    "ctrl-o:first" \
+    "alt-o:last" \
     "ctrl-s:jump" \
     "ctrl-/:toggle-preview" \
     "alt-j:preview-half-page-down" \
