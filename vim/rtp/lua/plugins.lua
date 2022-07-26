@@ -269,7 +269,7 @@ return require('packer').startup(function(use)
       local action_set = require('telescope.actions.set')
       local action_layout = require('telescope.actions.layout')
       local trouble = require("trouble.providers.telescope")
-      telescope.setup{
+      telescope.setup({
         defaults = {
           vimgrep_arguments = {
             "rg",
@@ -283,8 +283,14 @@ return require('packer').startup(function(use)
             "--glob", "!.git",
           },
           sorting_strategy = 'ascending',
-          layout_config={
+          -- wrap_results = true,
+          path_display = { truncate = 1 },
+          layout_config = {
             prompt_position = "top",
+            horizontal = {
+              width = 0.92,
+              preview_width = 0.60,
+            },
           },
           mappings = {
             n = {
@@ -308,10 +314,15 @@ return require('packer').startup(function(use)
                 action.toggle_selection(bufnr)
                 action.move_selection_better(bufnr)
               end,
+              ["<M-<>"] = action.move_to_top,
+              ["<M->>"] = action.move_to_bottom,
               ["<C-d>"] = { "<DEL>", type = "command" },
               ["<C-u>"] = { "<C-u>", type = "command" },
               ["<M-j>"] = function(bufnr) action_set.scroll_previewer(bufnr, 0.5) end,
               ["<M-k>"] = function(bufnr) action_set.scroll_previewer(bufnr, -0.5) end,
+              ["<C-M-n>"] = action.cycle_history_next,
+              ["<C-M-p>"] = action.cycle_history_prev,
+              ["<M-?>"] = action.which_key,
             },
           },
         },
@@ -330,7 +341,7 @@ return require('packer').startup(function(use)
           -- }
           -- please take a look at the readme of the extension you want to configure
         },
-      }
+      })
       telescope.load_extension('fzf')
       telescope.load_extension('ghq')
       telescope.load_extension("packer")
