@@ -774,10 +774,16 @@ return require('packer').startup(function(use)
           ["<C-r>"] = { "<Cmd>TroubleRefresh<CR>", "Trouble refresh" },
           ["<C-e>"] = { function() trouble.open("document_diagnostics", "auto=true") end, "Troube document diagnostics" },
           ["<C-w>"] = { function() trouble.open("workspace_diagnostics", "auto=true") end, "Trouble workspace diagnostics" },
-          ["<C-f>"] = { function() trouble.open("quickfix", "auto=true") end, "Trouble quickfix" },
-          ["<C-l>"] = { function() trouble.open("loclist", "auto=true") end, "Trouble loclist" },
+          ["<C-f>"] = { function() vim.cmd('cclose'); trouble.open("quickfix", "auto=true") end, "Trouble quickfix" },
+          ["<C-l>"] = { function() vim.cmd('lclose'); trouble.open("loclist", "auto=true") end, "Trouble loclist" },
           ["<C-n>"] = { function() trouble.next({skip_groups = true, jump = true}) end, "Trouble next" },
           ["<C-p>"] = { function() trouble.previous({skip_groups = true, jump = true}) end, "Trouble previous" },
+          ["<C-_>"] = { function() trouble.help() end, "Trouble keybind" },
+          q = {
+            name = "close",
+            c = { "<Cmd>cclose<CR>", "cclose" },
+            l = { "<Cmd>lclose<CR>", "lclose" },
+          },
         },
       })
       -- Attempt to replace quickfix window with Trouble.
