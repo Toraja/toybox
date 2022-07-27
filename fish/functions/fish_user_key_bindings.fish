@@ -38,6 +38,7 @@ function fish_user_key_bindings
     bind \cx\cl __fish_list_current_token
     bind \cx\ca "commandline_append_cursor_end ' | xargs -r '"
     bind \cx\cf "commandline_append_cursor_end ' | fzf '"
+    bind \cx\ck 'commandline_append_cursor_end " | awk \'{print \$1}\' "'
     bind \cx\co "commandline --insert (git rev-parse --show-toplevel)/"
 
     # wrapper
