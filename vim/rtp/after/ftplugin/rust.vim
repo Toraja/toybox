@@ -2,9 +2,6 @@ inoremap <buffer> <silent> <M-;> <Cmd>call edit#base#ToggleTrailing(';')<CR>
 nnoremap <buffer> <silent> <M-;> <Cmd>call edit#base#ToggleTrailing(';')<CR>
 xnoremap <buffer> <silent> <M-;> :call edit#base#ToggleTrailing(';')<CR>
 
-" This is useful for parameter signature added by autocompletion
-inoremap <buffer> <silent> <C-q> <Left><C-o>cib
-
 function! s:InitRustCmds()
 	let l:rust_test_args = runcmds#init#MakeCmdArgsList([['--'], ['--show-output']])
 	let l:override_cmds = {
