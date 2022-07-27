@@ -39,7 +39,11 @@ return require('packer').startup(function(use)
           -- ["v"] = "Visual Character Mode",
           gc = "Comments"
         },
-      window = {
+        popup_mappings = {
+          scroll_down = '<PageDown>', -- binding to scroll down inside the popup
+          scroll_up = '<PageUp>', -- binding to scroll up inside the popup
+        },
+        window = {
           border = "rounded", -- none, single, double, shadow
           position = "bottom", -- bottom, top
           margin = { 0, 0, 0, 0 }, -- extra window margin [top, right, bottom, left]
