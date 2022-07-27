@@ -24,15 +24,20 @@ function fish_user_key_bindings
     bind \e\cp history-token-search-backward
     bind \e\cn history-token-search-forward
 
+    function commandline_append_cursor_end
+        fish_commandline_append $argv[1]
+        commandline --function end-of-line
+    end
+
     # misc
     bind \cg suppress-autosuggestion
     bind \e\? __fish_man_page
     bind \e\ci complete-and-search
     bind \cx\cp __fish_paginate
-    bind \cx\ch "commandline --append -- ' --help'; __fish_paginate"
+    bind \cx\ch "fish_commandline_append ' --help'; __fish_paginate"
     bind \cx\cl __fish_list_current_token
-    bind \cx\ca "commandline -a \" | xargs \"; commandline -f end-of-line"
-    bind \cx\cf "commandline -a \" | fzf \"; commandline -f end-of-line"
+    bind \cx\ca "commandline_append_cursor_end ' | xargs -r '"
+    bind \cx\cf "commandline_append_cursor_end ' | fzf '"
     bind \cx\co "commandline --insert (git rev-parse --show-toplevel)/"
 
     # wrapper
@@ -53,7 +58,7 @@ function fish_user_key_bindings
     end
 
     if set --query clipper
-        bind \cq 'commandline -a \' | $clipper\''
+        bind \cq 'fish_commandline_append \' | $clipper\''
         bind \eq 'wrap_in_echo_single \'$clipper\''
         bind \e\cq 'wrap_in_echo_double \'$clipper\''
     end
