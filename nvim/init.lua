@@ -80,6 +80,11 @@ wk.register({
 })
 
 vim.keymap.set('i', '<C-g><C-q>', '<C-o>gql<End>')
+vim.keymap.set('!', '<C-q><C-b>', "expand('%:t')", { desc = "Buffer's basename", expr = true })
+vim.keymap.set('!', '<C-q><C-s>', "expand('%:t:r')", { desc = "Buffer's simple name", expr = true })
+vim.keymap.set('!', '<C-q><C-d>', "expand('%:p:h')", { desc = "Buffer's directory", expr = true })
+vim.keymap.set('!', '<C-q><C-f>', "expand('%:p')", { desc = "Buffer's absolute path", expr = true })
+vim.keymap.set('!', '<C-q><C-p>', "getcwd()", { desc = "cwd", expr = true })
 
 function delete_hidden_buffers()
   local visible_buffers = array.new()

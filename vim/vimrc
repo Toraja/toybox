@@ -492,7 +492,6 @@ snoremap <C-h> <BS>i
 noremap! <C-Space> <Space><Left>
 inoremap <C-w> <C-g>u<C-w>
 inoremap <C-u> <C-g>u<C-u>
-cnoremap <expr> <C-q> Expander()
 inoremap <expr> <C-y> pumvisible() ? "\<C-y>" : "<C-g>u\<C-r>\""
 cnoremap <expr> <C-y> wildmenumode() ? "\<C-y>" : "\<C-r>\""
 cnoremap <expr> <Tab> wildmenumode() ? "\<C-n>" : "\<Tab>"
@@ -547,7 +546,6 @@ inoremap . .<C-g>u
 
 " {{{ || register || ---
 " used registers
-" r: RedirCmdOutputToReg
 " keymap for "z, "Z is defined in leader section
 " nnoremap <Leader><Space> <Cmd>call register#base#CopyRegisterToAnother('"', 'z')<CR>
 if has('xterm_clipboard')
@@ -1098,31 +1096,6 @@ function! ConvertCtrlCharToNormal(char, case)
   endif
 
   return nr2char(l:char_num + l:delta)
-endfunction
-
-function! Expander()
-  echohl Identifier
-  echo 'Ctrl+: [b]asename, [s]implename, [d]irname, [f]ullname, [p]wd'
-  echohl NONE
-  let l:char = nr2char(getchar())
-  if l:char ==? "b" || l:char ==? "\<C-b>"
-    let l:cmd = "\<C-r>=expand('%:t')\<CR>"
-  elseif l:char ==? "s" || l:char ==? "\<C-s>"
-    let l:cmd = "\<C-r>=expand('%:t:r')\<CR>"
-  elseif l:char ==? "d" || l:char ==? "\<C-d>"
-    let l:cmd = "\<C-r>=expand('%:p:h')\<CR>"
-  elseif l:char ==? "f" || l:char ==? "\<C-f>"
-    let l:cmd = "\<C-r>=expand('%:p')\<CR>"
-  elseif l:char ==? "p" || l:char ==? "\<C-p>"
-    let l:cmd = "\<C-r>=getcwd()\<CR>"
-  else
-    echohl WarningMsg | echo 'Not an available option: '.l:char | echohl NONE
-    sleep 1
-    " return space and backspace to clean up the msg in command line
-    let l:cmd = "\<Space>\<BS>"
-  endif
-
-  return l:cmd
 endfunction
 
 function! SelectBtwCols(sln, spos, eln, epos)
