@@ -874,7 +874,7 @@ nnoremap <expr> [Chief]t runcmds#base#RunCmds("NvimTree", <SID>NvimTreeCmds(), <
 function! s:InitFzfCmds()
   let l:fzf_cmds = {
         \ 'f': runcmds#init#MakeCmdInfo('Telescope find_files search_dirs=.'),
-        \ 'r': runcmds#init#MakeCmdInfo('Telescope live_grep search_dirs=. layout_config={preview_width=0.5}'),
+        \ 'r': runcmds#init#MakeCmdInfo('Telescope live_grep layout_config={preview_width=0.5} search_dirs=.'),
         \ 'b': runcmds#init#MakeCmdInfo('Telescope buffers'),
         \ 'o': runcmds#init#MakeCmdInfo('Telescope oldfiles layout_config={preview_width=0.5}'),
         \ 'l': runcmds#init#MakeCmdInfo('Telescope current_buffer_fuzzy_find'),
