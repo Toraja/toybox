@@ -1,5 +1,3 @@
-setlocal conceallevel=2
-
 highlight link VimwikiDelText Conceal
 highlight link VimwikiCode Constant
 
