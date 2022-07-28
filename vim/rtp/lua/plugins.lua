@@ -157,7 +157,7 @@ return require('packer').startup(function(use)
     requires = { 'kyazdani42/nvim-web-devicons', opt = true },
     config = function()
       require("nvim-tree").setup ({
-        hijack_netrw = false, -- let ranger hijack
+        hijack_netrw = true,
         respect_buf_cwd = true,
         update_cwd = true,
         update_focused_file = {
@@ -194,7 +194,7 @@ return require('packer').startup(function(use)
     cond = function() return vim.fn.executable('ranger') end,
     config = function()
       vim.g.ranger_map_keys = 0
-      vim.g.ranger_replace_netrw = 1
+      -- vim.g.ranger_replace_netrw = 1
       local wk = require("which-key")
       wk.register({
         e = {
