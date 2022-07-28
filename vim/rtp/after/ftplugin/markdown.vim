@@ -1,4 +1,3 @@
-setlocal textwidth=80
 setlocal tabstop=2 expandtab shiftwidth=2
 " XXX comments settings are overridden by vim-markdown...
 setlocal comments=b:-,b:*,b:+,n:>
