@@ -178,6 +178,11 @@ return require('packer').startup(function(use)
         renderer = {
           highlight_opened_files = "all",
         },
+        actions = {
+          open_file = {
+            quit_on_open = true,
+          },
+        },
       })
     end
   }
