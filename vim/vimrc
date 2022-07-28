@@ -938,7 +938,7 @@ let g:php_cs_fixer_enable_default_mapping = 0
 " --- || stephpy/vim-php-cs-fixer || }}}
 
 " {{{ || vimwiki || ---
-let g:vimwiki_conceallevel = 0
+let g:vimwiki_url_maxsave = 0
 let g:vimwiki_key_mappings = {
       \ 'all_maps': 0,
       \ 'global': 0,
