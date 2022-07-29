@@ -1,0 +1,11 @@
+# --- repository ---
+
+## download chart from repository
+### check if the repository for the chart has been added
+helm repo list
+###> if not added, add the repo (<repo name> is arbitrary)
+helm repo add <repo name> <repo url>
+###> else, update the local cache of repo info
+helm repo update <repo name>
+###>
+helm pull [--untar] <chart URL | repo/chartname>
