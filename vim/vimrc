@@ -89,11 +89,11 @@ set scrolloff=5 sidescrolloff=1     " offset between cursor and the edge of wind
 set sidescroll=1            " scroll minimal when cursor goes off the screen horizontally
 if has('gui')
   set title
-endif
-set titlestring=%{getcwd()}       " current directory
-set titlestring+=\ \|\ %F%a       " full path to the file and argument list info
-if !empty(v:servername)
-  set titlestring+=\ \|\ %{v:servername}  " server name such as 'VIM'
+  set titlestring=%{getcwd()}       " current directory
+  set titlestring+=\ \|\ %F%a       " full path to the file and argument list info
+  if !empty(v:servername)
+    set titlestring+=\ \|\ %{v:servername}  " server name such as 'VIM'
+  endif
 endif
 set laststatus=2            " always display status bar
 set showtabline=2           " always display tabline
