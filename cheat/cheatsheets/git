@@ -1,42 +1,42 @@
-# --- selective checkout with sparse-checkout ---
+# --- Selective checkout with sparse-checkout ---
 
-## setup
+# setup
 git init
 git remote add origin <URL>
 git config core.sparseCheckout true
 git sparse-checkout init
-### specify path to checkout
+## Specify path to checkout
 git sparse-checkout set [path...]
 git pull origin <branch to checkout>
 
-## list checked out stuff
+# List checked out stuff
 git sparse-checkout list
 
-## disable
+# Disable
 git sparse-checkout disable
 
-# --- view files ---
+# --- View files ---
 
-## view file content at the commit / in the branch
+# View file content at the commit / in the branch
 git show <commitish>:<path>
 
-# --- diff ---
+# --- Diff ---
 
-## list modified files for a commit
+# List modified files for a commit
 git diff-tree --no-commit-id --name-only -r <commit>
 
-# --- remote repo ---
+# --- Remote repo ---
 
-## delete
+# Delete
 git push origin :<branch>
 
-# --- tag ---
+# --- Tag ---
 
-## git complains that it "would clobber existing tag"
+# git complains that it "would clobber existing tag"
 git fetch --tags -f
 
-## list
-### tags that matches the pattern
+# List
+## Tags that matches the pattern
 git tag [-l (pattern)]
-### tags and their hash (not the commit hash the tags are attached to)
+## Tags and their hash (not the commit hash the tags are attached to)
 git show-ref --tags
