@@ -84,7 +84,7 @@ if !&diff && (has('gui') || has('unix') || has('nvim'))
   set cursorline            " current line is underlined
 endif
 set nomodeline              " modeline brings security issue?
-set nowrap                " line does not wrap
+set wrap                    " whether to wrap long lines
 set scrolloff=5 sidescrolloff=1     " offset between cursor and the edge of window"
 set sidescroll=1            " scroll minimal when cursor goes off the screen horizontally
 if has('gui')
