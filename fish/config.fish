@@ -48,9 +48,10 @@ add_path --prepend ~/.composer/vendor/bin ~/.config/composer/vendor/bin # versio
 add_path --prepend /usr/local/go/bin $GOPATH/bin # some tools in GOPATH needs to be run
 
 # asdf
-# this has to be before other plugins installed via asdf or `type <plugin>` will fail
-test -f ~/.asdf/asdf.fish; and begin
-    source ~/.asdf/asdf.fish
+# asdf.fish must be sources for `type <asdf installed tools>` to work.
+set --query ASDF_DIR; or set ASDF_DIR ~/.asdf
+test -f $ASDF_DIR/asdf.fish; and begin
+    source $ASDF_DIR/asdf.fish
     asdf exec direnv hook fish | source
     function direnv
         asdf exec direnv $argv
