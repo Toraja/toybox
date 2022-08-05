@@ -24,6 +24,8 @@ if filereadable(s:vim_plug_file)
   Plug 'ctrlpvim/ctrlp.vim' " required by vim-go GoDecls
   let g:ctrlp_map = '<F13>' " assign another key to prevent from <C-p> to be overridden
   Plug 'fatih/vim-go', { 'tag': '*' } " Do not run `GoUpdateBinaries` post-hook as it takes a long time
+  let g:gotests_template = '' " gotests-vim requires this variable to be set. PR to fix has been submitted but not yet merged.
+  Plug 'buoto/gotests-vim'
   " <java>
   if executable('java')
     Plug 'artur-shaik/vim-javacomplete2' " complains if there is no java executable
