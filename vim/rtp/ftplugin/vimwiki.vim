@@ -7,15 +7,20 @@ nmap <buffer> <C-]> <Plug>VimwikiFollowLink
 nmap <buffer> <C-t><C-]> <Plug>VimwikiTabnewLink
 nmap <buffer> <C-w><C-]> <Plug>VimwikiVSplitLink
 
+let s:todo_line_ptn = '^\([ \t]*- \[.\+\]\) \(.*\)'
+let s:started_symbol = 'STARTED '
+let s:blocked_symbol = 'BLOCKED '
+
 function! s:InitWikiCmds()
 	let l:wiki_cmds = {
+				\ 'b': runcmds#init#MakeCmdInfo('ToDoToggleStatus '.s:blocked_symbol),
 				\ 'c': runcmds#init#MakeCmdInfo('ConcealToggle'),
 				\ 'd': runcmds#init#MakeCmdInfo('VimwikiToggleListItem'),
 				\ 'D': runcmds#init#MakeCmdInfo('VimwikiRemoveSingleCB'),
 				\ 'l': runcmds#init#MakeCmdInfo('VimwikiListToggleNoInsert'),
 				\ 'p': runcmds#init#MakeCmdInfo('ToDoAddPomodoro'),
 				\ 'r': runcmds#init#MakeCmdInfo('VimwikiIndex'),
-				\ 's': runcmds#init#MakeCmdInfo('ToDoToggleStarted'),
+				\ 's': runcmds#init#MakeCmdInfo('ToDoToggleStatus '.s:started_symbol),
 				\ }
 	function! s:WikiCmds() closure
 		return l:wiki_cmds
@@ -36,33 +41,30 @@ function! ConcealToggle() abort
 endfunction
 command! -buffer ConcealToggle call ConcealToggle()
 
-let s:todo_line_ptn = '^\([ \t]*- \[.\+\]\) \(.*\)'
-let s:started_symbol = 'STARTED '
-
-function! ToDoToggleStarted() abort
+function! ToDoToggleStatus(status) abort
 	let l:line = getline('.')
 	if !s:IsToDoLine(l:line)
 		return
 	endif
 
-	if s:HasToDoStarted(l:line)
-		call ToDoEnd(l:line)
+	if s:IsToDoStatus(l:line, a:status)
+		call ToDoRemoveStatus(l:line, a:status)
 	else
-		call ToDoStart(l:line)
+		call ToDoAddStatus(l:line, a:status)
 	endif
 endfunction
-command! -buffer ToDoToggleStarted call ToDoToggleStarted()
+command! -buffer -nargs=1 ToDoToggleStatus call ToDoToggleStatus(<f-args>)
 
-function! ToDoStart(line) abort
-	call setline('.', substitute(a:line, s:todo_line_ptn, '\1 ' . s:started_symbol . '\2', ''))
+function! ToDoAddStatus(line, status) abort
+	call setline('.', substitute(a:line, s:todo_line_ptn, '\1 ' . a:status . '\2', ''))
 endfunction
 
-function! ToDoEnd(line) abort
-	call setline('.', substitute(a:line, s:started_symbol, '', ''))
+function! ToDoRemoveStatus(line, status) abort
+	call setline('.', substitute(a:line, a:status, '', ''))
 endfunction
 
-function! s:HasToDoStarted(line) abort
-	return match(a:line, s:started_symbol) > 0
+function! s:IsToDoStatus(line, status) abort
+	return match(a:line, a:status) > 0
 endfunction
 
 function! s:IsToDoLine(line) abort
