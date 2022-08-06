@@ -100,7 +100,7 @@ endif
 set laststatus=2            " always display status bar
 set showtabline=2           " always display tabline
 set shortmess+=c
-set concealcursor=nv
+set concealcursor=n
 
 " {{{ || Compose tabline || ---
 function! MyTabLine()
