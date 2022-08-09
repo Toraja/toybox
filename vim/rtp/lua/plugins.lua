@@ -568,7 +568,7 @@ return require('packer').startup(function(use)
         return orig_util_open_floating_preview(contents, syntax, opts, ...)
       end
 
-      local servers = { 'gopls', 'rust_analyzer' }
+      local servers = { 'gopls', 'sumneko_lua', 'rust_analyzer'}
       for _, lsp in pairs(servers) do
         lspconfig[lsp].setup ({
           capabilities = capabilities,
@@ -588,6 +588,37 @@ return require('packer').startup(function(use)
         },
       })
       -- 'rust': ['rustup', 'run', !empty($RUST_VERSION) ? $RUST_VERSION : 'stable', 'rust-analyzer'],
+      lspconfig['sumneko_lua'].setup({
+        settings = {
+          Lua = {
+            runtime = {
+              -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
+              version = 'LuaJIT',
+            },
+            diagnostics = {
+              -- Get the language server to recognize the `vim` global
+              globals = {'vim'},
+            },
+            workspace = {
+              -- Make the server aware of Neovim runtime files
+              library = vim.api.nvim_get_runtime_file("", true),
+            },
+            -- Do not send telemetry data containing a randomized but unique identifier
+            telemetry = {
+              enable = false,
+            },
+            format = {
+              enable = true,
+              -- Put format options here
+              -- NOTE: the value should be STRING!!
+              defaultConfig = {
+                indent_style = "space",
+                indent_size = "2",
+              }
+            },
+          },
+        },
+      })
 
       vim.keymap.set('i', '<C-g><C-h>', '<Cmd>lua vim.lsp.buf.signature_help()<CR>', { desc = 'Signature help' })
       vim.keymap.set('n', '<C-]>',  '<Cmd>lua vim.lsp.buf.definition()<CR>', { desc = 'Definition' })
