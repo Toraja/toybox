@@ -379,7 +379,7 @@ return require('packer').startup(function(use)
         hop.hint_char1({
           direction = hop_hint.HintDirection.BEFORE_CURSOR,
           current_line_only = true,
-          hint_offset = 1, -- XXX this stops 1 char before the specified char
+          hint_offset = 1,
         })
       end
       vim.keymap.set({'n','x','o'}, 'f', "<Cmd>HopChar1CurrentLineAC<CR>")
