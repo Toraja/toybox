@@ -13,8 +13,6 @@ let s:vim_plug_file = s:plugin_dir . '/vim-plug/plug.vim'
 if filereadable(s:vim_plug_file)
   execute 'source ' . s:vim_plug_file
   call plug#begin(s:plugin_dir)
-  Plug 'neomake/neomake'
-
   " Language specific
   " <fish>
   Plug 'dag/vim-fish'
@@ -931,17 +929,6 @@ function! DefaultCmds()
   return copy(s:def_cmds)
 endfunction
 " --- || nvim-lspconfig || }}}
-
-" {{{ || neomake || ---
-if exists('g:plugs["neomake"]')
-  try
-    call neomake#configure#automake('w')
-  catch /^Vim\%((\a\+)\)\=:E117/
-    " The function does not exist. Ignore it.
-  endtry
-  let g:neomake_open_list = 2
-endif
-" --- || neomake || }}}
 
 " {{{ || stephpy/vim-php-cs-fixer || ---
 let g:php_cs_fixer_enable_default_mapping = 0

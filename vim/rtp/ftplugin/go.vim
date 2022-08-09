@@ -51,8 +51,3 @@ if exists('g:plugs["vim-test"]')
   endif
 endif
 " --- || vim-test || }}}
-
-" {{{ || neomake || ---
-" Disable and let vim-go do the work
-let g:neomake_go_enabled_makers = []
-" --- || neomake || }}}"

@@ -20,18 +20,6 @@ silent! nunmap <Leader>pcd
 " let g:PhpactorRootDirectoryStrategy = function('projectroot#guess')
 " --- || phpactor || }}}
 
-" {{{ || neomake || ---
-" refernce: https://github.com/Phantas0s/.dotfiles/blob/master/nvim/pluggedconf/neomake.nvimrc
-" let g:neomake_php_phpcs_args_standard = 'PSR2'
-let g:neomake_php_phpcs_args_standard = 'phpcs-laravel' " emielmolenaar/phpcs-laravel
-let g:neomake_php_phpstan_args = ['analyse', '--error-format', 'raw', '--no-progress']
-let s:phpmd_excludes = 'tests/Feature/,tests/Unit/,database/migrations/'
-let g:neomake_php_phpmd_maker = {
-            \ 'args': ['%:p', 'text', 'codesize,design,unusedcode,naming', '--exclude', s:phpmd_excludes],
-            \ 'errorformat': '%W%f:%l%\s%\s%#%m',
-            \ }
-" --- || neomake || }}}
-
 inoremap <buffer> <silent> <M-;> <Cmd>call edit#base#ToggleTrailing(';')<CR>
 nnoremap <buffer> <silent> <M-;> <Cmd>call edit#base#ToggleTrailing(';')<CR>
 xnoremap <buffer> <silent> <M-;> :call edit#base#ToggleTrailing(';')<CR>
@@ -45,7 +33,6 @@ function! s:InitPhpCmds()
   let l:cmds.f = runcmds#init#MakeCmdInfo('call PhpCsFixerFixFile()')
   let l:cmds.F = runcmds#init#MakeCmdInfo('PhpactorTransform')
   let l:cmds.i = runcmds#init#MakeCmdInfo('PhpactorImportMissingClasses')
-  let l:cmds.l = runcmds#init#MakeCmdInfo('NeomakeProject phpstan')
   let l:cmds.m = runcmds#init#MakeCmdInfo('PhpactorMoveFile')
   let l:cmds.M = runcmds#init#MakeCmdInfo('PhpactorContextMenu')
   let l:cmds.r = runcmds#init#MakeCmdInfo('Run')

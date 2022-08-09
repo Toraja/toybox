@@ -530,20 +530,6 @@ return require('packer').startup(function(use)
   use 'AndrewRadev/splitjoin.vim'
   use 'tpope/vim-repeat'
   use 'junegunn/vim-easy-align'
-  -- somehow neomake#configure#automake() is not found
-  -- use {
-  --   'neomake/neomake',
-  --   config = function()
-  --     vim.g.neomake_open_list = 2
-  --     vim.cmd([[
-  --       try
-  --         call neomake#configure#automake('w')
-  --       catch /^Vim\%((\a\+)\)\=:E117/
-  --         " The function does not exist. Ignore it.
-  --       endtry
-  --     ]])
-  --   end
-  -- }
   use {
     'neovim/nvim-lspconfig',
     config = function()
