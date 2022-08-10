@@ -27,6 +27,13 @@ git diff-tree --no-commit-id --name-only -r <commit>
 
 # --- Remote repo ---
 
+# Set upstream automatically
+## In .gitconfig, add:
+[push]
+	default = current
+## Without -u option, git pull complains that it does not know where to pull from.
+git push -u
+
 # Delete
 git push origin :<branch>
 
