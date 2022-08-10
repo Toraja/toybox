@@ -1,7 +1,7 @@
 -- Setting enforced by fish_indent
-vim.o.expandtab = true
-vim.o.tabstop = 4
-vim.o.shiftwidth = 4
+vim.bo.expandtab = true
+vim.bo.tabstop = 4
+vim.bo.shiftwidth = 4
 
 vim.cmd([[
   augroup fish_format
