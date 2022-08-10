@@ -1,8 +1,10 @@
+---@diagnostic disable:lowercase-global
+
 require('plugins')
 local array = require('util.array')
 local wk = require("which-key")
 
-array.new({'cfilter', 'termdebug'}):for_each(function(pack)
+array.new({ 'cfilter', 'termdebug' }):for_each(function(pack)
   vim.cmd('packadd ' .. pack)
 end)
 
@@ -48,8 +50,10 @@ wk.register({
     c = { "<Cmd>call QuickSubstitute(expand('<cword>'), {'range': '%', 'case': 1})<CR>", "case sensitive" },
     x = {
       name = "exclusive",
-    ["<Space>"] = { "<Cmd>call QuickSubstitute(expand('<cword>'), {'range': '%', 'exclusive': 1})<CR>", "case insensitive" },
-      c = { "<Cmd>call QuickSubstitute(expand('<cword>'), {'range': '%', 'exclusive': 1, 'case': 1})<CR>", "case sensitive" },
+      ["<Space>"] = { "<Cmd>call QuickSubstitute(expand('<cword>'), {'range': '%', 'exclusive': 1})<CR>",
+        "case insensitive" },
+      c = { "<Cmd>call QuickSubstitute(expand('<cword>'), {'range': '%', 'exclusive': 1, 'case': 1})<CR>",
+        "case sensitive" },
     },
     [":"] = { "<Cmd>call QuickSubstitute('', {'range': '%'})<CR>", "manual" },
     ["."] = { "<Cmd>call QuickSubstitute('', {})<CR>", "manual on current line" },
@@ -103,6 +107,7 @@ function delete_hidden_buffers()
     vim.cmd(string.format('silent bwipeout %s', bufnr))
   end)
 end
+
 vim.api.nvim_create_user_command('DeleteHiddenBuffers', delete_hidden_buffers, {})
 
 function qf_files_open()
@@ -125,12 +130,14 @@ function qf_files_open()
 
   vim.cmd('tabnext ' .. current_tab_number)
 end
+
 vim.api.nvim_create_user_command('QfFilesOpen', qf_files_open, {})
 
 function plugin_reload()
   package.loaded['plugins'] = nil
   require('plugins')
 end
+
 function plugin_recompile()
   vim.api.nvim_create_autocmd('User', {
     pattern = 'PackerCompileDone',
@@ -142,6 +149,7 @@ function plugin_recompile()
   plugin_reload()
   require('packer').compile()
 end
+
 function plugin_install_recompile()
   vim.api.nvim_create_autocmd('User', {
     pattern = 'PackerComplete',
@@ -153,10 +161,12 @@ function plugin_install_recompile()
   plugin_reload()
   require('packer').install()
 end
+
 function plugin_resync()
   plugin_reload()
   require('packer').sync()
 end
+
 wk.register({
   ['<F3>'] = {
     name = 'Source rc file',

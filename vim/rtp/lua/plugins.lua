@@ -1,6 +1,10 @@
-local install_path = vim.fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
+---@diagnostic disable:lowercase-global
+
+local install_path = vim.fn.stdpath('data') .. '/site/pack/packer/start/packer.nvim'
+local packer_bootstrap = nil
 if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
-  packer_bootstrap = vim.fn.system({'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path})
+  packer_bootstrap = vim.fn.system({ 'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim',
+    install_path })
   vim.cmd([[packadd packer.nvim]])
 end
 
@@ -9,7 +13,7 @@ return require('packer').startup(function(use)
     setup/config inside `requires` seems not working.
     Plugins which need configuraton but are only dependencies of another plugins
     must be marked as `-- dependency`
-  ]]--
+  ]]
   use 'wbthomason/packer.nvim'
   use {
     'folke/which-key.nvim',
@@ -73,10 +77,10 @@ return require('packer').startup(function(use)
         cnoreabbrev gp Git push
       ]])
       -- vim.g.fugitive_no_maps = 1 -- prevent <C-n/p> to be mapped
-      vim.keymap.set('n', '<Leader>vs' , "<Cmd>tab Git<CR>", { desc = "vim-fugitive" })
+      vim.keymap.set('n', '<Leader>vs', "<Cmd>tab Git<CR>", { desc = "vim-fugitive" })
       vim.keymap.set('n', '<Leader>vlt', "<Cmd>tab Git log<CR>", { desc = "git log [tab]" })
       vim.keymap.set('n', '<Leader>vlv', "<Cmd>vertical Git log<CR>", { desc = "git log [vert]" })
-      vim.keymap.set('n', '<Leader>vB' , "<Cmd>Git blame<CR>", { desc = "git blame entire file" })
+      vim.keymap.set('n', '<Leader>vB', "<Cmd>Git blame<CR>", { desc = "git blame entire file" })
     end
   }
   use {
@@ -97,29 +101,29 @@ return require('packer').startup(function(use)
             if vim.wo.diff then return ']c' end
             vim.schedule(function() gs.next_hunk() end)
             return '<Ignore>'
-          end, {expr=true})
+          end, { expr = true })
 
           map('n', '[c', function()
             if vim.wo.diff then return '[c' end
             vim.schedule(function() gs.prev_hunk() end)
             return '<Ignore>'
-          end, {expr=true})
+          end, { expr = true })
 
           -- Actions
-          map({'n','x'}, '<leader>vhs', ':Gitsigns stage_hunk<CR>')
-          map({'n','x'}, '<leader>vhr', ':Gitsigns reset_hunk<CR>')
+          map({ 'n', 'x' }, '<leader>vhs', ':Gitsigns stage_hunk<CR>')
+          map({ 'n', 'x' }, '<leader>vhr', ':Gitsigns reset_hunk<CR>')
           map('n', '<leader>vhu', gs.undo_stage_hunk)
           map('n', '<leader>vhS', gs.stage_buffer)
           map('n', '<leader>vhR', gs.reset_buffer)
           map('n', '<leader>vhp', gs.preview_hunk)
-          map('n', '<leader>vhb', function() gs.blame_line{full=true} end)
+          map('n', '<leader>vhb', function() gs.blame_line { full = true } end)
           map('n', '<leader>vtb', gs.toggle_current_line_blame)
           map('n', '<leader>vhd', gs.diffthis)
           map('n', '<leader>vhD', function() gs.diffthis('~') end)
           map('n', '<leader>vtd', gs.toggle_deleted)
 
           -- Text object
-          map({'o', 'x'}, 'ih', ':<C-U>Gitsigns select_hunk<CR>')
+          map({ 'o', 'x' }, 'ih', ':<C-U>Gitsigns select_hunk<CR>')
         end
       })
     end
@@ -142,6 +146,7 @@ return require('packer').startup(function(use)
         local filepath = vim.fn.expand('%')
         return cwd .. ' | ' .. filepath
       end
+
       require('lualine').setup({
         options = { theme = 'ayu_mirage' },
         sections = {
@@ -156,7 +161,7 @@ return require('packer').startup(function(use)
     'kyazdani42/nvim-tree.lua',
     requires = { 'kyazdani42/nvim-web-devicons', opt = true },
     config = function()
-      require("nvim-tree").setup ({
+      require("nvim-tree").setup({
         hijack_netrw = true,
         respect_buf_cwd = true,
         update_cwd = true,
@@ -171,7 +176,7 @@ return require('packer').startup(function(use)
           mappings = {
             list = {
               { key = "<C-e>", action = '' },
-              { key = "H",     action = '' },
+              { key = "H", action = '' },
             },
           },
         },
@@ -223,12 +228,11 @@ return require('packer').startup(function(use)
     disable = true,
     requires = { 'kyazdani42/nvim-web-devicons', opt = true },
     config = function()
-      local wk = require("which-key")
       local fzf = require('fzf-lua')
       fzf.setup {
         winopts = {
           preview = {
-            horizontal = 'right:50%',     -- right|left:size
+            horizontal = 'right:50%', -- right|left:size
           },
         },
         keymap = {
@@ -244,8 +248,8 @@ return require('packer').startup(function(use)
           rg_opts = "--column --line-number --no-heading --color=always --smart-case --max-columns=512 --hidden --glob !.git",
         },
       }
+      ---@diagnostic disable-next-line:unused-function
       function fzf_lua_ghq()
-        local fzf = require('fzf-lua')
         fzf.files({
           cmd = "ghq list --full-path",
           prompt = 'Repo❯ ',
@@ -339,7 +343,7 @@ return require('packer').startup(function(use)
         pickers = {
           -- Default configuration for builtin pickers goes here:
           find_files = {
-            find_command = {"fd", "--type", "f", "--hidden", "--exclude", ".git"},
+            find_command = { "fd", "--type", "f", "--hidden", "--exclude", ".git" },
           },
           -- Now the picker_config_key will be applied every time you call this
           -- builtin picker
@@ -363,7 +367,7 @@ return require('packer').startup(function(use)
     'phaazon/hop.nvim',
     config = function()
       local hop = require('hop')
-      hop.setup{
+      hop.setup {
         keys = 'asdfghjklqwertyuiopzxcvbnm;',
         uppercase_labels = true,
       }
@@ -375,6 +379,7 @@ return require('packer').startup(function(use)
           hint_offset = -1,
         })
       end
+
       local function hop_backward_to()
         hop.hint_char1({
           direction = hop_hint.HintDirection.BEFORE_CURSOR,
@@ -382,14 +387,15 @@ return require('packer').startup(function(use)
           hint_offset = 1,
         })
       end
-      vim.keymap.set({'n','x','o'}, 'f', "<Cmd>HopChar1CurrentLineAC<CR>")
-      vim.keymap.set({'n','x','o'}, 'F', "<Cmd>HopChar1CurrentLineBC<CR>")
-      vim.keymap.set({'n','x','o'}, 'sw', "<Cmd>HopWordAC<CR>")
-      vim.keymap.set({'n','x','o'}, 'sb', "<Cmd>HopWordBC<CR>")
-      vim.keymap.set({'n','x','o'}, 'sj', "<Cmd>HopLineAC<CR>")
-      vim.keymap.set({'n','x','o'}, 'sk', "<Cmd>HopLineBC<CR>")
-      vim.keymap.set({'n','x','o'}, 's/', "<Cmd>HopPatternAC<CR>")
-      vim.keymap.set({'n','x','o'}, 's?', "<Cmd>HopPatternBC<CR>")
+
+      vim.keymap.set({ 'n', 'x', 'o' }, 'f', "<Cmd>HopChar1CurrentLineAC<CR>")
+      vim.keymap.set({ 'n', 'x', 'o' }, 'F', "<Cmd>HopChar1CurrentLineBC<CR>")
+      vim.keymap.set({ 'n', 'x', 'o' }, 'sw', "<Cmd>HopWordAC<CR>")
+      vim.keymap.set({ 'n', 'x', 'o' }, 'sb', "<Cmd>HopWordBC<CR>")
+      vim.keymap.set({ 'n', 'x', 'o' }, 'sj', "<Cmd>HopLineAC<CR>")
+      vim.keymap.set({ 'n', 'x', 'o' }, 'sk', "<Cmd>HopLineBC<CR>")
+      vim.keymap.set({ 'n', 'x', 'o' }, 's/', "<Cmd>HopPatternAC<CR>")
+      vim.keymap.set({ 'n', 'x', 'o' }, 's?', "<Cmd>HopPatternBC<CR>")
       vim.keymap.set('o', 't', hop_forward_to)
       vim.keymap.set('o', 'T', hop_backward_to)
 
@@ -402,21 +408,22 @@ return require('packer').startup(function(use)
   use {
     'michaeljsmith/vim-indent-object',
     config = function()
-      vim.keymap.set('n', 'yx', 'yaI\']p', { remap = true, desc = 'Yank lines with the parent indent block and paste below the block' })
+      vim.keymap.set('n', 'yx', 'yaI\']p',
+        { remap = true, desc = 'Yank lines with the parent indent block and paste below the block' })
     end
   }
   use {
     'jeetsukumaran/vim-indentwise',
     config = function()
-      vim.keymap.set ({'n','x','o'}, '{', '<Plug>(IndentWisePreviousEqualIndent)', { desc = 'Previous equal indent' })
-      vim.keymap.set ({'n','x','o'}, '}', '<Plug>(IndentWiseNextEqualIndent)', { desc = 'Next equal indent' })
+      vim.keymap.set({ 'n', 'x', 'o' }, '{', '<Plug>(IndentWisePreviousEqualIndent)', { desc = 'Previous equal indent' })
+      vim.keymap.set({ 'n', 'x', 'o' }, '}', '<Plug>(IndentWiseNextEqualIndent)', { desc = 'Next equal indent' })
     end
   }
   use {
     'bkad/CamelCaseMotion',
     config = function()
-      vim.keymap.set({'n','x','o'}, '<M-w>', '<Plug>CamelCaseMotion_w', { silent = true })
-      vim.keymap.set({'n','x','o'}, '<M-b>', '<Plug>CamelCaseMotion_b', { silent = true })
+      vim.keymap.set({ 'n', 'x', 'o' }, '<M-w>', '<Plug>CamelCaseMotion_w', { silent = true })
+      vim.keymap.set({ 'n', 'x', 'o' }, '<M-b>', '<Plug>CamelCaseMotion_b', { silent = true })
       vim.keymap.set('o', 'im', '<Plug>CamelCaseMotion_ie', { silent = true, desc = 'Inner camel' })
       vim.keymap.set('x', 'im', '<Plug>CamelCaseMotion_ie', { silent = true, desc = 'Inner camel' })
       vim.keymap.set('o', 'am', '<Plug>CamelCaseMotion_iw', { silent = true, desc = 'A camel' })
@@ -429,10 +436,10 @@ return require('packer').startup(function(use)
     'bfredl/nvim-miniyank',
     config = function()
       vim.g.miniyank_maxitems = 20
-      vim.keymap.set({'n','x','o'}, 'p'    , '<Plug>(miniyank-autoput)'  )
-      vim.keymap.set({'n','x','o'}, 'P'    , '<Plug>(miniyank-autoPut)'  )
-      vim.keymap.set({'n','x','o'}, '<M-p>', '<Plug>(miniyank-cycle)'    )
-      vim.keymap.set({'n','x','o'}, '<M-P>', '<Plug>(miniyank-cycleback)')
+      vim.keymap.set({ 'n', 'x', 'o' }, 'p', '<Plug>(miniyank-autoput)')
+      vim.keymap.set({ 'n', 'x', 'o' }, 'P', '<Plug>(miniyank-autoPut)')
+      vim.keymap.set({ 'n', 'x', 'o' }, '<M-p>', '<Plug>(miniyank-cycle)')
+      vim.keymap.set({ 'n', 'x', 'o' }, '<M-P>', '<Plug>(miniyank-cycleback)')
     end,
   }
   use 'editorconfig/editorconfig-vim'
@@ -465,7 +472,7 @@ return require('packer').startup(function(use)
     config = function()
       vim.g.NERDSpaceDelims = 1 -- Add spaces after comment delimiters
       vim.g.NERDDefaultAlign = 'left'
-      vim.keymap.set({'n','x', 'i'}, '<C-\\>', '<Plug>NERDCommenterToggle')
+      vim.keymap.set({ 'n', 'x', 'i' }, '<C-\\>', '<Plug>NERDCommenterToggle')
     end
   }
   use 'arthurxavierx/vim-caser'
@@ -478,23 +485,23 @@ return require('packer').startup(function(use)
     -- f: "[function](\r)" <- [function] will be replaced by user input
     config = function()
       vim.g.surround_no_mappings = 1
-      vim.g.surround_100 = "${\r}"    -- d
+      vim.g.surround_100 = "${\r}" -- d
       vim.g.surround_68 = "\"${\r}\"" -- D
-      vim.g.surround_115 = "$(\r)"    -- s
+      vim.g.surround_115 = "$(\r)" -- s
       vim.g.surround_83 = "\"$(\r)\"" -- S
-      vim.keymap.set('n', 'dr',  '<Plug>Dsurround')
-      vim.keymap.set('n', 'cr',  '<Plug>Csurround')
-      vim.keymap.set('n', 'cR',  '<Plug>CSurround')
-      vim.keymap.set('n', 'yr',  '<Plug>Ysurround')
-      vim.keymap.set('n', 'yR',  '<Plug>YSurround')
+      vim.keymap.set('n', 'dr', '<Plug>Dsurround')
+      vim.keymap.set('n', 'cr', '<Plug>Csurround')
+      vim.keymap.set('n', 'cR', '<Plug>CSurround')
+      vim.keymap.set('n', 'yr', '<Plug>Ysurround')
+      vim.keymap.set('n', 'yR', '<Plug>YSurround')
       vim.keymap.set('n', 'yrr', '<Plug>Yssurround')
       vim.keymap.set('n', 'yRR', '<Plug>YSsurround')
-      vim.keymap.set('x', 'R',   '<Plug>VSurround')
-      vim.keymap.set('x', 'gR',  '<Plug>VgSurround')
+      vim.keymap.set('x', 'R', '<Plug>VSurround')
+      vim.keymap.set('x', 'gR', '<Plug>VgSurround')
     end,
   }
   use {
-	"windwp/nvim-autopairs",
+    "windwp/nvim-autopairs",
     config = function()
       local ap = require("nvim-autopairs")
       local Rule = require('nvim-autopairs.rule')
@@ -522,7 +529,7 @@ return require('packer').startup(function(use)
       vim.g.AutoPairsShortcutFastWrap = '<M-p>'
       vim.g.AutoPairsShortcutJump = '<M-n>'
       vim.g.AutoPairsShortcutBackInsert = '<M-\\>'
-      vim.g.AutoPairsMapSpace = 0   -- Enabling this maps <Space> to <C-]><C-R>=... and <C-]> is unwanted
+      vim.g.AutoPairsMapSpace = 0 -- Enabling this maps <Space> to <C-]><C-R>=... and <C-]> is unwanted
       vim.g.AutoPairsMultilineClose = 0
       vim.keymap.set('i', '<Space>', '<C-g>u<C-r>=AutoPairsSpace()<CR>', { silent = true })
     end,
@@ -568,9 +575,9 @@ return require('packer').startup(function(use)
         return orig_util_open_floating_preview(contents, syntax, opts, ...)
       end
 
-      local servers = { 'gopls', 'sumneko_lua', 'rust_analyzer'}
+      local servers = { 'gopls', 'sumneko_lua', 'rust_analyzer' }
       for _, lsp in pairs(servers) do
-        lspconfig[lsp].setup ({
+        lspconfig[lsp].setup({
           capabilities = capabilities,
         })
       end
@@ -597,7 +604,7 @@ return require('packer').startup(function(use)
             },
             diagnostics = {
               -- Get the language server to recognize the `vim` global
-              globals = {'vim'},
+              globals = { 'vim' },
             },
             workspace = {
               -- Make the server aware of Neovim runtime files
@@ -621,14 +628,19 @@ return require('packer').startup(function(use)
       })
 
       vim.keymap.set('i', '<C-g><C-h>', '<Cmd>lua vim.lsp.buf.signature_help()<CR>', { desc = 'Signature help' })
-      vim.keymap.set('n', '<C-]>',  '<Cmd>lua vim.lsp.buf.definition()<CR>', { desc = 'Definition' })
+      vim.keymap.set('n', '<C-]>', '<Cmd>lua vim.lsp.buf.definition()<CR>', { desc = 'Definition' })
       vim.keymap.set('n', 'g<C-]>', '<Cmd>lua vim.lsp.buf.implementation<CR>', { desc = 'Implementation' })
       vim.keymap.set('n', '<C-w><C-]>', '<Cmd>split | lua vim.lsp.buf.definition()<CR>', { desc = 'Definition [horz]' })
-      vim.keymap.set('n', '<C-w><C-g><C-]>', '<Cmd>split | lua vim.lsp.buf.implementation<CR>', { desc = 'Implementation [horz]' })
-      vim.keymap.set('n', '[Vert]<C-]>', '<Cmd>vertical split | lua vim.lsp.buf.definition()<CR>', { desc = 'Definition [vert]' })
-      vim.keymap.set('n', '[Vert]<C-g><C-]>', '<Cmd>vertical split | lua vim.lsp.buf.implementation<CR>', { desc = 'Implementation [vert]' })
-      vim.keymap.set('n', '<C-t><C-]>', '<Cmd>tab split | lua vim.lsp.buf.definition()<CR>', { desc = 'Definition [tab]' })
-      vim.keymap.set('n', '<C-t><C-g><C-]>', '<Cmd>tab split | lua vim.lsp.buf.implementation<CR>', { desc = 'Implementation [tab]' })
+      vim.keymap.set('n', '<C-w><C-g><C-]>', '<Cmd>split | lua vim.lsp.buf.implementation<CR>',
+        { desc = 'Implementation [horz]' })
+      vim.keymap.set('n', '[Vert]<C-]>', '<Cmd>vertical split | lua vim.lsp.buf.definition()<CR>',
+        { desc = 'Definition [vert]' })
+      vim.keymap.set('n', '[Vert]<C-g><C-]>', '<Cmd>vertical split | lua vim.lsp.buf.implementation<CR>',
+        { desc = 'Implementation [vert]' })
+      vim.keymap.set('n', '<C-t><C-]>', '<Cmd>tab split | lua vim.lsp.buf.definition()<CR>',
+        { desc = 'Definition [tab]' })
+      vim.keymap.set('n', '<C-t><C-g><C-]>', '<Cmd>tab split | lua vim.lsp.buf.implementation<CR>',
+        { desc = 'Implementation [tab]' })
     end
   }
   use {
@@ -647,6 +659,7 @@ return require('packer').startup(function(use)
         end
         fallback()
       end
+
       local function cmp_visible_or_fallback(action)
         return function(fallback)
           if cmp.visible() then
@@ -656,6 +669,7 @@ return require('packer').startup(function(use)
           fallback()
         end
       end
+
       cmp.setup({
         snippet = {
           -- REQUIRED - you must specify a snippet engine
@@ -673,7 +687,7 @@ return require('packer').startup(function(use)
         mapping = {
           ['<M-j>'] = cmp.mapping(cmp.mapping.scroll_docs(4), { 'i', 'c' }),
           ['<M-k>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i', 'c' }),
-          ['<Tab>'] = cmp.mapping(function(fallback)
+          ['<Tab>'] = cmp.mapping(function()
             if cmp.visible() then
               cmp.select_next_item()
             else
@@ -682,14 +696,14 @@ return require('packer').startup(function(use)
           end, { 'i', 'c' }),
           ['<M-Tab>'] = cmp.mapping(cmp_visible_or_fallback(cmp.select_prev_item), { 'i', 'c' }),
           ['<C-n>'] = cmp.mapping({
-              i = cmp_visible_or_fallback(cmp.select_next_item),
-              c = function(fallback)
-                if cmp.visible() and cmp.get_active_entry() ~= nil then
-                  cmp.select_next_item()
-                else
-                  fallback()
-                end
-              end,
+            i = cmp_visible_or_fallback(cmp.select_next_item),
+            c = function(fallback)
+              if cmp.visible() and cmp.get_active_entry() ~= nil then
+                cmp.select_next_item()
+              else
+                fallback()
+              end
+            end,
           }),
           ['<C-p>'] = cmp.mapping({
             i = cmp_visible_or_fallback(cmp.select_prev_item),
@@ -701,7 +715,7 @@ return require('packer').startup(function(use)
               end
             end,
           }),
-          ['<C-l>'] = cmp.mapping(function(fallback)
+          ['<C-l>'] = cmp.mapping(function()
             if cmp.visible() then
               cmp.select_next_item()
             else
@@ -767,15 +781,15 @@ return require('packer').startup(function(use)
       { 'saadparwaiz1/cmp_luasnip' },
     },
     config = function()
-      require("luasnip").config.setup({store_selection_keys="<C-]>"})
+      require("luasnip").config.setup({ store_selection_keys = "<C-]>" })
       -- Both sources can be enabled at the same time
       local ls_vscode = require("luasnip.loaders.from_vscode")
       ls_vscode.lazy_load() -- enable LSP style snippets
       -- require("luasnip.loaders.from_snipmate").lazy_load()
 
-      vim.keymap.set({"i", "s"}, "<C-]>", "<Plug>luasnip-expand-or-jump")
-      vim.keymap.set({"i", "s"}, "<C-s>", "<Plug>luasnip-jump-next")
-      vim.keymap.set({"i", "s"}, "<M-s>", "<Plug>luasnip-jump-prev")
+      vim.keymap.set({ "i", "s" }, "<C-]>", "<Plug>luasnip-expand-or-jump")
+      vim.keymap.set({ "i", "s" }, "<C-s>", "<Plug>luasnip-jump-next")
+      vim.keymap.set({ "i", "s" }, "<M-s>", "<Plug>luasnip-jump-prev")
       vim.keymap.set("s", "<Tab>", "<Esc>i", { noremap = true })
       vim.keymap.set("s", "<C-a>", "<Esc>a", { noremap = true })
 
@@ -800,11 +814,12 @@ return require('packer').startup(function(use)
           ["<C-q>"] = { function() trouble.toggle({ auto = true }) end, "Trouble toggle" },
           ["<C-r>"] = { "<Cmd>TroubleRefresh<CR>", "Trouble refresh" },
           ["<C-e>"] = { function() trouble.open("document_diagnostics", "auto=true") end, "Troube document diagnostics" },
-          ["<C-w>"] = { function() trouble.open("workspace_diagnostics", "auto=true") end, "Trouble workspace diagnostics" },
+          ["<C-w>"] = { function() trouble.open("workspace_diagnostics", "auto=true") end,
+            "Trouble workspace diagnostics" },
           ["<C-f>"] = { function() vim.cmd('cclose'); trouble.open("quickfix", "auto=true") end, "Trouble quickfix" },
           ["<C-l>"] = { function() vim.cmd('lclose'); trouble.open("loclist", "auto=true") end, "Trouble loclist" },
-          ["<C-n>"] = { function() trouble.next({skip_groups = true, jump = true}) end, "Trouble next" },
-          ["<C-p>"] = { function() trouble.previous({skip_groups = true, jump = true}) end, "Trouble previous" },
+          ["<C-n>"] = { function() trouble.next({ skip_groups = true, jump = true }) end, "Trouble next" },
+          ["<C-p>"] = { function() trouble.previous({ skip_groups = true, jump = true }) end, "Trouble previous" },
           ["<C-_>"] = { function() trouble.help() end, "Trouble keybind" },
           q = {
             name = "close",
@@ -896,7 +911,7 @@ return require('packer').startup(function(use)
   use 'dhruvasagar/vim-table-mode'
   -- <plantuml>
   use 'weirongxu/plantuml-previewer.vim'
-  ]]--
+  ]]
 
 
   -- Automatically set up your configuration after cloning packer.nvim
