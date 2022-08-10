@@ -23,6 +23,7 @@ abbr --add --global ta tmux attach
 
 ## git
 abbr --add --global gb git branch
+abbr --add --global gba git branch
 abbr --add --global gbo git branch -vv \| grep gone
 abbr --add --global gbod git branch -vv \| grep gone \| awk '\'{print $1}\'' \| xargs -r git branch -d
 abbr --add --global gf git fetch
@@ -40,7 +41,7 @@ abbr --add --global ga git add
 abbr --add --global gai git add -i
 abbr --add --global gcm git commit -m
 abbr --add --global gw git switch
-abbr --add --global gwc git switch --no-track -c
+abbr --add --global gwc git switch -c
 abbr --add --global gr git reset
 abbr --add --global grs git restore
 abbr --add --global gst git stash
