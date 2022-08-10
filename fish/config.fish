@@ -27,12 +27,12 @@ set --export GOPATH $HOME/go
 set --export DOCKER_BUILDKIT 1
 set --export LIBGL_ALWAYS_INDIRECT 1 # this might improve GUI performance
 switch $TERM
-    case 'xterm'
+    case xterm
         # This is required to enable 256 color inside tmux on docker container
-        set --export TERM 'xterm-256color'
-    case 'screen'
+        set --export TERM xterm-256color
+    case screen
         # this is set in tmux-sensible but it has not effect on the first window
-        set --export TERM 'screen-256color'
+        set --export TERM screen-256color
 end
 functions --query set_display; and set_display # set DISPLAY
 set --export LESS iR
@@ -80,11 +80,11 @@ alias fugitive 'vim -c 0Git'
 # fzf
 ## variables
 set --local fzf_previewer (type -q bat; and echo bat; or echo cat)
-set --local fzf_opts "--height=50%"\
-    "--tabstop=4"\
-    "--multi" \
-    "--reverse" \
-    "--inline-info" \
+set --local fzf_opts "--height=50%" \
+    "--tabstop=4" \
+    --multi \
+    --reverse \
+    --inline-info \
     "--preview='$fzf_previewer --color=always {}'" \
     "--preview-window=hidden"
 set --local fzf_bind_opts "ctrl-space:toggle" \
