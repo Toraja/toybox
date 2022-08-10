@@ -388,12 +388,30 @@ return require('packer').startup(function(use)
         })
       end
 
+      local function hop_forward_words_end()
+        hop.hint_words({
+          direction = hop_hint.HintDirection.AFTER_CURSOR,
+          hint_position = hop_hint.HintPosition.END,
+          current_line_only = true,
+        })
+      end
+
+      local function hop_backword_words_end()
+        hop.hint_words({
+          direction = hop_hint.HintDirection.BEFORE_CURSOR_CURSOR,
+          hint_position = hop_hint.HintPosition.END,
+          current_line_only = true,
+        })
+      end
+
       vim.keymap.set({ 'n', 'x', 'o' }, 'f', "<Cmd>HopChar1CurrentLineAC<CR>")
       vim.keymap.set({ 'n', 'x', 'o' }, 'F', "<Cmd>HopChar1CurrentLineBC<CR>")
       vim.keymap.set({ 'n', 'x', 'o' }, 'sw', "<Cmd>HopWordAC<CR>")
       vim.keymap.set({ 'n', 'x', 'o' }, 'sb', "<Cmd>HopWordBC<CR>")
-      vim.keymap.set({ 'n', 'x', 'o' }, 'sj', "<Cmd>HopLineAC<CR>")
-      vim.keymap.set({ 'n', 'x', 'o' }, 'sk', "<Cmd>HopLineBC<CR>")
+      vim.keymap.set({ 'n', 'x', 'o' }, 'se', hop_forward_words_end)
+      vim.keymap.set({ 'n', 'x', 'o' }, 'sge', hop_backword_words_end)
+      vim.keymap.set({ 'n', 'x', 'o' }, 'sj', "<Cmd>HopVerticalAC<CR>")
+      vim.keymap.set({ 'n', 'x', 'o' }, 'sk', "<Cmd>HopVerticalBC<CR>")
       vim.keymap.set({ 'n', 'x', 'o' }, 's/', "<Cmd>HopPatternAC<CR>")
       vim.keymap.set({ 'n', 'x', 'o' }, 's?', "<Cmd>HopPatternBC<CR>")
       vim.keymap.set('o', 't', hop_forward_to)
