@@ -1,7 +1,7 @@
 function ghq --description "ghq wrapper"
     switch $argv[1]
         case dirty
-            ghq_dirty $argv[2..]
+            __ghq_dirty $argv[2..]
         case '*'
             command ghq $argv
     end
@@ -9,8 +9,8 @@ function ghq --description "ghq wrapper"
 end
 
 # With status option, output of `git status` is appended.
-function ghq_dirty --description "List dirty repos paths"
-    argparse 's/status' -- $argv
+function __ghq_dirty --description "List dirty repos paths"
+    argparse s/status -- $argv
 
     for repo in (command ghq list --full-path)
         git -C $repo diff-index --quiet HEAD --
