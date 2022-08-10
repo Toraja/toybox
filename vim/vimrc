@@ -344,22 +344,17 @@ if has("autocmd")
     autocmd VimResized * :wincmd =
     " disable relativenumber in quickfix window
     autocmd FileType qf setlocal norelativenumber
-    " if has('nvim')
-      " automatically enter terminal-mode
-      " XXX this causes GoRun to enter insert mode
-      " autocmd TermOpen * startinsert
-    " endif
     " paired with completeopt=preview
     autocmd CompleteDone * pclose
   augroup END
 
-  function! TerminalSettings()
+  function! s:TerminalSettings()
     setlocal nonumber
-    normal a
+    startinsert
   endfunction
   augroup terminal
     autocmd!
-    autocmd TermOpen * call TerminalSettings()
+    autocmd TermOpen * call s:TerminalSettings()
   augroup END
 endif
 " --- || autocmd || }}}
