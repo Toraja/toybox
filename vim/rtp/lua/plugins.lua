@@ -936,5 +936,10 @@ return require('packer').startup(function(use)
   -- Put this at the end after all plugins
   if packer_bootstrap then
     require('packer').sync()
+  else
+    local compile_path = vim.fn.stdpath('config') .. '/plugin/packer_compiled.lua'
+    if vim.fn.empty(vim.fn.glob(compile_path)) > 0 then
+      require('packer').compile()
+    end
   end
 end)
