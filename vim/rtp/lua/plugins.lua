@@ -84,6 +84,13 @@ return require('packer').startup(function(use)
     end
   }
   use {
+    'junegunn/gv.vim',
+    config = function()
+      vim.keymap.set('n', '<Leader>vV', "<Cmd>GV<CR><Cmd>+tabmove<CR>", { desc = "GV [repo]" })
+      vim.keymap.set('n', '<Leader>vv', "<Cmd>GV!<CR><Cmd>+tabmove<CR>", { desc = "GV [file]" })
+    end
+  }
+  use {
     'lewis6991/gitsigns.nvim',
     config = function()
       require('gitsigns').setup({
