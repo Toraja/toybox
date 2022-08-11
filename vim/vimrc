@@ -333,6 +333,7 @@ if has("autocmd")
     endif
   endfunction
   augroup prev_tab
+    " focus previous tab instead of next tab when closing tab
     autocmd!
     autocmd TabEnter,TabLeave * call s:PreviousTabStoreState()
     autocmd TabClosed * call s:PreviousTabTabClosed()
