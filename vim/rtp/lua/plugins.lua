@@ -78,8 +78,8 @@ return require('packer').startup(function(use)
       ]])
       -- vim.g.fugitive_no_maps = 1 -- prevent <C-n/p> to be mapped
       vim.keymap.set('n', '<Leader>vs', "<Cmd>tab Git<CR>", { desc = "vim-fugitive" })
-      vim.keymap.set('n', '<Leader>vlt', "<Cmd>tab Git log<CR>", { desc = "git log [tab]" })
-      vim.keymap.set('n', '<Leader>vlv', "<Cmd>vertical Git log<CR>", { desc = "git log [vert]" })
+      vim.keymap.set('n', '<Leader>vL', "<Cmd>tab Git log<CR>", { desc = "git log [tab]" })
+      vim.keymap.set('n', '<Leader>vl', "<Cmd>vertical Git log<CR>", { desc = "git log [vert]" })
       vim.keymap.set('n', '<Leader>vB', "<Cmd>Git blame<CR>", { desc = "git blame entire file" })
     end
   }
