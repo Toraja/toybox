@@ -1,4 +1,5 @@
 ---@diagnostic disable:lowercase-global
+---@diagnostic disable:need-check-nil
 
 local install_path = vim.fn.stdpath('data') .. '/site/pack/packer/start/packer.nvim'
 local packer_bootstrap = nil
