@@ -35,7 +35,7 @@ function! s:InitGocmds()
 				\ 'S': runcmds#init#MakeCmdInfo('GoAddTags'),
 				\ 't': runcmds#init#MakeCmdInfo('GoTestFuncNewTabFocus', v:false, l:go_test_func_new_tab_focus_args),
 				\ 'T': runcmds#init#MakeCmdInfo('GoTestFile', v:false, l:go_test_file_args),
-				\ '': runcmds#init#MakeCmdInfo('GoTestRecursive', v:false),
+				\ '': runcmds#init#MakeCmdInfo('GoTests', v:false),
 				\ 'v': runcmds#init#MakeCmdInfo('GoCoverage', v:true),
 				\ 'V': runcmds#init#MakeCmdInfo('GoCoverageClear', v:true),
 				\ 'w': runcmds#init#MakeCmdInfo('GoWhicherrs'),
@@ -53,7 +53,6 @@ command! -buffer -bang GoAlternateSplit call go#alternate#Switch(<bang>0, 'split
 command! -buffer -bang GoAlternateVSplit call go#alternate#Switch(<bang>0, 'vsplit')
 command! -buffer -bang -nargs=* GoDebugTestFunc tab split | GoDebugTestFunc <q-args>
 command! -buffer -bang -nargs=* GoTestFile TestFile <q-args>
-command! -buffer -bang -nargs=* GoTestRecursive RunInNewTabTerminal! go test ./... <q-args>
 
 function! SwitchTermMode()
 	let g:go_term_mode = (g:go_term_mode == 'vsplit') ? 'split' : 'vsplit'
