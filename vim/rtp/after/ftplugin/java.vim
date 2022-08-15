@@ -1,4 +1,3 @@
-setlocal expandtab
 setlocal matchpairs+==:;
 
 " {{{ || keymap || ---

@@ -1,5 +1,3 @@
-setlocal tabstop=2 expandtab shiftwidth=2
-
 inoremap <buffer> <silent> <M-;> <Cmd>call ToggleLineBreakAdoc()<CR>
 nnoremap <buffer> <silent> <M-;> <Cmd>call ToggleLineBreakAdoc()<CR>
 
