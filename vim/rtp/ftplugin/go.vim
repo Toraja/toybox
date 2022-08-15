@@ -32,6 +32,7 @@ if exists('g:plugs["vim-go"]')
   " let g:go_metalinter_command = "golangci-lint"
   let g:go_metalinter_command = "gopls"
   let g:go_gopls_staticcheck = v:true
+  let g:go_diagnostics_level = 2 " with this set to 0 (default), staticcheck error will not be displayed
   let g:go_metalinter_autosave = 1
   let g:go_metalinter_deadline = "10s"
   let g:go_metalinter_autosave_enabled = ['vet', 'revive']
@@ -39,8 +40,6 @@ if exists('g:plugs["vim-go"]')
 
   " gopls
   setlocal cmdheight=2 " goinfo by gopls displays comment as well as signature
-  let g:go_def_mode='gopls'
-  let g:go_info_mode='gopls'
 endif
 " --- || vim-go || }}}
 
