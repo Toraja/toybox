@@ -30,13 +30,15 @@ data.location=~/.local/share/taskwarrior/task
 #include /usr/share/taskwarrior/no-color.theme
 
 dateformat=MD
+verbose=no
 
 color.deleted=gray10
 color.completed=rgb013
 
-report.next.columns=id,start.age,entry.age,depends,priority,project,tags,recur,scheduled.countdown,due,due.relative,until.remaining,description,urgency
-report.next.labels=ID,Active,Age,Deps,P,Project,Tag,Recur,S,Due,Remain,Until,Description,Urg
-report.next.sort=urgency-
+report.nice.description=Nice task list
+report.nice.columns=id,start.age,entry.age,depends,priority,project,tags,recur,scheduled.countdown,due,due.relative,until.remaining,description,urgency
+report.nice.labels=ID,Active,Age,Deps,P,Project,Tag,Recur,S,Due,Remain,Until,Description,Urg
+report.nice.sort=urgency-
 
 # See https://taskwarrior.org/docs/urgency.html
 # urgency.user.tag.next.coefficient=  # +next tag [default: 15.0]
@@ -45,7 +47,7 @@ report.next.sort=urgency-
 urgency.uda.priority.H.coefficient=3.0  # high Priority [default: 6.0]
 urgency.uda.priority.M.coefficient=0.0  # medium Priority [default: 3.9]
 urgency.uda.priority.L.coefficient=-3.0 # low Priority [default: 1.8]
-# urgency.scheduled.coefficient=      # scheduled tasks [default: 5.0]
+urgency.scheduled.coefficient=0.0      # scheduled tasks [default: 5.0]
 # urgency.active.coefficient=         # already started tasks [default: 4.0]
 # urgency.age.coefficient=            # coefficient for age [default: 2.0]
 urgency.annotations.coefficient=0.0     # has annotations [default: 1.0]
@@ -55,9 +57,31 @@ urgency.project.coefficient=0.0         # assigned to any project [default: #1.0
 # urgency.blocked.coefficient=        # blocked by other tasks [default: -5.0]
 urgency.user.tag.awaiting.coefficient=-5.0
 
+# --- taskwarrior-tui ---
 uda.taskwarrior-tui.selection.bold=no
 uda.taskwarrior-tui.selection.reverse=yes
 uda.taskwarrior-tui.quick-tag.name=awaiting
+uda.taskwarrior-tui.task-report.prompt-on-delete=true
+uda.taskwarrior-tui.context-menu.select-on-move=true
 
 uda.taskwarrior-tui.style.report.completion-pane=white on black
 uda.taskwarrior-tui.style.report.completion-pane-highlight=bold cyan on black
+
+# Changing shortcut key seems not working
+uda.taskwarrior-tui.shortcuts.1=~/toybox/taskwarrior/shortcut/delete-completed.sh
+uda.taskwarrior-tui.keyconfig.shortcut1=X
+uda.taskwarrior-tui.shortcuts.2=~/toybox/taskwarrior/shortcut/purge-deleted.sh
+uda.taskwarrior-tui.keyconfig.shortcut2=Z
+uda.taskwarrior-tui.shortcuts.3=~/toybox/taskwarrior/shortcut/review.sh
+uda.taskwarrior-tui.keyconfig.shortcut3=R
+uda.taskwarrior-tui.shortcuts.9=~/toybox/taskwarrior/shortcut/context-default.sh
+uda.taskwarrior-tui.keyconfig.shortcut9=C
+
+# write context will add the specified tag to task when add new tasks.
+# Virtual tags cannot be added to tasks so adding tasks will fail.
+context.default.read=+PENDING
+# context.default.write=+PENDING
+context.deleted.read=+DELETED
+# context.deleted.write=+DELETED
+context.completed.read=+COMPLETED
+# context.completed.write=+COMPLETED
