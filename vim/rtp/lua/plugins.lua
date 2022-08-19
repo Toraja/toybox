@@ -850,13 +850,20 @@ return require('packer').startup(function(use)
   }
   use {
     'nvim-treesitter/nvim-treesitter',
-    config = require('nvim-treesitter.configs').setup({
-      ensure_installed = { "go", "lua", "rust" },
-      highlight = {
-        enable = true,
-      },
-    }),
-    run = 'TSUpdate',
+    config = function()
+      require('nvim-treesitter.configs').setup({
+        ensure_installed = { "go", "lua", "rust" },
+        highlight = {
+          enable = true,
+          disable = { "rust" },
+        },
+      })
+      require('nvim-treesitter.highlight').set_custom_captures({
+        variable = "Normal",
+        property = "Normal", -- change color of struct field; seems not working
+      })
+    end,
+    run = ':TSUpdate',
   }
   use 'nvim-treesitter/nvim-treesitter-textobjects'
   use 'vim-utils/vim-husk'
