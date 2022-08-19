@@ -859,8 +859,18 @@ return require('packer').startup(function(use)
         },
       })
       require('nvim-treesitter.highlight').set_custom_captures({
+        -- TODO apply only for golang
+        operator = "Special",
+        namespace = "TSNone",
+        ["function"] = "Include",
+        ["function.call"] = "TSFunction",
+        ["function.builtin"] = "TSFunction",
+        ["method"] = "Include",
+        ["method.call"] = "TSMethod",
         variable = "Normal",
-        property = "Normal", -- change color of struct field; seems not working
+        parameter = "Normal",
+        field = "TSNone", -- field of struct initialisation
+        -- property = "TSNone", -- field of struct definition, but this affects the property after `.` like time.Second
       })
     end,
     run = ':TSUpdate',
