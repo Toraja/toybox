@@ -163,6 +163,32 @@ return require('packer').startup(function(use)
       })
     end,
   }
+  -- use {
+  --   'olimorris/onedarkpro.nvim',
+  --   config = function()
+  --     require("onedarkpro").setup({
+  --       dark_theme = "onedark",
+  --       colors = {
+  --         onedark = {
+  --           bg = "#121212"
+  --         },
+  --         cursorline = "#222222",
+  --       },
+  --       options = {
+  --         bold = false, -- Use the colorscheme's opinionated bold styles?
+  --         italic = false, -- Use the colorscheme's opinionated italic styles?
+  --         underline = false, -- Use the colorscheme's opinionated underline styles?
+  --         undercurl = false, -- Use the colorscheme's opinionated undercurl styles?
+  --         cursorline = true, -- Use cursorline highlighting?
+  --         transparency = false, -- Use a transparent background?
+  --         terminal_colors = false, -- Use the colorscheme's colors for Neovim's :terminal?
+  --         window_unfocussed_color = false, -- When the window is out of focus, change the normal background?
+  --       }
+  --     })
+  --     vim.o.termguicolors = true
+  --     vim.cmd([[colorscheme onedarkpro]])
+  --   end,
+  -- }
 
   -- finder (path/dir/file/buffer/tac/etc.)
   use {
