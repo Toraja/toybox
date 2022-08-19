@@ -498,8 +498,8 @@ return require('packer').startup(function(use)
   use {
     'lukas-reineke/indent-blankline.nvim',
     config = function()
-      vim.cmd [[highlight IndentBlanklineChar ctermfg=59]]
-      vim.cmd [[highlight IndentBlanklineSpaceChar None]] -- highlight overlaps cursorline. set None to prevent it.
+      vim.api.nvim_set_hl(0, 'IndentBlanklineChar', { ctermfg = 59 })
+      vim.api.nvim_set_hl(0, 'IndentBlanklineSpaceChar', {}) -- this highlight overlaps cursorline. set None to prevent it.
 
       require("indent_blankline").setup {
         char = "¦",

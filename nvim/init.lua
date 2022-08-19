@@ -8,6 +8,14 @@ array.new({ 'cfilter', 'termdebug' }):for_each(function(pack)
   vim.cmd('packadd ' .. pack)
 end)
 
+-- highlight
+vim.api.nvim_set_hl(0, 'Comment', { ctermfg = 8 })
+vim.api.nvim_set_hl(0, 'Comment', { ctermfg = 8 })
+vim.api.nvim_set_hl(0, 'Folded', { ctermfg = 8, fg = '#41535b' })
+vim.api.nvim_set_hl(0, 'PmenuSel', { ctermfg = 254, ctermbg = 240, bold = true, bg = 'Blue' })
+vim.api.nvim_set_hl(0, 'Pmenu', { ctermfg = 254, ctermbg = 236, bg = 'DarkGrey' })
+vim.api.nvim_set_hl(0, 'ColorColumn', { ctermbg = 6, bg = 'DarkCyan' })
+
 vim.g.termdebug_wide = 1
 wk.register({
   g = {

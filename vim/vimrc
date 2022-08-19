@@ -214,12 +214,6 @@ set wildcharm=<Tab>           " This enables cycling through popup version of wi
 set wildmode=full,longest:full      " command mode completion method
 " --- || options || }}}
 
-" {{{ || highlight || ---
-highlight PmenuSel ctermfg=254 ctermbg=240 gui=bold guibg=Blue
-highlight Pmenu ctermfg=254 ctermbg=236 guibg=DarkGrey
-highlight ColorColumn ctermbg=6 guibg=DarkCyan
-" --- || highlight || }}}
-
 " {{{ || automatically enter paste mode when pasting || ---
 if &term =~ "xterm"
   let &t_ti .= "\e[?2004h"
