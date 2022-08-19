@@ -18,12 +18,6 @@ if filereadable(s:vim_plug_file)
   Plug 'dag/vim-fish'
   " <js>
   Plug 'moll/vim-node'
-  " <go>
-  Plug 'ctrlpvim/ctrlp.vim' " required by vim-go GoDecls
-  let g:ctrlp_map = '<F13>' " assign another key to prevent from <C-p> to be overridden
-  Plug 'fatih/vim-go', { 'tag': '*' } " Do not run `GoUpdateBinaries` post-hook as it takes a long time
-  let g:gotests_template = '' " gotests-vim requires this variable to be set. PR to fix has been submitted but not yet merged.
-  Plug 'buoto/gotests-vim'
   " <java>
   if executable('java')
     Plug 'artur-shaik/vim-javacomplete2' " complains if there is no java executable
@@ -915,12 +909,13 @@ nnoremap <expr> [Chief]f runcmds#base#RunCmds("FZF", <SID>FzfCmds(), <SID>FzfFla
 let s:def_cmds = {
       \ 'd': runcmds#init#MakeCmdInfo('lua vim.lsp.buf.hover()'),
       \ 'f': runcmds#init#MakeCmdInfo('lua vim.lsp.buf.formatting()'),
+      \ 'I': runcmds#init#MakeCmdInfo('Trouble lsp_implementations'),
       \ 'n': runcmds#init#MakeCmdInfo('lua vim.lsp.buf.rename()'),
       \ 'q': runcmds#init#MakeCmdInfo('lua vim.diagnostic.setloclist()'),
       \ 'R': runcmds#init#MakeCmdInfo('Trouble lsp_references'),
       \ '0': runcmds#init#MakeCmdInfo('lua vim.lsp.buf.code_action()'),
+      \ '1': runcmds#init#MakeCmdInfo('lua vim.lsp.codelens.run()'),
       \ }
-      " \ 'o': runcmds#init#MakeCmdInfo('LcnDocSymbol'),
 function! DefaultCmds()
   return copy(s:def_cmds)
 endfunction

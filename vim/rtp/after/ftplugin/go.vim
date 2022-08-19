@@ -1,47 +1,26 @@
 setlocal shiftwidth=4 tabstop=4
 
-" {{{ || vim-go || ---
-" Workaround to use script local variable in keymap
 function! s:InitGocmds()
-	let l:go_import_args = runcmds#init#MakeCmdArgsList([['expand("<cword>")', v:true]])
-	let l:switch_term_mode_args = runcmds#init#MakeCmdArgsList([['"current mode ='], ['g:go_term_mode', v:true]])
-	let l:go_run_args = runcmds#init#MakeCmdArgsList([['%']])
-	let l:go_test_func_new_tab_focus_args = runcmds#init#MakeCmdArgsList([['-v']])
-	let l:go_test_file_args = runcmds#init#MakeCmdArgsList([['-v']])
 	let l:go_cmds = {
-				\ 'a': runcmds#init#MakeCmdInfo('GoAlternateVSplit!', v:false),
+				\ 'a': runcmds#init#MakeCmdInfo('GoAltV'),
 				\ 'B': runcmds#init#MakeCmdInfo('!go test -bench .'),
-				\ 'c': runcmds#init#MakeCmdInfo('GoCallers'),
-				\ 'C': runcmds#init#MakeCmdInfo('GoCallees'),
-				\ 'D': runcmds#init#MakeCmdInfo('GoDescribe'),
-				\ 'e': runcmds#init#MakeCmdInfo('GoErrCheck', v:true),
-				\ 'F': runcmds#init#MakeCmdInfo('GoFmtAutoSaveToggle'),
-				\ 'g': runcmds#init#MakeCmdInfo('GoDebugBreakpoint'),
-				\ 'G': runcmds#init#MakeCmdInfo('GoDebugTestFuncNewTab'),
-				\ 'h': runcmds#init#MakeCmdInfo('GoSameIds'),
-				\ 'H': runcmds#init#MakeCmdInfo('GoSameIdsClear'),
-				\ 'i': runcmds#init#MakeCmdInfo('GoInfo'),
-				\ 'I': runcmds#init#MakeCmdInfo('GoAutoTypeInfoToggle'),
+				\ 'c': runcmds#init#MakeCmdInfo('GoChannel'),
+				\ 'e': runcmds#init#MakeCmdInfo('GoIfErr'),
+				\ 'g': runcmds#init#MakeCmdInfo('GoDebug'),
+				\ 'G': runcmds#init#MakeCmdInfo('GoBreakToggle'),
 				\ 'k': runcmds#init#MakeCmdInfo('GoCallstack'),
-				\ 'l': runcmds#init#MakeCmdInfo('GoMetaLinter', v:true),
-				\ 'L': runcmds#init#MakeCmdInfo('GoMetaLinterAutoSaveToggle'),
-				\ 'm': runcmds#init#MakeCmdInfo('GoImplements'),
-				\ 'M': runcmds#init#MakeCmdInfo('GoImport', v:true, l:go_import_args),
-				\ 'o': runcmds#init#MakeCmdInfo('GoDecls'),
-				\ 'O': runcmds#init#MakeCmdInfo('GoDeclsDir'),
-				\ 'p': runcmds#init#MakeCmdInfo('GoChannelPeers'),
-				\ 'r': runcmds#init#MakeCmdInfo('GoRun', v:true, l:go_run_args),
+				\ 'l': runcmds#init#MakeCmdInfo('GoLint'),
+				\ 'r': runcmds#init#MakeCmdInfo('GoRun %'),
 				\ 's': runcmds#init#MakeCmdInfo('GoFillStruct'),
 				\ 'S': runcmds#init#MakeCmdInfo('GoAddTags'),
-				\ 't': runcmds#init#MakeCmdInfo('GoTestFuncNewTabFocus', v:false, l:go_test_func_new_tab_focus_args),
-				\ 'T': runcmds#init#MakeCmdInfo('GoTestFile', v:false, l:go_test_file_args),
-				\ '': runcmds#init#MakeCmdInfo('GoTests', v:false),
-				\ 'v': runcmds#init#MakeCmdInfo('GoCoverage', v:true),
-				\ 'V': runcmds#init#MakeCmdInfo('GoCoverageClear', v:true),
-				\ 'w': runcmds#init#MakeCmdInfo('GoWhicherrs'),
-				\ 'W': runcmds#init#MakeCmdInfo('SwitchTermMode', v:false, l:switch_term_mode_args),
+				\ 't': runcmds#init#MakeCmdInfo('GoTestFuncNewTabFocus'),
+				\ 'T': runcmds#init#MakeCmdInfo('GoTestFile -v'),
+				\ '': runcmds#init#MakeCmdInfo('GoAddTest'),
+				\ 'v': runcmds#init#MakeCmdInfo('GoCoverage'),
+				\ 'V': runcmds#init#MakeCmdInfo('GoCoverage -t'),
+				\ '0': runcmds#init#MakeCmdInfo('GoCodeAction'),
+				\ '1': runcmds#init#MakeCmdInfo('GoCodeLenAct'),
 				\ }
-				" \ 'd': runcmds#init#MakeCmdInfo('GoDoc'),
 	let l:go_cmds = extend(DefaultCmds(), l:go_cmds)
 	function! s:GoCmds() closure
 		return l:go_cmds
@@ -120,28 +99,3 @@ function! GoTestFuncNewTabFocus(args) abort
 	endif
 endfunction
 command! -buffer -nargs=* GoTestFuncNewTabFocus call GoTestFuncNewTabFocus(<q-args>)
-
-nmap <buffer> [t <Plug>(go-def-pop)
-nmap <buffer> ]t <Plug>(go-def-stack)
-lua << EOF
-  local wk = require("which-key")
-  wk.register({
-		-- go-def-xxx does not open window/tab if the destination is on the same file
-		["<C-]>"] = { "<Plug>(go-def)", "Definition" },
-		["<C-w><C-]>"] = { "<C-w>s<Plug>(go-def)", "Definition [horz]"  },
-		["[Vert]<C-]>"] = { "<C-w>v<Plug>(go-def)", "Definition [vert]" },
-		["<C-t><C-]>"] = { "<Cmd>tab split<CR><Plug>(go-def)", "Definition [tab]" },
-  }, { noremap=false, buffer=0 })
-EOF
-
-cnoreabbrev gbl GoBuild
-cnoreabbrev gcv GoCoverage
-cnoreabbrev gfm GoFmt
-cnoreabbrev ggs GoGuruScope
-cnoreabbrev gim GoImport
-cnoreabbrev gima GoImportAs
-cnoreabbrev gims GoImports
-cnoreabbrev gml GoMetaLinter
-cnoreabbrev gmlt GoMetaLinterAutoSaveToggle
-
-" --- || vim-go || }}}

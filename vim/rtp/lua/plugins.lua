@@ -822,6 +822,17 @@ return require('packer').startup(function(use)
       vim.api.nvim_create_user_command('LuaSnipLoadSnippetsVSCode', ls_vscode.load, {})
     end
   }
+  use {
+    'nvim-treesitter/nvim-treesitter',
+    config = require('nvim-treesitter.configs').setup({
+      ensure_installed = { "go", "lua", "rust" },
+      highlight = {
+        enable = true,
+      },
+    }),
+    run = 'TSUpdate',
+  }
+  use 'nvim-treesitter/nvim-treesitter-textobjects'
   use 'vim-utils/vim-husk'
 
   -- misc
@@ -906,17 +917,31 @@ return require('packer').startup(function(use)
   }
   use 'tyru/open-browser.vim'
 
+  -- Language specific
+  -- <go>
+  use {
+    'ray-x/go.nvim',
+    requires = { 'ray-x/guihua.lua', opt = true },
+    config = function()
+      require('go').setup({
+        test_runner = 'richgo',
+      })
+      local go_format_augroud_id = vim.api.nvim_create_augroup('go_format', {})
+      vim.api.nvim_create_autocmd('BufWritePre', {
+        group = go_format_augroud_id,
+        pattern = '*.go',
+        callback = function()
+          require('go.format').goimport()
+        end
+      })
+    end,
+  }
   --[[
   -- Language specific
   -- <fish>
   use 'dag/vim-fish'
   -- <js>
   use 'moll/vim-node'
-  -- <go>
-  use 'fatih/vim-go', { 'tag': '*' } -- Do not run `GoUpdateBinaries` post-hook as it takes a long time
-  use 'ctrlpvim/ctrlp.vim'   -- required by vim-go GoDecls
-  -- disable the default mapping to prevent from <C-p> to be overridden
-  let g:ctrlp_map = '<F13>'
   -- <java>
   if executable('java')
     use 'artur-shaik/vim-javacomplete2' -- complains if there is no java executable
