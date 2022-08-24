@@ -897,7 +897,25 @@ return require('packer').startup(function(use)
     end,
     run = ':TSUpdate',
   }
-  use 'nvim-treesitter/nvim-treesitter-textobjects'
+  use {
+    'nvim-treesitter/nvim-treesitter-textobjects',
+    config = function()
+      require('nvim-treesitter.configs').setup({
+        textobjects = {
+          select = {
+            keymaps = {
+              ["ap"] = "@parameter.outer",
+              ["ip"] = "@parameter.inner",
+              ["ar"] = "@conditional.outer",
+              ["ir"] = "@conditional.inner",
+              ["al"] = "@loop.outer",
+              ["il"] = "@loop.inner",
+            },
+          },
+        }
+      })
+    end
+  }
   use 'vim-utils/vim-husk'
 
   -- misc
