@@ -161,6 +161,9 @@ return require('packer').startup(function(use)
           lualine_c = { section_c },
         },
       })
+
+      -- FIXME Sometimes this does not work. Try setting via lualine setup?
+      vim.api.nvim_set_hl(0, 'lualine_c_normal', { fg = '#d9d7ce', bg = '#242b38' })
     end,
   }
   -- use {
@@ -170,47 +173,78 @@ return require('packer').startup(function(use)
   --       style = 'warmer'
   --     })
   --     vim.cmd([[colorscheme onedark]])
-  --     vim.api.nvim_set_hl(0, 'Normal', { bg = '#1d1d1d' })
+  --     vim.api.nvim_set_hl(0, 'Normal', { bg = '#1f1f1f' })
   --   end,
   -- }
   -- use {
   --   'glepnir/zephyr-nvim',
-  --   config = function()
-  --     vim.cmd([[colorscheme zephyr]])
-  --   end,
+  -- config = function()
+  --   vim.cmd([[colorscheme zephyr]])
+  --   vim.api.nvim_set_hl(0, 'Normal', { bg = '#111111' })
+  --   vim.api.nvim_set_hl(0, 'TabLine', { fg = '#202328', bg = '#faf8ef' })
+  --   vim.api.nvim_set_hl(0, 'TabLineSel', { fg = '#eeeeee', bg = '#111111' })
+  -- end,
   -- }
   -- use {
   --   'marko-cerovac/material.nvim',
-  --   config = function()
-  --     vim.g.material_style = "darker"
-  --     vim.cmd([[colorscheme material]])
-  --   end,
+  -- config = function()
+  --   vim.g.material_style = "darker"
+  --   vim.cmd([[colorscheme material]])
+  -- end,
   -- }
   -- use {
   --   'olimorris/onedarkpro.nvim',
-  --   config = function()
-  --     require("onedarkpro").setup({
-  --       dark_theme = "onedark",
-  --       colors = {
-  --         onedark = {
-  --           bg = "#121212"
-  --         },
-  --         cursorline = "#222222",
+  -- config = function()
+  --   require("onedarkpro").setup({
+  --     dark_theme = "onedark",
+  --     colors = {
+  --       onedark = {
+  --         bg = "#1f1f1f"
   --       },
-  --       options = {
-  --         bold = false, -- Use the colorscheme's opinionated bold styles?
-  --         italic = false, -- Use the colorscheme's opinionated italic styles?
-  --         underline = false, -- Use the colorscheme's opinionated underline styles?
-  --         undercurl = false, -- Use the colorscheme's opinionated undercurl styles?
-  --         cursorline = true, -- Use cursorline highlighting?
-  --         transparency = false, -- Use a transparent background?
-  --         terminal_colors = false, -- Use the colorscheme's colors for Neovim's :terminal?
-  --         window_unfocussed_color = false, -- When the window is out of focus, change the normal background?
-  --       }
-  --     })
-  --     vim.o.termguicolors = true
-  --     vim.cmd([[colorscheme onedarkpro]])
-  --   end,
+  --       cursorline = "#222222",
+  --     },
+  --     options = {
+  --       bold = false, -- Use the colorscheme's opinionated bold styles?
+  --       italic = false, -- Use the colorscheme's opinionated italic styles?
+  --       underline = false, -- Use the colorscheme's opinionated underline styles?
+  --       undercurl = false, -- Use the colorscheme's opinionated undercurl styles?
+  --       cursorline = true, -- Use cursorline highlighting?
+  --       transparency = false, -- Use a transparent background?
+  --       terminal_colors = false, -- Use the colorscheme's colors for Neovim's :terminal?
+  --       window_unfocussed_color = false, -- When the window is out of focus, change the normal background?
+  --     }
+  --   })
+  --   vim.o.termguicolors = true
+  --   vim.cmd([[colorscheme onedarkpro]])
+  -- end,
+  -- }
+  use {
+    'cpea2506/one_monokai.nvim',
+    config = function()
+      require("one_monokai").setup({
+        colors = {
+          cyan = '#00d7ff',
+        },
+        themes = function(colors)
+          return {
+            Normal = { bg = '#161716' },
+            CursorLine = { underline = true },
+            TabLine = { reverse = true },
+            AnnoyingSpaces = { bg = '#333333' },
+          }
+        end,
+      })
+    end,
+  }
+  -- use {
+  --   'tanvirtin/monokai.nvim',
+  -- config = function()
+  --   require('monokai').setup({
+  --     palette = require('monokai').pro,
+  --     -- palette = require('monokai').soda,
+  --     -- palette = require('monokai').ristretto,
+  --   })
+  -- end,
   -- }
 
   -- finder (path/dir/file/buffer/tac/etc.)
@@ -904,19 +938,19 @@ return require('packer').startup(function(use)
         ensure_installed = { "go", "lua", "rust" },
         highlight = {
           enable = true,
-          disable = { "rust" },
+          -- disable = { "rust" },
         },
       })
       require('nvim-treesitter.highlight').set_custom_captures({
-        operator = "Special",
-        namespace = "TSNone",
-        ["function"] = "Include",
-        ["function.call"] = "TSFunction",
-        ["function.builtin"] = "TSFunction",
-        ["method"] = "Include",
-        ["method.call"] = "TSMethod",
-        variable = "Normal",
-        parameter = "Normal",
+        -- operator = "Special",
+        -- namespace = "TSNone",
+        -- ["function"] = "Include",
+        -- ["function.call"] = "TSFunction",
+        -- ["function.builtin"] = "TSFunction",
+        -- ["method"] = "Include",
+        -- ["method.call"] = "TSMethod",
+        -- variable = "Normal",
+        -- parameter = "Normal",
         -- field = "TSNone", -- field of struct initialisation
         -- property = "TSNone", -- field of struct definition, but this affects the property after `.` like time.Second
       })

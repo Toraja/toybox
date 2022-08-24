@@ -158,7 +158,7 @@ set tabline=%!MyTabLine()
 " --- || Compose tabline|| }}}
 
 " reverse the color of unselected tab
-highlight TabLine term=reverse cterm=bold,reverse gui=reverse
+" highlight TabLine term=reverse cterm=bold,reverse gui=reverse
 
 " << editing >>
 set expandtab                           " change use whitespaces instead of tab char
