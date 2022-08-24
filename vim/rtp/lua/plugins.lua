@@ -517,7 +517,7 @@ return require('packer').startup(function(use)
       vim.keymap.set({ 'n', 'x', 'o' }, '<M-P>', '<Plug>(miniyank-cycleback)')
     end,
   }
-  use 'editorconfig/editorconfig-vim'
+  use 'gpanders/editorconfig.nvim'
   use {
     'lukas-reineke/indent-blankline.nvim',
     config = function()
@@ -551,30 +551,56 @@ return require('packer').startup(function(use)
     end
   }
   use 'arthurxavierx/vim-caser'
-  use {
-    'tpope/vim-surround',
-    -- set characters and correspondng wrappers
-    -- value for variable have to be surrounded by "", not ''
-    -- pre-defined mappings that are useful are:
-    -- t: "<[tag]>\r</[tag]>" <- [tag] will be replaced by user input
-    -- f: "[function](\r)" <- [function] will be replaced by user input
+  use({
+    'kylechui/nvim-surround',
+    tag = "*", -- Use for stability; omit to use `main` branch for the latest features
     config = function()
-      vim.g.surround_no_mappings = 1
-      vim.g.surround_100 = "${\r}" -- d
-      vim.g.surround_68 = "\"${\r}\"" -- D
-      vim.g.surround_115 = "$(\r)" -- s
-      vim.g.surround_83 = "\"$(\r)\"" -- S
-      vim.keymap.set('n', 'dr', '<Plug>Dsurround')
-      vim.keymap.set('n', 'cr', '<Plug>Csurround')
-      vim.keymap.set('n', 'cR', '<Plug>CSurround')
-      vim.keymap.set('n', 'yr', '<Plug>Ysurround')
-      vim.keymap.set('n', 'yR', '<Plug>YSurround')
-      vim.keymap.set('n', 'yrr', '<Plug>Yssurround')
-      vim.keymap.set('n', 'yRR', '<Plug>YSsurround')
-      vim.keymap.set('x', 'R', '<Plug>VSurround')
-      vim.keymap.set('x', 'gR', '<Plug>VgSurround')
-    end,
-  }
+      require('nvim-surround').setup({
+        keymaps = {
+          insert = "<C-g>r",
+          insert_line = "<C-g>R",
+          normal = "yr",
+          normal_cur = "yrr",
+          normal_line = "yR",
+          normal_cur_line = "yRR",
+          visual = "R",
+          visual_line = "gR",
+          delete = "dr",
+          change = "cr",
+        },
+        surrounds = {
+          ["d"] = {
+            add = { "${", "}" },
+            find = function()
+              return M.get_selection({ motion = "a${" })
+            end,
+            -- delete = "^(. ?)().-( ?.)()$", -- not working
+          },
+          ["D"] = {
+            add = { "\"${", "}\"" },
+            find = function()
+              return M.get_selection({ motion = "a\"${" })
+            end,
+            -- delete = "^(. ?)().-( ?.)()$", -- not working
+          },
+          ["s"] = {
+            add = { "$(", ")" },
+            find = function()
+              return M.get_selection({ motion = "a$(" })
+            end,
+            -- delete = "^(. ?)().-( ?.)()$", -- not working
+          },
+          ["S"] = {
+            add = { "\"$(", ")\"" },
+            find = function()
+              return M.get_selection({ motion = "a\"$(" })
+            end,
+            -- delete = "^(. ?)().-( ?.)()$", -- not working
+          },
+        }
+      })
+    end
+  })
   use {
     "windwp/nvim-autopairs",
     config = function()
