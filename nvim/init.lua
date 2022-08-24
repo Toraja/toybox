@@ -9,9 +9,9 @@ array.new({ 'cfilter', 'termdebug' }):for_each(function(pack)
 end)
 
 -- highlight
-vim.api.nvim_set_hl(0, 'Comment', { ctermfg = 8 })
-vim.api.nvim_set_hl(0, 'Comment', { ctermfg = 8 })
-vim.api.nvim_set_hl(0, 'Folded', { ctermfg = 8, fg = '#41535b' })
+vim.api.nvim_set_hl(0, 'String', { ctermfg = 216 })
+vim.api.nvim_set_hl(0, 'Comment', { ctermfg = 246 })
+vim.api.nvim_set_hl(0, 'Folded', { ctermfg = 246, fg = '#41535b' })
 vim.api.nvim_set_hl(0, 'PmenuSel', { ctermfg = 254, ctermbg = 240, bold = true, bg = 'Blue' })
 vim.api.nvim_set_hl(0, 'Pmenu', { ctermfg = 254, ctermbg = 236, bg = 'DarkGrey' })
 vim.api.nvim_set_hl(0, 'ColorColumn', { ctermbg = 6, bg = 'DarkCyan' })

@@ -164,6 +164,29 @@ return require('packer').startup(function(use)
     end,
   }
   -- use {
+  --   'navarasu/onedark.nvim',
+  --   config = function()
+  --     require('onedark').setup({
+  --       style = 'warmer'
+  --     })
+  --     vim.cmd([[colorscheme onedark]])
+  --     vim.api.nvim_set_hl(0, 'Normal', { bg = '#1d1d1d' })
+  --   end,
+  -- }
+  -- use {
+  --   'glepnir/zephyr-nvim',
+  --   config = function()
+  --     vim.cmd([[colorscheme zephyr]])
+  --   end,
+  -- }
+  -- use {
+  --   'marko-cerovac/material.nvim',
+  --   config = function()
+  --     vim.g.material_style = "darker"
+  --     vim.cmd([[colorscheme material]])
+  --   end,
+  -- }
+  -- use {
   --   'olimorris/onedarkpro.nvim',
   --   config = function()
   --     require("onedarkpro").setup({
@@ -859,7 +882,6 @@ return require('packer').startup(function(use)
         },
       })
       require('nvim-treesitter.highlight').set_custom_captures({
-        -- TODO apply only for golang
         operator = "Special",
         namespace = "TSNone",
         ["function"] = "Include",
@@ -869,7 +891,7 @@ return require('packer').startup(function(use)
         ["method.call"] = "TSMethod",
         variable = "Normal",
         parameter = "Normal",
-        field = "TSNone", -- field of struct initialisation
+        -- field = "TSNone", -- field of struct initialisation
         -- property = "TSNone", -- field of struct definition, but this affects the property after `.` like time.Second
       })
     end,
