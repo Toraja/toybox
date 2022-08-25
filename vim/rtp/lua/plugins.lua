@@ -161,9 +161,6 @@ return require('packer').startup(function(use)
           lualine_c = { section_c },
         },
       })
-
-      -- FIXME Sometimes this does not work. Try setting via lualine setup?
-      -- vim.api.nvim_set_hl(0, 'lualine_c_normal', { fg = '#d9d7ce', bg = '#242b38' })
     end,
   }
   use {
