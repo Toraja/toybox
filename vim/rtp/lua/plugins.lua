@@ -172,8 +172,8 @@ return require('packer').startup(function(use)
         },
         themes = function(colors)
           return {
-            Normal = { bg = '#000000' },
-            CursorLine = { bg = '#151515' },
+            Normal = { bg = colors.none },
+            CursorLine = { bg = '#161616' },
             TabLine = { fg = colors.none, bg = colors.none, reverse = true },
             AnnoyingSpaces = { bg = colors.dark_gray },
           }
