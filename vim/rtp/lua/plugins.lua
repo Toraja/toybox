@@ -163,61 +163,9 @@ return require('packer').startup(function(use)
       })
 
       -- FIXME Sometimes this does not work. Try setting via lualine setup?
-      vim.api.nvim_set_hl(0, 'lualine_c_normal', { fg = '#d9d7ce', bg = '#242b38' })
+      -- vim.api.nvim_set_hl(0, 'lualine_c_normal', { fg = '#d9d7ce', bg = '#242b38' })
     end,
   }
-  -- use {
-  --   'navarasu/onedark.nvim',
-  --   config = function()
-  --     require('onedark').setup({
-  --       style = 'warmer'
-  --     })
-  --     vim.cmd([[colorscheme onedark]])
-  --     vim.api.nvim_set_hl(0, 'Normal', { bg = '#1f1f1f' })
-  --   end,
-  -- }
-  -- use {
-  --   'glepnir/zephyr-nvim',
-  -- config = function()
-  --   vim.cmd([[colorscheme zephyr]])
-  --   vim.api.nvim_set_hl(0, 'Normal', { bg = '#111111' })
-  --   vim.api.nvim_set_hl(0, 'TabLine', { fg = '#202328', bg = '#faf8ef' })
-  --   vim.api.nvim_set_hl(0, 'TabLineSel', { fg = '#eeeeee', bg = '#111111' })
-  -- end,
-  -- }
-  -- use {
-  --   'marko-cerovac/material.nvim',
-  -- config = function()
-  --   vim.g.material_style = "darker"
-  --   vim.cmd([[colorscheme material]])
-  -- end,
-  -- }
-  -- use {
-  --   'olimorris/onedarkpro.nvim',
-  -- config = function()
-  --   require("onedarkpro").setup({
-  --     dark_theme = "onedark",
-  --     colors = {
-  --       onedark = {
-  --         bg = "#1f1f1f"
-  --       },
-  --       cursorline = "#222222",
-  --     },
-  --     options = {
-  --       bold = false, -- Use the colorscheme's opinionated bold styles?
-  --       italic = false, -- Use the colorscheme's opinionated italic styles?
-  --       underline = false, -- Use the colorscheme's opinionated underline styles?
-  --       undercurl = false, -- Use the colorscheme's opinionated undercurl styles?
-  --       cursorline = true, -- Use cursorline highlighting?
-  --       transparency = false, -- Use a transparent background?
-  --       terminal_colors = false, -- Use the colorscheme's colors for Neovim's :terminal?
-  --       window_unfocussed_color = false, -- When the window is out of focus, change the normal background?
-  --     }
-  --   })
-  --   vim.o.termguicolors = true
-  --   vim.cmd([[colorscheme onedarkpro]])
-  -- end,
-  -- }
   use {
     'cpea2506/one_monokai.nvim',
     config = function()
@@ -227,25 +175,32 @@ return require('packer').startup(function(use)
         },
         themes = function(colors)
           return {
-            Normal = { bg = '#161716' },
-            CursorLine = { underline = true },
+            Normal = { bg = '#000000' },
+            CursorLine = { bg = '#151515' },
             TabLine = { reverse = true },
-            AnnoyingSpaces = { bg = '#333333' },
+            AnnoyingSpaces = { bg = colors.dark_gray },
           }
         end,
       })
     end,
   }
-  -- use {
-  --   'tanvirtin/monokai.nvim',
-  -- config = function()
-  --   require('monokai').setup({
-  --     palette = require('monokai').pro,
-  --     -- palette = require('monokai').soda,
-  --     -- palette = require('monokai').ristretto,
-  --   })
-  -- end,
-  -- }
+  use {
+    'tanvirtin/monokai.nvim',
+    disable = true,
+    config = function()
+      require('monokai').setup({
+        palette = require('monokai').pro,
+        -- palette = require('monokai').soda,
+        -- palette = require('monokai').ristretto,
+        custom_hlgroups = {
+          Normal = { bg = '#000000' },
+          CursorLine = { bg = '#151515' },
+          TabLine = { reverse = true },
+          AnnoyingSpaces = { bg = '#333842' },
+        }
+      })
+    end,
+  }
 
   -- finder (path/dir/file/buffer/tac/etc.)
   use {
