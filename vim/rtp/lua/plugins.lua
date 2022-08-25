@@ -235,29 +235,23 @@ return require('packer').startup(function(use)
     end
   }
   use {
-    -- dependency
-    'rbgrouleff/bclose.vim',
-    config = function()
-      vim.g.bclose_no_plugin_maps = true
-    end
-  }
-  use {
-    'francoiscabrol/ranger.vim',
-    requires = { 'rbgrouleff/bclose.vim' },
+    'kevinhwang91/rnvimr',
     cond = function() return vim.fn.executable('ranger') end,
     config = function()
-      vim.g.ranger_map_keys = 0
-      -- vim.g.ranger_replace_netrw = 1
-      local wk = require("which-key")
-      wk.register({
-        e = {
-          name = "Ranger",
-          t = { "<Cmd>RangerCurrentFileNewTab<CR>", "Ranger [tab]" },
-          v = { "<Cmd>call OpenRangerIn('%:p:h', 'vnew ')<CR>", "Ranger [vert]" },
-          w = { "<Cmd>call OpenRangerIn('%:p:h', 'new ')<CR>", "Ranger [horz]" },
-        },
-      }, { prefix = "<Leader>" })
-    end
+      vim.keymap.set('n', '<Leader>e', "<Cmd>RnvimrToggle<CR>", { desc = "ranger" })
+      -- Hide the files included in gitignore
+      vim.g.rnvimr_hide_gitignore = 1
+      vim.g.rnvimr_edit_cmd = 'tabedit'
+      vim.g.rnvimr_enable_picker = 1
+      vim.g.rnvimr_layout = {
+        relative = 'editor',
+        width = vim.o.columns,
+        height = vim.o.lines - 3,
+        col = 0,
+        row = 1,
+        style = 'minimal',
+      }
+    end,
   }
   use {
     'preservim/tagbar',
