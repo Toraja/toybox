@@ -547,7 +547,7 @@ endif
 nnoremap <Leader>r <Cmd>call register#base#CopyRegisterToAnotherInteract()<CR>
 nnoremap [Chief]r <Cmd>call register#base#EditRegister()<CR>
 nnoremap [Captain]r <Cmd>call register#base#ClearCharRegisters()<CR>
-nnoremap yp <Cmd>let @* = expand('%:p') \| echo expand('%:p') 'copied to clipboard'<CR>
+nnoremap yp <Cmd>let @" = expand('%:p') \| let @* = @" \| echo @" 'copied'<CR>
 " --- || register || }}}
 
 " {{{ || Mark || ---
