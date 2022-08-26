@@ -171,10 +171,13 @@ return require('packer').startup(function(use)
           cyan = '#00d7ff',
         },
         themes = function(colors)
+          local cursor_line_bg = '#161616'
           return {
             Normal = { bg = colors.none },
-            CursorLine = { bg = '#161616' },
+            CursorLine = { bg = cursor_line_bg },
+            CursorLineNr = { fg = colors.fg, bg = cursor_line_bg },
             TabLine = { fg = colors.none, bg = colors.none, reverse = true },
+            Todo = { fg = colors.pink, bold = true, italic = true, reverse = true },
             AnnoyingSpaces = { bg = colors.dark_gray },
           }
         end,
