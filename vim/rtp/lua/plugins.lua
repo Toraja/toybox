@@ -937,6 +937,17 @@ return require('packer').startup(function(use)
         auto_close = true, -- automatically close the list when you have no diagnostics
         auto_preview = false, -- automatically preview the location of the diagnostic. <esc> to close preview and go back to last window
       })
+
+      local function replace_qflist()
+        vim.cmd('cclose')
+        trouble.open("quickfix", "auto=true")
+      end
+
+      local function replace_loclist()
+        vim.cmd('lclose')
+        trouble.open("loclist", "auto=true")
+      end
+
       require("which-key").register({
         ["<C-q>"] = {
           name = "Trouble",
@@ -945,8 +956,8 @@ return require('packer').startup(function(use)
           ["<C-e>"] = { function() trouble.open("document_diagnostics", "auto=true") end, "Troube document diagnostics" },
           ["<C-w>"] = { function() trouble.open("workspace_diagnostics", "auto=true") end,
             "Trouble workspace diagnostics" },
-          ["<C-f>"] = { function() vim.cmd('cclose'); trouble.open("quickfix", "auto=true") end, "Trouble quickfix" },
-          ["<C-l>"] = { function() vim.cmd('lclose'); trouble.open("loclist", "auto=true") end, "Trouble loclist" },
+          ["<C-f>"] = { function() replace_qflist() end, "Trouble quickfix" },
+          ["<C-l>"] = { function() replace_loclist() end, "Trouble loclist" },
           ["<C-n>"] = { function() trouble.next({ skip_groups = true, jump = true }) end, "Trouble next" },
           ["<C-p>"] = { function() trouble.previous({ skip_groups = true, jump = true }) end, "Trouble previous" },
           ["<C-_>"] = { function() trouble.help() end, "Trouble keybind" },
@@ -957,28 +968,34 @@ return require('packer').startup(function(use)
           },
         },
       })
+
       -- Attempt to replace quickfix window with Trouble.
-      -- This ends up an error like `Not allowed to edit another buffer now`.
-      -- local function replace_qflist_with_trouble()
-      --   if vim.o.buftype ~= 'quickfix' then
-      --     return
-      --   end
-      --   local is_loclist = vim.fn.getwininfo(vim.fn.win_getid())[1]['loclist'] == 1
+      -- With `BufWinEnter`, it ends up an error like `Not allowed to edit another buffer now`.
+      -- With `WinNew` or `WinEnter`, passed buffer number as argument will not be of quickfix window.
+      -- With `BufEnter`, passed buffer number is buffer number of quickfix window, but replace will not be performned
+      -- local function replace_qflist_with_trouble(bufnr)
+      --   print('bufnr: ' .. bufnr)
+      --   local win_id = vim.fn.win_findbuf(bufnr)[1]
+      --   local is_quickfx = vim.fn.getwininfo(win_id)[1]['quickfix'] == 1
+      --   local is_loclist = vim.fn.getwininfo(win_id)[1]['loclist'] == 1
       --   if is_loclist then
-      --     lclose
-      --     vim.cmd('Trouble loclist')
-      --   else
-      --     cclose
-      --     vim.cmd('Trouble quickfix')
+      --     replace_loclist()
+      --   elseif is_quickfx then
+      --     replace_qflist()
       --   end
       -- end
-      -- vim.api.nvim_create_user_command('TroubleHijackQfWin', replace_qflist_with_trouble, {})
-      -- vim.cmd([[
-      --   augroup trouble_hijack_qf_win
-      --     autocmd!
-      --     autocmd BufWinEnter * TroubleHijackQfWin
-      --   augroup END
-      -- ]])
+
+      -- local trouble_hijack_qf_win = vim.api.nvim_create_augroup('trouble_hijack_qf_win', {})
+      -- vim.api.nvim_create_autocmd('BufEnter', {
+      -- vim.api.nvim_create_autocmd('WinEnter', {
+      -- vim.api.nvim_create_autocmd('WinNew', {
+      --   group = trouble_hijack_qf_win,
+      --   pattern = '*',
+      --   callback = function(info)
+      --     print(vim.inspect(info))
+      --     replace_qflist_with_trouble(info.buf)
+      --   end
+      -- })
     end
   }
   use {
