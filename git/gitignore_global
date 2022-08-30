@@ -11,3 +11,6 @@ debug.test
 # asdf
 .tool-versions
 .envrc
+
+# lua
+.luarc.json
