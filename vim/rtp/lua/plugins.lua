@@ -522,6 +522,7 @@ return require('packer').startup(function(use)
       })
       -- XXX not working
       -- vim.keymap.set('i', '<C-\\>', '<C-o>gcc', { remap = true, silent = true } )
+      vim.keymap.set('n', 'gcy', 'yygcc', { remap = true, silent = true })
     end
   }
   use {
