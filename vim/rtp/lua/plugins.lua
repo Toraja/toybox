@@ -900,6 +900,14 @@ return require('packer').startup(function(use)
     end
   }
   use {
+    "ray-x/lsp_signature.nvim",
+    config = function()
+      require("lsp_signature").setup({
+        hint_prefix = "🦆 "
+      })
+    end
+  }
+  use {
     'simrat39/rust-tools.nvim',
     ft = 'rust',
   }
