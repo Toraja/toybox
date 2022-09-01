@@ -17,6 +17,12 @@ return require('packer').startup(function(use)
   ]]
   use 'wbthomason/packer.nvim'
   use {
+    'rktjmp/hotpot.nvim',
+    config = function()
+      require('hotpot').setup()
+    end
+  }
+  use {
     'folke/which-key.nvim',
     config = function()
       vim.cmd([[
