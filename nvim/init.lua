@@ -8,6 +8,10 @@ array.new({ 'cfilter', 'termdebug' }):for_each(function(pack)
   vim.cmd('packadd ' .. pack)
 end)
 
+vim.wo.foldmethod = 'expr'
+vim.wo.foldexpr = 'nvim_treesitter#foldexpr()'
+vim.wo.foldlevel = 99
+
 -- highlight
 -- vim.api.nvim_set_hl(0, 'String', { ctermfg = 216 })
 -- vim.api.nvim_set_hl(0, 'Comment', { ctermfg = 246 })
