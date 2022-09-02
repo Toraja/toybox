@@ -449,6 +449,46 @@ return require('packer').startup(function(use)
       telescope.load_extension('fzf')
       telescope.load_extension('ghq')
       telescope.load_extension("packer")
+
+      local telescope_cmds = {
+        { 'f', 'Telescope find_files search_dirs=.', { desc = 'Files' } },
+        { 'r', 'Telescope live_grep layout_config={preview_width=0.5} search_dirs=.', { desc = 'Grep' } },
+        { 'b', 'Telescope buffers', { desc = 'Buffers' } },
+        { 'o', 'Telescope treesitter', { desc = 'Treesitter' } },
+        { 'O', 'Telescope oldfiles layout_config={preview_width=0.5}', { desc = 'Oldfiles' } },
+        { 'l', 'Telescope current_buffer_fuzzy_find', { desc = 'Buffer lines' } },
+        { 'g', 'Telescope git_files', { desc = 'Git files' } },
+        { 'G', 'Telescope git_status', { desc = 'Git status' } },
+        { 'C', 'Telescope git_commits', { desc = 'Git commits' } },
+        { 'c', 'Telescope git_bcommits', { desc = 'Git buffer commits' } },
+        { 'h', 'Telescope help_tags', { desc = 'Help tags' } },
+        { 'e', 'Telescope diagnostics', { desc = 'Diagnostics' } },
+        { ':', 'Telescope command_history', { desc = 'Command history' } },
+        { '/', 'Telescope search_history', { desc = 'Search history' } },
+        { 'm', 'Telescope marks', { desc = 'Marks' } },
+        { 'k', 'Telescope keymaps', { desc = 'Keymaps' } },
+        { 's', 'Telescope spell_suggest', { desc = 'Spell suggest' } },
+        { 'H', 'Telescope highlights', { desc = 'Highlights' } },
+        { 'q', 'Telescope ghq list layout_config={preview_width=0.5}', { desc = 'Ghq list' } },
+        { 'p', 'Telescope packer', { desc = 'Packer' } },
+      }
+
+      local function wrap_as_cmd(cmd)
+        return '<Cmd>' .. cmd .. '<CR>'
+      end
+
+      local function wrap_as_editable(cmd)
+        return ':' .. cmd .. ' '
+      end
+
+      local prefix_key = vim.g.chief_key .. 'f'
+      local edit_key = prefix_key .. vim.g.chief_key
+      require("which-key").register({ [prefix_key] = { name = "Telescope" } })
+      require("which-key").register({ [edit_key] = { name = "Edit command" } })
+      for _, cmd in ipairs(telescope_cmds) do
+        vim.keymap.set('n', prefix_key .. cmd[1], wrap_as_cmd(cmd[2]), cmd[3])
+        vim.keymap.set('n', edit_key .. cmd[1], wrap_as_editable(cmd[2]), cmd[3])
+      end
     end,
   }
 
@@ -943,7 +983,7 @@ return require('packer').startup(function(use)
     'nvim-treesitter/nvim-treesitter',
     config = function()
       require('nvim-treesitter.configs').setup({
-        ensure_installed = { "go", "lua", "rust" },
+        ensure_installed = { "fennel", "fish", "go", "lua", "rust", "vim", "yaml" },
         highlight = {
           enable = true,
           -- disable = { "rust" },

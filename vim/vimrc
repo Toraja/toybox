@@ -862,44 +862,6 @@ nnoremap <expr> [Chief]t runcmds#base#RunCmds("NvimTree", <SID>NvimTreeCmds(), <
 " nnoremap <expr> [Chief]f runcmds#base#RunCmds("FZF", <SID>FzfCmds(), <SID>FzfFlags())
 " --- || fzf-lua || }}}
 
-" {{{ || telescope.nvim || ---
-function! s:InitFzfCmds()
-  let l:fzf_cmds = {
-        \ 'f': runcmds#init#MakeCmdInfo('Telescope find_files search_dirs=.'),
-        \ 'r': runcmds#init#MakeCmdInfo('Telescope live_grep layout_config={preview_width=0.5} search_dirs=.'),
-        \ 'b': runcmds#init#MakeCmdInfo('Telescope buffers'),
-        \ 'o': runcmds#init#MakeCmdInfo('Telescope oldfiles layout_config={preview_width=0.5}'),
-        \ 'l': runcmds#init#MakeCmdInfo('Telescope current_buffer_fuzzy_find'),
-        \ 'g': runcmds#init#MakeCmdInfo('Telescope git_files'),
-        \ 'G': runcmds#init#MakeCmdInfo('Telescope git_status'),
-        \ 'C': runcmds#init#MakeCmdInfo('Telescope git_commits'),
-        \ 'c': runcmds#init#MakeCmdInfo('Telescope git_bcommits'),
-        \ 'h': runcmds#init#MakeCmdInfo('Telescope help_tags'),
-        \ 'e': runcmds#init#MakeCmdInfo('Telescope diagnostics'),
-        \ ':': runcmds#init#MakeCmdInfo('Telescope command_history'),
-        \ '/': runcmds#init#MakeCmdInfo('Telescope search_history'),
-        \ 'm': runcmds#init#MakeCmdInfo('Telescope marks'),
-        \ 'k': runcmds#init#MakeCmdInfo('Telescope keymaps'),
-        \ 's': runcmds#init#MakeCmdInfo('Telescope spell_suggest'),
-        \ 'H': runcmds#init#MakeCmdInfo('Telescope highlights'),
-        \ 'q': runcmds#init#MakeCmdInfo('Telescope ghq list layout_config={preview_width=0.5}'),
-        \ 'p': runcmds#init#MakeCmdInfo('Telescope packer'),
-        \ }
-  function! s:FzfCmds() closure
-    return l:fzf_cmds
-  endfunction
-endfunction
-function! s:InitFzfFlagDict()
-  let l:fzf_flags = runcmds#init#MakeFlagDict(';', "\<Space>")
-  function! s:FzfFlags() closure
-    return l:fzf_flags
-  endfunction
-endfunction
-call s:InitFzfCmds()
-call s:InitFzfFlagDict()
-nnoremap <expr> [Chief]f runcmds#base#RunCmds("FZF", <SID>FzfCmds(), <SID>FzfFlags())
-" --- || telescope.nvim || }}}
-
 " {{{ || nvim-lspconfig || ---
 let s:def_cmds = {
       \ 'd': runcmds#init#MakeCmdInfo('lua vim.lsp.buf.hover()'),
