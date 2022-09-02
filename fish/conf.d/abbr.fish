@@ -11,6 +11,7 @@ abbr --add --global aplg apt list --upgradable
 
 ## shell
 abbr --add --global mg mkdirgo
+abbr --add --global mf mkfile
 if type --query fd && type --query rg
     set fig_cmd 'fd -t f -X rg --color=always'
 else
