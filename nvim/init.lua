@@ -203,3 +203,10 @@ wk.register({
     },
   },
 })
+
+function preserve_cursor(func)
+  local cursor_position = vim.fn.getpos('.')
+  local current_line, current_column = cursor_position[2], cursor_position[3]
+  func()
+  vim.fn.cursor(current_line, current_column)
+end

@@ -3,6 +3,6 @@ vim.api.nvim_create_autocmd('BufWritePre', {
   group = lua_format_augroud_id,
   pattern = '*.lua',
   callback = function()
-    vim.lsp.buf.formatting_sync()
+    preserve_cursor(vim.lsp.buf.formatting_sync)
   end,
 })
