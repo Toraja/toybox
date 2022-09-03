@@ -1,12 +1,19 @@
 ---@diagnostic disable:lowercase-global
 ---@diagnostic disable:need-check-nil
 
-local install_path = vim.fn.stdpath('data') .. '/site/pack/packer/start/packer.nvim'
+local packer_install_path = vim.fn.stdpath('data') .. '/site/pack/packer/start/packer.nvim'
 local packer_bootstrap = nil
-if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
+if vim.fn.empty(vim.fn.glob(packer_install_path)) > 0 then
   packer_bootstrap = vim.fn.system({ 'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim',
-    install_path })
+    packer_install_path })
   vim.cmd([[packadd packer.nvim]])
+end
+
+local hotpot_install_path = vim.fn.stdpath('data') .. '/site/pack/packer/start/hotpot.nvim'
+if vim.fn.empty(vim.fn.glob(hotpot_install_path)) > 0 then
+  print("Could not find hotpot.nvim, cloning new copy to", hotpot_install_path)
+  vim.fn.system({ 'git', 'clone', 'https://github.com/rktjmp/hotpot.nvim', hotpot_install_path })
+  vim.cmd("helptags " .. hotpot_install_path .. "/doc")
 end
 
 return require('packer').startup(function(use)
