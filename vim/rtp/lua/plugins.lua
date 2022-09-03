@@ -162,17 +162,30 @@ return require('packer').startup(function(use)
     -- nvim-web-devicons requires external font such as https://www.nerdfonts.com/
     requires = { 'kyazdani42/nvim-web-devicons', opt = true },
     config = function()
-      local function section_c()
-        local cwd = vim.fn.fnamemodify(vim.fn.getcwd(), ':~')
-        local filepath = vim.fn.expand('%')
-        return cwd .. ' | ' .. filepath
+      vim.o.showmode = false
+
+      local function mode_with_paste()
+        local lualine_mode_map = require('lualine.utils.mode').map
+        local mode = lualine_mode_map[vim.fn.mode()]
+        if vim.o.paste then
+          mode = mode .. ' (PASTE)'
+        end
+        return mode
       end
 
       require('lualine').setup({
         options = { theme = 'ayu_mirage' },
         sections = {
-          lualine_c = { section_c },
+          lualine_a = { mode_with_paste },
+          lualine_b = { 'branch', 'diff', 'diagnostics' },
+          lualine_c = { "vim.fn.fnamemodify(vim.fn.getcwd(), ':~')",
+            { 'filename', show_modified_status = true, newfile_status = true } },
         },
+        inactive_sections = {
+          lualine_c = { { 'filename', path = 3, show_modified_status = true, newfile_status = true } },
+          lualine_x = { 'location' },
+        },
+        extensions = { 'fugitive', 'man', 'nvim-tree', 'quickfix' }
       })
     end,
   }
