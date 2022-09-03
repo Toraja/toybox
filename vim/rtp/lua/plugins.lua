@@ -1149,6 +1149,7 @@ return require('packer').startup(function(use)
   -- <go>
   use {
     'ray-x/go.nvim',
+    ft = { 'go', 'gomod', 'gosum' },
     requires = { 'ray-x/guihua.lua', opt = true },
     config = function()
       require('go').setup({
