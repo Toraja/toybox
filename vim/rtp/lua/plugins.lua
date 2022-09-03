@@ -245,10 +245,12 @@ return require('packer').startup(function(use)
           ignore = false,
         },
         view = {
+          width = 40,
           mappings = {
             list = {
               { key = "<C-e>", action = '' },
               { key = "H", action = '' },
+              { key = "s", action = '' },
             },
           },
         },
