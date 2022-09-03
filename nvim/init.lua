@@ -145,6 +145,14 @@ end
 
 vim.api.nvim_create_user_command('QfFilesOpen', qf_files_open, {})
 
+function plugin_unload(name)
+  package.loaded[name] = nil
+end
+
+vim.api.nvim_create_user_command('PluginUnload', function(opts)
+  plugin_unload(opts.args)
+end, { nargs = 1 })
+
 function plugin_reload()
   package.loaded['plugins'] = nil
   require('plugins')
