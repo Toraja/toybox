@@ -263,6 +263,14 @@ return require('packer').startup(function(use)
           },
         },
       })
+      require('keymap.which-key-helper').register_with_editable('Telescope', vim.g.chief_key .. 't', vim.g.chief_key, {
+        { 'n', 'NvimTreeOpen', { desc = 'Open' } },
+        { 'N', 'NvimTreeOpen %:h', { desc = 'Open in the file\'s parent directory' } },
+        { 't', 'NvimTreeToggle', { desc = 'Toggle' } },
+        { 'o', 'NvimTreeFocus', { desc = 'Focus' } },
+        { 'f', 'NvimTreeFindFile', { desc = 'Find file' } },
+        { 'r', 'NvimTreeRefresh', { desc = 'Refresh' } },
+      })
     end
   }
   use {
@@ -375,6 +383,45 @@ return require('packer').startup(function(use)
           },
         })
       end
+
+      -- {{{ || fzf-lua || ---
+      -- function! s:InitFzfCmds()
+      --   let l:fzf_cmds = {
+      --         \ 'b': runcmds#init#MakeCmdInfo('FzfLua buffers'),
+      --         \ 'f': runcmds#init#MakeCmdInfo('FzfLua files cwd=.'),
+      --         \ 'F': runcmds#init#MakeCmdInfo('FzfLua files cwd=%:h'),
+      --         \ 'o': runcmds#init#MakeCmdInfo('FzfLua oldfiles'),
+      --         \ 'L': runcmds#init#MakeCmdInfo('FzfLua lines'),
+      --         \ 'l': runcmds#init#MakeCmdInfo('FzfLua blines'),
+      --         \ 't': runcmds#init#MakeCmdInfo('FzfLua tabs'),
+      --         \ 'r': runcmds#init#MakeCmdInfo('FzfLua grep cwd=.'),
+      --         \ 'g': runcmds#init#MakeCmdInfo('FzfLua git_files'),
+      --         \ 'G': runcmds#init#MakeCmdInfo('FzfLua git_status'),
+      --         \ 'C': runcmds#init#MakeCmdInfo('FzfLua git_commits'),
+      --         \ 'c': runcmds#init#MakeCmdInfo('FzfLua git_bcommits'),
+      --         \ 'h': runcmds#init#MakeCmdInfo('FzfLua help_tags'),
+      --         \ 'd': runcmds#init#MakeCmdInfo('FzfLua commands'),
+      --         \ ':': runcmds#init#MakeCmdInfo('FzfLua command_history'),
+      --         \ '/': runcmds#init#MakeCmdInfo('FzfLua search_history'),
+      --         \ 'k': runcmds#init#MakeCmdInfo('FzfLua marks'),
+      --         \ 'm': runcmds#init#MakeCmdInfo('FzfLua keymaps'),
+      --         \ 's': runcmds#init#MakeCmdInfo('FzfLua spell_suggest'),
+      --         \ 'q': runcmds#init#MakeCmdInfo('lua fzf_lua_ghq()'),
+      --         \ }
+      --   function! s:FzfCmds() closure
+      --     return l:fzf_cmds
+      --   endfunction
+      -- endfunction
+      -- function! s:InitFzfFlagDict()
+      --   let l:fzf_flags = runcmds#init#MakeFlagDict(';', "\<Space>")
+      --   function! s:FzfFlags() closure
+      --     return l:fzf_flags
+      --   endfunction
+      -- endfunction
+      -- call s:InitFzfCmds()
+      -- call s:InitFzfFlagDict()
+      -- nnoremap <expr> [Chief]f runcmds#base#RunCmds("FZF", <SID>FzfCmds(), <SID>FzfFlags())
+      -- --- || fzf-lua || }}}
     end
   }
   use {
@@ -472,7 +519,7 @@ return require('packer').startup(function(use)
       telescope.load_extension('ghq')
       telescope.load_extension("packer")
 
-      local telescope_cmds = {
+      require('keymap.which-key-helper').register_with_editable('Telescope', vim.g.chief_key .. 'f', vim.g.chief_key, {
         { 'f', 'Telescope find_files search_dirs=.', { desc = 'Files' } },
         { 'r', 'Telescope live_grep layout_config={preview_width=0.5} search_dirs=.', { desc = 'Grep' } },
         { 'b', 'Telescope buffers', { desc = 'Buffers' } },
@@ -493,24 +540,7 @@ return require('packer').startup(function(use)
         { 'H', 'Telescope highlights', { desc = 'Highlights' } },
         { 'q', 'Telescope ghq list layout_config={preview_width=0.5}', { desc = 'Ghq list' } },
         { 'p', 'Telescope packer', { desc = 'Packer' } },
-      }
-
-      local function wrap_as_cmd(cmd)
-        return '<Cmd>' .. cmd .. '<CR>'
-      end
-
-      local function wrap_as_editable(cmd)
-        return ':' .. cmd .. ' '
-      end
-
-      local prefix_key = vim.g.chief_key .. 'f'
-      local edit_key = prefix_key .. vim.g.chief_key
-      require("which-key").register({ [prefix_key] = { name = "Telescope" } })
-      require("which-key").register({ [edit_key] = { name = "Edit command" } })
-      for _, cmd in ipairs(telescope_cmds) do
-        vim.keymap.set('n', prefix_key .. cmd[1], wrap_as_cmd(cmd[2]), cmd[3])
-        vim.keymap.set('n', edit_key .. cmd[1], wrap_as_editable(cmd[2]), cmd[3])
-      end
+      })
     end,
   }
 
