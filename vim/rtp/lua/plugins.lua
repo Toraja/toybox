@@ -209,6 +209,7 @@ return require('packer').startup(function(use)
             DiffDelete = { fg = colors.claret, bg = colors.claret },
             DiffChange = { bg = colors.dark_gray },
             DiffText = { bg = colors.dark_powder_blue },
+            Search = { fg = colors.yellow, bg = colors.bg, reverse = true },
             TabLine = { fg = colors.none, bg = colors.none, reverse = true },
             Todo = { fg = colors.pink, bold = true, italic = true, reverse = true },
             AnnoyingSpaces = { bg = colors.dark_gray },
