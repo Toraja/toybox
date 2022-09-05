@@ -194,14 +194,21 @@ return require('packer').startup(function(use)
     config = function()
       require("one_monokai").setup({
         colors = {
+          bg = "NONE",
           cyan = '#00d7ff',
+          claret = '#7f1734',
+          castleton_green = '#00563f',
+          dark_powder_blue = '#003399',
+          cursor_line_bg = '#141414',
         },
         themes = function(colors)
-          local cursor_line_bg = '#161616'
           return {
-            Normal = { bg = colors.none },
-            CursorLine = { bg = cursor_line_bg },
-            CursorLineNr = { fg = colors.fg, bg = cursor_line_bg },
+            CursorLine = { bg = colors.cursor_line_bg },
+            CursorLineNr = { fg = colors.fg, bg = colors.cursor_line_bg },
+            DiffAdd = { bg = colors.bangladesh_green },
+            DiffDelete = { fg = colors.claret, bg = colors.claret },
+            DiffChange = { bg = colors.dark_gray },
+            DiffText = { bg = colors.dark_powder_blue },
             TabLine = { fg = colors.none, bg = colors.none, reverse = true },
             Todo = { fg = colors.pink, bold = true, italic = true, reverse = true },
             AnnoyingSpaces = { bg = colors.dark_gray },
