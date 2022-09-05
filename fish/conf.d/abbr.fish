@@ -128,4 +128,4 @@ abbr --add --global got go test
 abbr --add --global gotr go test -run
 
 ## taskwarrior
-abbr --add --global tt taskwarrior-tui
+abbr --add --global tt taskwarrior-tui -r nice
