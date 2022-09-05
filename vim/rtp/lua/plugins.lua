@@ -179,7 +179,7 @@ return require('packer').startup(function(use)
           lualine_a = { mode_with_paste },
           lualine_b = { 'branch', 'diff', 'diagnostics' },
           lualine_c = { "vim.fn.fnamemodify(vim.fn.getcwd(), ':~')",
-            { 'filename', show_modified_status = true, newfile_status = true } },
+            { 'filename', path = 1, show_modified_status = true, newfile_status = true } },
         },
         inactive_sections = {
           lualine_c = { { 'filename', path = 3, show_modified_status = true, newfile_status = true } },
