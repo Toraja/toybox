@@ -790,14 +790,6 @@ endfunc
 
 " {{{ || plugin mapping and option || ---
 
-" {{{ || termdebug || ---
-function! GdbIns() abort
-  Gdb
-  startinsert
-endfunction
-command! -buffer GdbIns call GdbIns()
-" --- || termdebug || }}}
-
 " {{{ || nvim-lspconfig || ---
 let s:def_cmds = {
       \ 'd': runcmds#init#MakeCmdInfo('lua vim.lsp.buf.hover()'),

@@ -39,6 +39,15 @@ wk.register({
   },
 }, { prefix = vim.g.chief_key })
 
+function gdb_ins()
+  vim.cmd([[
+    Gdb
+    startinsert
+  ]])
+end
+
+vim.api.nvim_create_user_command('GdbIns', gdb_ins, {})
+
 wk.register({
   g = {
     name = "vimgrep",
