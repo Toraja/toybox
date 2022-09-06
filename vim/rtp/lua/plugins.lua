@@ -1062,6 +1062,9 @@ return require('packer').startup(function(use)
         -- field = "TSNone", -- field of struct initialisation
         -- property = "TSNone", -- field of struct definition, but this affects the property after `.` like time.Second
       })
+      vim.wo.foldmethod = 'expr'
+      vim.wo.foldexpr = 'nvim_treesitter#foldexpr()'
+      vim.wo.foldlevel = 99
     end,
     run = ':TSUpdate',
   }

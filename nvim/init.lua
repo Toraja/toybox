@@ -8,10 +8,6 @@ array.new({ 'cfilter', 'termdebug' }):for_each(function(pack)
   vim.cmd('packadd ' .. pack)
 end)
 
-vim.wo.foldmethod = 'expr'
-vim.wo.foldexpr = 'nvim_treesitter#foldexpr()'
-vim.wo.foldlevel = 99
-
 -- highlight
 -- vim.api.nvim_set_hl(0, 'String', { ctermfg = 216 })
 -- vim.api.nvim_set_hl(0, 'Comment', { ctermfg = 246 })
@@ -19,6 +15,8 @@ vim.wo.foldlevel = 99
 -- vim.api.nvim_set_hl(0, 'PmenuSel', { ctermfg = 254, ctermbg = 240, bold = true, bg = 'Blue' })
 -- vim.api.nvim_set_hl(0, 'Pmenu', { ctermfg = 254, ctermbg = 236, bg = 'DarkGrey' })
 -- vim.api.nvim_set_hl(0, 'ColorColumn', { ctermbg = 6, bg = 'DarkCyan' })
+
+vim.g.ft_leader_key = '-'
 
 vim.g.termdebug_wide = 1
 wk.register({
