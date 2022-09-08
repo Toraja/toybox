@@ -40,9 +40,6 @@ inoremap <buffer> <silent> <M-;> <Cmd>call ToggleLineBreakMD()<CR>
 nnoremap <buffer> <silent> <M-;> <Cmd>call ToggleLineBreakMD()<CR>
 xnoremap <buffer> <silent> <M-;> :call ToggleLineBreakMD()<CR>
 
-inoreabbrev <buffer> TODO <mark>TODO</mark> <span style="color: green"></span>  <Esc>F<i
-inoreabbrev <buffer> todo <mark>TODO</mark> <span style="color: green"></span>  <Esc>F<i
-
 " Add or remove linebreak for selected lines.
 " Whether add or remove is determined by whether the first line has linebreak or not.
 " The following lines are treated only if necessary.
