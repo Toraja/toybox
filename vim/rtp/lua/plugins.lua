@@ -205,7 +205,7 @@ return require('packer').startup(function(use)
           return {
             CursorLine = { bg = colors.cursor_line_bg },
             CursorLineNr = { fg = colors.fg, bg = colors.cursor_line_bg },
-            DiffAdd = { bg = colors.bangladesh_green },
+            DiffAdd = { bg = colors.castleton_green },
             DiffDelete = { fg = colors.claret, bg = colors.claret },
             DiffChange = { bg = colors.dark_gray },
             DiffText = { bg = colors.dark_powder_blue },
