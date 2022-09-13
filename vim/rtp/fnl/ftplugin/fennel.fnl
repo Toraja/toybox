@@ -9,8 +9,8 @@
       (vim.fn.cursor current-line current-column))))
 
 (vim.keymap.set :n :-r "<Cmd>vertical split term://fennel % | startinsert<CR>"
-                {:desc :Run})
-(vim.keymap.set :n :-f fennel-format {:desc :Format})
+                {:desc :Run :buffer true})
+(vim.keymap.set :n :-f fennel-format {:desc :Format :buffer true})
 
 ;; Looks like fnlfmt does not support stdin
 ;; Enable autocmd when supported (and remove trailing `%`)

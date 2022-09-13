@@ -7,7 +7,7 @@
       (vim.cmd "Trouble loclist")
       (vim.cmd :TroubleClose)))
 
-(vim.keymap.set :n :-l yaml-lint {:silent true})
+(vim.keymap.set :n :-l yaml-lint {:desc :Lint :silent true :buffer true})
 
 ;; Disable autocmd as some yaml files are not genuine yaml file.
 ;; (local yaml_lint_augroud_id (vim.api.nvim_create_augroup :yaml_lint {}))
