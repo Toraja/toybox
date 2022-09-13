@@ -27,6 +27,18 @@ return require('packer').startup(function(use)
     'rktjmp/hotpot.nvim',
     config = function()
       require('hotpot').setup()
+
+      function build_fennel_ftplugins(opt)
+        local build_opt = opt or {}
+        require('hotpot.api.make').build('~/toybox/vim/rtp/ftplugin',
+          build_opt,
+          '(.+)/toybox/vim/rtp/ftplugin/(.+)',
+          function(home, filename)
+            return home .. '/.config/nvim/ftplugin/' .. filename
+          end)
+      end
+
+      build_fennel_ftplugins({ verbosity = 0 })
     end
   }
   use {

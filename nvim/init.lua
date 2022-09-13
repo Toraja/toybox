@@ -200,6 +200,8 @@ wk.register({
     ['<F3>'] = { '<Cmd>source $MYVIMRC<CR>', 'Reload $MYVIMRC' },
     g = { '<Cmd>source $MYGVIMRC<CR>', 'Reload $MYGVIMRC' },
     f = { '<Cmd>SetFt<CR>', 'Reload ftplugin' },
+    -- this has to be vim command as the function is not defined here and function reference cannot be used.
+    n = { '<Cmd>lua build_fennel_ftplugins()<CR>', 'Build fennel ftplugins' },
     r = { plugin_recompile, 'Recompile plugins' },
     i = { plugin_install_recompile, 'Install plugins and compile' },
     s = { plugin_resync, 'Resync plugins' },
