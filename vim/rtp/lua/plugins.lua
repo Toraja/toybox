@@ -224,6 +224,7 @@ return require('packer').startup(function(use)
             Search = { fg = colors.yellow, bg = colors.bg, reverse = true },
             TabLine = { fg = colors.none, bg = colors.none, reverse = true },
             Todo = { fg = colors.pink, bold = true, italic = true, reverse = true },
+            Blocked = { fg = colors.aqua, reverse = true },
             AnnoyingSpaces = { bg = colors.dark_gray },
           }
         end,

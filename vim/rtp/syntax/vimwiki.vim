@@ -1,1 +1,1 @@
-syntax keyword DiffAdd BLOCKED
+syntax keyword Blocked BLOCKED
