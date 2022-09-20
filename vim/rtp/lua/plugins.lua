@@ -791,7 +791,6 @@ return require('packer').startup(function(use)
       -- 'java': [$HOME.'/toybox/vim/helper/java-lsp.sh', '-data', getcwd()],
       -- 'javascript': ['typescript-language-server', '--stdio'],
       -- 'php': [s:plugin_dir . '/phpactor/bin/phpactor', 'language-server'],
-      -- 'python': [executable('/usr/local/bin/pyls') ? '/usr/local/bin/pyls' : $HOME.'/.local/bin/pyls'],
 
       vim.cmd([[highlight link NormalFloat Normal]])
       -- vim.lsp.set_log_level("debug")
@@ -823,7 +822,7 @@ return require('packer').startup(function(use)
         return orig_util_open_floating_preview(contents, syntax, opts, ...)
       end
 
-      local servers = { 'gopls', 'sumneko_lua', 'rust_analyzer' }
+      local servers = { 'gopls', 'pyright', 'rust_analyzer', 'sumneko_lua' }
       for _, lsp in pairs(servers) do
         lspconfig[lsp].setup({
           capabilities = capabilities,
