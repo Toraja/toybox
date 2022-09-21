@@ -60,7 +60,6 @@ urgency.user.tag.awaiting.coefficient=-5.0
 # --- taskwarrior-tui ---
 uda.taskwarrior-tui.selection.bold=no
 uda.taskwarrior-tui.selection.reverse=yes
-uda.taskwarrior-tui.quick-tag.name=awaiting
 uda.taskwarrior-tui.task-report.prompt-on-delete=true
 uda.taskwarrior-tui.context-menu.select-on-move=true
 
@@ -74,6 +73,8 @@ uda.taskwarrior-tui.shortcuts.2=~/toybox/taskwarrior/shortcut/purge-deleted.sh
 uda.taskwarrior-tui.keyconfig.shortcut2=Z
 uda.taskwarrior-tui.shortcuts.3=~/toybox/taskwarrior/shortcut/review.sh
 uda.taskwarrior-tui.keyconfig.shortcut3=R
+uda.taskwarrior-tui.shortcuts.4=~/toybox/taskwarrior/shortcut/awaiting.sh
+uda.taskwarrior-tui.keyconfig.shortcut4=W
 uda.taskwarrior-tui.shortcuts.9=~/toybox/taskwarrior/shortcut/context-default.sh
 uda.taskwarrior-tui.keyconfig.shortcut9=C
 
