@@ -57,6 +57,7 @@ urgency.project.coefficient=0.0         # assigned to any project [default: #1.0
 # urgency.waiting.coefficient=        # waiting task [default: -3.0]
 # urgency.blocked.coefficient=        # blocked by other tasks [default: -5.0]
 urgency.user.tag.zzz.coefficient=-5.0
+urgency.user.tag.review.coefficient=5.0
 
 # --- taskwarrior-tui ---
 uda.taskwarrior-tui.selection.bold=no
