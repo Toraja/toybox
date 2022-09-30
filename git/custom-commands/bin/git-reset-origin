@@ -1,0 +1,38 @@
+#!/usr/bin/fish
+
+function usage
+    set -l usage \
+"
+Reset working tree to the origin of current branch.
+
+USAGE:
+    "(basename (status --current-filename))" [OPTION]
+OPTIONS:
+        --hard   Hard reset (git reset --hard)
+    -h, --help   Display this help
+"
+    echo $usage
+end
+
+argparse --max-args=0 'h/help' 'hard' -- $argv; or begin
+    usage
+    exit 1
+end
+
+set -q _flag_help; and begin
+    usage
+    exit
+end
+
+set remote_branch "origin/"(git branch --show-current)
+set prompt "Reset to $remote_branch? (y/n) "
+
+read --prompt-str "$prompt" answer
+
+test $answer != y; and exit 0
+
+set opt
+set -q _flag_hard; and set --append opt "--hard"
+set opt (string collect -- $opt)
+
+git reset $opt $remote_branch
