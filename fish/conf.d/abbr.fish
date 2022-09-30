@@ -44,6 +44,7 @@ abbr --add --global gcm git commit -m
 abbr --add --global gw git switch
 abbr --add --global gwc git switch -c
 abbr --add --global gr git reset
+abbr --add --global groh git reset-origin --hard
 abbr --add --global grs git restore
 abbr --add --global gst git stash
 abbr --add --global gstl git stash list
