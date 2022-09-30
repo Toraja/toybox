@@ -4,6 +4,7 @@
 	smudge = git-lfs smudge %f
 [push]
 	default = current
+	autoSetupRemote = true
 [diff]
 	tool = nvimdiff
 [merge]
