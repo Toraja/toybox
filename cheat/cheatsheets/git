@@ -47,3 +47,15 @@ git fetch --tags -f
 git tag [-l (pattern)]
 ## Tags and their hash (not the commit hash the tags are attached to)
 git show-ref --tags
+
+# --- Chores ---
+
+# Shrink .git directory
+## ref: https://stackoverflow.com/questions/5613345/how-to-shrink-the-git-folder
+
+## Run this command if lfs is used
+git lfs prune
+
+## Shrink .git/objects
+git gc
+git prune
