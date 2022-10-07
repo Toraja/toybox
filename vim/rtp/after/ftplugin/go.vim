@@ -4,10 +4,10 @@ function! s:InitGocmds()
 	let l:go_cmds = {
 				\ 'a': runcmds#init#MakeCmdInfo('GoAltV'),
 				\ 'B': runcmds#init#MakeCmdInfo('!go test -bench .'),
-				\ 'c': runcmds#init#MakeCmdInfo('GoChannel'),
 				\ 'e': runcmds#init#MakeCmdInfo('GoIfErr'),
 				\ 'g': runcmds#init#MakeCmdInfo('GoDebug'),
 				\ 'G': runcmds#init#MakeCmdInfo('GoBreakToggle'),
+				\ 'h': runcmds#init#MakeCmdInfo('GoChannel'),
 				\ 'k': runcmds#init#MakeCmdInfo('GoCallstack'),
 				\ 'l': runcmds#init#MakeCmdInfo('GoLint'),
 				\ 'r': runcmds#init#MakeCmdInfo('GoRun %'),

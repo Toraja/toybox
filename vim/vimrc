@@ -792,6 +792,8 @@ endfunc
 
 " {{{ || nvim-lspconfig || ---
 let s:def_cmds = {
+      \ 'c': runcmds#init#MakeCmdInfo('lua vim.lsp.buf.incoming_calls()'),
+      \ 'C': runcmds#init#MakeCmdInfo('lua vim.lsp.buf.outgoing_calls()'),
       \ 'd': runcmds#init#MakeCmdInfo('lua vim.lsp.buf.hover()'),
       \ 'f': runcmds#init#MakeCmdInfo('lua vim.lsp.buf.formatting()'),
       \ 'I': runcmds#init#MakeCmdInfo('Trouble lsp_implementations'),
