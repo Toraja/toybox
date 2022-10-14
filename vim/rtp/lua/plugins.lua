@@ -173,6 +173,7 @@ return require('packer').startup(function(use)
     'nvim-lualine/lualine.nvim',
     -- nvim-web-devicons requires external font such as https://www.nerdfonts.com/
     requires = { 'kyazdani42/nvim-web-devicons', opt = true },
+    after = 'one_monokai.nvim',
     config = function()
       vim.o.showmode = false
 
@@ -451,6 +452,7 @@ return require('packer').startup(function(use)
   }
   use {
     'nvim-telescope/telescope.nvim', tag = '0.1.0',
+    after = { 'one_monokai.nvim' },
     requires = {
       { 'nvim-lua/plenary.nvim' },
       { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' },
@@ -572,6 +574,7 @@ return require('packer').startup(function(use)
   -- moving around
   use {
     'phaazon/hop.nvim',
+    after = 'one_monokai.nvim',
     config = function()
       local hop = require('hop')
       hop.setup {
