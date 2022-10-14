@@ -692,7 +692,7 @@ return require('packer').startup(function(use)
       require("indent_blankline").setup {
         char = "¦",
         show_first_indent_level = false,
-        filetype_exclude = { 'markdown', 'vimwiki', 'json', 'nerdtree', 'NvimTree', 'man' }
+        filetype_exclude = { 'markdown', 'json', 'nerdtree', 'NvimTree', 'man' }
       }
     end,
   }
@@ -1200,7 +1200,12 @@ return require('packer').startup(function(use)
       })
     end
   }
-  use 'sheerun/vim-polyglot'
+  use {
+    'sheerun/vim-polyglot',
+    -- setup = function()
+    --   vim.g.polyglot_disabled = { 'markdown' }
+    -- end,
+  }
   use {
     'tpope/vim-abolish',
     config = function()
@@ -1239,8 +1244,37 @@ return require('packer').startup(function(use)
       })
     end,
   }
-  --[[
   -- Language specific
+  -- markup languages
+  use({ 'jakewvincent/mkdnflow.nvim',
+    -- rocks = 'luautf8', -- Ensures optional luautf8 dependency is installed
+    config = function()
+      require('mkdnflow').setup({
+        modules = {
+          bib = true,
+          buffers = true,
+          conceal = true,
+          cursor = true,
+          folds = true,
+          links = true,
+          lists = true,
+          maps = false,
+          paths = true,
+          tables = true
+        },
+        links = {
+          conceal = true,
+        },
+      })
+    end
+  })
+  use {
+    'AckslD/nvim-FeMaco.lua',
+    config = function()
+      require("femaco").setup()
+    end,
+  }
+  --[[
   -- <fish>
   use 'dag/vim-fish'
   -- <js>
@@ -1257,8 +1291,6 @@ return require('packer').startup(function(use)
   use 'vim-php/tagbar-phpctags.vim'
   use 'stephpy/vim-php-cs-fixer'
   use 'noahfrederick/vim-laravel'
-  -- <wiki>
-  use 'vimwiki/vimwiki'
   -- <markdown>
   use 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }}
   use 'mzlogin/vim-markdown-toc'

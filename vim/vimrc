@@ -31,12 +31,8 @@ if filereadable(s:vim_plug_file)
   Plug 'noahfrederick/vim-laravel'
   " <rust>
   Plug 'rust-lang/rust.vim'
-  " <wiki>
-  Plug 'vimwiki/vimwiki'
   " <markdown>
   Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }}
-  Plug 'mzlogin/vim-markdown-toc'
-  Plug 'dhruvasagar/vim-table-mode'
   " <plantuml>
   Plug 'weirongxu/plantuml-previewer.vim'
   call plug#end()
@@ -811,23 +807,6 @@ endfunction
 " {{{ || stephpy/vim-php-cs-fixer || ---
 let g:php_cs_fixer_enable_default_mapping = 0
 " --- || stephpy/vim-php-cs-fixer || }}}
-
-" {{{ || vimwiki || ---
-let g:vimwiki_url_maxsave = 0
-let g:vimwiki_key_mappings = {
-      \ 'all_maps': 0,
-      \ 'global': 0,
-      \ 'headers': 1,
-      \ 'text_objs': 0,
-      \ 'table_format': 0,
-      \ 'table_mappings': 0,
-      \ 'lists': 0,
-      \ 'links': 0,
-      \ 'html': 0,
-      \ 'mouse': 0,
-      \ }
-let g:vimwiki_folding = 'list'
-" --- || vimwiki || }}}
 
 " {{{ || markdown-preview || ---
 " let $NVIM_MKDP_LOG_FILE = expand('~/tmp/mkdp.log') " default location is <plugin root>/app/mkdp.log

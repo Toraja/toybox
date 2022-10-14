@@ -1,1 +1,0 @@
-syntax keyword Blocked BLOCKED
