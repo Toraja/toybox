@@ -1,5 +1,4 @@
 (set vim.wo.foldlevel 2)
-(set vim.wo.relativenumber true)
 
 (fn yaml-lint []
   (vim.cmd "lgetexpr system('yamllint --format parsable ' . expand('%'))")
