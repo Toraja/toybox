@@ -169,9 +169,10 @@ return require('packer').startup(function(use)
   }
 
   -- look & feel
+  -- nvim-web-devicons requires external font such as https://www.nerdfonts.com/
+  use 'kyazdani42/nvim-web-devicons'
   use {
     'nvim-lualine/lualine.nvim',
-    -- nvim-web-devicons requires external font such as https://www.nerdfonts.com/
     requires = { 'kyazdani42/nvim-web-devicons', opt = true },
     after = 'one_monokai.nvim',
     config = function()
@@ -187,16 +188,27 @@ return require('packer').startup(function(use)
       end
 
       require('lualine').setup({
-        options = { theme = 'ayu_mirage' },
+        options = {
+          theme = 'ayu_mirage',
+          disabled_filetypes = {
+            -- statusline = {},
+            winbar = { 'help', 'qf', 'gitcommit', 'fugitive', 'Trouble' },
+          },
+        },
         sections = {
           lualine_a = { mode_with_paste },
           lualine_b = { 'branch', 'diff', 'diagnostics' },
-          lualine_c = { "vim.fn.fnamemodify(vim.fn.getcwd(), ':~')",
-            { 'filename', path = 1, show_modified_status = true, newfile_status = true } },
+          lualine_c = { "vim.fn.fnamemodify(vim.fn.getcwd(), ':~')" },
         },
         inactive_sections = {
           lualine_c = { { 'filename', path = 3, show_modified_status = true, newfile_status = true } },
           lualine_x = { 'location' },
+        },
+        winbar = {
+          lualine_c = { { 'filename', path = 1, show_modified_status = true, newfile_status = true } },
+        },
+        inactive_winbar = {
+          lualine_c = { { 'filename', path = 3, show_modified_status = true, newfile_status = true } },
         },
         extensions = { 'fugitive', 'man', 'nvim-tree', 'quickfix' }
       })
