@@ -998,6 +998,7 @@ return require('packer').startup(function(use)
           end, { 'i', 'c' }),
           ['<C-y>'] = cmp.mapping(cmp.mapping.confirm({ select = true }), { 'i', 'c' }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
           ['<C-o>'] = cmp.mapping(cmp.mapping.confirm({ select = true }), { 'i', 'c' }),
+          ['<C-a>'] = cmp.mapping(close_and_fallback, { 'i', 'c' }),
           ['<C-e>'] = cmp.mapping(close_and_fallback, { 'i', 'c' }),
           ['<C-g>'] = cmp.mapping(cmp.mapping.abort(), { 'i', 'c' }),
         },
