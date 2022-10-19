@@ -561,6 +561,8 @@ return require('packer').startup(function(use)
       require('keymap.which-key-helper').register_with_editable('Telescope', vim.g.chief_key .. 'f', vim.g.chief_key, {
         { 'f', 'Telescope find_files search_dirs=.', { desc = 'Files' } },
         { 'r', 'Telescope live_grep layout_config={preview_width=0.5} search_dirs=.', { desc = 'Grep' } },
+        { 'R', 'Telescope grep_string layout_config={preview_width=0.5} search_dirs=.',
+          { desc = 'Grep with cursor word' } },
         { 'b', 'Telescope buffers', { desc = 'Buffers' } },
         { 'o', 'Telescope treesitter', { desc = 'Treesitter' } },
         { 'O', 'Telescope oldfiles layout_config={preview_width=0.5}', { desc = 'Oldfiles' } },
