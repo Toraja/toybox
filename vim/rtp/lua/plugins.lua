@@ -701,12 +701,15 @@ return require('packer').startup(function(use)
   use {
     'numToStr/Comment.nvim',
     config = function()
+      local ft = require('Comment.ft')
       require('Comment').setup({
         ignore = '^$',
+        ft.set('asciidoc', { '//%s', '////%s////' }),
       })
       -- XXX not working
       -- vim.keymap.set('i', '<C-\\>', '<C-o>gcc', { remap = true, silent = true } )
-      vim.keymap.set('n', 'gcy', 'yygcc', { remap = true, silent = true })
+      vim.keymap.set('n', 'gcy', 'yy<Plug>(comment_toggle_linewise_current)', { silent = true })
+      vim.keymap.set('x', 'gcy', 'ygv<Plug>(comment_toggle_linewise_visual)', { silent = true })
     end
   }
   use {
