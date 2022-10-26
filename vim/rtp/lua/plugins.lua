@@ -1086,19 +1086,19 @@ return require('packer').startup(function(use)
           -- disable = { "rust" },
         },
       })
-      require('nvim-treesitter.highlight').set_custom_captures({
-        -- operator = "Special",
-        -- namespace = "TSNone",
-        -- ["function"] = "Include",
-        -- ["function.call"] = "TSFunction",
-        -- ["function.builtin"] = "TSFunction",
-        -- ["method"] = "Include",
-        -- ["method.call"] = "TSMethod",
-        -- variable = "Normal",
-        -- parameter = "Normal",
-        -- field = "TSNone", -- field of struct initialisation
-        -- property = "TSNone", -- field of struct definition, but this affects the property after `.` like time.Second
-      })
+      -- require('nvim-treesitter.highlight').set_custom_captures({
+      --   operator = "Special",
+      --   namespace = "TSNone",
+      --   ["function"] = "Include",
+      --   ["function.call"] = "TSFunction",
+      --   ["function.builtin"] = "TSFunction",
+      --   ["method"] = "Include",
+      --   ["method.call"] = "TSMethod",
+      --   variable = "Normal",
+      --   parameter = "Normal",
+      --   field = "TSNone", -- field of struct initialisation
+      --   property = "TSNone", -- field of struct definition, but this affects the property after `.` like time.Second
+      -- })
       vim.wo.foldmethod = 'expr'
       vim.wo.foldexpr = 'nvim_treesitter#foldexpr()'
       vim.wo.foldlevel = 99
