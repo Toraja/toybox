@@ -8,12 +8,12 @@ local function wrap_as_editable(cmd)
   return ':' .. cmd .. ' '
 end
 
-function M.register_with_editable(prompt, prefix_key, edit_key, cmds)
+function M.register_with_editable(prompt, prefix_key, edit_key, cmds, opts)
   local edit_prefix_key = prefix_key .. edit_key
   local wk = require("which-key")
   -- Use which-key only to set the name of grouping
-  wk.register({ [prefix_key] = { name = prompt } })
-  wk.register({ [edit_prefix_key] = { name = "Edit command" } })
+  wk.register({ [prefix_key] = { name = prompt } }, opts)
+  wk.register({ [edit_prefix_key] = { name = "Edit command" } }, opts)
 
   for _, cmd in ipairs(cmds) do
     vim.keymap.set('n', prefix_key .. cmd[1], wrap_as_cmd(cmd[2]), cmd[3])

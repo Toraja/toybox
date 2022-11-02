@@ -26,4 +26,4 @@ require('keymap.which-key-helper').register_with_editable('Markdown', '-', '-', 
   -- { 'l', '', { desc = 'Toggle list', buffer = true } },
   { 'p', 'ToDoAddPomodoro', { desc = 'Add pomodoro', buffer = true } },
   { 's', 'ToDoToggleStatus ' .. started_symbol, { desc = 'Toggle STARTED', buffer = true } },
-})
+}, { buffer = 0 })
