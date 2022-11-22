@@ -80,6 +80,8 @@ uda.taskwarrior-tui.shortcuts.3=~/toybox/taskwarrior/shortcut/review.sh
 uda.taskwarrior-tui.keyconfig.shortcut3=R
 uda.taskwarrior-tui.shortcuts.4=~/toybox/taskwarrior/shortcut/zzz.sh
 uda.taskwarrior-tui.keyconfig.shortcut4=W
+uda.taskwarrior-tui.shortcuts.8=~/toybox/taskwarrior/shortcut/yank-task.sh
+uda.taskwarrior-tui.keyconfig.shortcut8=Y
 uda.taskwarrior-tui.shortcuts.9=~/toybox/taskwarrior/shortcut/context-default.sh
 uda.taskwarrior-tui.keyconfig.shortcut9=C
 
