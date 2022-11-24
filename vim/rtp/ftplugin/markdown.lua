@@ -1,4 +1,5 @@
--- local todo_line_ptn = '^\([ \t]*- \[.\+\]\) \(.*\)'
+vim.opt_local.foldmethod = 'marker'
+
 local started_symbol = 'STARTED '
 local blocked_symbol = 'BLOCKED '
 local todo_line_ptn = '^([ \t]*)(- %[(.)%])( .*)'
