@@ -34,15 +34,17 @@ verbose=no
 
 color.deleted=gray10
 color.completed=rgb013
+color.waiting=on rgb001 # seems this has no effect
 color.tagged=
+color.tag.WAITING=on rgb001 # this works on CLI but not TUI. Seems like WAITING tasks are treated as PENDING for coloring.
 color.tag.next=
 color.tag.review=color35
 color.tag.zzz=color27
 
 report.nice.description=Nice task list
-report.nice.columns=id,start.age,entry.age,depends,priority,project,tags,recur,scheduled.countdown,due,due.relative,until.remaining,description,urgency
-report.nice.labels=ID,Active,Age,Deps,P,Project,Tag,Recur,S,Due,Remain,Until,Description,Urg
-report.nice.sort=urgency-
+report.nice.columns=id,start.age,entry.age,depends,priority,project,tags,recur,wait.remaining,due,due.relative,until.remaining,description,urgency
+report.nice.labels=ID,Active,Age,Deps,P,Project,Tag,Recur,Wait,Due,Remain,Until,Description,Urg
+report.nice.sort=urgency- # want to sort by `status` to place waiting tasks at the bottom, but it does not work
 
 # See https://taskwarrior.org/docs/urgency.html
 # urgency.user.tag.next.coefficient=  # +next tag [default: 15.0]
@@ -51,13 +53,13 @@ report.nice.sort=urgency-
 urgency.uda.priority.H.coefficient=4.0  # high Priority [default: 6.0]
 urgency.uda.priority.M.coefficient=1.0  # medium Priority [default: 3.9]
 urgency.uda.priority.L.coefficient=-3.0 # low Priority [default: 1.8]
-urgency.scheduled.coefficient=0.0      # scheduled tasks [default: 5.0]
+urgency.scheduled.coefficient=0.0      # scheduled tasks [default: 5.0] It is applied only to the tasks the scheduled date of which have passed
 # urgency.active.coefficient=         # already started tasks [default: 4.0]
 # urgency.age.coefficient=            # coefficient for age [default: 2.0]
 urgency.annotations.coefficient=0.0     # has annotations [default: 1.0]
 urgency.tags.coefficient=0.0            # has tags [default:  #1.0]
 # urgency.project.coefficient=0.0         # assigned to any project [default: #1.0]
-# urgency.waiting.coefficient=        # waiting task [default: -3.0]
+urgency.waiting.coefficient=-15.0        # waiting task [default: -3.0]
 # urgency.blocked.coefficient=        # blocked by other tasks [default: -5.0]
 urgency.user.tag.zzz.coefficient=-5.0
 urgency.user.tag.review.coefficient=5.0
@@ -87,7 +89,7 @@ uda.taskwarrior-tui.keyconfig.shortcut9=C
 
 # write context will add the specified tag to task when add new tasks.
 # Virtual tags cannot be added to tasks so adding tasks will fail.
-context.default.read=+PENDING
+context.default.read=+PENDING or +WAITING
 # context.default.write=+PENDING
 context.deleted.read=+DELETED
 # context.deleted.write=+DELETED
