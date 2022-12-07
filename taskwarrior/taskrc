@@ -42,8 +42,8 @@ color.tag.review=color35
 color.tag.zzz=color27
 
 report.nice.description=Nice task list
-report.nice.columns=id,start.age,entry.age,depends,priority,project,tags,recur,wait.remaining,due,due.relative,until.remaining,description,urgency
-report.nice.labels=ID,Active,Age,Deps,P,Project,Tag,Recur,Wait,Due,Remain,Until,Description,Urg
+report.nice.columns=id,start.age,entry.age,depends,priority,project,tags,recur,wait.remaining,due,due.relative,until.remaining,estimate,description,urgency
+report.nice.labels=ID,Active,Age,Deps,P,Project,Tag,Recur,Wait,Due,Remain,Until,Est,Description,Urg
 report.nice.sort=urgency- # want to sort by `status` to place waiting tasks at the bottom, but it does not work
 
 # See https://taskwarrior.org/docs/urgency.html
@@ -63,6 +63,9 @@ urgency.waiting.coefficient=-15.0        # waiting task [default: -3.0]
 # urgency.blocked.coefficient=        # blocked by other tasks [default: -5.0]
 urgency.user.tag.zzz.coefficient=-5.0
 urgency.user.tag.review.coefficient=5.0
+
+uda.estimate.type=numeric
+uda.estimate.label=Est
 
 # --- taskwarrior-tui ---
 uda.taskwarrior-tui.selection.bold=no
