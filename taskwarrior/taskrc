@@ -63,6 +63,7 @@ urgency.waiting.coefficient=-15.0        # waiting task [default: -3.0]
 # urgency.blocked.coefficient=        # blocked by other tasks [default: -5.0]
 urgency.user.tag.zzz.coefficient=-5.0
 urgency.user.tag.review.coefficient=5.0
+urgency.user.tag.today.coefficient=20.0
 
 uda.estimate.type=numeric
 uda.estimate.label=Est
@@ -72,6 +73,7 @@ uda.taskwarrior-tui.selection.bold=no
 uda.taskwarrior-tui.selection.reverse=yes
 uda.taskwarrior-tui.task-report.prompt-on-delete=true
 uda.taskwarrior-tui.context-menu.select-on-move=true
+uda.taskwarrior-tui.quick-tag.name=today
 
 uda.taskwarrior-tui.style.report.completion-pane=white on black
 uda.taskwarrior-tui.style.report.completion-pane-highlight=bold cyan on black
