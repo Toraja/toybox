@@ -34,7 +34,8 @@ verbose=no
 
 color.deleted=gray10
 color.completed=rgb013
-color.waiting=on rgb001 # seems this has no effect
+color.waiting=on rgb001 # seems this has no effect, though `task show` displays it
+color.blocking=yellow on black
 color.tagged=
 color.tag.WAITING=on rgb001 # this works on CLI but not TUI. Seems like WAITING tasks are treated as PENDING for coloring.
 color.tag.next=
