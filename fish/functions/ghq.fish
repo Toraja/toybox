@@ -13,14 +13,12 @@ function __ghq_dirty --description "List dirty repos paths"
     argparse s/status -- $argv
 
     for repo in (command ghq list --full-path)
-        git -C $repo diff-index --quiet HEAD --
-        if [ $status -eq 0 ]
-            test -z (git -C $repo remote); and continue
-            set --local current_branch (git -C $repo branch | grep '*' | awk '{ print $2 }')
-            git -C $repo diff-index --quiet origin/$current_branch -- &>/dev/null; or echo "$repo [unpushed commits]"
+        if [ -z "$(git -C $repo status --porcelain)" ]
+            test -z "$(git -C $repo remote)"; and continue; or true
+            test -n "$(git -C $repo cherry 2>/dev/null)"; and echo "$repo [unpushed commits]"; or true
         else
             echo $repo
-            test -n "$_flag_status"; and git -C $repo status --short
+            test -n "$_flag_status"; and git -C $repo status --short; or true
         end
     end
 end
