@@ -82,20 +82,20 @@ uda.taskwarrior-tui.style.report.completion-pane=white on black
 uda.taskwarrior-tui.style.report.completion-pane-highlight=bold cyan on black
 
 # Changing shortcut key seems not working
-uda.taskwarrior-tui.shortcuts.1=~/toybox/taskwarrior/shortcut/delete-completed.sh
-uda.taskwarrior-tui.keyconfig.shortcut1=X
-uda.taskwarrior-tui.shortcuts.2=~/toybox/taskwarrior/shortcut/purge-deleted.sh
-uda.taskwarrior-tui.keyconfig.shortcut2=Z
-uda.taskwarrior-tui.shortcuts.3=~/toybox/taskwarrior/shortcut/review.sh
-uda.taskwarrior-tui.keyconfig.shortcut3=R
-uda.taskwarrior-tui.shortcuts.4=~/toybox/taskwarrior/shortcut/zzz.sh
-uda.taskwarrior-tui.keyconfig.shortcut4=W
-uda.taskwarrior-tui.shortcuts.5=~/toybox/taskwarrior/shortcut/tasknote.sh
-uda.taskwarrior-tui.keyconfig.shortcut5=n
-uda.taskwarrior-tui.shortcuts.6=~/toybox/taskwarrior/shortcut/tasknote-any.sh
-uda.taskwarrior-tui.keyconfig.shortcut6=N
-uda.taskwarrior-tui.shortcuts.8=~/toybox/taskwarrior/shortcut/yank-task.sh
-uda.taskwarrior-tui.keyconfig.shortcut8=Y
+uda.taskwarrior-tui.shortcuts.1=~/toybox/taskwarrior/shortcut/review.sh
+uda.taskwarrior-tui.keyconfig.shortcut1=R
+uda.taskwarrior-tui.shortcuts.2=~/toybox/taskwarrior/shortcut/zzz.sh
+uda.taskwarrior-tui.keyconfig.shortcut2=W
+uda.taskwarrior-tui.shortcuts.3=~/toybox/taskwarrior/shortcut/tasknote.sh
+uda.taskwarrior-tui.keyconfig.shortcut3=n
+uda.taskwarrior-tui.shortcuts.4=~/toybox/taskwarrior/shortcut/tasknote-any.sh
+uda.taskwarrior-tui.keyconfig.shortcut4=N
+uda.taskwarrior-tui.shortcuts.5=~/toybox/taskwarrior/shortcut/yank-task.sh
+uda.taskwarrior-tui.keyconfig.shortcut5=Y
+uda.taskwarrior-tui.shortcuts.6=~/toybox/taskwarrior/shortcut/delete-completed.sh
+uda.taskwarrior-tui.keyconfig.shortcut6=X
+uda.taskwarrior-tui.shortcuts.7=~/toybox/taskwarrior/shortcut/purge-deleted.sh
+uda.taskwarrior-tui.keyconfig.shortcut7=Z
 uda.taskwarrior-tui.shortcuts.9=~/toybox/taskwarrior/shortcut/context-default.sh
 uda.taskwarrior-tui.keyconfig.shortcut9=C
 
