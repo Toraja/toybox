@@ -32,6 +32,8 @@ data.location=~/.local/share/taskwarrior/task
 dateformat=MD
 verbose=no
 
+rule.precedence.color=deleted,completed,overdue,due.today,due,blocked,blocking,scheduled,active,keyword.,tag.,project.,recurring,tagged,uda
+
 color.deleted=gray10
 color.completed=rgb013
 color.waiting=on rgb001 # seems this has no effect, though `task show` displays it
