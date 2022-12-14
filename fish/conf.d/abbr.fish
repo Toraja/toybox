@@ -30,9 +30,9 @@ abbr --add --global gbod git branch -vv \| grep gone \| awk '\'{print $1}\'' \| 
 abbr --add --global gf git fetch
 abbr --add --global gfp git fetch --prune --prune-tags
 abbr --add --global gs git status
-abbr --add --global gl git log
-abbr --add --global glu git log origin..HEAD
-abbr --add --global glf 'git log --oneline | fzf | awk \'{print $1}\''
+abbr --add --global gg git log
+abbr --add --global ggu git log origin..HEAD
+abbr --add --global ggf 'git log --oneline | fzf | awk \'{print $1}\''
 abbr --add --global gd git diff
 abbr --add --global gdn git diff --name-only
 abbr --add --global gdc git diff --cached
@@ -57,6 +57,42 @@ abbr --add --global gwt git worktree
 abbr --add --global gwta git worktree add
 abbr --add --global gwtl git worktree list
 abbr --add --global gwtr git worktree remove
+
+# GitHub CLI
+abbr --add --global ghi gh issue
+abbr --add --global ghic gh issue create -t
+abbr --add --global ghie gh issue edit
+abbr --add --global ghil gh issue list
+abbr --add --global ghilm gh issue list --assignee=@me
+abbr --add --global ghim gh issue comment
+abbr --add --global ghip gh issue develop -c
+abbr --add --global ghiv gh issue view
+abbr --add --global ghp gh pr
+abbr --add --global ghpd gh pr diff
+abbr --add --global ghpe gh pr edit
+abbr --add --global ghpl gh pr list
+abbr --add --global ghpm gh pr comment
+abbr --add --global ghpo gh pr checkout
+abbr --add --global ghpv gh pr view
+
+# GitLab CLI
+abbr --add --global gl glab
+abbr --add --global gli glab issue
+abbr --add --global glic glab issue create -t
+abbr --add --global glil glab issue list
+abbr --add --global glilm glab issue list --assignee=@me
+abbr --add --global glin glab issue note
+abbr --add --global gliu glab issue update
+abbr --add --global gliv glab issue view
+abbr --add --global glm glab mr
+abbr --add --global glmc glab mr create --remove-source-branch -s \(git branch --show-current\)
+abbr --add --global glmcl glab mr create --remove-source-branch --copy-issue-labels -s \(git branch --show-current\)
+abbr --add --global glmd glab mr diff
+abbr --add --global glml glab mr list
+abbr --add --global glmn glab mr note
+abbr --add --global glmo glab mr checkout
+abbr --add --global glmu glab mr update
+abbr --add --global glmv glab mr view
 
 ## docker
 abbr --add --global do docker
