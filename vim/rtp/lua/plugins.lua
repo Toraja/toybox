@@ -897,6 +897,13 @@ return require('packer').startup(function(use)
           },
         },
       })
+      lspconfig['yamlls'].setup({
+        -- settings = {
+        --   yaml = {
+        --     schemas = {},
+        --   },
+        -- },
+      })
 
       vim.keymap.set('i', '<C-g><C-h>', '<Cmd>lua vim.lsp.buf.signature_help()<CR>', { desc = 'Signature help' })
       vim.keymap.set('n', '<C-]>', '<Cmd>lua vim.lsp.buf.definition()<CR>', { desc = 'Definition' })
