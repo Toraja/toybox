@@ -337,12 +337,10 @@ return require('packer').startup(function(use)
   use {
     'simrat39/symbols-outline.nvim',
     config = function()
-      require("symbols-outline").setup({
-        autofold_depth = 2, -- XXX this seems not working
-      })
-
       local symbols_outline = require("symbols-outline")
-      symbols_outline.setup()
+      symbols_outline.setup({
+        autofold_depth = 2,
+      })
 
       local function is_window_open_in_current_tab(win_id)
         return vim.fn.win_id2win(win_id) ~= 0
