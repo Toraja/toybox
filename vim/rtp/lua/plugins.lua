@@ -382,6 +382,13 @@ return require('packer').startup(function(use)
     end
   }
   use {
+    'stevearc/aerial.nvim',
+    disable = true,
+    config = function()
+      require('aerial').setup()
+    end
+  }
+  use {
     'ibhagwan/fzf-lua',
     disable = true,
     requires = { 'kyazdani42/nvim-web-devicons', opt = true },
