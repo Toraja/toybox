@@ -23,29 +23,29 @@ abbr --add --global fig $fig_cmd
 abbr --add --global ta tmux attach
 
 ## git
+abbr --add --global ga git add
+abbr --add --global gai git add -i
 abbr --add --global gb git branch
 abbr --add --global gba git branch
 abbr --add --global gbo git branch -vv \| grep gone
 abbr --add --global gbod git branch -vv \| grep gone \| awk '\'{print $1}\'' \| xargs -r git branch -d
-abbr --add --global gf git fetch
-abbr --add --global gfp git fetch --prune --prune-tags
-abbr --add --global gs git status
-abbr --add --global gg git log
-abbr --add --global ggu git log origin..HEAD
-abbr --add --global ggf 'git log --oneline | fzf | awk \'{print $1}\''
+abbr --add --global gcm git commit -m
 abbr --add --global gd git diff
 abbr --add --global gdn git diff --name-only
 abbr --add --global gdc git diff --cached
 abbr --add --global gdt git difftool
 abbr --add --global gdtc git difftool --cached
-abbr --add --global ga git add
-abbr --add --global gai git add -i
-abbr --add --global gcm git commit -m
-abbr --add --global gw git switch
-abbr --add --global gwc git switch -c
+abbr --add --global gf git fetch
+abbr --add --global gfp git fetch --prune --prune-tags
+abbr --add --global gg git log
+abbr --add --global ggu git log origin..HEAD
+abbr --add --global ggf 'git log --oneline | fzf | awk \'{print $1}\''
+abbr --add --global gps git push
+abbr --add --global gpl git pull
 abbr --add --global gr git reset
 abbr --add --global groh git reset-origin --hard
 abbr --add --global grs git restore
+abbr --add --global gs git status
 abbr --add --global gst git stash
 abbr --add --global gstl git stash list
 abbr --add --global gstp git stash pop
@@ -53,6 +53,8 @@ abbr --add --global gstm git stash push -m
 abbr --add --global grb git rebase -i
 abbr --add --global grbs git rebase -i --autosquash --autostash
 abbr --add --global grbc git rebase --continue
+abbr --add --global gw git switch
+abbr --add --global gwc git switch -c
 abbr --add --global gwt git worktree
 abbr --add --global gwta git worktree add
 abbr --add --global gwtl git worktree list
