@@ -1,5 +1,3 @@
-(set vim.wo.foldlevel 2)
-
 (fn yaml-lint []
   (vim.cmd "lgetexpr system('yamllint --format parsable ' . expand('%'))")
   (if (not= (length (vim.fn.getloclist 0)) 0)
