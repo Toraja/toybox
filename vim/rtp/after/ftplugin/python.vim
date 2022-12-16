@@ -5,7 +5,7 @@ setlocal makeprg=python\ %
 
 augroup my_python
 	autocmd!
-	lua preserve_cursor(vim.lsp.buf.formatting_sync)
+	lua preserve_cursor(vim.lsp.buf.format)
 augroup end
 
 command! -buffer Run vsplit | terminal python %
