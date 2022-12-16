@@ -97,15 +97,15 @@ return require('packer').startup(function(use)
     config = function()
       vim.cmd([[
         cnoreabbrev gs Git
-        cnoreabbrev gl Git log
-        cnoreabbrev glg vertical sbuffer <Bar> Gllog
+        cnoreabbrev gg Git log
+        cnoreabbrev ggg vertical sbuffer <Bar> Gllog
         cnoreabbrev gd Gvdiffsplit
         cnoreabbrev gp Git push
       ]])
       -- vim.g.fugitive_no_maps = 1 -- prevent <C-n/p> to be mapped
       vim.keymap.set('n', '<Leader>vs', "<Cmd>tab Git<CR>", { desc = "vim-fugitive" })
-      vim.keymap.set('n', '<Leader>vL', "<Cmd>tab Git log<CR>", { desc = "git log [tab]" })
-      vim.keymap.set('n', '<Leader>vl', "<Cmd>vertical Git log<CR>", { desc = "git log [vert]" })
+      vim.keymap.set('n', '<Leader>vG', "<Cmd>tab Git log<CR>", { desc = "git log [tab]" })
+      vim.keymap.set('n', '<Leader>vg', "<Cmd>vertical Git log<CR>", { desc = "git log [vert]" })
       vim.keymap.set('n', '<Leader>vB', "<Cmd>Git blame<CR>", { desc = "git blame entire file" })
     end
   }
