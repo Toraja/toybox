@@ -70,10 +70,12 @@ abbr --add --global ghim gh issue comment
 abbr --add --global ghip gh issue develop -c
 abbr --add --global ghiv gh issue view
 abbr --add --global ghp gh pr
+abbr --add --global ghpc gh pr create
 abbr --add --global ghpd gh pr diff
 abbr --add --global ghpe gh pr edit
 abbr --add --global ghpl gh pr list
-abbr --add --global ghpm gh pr comment
+abbr --add --global ghpm gh pr merge -d
+abbr --add --global ghpn gh pr comment
 abbr --add --global ghpo gh pr checkout
 abbr --add --global ghpv gh pr view
 
@@ -91,6 +93,7 @@ abbr --add --global glmc glab mr create --remove-source-branch -s \(git branch -
 abbr --add --global glmcl glab mr create --remove-source-branch --copy-issue-labels -s \(git branch --show-current\)
 abbr --add --global glmd glab mr diff
 abbr --add --global glml glab mr list
+abbr --add --global glmm glab mr merge -d
 abbr --add --global glmn glab mr note
 abbr --add --global glmo glab mr checkout
 abbr --add --global glmu glab mr update
