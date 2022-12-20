@@ -83,6 +83,7 @@ uda.taskwarrior-tui.style.report.completion-pane=white on black
 uda.taskwarrior-tui.style.report.completion-pane-highlight=bold cyan on black
 
 # Changing shortcut key seems not working
+uda.taskwarrior-tui.shortcuts.1=~/toybox/taskwarrior/shortcut/toggle-myday.sh
 uda.taskwarrior-tui.shortcuts.2=~/toybox/taskwarrior/shortcut/toggle-tag.sh zzz
 uda.taskwarrior-tui.keyconfig.shortcut2=W
 uda.taskwarrior-tui.shortcuts.3=~/toybox/taskwarrior/shortcut/tasknote.sh
