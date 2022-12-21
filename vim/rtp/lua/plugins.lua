@@ -1073,6 +1073,7 @@ return require('packer').startup(function(use)
   }
   use {
     'L3MON4D3/LuaSnip',
+    tag = "v1.*",
     requires = {
       { 'rafamadriz/friendly-snippets' },
       { 'saadparwaiz1/cmp_luasnip' },
