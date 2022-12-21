@@ -23,7 +23,6 @@ set fish_prompt_pwd_dir_length 0 # setting to 0 disable shortening path in promp
 # Environment variables
 set --export EDITOR 'nvim -p'
 set --export VISUAL 'nvim -p'
-set --export GOPATH $HOME/go
 set --export DOCKER_BUILDKIT 1
 set --export LIBGL_ALWAYS_INDIRECT 1 # this might improve GUI performance
 switch $TERM
@@ -44,8 +43,6 @@ add_path --prepend ~/.local/bin
 add_path --prepend /usr/local/java/bin
 ## PHP
 add_path --prepend ~/.composer/vendor/bin ~/.config/composer/vendor/bin # version 1 / 2
-## GO
-add_path --prepend /usr/local/go/bin $GOPATH/bin # some tools in GOPATH needs to be run
 
 # asdf
 # asdf.fish must be sources for `type <asdf installed tools>` to work.
