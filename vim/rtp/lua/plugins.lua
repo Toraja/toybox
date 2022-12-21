@@ -10,6 +10,11 @@ if vim.fn.empty(vim.fn.glob(packer_install_path)) > 0 then
 end
 
 local hotpot_install_path = vim.fn.stdpath('data') .. '/site/pack/packer/start/hotpot.nvim'
+local hotpot_cache_path = vim.fn.stdpath('cache') .. '/hotpot'
+if vim.fn.empty(vim.fn.glob(hotpot_cache_path)) > 0 then
+  -- hotpot complains and loading rc files gets aborted if hotpot is installed but cache does not exist
+  vim.fn.delete(hotpot_install_path, 'rf')
+end
 if vim.fn.empty(vim.fn.glob(hotpot_install_path)) > 0 then
   print("Could not find hotpot.nvim, cloning new copy to", hotpot_install_path)
   vim.fn.system({ 'git', 'clone', 'https://github.com/rktjmp/hotpot.nvim', hotpot_install_path })
