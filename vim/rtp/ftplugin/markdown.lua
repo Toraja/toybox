@@ -8,10 +8,6 @@ local function is_todo_line(line)
   return string.match(line, todo_line_ptn) ~= nil
 end
 
-local function is_todo_line(line)
-  return string.match(line, todo_line_ptn) ~= nil
-end
-
 local function get_todo_checkbox_state(line)
   if not is_todo_line(line) then
     return
@@ -29,6 +25,7 @@ local function todo_toggle_cancelled(line)
   local cancelled_todo = string.gsub(line, todo_line_ptn, '%1- [' .. new_checkbox_state .. ']%4')
   vim.fn.setline('.', cancelled_todo)
 end
+
 vim.api.nvim_create_user_command('ToggleToDoCancelled', function() todo_toggle_cancelled(vim.fn.getline('.')) end, {})
 
 local mkdnflow = require('mkdnflow')
@@ -57,5 +54,3 @@ require('keymap.which-key-helper').register_with_editable('Markdown', '-', '-', 
   { 's', 'ToDoToggleStatus ' .. started_symbol, { desc = 'Toggle STARTED', buffer = true } },
   { 'x', 'ToggleToDoCancelled', { desc = 'Cancel TODO', buffer = true } },
 }, { buffer = 0 })
-
-
