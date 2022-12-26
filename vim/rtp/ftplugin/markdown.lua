@@ -1,3 +1,4 @@
+vim.opt_local.conceallevel = 0
 vim.opt_local.foldmethod = 'marker'
 
 local started_symbol = 'STARTED '
