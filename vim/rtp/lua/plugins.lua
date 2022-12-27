@@ -1271,6 +1271,12 @@ return require('packer').startup(function(use)
           --   ignore_file_types = { "python", "vim", "lua" },
           -- }),
         },
+        -- Tab for output panel opens in background so you need to focus it.
+        -- Only `tab split` opens the tab right, but adding command to move back to the last tab opens the tab left to the current tab.
+        -- (`tabnext` also behaves same)
+        -- output_panel = {
+        --   open = "tab split | LastTab",
+        -- },
       })
       require('keymap.which-key-helper').register_with_editable('neotest', vim.g.chief_key .. 't', vim.g.chief_key, {
         { 't', 'lua require("neotest").run.run()', { desc = 'Test nearest' } },
