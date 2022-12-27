@@ -230,7 +230,7 @@ return require('packer').startup(function(use)
             CursorLine = { bg = colors.cursor_line_bg },
             CursorLineNr = { fg = colors.fg, bg = colors.cursor_line_bg },
             DiffAdd = { bg = colors.castleton_green },
-            DiffDelete = { fg = colors.claret, bg = colors.claret },
+            DiffDelete = { fg = colors.white, bg = colors.claret },
             DiffChange = { bg = colors.dark_gray },
             DiffText = { bg = colors.dark_powder_blue },
             Search = { fg = colors.yellow, bg = colors.bg, reverse = true },
