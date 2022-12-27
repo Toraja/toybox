@@ -1241,6 +1241,9 @@ return require('packer').startup(function(use)
       -- `neovim` strategy opens the terminal tag right to the original tab.
       vim.g['test#neovim#term_position'] = 'tab'
       vim.g['test#strategy'] = 'neovim'
+      if vim.fn.executable('richgo') then
+        vim.g['test#go#runner'] = 'richgo'
+      end
     end
   }
   use {
