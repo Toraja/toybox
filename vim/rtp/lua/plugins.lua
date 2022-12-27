@@ -698,7 +698,7 @@ return require('packer').startup(function(use)
       require("indent_blankline").setup {
         char = "¦",
         show_first_indent_level = false,
-        filetype_exclude = { 'markdown', 'json', 'nerdtree', 'NvimTree', 'man' }
+        filetype_exclude = { 'help', 'markdown', 'json', 'nerdtree', 'NvimTree', 'man' }
       }
     end,
   }
