@@ -683,7 +683,8 @@ if has('autocmd')
     autocmd!
     autocmd TabLeave * let g:lasttabnum = tabpagenr()
   augroup END
-  nnoremap <silent> <C-t><C-t> :execute "tabnext " . g:lasttabnum<CR>
+  command! LastTab execute "tabnext " . g:lasttabnum
+  nnoremap <silent> <C-t><C-t> <Cmd>LastTab<CR>
 endif
 " --- || Tab || }}}
 
