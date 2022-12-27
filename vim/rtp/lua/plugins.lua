@@ -1232,13 +1232,55 @@ return require('packer').startup(function(use)
   }
   use {
     'vim-test/vim-test',
+    disable = true,
     config = function()
       -- By default, tab is opened left to the current tab, and that makes
       -- closing the test tab focus the tab left to the original tab.
-      -- The below configuration opens the test right to the original tab.
+      -- `neovim` strategy opens the terminal tag right to the original tab.
       vim.g['test#neovim#term_position'] = 'tab'
       vim.g['test#strategy'] = 'neovim'
     end
+  }
+  use {
+    "nvim-neotest/neotest",
+    requires = {
+      "nvim-lua/plenary.nvim",
+      "nvim-treesitter/nvim-treesitter",
+      "nvim-neotest/neotest-go",
+      "rouge8/neotest-rust",
+    },
+    config = function()
+      local neotest_ns = vim.api.nvim_create_namespace("neotest")
+      vim.diagnostic.config({
+        virtual_text = {
+          format = function(diagnostic)
+            local message =
+            diagnostic.message:gsub("\n", " "):gsub("\t", " "):gsub("%s+", " "):gsub("^%s+", "")
+            return message
+          end,
+        },
+      }, neotest_ns)
+      require("neotest").setup({
+        adapters = {
+          require("neotest-go"),
+          require("neotest-rust"),
+          -- For reference
+          -- require("neotest-vim-test")({
+          --   ignore_file_types = { "python", "vim", "lua" },
+          -- }),
+        },
+      })
+      require('keymap.which-key-helper').register_with_editable('neotest', vim.g.chief_key .. 't', vim.g.chief_key, {
+        { 't', 'lua require("neotest").run.run()', { desc = 'Test nearest' } },
+        { 'T', 'lua require("neotest").run.run(vim.fn.expand("%"))', { desc = 'Test file' } },
+        { 'o', 'lua require("neotest").output.open()', { desc = 'Open test output' } },
+        { 'O', 'lua require("neotest").output.open({ enter = true })', { desc = 'Open test output and focus the window' } },
+        { 'p', 'lua require("neotest").output_panel.toggle()', { desc = 'Toggle output panel' } },
+        { 's', 'lua require("neotest").summary.toggle()', { desc = 'Toggle summary' } },
+      })
+      vim.keymap.set('n', '[n', '<cmd>lua require("neotest").jump.prev({})<CR>', { desc = "Jump to previous test" })
+      vim.keymap.set('n', ']n', '<cmd>lua require("neotest").jump.next({})<CR>', { desc = "Jump to next test" })
+    end,
   }
   use 'tyru/open-browser.vim'
 
