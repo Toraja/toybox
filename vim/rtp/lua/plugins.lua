@@ -296,11 +296,11 @@ return require('packer').startup(function(use)
           },
         },
       })
-      require('keymap.which-key-helper').register_with_editable('Telescope', vim.g.chief_key .. 't', vim.g.chief_key, {
-        { 'n', 'NvimTreeOpen', { desc = 'Open' } },
-        { 'N', 'NvimTreeOpen %:h', { desc = 'Open in the file\'s parent directory' } },
-        { 't', 'NvimTreeToggle', { desc = 'Toggle' } },
-        { 'o', 'NvimTreeFocus', { desc = 'Focus' } },
+      require('keymap.which-key-helper').register_with_editable('nvim-tree', vim.g.chief_key .. 'e', vim.g.chief_key, {
+        { 'o', 'NvimTreeOpen', { desc = 'Open' } },
+        { 'O', 'NvimTreeOpen %:h', { desc = 'Open in the file\'s parent directory' } },
+        { 'e', 'NvimTreeToggle', { desc = 'Toggle' } },
+        { 'E', 'NvimTreeFocus', { desc = 'Focus' } },
         { 'f', 'NvimTreeFindFile', { desc = 'Find file' } },
         { 'r', 'NvimTreeRefresh', { desc = 'Refresh' } },
       })
