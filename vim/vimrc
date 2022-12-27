@@ -293,21 +293,6 @@ if has("autocmd")
     autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
   augroup END
 
-  " highlight for unwanted spaces
-  highlight AnnoyingSpaces ctermbg=237
-  augroup highlighter
-    autocmd!
-    " highlight trailing whitespaces and mixed whitespaces except for help files
-    " VimEnter does not do the job somehow
-    if has('nvim')
-      " SpellRare (under curl) does not work on nvim
-      autocmd BufWinEnter,InsertEnter,InsertLeave * match AnnoyingSpaces /\s\+$\| \+\t\+\|\t\+ \+/
-    else
-      autocmd BufWinEnter,InsertEnter,InsertLeave * match SpellRare /\s\+$\| \+\t\+\|\t\+ \+/
-    endif
-    autocmd FileType help silent! call matchdelete(1)
-  augroup END
-
   function! s:PreviousTabStoreState()
     let s:tab_current = tabpagenr()
     let s:tab_last = tabpagenr('$')
@@ -547,8 +532,6 @@ nnoremap <Leader>m :<C-u>marks<CR>
 " --- || Mark || }}}
 
 " {{{ || Search || ---
-" AnnoyingSpaces: trailing white spaces or mixture of space and tab
-let g:AnnoyingSpaces = "\\s\\+$\\| \\+\\t\\+\\|\\t\\+ \\+"
 " open fold which the match belongs to so that you can view where exactly the
 " match is.
 nnoremap n nzx
