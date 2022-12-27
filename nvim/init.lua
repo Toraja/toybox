@@ -18,6 +18,18 @@ vim.opt.mouse = ''
 -- vim.api.nvim_set_hl(0, 'Pmenu', { ctermfg = 254, ctermbg = 236, bg = 'DarkGrey' })
 -- vim.api.nvim_set_hl(0, 'ColorColumn', { ctermbg = 6, bg = 'DarkCyan' })
 
+vim.api.nvim_create_autocmd("TermOpen", {
+  desc = "Setup terminal",
+  -- Run this autocmd only if the current buffer is terminal, or it enters insert mode even when backgroud terminal job dispatches.
+  pattern = "term://*",
+  callback = function()
+    vim.cmd([[
+      setlocal nonumber signcolumn=no
+      startinsert
+    ]])
+  end,
+})
+
 vim.g.ft_leader_key = '-'
 
 vim.g.termdebug_wide = 1

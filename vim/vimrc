@@ -333,15 +333,6 @@ if has("autocmd")
     " paired with completeopt=preview
     autocmd CompleteDone * pclose
   augroup END
-
-  function! s:TerminalSettings()
-    setlocal nonumber
-    startinsert
-  endfunction
-  augroup terminal
-    autocmd!
-    autocmd TermOpen * call s:TerminalSettings()
-  augroup END
 endif
 " --- || autocmd || }}}
 
