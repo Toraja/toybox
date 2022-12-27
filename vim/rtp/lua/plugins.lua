@@ -1284,6 +1284,20 @@ return require('packer').startup(function(use)
       vim.keymap.set('n', ']n', '<cmd>lua require("neotest").jump.next({})<CR>', { desc = "Jump to next test" })
     end,
   }
+  use {
+    "akinsho/toggleterm.nvim",
+    tag = '*',
+    config = function()
+      require("toggleterm").setup({
+        open_mapping = [[<C-\>]],
+        on_create = function()
+          vim.opt_local.signcolumn = 'no'
+        end,
+        direction = 'tab',
+        shell = 'fish',
+      })
+    end
+  }
   use 'tyru/open-browser.vim'
 
   -- Language specific
