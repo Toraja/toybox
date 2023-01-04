@@ -1293,8 +1293,9 @@ return require('packer').startup(function(use)
         { 't', 'lua require("neotest").run.run()', { desc = 'Test nearest' } },
         { 'T', 'lua require("neotest").run.run(vim.fn.expand("%"))', { desc = 'Test file' } },
         { 's', 'lua require("neotest").run.stop()', { desc = 'Stop test' } },
-        { 'o', 'lua require("neotest").output.open()', { desc = 'Open test output' } },
-        { 'O', 'lua require("neotest").output.open({ enter = true })', { desc = 'Open test output and focus the window' } },
+        { 'o', 'lua require("neotest").output.open({ quiet = false })', { desc = 'Open test output' } },
+        { 'O', 'lua require("neotest").output.open({ enter = true, quiet = false })',
+          { desc = 'Open test output and focus the window' } },
         { 'p', 'lua require("neotest").output_panel.toggle()', { desc = 'Toggle output panel' } },
         { 'm', 'lua require("neotest").summary.toggle()', { desc = 'Toggle summary' } },
       })
