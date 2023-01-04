@@ -238,6 +238,7 @@ return require('packer').startup(function(use)
             Todo = { fg = colors.pink, bold = true, italic = true, reverse = true },
             Blocked = { fg = colors.aqua, reverse = true },
             AnnoyingSpaces = { bg = colors.dark_gray },
+            TreesitterContextBottom = { underline = true }
           }
         end,
       })
@@ -1135,6 +1136,9 @@ return require('packer').startup(function(use)
         }
       })
     end
+  }
+  use {
+    'nvim-treesitter/nvim-treesitter-context',
   }
   use 'vim-utils/vim-husk'
 
