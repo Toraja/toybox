@@ -37,5 +37,16 @@
       "}(${3:arg})"
     ],
     "description": "Immediately Invoked Function Expression"
+  },
+  "main package and function": {
+    "prefix": "main",
+    "body": [
+      "package main",
+      "",
+      "func main() {",
+      "\t${1}",
+      "}"
+    ],
+    "description": "main package and function"
   }
 }
