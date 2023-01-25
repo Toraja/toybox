@@ -1175,6 +1175,8 @@ return require('packer').startup(function(use)
           ["<C-l>"] = { function() replace_loclist() end, "Trouble loclist" },
           ["<C-n>"] = { function() trouble.next({ skip_groups = true, jump = true }) end, "Trouble next" },
           ["<C-p>"] = { function() trouble.previous({ skip_groups = true, jump = true }) end, "Trouble previous" },
+          ["<C-g>"] = { function() trouble.first({ skip_groups = true, jump = true }) end, "Trouble first" },
+          G = { function() trouble.last({ skip_groups = true, jump = true }) end, "Trouble last" },
           ["<C-_>"] = { function() trouble.help() end, "Trouble keybind" },
           q = {
             name = "close",
