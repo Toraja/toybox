@@ -714,7 +714,7 @@ return require('packer').startup(function(use)
       -- XXX not working
       -- vim.keymap.set('i', '<C-\\>', '<C-o>gcc', { remap = true, silent = true } )
       vim.keymap.set('n', 'gcy', 'yy<Plug>(comment_toggle_linewise_current)', { silent = true })
-      vim.keymap.set('x', 'gcy', 'ygv<Plug>(comment_toggle_linewise_visual)', { silent = true })
+      vim.keymap.set('x', 'gCy', 'ygv<Plug>(comment_toggle_linewise_visual)', { silent = true })
     end
   }
   use {
