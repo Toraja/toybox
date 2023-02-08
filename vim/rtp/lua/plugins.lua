@@ -652,13 +652,7 @@ return require('packer').startup(function(use)
       -- map <Bar> <Plug>(easymotion-prev)
     end
   }
-  use {
-    'michaeljsmith/vim-indent-object',
-    config = function()
-      vim.keymap.set('n', 'yx', 'yaI\']p',
-        { remap = true, desc = 'Yank lines with the parent indent block and paste below the block' })
-    end
-  }
+  use 'michaeljsmith/vim-indent-object'
   use {
     'jeetsukumaran/vim-indentwise',
     config = function()

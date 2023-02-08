@@ -483,6 +483,7 @@ nnoremap <C-j> i<CR><Esc><Up><End>
 " [Other editing]
 xnoremap y ygv<Esc>|  "place cursor after the selection when yanking
 nnoremap Y y$
+nnoremap yx yVaB%p
 xnoremap <silent> <C-a> <C-a>gv
 xnoremap <silent> <C-x> <C-x>gv
 nnoremap <silent> g<C-a> :call search("[0-9]", 'be', line('.'))<CR><C-a>
