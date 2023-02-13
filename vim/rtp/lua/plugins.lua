@@ -845,7 +845,7 @@ return require('packer').startup(function(use)
         return orig_util_open_floating_preview(contents, syntax, opts, ...)
       end
 
-      local servers = { 'gopls', 'pyright', 'rust_analyzer', 'sumneko_lua' }
+      local servers = { 'gopls', 'pyright', 'rust_analyzer', 'lua_ls' }
       for _, lsp in pairs(servers) do
         lspconfig[lsp].setup({
           capabilities = capabilities,
@@ -865,7 +865,7 @@ return require('packer').startup(function(use)
         },
       })
       -- 'rust': ['rustup', 'run', !empty($RUST_VERSION) ? $RUST_VERSION : 'stable', 'rust-analyzer'],
-      lspconfig['sumneko_lua'].setup({
+      lspconfig['lua_ls'].setup({
         settings = {
           Lua = {
             runtime = {
