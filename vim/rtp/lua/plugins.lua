@@ -727,8 +727,6 @@ return require('packer').startup(function(use)
     config = function()
       require('nvim-surround').setup({
         keymaps = {
-          insert = "<C-g>r",
-          insert_line = "<C-g>R",
           normal = "yr",
           normal_cur = "yrr",
           normal_line = "yR",
