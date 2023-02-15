@@ -8,7 +8,7 @@ function fish_prompt --description 'Write out the prompt'
     set --append prompt [(colorise yellow $SHLVL)]:(colorise green $USER)@(colorise yellow (hostname)):(colorise green (prompt_pwd))
 
     # git status
-    git rev-parse --is-inside-work-tree >/dev/null 2>&1; and begin
+    if git rev-parse --is-inside-work-tree >/dev/null 2>&1
         set git_status (git status --porcelain)
         set git_color (test (count $git_status) -eq 0; and echo cyan; or echo magenta)
         set branch (git branch --show-current)

@@ -63,7 +63,7 @@ function fish_user_key_bindings
         set --global --export clipbin xclip -selection c
     end
     if set --query TMUX
-        set --global clipper 'clip_to_tmux'
+        set --global clipper clip_to_tmux
         # Below does not work (`and` command not found), so keep using the function above
         # set -g clipper tmux load-buffer -\; and tmux save-buffer - \| $clipbin
     else if set --query clipbin
@@ -77,7 +77,7 @@ function fish_user_key_bindings
     end
 
     function bind_wrapper
-        argparse --name=wrap_job --min-args=3 --max-args=3 'h/help' -- $argv
+        argparse --name=wrap_job --min-args=3 --max-args=3 h/help -- $argv
         set key $argv[1] # should not escape or backslash will be duplicated
         set start (string escape --no-quoted $argv[2])
         set end (string escape --no-quoted $argv[3])
@@ -114,7 +114,7 @@ function fish_user_key_bindings
     bind --mode selection \ca beginning-of-line
     bind --mode selection \ce end-of-line
     bind --mode selection \x1D forward-jump
-    # Ctrl-Alt-] does not work, and \x1D does not work fow ALT key
+    # Ctrl-Alt-] does not work, and \x1D does not work with ALT key
     bind --mode selection \e] backward-jump
     bind --mode selection \e\; repeat-jump
     bind --mode selection \e, repeat-jump-reverse

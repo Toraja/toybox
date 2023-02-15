@@ -14,11 +14,17 @@ function __ghq_dirty --description "List dirty repos paths"
 
     for repo in (command ghq list --full-path)
         if [ -z "$(git -C $repo status --porcelain)" ]
-            test -z "$(git -C $repo remote)"; and continue; or true
-            test -n "$(git -C $repo cherry 2>/dev/null)"; and echo "$repo [unpushed commits]"; or true
+            if test -z "$(git -C $repo remote)"
+                continue
+            end
+            if test -n "$(git -C $repo cherry 2>/dev/null)"
+                echo "$repo [unpushed commits]"
+            end
         else
             echo $repo
-            test -n "$_flag_status"; and git -C $repo status --short; or true
+            if test -n "$_flag_status"
+                git -C $repo status --short
+            end
         end
     end
 end
