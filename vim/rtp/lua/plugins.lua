@@ -803,7 +803,16 @@ return require('packer').startup(function(use)
       vim.keymap.set('i', '<Space>', '<C-g>u<C-r>=AutoPairsSpace()<CR>', { silent = true })
     end,
   }
-  use 'AndrewRadev/splitjoin.vim'
+  use({
+    'Wansmer/treesj',
+    requires = { 'nvim-treesitter' },
+    config = function()
+      require('treesj').setup({
+        use_default_keymaps = false,
+      })
+      vim.keymap.set('n', 'gS', '<Cmd>TSJToggle<CR>')
+    end,
+  })
   use 'tpope/vim-repeat'
   use 'junegunn/vim-easy-align'
   use {
