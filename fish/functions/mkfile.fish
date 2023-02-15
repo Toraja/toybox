@@ -5,7 +5,7 @@ OPTIONS:
     -h, --help   Display this help
 '
     argparse h/help -- $argv
-    test -n "$_flag_help"; and begin
+    if test -n "$_flag_help"
         echo 'Create file as well as containing directory'
         echo $usage
         return

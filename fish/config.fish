@@ -17,7 +17,9 @@ tabs 4
 set fish_conf $__fish_config_dir/config.fish
 set fish_myfuncs $__fish_config_dir/myfuncs
 # add_unique is not available here
-not contains $fish_myfuncs $fish_function_path; and set --prepend fish_function_path $fish_myfuncs
+if not contains $fish_myfuncs $fish_function_path
+    set --prepend fish_function_path $fish_myfuncs
+end
 set fish_prompt_pwd_dir_length 0 # setting to 0 disable shortening path in prompt_pwd
 
 # Environment variables
@@ -33,7 +35,9 @@ switch $TERM
         # this is set in tmux-sensible but it has not effect on the first window
         set --export TERM screen-256color
 end
-functions --query set_display; and set_display # set DISPLAY
+if functions --query set_display
+    set_display
+end
 set --export LESS iR
 
 # PATH
@@ -47,7 +51,7 @@ add_path --prepend ~/.composer/vendor/bin ~/.config/composer/vendor/bin # versio
 # asdf
 # asdf.fish must be sources for `type <asdf installed tools>` to work.
 set --query ASDF_DIR; or set ASDF_DIR ~/.asdf
-test -f $ASDF_DIR/asdf.fish; and begin
+if test -f $ASDF_DIR/asdf.fish
     source $ASDF_DIR/asdf.fish
     asdf exec direnv hook fish | source
     function direnv
@@ -65,7 +69,7 @@ alias swappiness='cat /proc/sys/vm/swappiness'
 function ll
     ls -Ahlv --group-directories-first --color=always $argv | less -FiRX
 end
-type --quiet nvim; and begin
+if type --quiet nvim
     alias vim='nvim -p'
     alias view='nvim -R'
     alias vimdiff='nvim -d'
@@ -106,9 +110,8 @@ set --export FZF_DEFAULT_OPTS (string join -- " " $fzf_opts "--bind="(string joi
 
 ## bindings
 # As my fish_user_key_bindings predates, fzf_key_bindings is not called automatically
-functions --query fzf_key_bindings; and fzf_key_bindings
-# and test (bind \ct | awk '{print $3}') = 'fzf-file-widget' # somehow fails (succeeds on command line)
-and begin
+if functions --query fzf_key_bindings
+    fzf_key_bindings
     bind \ct transpose-chars
     bind \ec capitalize-word
     bind \co fzf-file-widget

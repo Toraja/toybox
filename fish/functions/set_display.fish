@@ -1,5 +1,5 @@
 function set_display --description='Wrapper for setting DISPLAY'
-    is_display_set; and return;
+    is_display_set; and return
 
     # If docker desktop uses WSL as backend, IP address in /etc/resolv.conf does
     # not work. Use docker instead.
@@ -10,7 +10,7 @@ function set_display --description='Wrapper for setting DISPLAY'
 
     # grep --quiet --ignore-case microsoft /proc/version; and begin
     # grep on alpine linux does not support long options
-    grep -q -i microsoft /proc/version; and begin
+    if grep -q -i microsoft /proc/version
         wsl_display
         return
     end

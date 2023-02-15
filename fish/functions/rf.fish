@@ -1,6 +1,6 @@
 function rf --description 'fzf rg result and output file name'
     set --local usage \
-"
+        "
 USAGE:
     "(basename (status current-function))" [OPTION] QUERY [PATH]
 OPTIONS:
@@ -8,7 +8,7 @@ OPTIONS:
     -H, --hidden Include hidden files
 "
 
-    argparse --min-args=1 'H/hidden' 'o/open' -- $argv
+    argparse --min-args=1 H/hidden o/open -- $argv
     or begin
         echo $usage
         return 1
@@ -17,11 +17,13 @@ OPTIONS:
     set query "$argv[1]"
     set path $argv[2]
     set rg_cmd 'rg --column --line-number --no-heading --color=always --smart-case --glob !.git'
-    test -n "$_flag_hidden"; and set rg_cmd "$rg_cmd --hidden"
+    if test -n "$_flag_hidden"
+        set rg_cmd "$rg_cmd --hidden"
+    end
     set rg_cmd "$rg_cmd -- '$query' $path"
     set fzf_cmd "fzf --ansi --delimiter : --preview 'bat --style=full --color=always --highlight-line {2} {1}' --preview-window '~3,+{2}+3/2'"
 
-    test -z "$_flag_open"; and begin
+    if test -z "$_flag_open"
         # XXX want to colour the output but grep colours filenames as well ...
         eval "$rg_cmd | $fzf_cmd | grep '$query'"
         return
