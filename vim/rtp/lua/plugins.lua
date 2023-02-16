@@ -268,7 +268,7 @@ return require('packer').startup(function(use)
     requires = { 'kyazdani42/nvim-web-devicons', opt = true },
     config = function()
       require("nvim-tree").setup({
-        hijack_netrw = true,
+        disable_netrw = true,
         respect_buf_cwd = true,
         update_cwd = true,
         update_focused_file = {
@@ -305,6 +305,14 @@ return require('packer').startup(function(use)
         { 'f', 'NvimTreeFindFile', { desc = 'Find file' } },
         { 'r', 'NvimTreeRefresh', { desc = 'Refresh' } },
       })
+      vim.api.nvim_create_autocmd({ "VimEnter" }, {
+        callback = function(data)
+          if vim.fn.isdirectory(data.file) == 1 then
+            require("nvim-tree.api").tree.open()
+          end
+        end,
+      })
+
     end
   }
   use {
