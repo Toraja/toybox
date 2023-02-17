@@ -26,7 +26,8 @@ vim.api.nvim_create_autocmd({ "BufWinEnter", "InsertEnter", "InsertLeave" }, {
   desc = "Highlight trailing whitespaces and mixture of space and tab",
   pattern = "*",
   callback = function()
-    if vim.opt.filetype:get() == 'help' then
+    local exclude_filetype = array.new({ 'help', 'toggleterm' })
+    if exclude_filetype:contains(vim.opt.filetype:get()) then
       return
     end
     vim.cmd([[syntax match AnnoyingSpaces "\s\+$\| \+\t\+\|\t\+ \+"]])
