@@ -96,6 +96,7 @@ uda.taskwarrior-tui.shortcuts.6=~/toybox/taskwarrior/shortcut/delete-completed.s
 uda.taskwarrior-tui.keyconfig.shortcut6=X
 uda.taskwarrior-tui.shortcuts.7=~/toybox/taskwarrior/shortcut/purge-deleted.sh
 uda.taskwarrior-tui.keyconfig.shortcut7=Z
+uda.taskwarrior-tui.shortcuts.8=~/toybox/taskwarrior/shortcut/list-shortcuts.sh
 uda.taskwarrior-tui.shortcuts.9=~/toybox/taskwarrior/shortcut/context-default.sh
 uda.taskwarrior-tui.keyconfig.shortcut9=C
 
