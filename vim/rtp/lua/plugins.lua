@@ -1327,6 +1327,11 @@ return require('packer').startup(function(use)
         on_create = function()
           vim.opt_local.signcolumn = 'no'
         end,
+        on_open = function()
+          vim.cmd([[
+            startinsert
+          ]])
+        end,
         direction = 'tab',
         shell = 'fish',
       })
