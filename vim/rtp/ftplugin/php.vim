@@ -23,23 +23,3 @@ silent! nunmap <Leader>pcd
 inoremap <buffer> <silent> <M-;> <Cmd>call edit#base#ToggleTrailing(';')<CR>
 nnoremap <buffer> <silent> <M-;> <Cmd>call edit#base#ToggleTrailing(';')<CR>
 xnoremap <buffer> <silent> <M-;> :call edit#base#ToggleTrailing(';')<CR>
-
-command! -buffer Run vsplit | terminal php %
-
-function! s:InitPhpCmds()
-  let l:cmds = DefaultCmds()
-  let l:cmds.c = runcmds#init#MakeCmdInfo('PhpactorClassNew')
-  let l:cmds.c = runcmds#init#MakeCmdInfo('PhpactorCopyFile')
-  let l:cmds.f = runcmds#init#MakeCmdInfo('call PhpCsFixerFixFile()')
-  let l:cmds.F = runcmds#init#MakeCmdInfo('PhpactorTransform')
-  let l:cmds.i = runcmds#init#MakeCmdInfo('PhpactorImportMissingClasses')
-  let l:cmds.m = runcmds#init#MakeCmdInfo('PhpactorMoveFile')
-  let l:cmds.M = runcmds#init#MakeCmdInfo('PhpactorContextMenu')
-  let l:cmds.r = runcmds#init#MakeCmdInfo('Run')
-  let l:cmds.5 = runcmds#init#MakeCmdInfo('!php artisan l5:generate')
-  function! s:PhpCmds() closure
-    return l:cmds
-  endfunction
-endfunction
-call s:InitPhpCmds()
-nnoremap <buffer> <expr> - runcmds#base#RunCmds('PHP Cmds', <SID>PhpCmds())

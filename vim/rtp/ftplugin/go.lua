@@ -1,7 +1,7 @@
 vim.bo.shiftwidth = 4
 vim.bo.tabstop = 4
 
-require('keymap.which-key-helper').register_for_ftplugin('Go Cmds', {
+require('keymap.which-key-helper').register_for_ftplugin('Go', {
 	a = { 'GoAltV', { desc = 'Alternate file - vertical' } },
 	g = { 'GoDebug', { desc = 'Debuger' } },
 	G = { 'GoBreakToggle', { desc = 'Toggle break point' } },

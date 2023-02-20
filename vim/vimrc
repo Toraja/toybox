@@ -762,24 +762,6 @@ endfunc
 
 " {{{ || plugin mapping and option || ---
 
-" {{{ || nvim-lspconfig || ---
-let s:def_cmds = {
-      \ 'c': runcmds#init#MakeCmdInfo('lua vim.lsp.buf.incoming_calls()'),
-      \ 'C': runcmds#init#MakeCmdInfo('lua vim.lsp.buf.outgoing_calls()'),
-      \ 'd': runcmds#init#MakeCmdInfo('lua vim.lsp.buf.hover()'),
-      \ 'f': runcmds#init#MakeCmdInfo('lua vim.lsp.buf.formatting()'),
-      \ 'I': runcmds#init#MakeCmdInfo('Trouble lsp_implementations'),
-      \ 'n': runcmds#init#MakeCmdInfo('lua vim.lsp.buf.rename()'),
-      \ 'q': runcmds#init#MakeCmdInfo('lua vim.diagnostic.setloclist()'),
-      \ 'R': runcmds#init#MakeCmdInfo('Trouble lsp_references'),
-      \ '0': runcmds#init#MakeCmdInfo('lua vim.lsp.buf.code_action()'),
-      \ '1': runcmds#init#MakeCmdInfo('lua vim.lsp.codelens.run()'),
-      \ }
-function! DefaultCmds()
-  return copy(s:def_cmds)
-endfunction
-" --- || nvim-lspconfig || }}}
-
 " {{{ || stephpy/vim-php-cs-fixer || ---
 let g:php_cs_fixer_enable_default_mapping = 0
 " --- || stephpy/vim-php-cs-fixer || }}}
