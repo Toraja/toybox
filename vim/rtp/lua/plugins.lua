@@ -1280,6 +1280,7 @@ return require('packer').startup(function(use)
       "nvim-lua/plenary.nvim",
       "nvim-treesitter/nvim-treesitter",
       "nvim-neotest/neotest-go",
+      "nvim-neotest/neotest-plenary",
       "rouge8/neotest-rust",
     },
     config = function()
@@ -1296,6 +1297,7 @@ return require('packer').startup(function(use)
       require("neotest").setup({
         adapters = {
           require("neotest-go"),
+          require("neotest-plenary"),
           require("neotest-rust"),
           -- For reference
           -- require("neotest-vim-test")({
