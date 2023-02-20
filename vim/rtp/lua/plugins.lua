@@ -1142,11 +1142,15 @@ return require('packer').startup(function(use)
   }
   use {
     'nvim-treesitter/nvim-treesitter-textobjects',
+    after = "nvim-treesitter",
+    requires = "nvim-treesitter/nvim-treesitter",
     config = function()
       require('nvim-treesitter.configs').setup({
         textobjects = {
           select = {
             keymaps = {
+              ["af"] = "@function.outer",
+              ["if"] = "@function.inner",
               ["ap"] = "@parameter.outer",
               ["ip"] = "@parameter.inner",
               ["ar"] = "@conditional.outer",
