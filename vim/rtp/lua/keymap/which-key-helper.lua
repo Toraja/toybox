@@ -21,4 +21,8 @@ function M.register_with_editable(prompt, prefix_key, edit_key, cmds, opts)
   end
 end
 
+function M.register_for_ftplugin(prompt, cmds, opts)
+  M.register_with_editable(prompt, '-', '-', cmds, opts)
+end
+
 return M

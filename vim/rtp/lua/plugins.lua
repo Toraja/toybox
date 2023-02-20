@@ -933,17 +933,17 @@ return require('packer').startup(function(use)
       vim.keymap.set('n', '<C-t><C-g><C-]>', '<Cmd>tab split | lua vim.lsp.buf.implementation<CR>',
         { desc = 'Implementation [tab]' })
 
-      require('keymap.which-key-helper').register_with_editable('LSP', '-', '-', {
+      require('keymap.which-key-helper').register_with_editable('LSP', vim.g.chief_key .. 's', vim.g.chief_key, {
+        a = { 'lua vim.lsp.buf.code_action()', { desc = 'Code action' } },
         c = { 'lua vim.lsp.buf.incoming_calls()', { desc = 'Incoming calls' } },
         C = { 'lua vim.lsp.buf.outgoing_calls()', { desc = 'Outgoing calls' } },
         d = { 'lua vim.lsp.buf.hover()', { desc = 'Hover' } },
         f = { 'lua vim.lsp.buf.formatting()', { desc = 'Format' } },
-        I = { 'Trouble lsp_implementations', { desc = 'Implementation' } },
+        i = { 'Trouble lsp_implementations', { desc = 'Implementation' } },
+        l = { 'lua vim.lsp.codelens.run()', { desc = 'Code lens' } },
         n = { 'lua vim.lsp.buf.rename()', { desc = 'Rename' } },
         q = { 'lua vim.diagnostic.setloclist()', { desc = 'Diagnostic' } },
-        R = { 'Trouble lsp_references', { desc = 'References' } },
-        ['0'] = { 'lua vim.lsp.buf.code_action()', { desc = 'Code action' } },
-        ['1'] = { 'lua vim.lsp.codelens.run()', { desc = 'Code lens' } },
+        r = { 'Trouble lsp_references', { desc = 'References' } },
       })
     end
   }

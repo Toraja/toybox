@@ -1,7 +1,7 @@
 vim.bo.shiftwidth = 4
 vim.bo.tabstop = 4
 
-require('keymap.which-key-helper').register_with_editable('Go Cmds', '-', '-', {
+require('keymap.which-key-helper').register_for_ftplugin('Go Cmds', {
 	a = { 'GoAltV', { desc = 'Alternate file - vertical' } },
 	g = { 'GoDebug', { desc = 'Debuger' } },
 	G = { 'GoBreakToggle', { desc = 'Toggle break point' } },
@@ -14,6 +14,4 @@ require('keymap.which-key-helper').register_with_editable('Go Cmds', '-', '-', {
 	T = { 'GoAddTag', { desc = 'Add tag to struct' } },
 	v = { 'GoCoverage', { desc = 'Show test coverage' } },
 	V = { 'GoCoverage -t', { desc = 'Load coverage file' } },
-	['0'] = { 'GoCodeAction', { desc = 'Code action (go)' } },
-	['1'] = { 'GoCodeLenAct', { desc = 'Code lens (go)' } },
 })
