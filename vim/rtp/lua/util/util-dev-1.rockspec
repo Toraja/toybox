@@ -14,5 +14,5 @@ build = {
    }
 }
 dependencies = {
-  "luaunit"
+  "busted"
 }

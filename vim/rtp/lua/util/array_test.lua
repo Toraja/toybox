@@ -1,53 +1,57 @@
----@diagnostic disable:lowercase-global
+local array = require('array')
 
-lu = require('luaunit')
-array = require('array')
-
-function test_insert_uniq_inserts_when_element_does_not_exist()
-    local x = array.new({ 'a', 'c' })
-    x:insert_uniq('e')
-    lu.assertEquals(x, { 'a', 'c', 'e' })
-end
-
-function test_insert_uniq_does_not_insert_when_element_exists()
-    local x = array.new({ 'a', 'c' })
-    x:insert_uniq('a')
-    lu.assertEquals(x, { 'a', 'c' })
-end
-
-function test_append_to_empty_self()
-    local x = array.new()
-    x:append({ 3, 4, 5 })
-    lu.assertEquals(x, { 3, 4, 5 })
-end
-
-function test_append_to_self_with_initial_values()
-    local x = array.new({ 1, 2 })
-    local y = { 3, 4, 5 }
-    x:append(y)
-    lu.assertEquals(x, { 1, 2, 3, 4, 5 })
-end
-
-function test_append_empty_array()
-    local x = array.new({ 1, 2 })
-    x:append({})
-    lu.assertEquals(x, { 1, 2 })
-end
-
-function test_contains()
-    local x = array.new({ 1, 2 })
-    lu.assertTrue(x:contains(1))
-    lu.assertTrue(x:contains(2))
-    lu.assertFalse(x:contains(3))
-end
-
-function test_for_each()
-    local result = ""
-    local arr = array.new({ 'a', 'b', 'c' })
-    arr:for_each(function(x)
-        result = result .. 'x' .. x
+describe('insert_uniq', function()
+    it('inserts an element if it is not in the array', function()
+        local x = array.new({ 'a', 'c' })
+        x:insert_uniq('e')
+        assert.are.same(x, { 'a', 'c', 'e' })
     end)
-    lu.assertEquals(result, 'xaxbxc')
-end
 
-os.exit(lu.LuaUnit.run())
+    it('does not insert an element if it is already in the array', function()
+        local x = array.new({ 'a', 'c' })
+        x:insert_uniq('a')
+        assert.are.same(x, { 'a', 'c' })
+    end)
+end)
+
+describe('append', function()
+    it('successfully appends to empty self', function()
+        local x = array.new()
+        x:append({ 3, 4, 5 })
+        assert.are.same(x, { 3, 4, 5 })
+    end)
+
+    it('successfully appends to non-empty self', function()
+        local x = array.new({ 1, 2 })
+        x:append({ 3, 4, 5 })
+        assert.are.same(x, { 1, 2, 3, 4, 5 })
+    end)
+
+    it('successfully appends empty array', function()
+        local x = array.new({ 1, 2 })
+        x:append({})
+        assert.are.same(x, { 1, 2 })
+    end)
+end)
+
+describe('contains', function()
+    local x = array.new({ 1, 2 })
+    it('returns true if the array contains the given element', function()
+        assert.is_true(x:contains(1))
+        assert.is_true(x:contains(2))
+    end)
+    it('returns false if the array does not contain the given element', function()
+        assert.is_false(x:contains(3))
+    end)
+end)
+
+describe('for_each', function()
+    it('runs the given function for each element of the array', function()
+        local result = ""
+        local arr = array.new({ 'a', 'b', 'c' })
+        arr:for_each(function(x)
+            result = result .. 'x' .. x
+        end)
+        assert.equal(result, 'xaxbxc')
+    end)
+end)
