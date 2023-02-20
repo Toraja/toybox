@@ -15,9 +15,9 @@ function M.register_with_editable(prompt, prefix_key, edit_key, cmds, opts)
   wk.register({ [prefix_key] = { name = prompt } }, opts)
   wk.register({ [edit_prefix_key] = { name = "Edit command" } }, opts)
 
-  for _, cmd in ipairs(cmds) do
-    vim.keymap.set('n', prefix_key .. cmd[1], wrap_as_cmd(cmd[2]), cmd[3])
-    vim.keymap.set('n', edit_prefix_key .. cmd[1], wrap_as_editable(cmd[2]), cmd[3])
+  for key, cmd in pairs(cmds) do
+    vim.keymap.set('n', prefix_key .. key, wrap_as_cmd(cmd[1]), cmd[2])
+    vim.keymap.set('n', edit_prefix_key .. key, wrap_as_editable(cmd[1]), cmd[2])
   end
 end
 

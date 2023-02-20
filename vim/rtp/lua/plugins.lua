@@ -298,12 +298,12 @@ return require('packer').startup(function(use)
         },
       })
       require('keymap.which-key-helper').register_with_editable('nvim-tree', vim.g.chief_key .. 'e', vim.g.chief_key, {
-        { 'o', 'NvimTreeOpen', { desc = 'Open' } },
-        { 'O', 'NvimTreeOpen %:h', { desc = 'Open in the file\'s parent directory' } },
-        { 'e', 'NvimTreeToggle', { desc = 'Toggle' } },
-        { 'E', 'NvimTreeFocus', { desc = 'Focus' } },
-        { 'f', 'NvimTreeFindFile', { desc = 'Find file' } },
-        { 'r', 'NvimTreeRefresh', { desc = 'Refresh' } },
+        o = { 'NvimTreeOpen', { desc = 'Open' } },
+        O = { 'NvimTreeOpen %:h', { desc = 'Open in the file\'s parent directory' } },
+        e = { 'NvimTreeToggle', { desc = 'Toggle' } },
+        E = { 'NvimTreeFocus', { desc = 'Focus' } },
+        f = { 'NvimTreeFindFile', { desc = 'Find file' } },
+        r = { 'NvimTreeRefresh', { desc = 'Refresh' } },
       })
       vim.api.nvim_create_autocmd({ "VimEnter" }, {
         callback = function(data)
@@ -572,28 +572,27 @@ return require('packer').startup(function(use)
       telescope.load_extension("packer")
 
       require('keymap.which-key-helper').register_with_editable('Telescope', vim.g.chief_key .. 'f', vim.g.chief_key, {
-        { 'f', 'Telescope find_files search_dirs=.', { desc = 'Files' } },
-        { 'r', 'Telescope live_grep layout_config={preview_width=0.5} search_dirs=.', { desc = 'Grep' } },
-        { 'R', 'Telescope grep_string layout_config={preview_width=0.5} search_dirs=.',
-          { desc = 'Grep with cursor word' } },
-        { 'b', 'Telescope buffers', { desc = 'Buffers' } },
-        { 'o', 'Telescope treesitter', { desc = 'Treesitter' } },
-        { 'O', 'Telescope oldfiles layout_config={preview_width=0.5}', { desc = 'Oldfiles' } },
-        { 'l', 'Telescope current_buffer_fuzzy_find', { desc = 'Buffer lines' } },
-        { 'g', 'Telescope git_files', { desc = 'Git files' } },
-        { 'G', 'Telescope git_status', { desc = 'Git status' } },
-        { 'C', 'Telescope git_commits', { desc = 'Git commits' } },
-        { 'c', 'Telescope git_bcommits', { desc = 'Git buffer commits' } },
-        { 'h', 'Telescope help_tags', { desc = 'Help tags' } },
-        { 'e', 'Telescope diagnostics', { desc = 'Diagnostics' } },
-        { ':', 'Telescope command_history', { desc = 'Command history' } },
-        { '/', 'Telescope search_history', { desc = 'Search history' } },
-        { 'm', 'Telescope marks', { desc = 'Marks' } },
-        { 'k', 'Telescope keymaps', { desc = 'Keymaps' } },
-        { 's', 'Telescope spell_suggest', { desc = 'Spell suggest' } },
-        { 'H', 'Telescope highlights', { desc = 'Highlights' } },
-        { 'q', 'Telescope ghq list layout_config={preview_width=0.5}', { desc = 'Ghq list' } },
-        { 'p', 'Telescope packer', { desc = 'Packer' } },
+        f = { 'Telescope find_files search_dirs=.', { desc = 'Files' } },
+        r = { 'Telescope live_grep layout_config={preview_width=0.5} search_dirs=.', { desc = 'Grep' } },
+        R = { 'Telescope grep_string layout_config={preview_width=0.5} search_dirs=.', { desc = 'Grep with cursor word' } },
+        b = { 'Telescope buffers', { desc = 'Buffers' } },
+        o = { 'Telescope treesitter', { desc = 'Treesitter' } },
+        O = { 'Telescope oldfiles layout_config={preview_width=0.5}', { desc = 'Oldfiles' } },
+        l = { 'Telescope current_buffer_fuzzy_find', { desc = 'Buffer lines' } },
+        g = { 'Telescope git_files', { desc = 'Git files' } },
+        G = { 'Telescope git_status', { desc = 'Git status' } },
+        C = { 'Telescope git_commits', { desc = 'Git commits' } },
+        c = { 'Telescope git_bcommits', { desc = 'Git buffer commits' } },
+        h = { 'Telescope help_tags', { desc = 'Help tags' } },
+        e = { 'Telescope diagnostics', { desc = 'Diagnostics' } },
+        [':'] = { 'Telescope command_history', { desc = 'Command history' } },
+        ['/'] = { 'Telescope search_history', { desc = 'Search history' } },
+        m = { 'Telescope marks', { desc = 'Marks' } },
+        k = { 'Telescope keymaps', { desc = 'Keymaps' } },
+        s = { 'Telescope spell_suggest', { desc = 'Spell suggest' } },
+        H = { 'Telescope highlights', { desc = 'Highlights' } },
+        q = { 'Telescope ghq list layout_config={preview_width=0.5}', { desc = 'Ghq list' } },
+        p = { 'Telescope packer', { desc = 'Packer' } },
       })
     end,
   }
@@ -935,16 +934,16 @@ return require('packer').startup(function(use)
         { desc = 'Implementation [tab]' })
 
       require('keymap.which-key-helper').register_with_editable('LSP', '-', '-', {
-        { 'c', 'lua vim.lsp.buf.incoming_calls()', { desc = 'Incoming calls' } },
-        { 'C', 'lua vim.lsp.buf.outgoing_calls()', { desc = 'Outgoing calls' } },
-        { 'd', 'lua vim.lsp.buf.hover()', { desc = 'Hover' } },
-        { 'f', 'lua vim.lsp.buf.formatting()', { desc = 'Format' } },
-        { 'I', 'Trouble lsp_implementations', { desc = 'Implementation' } },
-        { 'n', 'lua vim.lsp.buf.rename()', { desc = 'Rename' } },
-        { 'q', 'lua vim.diagnostic.setloclist()', { desc = 'Diagnostic' } },
-        { 'R', 'Trouble lsp_references', { desc = 'References' } },
-        { '0', 'lua vim.lsp.buf.code_action()', { desc = 'Code action' } },
-        { '1', 'lua vim.lsp.codelens.run()', { desc = 'Code lens' } },
+        c = { 'lua vim.lsp.buf.incoming_calls()', { desc = 'Incoming calls' } },
+        C = { 'lua vim.lsp.buf.outgoing_calls()', { desc = 'Outgoing calls' } },
+        d = { 'lua vim.lsp.buf.hover()', { desc = 'Hover' } },
+        f = { 'lua vim.lsp.buf.formatting()', { desc = 'Format' } },
+        I = { 'Trouble lsp_implementations', { desc = 'Implementation' } },
+        n = { 'lua vim.lsp.buf.rename()', { desc = 'Rename' } },
+        q = { 'lua vim.diagnostic.setloclist()', { desc = 'Diagnostic' } },
+        R = { 'Trouble lsp_references', { desc = 'References' } },
+        ['0'] = { 'lua vim.lsp.buf.code_action()', { desc = 'Code action' } },
+        ['1'] = { 'lua vim.lsp.codelens.run()', { desc = 'Code lens' } },
       })
     end
   }
@@ -1324,14 +1323,14 @@ return require('packer').startup(function(use)
         -- },
       })
       require('keymap.which-key-helper').register_with_editable('neotest', vim.g.chief_key .. 't', vim.g.chief_key, {
-        { 't', 'lua require("neotest").run.run()', { desc = 'Test nearest' } },
-        { 'T', 'lua require("neotest").run.run(vim.fn.expand("%"))', { desc = 'Test file' } },
-        { 's', 'lua require("neotest").run.stop()', { desc = 'Stop test' } },
-        { 'o', 'lua require("neotest").output.open({ quiet = false })', { desc = 'Open test output' } },
-        { 'O', 'lua require("neotest").output.open({ enter = true, quiet = false })',
+        t = { 'lua require("neotest").run.run()', { desc = 'Test nearest' } },
+        T = { 'lua require("neotest").run.run(vim.fn.expand("%"))', { desc = 'Test file' } },
+        s = { 'lua require("neotest").run.stop()', { desc = 'Stop test' } },
+        o = { 'lua require("neotest").output.open({ quiet = false })', { desc = 'Open test output' } },
+        O = { 'lua require("neotest").output.open({ enter = true, quiet = false })',
           { desc = 'Open test output and focus the window' } },
-        { 'p', 'lua require("neotest").output_panel.toggle()', { desc = 'Toggle output panel' } },
-        { 'm', 'lua require("neotest").summary.toggle()', { desc = 'Toggle summary' } },
+        p = { 'lua require("neotest").output_panel.toggle()', { desc = 'Toggle output panel' } },
+        m = { 'lua require("neotest").summary.toggle()', { desc = 'Toggle summary' } },
       })
       vim.keymap.set('n', '[n', '<cmd>lua require("neotest").jump.prev({})<CR>', { desc = "Jump to previous test" })
       vim.keymap.set('n', ']n', '<cmd>lua require("neotest").jump.next({})<CR>', { desc = "Jump to next test" })
