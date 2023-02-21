@@ -9,18 +9,6 @@ if vim.fn.empty(vim.fn.glob(packer_install_path)) > 0 then
   vim.cmd([[packadd packer.nvim]])
 end
 
-local hotpot_install_path = vim.fn.stdpath('data') .. '/site/pack/packer/start/hotpot.nvim'
-local hotpot_cache_path = vim.fn.stdpath('cache') .. '/hotpot'
-if vim.fn.empty(vim.fn.glob(hotpot_cache_path)) > 0 then
-  -- hotpot complains and loading rc files gets aborted if hotpot is installed but cache does not exist
-  vim.fn.delete(hotpot_install_path, 'rf')
-end
-if vim.fn.empty(vim.fn.glob(hotpot_install_path)) > 0 then
-  print("Could not find hotpot.nvim, cloning new copy to", hotpot_install_path)
-  vim.fn.system({ 'git', 'clone', 'https://github.com/rktjmp/hotpot.nvim', hotpot_install_path })
-  vim.cmd("helptags " .. hotpot_install_path .. "/doc")
-end
-
 return require('packer').startup(function(use)
   --[[
     setup/config inside `requires` seems not working.
@@ -28,24 +16,6 @@ return require('packer').startup(function(use)
     must be marked as `-- dependency`
   ]]
   use 'wbthomason/packer.nvim'
-  use {
-    'rktjmp/hotpot.nvim',
-    config = function()
-      require('hotpot').setup()
-
-      function build_fennel_ftplugins(opt)
-        local build_opt = opt or {}
-        require('hotpot.api.make').build('~/toybox/vim/rtp/ftplugin',
-          build_opt,
-          '(.+)/toybox/vim/rtp/ftplugin/(.+)',
-          function(home, filename)
-            return home .. '/.config/nvim/ftplugin/' .. filename
-          end)
-      end
-
-      build_fennel_ftplugins({ verbosity = 0 })
-    end
-  }
   use {
     'folke/which-key.nvim',
     config = function()
@@ -1033,7 +1003,7 @@ return require('packer').startup(function(use)
     'nvim-treesitter/nvim-treesitter',
     config = function()
       require('nvim-treesitter.configs').setup({
-        ensure_installed = { "fennel", "fish", "go", "lua", "rust", "vim", "yaml" },
+        ensure_installed = { "fish", "go", "lua", "rust", "vim", "yaml" },
         highlight = {
           enable = true,
           -- disable = { "rust" },
