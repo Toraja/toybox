@@ -36,12 +36,12 @@ function M.toggle_trailing_visual(str)
   end
 end
 
-function M.map_toggle_trailing(key, str)
+function M.map_toggle_trailing(key, str, buffer)
   vim.keymap.set({ 'n', 'i' }, '<M-' .. key .. '>',
     '<Cmd>lua require("util.edit").toggle_trailing_current("' .. str .. '")<CR>',
-    { silent = true, buffer = true })
+    { silent = true, buffer = buffer })
   vim.keymap.set('x', '<M-' .. key .. '>', '<Cmd>lua require("util.edit").toggle_trailing_visual("' .. str .. '")<CR>',
-    { silent = true, buffer = true })
+    { silent = true, buffer = buffer })
 end
 
 return M

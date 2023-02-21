@@ -1,1 +1,1 @@
-require("util.edit").map_toggle_trailing(';', ';')
+require("util.edit").map_toggle_trailing(';', ';', true)
