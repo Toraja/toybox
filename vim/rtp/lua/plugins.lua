@@ -75,7 +75,7 @@ return require('packer').startup(function(use)
         cnoreabbrev gg Git log
         cnoreabbrev ggg vertical sbuffer <Bar> Gllog
         cnoreabbrev gd Gvdiffsplit
-        cnoreabbrev gp Git push
+        cnoreabbrev gps Git push
       ]])
       -- vim.g.fugitive_no_maps = 1 -- prevent <C-n/p> to be mapped
       vim.keymap.set('n', '<Leader>vs', "<Cmd>tab Git<CR>", { desc = "vim-fugitive" })
