@@ -1308,10 +1308,6 @@ return require('packer').startup(function(use)
   use 'dag/vim-fish'
   -- <js>
   use 'moll/vim-node'
-  -- <java>
-  if executable('java')
-    use 'artur-shaik/vim-javacomplete2' -- complains if there is no java executable
-  endif
   -- <php>
   if executable('composer')
     use 'phpactor/phpactor', {'branch': 'master', 'do': 'composer install --no-dev -o'}

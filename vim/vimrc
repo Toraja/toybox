@@ -18,10 +18,6 @@ if filereadable(s:vim_plug_file)
   Plug 'dag/vim-fish'
   " <js>
   Plug 'moll/vim-node'
-  " <java>
-  if executable('java')
-    Plug 'artur-shaik/vim-javacomplete2' " complains if there is no java executable
-  endif
   " <php>
   if executable('composer')
     Plug 'phpactor/phpactor', {'branch': 'master', 'do': 'composer install --no-dev -o'}
