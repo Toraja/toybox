@@ -635,33 +635,58 @@ return require('packer').startup(function(use)
           change = "cr",
         },
         surrounds = {
-          ["d"] = {
-            add = { "${", "}" },
+          ['d'] = {
+            ---@diagnostic disable-next-line: assign-type-mismatch
+            add = { '${', '}' },
             find = function()
-              return M.get_selection({ motion = "a${" })
+              return require('nvim-surround.config').get_selection({ pattern = '%${[^}]*}' })
             end,
-            -- delete = "^(. ?)().-( ?.)()$", -- not working
+            ---@diagnostic disable-next-line: assign-type-mismatch
+            delete = '^(..)().-(.)()$',
+            change = {
+              ---@diagnostic disable-next-line: assign-type-mismatch
+              target = '(%${)()[^}]*(})()',
+            },
           },
-          ["D"] = {
-            add = { "\"${", "}\"" },
+          ['D'] = {
+            ---@diagnostic disable-next-line: assign-type-mismatch
+            add = { '"${', '}"' },
             find = function()
-              return M.get_selection({ motion = "a\"${" })
+              return require('nvim-surround.config').get_selection({ pattern = '"%${[^}]*}"' })
             end,
-            -- delete = "^(. ?)().-( ?.)()$", -- not working
+            ---@diagnostic disable-next-line: assign-type-mismatch
+            delete = '^(...)().-(..)()$',
+            change = {
+              ---@diagnostic disable-next-line: assign-type-mismatch
+              target = '("%${)()[^}]*(}")()',
+            },
           },
-          ["s"] = {
-            add = { "$(", ")" },
+          -- XXX this one is not working properly (delete/change edits parentheses only)
+          ['s'] = {
+            ---@diagnostic disable-next-line: assign-type-mismatch
+            add = { '$(', ')' },
             find = function()
-              return M.get_selection({ motion = "a$(" })
+              return require('nvim-surround.config').get_selection({ pattern = '%$%([^)]*%)' })
             end,
-            -- delete = "^(. ?)().-( ?.)()$", -- not working
+            ---@diagnostic disable-next-line: assign-type-mismatch
+            delete = '^(..)().-(.)()$',
+            change = {
+              ---@diagnostic disable-next-line: assign-type-mismatch
+              target = '^(%$%())()[^)]*(%))()$',
+            },
           },
-          ["S"] = {
-            add = { "\"$(", ")\"" },
+          ['S'] = {
+            ---@diagnostic disable-next-line: assign-type-mismatch
+            add = { '"$(', ')"' },
             find = function()
-              return M.get_selection({ motion = "a\"$(" })
+              return require('nvim-surround.config').get_selection({ pattern = '"%$%([^)]*%)"' })
             end,
-            -- delete = "^(. ?)().-( ?.)()$", -- not working
+            ---@diagnostic disable-next-line: assign-type-mismatch
+            delete = '^(...)().-(..)()$',
+            change = {
+              ---@diagnostic disable-next-line: assign-type-mismatch
+              target = '^("%$%()()[^)]*(%)")()$',
+            },
           },
         }
       })
