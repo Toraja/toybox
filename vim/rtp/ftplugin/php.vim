@@ -19,7 +19,3 @@ silent! nunmap <Leader>pcd
 " {{{ || phpactor || ---
 " let g:PhpactorRootDirectoryStrategy = function('projectroot#guess')
 " --- || phpactor || }}}
-
-inoremap <buffer> <silent> <M-;> <Cmd>call edit#base#ToggleTrailing(';')<CR>
-nnoremap <buffer> <silent> <M-;> <Cmd>call edit#base#ToggleTrailing(';')<CR>
-xnoremap <buffer> <silent> <M-;> :call edit#base#ToggleTrailing(';')<CR>

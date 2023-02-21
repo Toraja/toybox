@@ -9,3 +9,5 @@ require('keymap.which-key-helper').register_for_ftplugin('PHP', {
   M = { 'PhpactorContextMenu', { desc = 'PhpactorContextMenu' } },
   r = { 'vsplit | terminal php %', { desc = 'Run' } },
 })
+
+require("util.edit").map_toggle_trailing(';', ';')
