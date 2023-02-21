@@ -253,8 +253,8 @@ return require('packer').startup(function(use)
           mappings = {
             list = {
               { key = "<C-e>", action = '' },
-              { key = "H", action = '' },
-              { key = "s", action = '' },
+              { key = "H",     action = '' },
+              { key = "s",     action = '' },
             },
           },
         },
@@ -284,7 +284,6 @@ return require('packer').startup(function(use)
           end
         end,
       })
-
     end
   }
   use {
@@ -906,7 +905,7 @@ return require('packer').startup(function(use)
         },
         mapping = {
           ['<M-j>'] = cmp.mapping(cmp.mapping.scroll_docs(4), { 'i', 'c' }),
-          ['<M-k>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i', 'c' }),
+          ['<M-k>'] = cmp.mapping(cmp.mapping.scroll_docs( -4), { 'i', 'c' }),
           ['<Tab>'] = cmp.mapping(function()
             if cmp.visible() then
               cmp.select_next_item()
@@ -998,10 +997,6 @@ return require('packer').startup(function(use)
         hint_prefix = "🦆 "
       })
     end
-  }
-  use {
-    'simrat39/rust-tools.nvim',
-    ft = 'rust',
   }
   use {
     'L3MON4D3/LuaSnip',
@@ -1208,7 +1203,7 @@ return require('packer').startup(function(use)
         virtual_text = {
           format = function(diagnostic)
             local message =
-            diagnostic.message:gsub("\n", " "):gsub("\t", " "):gsub("%s+", " "):gsub("^%s+", "")
+                diagnostic.message:gsub("\n", " "):gsub("\t", " "):gsub("%s+", " "):gsub("^%s+", "")
             return message
           end,
         },
@@ -1281,7 +1276,12 @@ return require('packer').startup(function(use)
   use 'tyru/open-browser.vim'
 
   -- Language specific
-  -- <go>
+  -- fish
+  use {
+    'dag/vim-fish',
+    ft = 'fish'
+  }
+  -- go
   use {
     'ray-x/go.nvim',
     ft = { 'go', 'gomod', 'gosum' },
@@ -1300,9 +1300,40 @@ return require('packer').startup(function(use)
       })
     end,
   }
-  -- Language specific
+  -- js
+  use {
+    'moll/vim-node',
+    ft = 'javascript',
+  }
+  -- <php>
+  use {
+    'phpactor/phpactor',
+    cond = function() return vim.fn.executable('composer') end,
+    branch = 'master',
+    run = 'composer install --no-dev -o',
+    ft = 'php',
+  }
+  use {
+    'vim-php/tagbar-phpctags.vim',
+    ft = 'php',
+  }
+  use {
+    'stephpy/vim-php-cs-fixer',
+    ft = 'php',
+  }
+  use 'noahfrederick/vim-laravel'
+  -- rust
+  use {
+    'simrat39/rust-tools.nvim',
+    ft = 'rust',
+  }
+  use {
+    'rust-lang/rust.vim',
+    ft = 'rust',
+  }
   -- markup languages
-  use({ 'jakewvincent/mkdnflow.nvim',
+  use({
+    'jakewvincent/mkdnflow.nvim',
     -- rocks = 'luautf8', -- Ensures optional luautf8 dependency is installed
     config = function()
       require('mkdnflow').setup({
@@ -1325,32 +1356,42 @@ return require('packer').startup(function(use)
     end
   })
   use {
+    'iamcco/markdown-preview.nvim',
+    run = function() vim.fn['mkdp#util#install']() end,
+    config = function()
+      -- let $NVIM_MKDP_LOG_FILE = expand('~/tmp/mkdp.log') " default location is <plugin root>/app/mkdp.log
+      -- let $NVIM_MKDP_LOG_LEVEL = 'debug'
+      vim.g.mkdp_auto_close = 0
+      vim.g.mkdp_echo_preview_url = 1
+      vim.g.mkdp_page_title = '${name}'
+      if vim.fn.executable('firefox') == 1 then
+        vim.g.mkdp_browser = 'firefox'
+      end
+      vim.g.mkdp_filetypes = { 'markdown', 'plantuml' }
+
+
+      vim.api.nvim_create_user_command('MarkdownPreviewPublish', function()
+        vim.g.mkdp_open_to_the_world = 1
+      end, {})
+      vim.api.nvim_create_user_command('MarkdownPreviewUnpublish', function()
+        vim.g.mkdp_open_to_the_world = 0
+      end, {})
+      vim.api.nvim_create_user_command('MarkdownPreviewSetPort', function(command)
+        vim.g.mkdp_port = command.fargs[1]
+      end, { nargs = 1 })
+      vim.api.nvim_create_user_command('MarkdownPreviewPublishWithPort', function(command)
+        vim.g.mkdp_open_to_the_world = 1
+        vim.g.mkdp_port = command.fargs[1]
+      end, { nargs = 1 })
+    end
+  }
+  use 'weirongxu/plantuml-previewer.vim'
+  use {
     'AckslD/nvim-FeMaco.lua',
     config = function()
       require("femaco").setup()
     end,
   }
-  --[[
-  -- <fish>
-  use 'dag/vim-fish'
-  -- <js>
-  use 'moll/vim-node'
-  -- <php>
-  if executable('composer')
-    use 'phpactor/phpactor', {'branch': 'master', 'do': 'composer install --no-dev -o'}
-  endif
-  use 'rust-lang/rust.vim'
-  use 'vim-php/tagbar-phpctags.vim'
-  use 'stephpy/vim-php-cs-fixer'
-  use 'noahfrederick/vim-laravel'
-  -- <markdown>
-  use 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }}
-  use 'mzlogin/vim-markdown-toc'
-  use 'dhruvasagar/vim-table-mode'
-  -- <plantuml>
-  use 'weirongxu/plantuml-previewer.vim'
-  ]]
-
 
   -- Automatically set up your configuration after cloning packer.nvim
   -- Put this at the end after all plugins
