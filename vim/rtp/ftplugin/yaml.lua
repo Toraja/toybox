@@ -2,7 +2,7 @@
 
 require('nvim-surround').buffer_setup({
   surrounds = {
-    d = {
+    v = {
       ---@diagnostic disable-next-line: assign-type-mismatch
       add = { "{{ ", " }}" },
       find = function()
