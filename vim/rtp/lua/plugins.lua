@@ -275,7 +275,9 @@ return require('packer').startup(function(use)
         f = { 'NvimTreeFindFile', { desc = 'Find file' } },
         r = { 'NvimTreeRefresh', { desc = 'Refresh' } },
       })
+      local nvimtree_augroud_id = vim.api.nvim_create_augroup('my_nvimtree', {})
       vim.api.nvim_create_autocmd({ "VimEnter" }, {
+        group = nvimtree_augroud_id,
         callback = function(data)
           if vim.fn.isdirectory(data.file) == 1 then
             require("nvim-tree.api").tree.open()
