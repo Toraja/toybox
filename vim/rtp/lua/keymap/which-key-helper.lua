@@ -21,8 +21,15 @@ function M.register_with_editable(prompt, prefix_key, edit_key, cmds, opts)
   end
 end
 
-function M.register_for_ftplugin(prompt, cmds, opts)
-  M.register_with_editable(prompt, '-', '-', cmds, opts)
+local function make_cmds_buffer_local(cmds)
+  for _, cmd in pairs(cmds) do
+    cmd[2].buffer = true
+  end
+end
+
+function M.register_for_ftplugin(prompt, cmds)
+  make_cmds_buffer_local(cmds)
+  M.register_with_editable(prompt, '-', '-', cmds, { buffer = 0 })
 end
 
 return M
