@@ -37,6 +37,10 @@ git push -u
 # Delete
 git push origin :<branch>
 
+# --- Pull / Fetch ---
+# Pull without switching to the branck
+git fetch origin <branch>:<branch>
+
 # --- Tag ---
 
 # git complains that it "would clobber existing tag"
