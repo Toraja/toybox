@@ -68,6 +68,7 @@ abbr --add --global ghic gh issue create -t
 abbr --add --global ghie gh issue edit
 abbr --add --global ghil gh issue list
 abbr --add --global ghilm gh issue list --assignee=@me
+abbr --add --global ghilc gh issue list --state closed
 abbr --add --global ghim gh issue comment
 abbr --add --global ghip gh issue develop -c
 abbr --add --global ghiv gh issue view
@@ -77,6 +78,7 @@ abbr --add --global ghpd gh pr diff
 abbr --add --global ghpe gh pr edit
 abbr --add --global ghpl gh pr list
 abbr --add --global ghpm gh pr merge -d
+abbr --add --global ghpmr gh pr merge -d -r
 abbr --add --global ghpn gh pr comment
 abbr --add --global ghpo gh pr checkout
 abbr --add --global ghpv gh pr view
@@ -87,6 +89,7 @@ abbr --add --global gli glab issue
 abbr --add --global glic glab issue create -t
 abbr --add --global glil glab issue list
 abbr --add --global glilm glab issue list --assignee=@me
+abbr --add --global glilc glab issue list -c
 abbr --add --global glin glab issue note
 abbr --add --global gliu glab issue update
 abbr --add --global gliv glab issue view
