@@ -1048,7 +1048,10 @@ return require('packer').startup(function(use)
       vim.wo.foldexpr = 'nvim_treesitter#foldexpr()'
       vim.wo.foldlevel = 99
     end,
-    run = ':TSUpdate',
+    run = function()
+      local ts_update = require('nvim-treesitter.install').update({ with_sync = true })
+      ts_update()
+    end,
   }
   use {
     'nvim-treesitter/nvim-treesitter-textobjects',
