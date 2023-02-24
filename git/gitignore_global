@@ -10,6 +10,3 @@ debug.test
 
 # asdf
 .tool-versions
-
-# lua
-.luarc.json
