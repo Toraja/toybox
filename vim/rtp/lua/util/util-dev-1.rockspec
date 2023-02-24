@@ -10,7 +10,8 @@ description = {
 build = {
    type = "builtin",
    modules = {
-      array = "array.lua"
+      array = "array.lua",
+      edit = "edit.lua"
    }
 }
 dependencies = {
