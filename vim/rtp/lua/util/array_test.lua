@@ -1,4 +1,4 @@
-local array = require('array')
+local array = require('util.array')
 
 describe('insert_uniq', function()
     it('inserts an element if it is not in the array', function()

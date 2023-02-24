@@ -1,9 +1,12 @@
-local Array = setmetatable({}, {__index = table})
+---@class Array: tablelib
+local Array = setmetatable({}, { __index = table })
 
+---@param o? any[]
+---@return Array
 local function new(o)
-	return setmetatable(o or {}, {
-		__index = Array,
-	})
+  return setmetatable(o or {}, {
+    __index = Array,
+  })
 end
 
 --- Insert element to Array only if the Array does not contain the element.
