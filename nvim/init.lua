@@ -1,5 +1,3 @@
----@diagnostic disable:lowercase-global
-
 -- nvim-tree recommends to this if netrw is disabled
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1

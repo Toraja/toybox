@@ -1,6 +1,3 @@
----@diagnostic disable:lowercase-global
----@diagnostic disable:need-check-nil
-
 local packer_install_path = vim.fn.stdpath('data') .. '/site/pack/packer/start/packer.nvim'
 local packer_bootstrap = nil
 if vim.fn.empty(vim.fn.glob(packer_install_path)) > 0 then
@@ -811,6 +808,7 @@ return require('packer').startup(function(use)
             workspace = {
               -- Make the server aware of Neovim runtime files
               library = vim.api.nvim_get_runtime_file("", true),
+              checkThirdParty = false,
             },
             -- Do not send telemetry data containing a randomized but unique identifier
             telemetry = {

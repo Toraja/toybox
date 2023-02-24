@@ -1,5 +1,3 @@
----@diagnostic disable:lowercase-global
-
 require('nvim-surround').buffer_setup({
   surrounds = {
     v = {
