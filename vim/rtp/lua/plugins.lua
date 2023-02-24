@@ -754,7 +754,7 @@ return require('packer').startup(function(use)
         properties = {
           'documentation',
           'detail',
-          'additionalTextEdits', -- XXX currently failing to enable auto import for rust-analyzer
+          'additionalTextEdits',
         }
       }
 
@@ -774,26 +774,13 @@ return require('packer').startup(function(use)
         return orig_util_open_floating_preview(contents, syntax, opts, ...)
       end
 
+      -- setup for rust-analyzer is done by rust-tools as it handles better
       local servers = { 'gopls', 'pyright', 'rust_analyzer', 'lua_ls' }
       for _, lsp in pairs(servers) do
         lspconfig[lsp].setup({
           capabilities = capabilities,
         })
       end
-      lspconfig['rust_analyzer'].setup({
-        init_options = {
-          completion = {
-            addCallParenthesis = false,
-            addCallArgumentSnippets = false,
-          },
-          diagnostics = {
-            disabled = {
-              "inactive-code",
-            },
-          },
-        },
-      })
-      -- 'rust': ['rustup', 'run', !empty($RUST_VERSION) ? $RUST_VERSION : 'stable', 'rust-analyzer'],
       lspconfig['lua_ls'].setup({
         settings = {
           Lua = {
