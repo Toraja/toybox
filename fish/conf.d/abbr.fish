@@ -55,6 +55,7 @@ abbr --add --global gstm git stash push -m
 abbr --add --global grb git rebase -i
 abbr --add --global grbs git rebase -i --autosquash --autostash
 abbr --add --global grbc git rebase --continue
+abbr --add --global gvd git vimdifftab HEAD~1
 abbr --add --global gw git switch
 abbr --add --global gwc git switch -c
 abbr --add --global gwt git worktree
@@ -157,3 +158,6 @@ abbr --add --global gotr go test -run
 
 ## taskwarrior
 abbr --add --global tt taskwarrior-tui -r nice
+
+## ranger
+abbr --add --global rng ranger
