@@ -370,6 +370,7 @@ return require('packer').startup(function(use)
       { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' },
       { 'nvim-telescope/telescope-ghq.nvim' },
       { 'nvim-telescope/telescope-packer.nvim' },
+      { 'LinArcX/telescope-scriptnames.nvim' },
     },
     config = function()
       -- NOTE This does not work properly at the moment...
@@ -457,29 +458,31 @@ return require('packer').startup(function(use)
       telescope.load_extension('fzf')
       telescope.load_extension('ghq')
       telescope.load_extension("packer")
+      telescope.load_extension('scriptnames')
 
       require('keymap.which-key-helper').register_with_editable('Telescope', vim.g.chief_key .. 'f', vim.g.chief_key, {
-        f = { 'Telescope find_files search_dirs=.', { desc = 'Files' } },
-        r = { 'Telescope live_grep layout_config={preview_width=0.5} search_dirs=.', { desc = 'Grep' } },
-        R = { 'Telescope grep_string layout_config={preview_width=0.5} search_dirs=.', { desc = 'Grep with cursor word' } },
         b = { 'Telescope buffers', { desc = 'Buffers' } },
-        o = { 'Telescope treesitter', { desc = 'Treesitter' } },
-        O = { 'Telescope oldfiles layout_config={preview_width=0.5}', { desc = 'Oldfiles' } },
-        l = { 'Telescope current_buffer_fuzzy_find', { desc = 'Buffer lines' } },
+        c = { 'Telescope git_bcommits', { desc = 'Git buffer commits' } },
+        C = { 'Telescope git_commits', { desc = 'Git commits' } },
+        e = { 'Telescope diagnostics', { desc = 'Diagnostics' } },
+        f = { 'Telescope find_files search_dirs=.', { desc = 'Files' } },
         g = { 'Telescope git_files', { desc = 'Git files' } },
         G = { 'Telescope git_status', { desc = 'Git status' } },
-        C = { 'Telescope git_commits', { desc = 'Git commits' } },
-        c = { 'Telescope git_bcommits', { desc = 'Git buffer commits' } },
         h = { 'Telescope help_tags', { desc = 'Help tags' } },
-        e = { 'Telescope diagnostics', { desc = 'Diagnostics' } },
+        H = { 'Telescope highlights', { desc = 'Highlights' } },
+        k = { 'Telescope keymaps', { desc = 'Keymaps' } },
+        l = { 'Telescope current_buffer_fuzzy_find', { desc = 'Buffer lines' } },
+        m = { 'Telescope marks', { desc = 'Marks' } },
+        o = { 'Telescope treesitter', { desc = 'Treesitter' } },
+        O = { 'Telescope oldfiles layout_config={ preview_width=0.5 }', { desc = 'Oldfiles' } },
+        p = { 'Telescope packer', { desc = 'Packer' } },
+        q = { 'Telescope ghq list layout_config={ preview_width=0.5 }', { desc = 'Ghq list' } },
+        r = { 'Telescope live_grep layout_config={ preview_width=0.5 } search_dirs=.', { desc = 'Grep' } },
+        R = { 'Telescope grep_string layout_config={ preview_width=0.5 } search_dirs=.', { desc = 'Grep with cursor word' } },
+        s = { 'Telescope spell_suggest', { desc = 'Spell suggest' } },
+        S = { 'Telescope scriptnames', { desc = 'Scriptnames' } },
         [':'] = { 'Telescope command_history', { desc = 'Command history' } },
         ['/'] = { 'Telescope search_history', { desc = 'Search history' } },
-        m = { 'Telescope marks', { desc = 'Marks' } },
-        k = { 'Telescope keymaps', { desc = 'Keymaps' } },
-        s = { 'Telescope spell_suggest', { desc = 'Spell suggest' } },
-        H = { 'Telescope highlights', { desc = 'Highlights' } },
-        q = { 'Telescope ghq list layout_config={preview_width=0.5}', { desc = 'Ghq list' } },
-        p = { 'Telescope packer', { desc = 'Packer' } },
       })
     end,
   }
