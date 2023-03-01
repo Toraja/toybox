@@ -844,7 +844,7 @@ return require('packer').startup(function(use)
         c = { 'lua vim.lsp.buf.incoming_calls()', { desc = 'Incoming calls' } },
         C = { 'lua vim.lsp.buf.outgoing_calls()', { desc = 'Outgoing calls' } },
         d = { 'lua vim.lsp.buf.hover()', { desc = 'Hover' } },
-        f = { 'lua vim.lsp.buf.formatting()', { desc = 'Format' } },
+        f = { 'lua vim.lsp.buf.format({ async = true })', { desc = 'Format' } },
         i = { 'Trouble lsp_implementations', { desc = 'Implementation' } },
         l = { 'lua vim.lsp.codelens.run()', { desc = 'Code lens' } },
         n = { 'lua vim.lsp.buf.rename()', { desc = 'Rename' } },
