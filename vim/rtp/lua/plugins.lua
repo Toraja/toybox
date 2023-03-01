@@ -1302,7 +1302,7 @@ return require('packer').startup(function(use)
   -- <php>
   use {
     'phpactor/phpactor',
-    cond = function() return vim.fn.executable('composer') end,
+    disable = function() return vim.fn.executable('composer') == 0 end,
     branch = 'master',
     run = 'composer install --no-dev -o',
     ft = 'php',
