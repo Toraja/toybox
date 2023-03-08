@@ -1,0 +1,14 @@
+# Setup
+git init
+git remote add origin <URL>
+git config core.sparseCheckout true
+git sparse-checkout init
+## Specify path to checkout
+git sparse-checkout set [path...]
+git pull origin <branch to checkout>
+
+# List checked out stuff
+git sparse-checkout list
+
+# Disable
+git sparse-checkout disable

@@ -1,0 +1,8 @@
+# If git complains that it "would clobber existing tag"
+git fetch --tags -f
+
+# List
+## Tags that matches the pattern
+git tag [-l (pattern)]
+## Tags and their hash (not the commit hash the tags are attached to)
+git show-ref --tags

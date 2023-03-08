@@ -1,0 +1,9 @@
+# Set upstream automatically
+## In .gitconfig, add:
+[push]
+	default = current
+## Without -u option, git pull complains that it does not know where to pull from.
+git push -u
+
+# Delete remote branch
+git push origin :<branch>

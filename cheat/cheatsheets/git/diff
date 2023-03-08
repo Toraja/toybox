@@ -1,0 +1,2 @@
+# List modified files for a commit
+git diff-tree --no-commit-id --name-only -r <commit>
