@@ -1,3 +1,5 @@
+vim.bo.commentstring = '{{/* %s */}}'
+
 require('nvim-surround').buffer_setup({
   surrounds = {
     v = {
