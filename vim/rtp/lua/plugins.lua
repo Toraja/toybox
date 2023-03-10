@@ -1325,6 +1325,19 @@ return require('packer').startup(function(use)
     'rust-lang/rust.vim',
     ft = 'rust',
   }
+  -- yaml
+  use {
+    'someone-stole-my-name/yaml-companion.nvim',
+    after = 'telescope.nvim',
+    requires = {
+      { 'neovim/nvim-lspconfig' },
+      { 'nvim-lua/plenary.nvim' },
+      { 'nvim-telescope/telescope.nvim' },
+    },
+    config = function()
+      require('telescope').load_extension('yaml_schema')
+    end,
+  }
   -- markup languages
   use({
     'jakewvincent/mkdnflow.nvim',
