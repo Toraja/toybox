@@ -1,3 +1,4 @@
+rockspec_format = "3.0"
 package = "util"
 version = "dev-1"
 source = {
@@ -9,11 +10,10 @@ description = {
 }
 build = {
    type = "builtin",
-   modules = {
-      array = "array.lua",
-      string = "string.lua"
-   }
 }
-dependencies = {
+test_dependencies = {
   "busted"
+}
+test = {
+   type = "busted",
 }
