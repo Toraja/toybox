@@ -464,7 +464,6 @@ nnoremap <Leader>m :<C-u>marks<CR>
 " match is.
 nnoremap n nzx
 nnoremap N Nzx
-nnoremap <silent> [Captain]/ :let @/ = ''<CR>
 function! HighlightWord(visual, exclusive, whole_word, case_sesitive) abort
   if a:visual
     let l:word = GetVisualText(v:false)
@@ -497,37 +496,6 @@ else
   nnoremap <silent> <M-u> :set hlsearch! hlsearch?<CR>
 endif
 " --- || Search || }}}
-
-" {{{ || Grep || ---
-" COMBAK make it like QuickSubstitute() and take dictionary arguments?
-" Lets you run lvimgrep quickly and open quickfix window
-" @pattern string to grep
-" @modify when non-zero, let the user modify the argument for vimgrep
-function! QuickGrep(pattern, modify)
-  let l:vimgrep_cmd = 'lvimgrep '
-  let l:grep_arg = printf('/\V%s/gj %%', a:pattern)
-
-  if a:modify
-    let l:cursor_adjustment = repeat("\<Left>", 5)
-    let l:grep_arg = Input(v:true, ':' . l:vimgrep_cmd, l:grep_arg . l:cursor_adjustment)
-    if l:grep_arg is 0
-      return
-    endif
-  endif
-
-  call histadd(':', l:vimgrep_cmd . l:grep_arg)
-  try
-    silent execute l:vimgrep_cmd . l:grep_arg
-  catch /^Vim\%((\a\+)\)\=:E480/  " catch error E480 - No match found
-    redraw
-    echohl ErrorMsg | echomsg v:exception | echohl NONE
-    silent lclose
-    return
-  endtry
-
-  " call qf#base#QFOpenSmart(g:qf#base#qf_mode_location, v:false, 0)
-endfunction
-" --- || Grep || }}}
 
 " {{{ || Replace || ---
 " Lets you run substitute quickly
@@ -643,19 +611,9 @@ endif
 " {{{ || Others || ---
 map <S-Space> <Space>
 nnoremap <C-s> :update<CR>
-" if has('gui')
-"   nnoremap <F3> :source $MYVIMRC<CR>:source $MYGVIMRC<CR>
-" else
-"   nnoremap <F3> :source $MYVIMRC<CR>
-" endif
-" nnoremap <Leader><F3> :tabnew $MYVIMRC<CR>
-" nnoremap [Chief]<F3> :call OpenFtplugins(&ft)<CR>
-" nnoremap [Captain]<F3> :SetFt<CR>
 nnoremap Q gQ
 nnoremap <M-c> <Cmd>mode<CR>
 " [insert/command mode]
-" cnoremap <expr> <C-p> wildmenumode() ? "\<C-p>" : "\<Up>"
-" cnoremap <expr> <C-n> wildmenumode() ? "\<C-n>" : "\<Down>"
 cnoremap <M-p> <Up>
 cnoremap <M-n> <Down>
 cnoremap <M-@> <Home>let @" = '<End>'
@@ -994,26 +952,6 @@ endfunction
 command! -nargs=? -complete=filetype SetFt :call SetFt(<f-args>)
 cnoreabbrev sf SetFt
 
-" 'lmake' without moving to location list window
-function! MyMake(...) abort
-  let l:cmd = 'silent lmake! '.join(a:000)
-  echohl Identifier | echo 'Making... ' | echohl NONE
-  execute l:cmd
-  let l:errorexists = qf#base#QFOpenSmart(g:qf#base#qf_mode_location, v:false, 0)
-  " On linux console, bash console will be shown when making and vim is
-  " brought back when make is done. This causes the contents of the file now
-  " shown properly. 'redraw!' to fix it.
-  if !(has('gui') || has('nvim'))
-    redraw!
-  endif
-  if l:errorexists
-    echohl WarningMsg | echon 'Failed :(' | echohl NONE
-  else
-    echohl Identifier | echon 'Done!' | echohl NONE
-  endif
-endfunction
-command! -nargs=* MyMake :call MyMake(<f-args>)
-
 " Solution for restoring window height inside <expr> keymap
 " (<expr> does not allow `windo`)
 function! SaveWinheight() abort
@@ -1116,36 +1054,6 @@ function! s:diff(...)
   execute 'diffsplit '.l:fullpath2
 endfunction
 command! -complete=file -nargs=+ Diff :call s:diff(<f-args>)
-
-" Capture the result of find & grep in quickfix window
-function! CaptureFindGrep(cmd) abort
-  let l:results = systemlist(a:cmd)
-  if v:shell_error
-    redraw
-    echohl WarningMsg | echo join(l:results) | echohl NONE
-    return
-  endif
-  if empty(l:results)
-    redraw
-    echo 'No match found'
-    return
-  endif
-
-  let l:qflists = []
-  call setqflist([], ' ', {'lines': l:results,'title': a:cmd})
-  call qf#base#QFOpenSmart(g:qf#base#qf_mode_quickfix, v:false, 0)
-endfunction
-command! -complete=file -nargs=1 CaptureFindGrep call CaptureFindGrep(<q-args>)
-cnoreabbrev fig CaptureFindGrep find -type f -exec grep -Hn {} \\;<C-Left><C-Left><Left>
-
-function! InstallPluginManager()
-  if !executable('git')
-    echo 'Install `git` first'
-    return
-  endif
-
-  !git clone https://github.com/junegunn/vim-plug.git ~/.vim/bundle/vim-plug
-endfunction
 
 function! RunInNewTabTerminal(shellCmd, focus) abort
   let l:vimCmd = 'tab split term://' . a:shellCmd

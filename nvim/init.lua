@@ -80,21 +80,6 @@ end
 
 vim.api.nvim_create_user_command('GdbIns', gdb_ins, {})
 
-wk.register({
-  g = {
-    name = "vimgrep",
-    ["<Space>"] = { "<Cmd>call QuickGrep(expand('<cword>'), 0)<CR>", "<cword>" },
-    x = { "<Cmd>call QuickGrep('\\<' . expand('<cword>') . '\\>', 0)<CR>", "<cword> exclusive" },
-    [":"] = { "<Cmd>call QuickGrep('', 1)<CR>", "manual" },
-  },
-}, { prefix = "<Leader>" })
-wk.register({
-  g = {
-    name = "vimgrep",
-    ["<Space>"] = { "y<Cmd>call QuickGrep(@@, 0)<CR>", "selected" },
-    x = { "y<Cmd>call QuickGrep('\\<' . @@ . '\\>', 0)<CR>", "selected exclusive" },
-  },
-}, { prefix = "<Leader>", mode = "v" })
 require('register')
 
 wk.register({
