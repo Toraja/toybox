@@ -451,14 +451,6 @@ inoremap <C-m> <C-g>u<C-m>
 inoremap . .<C-g>u
 " --- || editing || }}}
 
-" {{{ || Mark || ---
-noremap ' `
-noremap ` '
-sunmap '
-sunmap `
-nnoremap <Leader>m :<C-u>marks<CR>
-" --- || Mark || }}}
-
 " {{{ || Search || ---
 " open fold which the match belongs to so that you can view where exactly the
 " match is.
