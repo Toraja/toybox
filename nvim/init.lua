@@ -95,6 +95,7 @@ wk.register({
     x = { "y<Cmd>call QuickGrep('\\<' . @@ . '\\>', 0)<CR>", "selected exclusive" },
   },
 }, { prefix = "<Leader>", mode = "v" })
+require('register')
 
 wk.register({
   s = {

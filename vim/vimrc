@@ -451,21 +451,6 @@ inoremap <C-m> <C-g>u<C-m>
 inoremap . .<C-g>u
 " --- || editing || }}}
 
-" {{{ || register || ---
-" used registers
-" keymap for "z, "Z is defined in leader section
-" nnoremap <Leader><Space> <Cmd>call register#base#CopyRegisterToAnother('"', 'z')<CR>
-if has('xterm_clipboard')
-  nnoremap [Chief]; <Cmd>call register#base#CopyRegisterToAnother('"', '+')<CR>
-elseif has('clipboard')
-  nnoremap [Chief]; <Cmd>call register#base#CopyRegisterToAnother('"', '*')<CR>
-endif
-nnoremap <Leader>r <Cmd>call register#base#CopyRegisterToAnotherInteract()<CR>
-nnoremap [Chief]r <Cmd>call register#base#EditRegister()<CR>
-nnoremap [Captain]r <Cmd>call register#base#ClearCharRegisters()<CR>
-nnoremap yp <Cmd>let @" = expand('%:p') \| let @* = @" \| echo @" 'copied'<CR>
-" --- || register || }}}
-
 " {{{ || Mark || ---
 noremap ' `
 noremap ` '
