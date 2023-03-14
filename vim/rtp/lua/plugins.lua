@@ -1205,7 +1205,7 @@ return require('packer').startup(function(use)
       require("neotest").setup({
         adapters = {
           require("neotest-go"),
-          require("neotest-plenary"),
+          require("neotest-plenary"), -- the name of test file must be *_spec.lua
           require("neotest-rust"),
           -- For reference
           -- require("neotest-vim-test")({
