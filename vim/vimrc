@@ -297,6 +297,11 @@ xnoremap [Captain] "_
 " {{{ || cursor motion || ---
 noremap j gj
 noremap k gk
+onoremap j Vj
+onoremap k Vk
+" J & K below is to prevent accidental line join and opening help
+xnoremap J j
+xnoremap K k
 sunmap j
 sunmap k
 noremap <expr> <silent> <Home> col('.') == match(getline('.'),'\S')+1 ? '0' : '^'
@@ -305,9 +310,6 @@ sunmap H
 nnoremap L $
 onoremap L $
 xnoremap L g_
-" J & K below is to prevent accidental line join and opening help
-xnoremap J j
-xnoremap K k
 
 snoremap <C-f> <Right>
 snoremap <C-b> <Left>
