@@ -38,9 +38,15 @@ vim.keymap.set('n', 'o', function() mkdnflow.lists.newListItem(false, false, tru
 vim.keymap.set('n', 'O', function() mkdnflow.lists.newListItem(false, true, true, 'i', 'O') end,
   { desc = 'Add list item above', buffer = true })
 vim.keymap.set('n', '<C-]>', function() mkdnflow.links.followLink() end, { desc = 'Follow link', buffer = true })
-vim.keymap.set('n', '<C-t><C-]>', function() vim.cmd('tab split'); mkdnflow.links.followLink() end,
+vim.keymap.set('n', '<C-t><C-]>', function()
+  vim.cmd('tab split')
+  mkdnflow.links.followLink()
+end,
   { desc = 'Follow link in tab', buffer = true })
-vim.keymap.set('n', '<C-w><C-]>', function() vim.cmd('split'); mkdnflow.links.followLink() end,
+vim.keymap.set('n', '<C-w><C-]>', function()
+  vim.cmd('split')
+  mkdnflow.links.followLink()
+end,
   { desc = 'Follow link in horizontal window', buffer = true })
 
 require('keymap.which-key-helper').register_with_editable('Markdown', '-', '-', {
