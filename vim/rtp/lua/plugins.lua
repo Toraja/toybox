@@ -164,17 +164,17 @@ return require('packer').startup(function(use)
         sections = {
           lualine_a = { mode_with_paste },
           lualine_b = { 'branch', 'diff', 'diagnostics' },
-          lualine_c = { "vim.fn.fnamemodify(vim.fn.getcwd(), ':~')" },
+          lualine_c = { "vim.fn.fnamemodify(vim.fn.getcwd(0), ':~')" },
         },
         inactive_sections = {
-          lualine_c = { { 'filename', path = 3, show_modified_status = true, newfile_status = true } },
+          lualine_c = { "vim.fn.fnamemodify(vim.fn.getcwd(0), ':~')" },
           lualine_x = { 'location' },
         },
         winbar = {
-          lualine_c = { { 'filename', path = 1, show_modified_status = true, newfile_status = true } },
+          lualine_c = { { 'filename', path = 1, newfile_status = true } },
         },
         inactive_winbar = {
-          lualine_c = { { 'filename', path = 3, show_modified_status = true, newfile_status = true } },
+          lualine_c = { { 'filename', path = 1, newfile_status = true } },
         },
         extensions = { 'fugitive', 'man', 'nvim-tree', 'quickfix' }
       })
