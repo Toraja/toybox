@@ -489,7 +489,27 @@ return require('packer').startup(function(use)
 
   -- moving around
   use {
+    'ggandor/leap.nvim',
+    requires = {
+      { 'ggandor/flit.nvim' },
+    },
+    config = function()
+      vim.keymap.set({ 'n', 'x', 'o' }, 's', '<Plug>(leap-forward-to)')
+      vim.keymap.set({ 'n', 'x', 'o' }, 'S', '<Plug>(leap-backward-to)')
+      vim.keymap.set({ 'x', 'o' }, 'v', '<Plug>(leap-forward-till)')
+      vim.keymap.set({ 'x', 'o' }, 'V', '<Plug>(leap-backward-till)')
+      vim.keymap.set({ 'n' }, 'gs', '<Plug>(leap-from-window)')
+      vim.keymap.set({ 'o' }, 'gs', 'V<Plug>(leap-forward-to)')
+      vim.keymap.set({ 'o' }, 'gS', 'V<Plug>(leap-backward-to)')
+      require('flit').setup({
+        labeled_modes = "nvo",
+        multiline = false,
+      })
+    end,
+  }
+  use {
     'phaazon/hop.nvim',
+    disable = true,
     after = 'one_monokai.nvim',
     config = function()
       local hop = require('hop')
