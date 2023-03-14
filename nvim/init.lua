@@ -50,8 +50,6 @@ vim.api.nvim_create_autocmd("TermOpen", {
   end,
 })
 
-vim.g.ft_leader_key = '-'
-
 vim.g.termdebug_wide = 1
 wk.register({
   g = {

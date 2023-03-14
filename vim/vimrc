@@ -272,6 +272,7 @@ endif
 noremap <Space> <Nop>
 sunmap <Space>
 let mapleader = "\<Space>"
+let maplocalleader = "-"
 
 " Use local leader for ftplugins
 " let maplocalleader = "\<C-Space>"
