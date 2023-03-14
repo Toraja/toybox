@@ -115,9 +115,7 @@ wk.register({
 wk.register({
   ["_"] = {
     name = "nice ones",
-    c = { "<Cmd>lcd %:p:h | echo 'lcd -> ' . expand('%:p:h')<CR>", "lcd to the file's dir" },
-    d = { "<Cmd>echo 'current dir: ' . getcwd()<CR>", "Print current dir" },
-    p = { "<Cmd>echo 'filepath: ' . expand('%:p')<CR>", "Print current file's absolute path" },
+    c = { "<Cmd>lcd %:p:h | echo 'lcd -> ' . expand('%:p:~:h')<CR>", "lcd to the file's dir" },
     w = { "<Cmd>set wrap!<CR>", "Toggle wrap" },
   },
 })
@@ -125,8 +123,8 @@ wk.register({
 vim.keymap.set('i', '<C-g><C-q>', '<C-o>gql<End>')
 vim.keymap.set('!', '<C-q><C-b>', "expand('%:t')", { desc = "Buffer's basename", expr = true })
 vim.keymap.set('!', '<C-q><C-s>', "expand('%:t:r')", { desc = "Buffer's simple name", expr = true })
-vim.keymap.set('!', '<C-q><C-d>', "expand('%:p:h')", { desc = "Buffer's directory", expr = true })
-vim.keymap.set('!', '<C-q><C-f>', "expand('%:p')", { desc = "Buffer's absolute path", expr = true })
+vim.keymap.set('!', '<C-q><C-d>', "expand('%:p:~:h')", { desc = "Buffer's directory", expr = true })
+vim.keymap.set('!', '<C-q><C-f>', "expand('%:p:~')", { desc = "Buffer's absolute path", expr = true })
 vim.keymap.set('!', '<C-q><C-p>', "getcwd()", { desc = "cwd", expr = true })
 
 require('util.edit').map_toggle_trailing(',', ',')
