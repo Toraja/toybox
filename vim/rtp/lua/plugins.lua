@@ -75,17 +75,17 @@ return require('packer').startup(function(use)
         cnoreabbrev gps Git push
       ]])
       -- vim.g.fugitive_no_maps = 1 -- prevent <C-n/p> to be mapped
-      vim.keymap.set('n', '<Leader>vs', "<Cmd>tab Git<CR>", { desc = "vim-fugitive" })
-      vim.keymap.set('n', '<Leader>vG', "<Cmd>tab Git log<CR>", { desc = "git log [tab]" })
-      vim.keymap.set('n', '<Leader>vg', "<Cmd>vertical Git log<CR>", { desc = "git log [vert]" })
-      vim.keymap.set('n', '<Leader>vB', "<Cmd>Git blame<CR>", { desc = "git blame entire file" })
+      vim.keymap.set('n', '<Leader>gs', "<Cmd>tab Git<CR>", { desc = "vim-fugitive" })
+      vim.keymap.set('n', '<Leader>gG', "<Cmd>tab Git log<CR>", { desc = "git log [tab]" })
+      vim.keymap.set('n', '<Leader>gg', "<Cmd>vertical Git log<CR>", { desc = "git log [vert]" })
+      vim.keymap.set('n', '<Leader>gB', "<Cmd>Git blame<CR>", { desc = "git blame entire file" })
     end
   }
   use {
     'junegunn/gv.vim',
     config = function()
-      vim.keymap.set('n', '<Leader>vV', "<Cmd>GV<CR><Cmd>+tabmove<CR>", { desc = "GV [repo]" })
-      vim.keymap.set('n', '<Leader>vv', "<Cmd>GV!<CR><Cmd>+tabmove<CR>", { desc = "GV [file]" })
+      vim.keymap.set('n', '<Leader>gV', "<Cmd>GV<CR><Cmd>+tabmove<CR>", { desc = "GV [repo]" })
+      vim.keymap.set('n', '<Leader>gv', "<Cmd>GV!<CR><Cmd>+tabmove<CR>", { desc = "GV [file]" })
     end
   }
   use {
@@ -115,16 +115,16 @@ return require('packer').startup(function(use)
           end, { expr = true, desc = 'Previous hunk' })
 
           -- Actions
-          map({ 'n', 'x' }, '<leader>vhs', '<Cmd>Gitsigns stage_hunk<CR>', { desc = 'Stage this hunk' })
-          map('n', '<leader>vhS', gs.stage_buffer, { desc = 'Stage all changes in the buffer' })
-          map({ 'n', 'x' }, '<leader>vhr', '<Cmd>Gitsigns reset_hunk<CR>', { desc = 'Restore this hunk to index' })
-          map('n', '<leader>vhR', gs.reset_buffer, { desc = 'Restore all unstaged changes in the buffer to index' })
-          map('n', '<leader>vhu', gs.undo_stage_hunk, { desc = 'Unstage the last staged hunk' })
-          map('n', '<leader>vhp', gs.preview_hunk, { desc = 'Preview this hunk' })
-          map('n', '<leader>vd', gs.diffthis, { desc = 'vimdiff against index' })
-          map('n', '<leader>vD', function() gs.diffthis('~') end, { desc = 'vimdiff against last commit' })
-          map('n', '<leader>vb', function() gs.blame_line({ full = true }) end, { desc = 'Blame current line' })
-          map('n', '<leader>v<C-b>', gs.toggle_current_line_blame,
+          map({ 'n', 'x' }, '<Leader>ghs', '<Cmd>Gitsigns stage_hunk<CR>', { desc = 'Stage this hunk' })
+          map('n', '<Leader>ghS', gs.stage_buffer, { desc = 'Stage all changes in the buffer' })
+          map({ 'n', 'x' }, '<Leader>ghr', '<Cmd>Gitsigns reset_hunk<CR>', { desc = 'Restore this hunk to index' })
+          map('n', '<Leader>ghR', gs.reset_buffer, { desc = 'Restore all unstaged changes in the buffer to index' })
+          map('n', '<Leader>ghu', gs.undo_stage_hunk, { desc = 'Unstage the last staged hunk' })
+          map('n', '<Leader>ghp', gs.preview_hunk, { desc = 'Preview this hunk' })
+          map('n', '<Leader>gd', gs.diffthis, { desc = 'vimdiff against index' })
+          map('n', '<Leader>gD', function() gs.diffthis('~') end, { desc = 'vimdiff against last commit' })
+          map('n', '<Leader>gb', function() gs.blame_line({ full = true }) end, { desc = 'Blame current line' })
+          map('n', '<Leader>g<C-b>', gs.toggle_current_line_blame,
             { desc = 'Toggle git blame current line virtual text' })
 
           -- Text object
