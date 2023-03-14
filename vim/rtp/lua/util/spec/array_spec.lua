@@ -1,4 +1,5 @@
-local array = require('util.array')
+-- LSP mixes it up with luassert.array if the import path is ../array and completion etc will not work.
+local array = require('../../util/array')
 
 describe('insert_uniq', function()
     it('inserts an element if it is not in the array', function()
