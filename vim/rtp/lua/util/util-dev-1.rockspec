@@ -11,7 +11,7 @@ build = {
    type = "builtin",
    modules = {
       array = "array.lua",
-      edit = "edit.lua"
+      string = "string.lua"
    }
 }
 dependencies = {

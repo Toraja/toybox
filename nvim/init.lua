@@ -127,7 +127,7 @@ vim.keymap.set('!', '<C-q><C-d>', "expand('%:p:~:h')", { desc = "Buffer's direct
 vim.keymap.set('!', '<C-q><C-f>', "expand('%:p:~')", { desc = "Buffer's absolute path", expr = true })
 vim.keymap.set('!', '<C-q><C-p>', "getcwd()", { desc = "cwd", expr = true })
 
-require('util.edit').map_toggle_trailing(',', ',')
+require('text.edit').map_toggle_trailing(',', ',')
 
 function delete_hidden_buffers()
   local visible_buffers = array.new()

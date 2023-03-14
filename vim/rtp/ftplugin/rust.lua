@@ -5,4 +5,4 @@ require('keymap.which-key-helper').register_for_ftplugin('Rust', {
   r = { 'CrunIns', { desc = '' } },
 })
 
-require("util.edit").map_toggle_trailing(';', ';', true)
+require("text.edit").map_toggle_trailing(';', ';', true)
