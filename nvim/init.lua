@@ -81,36 +81,6 @@ vim.api.nvim_create_user_command('GdbIns', gdb_ins, {})
 require('register')
 
 wk.register({
-  s = {
-    name = "Substitute",
-    ["<Space>"] = { "<Cmd>call QuickSubstitute(expand('<cword>'), {'range': '%'})<CR>", "case insensitive" },
-    c = { "<Cmd>call QuickSubstitute(expand('<cword>'), {'range': '%', 'case': 1})<CR>", "case sensitive" },
-    x = {
-      name = "exclusive",
-      ["<Space>"] = { "<Cmd>call QuickSubstitute(expand('<cword>'), {'range': '%', 'exclusive': 1})<CR>",
-        "case insensitive" },
-      c = { "<Cmd>call QuickSubstitute(expand('<cword>'), {'range': '%', 'exclusive': 1, 'case': 1})<CR>",
-        "case sensitive" },
-    },
-    [":"] = { "<Cmd>call QuickSubstitute('', {'range': '%'})<CR>", "manual" },
-    ["."] = { "<Cmd>call QuickSubstitute('', {})<CR>", "manual on current line" },
-  },
-}, { prefix = "<Leader>" })
-wk.register({
-  s = {
-    name = "Substitute",
-    ["<Space>"] = { "y<Cmd>call QuickSubstitute(@@, {'range': '%'})<CR>", "case insensitive" },
-    c = { "y<Cmd>call QuickSubstitute(@@, {'range': '%', 'case': 1})<CR>", "case sensitive" },
-    x = {
-      name = "exclusive",
-      ["<Space>"] = { "y<Cmd>call QuickSubstitute(@@, {'range': '%', 'exclusive': 1})<CR>", "case insensitive" },
-      c = { "y<Cmd>call QuickSubstitute(@@, {'range': '%', 'exclusive': 1, 'case': 1})<CR>", "case sensitive" },
-    },
-    [":"] = { "<Esc><Cmd>call QuickSubstitute('', {'range': '%', 'selection': 1})<CR>", "manual within selection" },
-  },
-}, { prefix = "<Leader>", mode = "v" })
-
-wk.register({
   ["_"] = {
     name = "nice ones",
     c = { "<Cmd>lcd %:p:h | echo 'lcd -> ' . expand('%:p:~:h')<CR>", "lcd to the file's dir" },

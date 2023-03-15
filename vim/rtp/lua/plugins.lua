@@ -640,6 +640,41 @@ return require('packer').startup(function(use)
       vim.keymap.set({ 'n', 'x', 'i' }, '<C-\\>', '<Plug>NERDCommenterToggle')
     end
   }
+  use({
+    'gbprod/substitute.nvim',
+    config = function()
+      require('substitute').setup({
+        range = {
+          prefix = 'substitute',
+          prompt_current_text = true,
+          confirm = true,
+        },
+      })
+      vim.keymap.set('n', 'cp', require('substitute').operator, { desc = 'Replace operator text with yanked text' })
+      vim.keymap.set('n', 'cpp', require('substitute').line, { desc = 'Replace whole line with yanked text' })
+      -- vim.keymap.set('n', 'cP', require('substitute').eol, { desc = 'Replace text to EOL with yanked text' })
+      vim.keymap.set('x', 'cp', require('substitute').visual, { desc = 'Replace visual text with yanked text' })
+
+      vim.keymap.set('n', '<Leader>c', require('substitute.range').operator,
+        { desc = 'Substitute operator text within the range' })
+      vim.keymap.set('x', '<Leader>c', require('substitute.range').visual,
+        { desc = 'Substitute visual text within the range' })
+      -- vim.keymap.set('n', '<Leader>cc', require('substitute.range').word,
+      --   { desc = 'Substitute cursor word within the range' })
+      vim.keymap.set('n', '<Leader>cc', function()
+        require('substitute.range').operator({ motion1 = 'iw' })
+      end, { desc = 'Substitute cursor word within the range' })
+
+      vim.keymap.set('n', 'cx', require('substitute.exchange').operator,
+        { desc = 'Swap operator text' })
+      vim.keymap.set('n', 'cxx', function() require('substitute.exchange').operator({ motion = 'iw' }) end,
+        { desc = 'Swap cursor word' })
+      -- vim.keymap.set('n', 'cxx', require('substitute.exchange').line), { desc = 'Swap whole line'}
+      vim.keymap.set('x', 'X', require('substitute.exchange').visual, { desc = 'Swap visual text' })
+      vim.keymap.set('n', 'cxc', require('substitute.exchange').cancel,
+        { desc = 'Cancel swapping text' })
+    end
+  })
   use 'arthurxavierx/vim-caser'
   use({
     'kylechui/nvim-surround',

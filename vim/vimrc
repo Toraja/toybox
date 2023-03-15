@@ -492,55 +492,6 @@ else
 endif
 " --- || Search || }}}
 
-" {{{ || Replace || ---
-" Lets you run substitute quickly
-" @pattern string to find
-" @options available options are:
-"   range:     same as [range] command parameter.
-"   selection: none-zero means search area is only within selection
-"   case:      none-zero means case sensitive
-"   exclusive: none-zero means pattern will be wrapped with \< \>
-function! QuickSubstitute(core_pattern, options)
-  let l:opt_key_range = 'range'
-  let l:opt_key_case = 'case'
-  let l:opt_key_exclusive = 'exclusive'
-  let l:opt_key_selection = 'selection'
-  let l:base_substitute_cmd = '%ssubstitute/\V%s//gc'
-
-  let l:range = has_key(a:options, l:opt_key_range) ? a:options[l:opt_key_range] : ''
-
-  let l:search_pattern = ''
-  if has_key(a:options, l:opt_key_selection)
-    let l:search_pattern .= a:options[l:opt_key_selection] ? '\%V' : ''
-  endif
-  if has_key(a:options, l:opt_key_case)
-    let l:search_pattern .= a:options[l:opt_key_case] ? '\C' : ''
-  endif
-  " check for exclusive should be the last so that pattern string comes after ordinary atoms
-  if has_key(a:options, l:opt_key_exclusive) && a:options[l:opt_key_exclusive] == 1
-    let l:search_pattern .= '\<' . a:core_pattern . '\>'
-  else
-    let l:search_pattern .= a:core_pattern
-  endif
-
-  let l:substitute_cmd = printf(l:base_substitute_cmd, l:range, l:search_pattern)
-
-  let l:cursor_adjustment = repeat("\<Left>", a:core_pattern is '' ? 4 : 3)
-  let l:substitute_cmd = Input(v:true, ':', l:substitute_cmd . l:cursor_adjustment)
-  if l:substitute_cmd is 0
-    return
-  endif
-
-  call histadd(':', l:substitute_cmd)
-  try
-    execute l:substitute_cmd
-  catch /^Vim\%((\a\+)\)\=:E486/  " catch error E486 - No match found
-    redraw
-    echohl ErrorMsg | echomsg v:exception | echohl NONE
-  endtry
-endfunction
-" --- || Replace || }}}
-
 " {{{ || Buffer || ---
 command! BufOnly %bdelete | edit#
 " --- || Buffer || }}}
