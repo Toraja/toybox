@@ -494,13 +494,87 @@ return require('packer').startup(function(use)
       { 'ggandor/flit.nvim' },
     },
     config = function()
-      vim.keymap.set({ 'n', 'x', 'o' }, 's', '<Plug>(leap-forward-to)')
-      vim.keymap.set({ 'n', 'x', 'o' }, 'S', '<Plug>(leap-backward-to)')
-      vim.keymap.set({ 'x', 'o' }, 'v', '<Plug>(leap-forward-till)')
-      vim.keymap.set({ 'x', 'o' }, 'V', '<Plug>(leap-backward-till)')
-      vim.keymap.set({ 'n' }, 'gs', '<Plug>(leap-from-window)')
-      vim.keymap.set({ 'o' }, 'gs', 'V<Plug>(leap-forward-to)')
-      vim.keymap.set({ 'o' }, 'gS', 'V<Plug>(leap-backward-to)')
+      local direction_forward = 'forward'
+      local direction_backward = 'backward'
+      local function get_jump_targets(opts)
+        opts = opts or {}
+
+        local wininfo = vim.fn.getwininfo(opts.winid)[1]
+        local cur_line = vim.fn.line('.')
+        local cur_col = vim.fn.col('.')
+
+        local function get_start_end_lnum()
+          -- if opts.direction == 'forward' then
+          if opts.direction == direction_forward then
+            return cur_line, wininfo.botline
+          end
+
+          if opts.direction == direction_backward then
+            return wininfo.topline, cur_line
+          end
+
+          return wininfo.topline, wininfo.botline
+        end
+
+        -- Get targets.
+        local targets = {}
+        local start_lnum, end_lnum = get_start_end_lnum()
+        local lnum = start_lnum
+        while lnum <= end_lnum do
+          local fold_end = vim.fn.foldclosedend(lnum)
+          -- Skip folded ranges.
+          if fold_end ~= -1 then
+            lnum = fold_end + 1
+          else
+            local cnum = math.min(cur_col, string.len(vim.fn.getline(lnum)))
+            if lnum ~= cur_line then table.insert(targets, { pos = { lnum, cnum } }) end
+            lnum = lnum + 1
+          end
+        end
+        -- Sort them by vertical screen distance from cursor.
+        local cur_screen_row = vim.fn.screenpos(opts.winid, cur_line, 1)['row']
+        local function screen_rows_from_cur(t)
+          local t_screen_row = vim.fn.screenpos(opts.winid, t.pos[1], t.pos[2])['row']
+          return math.abs(cur_screen_row - t_screen_row)
+        end
+        table.sort(targets, function(t1, t2)
+          return screen_rows_from_cur(t1) < screen_rows_from_cur(t2)
+        end)
+
+        if #targets >= 1 then
+          return targets
+        end
+      end
+
+      local function leap_to_line(opts)
+        opts = opts or {}
+        local winid = vim.api.nvim_get_current_win()
+        opts.winid = winid
+
+        local leap_opts = {}
+        if opts.direction == nil then
+          leap_opts.target_windows = { winid }
+        elseif opts.direction == direction_backward then
+          leap_opts.backward = true
+        end
+        leap_opts.targets = get_jump_targets(opts)
+
+        require('leap').leap(leap_opts)
+      end
+
+      vim.keymap.set({ 'n', 'x', 'o' }, 'sn', '<Plug>(leap-forward-to)')
+      vim.keymap.set({ 'n', 'x', 'o' }, 'sp', '<Plug>(leap-backward-to)')
+      vim.keymap.set({ 'x', 'o' }, 'su', '<Plug>(leap-forward-till)')
+      vim.keymap.set({ 'x', 'o' }, 'sd', '<Plug>(leap-backward-till)')
+      vim.keymap.set({ 'n', 'x', 'o' }, '<Plug>(leap-forward-line)',
+        function() leap_to_line({ direction = direction_forward }) end)
+      vim.keymap.set({ 'n', 'x', 'o' }, '<Plug>(leap-backward-line)',
+        function() leap_to_line({ direction = direction_backward }) end)
+      vim.keymap.set({ 'n', 'x' }, 'sj', '<Plug>(leap-forward-line)')
+      vim.keymap.set({ 'n', 'x' }, 'sk', '<Plug>(leap-backward-line)')
+      vim.keymap.set({ 'o' }, 'sj', 'V<Plug>(leap-forward-line)')
+      vim.keymap.set({ 'o' }, 'sk', 'V<Plug>(leap-backward-line)')
+
       require('flit').setup({
         labeled_modes = "nvo",
         multiline = false,
