@@ -597,10 +597,10 @@ return require('packer').startup(function(use)
     'bfredl/nvim-miniyank',
     config = function()
       vim.g.miniyank_maxitems = 20
-      vim.keymap.set({ 'n', 'x', 'o' }, 'p', '<Plug>(miniyank-autoput)')
-      vim.keymap.set({ 'n', 'x', 'o' }, 'P', '<Plug>(miniyank-autoPut)')
-      vim.keymap.set({ 'n', 'x', 'o' }, '<M-p>', '<Plug>(miniyank-cycle)')
-      vim.keymap.set({ 'n', 'x', 'o' }, '<M-P>', '<Plug>(miniyank-cycleback)')
+      vim.keymap.set({ 'n', 'x' }, 'p', '<Plug>(miniyank-autoput)')
+      vim.keymap.set({ 'n', 'x' }, 'P', '<Plug>(miniyank-autoPut)')
+      vim.keymap.set({ 'n', 'x' }, '<M-p>', '<Plug>(miniyank-cycle)')
+      vim.keymap.set({ 'n', 'x' }, '<M-P>', '<Plug>(miniyank-cycleback)')
     end,
   }
   use 'gpanders/editorconfig.nvim'
