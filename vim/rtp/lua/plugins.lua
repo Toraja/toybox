@@ -675,7 +675,56 @@ return require('packer').startup(function(use)
         { desc = 'Cancel swapping text' })
     end
   })
-  use 'arthurxavierx/vim-caser'
+  use {
+    'johmsalas/text-case.nvim',
+    requires = {
+      { 'folke/which-key.nvim' }
+    },
+    config = function()
+      local textcase = require('textcase')
+      local prefix = 'ga'
+      local key_api_table = {
+        u = textcase.api.to_upper_case,
+        l = textcase.api.to_lower_case,
+        s = textcase.api.to_snake_case,
+        h = textcase.api.to_dash_case,
+        n = textcase.api.to_constant_case,
+        d = textcase.api.to_dot_case,
+        a = textcase.api.to_phrase_case,
+        c = textcase.api.to_camel_case,
+        p = textcase.api.to_pascal_case,
+        t = textcase.api.to_title_case,
+        f = textcase.api.to_path_case,
+      }
+      for key, api in pairs(key_api_table) do
+        textcase.register_keybindings(prefix, api, {
+          quick_replace = key,
+          operator = 'o' .. key,
+          visual = key,
+        })
+      end
+
+      local wk = require('which-key')
+      wk.register('v', {
+        [prefix] = {
+          name = 'text-case',
+        }
+      })
+
+      wk.register('n', {
+        [prefix] = {
+          name = 'text-case',
+          o = {
+            name = 'Pending mode operator'
+          }
+        }
+      })
+    end,
+  }
+  use {
+    'arthurxavierx/vim-caser',
+    disable = true,
+  }
   use({
     'kylechui/nvim-surround',
     tag = "*", -- Use for stability; omit to use `main` branch for the latest features
