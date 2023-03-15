@@ -289,10 +289,6 @@ else
   nnoremap [Chief] "*
   xnoremap [Chief] "*
 endif
-
-map , [Captain]
-nnoremap [Captain] "_
-xnoremap [Captain] "_
 " --- || Leader || }}}
 
 " {{{ || cursor motion || ---
