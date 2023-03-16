@@ -11,13 +11,6 @@
 	tool = nvimdiff
 [difftool]
 	prompt = false
-[alias]
-	co = checkout
-	cm = commit
-	st = status
-	br = branch
-	dt = difftool
-	lf = log --pretty=oneline --name-status
 [core]
 	autocrlf = false
 	excludesfile = ~/.gitignore_global
