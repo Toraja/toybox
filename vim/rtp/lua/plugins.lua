@@ -562,14 +562,19 @@ return require('packer').startup(function(use)
         require('leap').leap(leap_opts)
       end
 
-      vim.keymap.set({ 'n', 'x', 'o' }, 'sn', '<Plug>(leap-forward-to)')
-      vim.keymap.set({ 'n', 'x', 'o' }, 'sp', '<Plug>(leap-backward-to)')
-      vim.keymap.set({ 'x', 'o' }, 'su', '<Plug>(leap-forward-till)')
-      vim.keymap.set({ 'x', 'o' }, 'sd', '<Plug>(leap-backward-till)')
+      require('leap').opts.safe_labels = { "s", "f", "n", "u", "t", "w", "b", "e", "o" }
+      require('leap').opts.labels = { "s", "f", "n", "j", "k", "l", "h", "o", "d", "w", "e", "m", "b", "u", "y", "v",
+        "r", "g", "t", "c", "x", "z" }
+
       vim.keymap.set({ 'n', 'x', 'o' }, '<Plug>(leap-forward-line)',
         function() leap_to_line({ direction = direction_forward }) end)
       vim.keymap.set({ 'n', 'x', 'o' }, '<Plug>(leap-backward-line)',
         function() leap_to_line({ direction = direction_backward }) end)
+
+      vim.keymap.set({ 'n', 'x', 'o' }, 'sn', '<Plug>(leap-forward-to)')
+      vim.keymap.set({ 'n', 'x', 'o' }, 'sp', '<Plug>(leap-backward-to)')
+      vim.keymap.set({ 'x', 'o' }, 'su', '<Plug>(leap-forward-till)')
+      vim.keymap.set({ 'x', 'o' }, 'sd', '<Plug>(leap-backward-till)')
       vim.keymap.set({ 'n', 'x' }, 'sj', '<Plug>(leap-forward-line)')
       vim.keymap.set({ 'n', 'x' }, 'sk', '<Plug>(leap-backward-line)')
       vim.keymap.set({ 'o' }, 'sj', 'V<Plug>(leap-forward-line)')
