@@ -588,7 +588,6 @@ return require('packer').startup(function(use)
     config = function()
       local hop = require('hop')
       hop.setup {
-        keys = 'asdfghjklqwertyuiopzxcvbnm;',
         uppercase_labels = true,
       }
       local hop_hint = require('hop.hint')
@@ -624,7 +623,6 @@ return require('packer').startup(function(use)
         })
       end
 
-      vim.keymap.set({ 'n', 'x' }, 's', '<Nop>')
       vim.keymap.set({ 'n', 'x', 'o' }, 'f', "<Cmd>HopChar1CurrentLineAC<CR>")
       vim.keymap.set({ 'n', 'x', 'o' }, 'F', "<Cmd>HopChar1CurrentLineBC<CR>")
       vim.keymap.set({ 'n', 'x', 'o' }, 'sw', "<Cmd>HopWordAC<CR>")
