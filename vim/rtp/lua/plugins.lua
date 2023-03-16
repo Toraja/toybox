@@ -44,20 +44,20 @@ return require('packer').startup(function(use)
         },
         popup_mappings = {
           scroll_down = '<PageDown>', -- binding to scroll down inside the popup
-          scroll_up = '<PageUp>', -- binding to scroll up inside the popup
+          scroll_up = '<PageUp>',     -- binding to scroll up inside the popup
         },
         window = {
-          border = "rounded", -- none, single, double, shadow
-          position = "bottom", -- bottom, top
-          margin = { 0, 0, 0, 0 }, -- extra window margin [top, right, bottom, left]
+          border = "rounded",       -- none, single, double, shadow
+          position = "bottom",      -- bottom, top
+          margin = { 0, 0, 0, 0 },  -- extra window margin [top, right, bottom, left]
           padding = { 1, 2, 1, 2 }, -- extra window padding [top, right, bottom, left]
-          winblend = 0 -- value between 0-100 0 for fully opaque and 100 for fully transparent
+          winblend = 0              -- value between 0-100 0 for fully opaque and 100 for fully transparent
         },
         layout = {
           height = { min = 4, max = 25 }, -- min and max height of the columns
           width = { min = 20, max = 50 }, -- min and max width of the columns
-          spacing = 5, -- spacing between columns
-          align = "left", -- align columns left, center or right
+          spacing = 5,                    -- spacing between columns
+          align = "left",                 -- align columns left, center or right
         },
       }
     end
@@ -1074,7 +1074,7 @@ return require('packer').startup(function(use)
         },
         mapping = {
           ['<M-j>'] = cmp.mapping(cmp.mapping.scroll_docs(4), { 'i', 'c' }),
-          ['<M-k>'] = cmp.mapping(cmp.mapping.scroll_docs( -4), { 'i', 'c' }),
+          ['<M-k>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i', 'c' }),
           ['<Tab>'] = cmp.mapping(function()
             if cmp.visible() then
               cmp.select_next_item()
@@ -1256,8 +1256,8 @@ return require('packer').startup(function(use)
     config = function()
       local trouble = require("trouble")
       trouble.setup({
-        padding = false, -- add an extra new line on top of the list
-        auto_close = true, -- automatically close the list when you have no diagnostics
+        padding = false,      -- add an extra new line on top of the list
+        auto_close = true,    -- automatically close the list when you have no diagnostics
         auto_preview = false, -- automatically preview the location of the diagnostic. <esc> to close preview and go back to last window
       })
 
