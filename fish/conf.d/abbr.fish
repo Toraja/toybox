@@ -29,8 +29,8 @@ abbr --add --global gb git branch
 abbr --add --global gba git branch -a
 abbr --add --global gbo git branch -vv \| grep gone
 abbr --add --global gbod git branch -vv \| grep gone \| awk '\'{print $1}\'' \| xargs -r git branch -d
-abbr --add --global gbl git branch --format '%(refname:short) %(upstream)' \| awk '{if (!$2) print $1;}'
-abbr --add --global gbld git branch --format '%(refname:short) %(upstream)' \| awk '{if (!$2) print $1;}' \| xargs -r git branch -d
+abbr --add --global gbl git branch --format '\'%(refname:short) %(upstream)\'' \| awk '\'{if (!$2) print $1;}\''
+abbr --add --global gbld git branch --format '\'%(refname:short) %(upstream)\'' \| awk '\'{if (!$2) print $1;}\'' \| xargs -r git branch -d
 abbr --add --global gcm git commit -m
 abbr --add --global gco git checkout
 abbr --add --global gd git diff
