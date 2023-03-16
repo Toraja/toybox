@@ -26,22 +26,26 @@ abbr --add --global ta tmux attach
 abbr --add --global ga git add
 abbr --add --global gai git add -i
 abbr --add --global gb git branch
-abbr --add --global gba git branch
+abbr --add --global gba git branch -a
 abbr --add --global gbo git branch -vv \| grep gone
 abbr --add --global gbod git branch -vv \| grep gone \| awk '\'{print $1}\'' \| xargs -r git branch -d
-abbr --add --global gbl 'git branch --format \'%(refname:short) %(upstream)\' | awk \'{if (!$2) print $1;}\''
-abbr --add --global gbld 'git branch --format \'%(refname:short) %(upstream)\' | awk \'{if (!$2) print $1;}\' | xargs -r git branch -d'
+abbr --add --global gbl git branch --format '%(refname:short) %(upstream)' \| awk '{if (!$2) print $1;}'
+abbr --add --global gbld git branch --format '%(refname:short) %(upstream)' \| awk '{if (!$2) print $1;}' \| xargs -r git branch -d
 abbr --add --global gcm git commit -m
+abbr --add --global gco git checkout
 abbr --add --global gd git diff
 abbr --add --global gdn git diff --name-only
+abbr --add --global gds git diff --name-status
 abbr --add --global gdc git diff --cached
+abbr --add --global gdf git diff-tree --no-commit-id --name-status -r
 abbr --add --global gdt git difftool
 abbr --add --global gdtc git difftool --cached
 abbr --add --global gf git fetch
 abbr --add --global gfp git fetch --prune --prune-tags
 abbr --add --global gg git log
 abbr --add --global ggu git log origin..HEAD
-abbr --add --global ggf 'git log --oneline | fzf | awk \'{print $1}\''
+abbr --add --global ggc git log --oneline \| fzf \| awk '{print $1}'
+abbr --add --global ggs git log --oneline --name-status
 abbr --add --global gps git push
 abbr --add --global gpl git pull
 abbr --add --global gr git reset
@@ -59,9 +63,6 @@ abbr --add --global gvd git vimdifftab HEAD~1
 abbr --add --global gw git switch
 abbr --add --global gwc git switch -c
 abbr --add --global gwt git worktree
-abbr --add --global gwta git worktree add
-abbr --add --global gwtl git worktree list
-abbr --add --global gwtr git worktree remove
 
 # GitHub CLI
 abbr --add --global ghi gh issue
