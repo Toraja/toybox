@@ -351,15 +351,35 @@ return require('packer').startup(function(use)
         symbols_outline.open_outline()
       end
 
-      vim.keymap.set('n', '<Leader>o', symbols_outline_toggle)
-      vim.keymap.set('n', '<Leader>O', symbols_outline_focus)
+      vim.api.nvim_create_user_command('SymbolsOutlineToggle', symbols_outline_toggle, {})
+      vim.api.nvim_create_user_command('SymbolsOutlineFocus', symbols_outline_focus, {})
     end
   }
   use {
     'stevearc/aerial.nvim',
-    disable = true,
+    requires = {
+      { 'neovim/nvim-lspconfig' },
+      { 'nvim-telescope/telescope.nvim' },
+    },
     config = function()
-      require('aerial').setup()
+      require('aerial').setup({
+        min_width = 20,
+        show_guides = true,
+      })
+      vim.keymap.set('n', '<Leader>o', function()
+        if vim.lsp.buf.server_ready() then
+          vim.cmd('SymbolsOutlineToggle')
+        else
+          vim.cmd('AerialToggle!')
+        end
+      end)
+      vim.keymap.set('n', '<Leader>O', function()
+        if vim.lsp.buf.server_ready() then
+          vim.cmd('SymbolsOutlineFocus')
+        else
+          vim.cmd('AerialOpen')
+        end
+      end)
     end
   }
   use {
