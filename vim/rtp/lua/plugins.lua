@@ -728,7 +728,9 @@ return require('packer').startup(function(use)
         },
       })
       vim.keymap.set('n', 'cp', require('substitute').operator, { desc = 'Replace operator text with yanked text' })
-      vim.keymap.set('n', 'cpp', require('substitute').line, { desc = 'Replace whole line with yanked text' })
+      vim.keymap.set('n', 'cpp', function() require('substitute').operator({ motion = 'iw' }) end,
+        { desc = 'Replace operator text with yanked text' })
+      -- vim.keymap.set('n', 'cpp', require('substitute').line, { desc = 'Replace whole line with yanked text' })
       -- vim.keymap.set('n', 'cP', require('substitute').eol, { desc = 'Replace text to EOL with yanked text' })
       vim.keymap.set('x', 'cp', require('substitute').visual, { desc = 'Replace visual text with yanked text' })
 
