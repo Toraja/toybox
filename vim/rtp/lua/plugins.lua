@@ -1192,10 +1192,10 @@ return require('packer').startup(function(use)
     'nvim-treesitter/nvim-treesitter',
     config = function()
       require('nvim-treesitter.configs').setup({
-        ensure_installed = { "fish", "go", "lua", "rust", "vim", "yaml" },
+        ensure_installed = { "bash", "fish", "go", "hcl", "json", "lua", "make", "proto", "python", "rust",
+          "toml", "vim", "yaml" },
         highlight = {
           enable = true,
-          -- disable = { "rust" },
         },
       })
       -- require('nvim-treesitter.highlight').set_custom_captures({
