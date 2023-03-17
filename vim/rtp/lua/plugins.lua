@@ -1596,31 +1596,39 @@ return require('packer').startup(function(use)
     end,
   }
 
-  local function block_until_autocmd_event(event_name, wait_interval, fn)
-    local block = true
+  local function block_until_autocmd_event(event_name, wait_interval_ms, fn, timeout_ms)
+    if timeout_ms == nil then
+      timeout_ms = 60000
+    end
+    local done = false
     vim.api.nvim_create_autocmd('User', {
       pattern = event_name,
       callback = function()
-        block = false
+        done = true
         return true
       end
     })
     print('Waiting for ' .. event_name)
     fn()
-    while block do
-      vim.cmd('sleep ' .. wait_interval)
+    local fail_code_timeout = -1
+    local cb_success, fail_code = vim.wait(timeout_ms, function() return done end, wait_interval_ms)
+    if cb_success then
+      print('Ready')
+    elseif fail_code == fail_code_timeout then
+      print(string.format('Timed out while waiting for %s event.', event_name))
+    else
+      print(string.format('Interrupted while waiting for %s event', event_name))
     end
-    print('Ready')
   end
 
   -- Automatically set up your configuration after cloning packer.nvim
   -- Put this at the end after all plugins
   if packer_bootstrap then
-    block_until_autocmd_event('PackerComplete', 2, require('packer').sync)
+    block_until_autocmd_event('PackerComplete', 2000, require('packer').update, 120000)
   else
     local compile_path = vim.fn.stdpath('config') .. '/plugin/packer_compiled.lua'
     if vim.fn.empty(vim.fn.glob(compile_path)) > 0 then
-      block_until_autocmd_event('PackerCompileDone', '500m', require('packer').compile)
+      block_until_autocmd_event('PackerCompileDone', 500, require('packer').compile)
     end
   end
 end)
