@@ -1344,10 +1344,9 @@ return require('packer').startup(function(use)
   use {
     'ahmedkhalf/project.nvim',
     config = function()
-      require("project_nvim").setup({
-        show_hidden = false,
-        -- Need to add some language specific files as project.nvim depends on lsp, it cd into different directory if the current buffer is not supported by lsp.
-        patterns = { "go.mod", "Cargo.toml", ".git", "_darcs", ".hg", ".bzr", ".svn", "Makefile", "package.json" },
+      require('project_nvim').setup({
+        -- Add some language specific files as project.nvim depends on lsp, it cd into different directory if the current buffer is not supported by lsp.
+        patterns = vim.list_extend(require('project_nvim.config').defaults.patterns, { 'go.mod', 'Cargo.toml' }),
         scope_chdir = 'win',
       })
     end
