@@ -44,7 +44,7 @@ abbr --add --global gf git fetch
 abbr --add --global gfp git fetch --prune --prune-tags
 abbr --add --global gg git log
 abbr --add --global ggu git log origin..HEAD
-abbr --add --global ggc git log --oneline \| fzf \| awk '{print $1}'
+abbr --add --global ggc git log --oneline \| fzf \| awk '\'{print $1}\''
 abbr --add --global ggs git log --oneline --name-status
 abbr --add --global gps git push
 abbr --add --global gpl git pull
