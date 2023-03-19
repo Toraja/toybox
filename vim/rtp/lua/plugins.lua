@@ -1140,11 +1140,11 @@ return require('packer').startup(function(use)
               })
             end
           end, { 'i', 'c' }),
-          ['<C-y>'] = cmp.mapping(cmp.mapping.confirm({ select = true }), { 'i', 'c' }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
-          ['<C-o>'] = cmp.mapping(cmp.mapping.confirm({ select = true }), { 'i', 'c' }),
+          ['<C-y>'] = cmp.mapping(cmp.mapping.confirm({ select = false }), { 'i', 'c' }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+          ['<C-o>'] = cmp.mapping(cmp.mapping.confirm({ select = false }), { 'i', 'c' }),
           ['<C-a>'] = cmp.mapping(close_and_fallback, { 'i', 'c' }),
           ['<C-e>'] = cmp.mapping(close_and_fallback, { 'i', 'c' }),
-          ['<C-g>'] = cmp.mapping(cmp.mapping.abort(), { 'i', 'c' }),
+          ['<C-k>'] = cmp.mapping(cmp_visible_or_fallback(cmp.abort), { 'i', 'c' }),
         },
         sources = cmp.config.sources({
           { name = 'nvim_lsp' },
