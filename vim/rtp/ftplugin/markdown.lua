@@ -50,14 +50,14 @@ vim.keymap.set('n', '<C-w><C-]>', function()
   { desc = 'Follow link in horizontal window', buffer = true })
 
 require('keymap.which-key-helper').register_for_ftplugin({
-  b = { 'ToDoToggleStatus ' .. blocked_symbol, { desc = 'Toggle BLOCKED', buffer = true } },
-  c = { 'ConcealToggle', { desc = 'Toggle conceallevel between 0 and 2', buffer = true } },
-  d = { 'MkdnToggleToDo', { desc = 'Toggle TODO status', buffer = true } },
-  -- D = { '', { desc = 'Remove TODO Checkbox', buffer = true } },
-  f = { 'MkdnFoldSection', { desc = 'Fold Section', buffer = true } },
-  F = { 'MkdnUnfoldSection', { desc = 'Unfold Section', buffer = true } },
-  -- l = { '', { desc = 'Toggle list', buffer = true } },
-  p = { 'ToDoAddPomodoro', { desc = 'Add pomodoro', buffer = true } },
-  s = { 'ToDoToggleStatus ' .. started_symbol, { desc = 'Toggle STARTED', buffer = true } },
-  x = { 'ToggleToDoCancelled', { desc = 'Cancel TODO', buffer = true } },
+  b = { 'ToDoToggleStatus ' .. blocked_symbol, { desc = 'Toggle BLOCKED' } },
+  c = { 'ConcealToggle', { desc = 'Toggle conceallevel between 0 and 2' } },
+  d = { 'MkdnToggleToDo', { desc = 'Toggle TODO status' } },
+  -- D = { '', { desc = 'Remove TODO Checkbox' } },
+  f = { 'MkdnFoldSection', { desc = 'Fold Section', } },
+  F = { 'MkdnUnfoldSection', { desc = 'Unfold Section' } },
+  -- l = { '', { desc = 'Toggle list' } },
+  p = { 'ToDoAddPomodoro', { desc = 'Add pomodoro' } },
+  s = { 'ToDoToggleStatus ' .. started_symbol, { desc = 'Toggle STARTED' } },
+  x = { 'ToggleToDoCancelled', { desc = 'Cancel TODO' } },
 })
