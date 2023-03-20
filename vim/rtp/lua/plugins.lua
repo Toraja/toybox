@@ -810,20 +810,20 @@ return require('packer').startup(function(use)
       end
 
       local wk = require('which-key')
-      wk.register('v', {
+      wk.register({
         [prefix] = {
           name = 'text-case',
         }
-      })
+      }, { mode = 'v' })
 
-      wk.register('n', {
+      wk.register({
         [prefix] = {
           name = 'text-case',
           o = {
             name = 'Pending mode operator'
           }
         }
-      })
+      }, { mode = 'n' })
     end,
   }
   use {
