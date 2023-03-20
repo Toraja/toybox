@@ -16,15 +16,8 @@ vim.api.nvim_create_autocmd({ 'BufWritePost' }, {
   end,
 })
 
-local yaml_format_augroud_id = vim.api.nvim_create_augroup('yaml_format', {})
-vim.api.nvim_create_autocmd('BufWritePre', {
-  group = yaml_format_augroud_id,
-  buffer = 0,
-  callback = function()
-    preserve_cursor(vim.lsp.buf.format)
-  end,
-})
-
 require('keymap.which-key-helper').register_for_ftplugin('Yaml', {
   l = { 'lua yaml_lint()', { desc = 'Lint', silent = true, buffer = true } },
 })
+
+require('lsp').create_format_autocmd()
