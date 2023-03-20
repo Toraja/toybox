@@ -1,4 +1,4 @@
-require('keymap.which-key-helper').register_for_ftplugin('Rust', {
+require('keymap.which-key-helper').register_for_ftplugin({
   b = { 'Cbuild', { desc = '' } },
   B = { 'RustToggleBackTrace', { desc = '' } },
   g = { 'Cdebug', { desc = '' } },

@@ -16,8 +16,8 @@ vim.api.nvim_create_autocmd({ 'BufWritePost' }, {
   end,
 })
 
-require('keymap.which-key-helper').register_for_ftplugin('Yaml', {
-  l = { 'lua yaml_lint()', { desc = 'Lint', silent = true, buffer = true } },
+require('keymap.which-key-helper').register_for_ftplugin({
+  l = { 'lua yaml_lint()', { desc = 'Lint', silent = true } },
 })
 
 require('lsp').create_format_autocmd()

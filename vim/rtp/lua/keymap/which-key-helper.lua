@@ -27,9 +27,9 @@ local function make_cmds_buffer_local(cmds)
   end
 end
 
-function M.register_for_ftplugin(prompt, cmds)
+function M.register_for_ftplugin(cmds)
   make_cmds_buffer_local(cmds)
-  M.register_with_editable(prompt, '<LocalLeader>', '<LocalLeader>', cmds, { buffer = 0 })
+  M.register_with_editable(vim.opt.filetype:get(), '<LocalLeader>', '<LocalLeader>', cmds, { buffer = 0 })
 end
 
 return M

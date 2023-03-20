@@ -1,4 +1,4 @@
-require('keymap.which-key-helper').register_for_ftplugin('PHP', {
+require('keymap.which-key-helper').register_for_ftplugin({
   c = { 'PhpactorClassNew', { desc = 'PhpactorClassNew' } },
   C = { 'PhpactorCopyFile', { desc = 'PhpactorCopyFile' } },
   d = { '!php artisan l5:generate', { desc = 'L5:generate' } },

@@ -49,7 +49,7 @@ vim.keymap.set('n', '<C-w><C-]>', function()
 end,
   { desc = 'Follow link in horizontal window', buffer = true })
 
-require('keymap.which-key-helper').register_for_ftplugin('Markdown', {
+require('keymap.which-key-helper').register_for_ftplugin({
   b = { 'ToDoToggleStatus ' .. blocked_symbol, { desc = 'Toggle BLOCKED', buffer = true } },
   c = { 'ConcealToggle', { desc = 'Toggle conceallevel between 0 and 2', buffer = true } },
   d = { 'MkdnToggleToDo', { desc = 'Toggle TODO status', buffer = true } },
