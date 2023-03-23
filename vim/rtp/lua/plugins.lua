@@ -1248,6 +1248,10 @@ return require('packer').startup(function(use)
     end,
   }
   use {
+    'IndianBoy42/tree-sitter-just',
+    requires = { 'nvim-treesitter/nvim-treesitter' },
+  }
+  use {
     'nvim-treesitter/nvim-treesitter-textobjects',
     after = "nvim-treesitter",
     requires = "nvim-treesitter/nvim-treesitter",
