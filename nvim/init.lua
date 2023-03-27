@@ -80,11 +80,20 @@ vim.api.nvim_create_user_command('GdbIns', gdb_ins, {})
 
 require('register')
 
+function signcolumn_toggle()
+  if vim.wo.signcolumn == 'no' then
+    vim.wo.signcolumn = 'yes'
+    return
+  end
+  vim.wo.signcolumn = 'no'
+end
+
 wk.register({
   ["_"] = {
     name = "nice ones",
     c = { "<Cmd>lcd %:p:h | echo 'lcd -> ' . expand('%:p:~:h')<CR>", "lcd to the file's dir" },
     w = { "<Cmd>set wrap!<CR>", "Toggle wrap" },
+    ['<Space>'] = { "<Cmd>lua vim.wo.number = not vim.wo.number; signcolumn_toggle()<CR>", "Toggle left spaces" },
   },
 })
 
