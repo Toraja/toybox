@@ -43,10 +43,6 @@ set --export LESS iR
 # PATH
 ## local bin
 fish_add_path --prepend ~/.local/bin
-## Java
-fish_add_path --prepend /usr/local/java/bin
-## PHP
-fish_add_path --prepend ~/.composer/vendor/bin ~/.config/composer/vendor/bin # version 1 / 2
 
 # asdf
 # asdf.fish must be sources for `type <asdf installed tools>` to work.
