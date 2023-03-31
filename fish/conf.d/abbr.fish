@@ -144,7 +144,7 @@ abbr --add --global dcd docker compose down
 abbr --add --global dcu docker compose up -d
 abbr --add --global dcub docker compose up -d --build
 abbr --add --global dcl docker compose logs --follow
-abbr --add --global dcr docker compose run
+abbr --add --global dcr docker compose run --rm
 abbr --add --global dce docker compose restart
 
 ## kubectl
