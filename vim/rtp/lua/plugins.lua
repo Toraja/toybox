@@ -1143,19 +1143,6 @@ return require('packer').startup(function(use)
               end
             end,
           }),
-          ['<C-l>'] = cmp.mapping(function()
-            if cmp.visible() then
-              cmp.select_next_item()
-            else
-              cmp.complete({
-                config = {
-                  sources = {
-                    { name = 'buffer' }
-                  }
-                }
-              })
-            end
-          end, { 'i', 'c' }),
           ['<C-g>'] = cmp.mapping(cmp.mapping.abort(), { 'i', 'c' }),
           ['<C-y>'] = cmp.mapping(cmp.mapping.confirm({ select = false }), { 'i', 'c' }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
           ['<C-o>'] = cmp.mapping(cmp.mapping.confirm({ select = false }), { 'i', 'c' }),
@@ -1198,6 +1185,27 @@ return require('packer').startup(function(use)
           { name = 'cmdline' }
         })
       })
+
+      local spell_suggest = {}
+      function spell_suggest:complete(params, callback)
+        local source = {}
+        local spells = vim.fn.spellsuggest(string.match(params.context.cursor_line, '[%a%d]*$'))
+        vim.tbl_map(function(spell)
+          vim.list_extend(source, { { label = spell } })
+        end, spells)
+        callback(source)
+      end
+
+      cmp.register_source('spell_suggest', spell_suggest)
+      vim.keymap.set('i', '<C-x><C-s>', function()
+        cmp.complete({
+          config = {
+            sources = {
+              { name = 'spell_suggest' }
+            }
+          }
+        })
+      end, { desc = 'Spell suggest' })
     end
   }
   use {
