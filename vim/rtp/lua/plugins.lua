@@ -234,26 +234,39 @@ return require('packer').startup(function(use)
     'kyazdani42/nvim-tree.lua',
     requires = { 'kyazdani42/nvim-web-devicons', opt = true },
     config = function()
+      local function on_attach(bufnr)
+        local lib = require("nvim-tree.lib")
+        local api = require('nvim-tree.api')
+
+        local function opts(desc)
+          return { desc = 'nvim-tree: ' .. desc, buffer = bufnr, noremap = true, silent = true, nowait = true }
+        end
+
+        local function open_in_background(node)
+          node = node or lib.get_node_at_cursor()
+          vim.cmd('tabnew ' .. node.absolute_path .. ' | tabprevious')
+        end
+
+        api.config.mappings.default_on_attach(bufnr)
+        vim.keymap.set('n', 'h', api.node.navigate.parent_close, opts('Close Directory'))
+        vim.keymap.set('n', 'l', api.node.open.edit, opts('Open'))
+        vim.keymap.set('n', 'u', api.tree.change_root_to_parent, opts('Up'))
+        vim.keymap.set('n', 't', open_in_background, opts('Open: New Tab Background'))
+        vim.keymap.set('n', '?', api.tree.toggle_help, opts('Help'))
+        vim.keymap.del('n', '<C-e>', { buffer = bufnr })
+        vim.keymap.del('n', 'H', { buffer = bufnr })
+        vim.keymap.del('n', 's', { buffer = bufnr })
+      end
       require("nvim-tree").setup({
+        on_attach = on_attach,
         disable_netrw = true,
         respect_buf_cwd = true,
         update_cwd = true,
-        update_focused_file = {
-          enable = true,
-          update_cwd = true,
-        },
         git = {
           ignore = false,
         },
         view = {
           width = 40,
-          mappings = {
-            list = {
-              { key = "<C-e>", action = '' },
-              { key = "H",     action = '' },
-              { key = "s",     action = '' },
-            },
-          },
         },
         renderer = {
           highlight_opened_files = "all",
