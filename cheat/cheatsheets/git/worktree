@@ -1,0 +1,3 @@
+# Add worktree with 'sub' branch which tracks 'main' branch
+git worktree -b sub <path>
+git branch -u origin/main
