@@ -559,8 +559,6 @@ nnoremap <M-c> <Cmd>mode<CR>
 cnoremap <M-p> <Up>
 cnoremap <M-n> <Down>
 cnoremap <M-@> <Home>let @" = '<End>'
-" retry triggering abbreviation
-inoremap <C-g><C-]> <Esc>ciw<C-r>"<C-]>
 " --- || Others || }}}
 
 " --- || key mapping || }}}

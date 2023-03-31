@@ -97,7 +97,7 @@ wk.register({
   },
 })
 
-vim.keymap.set('i', '<C-g><C-q>', '<C-o>gql<End>')
+vim.keymap.set('i', '<C-x><C-q>', '<C-o>gql<End>')
 vim.keymap.set('!', '<C-q><C-b>', "expand('%:t')", { desc = "Buffer's basename", expr = true })
 vim.keymap.set('!', '<C-q><C-s>', "expand('%:t:r')", { desc = "Buffer's simple name", expr = true })
 vim.keymap.set('!', '<C-q><C-d>', "expand('%:p:~:h')", { desc = "Buffer's directory", expr = true })

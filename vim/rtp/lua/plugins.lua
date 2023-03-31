@@ -849,6 +849,8 @@ return require('packer').startup(function(use)
     config = function()
       require('nvim-surround').setup({
         keymaps = {
+          insert = false,
+          insert_line = false,
           normal = "yr",
           normal_cur = "yrr",
           normal_line = "yR",
@@ -1039,7 +1041,7 @@ return require('packer').startup(function(use)
         },
       })
 
-      vim.keymap.set('i', '<C-g><C-h>', '<Cmd>lua vim.lsp.buf.signature_help()<CR>', { desc = 'Signature help' })
+      vim.keymap.set('i', '<C-x><C-h>', '<Cmd>lua vim.lsp.buf.signature_help()<CR>', { desc = 'Signature help' })
       vim.keymap.set('n', '<C-]>', '<Cmd>lua vim.lsp.buf.definition()<CR>', { desc = 'Definition' })
       vim.keymap.set('n', 'g<C-]>', '<Cmd>lua vim.lsp.buf.implementation<CR>', { desc = 'Implementation' })
       vim.keymap.set('n', '<C-w><C-]>', '<Cmd>split | lua vim.lsp.buf.definition()<CR>', { desc = 'Definition [horz]' })
@@ -1154,6 +1156,7 @@ return require('packer').startup(function(use)
               })
             end
           end, { 'i', 'c' }),
+          ['<C-g>'] = cmp.mapping(cmp.mapping.abort(), { 'i', 'c' }),
           ['<C-y>'] = cmp.mapping(cmp.mapping.confirm({ select = false }), { 'i', 'c' }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
           ['<C-o>'] = cmp.mapping(cmp.mapping.confirm({ select = false }), { 'i', 'c' }),
           ['<C-a>'] = cmp.mapping(close_and_fallback, { 'i', 'c' }),
