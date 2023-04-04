@@ -108,21 +108,13 @@ vim.keymap.set('!', '<C-q><C-o>', require('git').root_path, { desc = "Git root p
 require('text.edit').map_toggle_trailing(',', ',')
 
 function delete_hidden_buffers()
-  local visible_buffers = array.new()
-  for i = 1, vim.fn.tabpagenr('$') do
-    visible_buffers:append(vim.fn.tabpagebuflist(i))
-  end
-
-  local hidden_bufs = array.new()
-  for i = 1, vim.fn.bufnr('$') do
-    if vim.fn.bufexists(i) == 1 and not visible_buffers:contains(i) then
-      hidden_bufs:insert(i)
+  local function delete_buffer_if_hidden(buf)
+    if buf.hidden == 1 then
+      vim.api.nvim_buf_delete(buf.bufnr, {})
     end
   end
-
-  hidden_bufs:for_each(function(bufnr)
-    vim.cmd(string.format('silent bwipeout %s', bufnr))
-  end)
+  local buffers = vim.fn.getbufinfo({ buflisted = true, bufloaded = true })
+  vim.tbl_map(delete_buffer_if_hidden, buffers)
 end
 
 vim.api.nvim_create_user_command('DeleteHiddenBuffers', delete_hidden_buffers, {})
