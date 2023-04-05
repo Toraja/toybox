@@ -282,7 +282,7 @@ return require('packer').startup(function(use)
         O = { 'NvimTreeOpen %:h', { desc = 'Open in the file\'s parent directory' } },
         e = { 'NvimTreeToggle', { desc = 'Toggle' } },
         E = { 'NvimTreeFocus', { desc = 'Focus' } },
-        f = { 'NvimTreeFindFile', { desc = 'Find file' } },
+        f = { 'NvimTreeFindFile!', { desc = 'Find file' } },
         r = { 'NvimTreeRefresh', { desc = 'Refresh' } },
       })
       local nvimtree_augroud_id = vim.api.nvim_create_augroup('my_nvimtree', {})
@@ -290,7 +290,7 @@ return require('packer').startup(function(use)
         group = nvimtree_augroud_id,
         callback = function(data)
           if vim.fn.isdirectory(data.file) == 1 then
-            require("nvim-tree.api").tree.open()
+            require("nvim-tree.api").tree.open({ path = data.file })
           end
         end,
       })
