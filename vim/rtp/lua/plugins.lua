@@ -1513,6 +1513,7 @@ return require('packer').startup(function(use)
     config = function()
       require('go').setup({
         test_runner = 'richgo',
+        run_in_floaterm = true,
       })
       local go_format_augroud_id = vim.api.nvim_create_augroup('go_format', {})
       vim.api.nvim_create_autocmd('BufWritePre', {

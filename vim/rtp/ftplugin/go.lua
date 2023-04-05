@@ -8,7 +8,7 @@ require('keymap.which-key-helper').register_for_ftplugin({
 	h = { 'GoChannel', { desc = 'GoChannel' } },
 	k = { 'GoCallstack', { desc = 'GoCallstack' } },
 	l = { 'GoLint', { desc = 'Lint' } },
-	r = { 'GoRun -F', { desc = 'Exec `go run`' } },
+	r = { 'GoRun', { desc = 'Exec `go run`' } },
 	s = { 'GoFillStruct', { desc = 'Fill struct' } },
 	t = { 'GoAddTest', { desc = 'Add test for this function' } },
 	T = { 'GoAddTag', { desc = 'Add tag to struct' } },
