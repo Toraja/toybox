@@ -66,6 +66,7 @@ return require('packer').startup(function(use)
   -- git
   use {
     'tpope/vim-fugitive',
+    disable = true,
     config = function()
       vim.cmd([[
         cnoreabbrev gs Git
@@ -83,6 +84,7 @@ return require('packer').startup(function(use)
   }
   use {
     'junegunn/gv.vim',
+    disable = true,
     config = function()
       vim.keymap.set('n', '<Leader>gV', "<Cmd>GV<CR><Cmd>+tabmove<CR>", { desc = "GV [repo]" })
       vim.keymap.set('n', '<Leader>gv', "<Cmd>GV!<CR><Cmd>+tabmove<CR>", { desc = "GV [file]" })
@@ -115,17 +117,16 @@ return require('packer').startup(function(use)
           end, { expr = true, desc = 'Previous hunk' })
 
           -- Actions
-          map({ 'n', 'x' }, '<Leader>ghs', '<Cmd>Gitsigns stage_hunk<CR>', { desc = 'Stage this hunk' })
-          map('n', '<Leader>ghS', gs.stage_buffer, { desc = 'Stage all changes in the buffer' })
-          map({ 'n', 'x' }, '<Leader>ghr', '<Cmd>Gitsigns reset_hunk<CR>', { desc = 'Restore this hunk to index' })
-          map('n', '<Leader>ghR', gs.reset_buffer, { desc = 'Restore all unstaged changes in the buffer to index' })
-          map('n', '<Leader>ghu', gs.undo_stage_hunk, { desc = 'Unstage the last staged hunk' })
-          map('n', '<Leader>ghp', gs.preview_hunk, { desc = 'Preview this hunk' })
-          map('n', '<Leader>gd', gs.diffthis, { desc = 'vimdiff against index' })
-          map('n', '<Leader>gD', function() gs.diffthis('~') end, { desc = 'vimdiff against last commit' })
-          map('n', '<Leader>gb', function() gs.blame_line({ full = true }) end, { desc = 'Blame current line' })
-          map('n', '<Leader>g<C-b>', gs.toggle_current_line_blame,
-            { desc = 'Toggle git blame current line virtual text' })
+          map({ 'n', 'x' }, vim.g.chief_key .. 'ghs', '<Cmd>Gitsigns stage_hunk<CR>', { desc = 'Stage this hunk' })
+          map('n', vim.g.chief_key .. 'ghS', gs.stage_buffer, { desc = 'Stage all changes in the buffer' })
+          map({ 'n', 'x' }, vim.g.chief_key .. 'ghr', '<Cmd>Gitsigns reset_hunk<CR>',
+            { desc = 'Restore this hunk to index' })
+          map('n', vim.g.chief_key .. 'ghR', gs.reset_buffer,
+            { desc = 'Restore all unstaged changes in the buffer to index' })
+          map('n', vim.g.chief_key .. 'ghu', gs.undo_stage_hunk, { desc = 'Unstage the last staged hunk' })
+          map('n', vim.g.chief_key .. 'ghp', gs.preview_hunk, { desc = 'Preview this hunk' })
+          map('n', vim.g.chief_key .. 'gb', function() gs.blame_line({ full = true }) end,
+            { desc = 'Blame current line' })
 
           -- Text object
           map({ 'o', 'x' }, 'ih', ':<C-U>Gitsigns select_hunk<CR>', { desc = 'Select hunk' })
@@ -1499,6 +1500,9 @@ return require('packer').startup(function(use)
         direction = 'tab',
         shell = 'fish',
       })
+      vim.keymap.set('n', '<Leader>g',
+        function() require('toggleterm.terminal').Terminal:new({ cmd = 'lazygit', direction = 'tab' }):toggle() end,
+        { desc = 'lazygit' })
     end
   }
   use 'mfussenegger/nvim-dap'
