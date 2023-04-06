@@ -52,7 +52,7 @@ vim.api.nvim_create_autocmd("TermOpen", {
 
 vim.g.termdebug_wide = 1
 wk.register({
-  g = {
+  b = {
     name = "termdebug",
     a = { "<Cmd>Arguments<CR>", "Set arguments to the next :Run" },
     b = { "<Cmd>Break<CR>", "Add breakpoint" },
