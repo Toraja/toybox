@@ -133,6 +133,17 @@ return require('packer').startup(function(use)
       })
     end
   }
+  use {
+    'sindrets/diffview.nvim',
+    requires = { 'nvim-lua/plenary.nvim' },
+    config = function()
+      require('keymap.which-key-helper').register_with_editable('Git', vim.g.chief_key .. 'g', vim.g.chief_key, {
+        d = { 'DiffviewOpen', { desc = 'DiffviewOpen' } },
+        v = { 'DiffviewFileHistory %', { desc = 'Diffview history of this file' } },
+        V = { 'DiffviewFileHistory', { desc = 'Diffview history of repository' } },
+      })
+    end
+  }
 
   -- look & feel
   -- nvim-web-devicons requires external font such as https://www.nerdfonts.com/
