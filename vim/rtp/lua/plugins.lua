@@ -188,7 +188,7 @@ return require('packer').startup(function(use)
         inactive_winbar = {
           lualine_c = { { 'filename', path = 1, newfile_status = true } },
         },
-        extensions = { 'fugitive', 'man', 'nvim-tree', 'quickfix' }
+        extensions = { 'aerial', 'man', 'nvim-tree', 'quickfix', 'symbols-outline', 'toggleterm' }
       })
     end,
   }
