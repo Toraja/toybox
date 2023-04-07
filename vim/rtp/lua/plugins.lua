@@ -170,7 +170,7 @@ return require('packer').startup(function(use)
           theme = 'ayu_mirage',
           disabled_filetypes = {
             -- statusline = {},
-            winbar = { 'help', 'qf', 'gitcommit', 'fugitive', 'Trouble' },
+            winbar = { 'help', 'qf', 'gitcommit', 'fugitive' },
           },
         },
         sections = {
@@ -426,7 +426,6 @@ return require('packer').startup(function(use)
       local action = require('telescope.actions')
       local action_set = require('telescope.actions.set')
       local action_layout = require('telescope.actions.layout')
-      local trouble = require("trouble.providers.telescope")
       telescope.setup({
         defaults = {
           vimgrep_arguments = {
@@ -456,10 +455,8 @@ return require('packer').startup(function(use)
               ["<C-u>"] = function(bufnr) action_set.scroll_results(bufnr, 0) end,
               ["<M-j>"] = function(bufnr) action_set.scroll_previewer(bufnr, 1) end,
               ["<M-k>"] = function(bufnr) action_set.scroll_previewer(bufnr, 0) end,
-              ["<c-q>"] = trouble.open_with_trouble,
             },
             i = {
-              ["<c-q>"] = trouble.open_with_trouble,
               ["<Esc>"] = action.close,
               ["<C-\\>"] = { "<Esc>", type = "command" },
               ["<C-_>"] = action_layout.toggle_preview,
@@ -1073,13 +1070,13 @@ return require('packer').startup(function(use)
         c = { 'lua vim.lsp.buf.incoming_calls()', { desc = 'Incoming calls' } },
         C = { 'lua vim.lsp.buf.outgoing_calls()', { desc = 'Outgoing calls' } },
         d = { 'lua vim.lsp.buf.hover()', { desc = 'Hover' } },
+        e = { 'lua vim.diagnostic.setloclist()', { desc = 'Diagnostic' } },
         f = { 'lua vim.lsp.buf.format({ async = true })', { desc = 'Format' } },
         F = { 'lua require("lsp").toggle_auto_format()', { desc = 'ToggleAutoFormat', silent = true } },
-        i = { 'Trouble lsp_implementations', { desc = 'Implementation' } },
+        i = { 'lua vim.lsp.buf.implementation()', { desc = 'Implementation' } },
         l = { 'lua vim.lsp.codelens.run()', { desc = 'Code lens' } },
         n = { 'lua vim.lsp.buf.rename()', { desc = 'Rename' } },
-        q = { 'lua vim.diagnostic.setloclist()', { desc = 'Diagnostic' } },
-        r = { 'Trouble lsp_references', { desc = 'References' } },
+        r = { 'lua vim.lsp.buf.references()', { desc = 'References' } },
       })
     end
   }
@@ -1317,76 +1314,7 @@ return require('packer').startup(function(use)
 
   -- misc
   use {
-    'folke/lsp-trouble.nvim',
-    config = function()
-      local trouble = require("trouble")
-      trouble.setup({
-        padding = false,      -- add an extra new line on top of the list
-        auto_close = true,    -- automatically close the list when you have no diagnostics
-        auto_preview = false, -- automatically preview the location of the diagnostic. <esc> to close preview and go back to last window
-      })
-
-      local function replace_qflist()
-        vim.cmd('cclose')
-        trouble.open("quickfix", "auto=true")
-      end
-
-      local function replace_loclist()
-        vim.cmd('lclose')
-        trouble.open("loclist", "auto=true")
-      end
-
-      require("which-key").register({
-        ["<C-q>"] = {
-          name = "Trouble",
-          ["<C-q>"] = { function() trouble.toggle({ auto = true }) end, "Trouble toggle" },
-          ["<C-r>"] = { "<Cmd>TroubleRefresh<CR>", "Trouble refresh" },
-          ["<C-e>"] = { function() trouble.open("document_diagnostics", "auto=true") end, "Troube document diagnostics" },
-          ["<C-w>"] = { function() trouble.open("workspace_diagnostics", "auto=true") end,
-            "Trouble workspace diagnostics" },
-          ["<C-f>"] = { function() replace_qflist() end, "Trouble quickfix" },
-          ["<C-l>"] = { function() replace_loclist() end, "Trouble loclist" },
-          ["<C-n>"] = { function() trouble.next({ skip_groups = true, jump = true }) end, "Trouble next" },
-          ["<C-p>"] = { function() trouble.previous({ skip_groups = true, jump = true }) end, "Trouble previous" },
-          ["<C-g>"] = { function() trouble.first({ skip_groups = true, jump = true }) end, "Trouble first" },
-          G = { function() trouble.last({ skip_groups = true, jump = true }) end, "Trouble last" },
-          ["<C-_>"] = { function() trouble.help() end, "Trouble keybind" },
-          q = {
-            name = "close",
-            c = { "<Cmd>cclose<CR>", "cclose" },
-            l = { "<Cmd>lclose<CR>", "lclose" },
-          },
-        },
-      })
-
-      -- Attempt to replace quickfix window with Trouble.
-      -- With `BufWinEnter`, it ends up an error like `Not allowed to edit another buffer now`.
-      -- With `WinNew` or `WinEnter`, passed buffer number as argument will not be of quickfix window.
-      -- With `BufEnter`, passed buffer number is buffer number of quickfix window, but replace will not be performned
-      -- local function replace_qflist_with_trouble(bufnr)
-      --   print('bufnr: ' .. bufnr)
-      --   local win_id = vim.fn.win_findbuf(bufnr)[1]
-      --   local is_quickfx = vim.fn.getwininfo(win_id)[1]['quickfix'] == 1
-      --   local is_loclist = vim.fn.getwininfo(win_id)[1]['loclist'] == 1
-      --   if is_loclist then
-      --     replace_loclist()
-      --   elseif is_quickfx then
-      --     replace_qflist()
-      --   end
-      -- end
-
-      -- local trouble_hijack_qf_win = vim.api.nvim_create_augroup('trouble_hijack_qf_win', {})
-      -- vim.api.nvim_create_autocmd('BufEnter', {
-      -- vim.api.nvim_create_autocmd('WinEnter', {
-      -- vim.api.nvim_create_autocmd('WinNew', {
-      --   group = trouble_hijack_qf_win,
-      --   pattern = '*',
-      --   callback = function(info)
-      --     print(vim.inspect(info))
-      --     replace_qflist_with_trouble(info.buf)
-      --   end
-      -- })
-    end
+    'kevinhwang91/nvim-bqf',
   }
   use {
     'ahmedkhalf/project.nvim',
