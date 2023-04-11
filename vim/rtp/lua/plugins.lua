@@ -697,6 +697,28 @@ return require('packer').startup(function(use)
       -- map <Bar> <Plug>(easymotion-prev)
     end
   }
+  use {
+    'liangxianzhe/nap.nvim',
+    config = function()
+      require("nap").setup({
+        operators = {
+          ["<C-d>"] = {
+            next = { command = vim.diagnostic.goto_next, desc = "Next diagnostic", },
+            prev = { command = vim.diagnostic.goto_prev, desc = "Prev diagnostic", },
+            mode = { "n", "v", "o" }
+          },
+          ["<C-l>"] = {
+            next = { command = "lnext", desc = "Next loclist item", },
+            prev = { command = "lprevious", desc = "Prev loclist item" },
+          },
+          ["<C-q>"] = {
+            next = { command = "cnext", desc = "Next quickfix item", },
+            prev = { command = "cprevious", desc = "Prev quickfix item" },
+          },
+        },
+      })
+    end
+  }
   use 'michaeljsmith/vim-indent-object'
   use {
     'jeetsukumaran/vim-indentwise',
