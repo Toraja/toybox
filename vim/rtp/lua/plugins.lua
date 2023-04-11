@@ -340,7 +340,7 @@ return require('packer').startup(function(use)
     config = function()
       local symbols_outline = require("symbols-outline")
       symbols_outline.setup({
-        autofold_depth = 2,
+        autofold_depth = 0,
       })
 
       local function is_window_open_in_current_tab(win_id)
