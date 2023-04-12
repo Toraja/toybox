@@ -327,8 +327,7 @@ inoremap <M-e> <Esc>ea
 inoremap <M-E> <Esc>Ea
 inoremap <M-e> <Esc>ea
 inoremap <M-E> <Esc>Ea
-imap <silent> <Home> <C-o><Home>
-imap <C-a> <Home>
+inoremap <expr> <silent> <C-a> col('.') == match(getline('.'),'\S')+1 ? "\<C-o>0" : "\<C-o>^"
 inoremap <expr> <C-e> pumvisible() ? "\<C-e>" : "\<End>"
 inoremap <C-p> <Up>
 inoremap <C-n> <Down>
