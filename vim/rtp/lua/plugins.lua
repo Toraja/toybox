@@ -632,6 +632,7 @@ return require('packer').startup(function(use)
         require('leap').leap(leap_opts)
       end
 
+      require('leap').opts.max_phase_one_targets = 0
       require('leap').opts.safe_labels = { "s", "f", "n", "u", "t", "w", "b", "e", "o" }
       require('leap').opts.labels = { "s", "f", "n", "j", "k", "l", "h", "o", "d", "w", "e", "m", "b", "u", "y", "v",
         "r", "g", "t", "c", "x", "z" }
