@@ -416,6 +416,7 @@ return require('packer').startup(function(use)
       { 'nvim-telescope/telescope-ghq.nvim' },
       { 'nvim-telescope/telescope-packer.nvim' },
       { 'LinArcX/telescope-scriptnames.nvim' },
+      { 'brookhong/telescope-pathogen.nvim' },
     },
     config = function()
       -- NOTE This does not work properly at the moment...
@@ -426,6 +427,13 @@ return require('packer').startup(function(use)
       local action = require('telescope.actions')
       local action_set = require('telescope.actions.set')
       local action_layout = require('telescope.actions.layout')
+      local function bottom_pane_borderchars()
+        return {
+          prompt = { '─', '│', ' ', '│', '╭', '╮', '', ' ' },
+          preview = { '─', '│', '─', '│', '╭', '│', '╯', '─' },
+          results = { ' ', ' ', '─', '│', ' ', ' ', '─', '╰' },
+        }
+      end
       telescope.setup({
         defaults = {
           vimgrep_arguments = {
@@ -442,10 +450,22 @@ return require('packer').startup(function(use)
           sorting_strategy = 'ascending',
           -- wrap_results = true,
           path_display = { truncate = 1 },
+          layout_strategy = 'bottom_pane',
+          borderchars = bottom_pane_borderchars(),
           layout_config = {
-            prompt_position = "top",
             horizontal = {
+              width = 0.95,
+              height = 0.95,
+              prompt_position = "top",
+              preview_width = 0.60,
+            },
+            bottom_pane = {
+              height = 0.99,
+              preview_width = 0.60,
+            },
+            vertical = {
               width = 0.92,
+              height = 0.92,
               preview_width = 0.60,
             },
           },
@@ -501,13 +521,15 @@ return require('packer').startup(function(use)
       telescope.load_extension('ghq')
       telescope.load_extension("packer")
       telescope.load_extension('scriptnames')
+      telescope.load_extension('pathogen')
 
       require('keymap.which-key-helper').register_with_editable('Telescope', vim.g.chief_key .. 'f', vim.g.chief_key, {
         b = { 'lua require("telescope.builtin").buffers()', { desc = 'Buffers' } },
         c = { 'lua require("telescope.builtin").git_bcommits()', { desc = 'Git buffer commits' } },
         C = { 'lua require("telescope.builtin").git_commits()', { desc = 'Git commits' } },
         e = { 'lua require("telescope.builtin").diagnostics()', { desc = 'Diagnostics' } },
-        f = { 'lua require("telescope.builtin").find_files({ search_dirs = { "." } })', { desc = 'Files' } },
+        f = { 'lua require("pathogen").find_files({ search_dirs = { "." } })', { desc = 'Files' } },
+        F = { 'lua require("pathogen").browse_file({ search_dirs = { "." } })', { desc = 'File browser' } },
         g = { 'lua require("telescope.builtin").git_files()', { desc = 'Git files' } },
         G = { 'lua require("telescope.builtin").git_status()', { desc = 'Git status' } },
         h = { 'lua require("telescope.builtin").help_tags()', { desc = 'Help tags' } },
@@ -522,11 +544,11 @@ return require('packer').startup(function(use)
         q = { 'lua require("telescope").extensions.ghq.list({ layout_config = { preview_width = 0.5 } })',
           { desc = 'Ghq list' } },
         r = {
-          'lua require("telescope.builtin").live_grep({ layout_config = { preview_width = 0.5 }, search_dirs = { "." } })',
+          'lua require("pathogen").live_grep({ layout_config = { preview_width = 0.5 }, search_dirs = { "." } })',
           { desc = 'Grep' } },
         R = {
-          'lua require("telescope.builtin").live_grep({ layout_config = { preview_width = 0.5 }, search_dirs = { require("git").root_path() } })',
-          { desc = 'Grep whole repository' } },
+          'lua require("telescope.builtin").grep_string({ layout_config = { preview_width = 0.5 }, search_dirs = { "." } })',
+          { desc = 'Grep current word' } },
         s = { 'lua require("telescope.builtin").spell_suggest()', { desc = 'Spell suggest' } },
         S = { 'lua require("telescope").extensions.scriptnames.scriptnames()', { desc = 'Scriptnames' } },
         [':'] = { 'lua require("telescope.builtin").command_history()', { desc = 'Command history' } },
