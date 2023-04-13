@@ -21,6 +21,11 @@ end
 
 function M.toggle_auto_format()
   vim.b.auto_format_disabled = not vim.b.auto_format_disabled
+  if vim.b.auto_format_disabled then
+    print('Auto format disabled')
+  else
+    print('Auto format enabled')
+  end
 end
 
 return M
