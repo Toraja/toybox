@@ -434,6 +434,11 @@ return require('packer').startup(function(use)
           results = { ' ', ' ', '─', '│', ' ', ' ', '─', '╰' },
         }
       end
+      telescope.load_extension('fzf')
+      telescope.load_extension('ghq')
+      telescope.load_extension("packer")
+      telescope.load_extension('scriptnames')
+      telescope.load_extension('pathogen')
       telescope.setup({
         defaults = {
           vimgrep_arguments = {
@@ -471,14 +476,15 @@ return require('packer').startup(function(use)
           },
           mappings = {
             n = {
+              q = action.close,
               ["<C-d>"] = function(bufnr) action_set.scroll_results(bufnr, 1) end,
               ["<C-u>"] = function(bufnr) action_set.scroll_results(bufnr, 0) end,
               ["<M-j>"] = function(bufnr) action_set.scroll_previewer(bufnr, 1) end,
               ["<M-k>"] = function(bufnr) action_set.scroll_previewer(bufnr, 0) end,
             },
             i = {
-              ["<Esc>"] = action.close,
-              ["<C-\\>"] = { "<Esc>", type = "command" },
+              -- ["<Esc>"] = action.close,
+              -- ["<C-\\>"] = { "<Esc>", type = "command" },
               ["<C-_>"] = action_layout.toggle_preview,
               ["<Tab>"] = action.move_selection_worse,
               ["<C-j>"] = function(bufnr)
@@ -506,6 +512,15 @@ return require('packer').startup(function(use)
           find_files = {
             find_command = { "fd", "--type", "f", "--hidden", "--exclude", ".git" },
           },
+          oldfiles = {
+            layout_config = { preview_width = 0.5 },
+          },
+          live_grep = {
+            layout_config = { preview_width = 0.5 },
+          },
+          grep_string = {
+            layout_config = { preview_width = 0.5 },
+          },
           -- Now the picker_config_key will be applied every time you call this
           -- builtin picker
         },
@@ -517,18 +532,13 @@ return require('packer').startup(function(use)
           -- please take a look at the readme of the extension you want to configure
         },
       })
-      telescope.load_extension('fzf')
-      telescope.load_extension('ghq')
-      telescope.load_extension("packer")
-      telescope.load_extension('scriptnames')
-      telescope.load_extension('pathogen')
 
       require('keymap.which-key-helper').register_with_editable('Telescope', vim.g.chief_key .. 'f', vim.g.chief_key, {
         b = { 'lua require("telescope.builtin").buffers()', { desc = 'Buffers' } },
         c = { 'lua require("telescope.builtin").git_bcommits()', { desc = 'Git buffer commits' } },
         C = { 'lua require("telescope.builtin").git_commits()', { desc = 'Git commits' } },
         e = { 'lua require("telescope.builtin").diagnostics()', { desc = 'Diagnostics' } },
-        f = { 'lua require("pathogen").find_files({ search_dirs = { "." } })', { desc = 'Files' } },
+        f = { 'lua require("pathogen").find_files()', { desc = 'Files' } },
         F = { 'lua require("pathogen").browse_file({ cwd = vim.fs.dirname(vim.api.nvim_buf_get_name(0)) })',
           { desc = 'File browser' } },
         g = { 'lua require("telescope.builtin").git_files()', { desc = 'Git files' } },
@@ -539,16 +549,13 @@ return require('packer').startup(function(use)
         l = { 'lua require("telescope.builtin").current_buffer_fuzzy_find()', { desc = 'Buffer lines' } },
         m = { 'lua require("telescope.builtin").marks()', { desc = 'Marks' } },
         o = { 'lua require("telescope.builtin").treesitter()', { desc = 'Treesitter' } },
-        O = { 'lua require("telescope.builtin").oldfiles({ layout_config = { preview_width = 0.5 } })',
+        O = { 'lua require("telescope.builtin").oldfiles()',
           { desc = 'Oldfiles' } },
         p = { 'lua require("telescope").extensions.packer.packer()', { desc = 'Packer' } },
         q = { 'lua require("telescope").extensions.ghq.list({ layout_config = { preview_width = 0.5 } })',
           { desc = 'Ghq list' } },
-        r = {
-          'lua require("pathogen").live_grep({ layout_config = { preview_width = 0.5 }, search_dirs = { "." } })',
-          { desc = 'Grep' } },
-        R = {
-          'lua require("telescope.builtin").grep_string({ layout_config = { preview_width = 0.5 }, search_dirs = { "." } })',
+        r = { 'lua require("pathogen").live_grep()', { desc = 'Grep' } },
+        R = { 'lua require("telescope.builtin").grep_string()',
           { desc = 'Grep current word' } },
         s = { 'lua require("telescope.builtin").spell_suggest()', { desc = 'Spell suggest' } },
         S = { 'lua require("telescope").extensions.scriptnames.scriptnames()', { desc = 'Scriptnames' } },
