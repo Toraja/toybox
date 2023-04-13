@@ -24,7 +24,7 @@ function ginkgo_run_nearest_spec()
 		'It%("(.*)",.*func%(%)%s{',
 	}
 	local current_line, _ = unpack(vim.api.nvim_win_get_cursor(0))
-	local start_line = current_line - 60
+	local start_line = current_line < 60 and 0 or current_line - 60
 	local lines = vim.api.nvim_buf_get_lines(0, start_line, current_line, true)
 	local function find_spec()
 		for i = #lines, 1, -1 do
@@ -37,12 +37,17 @@ function ginkgo_run_nearest_spec()
 			end
 		end
 	end
-	local spec = find_spec()
-	print(spec)
+	local found_spec = find_spec()
+	if found_spec == nil then
+		print('No spec was found')
+		return
+	end
 
 	local test_file_basename = vim.fn.expand('%:t')
 	local test_file_dir = vim.fn.expand('%:h')
-	local ginkgo_cmd = string.format('ginkgo --focus-file "%s" --focus "%s" %s', test_file_basename, spec, test_file_dir)
-	local cmd = "echo '@@@ " .. ginkgo_cmd .. " @@@' && " .. ginkgo_cmd
+	local ginkgo_cmd = string.format('ginkgo --focus-file "%s" --focus "%s" %s', test_file_basename, found_spec,
+		test_file_dir)
+	-- Without sleep, echoed messsge sometimes does not displayed
+	local cmd = "sleep 0.1 && echo '@@@ " .. ginkgo_cmd .. " @@@' && " .. ginkgo_cmd
 	require('toggleterm.terminal').Terminal:new({ cmd = cmd, direction = 'tab', close_on_exit = false }):toggle()
 end
