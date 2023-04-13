@@ -650,8 +650,8 @@ return require('packer').startup(function(use)
       vim.keymap.set({ 'n', 'x', 'o' }, '<Plug>(leap-backward-line)',
         function() leap_to_line({ direction = direction_backward }) end)
 
-      vim.keymap.set({ 'n', 'x', 'o' }, 's',
-        function() require('leap').leap { target_windows = { vim.fn.win_getid() } } end)
+      -- vim.keymap.set({ 'n', 'x', 'o' }, 's',
+      --   function() require('leap').leap { target_windows = { vim.fn.win_getid() } } end)
       -- vim.keymap.set({ 'n', 'x', 'o' }, 's', '<Plug>(leap-forward-to)')
       -- vim.keymap.set({ 'n', 'x', 'o' }, 'x', '<Plug>(leap-backward-to)')
       vim.keymap.set({ 'n', 'x' }, 'gj', '<Plug>(leap-forward-line)')
@@ -664,6 +664,18 @@ return require('packer').startup(function(use)
         multiline = false,
       })
     end,
+  }
+  use {
+    'rlane/pounce.nvim',
+    config = function()
+      require('pounce').setup({
+        multi_window = false,
+      })
+      vim.keymap.set("n", "s", function() require('pounce').pounce({}) end)
+      vim.keymap.set("n", "S", function() require('pounce').pounce({ do_repeat = true }) end)
+      vim.keymap.set("x", "s", function() require('pounce').pounce({}) end)
+      vim.keymap.set("o", "s", function() require('pounce').pounce({}) end)
+    end
   }
   use {
     'phaazon/hop.nvim',
