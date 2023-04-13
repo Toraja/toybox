@@ -1,37 +1,36 @@
 local M = {}
 
-local stringutil = require('util.string')
-
-function M.append(str)
-  local line_str = vim.fn.getline('.')
-  if stringutil.has_suffix(line_str, str) then
+function M.append_trailing(str)
+  local line_str = vim.api.nvim_get_current_line()
+  if vim.endswith(line_str, str) then
     return
   end
   vim.fn.setline('.', line_str .. str)
 end
 
-local function toggle_trailing(line_num, str)
-  local line_str = vim.api.nvim_buf_get_lines(0, line_num - 1, line_num, false)[1]
-  if stringutil.has_suffix(line_str, str) then
-    vim.api.nvim_buf_set_lines(0, line_num - 1, line_num, false,
-      { string.sub(line_str, 1, string.len(line_str) - string.len(str)) })
-    return
+local function append_or_remove_suffix(str, suffix)
+  if vim.endswith(str, suffix) then
+    return string.sub(str, 1, string.len(str) - string.len(suffix))
   end
-  vim.api.nvim_buf_set_lines(0, line_num - 1, line_num, false, { line_str .. str })
+  return str .. suffix
 end
 
 function M.toggle_trailing_current(str)
-  toggle_trailing(vim.fn.line('.'), str)
+  vim.api.nvim_set_current_line(append_or_remove_suffix(vim.api.nvim_get_current_line(), str))
 end
 
 function M.toggle_trailing_visual(str)
   local line_num_current = vim.fn.line("v")
   local line_num_other_end = vim.fn.line(".")
-  local first = math.min(line_num_current, line_num_other_end)
-  local last = math.max(line_num_current, line_num_other_end)
-  for line = first, last do
-    toggle_trailing(line, str)
+  local start_line_num = math.min(line_num_current, line_num_other_end)
+  local end_line_num = math.max(line_num_current, line_num_other_end)
+
+  local target_lines = vim.api.nvim_buf_get_lines(0, start_line_num - 1, end_line_num, false)
+  local new_lines = {}
+  for _, line in ipairs(target_lines) do
+    table.insert(new_lines, append_or_remove_suffix(line, str))
   end
+  vim.api.nvim_buf_set_lines(0, start_line_num - 1, end_line_num, false, new_lines)
 end
 
 function M.map_toggle_trailing(key, str, buffer)
