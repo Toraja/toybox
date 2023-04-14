@@ -1359,15 +1359,40 @@ return require('packer').startup(function(use)
       require('nvim-treesitter.configs').setup({
         textobjects = {
           select = {
+            enable = true,
             keymaps = {
+              ["aa"] = '@assignment.outer',
+              ["ia"] = '@assignment.inner',
+              ["aA"] = '@assignment.rhs',
+              ["iA"] = '@assignment.lhs',
+              ["ac"] = "@call.outer",
+              ["ic"] = "@call.inner",
               ["af"] = "@function.outer",
               ["if"] = "@function.inner",
-              ["ap"] = "@parameter.outer",
-              ["ip"] = "@parameter.inner",
-              ["ar"] = "@conditional.outer",
-              ["ir"] = "@conditional.inner",
+              ["aF"] = '@frame.outer',
+              ["iF"] = '@frame.inner',
+              ["ak"] = "@block.outer",
+              ["ik"] = "@block.inner",
               ["al"] = "@loop.outer",
               ["il"] = "@loop.inner",
+              ["aM"] = "@comment.outer",
+              ["iM"] = "@comment.inner",
+              ["an"] = '@return.outer',
+              ["in"] = '@return.inner',
+              ["iN"] = '@number.inner',
+              ["ap"] = "@parameter.outer",
+              ["ip"] = "@parameter.inner",
+              ["iP"] = '@scopename.inner',
+              ["ar"] = "@conditional.outer",
+              ["ir"] = "@conditional.inner",
+              ["as"] = "@class.outer",
+              ["is"] = "@class.inner",
+              ["at"] = "@statement.outer",
+              ["it"] = "@statement.inner",
+              ["aT"] = '@attribute.outer',
+              ["iT"] = '@attribute.inner',
+              ["ax"] = '@regex.outer',
+              ["ix"] = '@regex.inner',
             },
           },
         }
@@ -1530,6 +1555,7 @@ return require('packer').startup(function(use)
       require('go').setup({
         test_runner = 'richgo',
         run_in_floaterm = true,
+        textobjects = false,
       })
       local go_format_augroud_id = vim.api.nvim_create_augroup('go_format', {})
       vim.api.nvim_create_autocmd('BufWritePre', {
