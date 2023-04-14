@@ -336,35 +336,14 @@ inoremap <C-n> <Down>
 " [always search forward/backword]
 " noremap <expr> <Bslash> getcharsearch().forward ? ';' : ','
 " noremap <expr> <Bar> getcharsearch().forward ? ',' : ';'
-xnoremap <silent> gG ggoG$
-" all
-onoremap <silent> gG :normal! VggoG<CR>
-" line without indent
-onoremap <silent> u :normal! ^v$h<CR>
-" line including indent
-onoremap <silent> U :normal! 0v$h<CR>
 " XXX these do not work if the cursor is on the last element
 " as in /cursor/is/he|re
 onoremap <silent> ad :call SelectPair('${', '', '}', 1)<CR>
 xnoremap <silent> ad :<C-u>call SelectPair('${', '', '}', 1)<CR>
-onoremap <silent> ie :call SelectElement()<CR>
-xnoremap <silent> ie :<C-u>call SelectElement()<CR>
-xnoremap <silent> i, T,ot,
-onoremap <silent> i, :normal! T,vt,<CR>
-xnoremap <silent> a, T,of,
-onoremap <silent> a, :normal! T,vf,<CR>
-xnoremap <silent> i. T.ot.
-onoremap <silent> i. :normal! T.vt.<CR>
-xnoremap <silent> a. T.of.
-onoremap <silent> a. :normal! T.vf.<CR>
 xnoremap <silent> i/ T/ot/
 onoremap <silent> i/ :normal! T/vt/<CR>
 xnoremap <silent> a/ T/of/
 onoremap <silent> a/ :normal! T/vf/<CR>
-xnoremap <silent> iu T_ot_
-onoremap <silent> iu :normal! T_vt_<CR>
-xnoremap <silent> au T_of_
-onoremap <silent> au :normal! T_vf_<CR>
 function! VisualOperator(operatortype)
   if a:operatortype ==# 'v'
     normal! `<v`>

@@ -764,24 +764,54 @@ return require('packer').startup(function(use)
       })
     end
   }
-  use 'michaeljsmith/vim-indent-object'
   use {
-    'jeetsukumaran/vim-indentwise',
+    "chrisgrieser/nvim-spider",
     config = function()
-      vim.keymap.set({ 'n', 'x', 'o' }, '{', '<Plug>(IndentWisePreviousEqualIndent)', { desc = 'Previous equal indent' })
-      vim.keymap.set({ 'n', 'x', 'o' }, '}', '<Plug>(IndentWiseNextEqualIndent)', { desc = 'Next equal indent' })
-    end
+      require('spider').setup({
+        skipInsignificantPunctuation = false
+      })
+      vim.keymap.set({ "n", "o", "x" }, "<M-w>", "<Cmd>lua require('spider').motion('w')<CR>", { desc = "Spider-w" })
+      vim.keymap.set({ "n", "o", "x" }, "<M-e>", "<Cmd>lua require('spider').motion('e')<CR>", { desc = "Spider-e" })
+      vim.keymap.set({ "n", "o", "x" }, "<M-b>", "<Cmd>lua require('spider').motion('b')<CR>", { desc = "Spider-b" })
+      vim.keymap.set({ "n", "o", "x" }, "<M-g><M-e>", "<Cmd>lua require('spider').motion('ge')<CR>",
+      { desc = "Spider-ge" })
+    end,
   }
   use {
-    'bkad/CamelCaseMotion',
+    "chrisgrieser/nvim-various-textobjs",
     config = function()
-      vim.keymap.set({ 'n', 'x', 'o' }, '<M-w>', '<Plug>CamelCaseMotion_w', { silent = true })
-      vim.keymap.set({ 'n', 'x', 'o' }, '<M-b>', '<Plug>CamelCaseMotion_b', { silent = true })
-      vim.keymap.set('o', 'im', '<Plug>CamelCaseMotion_ie', { silent = true, desc = 'Inner camel' })
-      vim.keymap.set('x', 'im', '<Plug>CamelCaseMotion_ie', { silent = true, desc = 'Inner camel' })
-      vim.keymap.set('o', 'am', '<Plug>CamelCaseMotion_iw', { silent = true, desc = 'A camel' })
-      vim.keymap.set('x', 'am', '<Plug>CamelCaseMotion_iw', { silent = true, desc = 'A camel' })
-    end
+      require('various-textobjs').setup({})
+      vim.keymap.set({ "o", "x" }, "ii", '<Cmd>lua require("various-textobj").indentation(true, true)<CR>',
+        { desc = 'An indentation block' })
+      vim.keymap.set({ "o", "x" }, "ai", '<Cmd>lua require("various-textobj").indentation(false, true)<CR>',
+        { desc = 'An indentation block + line above' })
+      vim.keymap.set({ "o", "x" }, "iI", '<Cmd>lua require("various-textobj").indentation(true, false)<CR>',
+        { desc = 'An indentation block + line below' })
+      vim.keymap.set({ "o", "x" }, "aI", '<Cmd>lua require("various-textobj").indentation(false, false)<CR>',
+        { desc = 'An indentation block + line above/below' })
+      vim.keymap.set({ "o", "x" }, "im", '<Cmd>lua require("various-textobj").subword(true)<CR>',
+        { desc = 'Subword (inner)' })
+      vim.keymap.set({ "o", "x" }, "am", '<Cmd>lua require("various-textobj").subword(false)<CR>',
+        { desc = 'Subword (outer)' })
+      vim.keymap.set({ "o", "x" }, "%", '<Cmd>lua require("various-textobj").toNextClosingBracket()<CR>',
+        { desc = 'To closing bracket' })
+      vim.keymap.set({ "o", "x" }, "gG", '<Cmd>lua require("various-textobj").entireBuffer()<CR>',
+        { desc = 'Entire buffer' })
+      vim.keymap.set({ "o" }, "u", '<Cmd>lua require("various-textobj").lineCharacterwise()<CR>',
+        { desc = 'Whole line without indent' })
+      vim.keymap.set({ "o", "x" }, "iv", '<Cmd>lua require("various-textobj").value(true)<CR>',
+        { desc = 'Value of key-value pair (inner)' })
+      vim.keymap.set({ "o", "x" }, "av", '<Cmd>lua require("various-textobj").value(false)<CR>',
+        { desc = 'Value of key-value pair (outer)' })
+      vim.keymap.set({ "o", "x" }, "ik", '<Cmd>lua require("various-textobj").key(true)<CR>',
+        { desc = 'Value of key-value pair (inner)' })
+      vim.keymap.set({ "o", "x" }, "ak", '<Cmd>lua require("various-textobj").key(false)<CR>',
+        { desc = 'Value of key-value pair (outer)' })
+      vim.keymap.set({ "o", "x" }, "ie", '<Cmd> lua require("various-textobjs").chainMember(true) <CR>',
+        { desc = 'Value of key-value pair (inner)' })
+      vim.keymap.set({ "o", "x" }, "ae", '<Cmd>lua require("various-textobj").chainMember(false)<CR>',
+        { desc = 'Value of key-value pair (outer)' })
+    end,
   }
 
   -- editting
@@ -1039,7 +1069,6 @@ return require('packer').startup(function(use)
     end,
   })
   use 'tpope/vim-repeat'
-  use 'junegunn/vim-easy-align'
   use {
     'neovim/nvim-lspconfig',
     config = function()
@@ -1371,8 +1400,6 @@ return require('packer').startup(function(use)
               ["if"] = "@function.inner",
               ["aF"] = '@frame.outer',
               ["iF"] = '@frame.inner',
-              ["ak"] = "@block.outer",
-              ["ik"] = "@block.inner",
               ["al"] = "@loop.outer",
               ["il"] = "@loop.inner",
               ["aM"] = "@comment.outer",
@@ -1380,6 +1407,8 @@ return require('packer').startup(function(use)
               ["an"] = '@return.outer',
               ["in"] = '@return.inner',
               ["iN"] = '@number.inner',
+              ["ao"] = "@block.outer",
+              ["io"] = "@block.inner",
               ["ap"] = "@parameter.outer",
               ["ip"] = "@parameter.inner",
               ["iP"] = '@scopename.inner',
