@@ -394,7 +394,7 @@ nnoremap <M-X> "_X
 nnoremap =p =']
 xnoremap p "_c<C-r>"<Esc>
 xnoremap P "_c<C-r>"<Esc>
-snoremap <C-h> <BS>i
+snoremap <C-h> <Space><BS>
 " [insert/command mode]
 noremap! <C-Space> <Space><Left>
 inoremap <C-w> <C-g>u<C-w>
