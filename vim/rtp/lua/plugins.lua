@@ -483,8 +483,8 @@ return require('packer').startup(function(use)
               ["<M-k>"] = function(bufnr) action_set.scroll_previewer(bufnr, 0) end,
             },
             i = {
-              -- ["<Esc>"] = action.close,
-              -- ["<C-\\>"] = { "<Esc>", type = "command" },
+              ["<Esc>"] = action.close,
+              ["<C-\\>"] = { "<Esc>", type = "command" },
               ["<C-_>"] = action_layout.toggle_preview,
               ["<Tab>"] = action.move_selection_worse,
               ["<C-j>"] = function(bufnr)
