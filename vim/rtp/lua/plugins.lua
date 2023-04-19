@@ -417,6 +417,7 @@ return require('packer').startup(function(use)
       { 'nvim-telescope/telescope-packer.nvim' },
       { 'LinArcX/telescope-scriptnames.nvim' },
       { 'brookhong/telescope-pathogen.nvim' },
+      { 'princejoogie/dir-telescope.nvim' },
     },
     config = function()
       -- NOTE This does not work properly at the moment...
@@ -439,6 +440,10 @@ return require('packer').startup(function(use)
       telescope.load_extension("packer")
       telescope.load_extension('scriptnames')
       telescope.load_extension('pathogen')
+      telescope.load_extension("dir")
+      require("dir-telescope").setup({
+        no_ignore = true,
+      })
       telescope.setup({
         defaults = {
           vimgrep_arguments = {
@@ -538,9 +543,9 @@ return require('packer').startup(function(use)
         c = { 'lua require("telescope.builtin").git_bcommits()', { desc = 'Git buffer commits' } },
         C = { 'lua require("telescope.builtin").git_commits()', { desc = 'Git commits' } },
         d = { 'lua require("telescope.builtin").diagnostics()', { desc = 'Diagnostics' } },
-        f = { 'lua require("pathogen").find_files()', { desc = 'Files' } },
-        F = { 'lua require("pathogen").browse_file({ cwd = vim.fs.dirname(vim.api.nvim_buf_get_name(0)) })',
+        e = { 'lua require("pathogen").browse_file({ cwd = vim.fs.dirname(vim.api.nvim_buf_get_name(0)) })',
           { desc = 'File browser' } },
+        f = { 'lua require("pathogen").find_files()', { desc = 'Files' } },
         g = { 'lua require("telescope.builtin").git_files()', { desc = 'Git files' } },
         G = { 'lua require("telescope.builtin").git_status()', { desc = 'Git status' } },
         h = { 'lua require("telescope.builtin").help_tags()', { desc = 'Help tags' } },
@@ -555,8 +560,8 @@ return require('packer').startup(function(use)
         q = { 'lua require("telescope").extensions.ghq.list({ layout_config = { preview_width = 0.5 } })',
           { desc = 'Ghq list' } },
         r = { 'lua require("pathogen").live_grep()', { desc = 'Grep' } },
-        R = { 'lua require("telescope.builtin").grep_string()',
-          { desc = 'Grep current word' } },
+        R = { 'lua require("telescope").extensions.dir.live_grep()',
+          { desc = 'Pick directory + Grep' } },
         s = { 'lua require("telescope.builtin").spell_suggest()', { desc = 'Spell suggest' } },
         S = { 'lua require("telescope").extensions.scriptnames.scriptnames()', { desc = 'Scriptnames' } },
         [':'] = { 'lua require("telescope.builtin").command_history()', { desc = 'Command history' } },
