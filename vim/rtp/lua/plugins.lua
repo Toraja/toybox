@@ -564,6 +564,7 @@ return require('packer').startup(function(use)
           { desc = 'Pick directory + Grep' } },
         s = { 'lua require("telescope.builtin").spell_suggest()', { desc = 'Spell suggest' } },
         S = { 'lua require("telescope").extensions.scriptnames.scriptnames()', { desc = 'Scriptnames' } },
+        y = { 'lua require("telescope").extensions.yank_history.yank_history()', { desc = 'Yank history' } },
         [':'] = { 'lua require("telescope.builtin").command_history()', { desc = 'Command history' } },
         ['/'] = { 'lua require("telescope.builtin").search_history()', { desc = 'Search history' } },
       })
@@ -821,14 +822,45 @@ return require('packer').startup(function(use)
 
   -- editting
   use {
-    'bfredl/nvim-miniyank',
+    'gbprod/yanky.nvim',
+    after = 'telescope.nvim',
+    requires = {
+      { 'nvim-telescope/telescope.nvim' }
+    },
     config = function()
-      vim.g.miniyank_maxitems = 20
-      vim.keymap.set({ 'n', 'x' }, 'p', '<Plug>(miniyank-autoput)')
-      vim.keymap.set({ 'n', 'x' }, 'P', '<Plug>(miniyank-autoPut)')
-      vim.keymap.set({ 'n', 'x' }, '<M-p>', '<Plug>(miniyank-cycle)')
-      vim.keymap.set({ 'n', 'x' }, '<M-P>', '<Plug>(miniyank-cycleback)')
-    end,
+      local utils = require("yanky.utils")
+      local mapping = require("yanky.telescope.mapping")
+      require("yanky").setup({
+        highlight = {
+          on_put = false,
+          on_yank = false,
+        },
+        picker = {
+          telescope = {
+            mappings = {
+              default = mapping.put("p"),
+              i = {
+                ["<M-CR>"] = mapping.put("P"),
+                ["<c-k>"] = mapping.delete(),
+                ["<c-r>"] = mapping.set_register(utils.get_default_register()),
+              },
+              n = {
+                p = mapping.put("p"),
+                P = mapping.put("P"),
+                d = mapping.delete(),
+                r = mapping.set_register(utils.get_default_register())
+              },
+            }
+          }
+        }
+      })
+      vim.keymap.set({ "n", "x" }, "p", "<Plug>(YankyPutAfter)")
+      vim.keymap.set({ "n", "x" }, "P", "<Plug>(YankyPutBefore)")
+      vim.keymap.set({ "n", "x" }, "gp", "<Plug>(YankyGPutAfter)")
+      vim.keymap.set({ "n", "x" }, "gP", "<Plug>(YankyGPutBefore)")
+      vim.keymap.set("n", "<M-p>", "<Plug>(YankyCycleForward)")
+      vim.keymap.set("n", "<M-P>", "<Plug>(YankyCycleBackward)")
+    end
   }
   use 'gpanders/editorconfig.nvim'
   use {
@@ -869,8 +901,14 @@ return require('packer').startup(function(use)
   }
   use({
     'gbprod/substitute.nvim',
+    requires = {
+      { 'gbprod/yanky.nvim' },
+    },
     config = function()
       require('substitute').setup({
+        highlight_substituted_text = {
+          enabled = false,
+        },
         range = {
           prefix = 'substitute',
           prompt_current_text = true,
