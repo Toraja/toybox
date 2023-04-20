@@ -1297,13 +1297,13 @@ return require('packer').startup(function(use)
           ['<C-a>'] = cmp.mapping(close_and_fallback, { 'i', 'c' }),
           ['<C-e>'] = cmp.mapping(close_and_fallback, { 'i', 'c' }),
           ['<C-k>'] = cmp.mapping(cmp_visible_or_fallback(cmp.abort), { 'i', 'c' }),
+          ['<C-x><C-n>'] = cmp.mapping(function()
+            cmp.complete({ config = { sources = { { name = 'buffer' } } } })
+          end, { 'i', 'c' })
         },
         sources = cmp.config.sources({
           { name = 'nvim_lsp' },
-          -- { name = 'vsnip' }, -- For vsnip users.
-          { name = 'luasnip' }, -- For luasnip users.
-          -- { name = 'ultisnips' }, -- For ultisnips users.
-          -- { name = 'snippy' }, -- For snippy users.
+          { name = 'luasnip' },
         }, {
           { name = 'buffer' },
         })
@@ -1312,31 +1312,22 @@ return require('packer').startup(function(use)
       -- Set configuration for specific filetype.
       -- cmp.setup.filetype('gitcommit', {
       --   sources = cmp.config.sources({
-      --     { name = 'cmp_git' }, -- You can specify the `cmp_git` source if you were installed it.
+      --     { name = 'cmp_git' }, -- You can specify the `cmp_git` source if you installed it.
       --   }, {
       --     { name = 'buffer' },
       --   })
       -- })
 
       -- Use buffer source for `/` (if you enabled `native_menu`, this won't work anymore).
-      cmp.setup.cmdline('/', {
-        sources = {
-          { name = 'buffer' }
-        }
-      })
+      cmp.setup.cmdline('/', { sources = { { name = 'buffer' } } })
 
       -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
-      cmp.setup.cmdline(':', {
-        sources = cmp.config.sources({
-          { name = 'path' }
-        }, {
-          { name = 'cmdline' }
-        })
-      })
+      cmp.setup.cmdline(':', { sources = cmp.config.sources({ { name = 'path' } }, { { name = 'cmdline' } }) })
 
       local spell_suggest = {}
       function spell_suggest:complete(params, callback)
         local source = {}
+        -- the pattern only works for the last word of the line
         local spells = vim.fn.spellsuggest(string.match(params.context.cursor_line, '[%a%d]*$'))
         vim.tbl_map(function(spell)
           vim.list_extend(source, { { label = spell } })
@@ -1346,13 +1337,7 @@ return require('packer').startup(function(use)
 
       cmp.register_source('spell_suggest', spell_suggest)
       vim.keymap.set('i', '<C-x><C-s>', function()
-        cmp.complete({
-          config = {
-            sources = {
-              { name = 'spell_suggest' }
-            }
-          }
-        })
+        cmp.complete({ config = { sources = { { name = 'spell_suggest' } } } })
       end, { desc = 'Spell suggest' })
     end
   }
