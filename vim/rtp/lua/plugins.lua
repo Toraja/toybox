@@ -776,10 +776,10 @@ return require('packer').startup(function(use)
         skipInsignificantPunctuation = false
       })
       vim.keymap.set({ "n", "o", "x" }, "<M-w>", "<Cmd>lua require('spider').motion('w')<CR>", { desc = "Spider-w" })
-      vim.keymap.set({ "n", "o", "x" }, "<M-e>", "<Cmd>lua require('spider').motion('e')<CR>", { desc = "Spider-e" })
+      -- vim.keymap.set({ "n", "o", "x" }, "<M-e>", "<Cmd>lua require('spider').motion('e')<CR>", { desc = "Spider-e" })
       vim.keymap.set({ "n", "o", "x" }, "<M-b>", "<Cmd>lua require('spider').motion('b')<CR>", { desc = "Spider-b" })
-      vim.keymap.set({ "n", "o", "x" }, "<M-g><M-e>", "<Cmd>lua require('spider').motion('ge')<CR>",
-        { desc = "Spider-ge" })
+      -- vim.keymap.set({ "n", "o", "x" }, "<M-g><M-e>", "<Cmd>lua require('spider').motion('ge')<CR>",
+      --   { desc = "Spider-ge" })
     end,
   }
   use {

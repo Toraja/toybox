@@ -362,17 +362,9 @@ noremap <M-Y> zH
 noremap <M-E> zL
 " --- || scrolling || }}}
 
-" {{{ || tag || ---
-nnoremap [t <C-t>
-nnoremap ]t :tag<CR>
-" --- || tag || }}}
-
 " {{{ || editing || ---
 nnoremap <M-x> "_x
 nnoremap <M-X> "_X
-nnoremap =p =']
-xnoremap p "_c<C-r>"<Esc>
-xnoremap P "_c<C-r>"<Esc>
 snoremap <C-h> <Space><BS>
 " [insert/command mode]
 noremap! <C-Space> <Space><Left>
@@ -396,7 +388,6 @@ inoremap <M-u> <Esc>gUiwea
 inoremap <M-l> <Esc>guiwea
 inoremap <M-c> <Esc>guiwgU<right>ea
 " [Line break/join]
-nnoremap <expr> <CR> &filetype == 'qf' ? "\<CR>" : "i\<CR>\<Esc>"
 nnoremap <M-m> mpo<Esc>0Dg`p| "insert blank line below
 nnoremap <M-M> mpO<Esc>0Dg`p| "insert blank line above
 nnoremap <M-o> o<Esc>
@@ -411,13 +402,6 @@ xnoremap <silent> <C-x> <C-x>gv
 nnoremap <silent> g<C-a> :call search("[0-9]", 'be', line('.'))<CR><C-a>
 nnoremap <silent> g<C-x> :call search("[0-9]", 'be', line('.'))<CR><C-x>
 nnoremap d. /\s\+$<CR>"_dgn|  " delete trailing spaces
-" [move line]
-" nnoremap <silent> <expr> <M-j> ":\<C-u>silent! move .+".v:count1."\<CR>=="
-" nnoremap <silent> <expr> <M-k> ":\<C-u>silent! move .-".(v:count1+1)."\<CR>=="
-" ones for visual mode requires range ('<,'>) to work as intended
-" xnoremap <silent> <expr> <M-j> ":\<C-u>silent! '<,'>move '>+".(v:count1)."\<CR>gv=gv"
-" xnoremap <silent> <expr> <M-k> ":\<C-u>silent! '<,'>move '<-".(v:count1+1)."\<CR>gv=gv"
-" [undo redo]
 nnoremap U <Nop>
 inoremap <C-_> <C-o>u
 inoremap <C-/> <C-o>u
