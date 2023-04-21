@@ -801,24 +801,23 @@ return require('packer').startup(function(use)
         { desc = 'Subword (inner)' })
       vim.keymap.set({ "o", "x" }, "am", '<Cmd>lua require("various-textobjs").subword(false)<CR>',
         { desc = 'Subword (outer)' })
-      vim.keymap.set({ "o", "x" }, "%", '<Cmd>lua require("various-textobjs").toNextClosingBracket()<CR>',
-        { desc = 'To closing bracket' })
       vim.keymap.set({ "o", "x" }, "gG", '<Cmd>lua require("various-textobjs").entireBuffer()<CR>',
         { desc = 'Entire buffer' })
       vim.keymap.set({ "o" }, "u", '<Cmd>lua require("various-textobjs").lineCharacterwise()<CR>',
         { desc = 'Whole line without indent' })
+      vim.keymap.set({ "o", "x" }, "gl", "<Cmd>lua require('various-textobjs').nearEoL()<CR>", { desc = 'To EoL - 1' })
       vim.keymap.set({ "o", "x" }, "iv", '<Cmd>lua require("various-textobjs").value(true)<CR>',
         { desc = 'Value of key-value pair (inner)' })
       vim.keymap.set({ "o", "x" }, "av", '<Cmd>lua require("various-textobjs").value(false)<CR>',
         { desc = 'Value of key-value pair (outer)' })
       vim.keymap.set({ "o", "x" }, "ik", '<Cmd>lua require("various-textobjs").key(true)<CR>',
-        { desc = 'Value of key-value pair (inner)' })
+        { desc = 'Key of key-value pair (inner)' })
       vim.keymap.set({ "o", "x" }, "ak", '<Cmd>lua require("various-textobjs").key(false)<CR>',
-        { desc = 'Value of key-value pair (outer)' })
+        { desc = 'Key of key-value pair (outer)' })
       vim.keymap.set({ "o", "x" }, "ie", '<Cmd> lua require("various-textobjs").chainMember(true) <CR>',
-        { desc = 'Value of key-value pair (inner)' })
+        { desc = 'Chain member (inner)' })
       vim.keymap.set({ "o", "x" }, "ae", '<Cmd>lua require("various-textobjs").chainMember(false)<CR>',
-        { desc = 'Value of key-value pair (outer)' })
+        { desc = 'Chain member (outer)' })
     end,
   }
 
