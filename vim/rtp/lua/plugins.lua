@@ -786,7 +786,9 @@ return require('packer').startup(function(use)
   use {
     "chrisgrieser/nvim-various-textobjs",
     config = function()
-      require('various-textobjs').setup({})
+      require('various-textobjs').setup({
+        lookForwardLines = 0, -- set to 0 to only look in the current line
+      })
       vim.keymap.set({ "o", "x" }, "ii", '<Cmd>lua require("various-textobjs").indentation(true, true)<CR>',
         { desc = 'An indentation block' })
       vim.keymap.set({ "o", "x" }, "ai", '<Cmd>lua require("various-textobjs").indentation(false, true)<CR>',
