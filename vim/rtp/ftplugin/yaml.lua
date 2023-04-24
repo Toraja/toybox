@@ -6,7 +6,7 @@ end
 
 function yaml_lint(opts)
   opts = opts or {}
-  local file = assert(io.popen('yamllint --format parsable ' .. vim.fn.expand('%'), 'r'))
+  local file = assert(io.popen('yamllint --format parsable ' .. vim.api.nvim_buf_get_name(0), 'r'))
   local lint_result = vim.trim(assert(file:read('*a')))
   file:close()
   if lint_result == '' then
@@ -27,7 +27,7 @@ vim.api.nvim_create_autocmd({ 'BufWritePost' }, {
   group = yaml_lint_augroud_id,
   buffer = 0,
   callback = function()
-    if vim.yaml_lint_auto_disabled then
+    if vim.b.yaml_auto_lint_disabled then
       return
     end
     yaml_lint({ silent = true })
