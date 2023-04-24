@@ -1681,17 +1681,18 @@ return require("packer").startup(function(use)
 	-- misc
 	use({
 		"jose-elias-alvarez/null-ls.nvim",
+		requires = { "nvim-lua/plenary.nvim" },
 		config = function()
 			local null_ls = require("null-ls")
 			null_ls.setup({
 				sources = {
 					-- go
+					null_ls.builtins.diagnostics.golangci_lint,
 					-- lua
 					null_ls.builtins.formatting.stylua,
 				},
 			})
 		end,
-		requires = { "nvim-lua/plenary.nvim" },
 	})
 	use({
 		"kevinhwang91/nvim-bqf",
