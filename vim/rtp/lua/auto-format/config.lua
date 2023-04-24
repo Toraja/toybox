@@ -5,7 +5,7 @@ local default_opts = {
   -- timeout at all tends to be ugly - larger files, complex or poor formatters
   -- will struggle to format within whatever the default timeout
   -- `vim.lsp.buf.format` uses.
-  timeout = 2000,
+  timeout = 10000,
   -- These filetypes will not be formatted automatically.
   excluded_filetypes = {},
   -- Prefer formatting with LSP for these filetypes.
