@@ -1463,6 +1463,20 @@ return require('packer').startup(function(use)
   use 'vim-utils/vim-husk'
 
   -- misc
+  use({
+    'jose-elias-alvarez/null-ls.nvim',
+    config = function()
+      local null_ls = require('null-ls')
+      null_ls.setup({
+        sources = {
+          -- go
+          -- lua
+          null_ls.builtins.formatting.stylua
+        }
+      })
+    end,
+    requires = { 'nvim-lua/plenary.nvim' },
+  })
   use {
     'kevinhwang91/nvim-bqf',
   }

@@ -38,5 +38,3 @@ require('keymap.which-key-helper').register_for_ftplugin({
   l = { 'lua yaml_lint()', { desc = 'Lint', silent = true } },
   L = { 'lua yaml_auto_lint_toggle()', { desc = 'Toggle auto lint', silent = true } },
 })
-
-require('lsp').create_format_autocmd()

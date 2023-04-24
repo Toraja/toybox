@@ -12,6 +12,8 @@ end)
 
 vim.opt.mouse = ''
 
+require('ft-common').setup()
+
 -- highlight
 -- vim.api.nvim_set_hl(0, 'String', { ctermfg = 216 })
 -- vim.api.nvim_set_hl(0, 'Comment', { ctermfg = 246 })
