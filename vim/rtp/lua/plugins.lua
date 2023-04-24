@@ -844,6 +844,8 @@ return require("packer").startup(function(use)
 		"liangxianzhe/nap.nvim",
 		config = function()
 			require("nap").setup({
+				next_repeat = "<M-n>",
+				prev_repeat = "<M-p>",
 				operators = {
 					["<C-d>"] = {
 						next = { command = vim.diagnostic.goto_next, desc = "Next diagnostic" },
