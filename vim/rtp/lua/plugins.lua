@@ -1690,6 +1690,9 @@ return require("packer").startup(function(use)
 					null_ls.builtins.diagnostics.golangci_lint,
 					-- lua
 					null_ls.builtins.formatting.stylua,
+					-- yaml
+					null_ls.builtins.diagnostics.yamllint,
+					null_ls.builtins.formatting.yamlfmt,
 				},
 			})
 		end,
