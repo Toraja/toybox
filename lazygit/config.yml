@@ -1,0 +1,11 @@
+---
+gui:
+  expandFocusedSidePanel: true
+  mouseEvents: false
+  showIcons: true
+keybinding:
+  universal:
+    prevPage: "<C-b>"
+    nextPage: "<C-f>"
+  files:
+    openStatusFilter: "."
