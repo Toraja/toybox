@@ -102,6 +102,7 @@ abbr --add --global glmc glab mr create --remove-source-branch -s \(git branch -
 abbr --add --global glmcl glab mr create --remove-source-branch --copy-issue-labels -s \(git branch --show-current\) --fill
 abbr --add --global glmd glab mr diff
 abbr --add --global glml glab mr list
+abbr --add --global glmlr glab mr list --reviewer=@me
 abbr --add --global glmm glab mr merge -d
 abbr --add --global glmn glab mr note
 abbr --add --global glmo glab mr checkout
