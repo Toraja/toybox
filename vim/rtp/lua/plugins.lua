@@ -307,6 +307,19 @@ return require("packer").startup(function(use)
 				},
 				view = {
 					width = 40,
+					float = {
+						enable = true,
+						quit_on_focus_loss = false,
+						open_win_config = {
+							relative = "editor",
+							border = "rounded",
+							width = 60,
+							height = math.floor(vim.o.lines * 0.90),
+							row = 1,
+							col = 1,
+							zindex = 1,
+						},
+					},
 				},
 				renderer = {
 					highlight_opened_files = "all",
