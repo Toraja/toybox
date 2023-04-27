@@ -7,7 +7,7 @@ function M.setup(opts)
 		excluded_filetypes = { "go", "rust" },
 	})
 
-	require("keymap.which-key-helper").register_for_ftplugin({
+	require("keymap.which-key-helper").register_with_editable("ftplugin", "<LocalLeader>", "<LocalLeader>", {
 		f = { "lua vim.lsp.buf.format()", { desc = "Format", silent = true } },
 		F = { "lua require('auto-format').toggle()", { desc = "Toggle auto format", silent = true } },
 	})
