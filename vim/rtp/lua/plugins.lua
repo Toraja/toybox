@@ -272,6 +272,7 @@ return require("packer").startup(function(use)
 	-- finder (path/dir/file/buffer/tac/etc.)
 	use({
 		"kyazdani42/nvim-tree.lua",
+		disable = true,
 		requires = { "kyazdani42/nvim-web-devicons", opt = true },
 		config = function()
 			local function on_attach(bufnr)
@@ -352,6 +353,81 @@ return require("packer").startup(function(use)
 					end
 				end,
 			})
+		end,
+	})
+	use({
+		"nvim-neo-tree/neo-tree.nvim",
+		branch = "v2.x",
+		requires = {
+			"nvim-lua/plenary.nvim",
+			"nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
+			"MunifTanjim/nui.nvim",
+		},
+		config = function()
+			vim.g.neo_tree_remove_legacy_commands = 1
+			require("neo-tree").setup({
+				window = {
+					position = "float",
+					mappings = {
+						["<Tab>"] = { "toggle_preview", config = { use_float = true } },
+						["<C-]>"] = "focus_preview",
+						["l"] = "open",
+						["L"] = "expand_all_nodes",
+						["h"] = "close_node",
+						["H"] = "close_all_nodes",
+						["<C-x>"] = "open_split",
+						["<C-v>"] = "open_vsplit",
+						["<C-t>"] = "open_tabnew",
+						["a"] = {
+							"add",
+							config = {
+								show_path = "absolute", -- "none", "relative", "absolute"
+							},
+						},
+						["A"] = {
+							"add_directory",
+							config = {
+								show_path = "absolute", -- "none", "relative", "absolute"
+							},
+						},
+						["c"] = {
+							"copy",
+							config = {
+								show_path = "absolute", -- "none", "relative", "absolute"
+							},
+						},
+						["m"] = {
+							"move",
+							config = {
+								show_path = "absolute", -- "none", "relative", "absolute"
+							},
+						},
+					},
+				},
+				filesystem = {
+					filtered_items = {
+						visible = true,
+					},
+					window = {
+						mappings = {
+							["u"] = "navigate_up",
+							["."] = "set_root",
+							["F"] = "clear_filter",
+						},
+					},
+				},
+			})
+			require("keymap.which-key-helper").register_with_editable(
+				"neo-tree",
+				vim.g.chief_key .. "e",
+				vim.g.chief_key,
+				{
+					b = { "Neotree toggle reveal source=buffers", { desc = "Buffers" } },
+					e = { "Neotree toggle reveal", { desc = "Filesystem" } },
+					E = { "Neotree toggle reveal dir=%:h", { desc = "FS in the file's parent directory" } },
+					g = { "Neotree toggle reveal source=git_status", { desc = "Git status" } },
+				}
+			)
 		end,
 	})
 	use({
