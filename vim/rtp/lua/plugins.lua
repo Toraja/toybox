@@ -417,15 +417,18 @@ return require("packer").startup(function(use)
 					},
 				},
 			})
+			vim.cmd([[
+				highlight NeoTreeTitleBar guifg=#000000
+			]])
 			require("keymap.which-key-helper").register_with_editable(
 				"neo-tree",
 				vim.g.chief_key .. "e",
 				vim.g.chief_key,
 				{
 					b = { "Neotree toggle reveal source=buffers", { desc = "Buffers" } },
-					e = { "Neotree toggle reveal", { desc = "Filesystem" } },
-					E = { "Neotree toggle reveal dir=%:h", { desc = "FS in the file's parent directory" } },
-					g = { "Neotree toggle reveal source=git_status", { desc = "Git status" } },
+					e = { "Neotree toggle reveal_force_cwd", { desc = "Filesystem" } },
+					E = { "Neotree toggle reveal_force_cwd dir=%:h", { desc = "FS in the file's parent directory" } },
+					g = { "Neotree toggle reveal_force_cwd source=git_status", { desc = "Git status" } },
 				}
 			)
 		end,
