@@ -6,9 +6,9 @@ require("plugins")
 local array = require("util.array")
 local wk = require("which-key")
 
-array.new({ "cfilter", "termdebug" }):for_each(function(pack)
+vim.tbl_map(function(pack)
 	vim.cmd("packadd " .. pack)
-end)
+end, { "cfilter", "termdebug" })
 
 vim.opt.mouse = ""
 
@@ -28,8 +28,8 @@ vim.api.nvim_create_autocmd({ "BufWinEnter", "InsertEnter", "InsertLeave" }, {
 	desc = "Highlight trailing whitespaces and mixture of space and tab",
 	pattern = "*",
 	callback = function()
-		local exclude_filetype = array.new({ "help", "toggleterm" })
-		if exclude_filetype:contains(vim.opt.filetype:get()) then
+		local excluded_filetypes = { "help", "toggleterm", "neo-tree" }
+		if vim.tbl_contains(excluded_filetypes, vim.opt.filetype:get()) then
 			return
 		end
 		vim.cmd([[syntax match AnnoyingSpaces "\s\+$\| \+\t\+\|\t\+ \+"]])
