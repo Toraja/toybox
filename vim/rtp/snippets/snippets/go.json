@@ -1,7 +1,7 @@
 {
   "return": {
-    "prefix": "re",
-    "body": ["return"],
+    "prefix": "rt",
+    "body": ["return "],
     "description": "return"
   },
   "else if": {
@@ -13,6 +13,19 @@
     ],
     "description": "else if clause"
   },
+  "if key in a map": {
+    "prefix": "io",
+    "body": "if ${1:value}, ok := ${2:map}[${3:key}]; ok {\n\t$4\n}"
+  },
+  "if err != nil": {
+    "prefix": "ie",
+    "body": [
+      "if err != nil {",
+      "\t${1:return ${2:nil, }${3:err}}",
+      "}"
+    ],
+    "description": "if err != nil"
+  },
   "reflect.DeepEqual": {
     "prefix": "de",
     "body": [
@@ -20,10 +33,19 @@
     ],
     "description": "reflect.DeepEqual()"
   },
+  "function declaration": {
+    "prefix": "fu",
+    "body": [
+      "func $1($2) $3 {",
+      "\t$0",
+      "}"
+    ],
+    "description": "function"
+  },
   "closure": {
     "prefix": "cl",
     "body": [
-      "func(${1:param}) ${2:return}{",
+      "func($1) $2 {",
       "\t${3:${TM_SELECTED_TEXT}}",
       "}"
     ],
@@ -48,5 +70,10 @@
       "}"
     ],
     "description": "main package and function"
+  },
+  "fmt.Sprintf": {
+    "prefix": "fs",
+    "body": "fmt.Sprintf(\"$1\", ${2:var})",
+    "description": "fmt.Sprintf()"
   }
 }
