@@ -3,13 +3,13 @@ local M = {}
 function M.setup(opts)
 	opts = opts or {}
 
-	require("auto-format").setup({
+	require("format").setup({
 		excluded_filetypes = { "go", "rust" },
 	})
 
 	require("keymap.which-key-helper").register_with_editable("ftplugin", "<LocalLeader>", "<LocalLeader>", {
-		f = { "lua vim.lsp.buf.format()", { desc = "Format", silent = true } },
-		F = { "lua require('auto-format').toggle()", { desc = "Toggle auto format", silent = true } },
+		f = { "lua require('format').run()", { desc = "Format", silent = true } },
+		F = { "lua require('format').toggle_auto()", { desc = "Toggle auto format", silent = true } },
 	})
 end
 

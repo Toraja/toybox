@@ -1,6 +1,6 @@
 local M = {}
 
-local config = require("auto-format.config")
+local config = require("format.config")
 
 ---@param client table
 ---@return boolean
@@ -37,6 +37,14 @@ local function get_filter(filetype)
 	end
 end
 
+function M.run(filetype)
+	filetype = filetype or vim.api.nvim_buf_get_option(vim.api.nvim_get_current_buf(), "filetype")
+	vim.lsp.buf.format({
+		filter = get_filter(filetype),
+		timeout_ms = config.opts.timeout,
+	})
+end
+
 local function create_autocmd()
 	vim.api.nvim_create_autocmd("BufWritePre", {
 		group = vim.api.nvim_create_augroup("AutoFormat", {}),
@@ -51,15 +59,12 @@ local function create_autocmd()
 				return
 			end
 
-			vim.lsp.buf.format({
-				filter = get_filter(ft),
-				timeout_ms = config.opts.timeout,
-			})
+			M.run(ft)
 		end,
 	})
 end
 
-function M.toggle()
+function M.toggle_auto()
 	vim.b.auto_format_disabled = not vim.b.auto_format_disabled
 	if vim.b.auto_format_disabled then
 		print("Auto format disabled")
