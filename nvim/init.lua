@@ -2,8 +2,27 @@
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 
-require("plugins")
-local array = require("util.array")
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not vim.loop.fs_stat(lazypath) then
+	vim.fn.system({
+		"git",
+		"clone",
+		"--filter=blob:none",
+		"https://github.com/folke/lazy.nvim.git",
+		"--branch=stable", -- latest stable release
+		lazypath,
+	})
+end
+vim.opt.rtp:prepend(lazypath)
+
+local rtp_dir = vim.fn.expand("<sfile>:p:h:h") .. "/vim/rtp"
+local after_dir = rtp_dir .. "/after"
+local snippets_dir = rtp_dir .. "/snippets"
+vim.opt.rtp:prepend(rtp_dir)
+
+require("plugins").setup({
+	additional_rtp = { rtp_dir, snippets_dir, after_dir },
+})
 local wk = require("which-key")
 
 vim.tbl_map(function(pack)
@@ -122,57 +141,14 @@ vim.api.nvim_create_user_command("DeleteHiddenBuffers", delete_hidden_buffers, {
 
 require("qf").setup()
 
-function plugin_unload(name)
-	package.loaded[name] = nil
-end
-
-vim.api.nvim_create_user_command("PluginUnload", function(opts)
-	plugin_unload(opts.args)
-end, { nargs = 1 })
-
-function plugin_reload()
-	package.loaded["plugins"] = nil
-	require("plugins")
-end
-
-function plugin_recompile()
-	vim.api.nvim_create_autocmd("User", {
-		pattern = "PackerCompileDone",
-		callback = function()
-			print("Compiling plugins completed")
-			return true
-		end,
-	})
-	plugin_reload()
-	require("packer").compile()
-end
-
-function plugin_install_recompile()
-	vim.api.nvim_create_autocmd("User", {
-		pattern = "PackerComplete",
-		callback = function()
-			require("packer").compile()
-			return true
-		end,
-	})
-	plugin_reload()
-	require("packer").install()
-end
-
-function plugin_resync()
-	plugin_reload()
-	require("packer").sync()
-end
-
 wk.register({
 	["<F3>"] = {
 		name = "Source rc file",
 		["<F3>"] = { "<Cmd>source $MYVIMRC<CR>", "Reload $MYVIMRC" },
 		g = { "<Cmd>source $MYGVIMRC<CR>", "Reload $MYGVIMRC" },
 		f = { "<Cmd>SetFt<CR>", "Reload ftplugin" },
-		r = { plugin_recompile, "Recompile plugins" },
-		i = { plugin_install_recompile, "Install plugins and compile" },
-		s = { plugin_resync, "Resync plugins" },
+		i = { "require('lazy').install()", "Install missing plugins" },
+		s = { "require('lazy').sync()", "Sync plugins" },
 		o = {
 			name = "Open",
 			v = { "<Cmd>tabnew $MYVIMRC<CR>", "Open $MYVIMRC" },
