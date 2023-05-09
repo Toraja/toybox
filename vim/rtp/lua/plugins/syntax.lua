@@ -18,8 +18,11 @@ return {
 	{
 		"sheerun/vim-polyglot",
 		init = function()
-			vim.g.polyglot_disabled = ft_list
+			vim.g.polyglot_disabled = vim.tbl_map(function(ft)
+				return ft .. ".plugin"
+			end, ft_list)
 		end,
+		priority = 950, -- without this, polyglot is effective only to the first buffer
 	},
 	{
 		"nvim-treesitter/nvim-treesitter",
