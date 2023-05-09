@@ -20,9 +20,21 @@ local after_dir = rtp_dir .. "/after"
 local snippets_dir = rtp_dir .. "/snippets"
 vim.opt.rtp:prepend(rtp_dir)
 
-require("plugins").setup({
-	additional_rtp = { rtp_dir, snippets_dir, after_dir },
+require("lazy").setup("plugins", {
+	ui = {
+		-- The border to use for the UI window. Accepts same border values as |nvim_open_win()|.
+		border = "rounded",
+		icons = {
+			lazy = "  ", -- replace default devicon as it breaks border
+		},
+	},
+	performance = {
+		rtp = {
+			paths = { rtp_dir, snippets_dir, after_dir },
+		},
+	},
 })
+
 local wk = require("which-key")
 
 vim.tbl_map(function(pack)
