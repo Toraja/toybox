@@ -212,8 +212,8 @@ return {
 		"liangxianzhe/nap.nvim",
 		config = function()
 			require("nap").setup({
-				next_repeat = "<M-n>",
-				prev_repeat = "<M-p>",
+				next_repeat = "<C-n><C-n>",
+				prev_repeat = "<C-p><C-p>",
 				operators = {
 					["<C-d>"] = {
 						next = { command = vim.diagnostic.goto_next, desc = "Next diagnostic" },
