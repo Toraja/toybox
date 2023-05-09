@@ -130,19 +130,37 @@ return {
 			require("pounce").setup({
 				multi_window = false,
 			})
-			vim.keymap.set("n", "s", function()
-				require("pounce").pounce({})
-			end)
-			vim.keymap.set("n", "S", function()
-				require("pounce").pounce({ do_repeat = true })
-			end)
-			vim.keymap.set("x", "s", function()
-				require("pounce").pounce({})
-			end)
-			vim.keymap.set("o", "s", function()
-				require("pounce").pounce({})
-			end)
 		end,
+		keys = {
+			{
+				"s",
+				function()
+					require("pounce").pounce({})
+				end,
+				mode = { "n" },
+			},
+			{
+				"S",
+				function()
+					require("pounce").pounce({ do_repeat = true })
+				end,
+				mode = { "n" },
+			},
+			{
+				"s",
+				function()
+					require("pounce").pounce({})
+				end,
+				mode = { "x" },
+			},
+			{
+				"s",
+				function()
+					require("pounce").pounce({})
+				end,
+				mode = { "o" },
+			},
+		},
 	},
 	{
 		"phaazon/hop.nvim",
