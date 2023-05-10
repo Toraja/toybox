@@ -362,11 +362,8 @@ snoremap <C-h> <Space><BS>
 noremap! <C-Space> <Space><Left>
 inoremap <C-w> <C-g>u<C-w>
 inoremap <C-u> <C-g>u<C-u>
-inoremap <expr> <C-y> pumvisible() ? "\<C-y>" : "<C-g>u\<C-r>\""
-cnoremap <expr> <C-y> wildmenumode() ? "\<C-y>" : "\<C-r>\""
-cnoremap <expr> <Tab> wildmenumode() ? "\<C-n>" : "\<Tab>"
-cnoremap <expr> <C-g> wildmenumode() ? "\<Down>" : "\<C-g>"
-cnoremap <expr> <C-t> wildmenumode() ? "\<Up>" : "\<C-t>"
+inoremap <C-y> <C-g>u<C-r>"
+cnoremap <C-y> <C-r>"
 noremap! <M-y> <C-r>*
 inoremap <C-d> <DEL>
 inoremap <M-d> <C-g>u<C-\><C-o>"_dw
