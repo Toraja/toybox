@@ -194,13 +194,14 @@ return {
 				}
 			)
 		end,
-		keys = {
-			{
-				vim.g.chief_key .. "f",
-				"<Cmd>WhichKey " .. vim.g.chief_key .. "f n<CR>",
-				mode = { "n" },
-				desc = "Telescope",
-			},
-		},
+		-- Not lazy loading as other plugins load it anyway
+		-- keys = {
+		-- 	{
+		-- 		vim.g.chief_key .. "f",
+		-- 		"<Cmd>WhichKey " .. vim.g.chief_key .. "f n<CR>",
+		-- 		mode = { "n" },
+		-- 		desc = "Telescope",
+		-- 	},
+		-- },
 	},
 }
