@@ -50,19 +50,6 @@ return {
 		},
 	},
 	{
-		"lukas-reineke/indent-blankline.nvim",
-		config = function()
-			vim.api.nvim_set_hl(0, "IndentBlanklineChar", { ctermfg = 59 })
-			vim.api.nvim_set_hl(0, "IndentBlanklineSpaceChar", {}) -- this highlight overlaps cursorline. set None to prevent it.
-
-			require("indent_blankline").setup({
-				char = "¦",
-				show_first_indent_level = false,
-				filetype_exclude = { "help", "markdown", "json", "nerdtree", "NvimTree", "man" },
-			})
-		end,
-	},
-	{
 		"numToStr/Comment.nvim",
 		config = function()
 			local ft = require("Comment.ft")
