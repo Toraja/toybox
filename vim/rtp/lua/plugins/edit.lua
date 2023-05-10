@@ -68,8 +68,12 @@ return {
 				ignore = "^$",
 				ft.set("asciidoc", { "//%s", "////%s////" }),
 			})
-			-- XXX not working
-			-- vim.keymap.set('i', '<C-\\>', '<C-o>gcc', { remap = true, silent = true } )
+			vim.keymap.set(
+				"i",
+				"<C-\\>",
+				'<Cmd>lua require("Comment.api").toggle.linewise.count(1)<CR>',
+				{ silent = true }
+			)
 			vim.keymap.set("n", "gcy", "yy<Plug>(comment_toggle_linewise_current)", { silent = true })
 			vim.keymap.set("x", "gCy", "ygv<Plug>(comment_toggle_linewise_visual)", { silent = true })
 		end,
