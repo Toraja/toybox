@@ -1,19 +1,5 @@
 return {
 	{
-		"vim-test/vim-test",
-		enabled = false,
-		config = function()
-			-- By default, tab is opened left to the current tab, and that makes
-			-- closing the test tab focus the tab left to the original tab.
-			-- `neovim` strategy opens the terminal tag right to the original tab.
-			vim.g["test#neovim#term_position"] = "tab"
-			vim.g["test#strategy"] = "neovim"
-			if vim.fn.executable("richgo") then
-				vim.g["test#go#runner"] = "richgo"
-			end
-		end,
-	},
-	{
 		"nvim-neotest/neotest",
 		dependencies = {
 			"nvim-lua/plenary.nvim",
