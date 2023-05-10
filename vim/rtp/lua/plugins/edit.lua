@@ -39,13 +39,15 @@ return {
 					},
 				},
 			})
-			vim.keymap.set({ "n", "x" }, "p", "<Plug>(YankyPutAfter)")
-			vim.keymap.set({ "n", "x" }, "P", "<Plug>(YankyPutBefore)")
-			vim.keymap.set({ "n", "x" }, "gp", "<Plug>(YankyGPutAfter)")
-			vim.keymap.set({ "n", "x" }, "gP", "<Plug>(YankyGPutBefore)")
-			vim.keymap.set("n", "<M-p>", "<Plug>(YankyCycleForward)")
-			vim.keymap.set("n", "<M-P>", "<Plug>(YankyCycleBackward)")
 		end,
+		keys = {
+			{ "p", "<Plug>(YankyPutAfter)", mode = { "n", "x" } },
+			{ "P", "<Plug>(YankyPutBefore)", mode = { "n", "x" } },
+			{ "gp", "<Plug>(YankyGPutAfter)", mode = { "n", "x" } },
+			{ "gP", "<Plug>(YankyGPutBefore)", mode = { "n", "x" } },
+			{ "<M-p>", "<Plug>(YankyCycleForward)", mode = { "n" } },
+			{ "<M-P>", "<Plug>(YankyCycleBackward)", mode = { "n" } },
+		},
 	},
 	{
 		"lukas-reineke/indent-blankline.nvim",
@@ -94,45 +96,69 @@ return {
 					confirm = true,
 				},
 			})
-			vim.keymap.set(
-				"n",
-				"cp",
-				require("substitute").operator,
-				{ desc = "Replace operator text with yanked text" }
-			)
-			vim.keymap.set("n", "cpp", function()
-				require("substitute").operator({ motion = "iw" })
-			end, { desc = "Replace operator text with yanked text" })
-			-- vim.keymap.set('n', 'cpp', require('substitute').line, { desc = 'Replace whole line with yanked text' })
-			-- vim.keymap.set('n', 'cP', require('substitute').eol, { desc = 'Replace text to EOL with yanked text' })
-			vim.keymap.set("x", "cp", require("substitute").visual, { desc = "Replace visual text with yanked text" })
-
-			vim.keymap.set(
-				"n",
-				"<Leader>c",
-				require("substitute.range").operator,
-				{ desc = "Substitute operator text within the range" }
-			)
-			vim.keymap.set(
-				"x",
-				"<Leader>c",
-				require("substitute.range").visual,
-				{ desc = "Substitute visual text within the range" }
-			)
-			-- vim.keymap.set('n', '<Leader>cc', require('substitute.range').word,
-			--   { desc = 'Substitute cursor word within the range' })
-			vim.keymap.set("n", "<Leader>cc", function()
-				require("substitute.range").operator({ motion1 = "iw" })
-			end, { desc = "Substitute cursor word within the range" })
-
-			vim.keymap.set("n", "cx", require("substitute.exchange").operator, { desc = "Swap operator text" })
-			vim.keymap.set("n", "cxx", function()
-				require("substitute.exchange").operator({ motion = "iw" })
-			end, { desc = "Swap cursor word" })
-			-- vim.keymap.set('n', 'cxx', require('substitute.exchange').line), { desc = 'Swap whole line'}
-			vim.keymap.set("x", "X", require("substitute.exchange").visual, { desc = "Swap visual text" })
-			vim.keymap.set("n", "cxc", require("substitute.exchange").cancel, { desc = "Cancel swapping text" })
 		end,
+		keys = {
+			{
+				"cp",
+				'<Cmd>lua require("substitute").operator()<CR>',
+				mode = { "n" },
+				desc = "Replace operator text with yanked text",
+			},
+			{
+				"cpp",
+				'<Cmd>lua require("substitute").operator({ motion = "iw" })<CR>',
+				mode = { "n" },
+				desc = "Replace operator text with yanked text",
+			},
+			{
+				"cp",
+				'<Cmd>lua require("substitute").visual()<CR>',
+				mode = { "x" },
+				desc = "Replace visual text with yanked text",
+			},
+			{
+				"<Leader>c",
+				'<Cmd>lua require("substitute.range").operator()<CR>',
+				mode = { "n" },
+				desc = "Substitute operator text within the range",
+			},
+			{
+				"<Leader>c",
+				'<Cmd>lua require("substitute.range").visual()<CR>',
+				mode = { "x" },
+				desc = "Substitute visual text within the range",
+			},
+			{
+				"<Leader>cc",
+				'<Cmd>lua require("substitute.range").operator({ motion1 = "iw" })<CR>',
+				mode = { "n" },
+				desc = "Substitute cursor word within the range",
+			},
+			{
+				"cx",
+				'<Cmd>lua require("substitute.exchange").operator()<CR>',
+				mode = { "n" },
+				desc = "Swap operator text",
+			},
+			{
+				"cxx",
+				'<Cmd>lua require("substitute.exchange").operator({ motion = "iw" })<CR>',
+				mode = { "n" },
+				desc = "Swap cursor word",
+			},
+			{
+				"X",
+				'<Cmd>lua require("substitute.exchange").visual()<CR>',
+				mode = { "x" },
+				desc = "Swap visual text",
+			},
+			{
+				"cxc",
+				'<Cmd>lua require("substitute.exchange").cancel()<CR>',
+				mode = { "n" },
+				desc = "Cancel swapping text",
+			},
+		},
 	},
 	{
 		"johmsalas/text-case.nvim",
@@ -179,6 +205,12 @@ return {
 				},
 			}, { mode = "n" })
 		end,
+		-- With keys property, these mapping is not registered as group mapping.
+		-- keys = {
+		-- 	{ "ga", "<Cmd>WhichKey ga n<CR>", mode = { "n" }, desc = "text-case" },
+		-- 	{ "gao", "<Cmd>WhichKey gao n<CR>", mode = { "n" }, desc = "Pending mode operator" },
+		-- 	{ "ga", "<Cmd>WhichKey ga v<CR>", mode = { "v" }, desc = "text-case" },
+		-- },
 	},
 	{
 		"kylechui/nvim-surround",
@@ -283,7 +315,9 @@ return {
 			require("treesj").setup({
 				use_default_keymaps = false,
 			})
-			vim.keymap.set("n", "gS", "<Cmd>TSJToggle<CR>")
 		end,
+		keys = {
+			{ "gS", "<Cmd>TSJToggle<CR>", mode = { "n" }, desc = "TreeSJ Toggle" },
+		},
 	},
 }

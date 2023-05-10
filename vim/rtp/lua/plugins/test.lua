@@ -2,6 +2,7 @@ return {
 	{
 		"nvim-neotest/neotest",
 		dependencies = {
+			"folke/which-key.nvim",
 			"nvim-lua/plenary.nvim",
 			"nvim-treesitter/nvim-treesitter",
 			"nvim-neotest/neotest-go",
@@ -64,5 +65,13 @@ return {
 			)
 			vim.keymap.set("n", "]n", '<cmd>lua require("neotest").jump.next({})<CR>', { desc = "Jump to next test" })
 		end,
+		keys = {
+			{
+				vim.g.chief_key .. "t",
+				"<Cmd>WhichKey " .. vim.g.chief_key .. "t n<CR>",
+				mode = { "n" },
+				desc = "neotest",
+			},
+		},
 	},
 }

@@ -194,5 +194,13 @@ return {
 				}
 			)
 		end,
+		keys = {
+			{
+				vim.g.chief_key .. "f",
+				"<Cmd>WhichKey " .. vim.g.chief_key .. "f n<CR>",
+				mode = { "n" },
+				desc = "Telescope",
+			},
+		},
 	},
 }

@@ -174,10 +174,9 @@ return {
 	{
 		"kevinhwang91/rnvimr",
 		cond = function()
-			return vim.fn.executable("ranger")
+			return vim.fn.executable("ranger") ~= 0
 		end,
 		config = function()
-			vim.keymap.set("n", "<Leader>e", "<Cmd>RnvimrToggle<CR>", { desc = "ranger" })
 			-- Hide the files included in gitignore
 			vim.g.rnvimr_hide_gitignore = 1
 			vim.g.rnvimr_edit_cmd = "tabedit"
@@ -191,5 +190,8 @@ return {
 				style = "minimal",
 			}
 		end,
+		keys = {
+			{ "<Leader>e", "<Cmd>RnvimrToggle<CR>", mode = { "n" }, desc = "ranger" },
+		},
 	},
 }

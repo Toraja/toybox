@@ -1,6 +1,7 @@
 return {
 	{
 		"folke/which-key.nvim",
+		priority = 900,
 		config = function()
 			vim.cmd([[
 				highlight link FloatBorder Normal

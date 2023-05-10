@@ -1,3 +1,18 @@
+vim.keymap.set("n", "<Leader>o", function()
+	if vim.lsp.buf.server_ready() then
+		vim.cmd("SymbolsOutlineToggle")
+	else
+		vim.cmd("AerialToggle!")
+	end
+end, { desc = "Toggle outline" })
+vim.keymap.set("n", "<Leader>O", function()
+	if vim.lsp.buf.server_ready() then
+		vim.cmd("SymbolsOutlineFocus")
+	else
+		vim.cmd("AerialOpen")
+	end
+end, { desc = "Focus outline" })
+
 return {
 	{
 		"nvim-treesitter/nvim-treesitter-context",
@@ -47,6 +62,7 @@ return {
 			vim.api.nvim_create_user_command("SymbolsOutlineToggle", symbols_outline_toggle, {})
 			vim.api.nvim_create_user_command("SymbolsOutlineFocus", symbols_outline_focus, {})
 		end,
+		cmd = { "SymbolsOutlineToggle", "SymbolsOutlineFocus" },
 	},
 	{
 		"stevearc/aerial.nvim",
@@ -59,20 +75,7 @@ return {
 				min_width = 20,
 				show_guides = true,
 			})
-			vim.keymap.set("n", "<Leader>o", function()
-				if vim.lsp.buf.server_ready() then
-					vim.cmd("SymbolsOutlineToggle")
-				else
-					vim.cmd("AerialToggle!")
-				end
-			end)
-			vim.keymap.set("n", "<Leader>O", function()
-				if vim.lsp.buf.server_ready() then
-					vim.cmd("SymbolsOutlineFocus")
-				else
-					vim.cmd("AerialOpen")
-				end
-			end)
 		end,
+		cmd = { "AerialToggle", "AerialOpen" },
 	},
 }

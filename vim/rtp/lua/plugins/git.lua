@@ -75,5 +75,13 @@ return {
 				V = { "DiffviewFileHistory", { desc = "Diffview history of repository" } },
 			})
 		end,
+		keys = {
+			{
+				vim.g.chief_key .. "g",
+				"<Cmd>WhichKey " .. vim.g.chief_key .. "g n<CR>",
+				mode = { "n" },
+				desc = "Git",
+			},
+		},
 	},
 }

@@ -137,28 +137,14 @@ return {
 				function()
 					require("pounce").pounce({})
 				end,
-				mode = { "n" },
+				mode = { "n", "x", "o" },
 			},
 			{
 				"S",
 				function()
 					require("pounce").pounce({ do_repeat = true })
 				end,
-				mode = { "n" },
-			},
-			{
-				"s",
-				function()
-					require("pounce").pounce({})
-				end,
-				mode = { "x" },
-			},
-			{
-				"s",
-				function()
-					require("pounce").pounce({})
-				end,
-				mode = { "o" },
+				mode = { "n", "x", "o" },
 			},
 		},
 	},
@@ -249,6 +235,10 @@ return {
 				},
 			})
 		end,
+		keys = {
+			{ "<C-n>", "<Cmd>WhichKey <C-n><CR>", mode = { "n" }, desc = "nap next" },
+			{ "<C-p>", "<Cmd>WhichKey <C-p><CR>", mode = { "n" }, desc = "nap previous" },
+		},
 	},
 	{
 		"chrisgrieser/nvim-spider",
@@ -256,22 +246,13 @@ return {
 			require("spider").setup({
 				skipInsignificantPunctuation = false,
 			})
-			vim.keymap.set(
-				{ "n", "o", "x" },
-				"<M-w>",
-				"<Cmd>lua require('spider').motion('w')<CR>",
-				{ desc = "Spider-w" }
-			)
-			-- vim.keymap.set({ "n", "o", "x" }, "<M-e>", "<Cmd>lua require('spider').motion('e')<CR>", { desc = "Spider-e" })
-			vim.keymap.set(
-				{ "n", "o", "x" },
-				"<M-b>",
-				"<Cmd>lua require('spider').motion('b')<CR>",
-				{ desc = "Spider-b" }
-			)
-			-- vim.keymap.set({ "n", "o", "x" }, "<M-g><M-e>", "<Cmd>lua require('spider').motion('ge')<CR>",
-			--   { desc = "Spider-ge" })
 		end,
+		keys = {
+			{ "<M-w>", "<Cmd>lua require('spider').motion('w')<CR>", mode = { "n", "o", "x" }, desc = "Spider-w" },
+			-- { "<M-e>", "<Cmd>lua require('spider').motion('e')<CR>", mode = { "n", "o", "x" }, desc = "Spider-e" },
+			{ "<M-b>", "<Cmd>lua require('spider').motion('b')<CR>", mode = { "n", "o", "x" }, desc = "Spider-b" },
+			-- { "<M-g><M-e>", "<Cmd>lua require('spider').motion('ge')<CR>", mode = { "n", "o", "x" }, desc = "Spider-ge" },
+		},
 	},
 	{
 		"chrisgrieser/nvim-various-textobjs",
@@ -279,97 +260,99 @@ return {
 			require("various-textobjs").setup({
 				lookForwardLines = 0, -- set to 0 to only look in the current line
 			})
-			vim.keymap.set(
-				{ "o", "x" },
+		end,
+		keys = {
+			{
 				"ii",
 				'<Cmd>lua require("various-textobjs").indentation(true, true)<CR>',
-				{ desc = "An indentation block" }
-			)
-			vim.keymap.set(
-				{ "o", "x" },
+				mode = { "o", "x" },
+				desc = "An indentation block",
+			},
+			{
 				"ai",
 				'<Cmd>lua require("various-textobjs").indentation(false, true)<CR>',
-				{ desc = "An indentation block + line above" }
-			)
-			vim.keymap.set(
-				{ "o", "x" },
+				mode = { "o", "x" },
+				desc = "An indentation block + line above",
+			},
+			{
 				"iI",
 				'<Cmd>lua require("various-textobjs").indentation(true, false)<CR>',
-				{ desc = "An indentation block + line below" }
-			)
-			vim.keymap.set(
-				{ "o", "x" },
+				mode = { "o", "x" },
+				desc = "An indentation block + line below",
+			},
+			{
 				"aI",
 				'<Cmd>lua require("various-textobjs").indentation(false, false)<CR>',
-				{ desc = "An indentation block + line above/below" }
-			)
-			vim.keymap.set(
-				{ "o", "x" },
+				mode = { "o", "x" },
+				desc = "An indentation block + line above/below",
+			},
+			{
 				"im",
 				'<Cmd>lua require("various-textobjs").subword(true)<CR>',
-				{ desc = "Subword (inner)" }
-			)
-			vim.keymap.set(
-				{ "o", "x" },
+				mode = { "o", "x" },
+				desc = "Subword (inner)",
+			},
+			{
 				"am",
 				'<Cmd>lua require("various-textobjs").subword(false)<CR>',
-				{ desc = "Subword (outer)" }
-			)
-			vim.keymap.set(
-				{ "o", "x" },
+				mode = { "o", "x" },
+				desc = "Subword (outer)",
+			},
+			{
 				"gG",
 				'<Cmd>lua require("various-textobjs").entireBuffer()<CR>',
-				{ desc = "Entire buffer" }
-			)
-			vim.keymap.set(
-				{ "o" },
+				mode = { "o", "x" },
+				desc = "Entire buffer",
+			},
+			{
 				"u",
 				'<Cmd>lua require("various-textobjs").lineCharacterwise()<CR>',
-				{ desc = "Whole line without indent" }
-			)
-			vim.keymap.set(
-				{ "o", "x" },
+				mode = { "o" },
+				desc = "Whole line without indent",
+			},
+			{
 				"gl",
 				"<Cmd>lua require('various-textobjs').nearEoL()<CR>",
-				{ desc = "To EoL - 1" }
-			)
-			vim.keymap.set(
-				{ "o", "x" },
+				mode = { "o", "x" },
+				desc = "To EoL - 1",
+			},
+			{
 				"iv",
 				'<Cmd>lua require("various-textobjs").value(true)<CR>',
-				{ desc = "Value of key-value pair (inner)" }
-			)
-			vim.keymap.set(
-				{ "o", "x" },
+				mode = { "o", "x" },
+				desc = "Value of key-value pair (inner)",
+			},
+			{
 				"av",
 				'<Cmd>lua require("various-textobjs").value(false)<CR>',
-				{ desc = "Value of key-value pair (outer)" }
-			)
-			vim.keymap.set(
-				{ "o", "x" },
+				mode = { "o", "x" },
+				desc = "Value of key-value pair (outer)",
+			},
+			{
 				"ik",
 				'<Cmd>lua require("various-textobjs").key(true)<CR>',
-				{ desc = "Key of key-value pair (inner)" }
-			)
-			vim.keymap.set(
-				{ "o", "x" },
+				mode = { "o", "x" },
+				desc = "Key of key-value pair (inner)",
+			},
+			{
 				"ak",
 				'<Cmd>lua require("various-textobjs").key(false)<CR>',
-				{ desc = "Key of key-value pair (outer)" }
-			)
-			vim.keymap.set(
-				{ "o", "x" },
+				mode = { "o", "x" },
+				desc = "Key of key-value pair (outer)",
+			},
+			{
 				"ie",
 				'<Cmd> lua require("various-textobjs").chainMember(true) <CR>',
-				{ desc = "Chain member (inner)" }
-			)
-			vim.keymap.set(
-				{ "o", "x" },
+				mode = { "o", "x" },
+				desc = "Chain member (inner)",
+			},
+			{
 				"ae",
 				'<Cmd>lua require("various-textobjs").chainMember(false)<CR>',
-				{ desc = "Chain member (outer)" }
-			)
-		end,
+				mode = { "o", "x" },
+				desc = "Chain member (outer)",
+			},
+		},
 	},
 	{
 		"nvim-treesitter/nvim-treesitter-textobjects",

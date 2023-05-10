@@ -33,8 +33,9 @@ return {
 	-- <php>
 	{
 		"phpactor/phpactor",
-		cond = function()
-			return vim.fn.executable("composer") == 0
+		enabled = function()
+			return vim.fn.executable("composer") ~= 0
+			-- return vim.fn.executable("composer") == 0
 		end,
 		branch = "master",
 		build = "composer install --no-dev -o",
