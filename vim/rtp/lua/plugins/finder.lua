@@ -169,6 +169,7 @@ return {
 						{ desc = "Buffer lines" },
 					},
 					m = { 'lua require("telescope.builtin").marks()', { desc = "Marks" } },
+					n = { 'lua require("telescope").extensions.notify.notify()', { desc = "Notify" } },
 					o = { 'lua require("telescope.builtin").treesitter()', { desc = "Treesitter" } },
 					O = { 'lua require("telescope.builtin").oldfiles()', { desc = "Oldfiles" } },
 					q = {
