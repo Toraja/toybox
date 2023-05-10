@@ -30,4 +30,12 @@ return {
 			end, { desc = "lazygit" })
 		end,
 	},
+	{
+		"willothy/flatten.nvim",
+		opts = {
+			window = {
+				open = "tab",
+			},
+		},
+	},
 }
