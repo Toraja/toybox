@@ -1,8 +1,7 @@
 setlocal formatoptions+=ro
 setlocal fileformat=unix
 
-" --- vim-markdown ----------{{{
-silent! syntax clear mkdLineBreak
+" --- polyglot ----------{{{
 nnoremap <buffer> <silent> <Leader>o :call Tocker(0)<CR>
 nnoremap <buffer> <silent> <Leader>O :call Tocker(1)<CR>
 nnoremap <buffer> <silent> <LocalLeader>- <Cmd>HeaderDecrease<CR>
@@ -34,7 +33,7 @@ function! Tocker(focus)
 		execute win_id2win(b:toc_win_id).'wincmd w'
 	endif
 endfunction
-" --- end of vim-markdown ---}}}
+" --- end of polyglot ---}}}
 
 inoremap <buffer> <silent> <M-;> <Cmd>call ToggleLineBreakMD()<CR>
 nnoremap <buffer> <silent> <M-;> <Cmd>call ToggleLineBreakMD()<CR>
