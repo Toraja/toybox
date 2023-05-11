@@ -8,6 +8,7 @@ return {
 			{ "LinArcX/telescope-scriptnames.nvim" },
 			{ "brookhong/telescope-pathogen.nvim" },
 			{ "princejoogie/dir-telescope.nvim" },
+			{ "tsakirist/telescope-lazy.nvim" },
 		},
 		config = function()
 			-- Add line number to preview
@@ -35,6 +36,7 @@ return {
 			telescope.load_extension("scriptnames")
 			telescope.load_extension("pathogen")
 			telescope.load_extension("dir")
+			telescope.load_extension("lazy")
 			require("dir-telescope").setup({
 				no_ignore = true,
 			})
@@ -172,6 +174,7 @@ return {
 					n = { 'lua require("telescope").extensions.notify.notify()', { desc = "Notify" } },
 					o = { 'lua require("telescope.builtin").treesitter()', { desc = "Treesitter" } },
 					O = { 'lua require("telescope.builtin").oldfiles()', { desc = "Oldfiles" } },
+					p = { 'lua require("telescope").extensions.lazy.lazy()', { desc = "Lazy" } },
 					q = {
 						'lua require("telescope").extensions.ghq.list({ layout_config = { preview_width = 0.5 } })',
 						{ desc = "Ghq list" },
