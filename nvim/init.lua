@@ -28,6 +28,10 @@ require("lazy").setup("plugins", {
 			lazy = "  ", -- replace default devicon as it breaks border
 		},
 	},
+	change_detection = {
+		-- automatically check for config file changes and reload the ui
+		notify = false, -- get a notification when changes are found
+	},
 	performance = {
 		rtp = {
 			paths = { rtp_dir, snippets_dir, after_dir },
