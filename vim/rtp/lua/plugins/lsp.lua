@@ -32,8 +32,7 @@ return {
 			function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)
 				opts = opts or {}
 				opts.border = opts.border or "rounded"
-				-- opts.max_width = opts.border or 100 -- <- this causes error
-				opts.max_width = 100
+				opts.max_width = opts.max_width or 100
 				return orig_util_open_floating_preview(contents, syntax, opts, ...)
 			end
 
