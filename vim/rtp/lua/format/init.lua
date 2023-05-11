@@ -54,6 +54,10 @@ local function create_autocmd()
 				return
 			end
 
+			if not vim.lsp.buf.server_ready() then
+				return
+			end
+
 			local ft = vim.api.nvim_buf_get_option(args.buf or vim.api.nvim_get_current_buf(), "filetype")
 			if config:is_ft_excluded(ft) then
 				return
