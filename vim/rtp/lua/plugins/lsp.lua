@@ -143,6 +143,8 @@ return {
 					null_ls.builtins.diagnostics.golangci_lint,
 					-- lua
 					null_ls.builtins.formatting.stylua,
+					-- terraform
+					null_ls.builtins.formatting.terraform_fmt,
 					-- yaml
 					null_ls.builtins.diagnostics.yamllint,
 					null_ls.builtins.formatting.yamlfmt,
