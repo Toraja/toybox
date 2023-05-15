@@ -19,7 +19,7 @@ return {
 					theme = "ayu_mirage",
 					disabled_filetypes = {
 						-- statusline = {},
-						winbar = { "help", "qf", "gitcommit", "fugitive" },
+						winbar = { "help", "qf", "gitcommit" },
 					},
 				},
 				sections = {
