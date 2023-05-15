@@ -70,7 +70,6 @@ if type --quiet nvim
     alias view='nvim -R'
     alias vimdiff='nvim -d'
 end
-alias fugitive 'vim -c 0Git'
 
 # abbr defined in conf.d/abbr.fish
 
