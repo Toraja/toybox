@@ -4,6 +4,7 @@ return {
 		dependencies = {
 			{ "nvim-lua/plenary.nvim" },
 			{ "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
+			{ "nvim-telescope/telescope-ui-select.nvim" },
 			{ "nvim-telescope/telescope-ghq.nvim" },
 			{ "LinArcX/telescope-scriptnames.nvim" },
 			{ "brookhong/telescope-pathogen.nvim" },
@@ -31,15 +32,6 @@ return {
 					results = { " ", " ", "─", "│", " ", " ", "─", "╰" },
 				}
 			end
-			telescope.load_extension("fzf")
-			telescope.load_extension("ghq")
-			telescope.load_extension("scriptnames")
-			telescope.load_extension("pathogen")
-			telescope.load_extension("dir")
-			telescope.load_extension("lazy")
-			require("dir-telescope").setup({
-				no_ignore = true,
-			})
 			telescope.setup({
 				defaults = {
 					vimgrep_arguments = {
@@ -139,12 +131,22 @@ return {
 					-- builtin picker
 				},
 				extensions = {
-					-- Your extension configuration goes here:
-					-- extension_name = {
-					--   extension_config_key = value,
-					-- }
-					-- please take a look at the readme of the extension you want to configure
+					["ui-select"] = {
+						require("telescope.themes").get_dropdown({
+							-- even more opts
+						}),
+					},
 				},
+			})
+			telescope.load_extension("fzf")
+			telescope.load_extension("ui-select")
+			telescope.load_extension("ghq")
+			telescope.load_extension("scriptnames")
+			telescope.load_extension("pathogen")
+			telescope.load_extension("dir")
+			telescope.load_extension("lazy")
+			require("dir-telescope").setup({
+				no_ignore = true,
 			})
 
 			require("keymap.which-key-helper").register_with_editable(
