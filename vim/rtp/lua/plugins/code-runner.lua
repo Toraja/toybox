@@ -10,10 +10,10 @@ return {
 				display = { "NvimNotify" },
 			})
 			require("keymap.which-key-helper").register_with_editable("sniprun", vim.g.chief_key .. "r", vim.g.chief_key, {
-				a = { "<Cmd>%SnipRun<CR>", { desc = "SnipRun entire buffer" } },
-				r = { "<Cmd>SnipRun<CR>", { desc = "SnipRun current line" } },
-				s = { "<Cmd>SnipReset<CR>", { desc = "Stop execution of sniprun" } },
-				c = { "<Cmd>SnipClose<CR>", { desc = "Clear text displayed by sniprun" } },
+				a = { "%SnipRun", { desc = "SnipRun entire buffer" } },
+				r = { "SnipRun", { desc = "SnipRun current line" } },
+				s = { "SnipReset", { desc = "Stop execution of sniprun" } },
+				c = { "SnipClose", { desc = "Clear text displayed by sniprun" } },
 			})
 		end,
 		keys = {
