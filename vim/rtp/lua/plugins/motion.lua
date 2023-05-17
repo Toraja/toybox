@@ -401,4 +401,21 @@ return {
 			})
 		end,
 	},
+	{
+		"RRethy/nvim-treesitter-textsubjects",
+		dependencies = "nvim-treesitter/nvim-treesitter",
+		config = function()
+			require("nvim-treesitter.configs").setup({
+				textsubjects = {
+					enable = true,
+					prev_selection = "<Leader>,",
+					keymaps = {
+						[","] = "textsubjects-smart",
+						["+"] = "textsubjects-container-outer",
+						["<Leader>+"] = "textsubjects-container-inner",
+					},
+				},
+			})
+		end,
+	},
 }
