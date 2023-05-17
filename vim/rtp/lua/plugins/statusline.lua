@@ -25,7 +25,7 @@ return {
 				sections = {
 					lualine_a = { mode_with_paste },
 					lualine_b = { "branch", "diff", "diagnostics" },
-					lualine_c = { "vim.fn.fnamemodify(vim.fn.getcwd(0), ':~')" },
+					lualine_c = { "vim.fn.fnamemodify(vim.fn.getcwd(), ':~')" },
 				},
 				inactive_sections = {
 					lualine_c = { "vim.fn.fnamemodify(vim.fn.getcwd(0), ':~')" },
@@ -35,7 +35,12 @@ return {
 					lualine_c = { { "filename", path = 1, newfile_status = true } },
 				},
 				inactive_winbar = {
-					lualine_c = { { "filename", path = 1, newfile_status = true } },
+					lualine_c = {
+						{
+							"string.gsub(vim.api.nvim_buf_get_name(0), vim.fn.getcwd(0) .. '/', '')",
+							newfile_status = true,
+						},
+					},
 				},
 				extensions = { "aerial", "man", "nvim-tree", "quickfix", "symbols-outline", "toggleterm" },
 			})
