@@ -32,6 +32,9 @@ return {
 	},
 	{
 		"willothy/flatten.nvim",
+		-- Commands that open editor (such as git rebase -i) do not work properly as when flatten.nvim opens vim in outer instance,
+		-- those command detect editor being closed without any edit and move to next step.
+		enabled = false,
 		opts = {
 			window = {
 				open = "tab",
