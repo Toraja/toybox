@@ -172,26 +172,26 @@ return {
 		end,
 	},
 	{
-		"kevinhwang91/rnvimr",
+		"kelly-lin/ranger.nvim",
 		cond = function()
 			return vim.fn.executable("ranger") ~= 0
 		end,
 		config = function()
-			-- Hide the files included in gitignore
-			vim.g.rnvimr_hide_gitignore = 1
-			vim.g.rnvimr_edit_cmd = "tabedit"
-			vim.g.rnvimr_enable_picker = 1
-			vim.g.rnvimr_layout = {
-				relative = "editor",
-				width = vim.o.columns,
-				height = vim.o.lines - 3,
-				col = 0,
-				row = 1,
-				style = "minimal",
-			}
+			local ranger_nvim = require("ranger-nvim")
+			ranger_nvim.setup({
+				replace_netrw = true,
+				keybinds = {
+					["<CR>"] = ranger_nvim.OPEN_MODE.tabedit,
+					["l"] = ranger_nvim.OPEN_MODE.tabedit,
+					["<C-v>"] = ranger_nvim.OPEN_MODE.vsplit,
+					["<C-h>"] = ranger_nvim.OPEN_MODE.split,
+					["<C-t>"] = ranger_nvim.OPEN_MODE.tabedit,
+					["<C-r>"] = ranger_nvim.OPEN_MODE.rifle,
+				},
+			})
 		end,
 		keys = {
-			{ "<Leader>e", "<Cmd>RnvimrToggle<CR>", mode = { "n" }, desc = "ranger" },
+			{ "<Leader>e", "<Cmd>lua require('ranger-nvim').open(true)<CR>", mode = { "n" }, desc = "ranger" },
 		},
 	},
 }
