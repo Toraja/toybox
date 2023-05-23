@@ -10,6 +10,7 @@ return {
 			{ "brookhong/telescope-pathogen.nvim" },
 			{ "princejoogie/dir-telescope.nvim" },
 			{ "tsakirist/telescope-lazy.nvim" },
+			{ "benfowler/telescope-luasnip.nvim" },
 		},
 		config = function()
 			-- Add line number to preview
@@ -145,6 +146,7 @@ return {
 			telescope.load_extension("pathogen")
 			telescope.load_extension("dir")
 			telescope.load_extension("lazy")
+			telescope.load_extension("luasnip")
 			require("dir-telescope").setup({
 				no_ignore = true,
 			})
@@ -177,6 +179,7 @@ return {
 					o = { 'lua require("telescope.builtin").treesitter()', { desc = "Treesitter" } },
 					O = { 'lua require("telescope.builtin").oldfiles()', { desc = "Oldfiles" } },
 					p = { 'lua require("telescope").extensions.lazy.lazy()', { desc = "Lazy" } },
+					P = { 'lua require("telescope.builtin").spell_suggest()', { desc = "Spell suggest" } },
 					q = {
 						'lua require("telescope").extensions.ghq.list({ layout_config = { preview_width = 0.5 } })',
 						{ desc = "Ghq list" },
@@ -186,11 +189,15 @@ return {
 						'lua require("telescope").extensions.dir.live_grep()',
 						{ desc = "Pick directory + Grep" },
 					},
-					s = { 'lua require("telescope.builtin").spell_suggest()', { desc = "Spell suggest" } },
+					s = {
+						'lua require("telescope").extensions.luasnip.luasnip()',
+						{ desc = "Scriptnames" },
+					},
 					S = {
 						'lua require("telescope").extensions.scriptnames.scriptnames()',
 						{ desc = "Scriptnames" },
 					},
+					t = { "Greyjoy", { desc = "Greyjoy" } },
 					y = {
 						'lua require("telescope").extensions.yank_history.yank_history()',
 						{ desc = "Yank history" },
