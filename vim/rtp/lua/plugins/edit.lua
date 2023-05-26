@@ -82,6 +82,7 @@ return {
 					prompt_current_text = true,
 					confirm = true,
 				},
+				on_substitute = require("yanky.integration").substitute(),
 			})
 		end,
 		keys = {
