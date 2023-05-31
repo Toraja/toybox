@@ -8,7 +8,12 @@ return {
 	{
 		"ray-x/go.nvim",
 		ft = { "go", "gomod", "gosum" },
-		dependencies = { "ray-x/guihua.lua", build = "cd lua/fzy && make" },
+		dependencies = {
+			{ "ray-x/guihua.lua",               build = "cd lua/fzy && make" },
+			{ "mfussenegger/nvim-dap" },
+			{ "rcarriga/nvim-dap-ui" },
+			{ "theHamsta/nvim-dap-virtual-text" },
+		},
 		config = function()
 			require("go").setup({
 				test_runner = "richgo",
