@@ -1,0 +1,2 @@
+# Specify endpoint URL
+aws --endpoint-url https://xxx s3 ls
