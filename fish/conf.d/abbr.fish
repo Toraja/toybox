@@ -24,14 +24,14 @@ abbr --add --global ta tmux attach
 
 ## git
 abbr --add --global ga git add
-abbr --add --global gai git add -i
+abbr --add --global gai git add --interactive
 abbr --add --global gb git branch
-abbr --add --global gba git branch -a
+abbr --add --global gba git branch --all
 abbr --add --global gbo git branch -vv \| grep gone
-abbr --add --global gbod git branch -vv \| grep gone \| awk '\'{print $1}\'' \| xargs -r git branch -d
+abbr --add --global gbod git branch -vv \| grep gone \| awk '\'{print $1}\'' \| xargs --no-run-if-empty git branch --delete
 abbr --add --global gbl git branch --format '\'%(refname:short) %(upstream)\'' \| awk '\'{if (!$2) print $1;}\''
-abbr --add --global gbld git branch --format '\'%(refname:short) %(upstream)\'' \| awk '\'{if (!$2) print $1;}\'' \| xargs -r git branch -d
-abbr --add --global gcm git commit -m
+abbr --add --global gbld git branch --format '\'%(refname:short) %(upstream)\'' \| awk '\'{if (!$2) print $1;}\'' \| xargs --no-run-if-empty git branch --delete
+abbr --add --global gcm git commit --message
 abbr --add --global gco git checkout
 abbr --add --global gd git diff
 abbr --add --global gdn git diff --name-only
@@ -55,12 +55,12 @@ abbr --add --global gs git status
 abbr --add --global gst git stash
 abbr --add --global gstl git stash list
 abbr --add --global gstp git stash pop
-abbr --add --global gstm git stash push -m
-abbr --add --global grb git rebase -i
-abbr --add --global grbs git rebase -i --autosquash --autostash
+abbr --add --global gstm git stash push --message
+abbr --add --global grb git rebase --interactive
+abbr --add --global grbs git rebase --interactive --autosquash --autostash
 abbr --add --global grbc git rebase --continue
 abbr --add --global gw git switch
-abbr --add --global gwc git switch -c
+abbr --add --global gwc git switch --create
 abbr --add --global gwt git worktree
 
 # lazygit
@@ -68,21 +68,21 @@ abbr --add --global lg lazygit
 
 # GitHub CLI
 abbr --add --global ghi gh issue
-abbr --add --global ghic gh issue create -t
+abbr --add --global ghic gh issue create --title
 abbr --add --global ghie gh issue edit
 abbr --add --global ghil gh issue list
 abbr --add --global ghilm gh issue list --assignee=@me
 abbr --add --global ghilc gh issue list --state closed
 abbr --add --global ghim gh issue comment
-abbr --add --global ghip gh issue develop -c
+abbr --add --global ghip gh issue develop --checkout
 abbr --add --global ghiv gh issue view
 abbr --add --global ghp gh pr
 abbr --add --global ghpc gh pr create
 abbr --add --global ghpd gh pr diff
 abbr --add --global ghpe gh pr edit
 abbr --add --global ghpl gh pr list
-abbr --add --global ghpm gh pr merge -d
-abbr --add --global ghpmr gh pr merge -d -r
+abbr --add --global ghpm gh pr merge --delete-branch
+abbr --add --global ghpmr gh pr merge --delete-branch --rebase
 abbr --add --global ghpn gh pr comment
 abbr --add --global ghpo gh pr checkout
 abbr --add --global ghpv gh pr view
@@ -90,10 +90,10 @@ abbr --add --global ghpv gh pr view
 # GitLab CLI
 abbr --add --global gl glab
 abbr --add --global gli glab issue
-abbr --add --global glic glab issue create -t
+abbr --add --global glic glab issue create --title
 abbr --add --global glil glab issue list
 abbr --add --global glilm glab issue list --assignee=@me
-abbr --add --global glilc glab issue list -c
+abbr --add --global glilc glab issue list --closed
 abbr --add --global glin glab issue note
 abbr --add --global gliu glab issue update
 abbr --add --global gliv glab issue view
@@ -103,7 +103,8 @@ abbr --add --global glmcl glab mr create --remove-source-branch --copy-issue-lab
 abbr --add --global glmd glab mr diff
 abbr --add --global glml glab mr list
 abbr --add --global glmlr glab mr list --reviewer=@me
-abbr --add --global glmm glab mr merge -d
+abbr --add --global glmla glab mr list --author=@me
+abbr --add --global glmm glab mr merge --remove-source-branch
 abbr --add --global glmn glab mr note
 abbr --add --global glmo glab mr checkout
 abbr --add --global glmu glab mr update
@@ -111,29 +112,29 @@ abbr --add --global glmv glab mr view
 
 ## docker
 abbr --add --global do docker
-abbr --add --global dob docker build --force-rm -t
-abbr --add --global dobp docker builder prune -a
+abbr --add --global dob docker build --force-rm --tag
+abbr --add --global dobp docker builder prune --all
 abbr --add --global doc docker container
-abbr --add --global docs docker container ls -a
+abbr --add --global docs docker container ls --all
 abbr --add --global docp docker container prune
 abbr --add --global docsr docker rm \(docker stop \)
-abbr --add --global dox docker exec -it
+abbr --add --global dox docker exec --interactive --tty
 abbr --add --global doi docker image
-abbr --add --global dois docker images -a
-abbr --add --global doisd docker images -f dangling=true -q
-abbr --add --global doip docker image prune -a
-abbr --add --global doirr docker rmi \(docker images -a -f reference=\'\' -q\)
-abbr --add --global dor docker run -it --rm
-abbr --add --global dord docker run -d --rm
+abbr --add --global dois docker images --all
+abbr --add --global doisd docker images --filter dangling=true --quiet
+abbr --add --global doip docker image prune --all
+abbr --add --global doirr docker rmi \(docker images --all --filter reference=\'\' --quiet\)
+abbr --add --global dor docker run --interactive --tty --rm
+abbr --add --global dord docker run --detach --rm
 abbr --add --global dov docker volume
 abbr --add --global dovs docker volume ls
 abbr --add --global dovp docker volume prune
-abbr --add --global doyd docker system df -v
-abbr --add --global doyp docker system prune -a --volumes
+abbr --add --global doyd docker system df --verbose
+abbr --add --global doyp docker system prune --all --volumes
 
 ## docker swarm
 abbr --add --global dow docker swarm
-abbr --add --global dowi docker swarm init --advertise-addr \(hostname -i\)
+abbr --add --global dowi docker swarm init --advertise-addr \(hostname --ip-address\)
 abbr --add --global dost docker stack
 abbr --add --global dostd docker stack deploy
 abbr --add --global dosv docker service
@@ -144,8 +145,8 @@ abbr --add --global dc docker compose
 abbr --add --global dcx docker compose exec
 abbr --add --global dcb docker compose build
 abbr --add --global dcd docker compose down
-abbr --add --global dcu docker compose up -d
-abbr --add --global dcub docker compose up -d --build
+abbr --add --global dcu docker compose up --detach
+abbr --add --global dcub docker compose up --detach --build
 abbr --add --global dcl docker compose logs --follow
 abbr --add --global dcr docker compose run --rm
 abbr --add --global dce docker compose restart
@@ -161,7 +162,7 @@ abbr --add --global got go test
 abbr --add --global gotr go test -run
 
 ## taskwarrior
-abbr --add --global tt taskwarrior-tui -r nice
+abbr --add --global tt taskwarrior-tui --report nice
 
 ## ranger
 abbr --add --global rng ranger
