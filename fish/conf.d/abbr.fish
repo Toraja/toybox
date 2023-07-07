@@ -117,7 +117,7 @@ abbr --add --global dobp docker builder prune --all
 abbr --add --global doc docker container
 abbr --add --global docs docker container ls --all
 abbr --add --global docp docker container prune
-abbr --add --global docsr docker rm \(docker stop \)
+abbr --add --global --set-cursor docsr docker rm \(docker stop %\)
 abbr --add --global dox docker exec --interactive --tty
 abbr --add --global doi docker image
 abbr --add --global dois docker images --all
