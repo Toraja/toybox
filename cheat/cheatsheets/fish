@@ -17,3 +17,6 @@ echo "
 foobar
 barfoo
 " | sed 's/foo/bar/g' > output.txt
+
+# update history of current session
+history --merge
