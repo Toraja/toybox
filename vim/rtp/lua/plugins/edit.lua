@@ -41,11 +41,11 @@ return {
 			})
 		end,
 		keys = {
-			{ "p", "<Plug>(YankyPutAfter)", mode = { "n", "x" } },
-			{ "P", "<Plug>(YankyPutBefore)", mode = { "n", "x" } },
-			{ "gp", "<Plug>(YankyGPutAfter)", mode = { "n", "x" } },
-			{ "gP", "<Plug>(YankyGPutBefore)", mode = { "n", "x" } },
-			{ "<M-p>", "<Plug>(YankyCycleForward)", mode = { "n" } },
+			{ "p",     "<Plug>(YankyPutAfter)",      mode = { "n", "x" } },
+			{ "P",     "<Plug>(YankyPutBefore)",     mode = { "n", "x" } },
+			{ "gp",    "<Plug>(YankyGPutAfter)",     mode = { "n", "x" } },
+			{ "gP",    "<Plug>(YankyGPutBefore)",    mode = { "n", "x" } },
+			{ "<M-p>", "<Plug>(YankyCycleForward)",  mode = { "n" } },
 			{ "<M-P>", "<Plug>(YankyCycleBackward)", mode = { "n" } },
 		},
 	},
@@ -286,7 +286,8 @@ return {
 				fast_wrap = {
 					map = "<M-p>",
 					keys = "asdfghjklqwertyuiopzxcvbnm",
-					end_keys = ";",
+					end_key = ";",
+					manual_position = false,
 				},
 			})
 			ap.remove_rule("'")
