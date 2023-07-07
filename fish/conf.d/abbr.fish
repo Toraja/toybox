@@ -107,6 +107,7 @@ abbr --add --global glmla glab mr list --author=@me
 abbr --add --global glmm glab mr merge --remove-source-branch
 abbr --add --global glmn glab mr note
 abbr --add --global glmo glab mr checkout
+abbr --add --global --set-cursor glmof glab mr list --reviewer=@me% \| grep '^!' \| fzf \| sed -E '\'s/^.*\(.*\).*\((.*)\)$/\1/\'' \| xargs -I {} --no-run-if-empty glab mr checkout --set-upstream-to origin/{} {}
 abbr --add --global glmu glab mr update
 abbr --add --global glmv glab mr view
 
