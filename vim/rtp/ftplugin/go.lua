@@ -24,9 +24,10 @@ function ginkgo_test_nearest_spec()
 		'Describe%("(.*)",.*func%(%)%s{',
 		'Context%("(.*)",.*func%(%)%s{',
 		'It%("(.*)",.*func%(%)%s{',
+		'DescribeTable%(\r?\n?%s*"(.*)",', -- this does not match if spec string is on the next line
 	}
 	local current_line, _ = unpack(vim.api.nvim_win_get_cursor(0))
-	local start_line = current_line < 60 and 0 or current_line - 60
+	local start_line = current_line < 100 and 0 or current_line - 100
 	local lines = vim.api.nvim_buf_get_lines(0, start_line, current_line, true)
 	local function find_spec()
 		for i = #lines, 1, -1 do
