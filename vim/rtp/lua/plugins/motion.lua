@@ -216,21 +216,27 @@ return {
 		"liangxianzhe/nap.nvim",
 		config = function()
 			require("nap").setup({
+				next_prefix = "<C-n>",
+				prev_prefix = "<C-p>",
 				next_repeat = "<C-n><C-n>",
 				prev_repeat = "<C-p><C-p>",
 				operators = {
 					["<C-d>"] = {
-						next = { command = vim.diagnostic.goto_next, desc = "Next diagnostic" },
-						prev = { command = vim.diagnostic.goto_prev, desc = "Prev diagnostic" },
+						next = { rhs = vim.diagnostic.goto_next, opts = { desc = "Next diagnostic" } },
+						prev = { rhs = vim.diagnostic.goto_prev, opts = { desc = "Prev diagnostic" } },
 						mode = { "n", "v", "o" },
 					},
+					["<C-g>"] = {
+						next = { rhs = require("gitsigns").next_hunk, opts = { desc = "Next git hunk" } },
+						prev = { rhs = require("gitsigns").prev_hunk, opts = { desc = "Prev git hunk" } },
+					},
 					["<C-l>"] = {
-						next = { command = "lnext", desc = "Next loclist item" },
-						prev = { command = "lprevious", desc = "Prev loclist item" },
+						next = { rhs = "<cmd>lnext<cr>", opts = { desc = "Next loclist item" } },
+						prev = { rhs = "<cmd>lprevious<cr>", opts = { desc = "Prev loclist item" } },
 					},
 					["<C-q>"] = {
-						next = { command = "cnext", desc = "Next quickfix item" },
-						prev = { command = "cprevious", desc = "Prev quickfix item" },
+						next = { rhs = "<cmd>cnext<cr>", opts = { desc = "Next quickfix item" } },
+						prev = { rhs = "<cmd>cprevious<cr>", opts = { desc = "Prev quickfix item" } },
 					},
 				},
 			})
