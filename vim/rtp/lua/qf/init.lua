@@ -41,6 +41,9 @@ local function qf_files_open()
     local filepath = qf['text']
     if vim.fn.filereadable(filepath) == 1 then
       vim.cmd('tabnew ' .. filepath)
+      -- Tab opened by tabnew uses the same option of current win.
+      -- nvim-bqf disables signcolumn in qf window so it is disabled in the opened tab.
+      vim.api.nvim_win_set_option(vim.api.nvim_get_current_win(), 'signcolumn', 'yes')
     else
       print(string.format('%s not found', filepath))
     end
