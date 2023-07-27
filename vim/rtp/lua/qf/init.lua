@@ -54,7 +54,7 @@ end
 
 function M.setup(opts)
   opts = opts or {}
-  vim.keymap.set('n', '<C-q><C-f>', quickfix_list_toggle, { desc = 'Toggle quickfix window' })
+  vim.keymap.set('n', '<C-q><C-q>', quickfix_list_toggle, { desc = 'Toggle quickfix window' })
   vim.keymap.set('n', '<C-q><C-l>', location_list_toggle, { desc = 'Toggle loation list window' })
 
   vim.api.nvim_create_user_command('QfFilesOpen', qf_files_open, {})
