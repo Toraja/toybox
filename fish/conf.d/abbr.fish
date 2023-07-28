@@ -113,6 +113,7 @@ abbr --add --global glmo glab mr checkout
 abbr --add --global --set-cursor glmof glab mr list --reviewer=@me% \| grep '^!' \| fzf --select-1 \| sed -E '\'s/^.*\(.*\).*\((.*)\)$/\1/\'' \| xargs -I {} --no-run-if-empty glab mr checkout --set-upstream-to origin/{} {}
 abbr --add --global glmu glab mr update
 abbr --add --global glmv glab mr view
+abbr --add --global --set-cursor glmvf glab mr list --reviewer=@me% \| grep '^!' \| fzf --select-1 \| awk '{gsub("!", "", $1); print $1}' | xargs --no-run-if-empty glab mr view
 
 ## docker
 abbr --add --global do docker
