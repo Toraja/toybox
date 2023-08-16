@@ -116,34 +116,34 @@ abbr --add --global glmv glab mr view
 abbr --add --global --set-cursor glmvf glab mr list --reviewer=@me% \| grep '^!' \| fzf --select-1 \| awk '{gsub("!", "", $1); print $1}' | xargs --no-run-if-empty glab mr view
 
 ## docker
-abbr --add --global do docker
-abbr --add --global dob docker build --force-rm --tag
-abbr --add --global dobp docker builder prune --all
-abbr --add --global doc docker container
-abbr --add --global docs docker container ls --all
-abbr --add --global docp docker container prune
-abbr --add --global --set-cursor docsr docker rm \(docker stop %\)
-abbr --add --global dox docker exec --interactive --tty
-abbr --add --global doi docker image
-abbr --add --global dois docker images --all
-abbr --add --global doisd docker images --filter dangling=true --quiet
-abbr --add --global doip docker image prune --all
-abbr --add --global doirr docker rmi \(docker images --all --filter reference=\'\' --quiet\)
-abbr --add --global dor docker run --interactive --tty --rm
-abbr --add --global dord docker run --detach --rm
-abbr --add --global dov docker volume
-abbr --add --global dovs docker volume ls
-abbr --add --global dovp docker volume prune
-abbr --add --global doyd docker system df --verbose
-abbr --add --global doyp docker system prune --all --volumes
+abbr --add --global dk docker
+abbr --add --global dkb docker build --force-rm --tag
+abbr --add --global dkbp docker builder prune --all
+abbr --add --global dkc docker container
+abbr --add --global dkcs docker container ls --all
+abbr --add --global dkcp docker container prune
+abbr --add --global --set-cursor dkcsr docker rm \(docker stop %\)
+abbr --add --global dkx docker exec --interactive --tty
+abbr --add --global dki docker image
+abbr --add --global dkis docker images --all
+abbr --add --global dkisd docker images --filter dangling=true --quiet
+abbr --add --global dkip docker image prune --all
+abbr --add --global dkirr docker rmi \(docker images --all --filter reference=\'\' --quiet\)
+abbr --add --global dkr docker run --interactive --tty --rm
+abbr --add --global dkrd docker run --detach --rm
+abbr --add --global dkv docker volume
+abbr --add --global dkvs docker volume ls
+abbr --add --global dkvp docker volume prune
+abbr --add --global dkyd docker system df --verbose
+abbr --add --global dkyp docker system prune --all --volumes
 
 ## docker swarm
-abbr --add --global dow docker swarm
-abbr --add --global dowi docker swarm init --advertise-addr \(hostname --ip-address\)
-abbr --add --global dost docker stack
-abbr --add --global dostd docker stack deploy
-abbr --add --global dosv docker service
-abbr --add --global dosvl docker service logs
+abbr --add --global dkw docker swarm
+abbr --add --global dkwi docker swarm init --advertise-addr \(hostname --ip-address\)
+abbr --add --global dkst docker stack
+abbr --add --global dkstd docker stack deploy
+abbr --add --global dksv docker service
+abbr --add --global dksvl docker service logs
 
 ## docker compose
 abbr --add --global dc docker compose
