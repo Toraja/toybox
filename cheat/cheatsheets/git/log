@@ -1,2 +1,5 @@
 # Get log after a specific commit
 git log <commit>..HEAD
+
+# Get log of deleted file
+git log -- <deleted file>
