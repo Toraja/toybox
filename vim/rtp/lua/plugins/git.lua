@@ -54,6 +54,7 @@ return {
 				V = { "DiffviewFileHistory", { desc = "Diffview history of repository" } },
 			})
 		end,
+		event = { "CmdlineEnter" },
 		keys = {
 			{
 				vim.g.chief_key .. "g",
