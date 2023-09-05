@@ -49,4 +49,7 @@ return {
 			})
 		end,
 	},
+	{
+		"anuvyklack/keymap-amend.nvim",
+	},
 }
