@@ -3,6 +3,7 @@ if ! status --is-interactive
 end
 
 ## ubuntu
+abbr --add --global apa sudo apt autoremove --purge
 abbr --add --global api sudo apt install
 abbr --add --global apd sudo apt update
 abbr --add --global apg sudo apt upgrade
