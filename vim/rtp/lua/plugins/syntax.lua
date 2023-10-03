@@ -61,10 +61,19 @@ return {
 			vim.api.nvim_set_hl(0, "IndentBlanklineChar", { ctermfg = 59 })
 			vim.api.nvim_set_hl(0, "IndentBlanklineSpaceChar", {}) -- this highlight overlaps cursorline. set None to prevent it.
 
-			require("indent_blankline").setup({
-				char = "¦",
-				show_first_indent_level = false,
-				filetype_exclude = { "help", "markdown", "json", "nerdtree", "NvimTree", "man" },
+			local hooks = require("ibl.hooks")
+			hooks.register(hooks.type.WHITESPACE, hooks.builtin.hide_first_space_indent_level)
+			hooks.register(hooks.type.WHITESPACE, hooks.builtin.hide_first_tab_indent_level)
+			require("ibl").setup({
+				indent = {
+					char = "¦",
+				},
+				scope = {
+					enabled = false,
+				},
+				exclude = {
+					filetypes = { "help", "markdown", "json", "nerdtree", "NvimTree", "man" },
+				},
 			})
 		end,
 	},
