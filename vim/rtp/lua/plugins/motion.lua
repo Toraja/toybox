@@ -312,9 +312,15 @@ return {
 			},
 			{
 				"u",
-				'<Cmd>lua require("various-textobjs").lineCharacterwise()<CR>',
+				'<Cmd>lua require("various-textobjs").lineCharacterwise(true)<CR>',
 				mode = { "o" },
 				desc = "Whole line without indent",
+			},
+			{
+				"U",
+				'<Cmd>lua require("various-textobjs").lineCharacterwise(false)<CR>',
+				mode = { "o" },
+				desc = "Whole line including indent",
 			},
 			{
 				"gl",
