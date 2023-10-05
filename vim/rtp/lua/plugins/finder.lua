@@ -204,6 +204,7 @@ return {
 					},
 					[":"] = { 'lua require("telescope.builtin").command_history()', { desc = "Command history" } },
 					["/"] = { 'lua require("telescope.builtin").search_history()', { desc = "Search history" } },
+					["<Space>"] = { 'lua require("telescope.builtin").resume()', { desc = "Resume previous picker" } },
 				}
 			)
 		end,
