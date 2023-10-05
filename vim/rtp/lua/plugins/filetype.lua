@@ -19,6 +19,9 @@ return {
 				test_runner = "richgo",
 				run_in_floaterm = true,
 				textobjects = false,
+				diagnostic = { -- set diagnostic to false to disable diagnostic
+					hdlr = false, -- hook diagnostic handler
+				},
 			})
 		end,
 	},
