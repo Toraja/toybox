@@ -117,7 +117,7 @@ return {
 				pickers = {
 					-- Default configuration for builtin pickers goes here:
 					find_files = {
-						find_command = { "fd", "--type", "f", "--hidden", "--exclude", ".git" },
+						find_command = { "fd", "--hidden", "--exclude", ".git" },
 					},
 					oldfiles = {
 						layout_config = { preview_width = 0.5 },
