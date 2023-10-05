@@ -20,14 +20,6 @@ return {
 				run_in_floaterm = true,
 				textobjects = false,
 			})
-			local go_format_augroud_id = vim.api.nvim_create_augroup("go_format", {})
-			vim.api.nvim_create_autocmd("BufWritePre", {
-				group = go_format_augroud_id,
-				pattern = "*.go",
-				callback = function()
-					require("go.format").goimport()
-				end,
-			})
 		end,
 	},
 	-- js
