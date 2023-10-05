@@ -102,6 +102,10 @@ return {
 			require("neo-tree").setup({
 				window = {
 					position = "float",
+					popup = {     -- settings that apply to float position only
+						size = { height = "40", width = "150" },
+						position = "50%", -- 50% means center it
+					},
 					mappings = {
 						["<Tab>"] = { "toggle_preview", config = { use_float = true } },
 						["<C-]>"] = "focus_preview",
@@ -142,6 +146,7 @@ return {
 					filtered_items = {
 						visible = true,
 					},
+					hijack_netrw_behavior = "open_current",
 					window = {
 						mappings = {
 							["u"] = "navigate_up",
