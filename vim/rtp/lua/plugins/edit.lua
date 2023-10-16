@@ -41,11 +41,11 @@ return {
 			})
 		end,
 		keys = {
-			{ "p",     "<Plug>(YankyPutAfter)",      mode = { "n", "x" } },
-			{ "P",     "<Plug>(YankyPutBefore)",     mode = { "n", "x" } },
-			{ "gp",    "<Plug>(YankyGPutAfter)",     mode = { "n", "x" } },
-			{ "gP",    "<Plug>(YankyGPutBefore)",    mode = { "n", "x" } },
-			{ "<M-p>", "<Plug>(YankyCycleForward)",  mode = { "n" } },
+			{ "p", "<Plug>(YankyPutAfter)", mode = { "n", "x" } },
+			{ "P", "<Plug>(YankyPutBefore)", mode = { "n", "x" } },
+			{ "gp", "<Plug>(YankyGPutAfter)", mode = { "n", "x" } },
+			{ "gP", "<Plug>(YankyGPutBefore)", mode = { "n", "x" } },
+			{ "<M-p>", "<Plug>(YankyCycleForward)", mode = { "n" } },
 			{ "<M-P>", "<Plug>(YankyCycleBackward)", mode = { "n" } },
 		},
 	},
@@ -287,7 +287,8 @@ return {
 					map = "<M-p>",
 					keys = "asdfghjklqwertyuiopzxcvbnm",
 					end_key = ";",
-					manual_position = false,
+					manual_position = false, -- true requires extra key press to choose before/after the posision
+					use_virt_lines = false, -- highlight position is not right if indented with tabs
 				},
 			})
 			ap.remove_rule("'")
