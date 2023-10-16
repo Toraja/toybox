@@ -10,4 +10,4 @@ git branch -u main
 
 # Workaround for missing .git/info/exclude
 ## Add files/directories you want to ignore to .gitignore, then run the below command
-git update-index --assume-unchanged -- .gitignore
+git update-index --skip-worktree -- .gitignore
