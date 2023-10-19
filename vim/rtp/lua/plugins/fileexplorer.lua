@@ -102,8 +102,8 @@ return {
 			require("neo-tree").setup({
 				window = {
 					position = "float",
-					popup = {     -- settings that apply to float position only
-						size = { height = "40", width = "150" },
+					popup = { -- settings that apply to float position only
+						size = { height = math.floor(vim.o.lines * 0.85), width = math.floor(vim.o.columns * 0.50) },
 						position = "50%", -- 50% means center it
 					},
 					mappings = {
