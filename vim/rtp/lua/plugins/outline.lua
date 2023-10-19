@@ -17,6 +17,12 @@ return {
 	{
 		"nvim-treesitter/nvim-treesitter-context",
 		dependencies = { "nvim-treesitter" },
+		config = function()
+			require("treesitter-context").setup({
+				max_lines = 12,
+				multiline_threshold = 5,
+			})
+		end,
 	},
 	{
 		"simrat39/symbols-outline.nvim",
