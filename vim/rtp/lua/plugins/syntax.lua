@@ -77,4 +77,41 @@ return {
 			})
 		end,
 	},
+	{
+		"mhartington/formatter.nvim",
+		config = function()
+			require("formatter").setup({
+				logging = true,
+				log_level = vim.log.levels.WARN,
+				filetype = {
+					fish = {
+						require("formatter.filetypes.fish").fishindent,
+					},
+					lua = {
+						require("formatter.filetypes.lua").stylua,
+					},
+					yaml = {
+						require("formatter.filetypes.yaml").yamlfmt,
+					},
+				},
+			})
+
+			local ft_common = require("ft-common")
+			ft_common.set_ft_keymap({
+				f = { "Format", { desc = "Format", silent = true } },
+			})
+
+			vim.api.nvim_create_autocmd("BufWritePost", {
+				group = vim.api.nvim_create_augroup("AutoFormat", {}),
+				pattern = "*",
+				callback = function()
+					if ft_common.is_auto_format_disabled() then
+						return
+					end
+
+					vim.cmd("FormatWrite")
+				end,
+			})
+		end,
+	},
 }

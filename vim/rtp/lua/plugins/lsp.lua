@@ -135,26 +135,6 @@ return {
 		end,
 	},
 	{
-		"jose-elias-alvarez/null-ls.nvim",
-		dependencies = { "nvim-lua/plenary.nvim" },
-		config = function()
-			local null_ls = require("null-ls")
-			null_ls.setup({
-				sources = {
-					-- go
-					null_ls.builtins.diagnostics.golangci_lint,
-					-- lua
-					null_ls.builtins.formatting.stylua,
-					-- terraform
-					null_ls.builtins.formatting.terraform_fmt,
-					-- yaml
-					null_ls.builtins.diagnostics.yamllint,
-					null_ls.builtins.formatting.yamlfmt,
-				},
-			})
-		end,
-	},
-	{
 		"ray-x/lsp_signature.nvim",
 		config = function()
 			require("lsp_signature").setup({
