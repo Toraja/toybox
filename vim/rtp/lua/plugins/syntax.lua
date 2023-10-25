@@ -90,6 +90,9 @@ return {
 					lua = {
 						require("formatter.filetypes.lua").stylua,
 					},
+					toml = {
+						require("formatter.filetypes.toml").taplo,
+					},
 					yaml = {
 						require("formatter.filetypes.yaml").yamlfmt,
 					},
