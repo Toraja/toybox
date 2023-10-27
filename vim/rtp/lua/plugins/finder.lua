@@ -137,6 +137,9 @@ return {
 							-- even more opts
 						}),
 					},
+					["pathogen"] = {
+						use_last_search_for_live_grep = false,
+					},
 				},
 			})
 			telescope.load_extension("fzf")
