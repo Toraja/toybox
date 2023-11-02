@@ -194,7 +194,7 @@ return {
 					},
 					s = {
 						'lua require("telescope").extensions.luasnip.luasnip()',
-						{ desc = "Scriptnames" },
+						{ desc = "Snippets" },
 					},
 					S = {
 						'lua require("telescope").extensions.scriptnames.scriptnames()',
