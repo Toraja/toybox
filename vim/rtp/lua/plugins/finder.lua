@@ -139,6 +139,8 @@ return {
 					},
 					["pathogen"] = {
 						use_last_search_for_live_grep = false,
+						-- XXX: when use_last_search_for_live_grep is specified, pathogen sets value of prompt_prefix_length from here
+						prompt_prefix_length = 100,
 					},
 				},
 			})
