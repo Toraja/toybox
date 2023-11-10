@@ -126,6 +126,11 @@ return {
 				yaml = { "yamllint" },
 			}
 
+			local ft_common = require("ft-common")
+			ft_common.set_ft_keymap({
+				l = { "lua require('lint').try_lint()", { desc = "Lint", silent = true } },
+			})
+
 			vim.api.nvim_create_autocmd("BufWritePost", {
 				group = vim.api.nvim_create_augroup("AutoLint", {}),
 				pattern = "*",

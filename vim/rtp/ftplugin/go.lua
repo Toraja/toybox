@@ -7,7 +7,6 @@ require("keymap.which-key-helper").register_for_ftplugin({
 	G = { "GoBreakToggle", { desc = "Toggle break point" } },
 	h = { "GoChannel", { desc = "GoChannel" } },
 	k = { "GoCallstack", { desc = "GoCallstack" } },
-	l = { "GoLint", { desc = "Lint" } },
 	r = { "GoRun", { desc = "Exec `go run`" } },
 	s = { "GoFillStruct", { desc = "Fill struct" } },
 	t = { "GoAddTest", { desc = "Add test for this function" } },
