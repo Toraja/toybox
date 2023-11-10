@@ -49,7 +49,7 @@ function ginkgo_test_nearest_spec()
 	local test_file_basename = vim.fs.basename(test_file_path)
 	local test_file_dir = vim.fs.dirname(test_file_path)
 	local ginkgo_cmd =
-			string.format('ginkgo --focus-file "%s" --focus "%s" %s', test_file_basename, found_spec, test_file_dir)
+		string.format('ginkgo --focus-file "%s" --focus "%s" %s', test_file_basename, found_spec, test_file_dir)
 	-- Without sleep, echoed messsge sometimes is not displayed
 	local cmd = "sleep 0.1 && echo '@@@ " .. ginkgo_cmd .. " @@@' && " .. ginkgo_cmd
 	require("toggleterm.terminal").Terminal:new({ cmd = cmd, direction = "tab", close_on_exit = false }):toggle()
@@ -72,16 +72,16 @@ function ginkgo_generate()
 	local test_file_path = string.gsub(file_path, ".go", "_test.go")
 	local cmd = string.format("ginkgo generate %s", file_basename)
 	require("toggleterm.terminal").Terminal
-			:new({
-				cmd = cmd,
-				dir = file_dir,
-				direction = "float",
-				close_on_exit = true,
-				on_exit = function()
-					vim.cmd("vnew " .. test_file_path)
-				end,
-			})
-			:toggle()
+		:new({
+			cmd = cmd,
+			dir = file_dir,
+			direction = "float",
+			close_on_exit = true,
+			on_exit = function()
+				vim.cmd("vnew " .. test_file_path)
+			end,
+		})
+		:toggle()
 end
 
 local go_format_augroud_id = vim.api.nvim_create_augroup("go_format", {})
