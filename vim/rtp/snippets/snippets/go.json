@@ -75,5 +75,10 @@
     "prefix": "fs",
     "body": "fmt.Sprintf(\"$1\", ${2:var})",
     "description": "fmt.Sprintf()"
+  },
+  "fmt.Errorf": {
+    "prefix": "fe",
+    "body": "fmt.Errorf(\"$1: %w\", err)",
+    "description": "fmt.Errorf()"
   }
 }
