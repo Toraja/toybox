@@ -57,6 +57,7 @@ return {
 	},
 	{
 		"rust-lang/rust.vim",
+		enabled = false,
 		ft = "rust",
 	},
 	{
