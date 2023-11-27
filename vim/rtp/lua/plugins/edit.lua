@@ -98,12 +98,13 @@ return {
 				mode = { "n" },
 				desc = "Replace operator text with yanked text",
 			},
-			{
-				"cp",
-				'<Cmd>lua require("substitute").visual()<CR>',
-				mode = { "x" },
-				desc = "Replace visual text with yanked text",
-			},
+			-- This is vim's builtin functionality
+			-- {
+			-- 	"P",
+			-- 	'<Cmd>lua require("substitute").visual()<CR>',
+			-- 	mode = { "x" },
+			-- 	desc = "Replace visual text with yanked text",
+			-- },
 			{
 				"<Leader>c",
 				'<Cmd>lua require("substitute.range").operator()<CR>',
@@ -117,10 +118,22 @@ return {
 				desc = "Substitute visual text within the range",
 			},
 			{
-				"<Leader>cc",
-				'<Cmd>lua require("substitute.range").operator({ motion1 = "iw" })<CR>',
+				"<Leader>C",
+				'<Cmd>lua require("substitute.range").visual({ range = "%" })<CR>',
+				mode = { "x" },
+				desc = "Substitute visual text in the entire buffer",
+			},
+			{
+				"<Leader>co",
+				'<Cmd>lua require("substitute.range").operator({ range = "%" })<CR>',
 				mode = { "n" },
 				desc = "Substitute cursor word within the range",
+			},
+			{
+				"<Leader>cc",
+				'<Cmd>lua require("substitute.range").operator({ subject = { motion = "iw" }, range = "%" })<CR>',
+				mode = { "n" },
+				desc = "Substitute cursor word in the entire buffer",
 			},
 			{
 				"cx",
