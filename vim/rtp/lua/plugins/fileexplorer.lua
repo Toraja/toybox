@@ -1,10 +1,13 @@
 return {
 	{
 		"nvim-tree/nvim-tree.lua",
-		enabled = false,
-		dependencies = { "nvim-tree/nvim-web-devicons" },
+		dependencies = {
+			{ "nvim-tree/nvim-web-devicons" },
+			{ "JMarkin/nvim-tree.lua-float-preview" },
+		},
 		config = function()
 			local function on_attach(bufnr)
+				require("float-preview").attach_nvimtree(bufnr)
 				local lib = require("nvim-tree.lib")
 				local api = require("nvim-tree.api")
 
@@ -29,6 +32,7 @@ return {
 				vim.keymap.set("n", "u", api.tree.change_root_to_parent, opts("Up"))
 				vim.keymap.set("n", "t", open_in_background, opts("Open: New Tab Background"))
 				vim.keymap.set("n", "?", api.tree.toggle_help, opts("Help"))
+				vim.keymap.del("n", "<Tab>", { buffer = bufnr })
 				vim.keymap.del("n", "<C-e>", { buffer = bufnr })
 				vim.keymap.del("n", "H", { buffer = bufnr })
 				vim.keymap.del("n", "s", { buffer = bufnr })
@@ -91,7 +95,38 @@ return {
 		end,
 	},
 	{
+		"JMarkin/nvim-tree.lua-float-preview",
+		lazy = true,
+		opts = {
+			mapping = {
+				-- scroll down float buffer
+				down = { "<C-d>" },
+				-- scroll up float buffer
+				up = { "<C-u>" },
+				-- enable/disable float windows
+				toggle = { "<Tab>", "<C-a>" }, -- <Tab> does not get mapped
+			},
+			window = {
+				wrap = false,
+				trim_height = false,
+				open_win_config = function()
+					return {
+						style = "minimal",
+						relative = "editor",
+						border = "rounded",
+						width = vim.opt.columns:get() - 67,
+						height = math.floor(vim.o.lines * 0.90),
+						row = 1,
+						col = 63,
+						zindex = 1,
+					}
+				end,
+			},
+		},
+	},
+	{
 		"nvim-neo-tree/neo-tree.nvim",
+		enabled = false,
 		branch = "v3.x",
 		dependencies = {
 			"nvim-lua/plenary.nvim",
@@ -116,6 +151,16 @@ return {
 						["<C-x>"] = "open_split",
 						["<C-v>"] = "open_vsplit",
 						["<C-t>"] = "open_tabnew",
+						-- the behaviour is clumsy as the neo-tree window blinks
+						-- ["X"] = {
+						-- 	function(state)
+						-- 		local cmds = require("neo-tree.sources.common.commands")
+						-- 		local original_tab_number = vim.print(vim.api.nvim_tabpage_get_number(0))
+						-- 		cmds.open_tabnew(state, cmds.toggle_directory)
+						-- 		vim.cmd(original_tab_number .. "tabnext")
+						-- 		require("neo-tree.command").execute({})
+						-- 	end,
+						-- },
 						["a"] = {
 							"add",
 							config = {
