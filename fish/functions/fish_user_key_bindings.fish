@@ -10,6 +10,9 @@ function fish_user_key_bindings
     bind \e\; repeat-jump
     bind \e, repeat-jump-reverse
 
+    # traverse
+    bind \e- '.. && commandline -f repaint'
+
     # edit
     bind \eh backward-kill-word
     bind \e\cw backward-kill-bigword
