@@ -110,6 +110,7 @@ if functions --query fzf_key_bindings
     bind \ct transpose-chars
     bind \ec capitalize-word
     bind \co fzf-file-widget
+    bind \eo fzf-cd-widget
 end
 
 # taskwarrior
