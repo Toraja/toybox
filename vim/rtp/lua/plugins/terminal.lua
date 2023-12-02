@@ -16,18 +16,38 @@ return {
 				direction = "tab",
 				shell = "fish",
 			})
+			local lazygit = require("toggleterm.terminal").Terminal:new({
+				cmd = "lazygit",
+				direction = "float",
+				float_opts = {
+					width = math.floor(vim.o.columns * 0.95),
+					height = math.floor(vim.o.lines * 0.90),
+				},
+			})
 			vim.keymap.set("n", "<Leader>g", function()
-				require("toggleterm.terminal").Terminal
-					:new({
-						cmd = "lazygit",
-						direction = "float",
-						float_opts = {
-							width = math.floor(vim.o.columns * 0.95),
-							height = math.floor(vim.o.lines * 0.90),
-						},
-					})
-					:toggle()
+				lazygit:toggle()
 			end, { desc = "lazygit" })
+		end,
+	},
+	{
+		"ryanmsnyder/toggleterm-manager.nvim",
+		dependencies = {
+			"akinsho/toggleterm.nvim",
+			"nvim-telescope/telescope.nvim",
+		},
+		config = function()
+			local toggleterm_manager = require("toggleterm-manager")
+			local actions = toggleterm_manager.actions
+			toggleterm_manager.setup({
+				mappings = {
+					i = {
+						["<CR>"] = { action = actions.open_term, exit_on_action = true },
+						["<C-i>"] = { action = actions.create_and_name_term, exit_on_action = false },
+						["<C-o>"] = { action = actions.create_term, exit_on_action = false },
+						["<C-Space>"] = { action = actions.toggle_term, exit_on_action = false },
+					},
+				},
+			})
 		end,
 	},
 	{
