@@ -100,9 +100,9 @@ return {
 		opts = {
 			mapping = {
 				-- scroll down float buffer
-				down = { "<C-d>" },
+				down = { "<M-j>" },
 				-- scroll up float buffer
-				up = { "<C-u>" },
+				up = { "<M-k>" },
 				-- enable/disable float windows
 				toggle = { "<Tab>", "<C-a>" }, -- <Tab> does not get mapped
 			},
