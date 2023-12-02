@@ -11,6 +11,7 @@ return {
 			{ "princejoogie/dir-telescope.nvim" },
 			{ "tsakirist/telescope-lazy.nvim" },
 			{ "benfowler/telescope-luasnip.nvim" },
+			{ "axkirillov/easypick.nvim" },
 		},
 		config = function()
 			-- Add line number to preview
@@ -155,12 +156,32 @@ return {
 			require("dir-telescope").setup({
 				no_ignore = true,
 			})
+			local easypick = require("easypick")
+			easypick.setup({
+				pickers = {
+					{
+						name = "sub_root",
+						command = "find $(git rev-parse --show-toplevel) -mindepth 1 -maxdepth 1 -type d -exec basename {} \\;",
+						opts = require("telescope.themes").get_dropdown({
+							layout_config = {
+								height = function(_, _, max_lines)
+									return math.min(max_lines, 30)
+								end,
+							},
+						}),
+						action = easypick.actions.nvim_commandf(
+							string.format("tabnew %s/%%s", require("git").root_path())
+						),
+					},
+				},
+			})
 
 			require("keymap.which-key-helper").register_with_editable(
 				"Telescope",
 				vim.g.chief_key .. "f",
 				vim.g.chief_key,
 				{
+					a = { "Easypick sub_root", { desc = "Sub root" } },
 					b = { 'lua require("telescope.builtin").buffers()', { desc = "Buffers" } },
 					c = { 'lua require("telescope.builtin").git_bcommits()', { desc = "Git buffer commits" } },
 					C = { 'lua require("telescope.builtin").git_commits()', { desc = "Git commits" } },
