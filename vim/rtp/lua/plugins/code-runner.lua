@@ -9,12 +9,17 @@ return {
 			require("sniprun").setup({
 				display = { "NvimNotify" },
 			})
-			require("keymap.which-key-helper").register_with_editable("sniprun", vim.g.chief_key .. "r", vim.g.chief_key, {
-				a = { "%SnipRun", { desc = "SnipRun entire buffer" } },
-				r = { "SnipRun", { desc = "SnipRun current line" } },
-				s = { "SnipReset", { desc = "Stop execution of sniprun" } },
-				c = { "SnipClose", { desc = "Clear text displayed by sniprun" } },
-			})
+			require("keymap.which-key-helper").register_with_editable(
+				"sniprun",
+				vim.g.chief_key .. "r",
+				vim.g.chief_key,
+				{
+					a = { "%SnipRun", { desc = "SnipRun entire buffer" } },
+					r = { "SnipRun", { desc = "SnipRun current line" } },
+					s = { "SnipReset", { desc = "Stop execution of sniprun" } },
+					c = { "SnipClose", { desc = "Clear text displayed by sniprun" } },
+				}
+			)
 		end,
 		keys = {
 			{
