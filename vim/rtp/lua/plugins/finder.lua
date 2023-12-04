@@ -161,7 +161,7 @@ return {
 				pickers = {
 					{
 						name = "sub_root",
-						command = "find $(git rev-parse --show-toplevel) -mindepth 1 -maxdepth 1 -type d -exec basename {} \\;",
+						command = "find $(git rev-parse --show-toplevel) -mindepth 1 -maxdepth 1 -type d -exec basename {} \\; | sort",
 						opts = require("telescope.themes").get_dropdown({
 							layout_config = {
 								height = function(_, _, max_lines)
