@@ -1,3 +1,0 @@
-# Become root with totally the same environment
-# so the root can use commands installed for the user.
-sudo -E su -p

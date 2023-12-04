@@ -1,6 +1,0 @@
-# template only subset of helmfile
-## go to the directory where the root helmfile resides (the one that defines `environments`)
-## this is not necessary if the helmfile does not use environments
-## ---
-## generate manifests
-helmfile [-e <env>] -f <path to helmfile> template --output-dir <dir>
