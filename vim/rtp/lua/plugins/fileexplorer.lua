@@ -1,6 +1,7 @@
 return {
 	{
 		"nvim-tree/nvim-tree.lua",
+		enabled = false,
 		dependencies = {
 			{ "nvim-tree/nvim-web-devicons" },
 			{ "JMarkin/nvim-tree.lua-float-preview" },
@@ -69,6 +70,9 @@ return {
 						quit_on_open = true,
 					},
 				},
+				diagnostics = {
+					enable = true,
+				},
 			})
 			require("keymap.which-key-helper").register_with_editable(
 				"nvim-tree",
@@ -104,7 +108,7 @@ return {
 				-- scroll up float buffer
 				up = { "<M-k>" },
 				-- enable/disable float windows
-				toggle = { "<Tab>", "<C-a>" }, -- <Tab> does not get mapped
+				toggle = { "<Tab>", "<C-_>" }, -- <Tab> does not get mapped
 			},
 			window = {
 				wrap = false,
@@ -126,7 +130,7 @@ return {
 	},
 	{
 		"nvim-neo-tree/neo-tree.nvim",
-		enabled = false,
+		-- enabled = false,
 		branch = "v3.x",
 		dependencies = {
 			"nvim-lua/plenary.nvim",
@@ -142,7 +146,7 @@ return {
 						position = "50%", -- 50% means center it
 					},
 					mappings = {
-						["<Tab>"] = { "toggle_preview", config = { use_float = true } },
+						["<C-_>"] = { "toggle_preview", config = { use_float = true } },
 						["<C-]>"] = "focus_preview",
 						["l"] = "open",
 						["L"] = "expand_all_nodes",
