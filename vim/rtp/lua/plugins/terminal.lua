@@ -8,10 +8,16 @@ return {
 				on_create = function()
 					vim.opt_local.signcolumn = "no"
 				end,
-				on_open = function()
+				on_open = function(term)
 					vim.cmd([[
 								startinsert
 								]])
+					if term.display_name and term.display_name ~= vim.fn.bufname() then
+						ok, err = pcall(vim.cmd, "file " .. vim.fn.fnameescape(term.display_name))
+						if not ok then
+							vim.api.nvim_err_writeln(err)
+						end
+					end
 				end,
 				direction = "tab",
 				shell = "fish",
