@@ -33,6 +33,16 @@ return {
 			vim.keymap.set("n", "<Leader>g", function()
 				lazygit:toggle()
 			end, { desc = "lazygit" })
+
+			vim.api.nvim_create_user_command("ToggleTermAppend", function(cmds)
+				local tt = require("toggleterm.terminal")
+				local terminals = tt.get_all(true)
+				local num_terminals = vim.tbl_count(terminals)
+				local biggest_id = num_terminals == 0 and 0 or terminals[num_terminals].id
+				for i, name in ipairs(cmds.fargs) do
+					tt.Terminal:new({ id = biggest_id + i, display_name = name }):open()
+				end
+			end, { nargs = "+" })
 		end,
 	},
 	{
