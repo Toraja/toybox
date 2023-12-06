@@ -116,6 +116,19 @@ return {
 		end,
 	},
 	{
+		"ellisonleao/glow.nvim",
+		config = function()
+			require("glow").setup({
+				border = "rounded",
+				width = math.floor(vim.o.columns * 0.90),
+				height = math.floor(vim.o.lines * 0.90),
+				width_ratio = 0.90, -- maximum width of the Glow window compared to the nvim window size (overrides `width`)
+				height_ratio = 0.90,
+			})
+		end,
+		cmd = "Glow",
+	},
+	{
 		"iamcco/markdown-preview.nvim",
 		build = function()
 			vim.fn["mkdp#util#install"]()
