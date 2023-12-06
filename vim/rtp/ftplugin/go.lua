@@ -18,6 +18,12 @@ require("keymap.which-key-helper").register_for_ftplugin({
 	["<Space>g"] = { "lua ginkgo_generate()", { desc = "Generate gingko test file" } },
 })
 
+local function run_ginkgo_cmd_in_terminal(ginkgo_cmd)
+	-- Without sleep, echoed messsge is sometimes  not displayed
+	local cmd = "sleep 0.1 && echo '@@@ " .. ginkgo_cmd .. " @@@' && " .. ginkgo_cmd
+	vim.cmd("tabnew | terminal " .. cmd)
+end
+
 function ginkgo_test_nearest_spec()
 	local ginkgo_spec_patterns = {
 		'Describe%("(.*)",.*func%(%)%s{',
@@ -50,9 +56,7 @@ function ginkgo_test_nearest_spec()
 	local test_file_dir = vim.fs.dirname(test_file_path)
 	local ginkgo_cmd =
 		string.format('ginkgo --focus-file "%s" --focus "%s" %s', test_file_basename, found_spec, test_file_dir)
-	-- Without sleep, echoed messsge sometimes is not displayed
-	local cmd = "sleep 0.1 && echo '@@@ " .. ginkgo_cmd .. " @@@' && " .. ginkgo_cmd
-	require("toggleterm.terminal").Terminal:new({ cmd = cmd, direction = "tab", close_on_exit = false }):toggle()
+	run_ginkgo_cmd_in_terminal(ginkgo_cmd)
 end
 
 function ginkgo_test_this_file()
@@ -60,9 +64,7 @@ function ginkgo_test_this_file()
 	local test_file_basename = vim.fs.basename(test_file_path)
 	local test_file_dir = vim.fs.dirname(test_file_path)
 	local ginkgo_cmd = string.format('ginkgo --focus-file "%s" %s', test_file_basename, test_file_dir)
-	-- Without sleep, echoed messsge sometimes is not displayed
-	local cmd = "sleep 0.1 && echo '@@@ " .. ginkgo_cmd .. " @@@' && " .. ginkgo_cmd
-	require("toggleterm.terminal").Terminal:new({ cmd = cmd, direction = "tab", close_on_exit = false }):toggle()
+	run_ginkgo_cmd_in_terminal(ginkgo_cmd)
 end
 
 function ginkgo_generate()
