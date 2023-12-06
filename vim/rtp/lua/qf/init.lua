@@ -29,27 +29,30 @@ local function location_list_toggle()
 end
 
 local function qf_files_open()
-  local qflist = vim.fn.getqflist()
-  if #qflist == 0 then
-    print('qflist is empty')
-    return
-  end
+	local qflist = vim.fn.getqflist()
+	if vim.tbl_isempty(qflist) then
+		print("qflist is empty")
+		return
+	end
 
-  local current_tab_number = vim.fn.tabpagenr()
+	local current_tab_number = vim.fn.tabpagenr()
+	-- Newly opened tab seems to inherits the same option of current win.
+	-- nvim-bqf sets `signcolumn` to `number` in qf window so close qf window here
+	-- to make sure that current forcus is not on qf window.
+	vim.cmd("cclose")
 
-  vim.tbl_map(function(qf)
-    local filepath = qf['text']
-    if vim.fn.filereadable(filepath) == 1 then
-      vim.cmd('tabnew ' .. filepath)
-      -- Tab opened by tabnew uses the same option of current win.
-      -- nvim-bqf disables signcolumn in qf window so it is disabled in the opened tab.
-      vim.api.nvim_win_set_option(vim.api.nvim_get_current_win(), 'signcolumn', 'yes')
-    else
-      print(string.format('%s not found', filepath))
-    end
-  end, qflist)
+	vim.tbl_map(function(qf)
+		local file_bufnr = qf["bufnr"]
+		if not file_bufnr then
+			print(string.format('buffer number for "%s" is not present', qf["text"]))
+			return
+		end
 
-  vim.cmd('tabnext ' .. current_tab_number)
+		vim.cmd("tab sbuffer " .. file_bufnr)
+		vim.api.nvim_win_set_cursor(0, { qf["lnum"], qf["col"] - 1 })
+	end, qflist)
+
+	vim.cmd("tabnext " .. current_tab_number)
 end
 
 function M.setup(opts)
