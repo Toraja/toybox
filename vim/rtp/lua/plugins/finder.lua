@@ -169,9 +169,11 @@ return {
 								end,
 							},
 						}),
-						action = easypick.actions.nvim_commandf(function()
-							return string.format("tabnew %s/%%s", require("git").root_path())
-						end),
+						action = function()
+							return easypick.actions.nvim_commandf(
+								string.format("tabnew %s/%%s", require("git").root_path())
+							)
+						end,
 					},
 				},
 			})
