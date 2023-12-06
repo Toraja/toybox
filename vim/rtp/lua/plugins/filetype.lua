@@ -35,7 +35,6 @@ return {
 		"phpactor/phpactor",
 		enabled = function()
 			return vim.fn.executable("composer") ~= 0
-			-- return vim.fn.executable("composer") == 0
 		end,
 		branch = "master",
 		build = "composer install --no-dev -o",
@@ -49,7 +48,10 @@ return {
 		"stephpy/vim-php-cs-fixer",
 		ft = "php",
 	},
-	"noahfrederick/vim-laravel",
+	{
+		"noahfrederick/vim-laravel",
+		enabled = false,
+	},
 	-- rust
 	{
 		"simrat39/rust-tools.nvim",
@@ -81,6 +83,9 @@ return {
 	-- yaml
 	{
 		"someone-stole-my-name/yaml-companion.nvim",
+		enabled = function()
+			return vim.fn.executable("yaml-language-server") ~= 0
+		end,
 		dependencies = {
 			{ "neovim/nvim-lspconfig" },
 			{ "nvim-lua/plenary.nvim" },
@@ -117,6 +122,9 @@ return {
 	},
 	{
 		"ellisonleao/glow.nvim",
+		enabled = function()
+			return vim.fn.executable("glow") ~= 0
+		end,
 		config = function()
 			require("glow").setup({
 				border = "rounded",
@@ -126,10 +134,11 @@ return {
 				height_ratio = 0.90,
 			})
 		end,
-		cmd = "Glow",
+		cmd = { "Glow" },
 	},
 	{
 		"iamcco/markdown-preview.nvim",
+		enabled = false,
 		build = function()
 			vim.fn["mkdp#util#install"]()
 		end,
@@ -160,15 +169,10 @@ return {
 		end,
 	},
 	{
-		"weirongxu/plantuml-previewer.vim",
-		dependencies = {
-			"tyru/open-browser.vim",
-		},
-	},
-	{
 		"AckslD/nvim-FeMaco.lua",
 		config = function()
 			require("femaco").setup()
 		end,
+		cmd = { "FeMaco" },
 	},
 }
