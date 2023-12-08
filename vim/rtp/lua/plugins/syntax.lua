@@ -6,6 +6,8 @@ local ft_list = {
 	"json",
 	"lua",
 	"make",
+	"markdown",
+	"markdown_inline",
 	"proto",
 	"python",
 	"rust",
@@ -17,6 +19,7 @@ return {
 	"gpanders/editorconfig.nvim",
 	{
 		"sheerun/vim-polyglot",
+		enabled = false,
 		init = function()
 			vim.g.polyglot_disabled = vim.tbl_map(function(ft)
 				return ft .. ".plugin"
