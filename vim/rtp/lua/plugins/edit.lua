@@ -217,6 +217,7 @@ return {
 		"kylechui/nvim-surround",
 		version = "*", -- Use for stability; omit to use `main` branch for the latest features
 		config = function()
+			---@diagnostic disable-next-line: missing-fields
 			require("nvim-surround").setup({
 				keymaps = {
 					insert = false,
