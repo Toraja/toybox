@@ -1,4 +1,4 @@
--- nvim-tree recommends to this if netrw is disabled
+-- disable netrw so that netrw does not flicker when opening directory
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 
@@ -48,6 +48,10 @@ end, { "cfilter", "termdebug" })
 vim.opt.mouse = ""
 
 require("ft-common").setup()
+require("terminal").setup()
+require("register").setup()
+require("text.edit").map_toggle_trailing(",", ",")
+require("qf").setup()
 
 -- highlight
 -- vim.api.nvim_set_hl(0, 'String', { ctermfg = 216 })
@@ -68,21 +72,6 @@ vim.api.nvim_create_autocmd({ "BufWinEnter", "InsertEnter", "InsertLeave" }, {
 			return
 		end
 		vim.cmd([[syntax match AnnoyingSpaces "\s\+$\| \+\t\+\|\t\+ \+"]])
-	end,
-})
-
-local terminal_augroud_id = vim.api.nvim_create_augroup("terminal", {})
-vim.api.nvim_create_autocmd("TermOpen", {
-	group = terminal_augroud_id,
-	desc = "Setup terminal",
-	-- Run this autocmd only if the current buffer is terminal, or it enters insert mode even when backgroud terminal job dispatches.
-	pattern = "term://*",
-	callback = function()
-		vim.cmd([[
-      syntax clear
-      setlocal nonumber signcolumn=no
-      startinsert
-    ]])
 	end,
 })
 
@@ -114,8 +103,6 @@ end
 
 vim.api.nvim_create_user_command("GdbIns", gdb_ins, {})
 
-require("register")
-
 function signcolumn_toggle()
 	if vim.wo.signcolumn == "no" then
 		vim.wo.signcolumn = "yes"
@@ -141,8 +128,6 @@ vim.keymap.set("!", "<C-q><C-f>", "expand('%:p:~')", { desc = "Buffer's absolute
 vim.keymap.set("!", "<C-q><C-p>", "getcwd()", { desc = "cwd", expr = true })
 vim.keymap.set("!", "<C-q><C-o>", require("git").root_path, { desc = "Git root path", expr = true })
 
-require("text.edit").map_toggle_trailing(",", ",")
-
 function delete_hidden_buffers()
 	local function delete_buffer_if_hidden(buf)
 		if buf.hidden == 1 then
@@ -154,8 +139,6 @@ function delete_hidden_buffers()
 end
 
 vim.api.nvim_create_user_command("DeleteHiddenBuffers", delete_hidden_buffers, {})
-
-require("qf").setup()
 
 wk.register({
 	["<F3>"] = {

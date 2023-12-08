@@ -1,3 +1,5 @@
+vim.g.php_cs_fixer_enable_default_mapping = 0
+
 return {
 	-- fish
 	{

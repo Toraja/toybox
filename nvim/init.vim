@@ -1,7 +1,6 @@
 " {{{ || options || ---
 
 " << system >>
-set nocompatible            " do not use legacy mode
 set encoding=utf-8
 set fileencodings^=utf-8
 if has('unix')
@@ -10,16 +9,8 @@ endif
 
 " << looks and feel >>
 set background=dark           " color scheme for dark background
-if v:version >= 800           " suppress bell sound and flushing
-  set belloff=all
-else
-  set visualbell t_vb=
-endif
-set t_Co=256              " enrich color
 set number " relativenumber       " show line number and distance relative to current line
-if !&diff && (has('gui') || has('unix') || has('nvim'))
-  set cursorline            " current line is underlined
-endif
+set cursorline            " current line is underlined
 set nomodeline              " modeline brings security issue?
 set wrap                    " whether to wrap long lines
 set scrolloff=5 sidescrolloff=1     " offset between cursor and the edge of window"
@@ -105,7 +96,7 @@ set tabline=%!MyTabLine()
 " highlight TabLine term=reverse cterm=bold,reverse gui=reverse
 
 " << editing >>
-set expandtab                           " change use whitespaces instead of tab char
+set expandtab                           " use whitespaces instead of tab char
 set autoindent smartindent              " indentation support
 set shiftround                          " round tab width for > and < command
 set fileformats=unix,dos,mac            " Prefer Unix over Windows over OSX formats
@@ -135,7 +126,6 @@ set completeopt=longest,menuone,preview " ins-completion mothod (complete to lon
 set splitbelow splitright       " splitted windows goes to below or right
 set showcmd               " Show (partial) command in status line.
 set lazyredraw              " screen will not be redrawn till macro execution is done
-set tags=./tags;,./TAGS;,tags;,TAGS;
 set diffopt+=vertical
 set sessionoptions=blank,curdir,folds,tabpages,winsize
 
@@ -147,79 +137,6 @@ set wildmenu              " display menu on command line completion
 set wildcharm=<Tab>           " This enables cycling through popup version of wildmenu with <expr> keymap
 set wildmode=full,longest:full      " command mode completion method
 " --- || options || }}}
-
-" {{{ || automatically enter paste mode when pasting || ---
-if &term =~ "xterm"
-  let &t_ti .= "\e[?2004h"
-  let &t_te .= "\e[?2004l"
-  let &pastetoggle="\e[201~"
-
-  function! XTermPasteBegin(command)
-    set paste
-    return a:command
-  endfunction
-
-  nnoremap <special> <expr> <Esc>[200~ XTermPasteBegin("i")
-  " This delays exiting Insert and Command mode by pressing <Esc>
-  " inoremap <special> <expr> <Esc>[200~ XTermPasteBegin("")
-  " cnoremap <special> <Esc>[200~ <Nop>
-  " cnoremap <special> <Esc>[201~ <Nop>
-endif
-" --- || automatically enter paste mode when pasting || }}}
-
-" {{{ || enable meta-key bindings || ---
-if !get(s:, 'meta_key_bound') && has('unix') && !has('nvim')
-  " fix meta-keys which generate <Esc>a .. <Esc>z
-  " do this once only so that keymaps defined by plugin will not be overwritten with <Nop>
-  let s:set_meta_to_esc = "set <M-%s>=\e%s"
-  let s:map_esc_to_meta = "noremap%s \e%s <M-%s>"
-  let s:map_meta_to_nop = "noremap%s <M-%s> <Nop>"
-  let c = 'a'
-  while c <= 'z'
-    " lower case
-    exec printf(s:set_meta_to_esc, c, c)
-    exec printf(s:map_esc_to_meta, '!', c, c)
-    exec printf(s:map_esc_to_meta, '', c, c)
-    exec printf(s:map_meta_to_nop, '!', c)
-    exec printf(s:map_meta_to_nop, '', c)
-    " upper case - skip M-O as it is part of del key, ins key, F key and etc
-    if c != 'o'
-      let C = toupper(c)
-      exec printf(s:set_meta_to_esc, C, C)
-      exec printf(s:map_esc_to_meta, '!', C, C)
-      exec printf(s:map_esc_to_meta, '', C, C)
-      exec printf(s:map_meta_to_nop, '!', C)
-      exec printf(s:map_meta_to_nop, '', C)
-    endif
-    let c = nr2char(1+char2nr(c))
-  endwhile
-  unlet c C
-
-  " meta + special-keys
-  " note: '[' cannot be mapped as it's part of some keycodes
-  exec "set <M-$>=\e$"
-  exec "set <M-#>=\e#"
-  exec "set <M-*>=\e*"
-  exec "set <M-+>=\e+"
-  exec "set <M-->=\e-"
-  exec "set <M-/>=\e/"
-  exec "set <M-:>=\e:"
-  exec "set <M-;>=\e;"
-  exec "set <M-=>=\e="
-  " exec "set <M-]>=\e]" " This causes vim to work funny
-  exec "set <M-_>=\e_"
-  exec "set <M-`>=\e`"
-
-  for n in range(0, 9)
-    exec "set <M-".n.">=\e".n
-    exec "noremap! \e".n." <M-".n.">"
-    exec "noremap \e".n." <M-".n.">"
-    exec "noremap <M-".n."> <Nop>"
-  endfor
-  unlet n
-endif
-let s:meta_key_bound = 1
-" --- || enable meta-key bindings || }}}
 
 " {{{ || autocmd || ---
 " augroup prevents duplicated effect by disabling previous effect of the same group
@@ -484,23 +401,6 @@ nnoremap <C-w><C-a> :windo confirm quit<CR>
 nnoremap <C-w>A :confirm qall<CR>
 " --- || Suspend/Close/Exit || }}}
 
-" {{{ || Terminal || ---
-tnoremap <nowait> <M-\> <C-\><C-n>
-if &shell =~ 'cmd'
-  tnoremap <C-p> <Up>
-  tnoremap <C-n> <Down>
-  tnoremap <C-f> <Right>
-  tnoremap <C-b> <Left>
-  tnoremap <M-f> <C-Right>
-  tnoremap <M-b> <C-Left>
-  tnoremap <C-a> <Home>
-  tnoremap <C-e> <End>
-  tnoremap <C-d> <Del>
-  tnoremap <C-u> <Esc>
-endif
-
-" --- || Terminal || }}}
-
 " {{{ || Others || ---
 map <S-Space> <Space>
 nnoremap <C-s> :update<CR>
@@ -514,87 +414,21 @@ cnoremap <M-@> <Home>let @" = '<End>'
 
 " --- || key mapping || }}}
 
-" {{{ || functions || ---
-" https://stackoverflow.com/questions/24027506/get-a-vim-scripts-snr
-" Return the <SNR> of a script.
-" Args:
-"   script_name : (str) The name of a sourced script.
-" Return:
-"   (int) The <SNR> of the script; if the script isn't found, -1.
-func! GetScriptNumber(script_name)
-  redir => scriptnames
-  silent! scriptnames
-  redir END
-
-  for script in split(l:scriptnames, "\n")
-    if l:script =~ a:script_name
-      return str2nr(split(l:script, ":")[0])
-    endif
-  endfor
-
-  return -1
-endfunc
-" --- || functions || }}}
-
-" {{{ || plugin mapping and option || ---
-
-" {{{ || stephpy/vim-php-cs-fixer || ---
-let g:php_cs_fixer_enable_default_mapping = 0
-" --- || stephpy/vim-php-cs-fixer || }}}
-
-" --- || plugin mapping and option || }}}
-
 " {{{ || abbreviation || ---
 cnoreabbrev ehco echo
 cnoreabbrev tn tabnew
 cnoreabbrev tm TabnewMulti
-cnoreabbrev tnro tabnew <Bar> view
-cnoreabbrev spro split <Bar> view
-cnoreabbrev vsro vsplit <Bar> view
 cnoreabbrev ts tab split
 cnoreabbrev vb vertical sbuffer
 cnoreabbrev tb tab sbuffer
-cnoreabbrev vh vertical help <Bar> execute "normal! \<lt>C-w>80\<Bar>"<C-Left><C-Left><C-Left><C-Left><Left>
 cnoreabbrev th tab help
-cnoreabbrev bold browse oldfiles
-cnoreabbrev st new <Bar> terminal
-cnoreabbrev vt vnew <Bar> terminal
-cnoreabbrev tt tabnew <Bar> terminal
 " --- || abbreviation || }}}
-
-" {{{ || functions || ---
-" move back cursor before a command is executed
-" offset moves down and right n lines/columns to the original position
-function! Preserve(command, linoff, coloff)
-  let l = line(".") + a:linoff
-  let c = col(".") + a:coloff
-  echo a:command
-  execute a:command
-  call cursor(l, c)
-endfunction
 
 fun s:RedrawCancel()
   mode
   echo 'Cancelled'
   return 0
 endf
-
-" getchar() with Ctrl+C to cancel
-" This returns numeric 0 if interrupted, so the value is compared using 'is'
-function! GetChar(escape_means_cancel)
-  try
-    call inputsave()
-    let l:char = nr2char(getchar())
-    if a:escape_means_cancel && l:char == "\<Esc>"
-      return s:RedrawCancel()
-    endif
-    return l:char
-  catch /^Vim:Interrupt$/
-    return s:RedrawCancel()
-  finally
-    call inputrestore()
-  endtry
-endfunction
 
 " input() with Ctrl+C to cancel
 " This returns numeric 0 if interrupted, so the value is compared using 'is'
@@ -625,77 +459,6 @@ function! Input(empty_means_cancel, ...)
   endtry
 endfunction
 
-function! IsCtrlAlpha(char)
-  let l:char_num = char2nr(a:char)
-  return char2nr("\<C-a>") <= l:char_num && l:char_num <= char2nr("\<C-z>")
-endfunction
-
-" @case: 1 for lowercase, 2 for uppercase
-function! ConvertCtrlCharToNormal(char, case)
-  const [l:lowercase, l:uppercase] = [1, 2]
-  const l:deltas = {
-        \ l:lowercase: char2nr('a') - char2nr("\<C-a>"),
-        \ l:uppercase: char2nr('A') - char2nr("\<C-a>"),
-        \}
-
-  let l:char_num = char2nr(a:char)
-  if !IsCtrlAlpha(a:char)
-    echoerr printf('Invalid argument: %s is not ctrl-{alphabet}', a:char)
-    return
-  endif
-
-  let l:delta = get(l:deltas, a:case, '')
-  if l:delta is ''
-    echoerr printf('Invalid argument: case must be either %s', [l:lowercase, l:uppercase])
-    return
-  endif
-
-  return nr2char(l:char_num + l:delta)
-endfunction
-
-function! SelectBtwCols(sln, spos, eln, epos)
-  " NOTE: Use cursor() instead of '|' command
-  " searchpairpos() reterns 'n' as in nth char rather than column number.
-  " '|' goes to column number, so if the line is indented with tab, '|' misbehaves.
-  " since tab is single character but takes up &shiftwidth columns
-  " execute 'normal! '.l:spos.'|v'.l:epos.'|'
-  silent execute printf("normal! :call cursor(%s, %s)\<CR>v:call cursor(%s, %s)\<CR>v`<", a:sln, a:spos, a:eln, a:epos)
-endf
-
-function! SelectPair(start, middle, end, include)
-  " NOTE: searchpairpos works a little weird as illustrated below
-  " With 'c' option, if the cursor is on the first char of 'start' string (with 'b' option, last char of 'end' string),
-  " searchpairpos() cannot find the match.
-  let [l:sln, l:spos] = searchpairpos(a:start, a:middle, a:end, 'bc')
-  let [l:eln, l:epos] = searchpairpos(a:start, a:middle, a:end)
-  if l:spos == 0 || l:epos == 0
-    " no match was found
-    return
-  endif
-  if !a:include
-    let l:spos = l:spos + len(a:start)
-    let l:epos = l:epos - len(a:end)
-  endif
-  call SelectBtwCols(l:sln, l:spos, l:eln, l:epos)
-endfunction
-
-" Select either function/method call, object property, or struct (including object itself)
-function! SelectElement()
-  let l:elemRegexp = '[A-Za-z0-9_.]\+[({]'
-  let [l:sln, l:spos] = searchpos(l:elemRegexp, 'bc')
-  let [l:eln, l:epos] = searchpos(l:elemRegexp, 'e')
-  let l:lastchar = getline(l:eln)[l:epos-1]
-  if l:lastchar =~ '[({]'
-    let l:start = l:lastchar
-    let l:end = ')'
-    if l:lastchar == '{'
-      let l:end = '}'
-    endif
-    let [l:eln, l:epos] = searchpairpos(l:start, '', l:end)
-  endif
-  call SelectBtwCols(l:sln, l:spos, l:eln, l:epos)
-endf
-
 " Open files on each line one file in one tab
 function! OpenFileOnEachLine() range
   let l:cmd = ""
@@ -710,61 +473,6 @@ function! OpenFileOnEachLine() range
   execute l:cmd
 endfunction
 command! -range=% OpenFileOnEachLine <line1>,<line2>call OpenFileOnEachLine()
-
-" Open multiple files each in its own tab
-" @... [path[]] Filepath to open. Wildcard is accepted.
-function! TabnewMulti(...)
-  let l:files = []
-  for l:paths in a:000
-    for l:node in glob(l:paths, 0, 1)
-      " Get absolute path or it fails when the arguments contains
-      " recursive wildcard and the expanded result contains files in
-      " subdirectory as autocmd changes pwd to the file's containing
-      " dirctory and relative path breaks.
-      " Also exclude directories.
-      if filereadable(l:node)
-        call add(l:files, fnamemodify(l:node, ':p'))
-      endif
-    endfor
-  endfor
-  let l:filenum = len(l:files)
-  if l:filenum == 0
-    echohl WarningMsg | echo 'No matching file' | echohl NONE
-    return
-  endif
-  let l:orgtabnr = tabpagenr()
-  for l:file in l:files
-    execute 'tabnew '.l:file
-  endfor
-  execute l:orgtabnr.'tabnext'
-  " FIXME this message is not displayed
-  echo printf('%s file%s opened', l:filenum, l:filenum > 1 ? 's' : '')
-endfunction
-command! -complete=file -nargs=+ TabnewMulti call TabnewMulti(<f-args>)
-
-function! OutputEditorCmdToPreview(cmd) abort
-  let l:org_reg_contents = @@
-  redir @">
-  try
-    silent execute a:cmd
-  catch
-    echohl ErrorMsg | echo v:exception | echohl NONE
-    let @@ = l:org_reg_contents
-    return
-  finally
-    redir END
-  endtry
-
-  execute printf('pedit +file\ [%s] %s', escape(a:cmd, ' \'), tempname())
-  wincmd P
-  %delete _
-  put "
-  0delete _
-  set nomodified
-
-  let @@ = l:org_reg_contents
-endfunction
-command! -complete=command -nargs=+ OutputEditorCmdToPreview call OutputEditorCmdToPreview(<q-args>)
 
 function! SetOperatorFunc(funcname)
   execute 'set operatorfunc=' . a:funcname
@@ -843,85 +551,6 @@ endfunction
 command! -nargs=? -complete=filetype SetFt :call SetFt(<f-args>)
 cnoreabbrev sf SetFt
 
-" Solution for restoring window height inside <expr> keymap
-" (<expr> does not allow `windo`)
-function! SaveWinheight() abort
-  let l:winheights = {}
-  for i in range(1, winnr('$'))
-    let l:winheights[win_getid(i)] = winheight(0)
-  endfor
-
-  function! l:winheights.restore() abort
-    for i in range(1, winnr('$'))
-      execute "resize " . self[win_getid(i)]
-    endfor
-  endfunction
-
-  return l:winheights
-endfunction
-
-" Display dictionary in accending order
-function! DispOptions(title, option, message, ...) abort
-  let l:SortFunc = get(a:000, 0, '')
-  let l:key_name = get(a:000, 1, '')
-
-  echohl Statement | echo a:title | echohl NONE
-  for [k,v] in sort(items(a:option), l:SortFunc)
-    echo printf('  %s: %s', k, (type(v) == v:t_dict ? v[l:key_name] : v))
-  endfor
-  unlet k v
-  echohl Function | echo a:message | echohl NONE
-endf
-
-" Display dictionary in accending order in oneline
-function! DispOptionsOneLine(title, option, ...) abort
-  let l:SortFunc = get(a:000, 0, '')
-  let l:key_name = get(a:000, 1, '')
-
-  echohl Function | echo printf('-- %s -> %s: ', a:title, DictToOneLineString(a:option, ', ', l:SortFunc, l:key_name)) | echohl NONE
-endf
-
-function! DictToOneLineString(dict, ...) abort
-  let l:separator = get(a:000, 0, ', ')
-  let l:SortFunc = get(a:000, 1, '')
-  let l:key_name = get(a:000, 2, '')
-
-  let l:output = []
-  for [k,v] in sort(items(a:dict), l:SortFunc)
-    call add(l:output, printf('%s[%s]', (type(v) == v:t_dict ? v[l:key_name] : v), k))
-  endfor
-  return join(l:output, l:separator)
-endfunction
-
-" Function for sort() to sort 2D list based on the first element of inner array.
-" Main usage is to sort list returned by items({dict}).
-" Default algorithm of sort() has case insensitive sorting, but it does not
-" guarantee that either UPPERCASE or lowercase precedes the other.
-" This sort place lowercase before UPPERCASE within the same letter.
-function! SortItemsCaseIns(one, two)
-  let [l:key1, l:key2] = [a:one[0], a:two[0]]
-  if l:key1 ==# l:key2
-    return 1
-  endif
-  if l:key1 ==? l:key2
-    " same char but different case -> lowercase should precedes UPPERCASE
-    return char2nr(l:key1) > char2nr(l:key2) ? -1 : 1
-  endif
-  return l:key1 > l:key2 ? 1 : -1
-endfunction
-
-" Function for sort() to sort 2D list based on the second element of inner array.
-" Main usage is to sort list returned by items({dict}).
-" This essentially sort dict by value.
-function! SortItemsByValue(one, two)
-  return a:one[1] > a:two[1] ? 1 : -1
-endfunction
-
-" Like SortItemsByValue() but use nested value
-function! SortItemsByNestedValue(key, one, two)
-  return a:one[1][a:key] > a:two[1][a:key] ? 1 : -1
-endfunction
-
 " Open diff of 2 files
 function! s:diff(...)
   if a:0 != 2
@@ -946,14 +575,6 @@ function! s:diff(...)
 endfunction
 command! -complete=file -nargs=+ Diff :call s:diff(<f-args>)
 
-function! RunInNewTabTerminal(shellCmd, focus) abort
-  let l:vimCmd = 'tab split term://' . a:shellCmd
-  if a:focus
-    let l:vimCmd .= ' | startinsert'
-  endif
-  execute l:vimCmd
-endfunction
-command! -complete=shellcmd -nargs=+ -bang RunInNewTabTerminal call RunInNewTabTerminal(<q-args>, <bang>0)
 " --- || functions || }}}
 "
 source ~/toybox/nvim/init.lua
