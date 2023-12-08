@@ -3,12 +3,10 @@ return {
 		"folke/which-key.nvim",
 		priority = 900,
 		config = function()
-			vim.cmd([[
-				highlight link FloatBorder Normal
-				highlight link WhichKeyFloat Normal
-				highlight link WhichKey Type
-				highlight link WhichKeyDesc Type
-				]])
+			vim.api.nvim_set_hl(0, "FloatBorder", { link = "Normal" })
+			vim.api.nvim_set_hl(0, "WhichKeyFloat", { link = "Normal" })
+			vim.api.nvim_set_hl(0, "WhichKey", { link = "Title" })
+			vim.api.nvim_set_hl(0, "WhichKeyDesc", { link = "Type" })
 			require("which-key").setup({
 				plugins = {
 					presets = {
