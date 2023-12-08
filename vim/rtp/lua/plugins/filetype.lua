@@ -181,16 +181,16 @@ return {
 			end
 			vim.g.mkdp_filetypes = { "markdown", "plantuml" }
 
-			vim.api.nvim_create_user_command("MarkdownPreviewPublish", function()
+			vim.api.nvim_buf_create_user_command(0, "MarkdownPreviewPublish", function()
 				vim.g.mkdp_open_to_the_world = 1
 			end, {})
-			vim.api.nvim_create_user_command("MarkdownPreviewUnpublish", function()
+			vim.api.nvim_buf_create_user_command(0, "MarkdownPreviewUnpublish", function()
 				vim.g.mkdp_open_to_the_world = 0
 			end, {})
-			vim.api.nvim_create_user_command("MarkdownPreviewSetPort", function(command)
+			vim.api.nvim_buf_create_user_command(0, "MarkdownPreviewSetPort", function(command)
 				vim.g.mkdp_port = command.fargs[1]
 			end, { nargs = 1 })
-			vim.api.nvim_create_user_command("MarkdownPreviewPublishWithPort", function(command)
+			vim.api.nvim_buf_create_user_command(0, "MarkdownPreviewPublishWithPort", function(command)
 				vim.g.mkdp_open_to_the_world = 1
 				vim.g.mkdp_port = command.fargs[1]
 			end, { nargs = 1 })
