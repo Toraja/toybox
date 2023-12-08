@@ -6,8 +6,8 @@ local ft_list = {
 	"json",
 	"lua",
 	"make",
-	"markdown",
-	"markdown_inline",
+	-- "markdown", -- ugly
+	-- "markdown_inline",
 	"proto",
 	"python",
 	"rust",
