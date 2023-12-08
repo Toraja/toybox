@@ -102,6 +102,7 @@ return {
 	{
 		"jakewvincent/mkdnflow.nvim",
 		-- rocks = 'luautf8', -- Ensures optional luautf8 dependency is installed
+		ft = "markdown",
 		config = function()
 			local mkdnflow = require("mkdnflow")
 
@@ -153,6 +154,7 @@ return {
 		enabled = function()
 			return vim.fn.executable("glow") ~= 0
 		end,
+		ft = "markdown",
 		config = function()
 			require("glow").setup({
 				border = "rounded",
