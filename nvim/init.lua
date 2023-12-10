@@ -47,6 +47,8 @@ end, { "cfilter", "termdebug" })
 
 vim.opt.mouse = ""
 
+require("options")
+
 require("ft-common").setup()
 require("terminal").setup()
 require("register").setup()
