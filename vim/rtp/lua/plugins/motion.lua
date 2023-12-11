@@ -11,8 +11,9 @@ return {
 				opts = opts or {}
 
 				local wininfo = vim.fn.getwininfo(opts.winid)[1]
-				local cur_line = vim.fn.line(".")
-				local cur_col = vim.fn.col(".")
+				-- local cur_line = vim.fn.line(".")
+				-- local cur_col = vim.fn.col(".")
+				local cur_line, cur_col = unpack(vim.api.nvim_win_get_cursor(0))
 
 				local function get_start_end_lnum()
 					-- if opts.direction == 'forward' then
@@ -37,7 +38,8 @@ return {
 					if fold_end ~= -1 then
 						lnum = fold_end + 1
 					else
-						local cnum = math.min(cur_col, string.len(vim.fn.getline(lnum)))
+						local cnum =
+							math.min(cur_col, string.len(vim.api.nvim_buf_get_lines(0, lnum - 1, lnum, false)[1]))
 						if lnum ~= cur_line then
 							table.insert(targets, { pos = { lnum, cnum } })
 						end
@@ -110,7 +112,7 @@ return {
 			end)
 
 			-- vim.keymap.set({ 'n', 'x', 'o' }, 's',
-			--   function() require('leap').leap { target_windows = { vim.fn.win_getid() } } end)
+			--   function() require('leap').leap { target_windows = { vim.api.nvim_get_current_win() } } end)
 			-- vim.keymap.set({ 'n', 'x', 'o' }, 's', '<Plug>(leap-forward-to)')
 			-- vim.keymap.set({ 'n', 'x', 'o' }, 'x', '<Plug>(leap-backward-to)')
 			vim.keymap.set({ "n", "x" }, "gj", "<Plug>(leap-forward-line)")

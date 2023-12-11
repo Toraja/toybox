@@ -159,8 +159,9 @@ wk.register({
 })
 
 function preserve_cursor(func)
-	local cursor_position = vim.fn.getpos(".")
-	local current_line, current_column = cursor_position[2], cursor_position[3]
+	local current_win = vim.api.nvim_get_current_win()
+	local cursor_position = vim.api.nvim_win_get_cursor(0)
 	func()
-	vim.fn.cursor(current_line, current_column)
+	vim.api.nvim_set_current_win(current_win)
+	vim.api.nvim_win_set_cursor(current_win, cursor_position)
 end

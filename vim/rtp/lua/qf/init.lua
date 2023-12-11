@@ -3,14 +3,14 @@ local M = {}
 local function quickfix_list_toggle()
 	local qf_win_id = vim.fn.getqflist({ winid = 0 }).winid
 	if qf_win_id == 0 then
-		local current_win_id = vim.fn.win_getid()
+		local current_win_id = vim.api.nvim_get_current_win()
 		if not pcall(function()
 			vim.cmd("copen")
 		end) then
 			print("No quickfix list")
 			return
 		end
-		vim.fn.win_gotoid(current_win_id)
+		vim.api.nvim_set_current_win(current_win_id)
 	else
 		vim.cmd("cclose")
 	end
@@ -19,14 +19,14 @@ end
 local function location_list_toggle()
 	local loclist_win_id = vim.fn.getloclist(0, { winid = 0 }).winid
 	if loclist_win_id == 0 then
-		local current_win_id = vim.fn.win_getid()
+		local current_win_id = vim.api.nvim_get_current_win()
 		if not pcall(function()
 			vim.cmd("lopen")
 		end) then
 			print("No location list")
 			return
 		end
-		vim.fn.win_gotoid(current_win_id)
+		vim.api.nvim_set_current_win(current_win_id)
 	else
 		vim.cmd("lclose")
 	end
@@ -39,7 +39,7 @@ local function qf_files_open()
 		return
 	end
 
-	local current_tab_number = vim.fn.tabpagenr()
+	local current_tab_id = vim.api.nvim_get_current_tabpage()
 	-- Newly opened tab seems to inherits the same option of current win.
 	-- nvim-bqf sets `signcolumn` to `number` in qf window so close qf window here
 	-- to make sure that current forcus is not on qf window.
@@ -56,7 +56,7 @@ local function qf_files_open()
 		vim.api.nvim_win_set_cursor(0, { qf["lnum"], qf["col"] - 1 })
 	end, qflist)
 
-	vim.cmd("tabnext " .. current_tab_number)
+	vim.api.nvim_set_current_tabpage(current_tab_id)
 end
 
 function M.setup(opts)

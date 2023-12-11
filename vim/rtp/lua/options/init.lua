@@ -6,7 +6,7 @@ vim.opt.shell = "/bin/bash"
 -- looks and feel
 vim.opt.background = "dark" -- color scheme for dark background
 vim.opt.number = true -- show line number
-vim.opt.relativenumber = true -- show distance relative to current line instead of absolute line number
+-- vim.opt.relativenumber = true -- show distance relative to current line instead of absolute line number
 vim.opt.cursorline = true -- current line is underlined
 vim.opt.modeline = false -- modeline brings security issue?
 vim.opt.wrap = true -- whether to wrap long lines

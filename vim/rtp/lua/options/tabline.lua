@@ -41,7 +41,7 @@ local function get_filename(tab_id)
 		return "[No Name]"
 	end
 
-	filename = vim.fn.fnamemodify(filepath, ":t")
+	filename = vim.fs.basename(filepath)
 	local max_fname_length = 20
 	if string.len(filename) > max_fname_length then
 		return string.sub(filename, 1, max_fname_length)

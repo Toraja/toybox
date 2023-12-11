@@ -12,7 +12,8 @@ return {
 					vim.cmd([[
 								startinsert
 								]])
-					if term.display_name and term.display_name ~= vim.fn.bufname() then
+					if term.display_name and term.display_name ~= vim.api.nvim_buf_get_name(0) then
+						---@diagnostic disable-next-line: param-type-mismatch
 						ok, err = pcall(vim.cmd, "file " .. vim.fn.fnameescape(term.display_name))
 						if not ok then
 							vim.api.nvim_err_writeln(err)
