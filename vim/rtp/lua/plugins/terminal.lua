@@ -12,12 +12,8 @@ return {
 					vim.cmd([[
 								startinsert
 								]])
-					if term.display_name and term.display_name ~= vim.api.nvim_buf_get_name(0) then
-						---@diagnostic disable-next-line: param-type-mismatch
-						ok, err = pcall(vim.cmd, "file " .. vim.fn.fnameescape(term.display_name))
-						if not ok then
-							vim.api.nvim_err_writeln(err)
-						end
+					if term.display_name and term.display_name ~= vim.api.nvim_buf_get_name(term.bufnr) then
+						vim.api.nvim_buf_set_name(term.bufnr, term.display_name)
 					end
 				end,
 				direction = "tab",

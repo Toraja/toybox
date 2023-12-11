@@ -27,7 +27,7 @@ function M.setup(opts)
 	vim.api.nvim_create_user_command("TabnewTerminalMulti", function(cmds)
 		for _, name in ipairs(cmds.fargs) do
 			vim.cmd("tabnew | terminal fish")
-			vim.cmd("file " .. name)
+			vim.api.nvim_buf_set_name(0, name)
 		end
 	end, { nargs = "+" })
 end
