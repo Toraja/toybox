@@ -37,6 +37,7 @@ return {
 	},
 	{
 		"ryanmsnyder/toggleterm-manager.nvim",
+		enabled = false,
 		dependencies = {
 			"akinsho/toggleterm.nvim",
 			"nvim-telescope/telescope.nvim",
