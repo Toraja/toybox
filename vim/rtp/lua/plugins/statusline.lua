@@ -25,10 +25,10 @@ return {
 				sections = {
 					lualine_a = { mode_with_paste },
 					lualine_b = { "branch", "diff", "diagnostics" },
-					lualine_c = { "vim.fn.fnamemodify(vim.fn.getcwd(), ':~')" },
+					lualine_c = { "string.gsub(vim.loop.cwd(), vim.loop.os_homedir(), '~')" },
 				},
 				inactive_sections = {
-					lualine_c = { "vim.fn.fnamemodify(vim.fn.getcwd(0), ':~')" },
+					lualine_c = { "string.gsub(vim.fn.getcwd(0), vim.loop.os_homedir(), '~')" },
 					lualine_x = { "location" },
 				},
 				winbar = {
@@ -37,6 +37,7 @@ return {
 				inactive_winbar = {
 					lualine_c = {
 						{
+							-- `filename` attribute only displays basename in inactive_winbar
 							"string.gsub(vim.api.nvim_buf_get_name(0), vim.fn.getcwd(0) .. '/', '')",
 							newfile_status = true,
 						},
