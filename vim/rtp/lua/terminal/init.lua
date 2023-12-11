@@ -4,16 +4,6 @@ function M.setup(opts)
 	opts = opts or {}
 
 	vim.keymap.set("t", "<M-\\>", "<C-\\><C-n>", { nowait = true })
-	vim.keymap.set("t", "<C-p>", "<Up>")
-	vim.keymap.set("t", "<C-n>", "<Down>")
-	vim.keymap.set("t", "<C-f>", "<Right>")
-	vim.keymap.set("t", "<C-b>", "<Left>")
-	vim.keymap.set("t", "<M-f>", "<C-Right>")
-	vim.keymap.set("t", "<M-b>", "<C-Left>")
-	vim.keymap.set("t", "<C-a>", "<Home>")
-	vim.keymap.set("t", "<C-e>", "<End>")
-	vim.keymap.set("t", "<C-d>", "<Del>")
-	vim.keymap.set("t", "<C-u>", "<Esc>")
 
 	vim.cmd("cnoreabbrev st new <Bar> terminal")
 	vim.cmd("cnoreabbrev vt vnew <Bar> terminal")
