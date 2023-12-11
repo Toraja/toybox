@@ -157,10 +157,24 @@ return {
 				no_ignore = true,
 			})
 			local easypick = require("easypick")
+			local actions = require("telescope.actions")
+			local action_state = require("telescope.actions.state")
+
+			local function easypick_nvim_func(f)
+				return function(prompt_bufnr, _)
+					actions.select_default:replace(function()
+						actions.close(prompt_bufnr)
+						local selection = action_state.get_selected_entry()
+						f(selection[1])
+					end)
+					return true
+				end
+			end
+
 			easypick.setup({
 				pickers = {
 					{
-						name = "sub_root",
+						name = "greyjoy_subroot",
 						command = "find $(git rev-parse --show-toplevel) -mindepth 1 -maxdepth 1 -type d -exec basename {} \\; | sort",
 						opts = require("telescope.themes").get_dropdown({
 							layout_config = {
@@ -169,11 +183,11 @@ return {
 								end,
 							},
 						}),
-						action = function()
-							return easypick.actions.nvim_commandf(
-								string.format("tabnew %s/%%s", require("git").root_path())
-							)
-						end,
+						action = easypick_nvim_func(function(selected)
+							local path = require("git").root_path() .. "/" .. selected
+							vim.cmd("lcd " .. path)
+							require("greyjoy").run() -- XXX if there is opened terminal, greyjoy runs the command in the cwd of the terminal
+						end),
 					},
 				},
 			})
@@ -183,7 +197,7 @@ return {
 				vim.g.chief_key .. "f",
 				vim.g.chief_key,
 				{
-					a = { "Easypick sub_root", { desc = "Sub root" } },
+					a = { "Easypick greyjoy_subroot", { desc = "Greyjoy in sub root" } },
 					b = { 'lua require("telescope.builtin").buffers()', { desc = "Buffers" } },
 					c = { 'lua require("telescope.builtin").git_bcommits()', { desc = "Git buffer commits" } },
 					C = { 'lua require("telescope.builtin").git_commits()', { desc = "Git commits" } },
