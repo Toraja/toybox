@@ -7,7 +7,7 @@ return {
 			-- 'javascript': ['typescript-language-server', '--stdio'],
 			-- 'php': [s:plugin_dir . '/phpactor/bin/phpactor', 'language-server'],
 
-			vim.cmd([[highlight link NormalFloat Normal]])
+			vim.api.nvim_set_hl(0, "NormalFloat", { link = "Normal" })
 			-- vim.lsp.set_log_level("debug")
 
 			local lspconfig = require("lspconfig")
