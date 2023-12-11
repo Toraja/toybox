@@ -357,41 +357,6 @@ cnoreabbrev tb tab sbuffer
 cnoreabbrev th tab help
 " --- || abbreviation || }}}
 
-fun s:RedrawCancel()
-  mode
-  echo 'Cancelled'
-  return 0
-endf
-
-" input() with Ctrl+C to cancel
-" This returns numeric 0 if interrupted, so the value is compared using 'is'
-function! Input(empty_means_cancel, ...)
-  let l:opts = {}
-  if a:0 > 0
-    if type(a:1) == v:t_dict
-      let l:opts = a:1
-    else
-      let l:opts['prompt'] = get(a:000, 0, '')
-      let l:opts['default'] = get(a:000, 1, '')
-      if a:0 >= 3
-        let l:opts['completion'] = a:3
-      endif
-    endif
-  endif
-  try
-    call inputsave()
-    let l:input = input(l:opts)
-    if a:empty_means_cancel && l:input is ''
-      return s:RedrawCancel()
-    endif
-    return l:input
-  catch /^Vim:Interrupt$/
-    return s:RedrawCancel()
-  finally
-    call inputrestore()
-  endtry
-endfunction
-
 " Open files on each line one file in one tab
 function! OpenFileOnEachLine() range
   let l:cmd = ""
