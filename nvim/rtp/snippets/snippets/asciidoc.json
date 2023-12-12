@@ -1,0 +1,12 @@
+{
+  "source": {
+    "prefix": "source",
+    "body": [
+      "[source,${1:lang}]",
+      "----",
+      "${2:${TM_SELECTED_TEXT}}",
+      "----"
+    ],
+    "description": "return"
+  }
+}

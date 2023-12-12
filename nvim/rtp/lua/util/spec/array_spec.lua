@@ -1,0 +1,58 @@
+-- LSP mixes it up with luassert.array if the import path is ../array and completion etc will not work.
+local array = require('../../util/array')
+
+describe('insert_uniq', function()
+    it('inserts an element if it is not in the array', function()
+        local x = array.new({ 'a', 'c' })
+        x:insert_uniq('e')
+        assert.are.same(x, { 'a', 'c', 'e' })
+    end)
+
+    it('does not insert an element if it is already in the array', function()
+        local x = array.new({ 'a', 'c' })
+        x:insert_uniq('a')
+        assert.are.same(x, { 'a', 'c' })
+    end)
+end)
+
+describe('append', function()
+    it('successfully appends to empty self', function()
+        local x = array.new()
+        x:append({ 3, 4, 5 })
+        assert.are.same(x, { 3, 4, 5 })
+    end)
+
+    it('successfully appends to non-empty self', function()
+        local x = array.new({ 1, 2 })
+        x:append({ 3, 4, 5 })
+        assert.are.same(x, { 1, 2, 3, 4, 5 })
+    end)
+
+    it('successfully appends empty array', function()
+        local x = array.new({ 1, 2 })
+        x:append({})
+        assert.are.same(x, { 1, 2 })
+    end)
+end)
+
+describe('contains', function()
+    local x = array.new({ 1, 2 })
+    it('returns true if the array contains the given element', function()
+        assert.is_true(x:contains(1))
+        assert.is_true(x:contains(2))
+    end)
+    it('returns false if the array does not contain the given element', function()
+        assert.is_false(x:contains(3))
+    end)
+end)
+
+describe('for_each', function()
+    it('runs the given function for each element of the array', function()
+        local result = ""
+        local arr = array.new({ 'a', 'b', 'c' })
+        arr:for_each(function(x)
+            result = result .. 'x' .. x
+        end)
+        assert.equal(result, 'xaxbxc')
+    end)
+end)

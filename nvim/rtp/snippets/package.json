@@ -1,0 +1,26 @@
+{
+  "name": "my-snippets",
+  "engines": {
+    "vscode": "^1.11.0"
+  },
+  "contributes": {
+    "snippets": [
+      {
+        "language": "asciidoc",
+        "path": "./snippets/asciidoc.json"
+      },
+      {
+        "language": "go",
+        "path": "./snippets/go.json"
+      },
+      {
+        "language": "plantuml",
+        "path": "./snippets/plantuml.json"
+      },
+      {
+        "language": "rust",
+        "path": "./snippets/rust.json"
+      }
+    ]
+  }
+}

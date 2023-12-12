@@ -15,7 +15,7 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
-local rtp_dir = vim.fn.expand("<sfile>:p:h:h") .. "/vim/rtp"
+local rtp_dir = vim.fn.expand("<sfile>:p:h") .. "/rtp"
 local after_dir = rtp_dir .. "/after"
 local snippets_dir = rtp_dir .. "/snippets"
 vim.opt.rtp:prepend(rtp_dir)

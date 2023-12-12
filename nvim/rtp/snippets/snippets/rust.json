@@ -1,0 +1,121 @@
+{
+  "print": {
+    "prefix": "pr",
+    "body": ["print!(\"${1:{\\}}\")"],
+    "description": "print macro"
+  },
+  "println": {
+    "prefix": "pln",
+    "body": ["println!(\"${1:{\\}}\"${2:, })"],
+    "description": "println macro"
+  },
+  "return": {
+    "prefix": "re",
+    "body": ["return"],
+    "description": "return"
+  },
+  "fn": {
+    "prefix": "fn",
+    "body": [
+      "fn ${1:name}(${2:arg}) -> ${3:RetType} {",
+      "    ${4:unimplemented!();}",
+      "}"
+    ],
+    "description": "fn …(…) { … }"
+  },
+  "method": {
+    "prefix": "me",
+    "body": [
+      "fn ${1:name}(${2:&}self${3:, arg) -> ${4:RetType} {",
+      "    ${5:unimplemented!();}",
+      "}"
+    ],
+    "description": "fn …(self, …) { … }"
+  },
+  "match Option": {
+    "prefix": "matopt",
+    "body": [
+      "match ${1:expr} {",
+      "    Some(${2:expr}) => ${3:expr},",
+      "    None => ${4:expr},",
+      "}"
+    ],
+    "description": "match … { Some()…, None()… }"
+  },
+  "match Result": {
+    "prefix": "matres",
+    "body": [
+      "match ${1:expr} {",
+      "    Ok(${2:expr}) => ${3:expr},",
+      "    Err(e) => ${4:expr},",
+      "}"
+    ],
+    "description": "match … { Ok()…, Err()… }"
+  },
+  "let match": {
+    "prefix": "letmat",
+    "body": [
+      "let ${1:pat} = match ${2:expr} {",
+      "    ${3:expr} => ${4:expr},",
+      "}"
+    ],
+    "description": "let … match … { … }"
+  },
+  "let match Result": {
+    "prefix": "letmatres",
+    "body": [
+      "let ${1:pat} = match ${2:expr} {",
+      "    Ok(${3:expr}) => ${4:expr},",
+      "    Err(e) => ${5:expr},",
+      "}"
+    ],
+    "description": "let … = match … { Ok()…, Err()… }"
+  },
+  "pub mod": {
+    "prefix": "pmod",
+    "body": [
+      "pub mod ${1:name} {",
+      "    ${2:${TM_SELECTED_TEXT}}",
+      "}"
+    ],
+    "description": "pub mod … { … }"
+  },
+  "String from": {
+    "prefix": "sf",
+    "body": ["String::from(\"${1:str}\")"],
+    "description": "mod …;"
+  },
+  "From Trait": {
+    "prefix": "from",
+    "body": [
+      "impl From<${1:Type}> for ${2:Type} {",
+      "    fn from(${3:arg}: ${1}) -> Self {",
+      "        ${4:// code here}",
+      "    }",
+      "}"
+    ],
+    "description": "impl From<…> for … { … }"
+  },
+  "test module": {
+    "prefix": "testmod",
+    "body": [
+      "#[cfg(test)]",
+      "mod tests {",
+      "    use super::*;",
+      "",
+      "    test${2}",
+      "}"
+    ],
+    "description": "#[cfg(test)] mod tests …"
+  },
+  "tokio test": {
+    "prefix": "ttest",
+    "body": [
+      "#[tokio::test]",
+      "async fn ${1:test_function_name}() {",
+      "    ${2:// code here}",
+      "}"
+    ],
+    "description": "#[tokio::test] async fn …"
+  }
+}
