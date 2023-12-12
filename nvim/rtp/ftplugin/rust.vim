@@ -1,7 +1,3 @@
-" {{{ || rust.vim || ---
-let g:rustfmt_autosave = 1
-" --- || rust.vim || }}}"
-
 function! Croot() abort
   return fnamemodify(findfile('Cargo.toml', '.;'), ':p:h')
 endfunction
@@ -17,12 +13,6 @@ function! Cdebug() abort
   execute 'Termdebug ' . l:binary_path
 endfunction
 command! -buffer Cdebug call Cdebug()
-
-function! CrunIns(args) abort
-  execute 'Crun ' . a:args
-  startinsert
-endfunction
-command! -buffer -nargs=* CrunIns call CrunIns(<q-args>)
 
 function! RustToggleBackTrace() abort
   let $RUST_BACKTRACE = !$RUST_BACKTRACE

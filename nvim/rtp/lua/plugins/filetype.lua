@@ -58,11 +58,22 @@ return {
 	{
 		"simrat39/rust-tools.nvim",
 		ft = "rust",
-	},
-	{
-		"rust-lang/rust.vim",
-		enabled = false,
-		ft = "rust",
+		config = function()
+			require("rust-tools").setup({})
+
+			require("keymap.which-key-helper").register_for_ftplugin({
+				B = { "RustToggleBackTrace", { desc = "Toggle RUST_BACKTRACE" } },
+				c = { "lua require('rust-tools').open_cargo_toml.open_cargo_toml()", { desc = "Open Cargo.toml" } },
+				-- g = { "RustDebuggables", { desc = "Debug" } }, -- TODO requires lldb-vscode. see: https://github.com/simrat39/rust-tools.nvim/wiki/Debugging
+				h = { "lua require('rust-tools').inlay_hints.enable()", { desc = "Enable inlay hints" } },
+				H = { "lua require('rust-tools').inlay_hints.disable()", { desc = "Disable inlay hints" } },
+				j = { "lua require('rusu-tools').move_item.move_item(false)", { desc = "Move item down" } },
+				k = { "lua require('rust-tools').move_item.move_item(true)", { desc = "Move item up" } },
+				m = { "lua require('rust-tools').expand_macro.expand_macro()", { desc = "Expand macro" } },
+				M = { "lua require('rust-tools').parent_module.parent_module()", { desc = "Go to parent module" } },
+				r = { "lua require('rust-tools').runnables.runnables()", { desc = "Runnables" } },
+			})
+		end,
 	},
 	{
 		"saecki/crates.nvim",
