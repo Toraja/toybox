@@ -45,8 +45,6 @@ vim.tbl_map(function(pack)
 	vim.cmd("packadd " .. pack)
 end, { "cfilter", "termdebug" })
 
-vim.opt.mouse = ""
-
 require("options")
 
 require("ft-common").setup()

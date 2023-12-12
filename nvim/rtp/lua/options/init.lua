@@ -2,6 +2,7 @@
 vim.opt.encoding = "utf-8"
 vim.opt.fileencodings:prepend("utf-8")
 vim.opt.shell = "/bin/bash"
+vim.opt.mouse = ""
 
 -- looks and feel
 vim.opt.background = "dark" -- color scheme for dark background
