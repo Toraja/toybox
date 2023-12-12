@@ -23,12 +23,12 @@ function M.toggle_auto_format()
 end
 
 function M.disable_auto_format()
-	vim.b.auto_format_disabled = false
+	vim.b.auto_format_disabled = true
 end
 
 ---@return boolean
 function M.is_auto_format_disabled()
-	return vim.b.auto_format_disabled
+	return vim.b.auto_format_disabled == true
 end
 
 return M
