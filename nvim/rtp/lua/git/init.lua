@@ -4,7 +4,7 @@ function M.root_path()
 	local output = assert(io.popen("git rev-parse --show-toplevel", "r"))
 	local root_path = assert(output:read("*a"))
 	output:close()
-	return string.gsub(vim.trim(root_path), vim.loop.os_homedir(), "~")
+	return string.gsub(vim.trim(root_path), "^" .. vim.loop.os_homedir(), "~", 1)
 end
 
 function M.is_inside_work_tree()

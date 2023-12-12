@@ -71,7 +71,7 @@ function ginkgo_generate()
 	local file_path = vim.api.nvim_buf_get_name(0)
 	local file_basename = vim.fs.basename(file_path)
 	local file_dir = vim.fs.dirname(file_path)
-	local test_file_path = string.gsub(file_path, ".go", "_test.go")
+	local test_file_path = string.gsub(file_path, "%.go$", "_test.go", 1)
 	local cmd = string.format("ginkgo generate %s", file_basename)
 	require("toggleterm.terminal").Terminal
 		:new({

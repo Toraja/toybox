@@ -14,6 +14,10 @@ return {
 				return mode
 			end
 
+			local function get_current_win_cwd_with_tilda()
+				return string.gsub(vim.fn.getcwd(0), "^" .. vim.loop.os_homedir(), "~", 1)
+			end
+
 			require("lualine").setup({
 				options = {
 					theme = "ayu_mirage",
@@ -25,10 +29,10 @@ return {
 				sections = {
 					lualine_a = { mode_with_paste },
 					lualine_b = { "branch", "diff", "diagnostics" },
-					lualine_c = { "string.gsub(vim.loop.cwd(), vim.loop.os_homedir(), '~')" },
+					lualine_c = { get_current_win_cwd_with_tilda },
 				},
 				inactive_sections = {
-					lualine_c = { "string.gsub(vim.fn.getcwd(0), vim.loop.os_homedir(), '~')" },
+					lualine_c = { get_current_win_cwd_with_tilda },
 					lualine_x = { "location" },
 				},
 				winbar = {
@@ -37,8 +41,10 @@ return {
 				inactive_winbar = {
 					lualine_c = {
 						{
-							-- `filename` attribute only displays basename in inactive_winbar
-							"string.gsub(vim.api.nvim_buf_get_name(0), vim.fn.getcwd(0) .. '/', '')",
+							-- `filename` attribute only displays basename in inactive_winbar, so use DIY function.
+							function()
+								return string.gsub(vim.api.nvim_buf_get_name(0), "^" .. vim.fn.getcwd(0) .. "/", "", 1)
+							end,
 							newfile_status = true,
 						},
 					},

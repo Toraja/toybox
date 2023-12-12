@@ -15,12 +15,12 @@ local function is_todo_status(line, status)
 end
 
 local function remove_todo_status(line, status)
-  local updated_line = string.gsub(line, status, "")
+  local updated_line = string.gsub(line, status, "", 1)
   vim.api.nvim_set_current_line(updated_line)
 end
 
 local function add_todo_status(line, status)
-  local updated_line = string.gsub(line, todo_line_ptn, "%1%2".. status .."%4")
+  local updated_line = string.gsub(line, todo_line_ptn, "%1%2".. status .."%4", 1)
   vim.api.nvim_set_current_line(updated_line)
 end
 
@@ -45,7 +45,7 @@ local function get_todo_checkbox_state(line)
     return
   end
 
-  return string.gsub(line, todo_line_ptn, '%3')
+  return string.gsub(line, todo_line_ptn, '%3', 1)
 end
 
 local function todo_toggle_cancelled(line)
@@ -54,7 +54,7 @@ local function todo_toggle_cancelled(line)
   end
 
   local new_checkbox_state = get_todo_checkbox_state(line) == '~' and ' ' or '~'
-  local cancelled_todo = string.gsub(line, todo_line_ptn, '%1- [' .. new_checkbox_state .. '] %4')
+  local cancelled_todo = string.gsub(line, todo_line_ptn, '%1- [' .. new_checkbox_state .. '] %4', 1)
   vim.api.nvim_set_current_line(cancelled_todo)
 end
 
