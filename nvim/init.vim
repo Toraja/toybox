@@ -37,147 +37,6 @@ endif
 
 " {{{ || key mapping || ---
 
-" {{{ || Leader || ---
-noremap <Space> <Nop>
-sunmap <Space>
-let mapleader = "\<Space>"
-let maplocalleader = "-"
-
-" Use local leader for ftplugins
-" let maplocalleader = "\<C-Space>"
-
-let g:vert_key = "\<C-Space>"
-map <C-Space> [Vert]
-
-map ; [Chief]
-let g:chief_key = ';'
-if has('xterm_clipboard')
-  nnoremap [Chief] "+
-  xnoremap [Chief] "+
-else
-  nnoremap [Chief] "*
-  xnoremap [Chief] "*
-endif
-" --- || Leader || }}}
-
-" {{{ || cursor motion || ---
-noremap j gj
-noremap k gk
-onoremap j Vj
-onoremap k Vk
-" J & K below is to prevent accidental line join and opening help
-xnoremap J j
-xnoremap K k
-sunmap j
-sunmap k
-noremap <expr> <silent> <Home> col('.') == match(getline('.'),'\S')+1 ? '0' : '^'
-map H <Home>
-sunmap H
-nnoremap L $
-onoremap L $
-xnoremap L g_
-
-snoremap <C-f> <Right>
-snoremap <C-b> <Left>
-snoremap <C-p> <Up>
-snoremap <C-n> <Down>
-snoremap <M-f> <S-Right>
-snoremap <M-b> <S-Left>
-snoremap <M-p> <S-Up>
-snoremap <M-n> <S-Down>
-snoremap <C-i> <ESC>i
-
-" {{{ || insert/command mode || ---
-inoremap <C-b> <Left>
-inoremap <C-f> <Right>
-inoremap <M-f> <C-Right>
-inoremap <M-b> <C-Left>
-inoremap <M-e> <Esc>ea
-inoremap <M-E> <Esc>Ea
-inoremap <M-e> <Esc>ea
-inoremap <M-E> <Esc>Ea
-inoremap <expr> <silent> <C-a> col('.') == match(getline('.'),'\S')+1 ? "\<C-o>0" : "\<C-o>^"
-inoremap <expr> <C-e> pumvisible() ? "\<C-e>" : "\<End>"
-inoremap <C-p> <Up>
-inoremap <C-n> <Down>
-" --- || insert/command mode || }}}
-
-" [always search forward/backword]
-" noremap <expr> <Bslash> getcharsearch().forward ? ';' : ','
-" noremap <expr> <Bar> getcharsearch().forward ? ',' : ';'
-" XXX these do not work if the cursor is on the last element
-" as in /cursor/is/he|re
-onoremap <silent> ad :call SelectPair('${', '', '}', 1)<CR>
-xnoremap <silent> ad :<C-u>call SelectPair('${', '', '}', 1)<CR>
-xnoremap <silent> i/ T/ot/
-onoremap <silent> i/ :normal! T/vt/<CR>
-xnoremap <silent> a/ T/of/
-onoremap <silent> a/ :normal! T/vf/<CR>
-function! VisualOperator(operatortype)
-  if a:operatortype ==# 'v'
-    normal! `<v`>
-  else
-    normal! `[v`]
-  endif
-endfunction
-" --- || cursor motion || }}}
-
-" {{{ || scrolling || ---
-noremap <C-u> 10<C-y>
-noremap <C-d> 10<C-e>
-noremap <M-y> zh
-noremap <M-e> zl
-noremap <M-Y> zH
-noremap <M-E> zL
-" --- || scrolling || }}}
-
-" {{{ || editing || ---
-nnoremap <M-x> "_x
-nnoremap <M-X> "_X
-snoremap <C-h> <Space><BS>
-" [insert/command mode]
-noremap! <C-Space> <Space><Left>
-inoremap <C-w> <C-g>u<C-w>
-inoremap <C-u> <C-g>u<C-u>
-inoremap <C-y> <C-g>u<C-r>"
-cnoremap <C-y> <C-r>"
-noremap! <M-y> <C-r>*
-inoremap <C-d> <DEL>
-inoremap <M-d> <C-g>u<C-\><C-o>"_dw
-inoremap <C-k> <C-g>u<C-\><C-o>"_D
-inoremap <M-h> <C-g>u<C-w>
-cnoremap <M-h> <C-w>
-inoremap <M-t> <C-d>
-inoremap <C-j> <CR><Esc><Up>A
-" [UPPER/lowercase & Capitalize]
-inoremap <M-u> <Esc>gUiwea
-inoremap <M-l> <Esc>guiwea
-inoremap <M-c> <Esc>guiwgU<right>ea
-" [Line break/join]
-nnoremap <M-m> mpo<Esc>0Dg`p| "insert blank line below
-nnoremap <M-M> mpO<Esc>0Dg`p| "insert blank line above
-nnoremap <M-o> o<Esc>
-nnoremap <M-O> O<Esc>
-nnoremap <C-j> i<CR><Esc><Up><End>
-" [Other editing]
-xnoremap y ygv<Esc>|  "place cursor after the selection when yanking
-nnoremap Y y$
-nnoremap yx yVaB%p
-xnoremap <silent> <C-a> <C-a>gv
-xnoremap <silent> <C-x> <C-x>gv
-nnoremap <silent> g<C-a> :call search("[0-9]", 'be', line('.'))<CR><C-a>
-nnoremap <silent> g<C-x> :call search("[0-9]", 'be', line('.'))<CR><C-x>
-nnoremap d. /\s\+$<CR>"_dgn|  " delete trailing spaces
-nnoremap U <Nop>
-inoremap <C-_> <C-o>u
-inoremap <C-/> <C-o>u
-inoremap <M-/> <C-o><C-r>
-" [set undo break before commands below]
-inoremap <Space> <C-g>u<Space>
-inoremap <C-m> <C-g>u<C-m>
-inoremap . .<C-g>u
-" --- || editing || }}}
-
 " {{{ || Search || ---
 " open fold which the match belongs to so that you can view where exactly the
 " match is.
@@ -209,21 +68,8 @@ nnoremap <silent> g<M-*> <Cmd>call HighlightWord(0, 1, 0, 1)<CR><Cmd>set hlsearc
 nnoremap <silent> <Leader>* <Cmd>call HighlightWord(0, 0, 1, 0)<CR><Cmd>set hlsearch<CR>
 xnoremap <silent> * <Esc><Cmd>call HighlightWord(1, 0, 0, 0)<CR><Cmd>set hlsearch<CR>
 xnoremap <silent> g* <Esc><Cmd>call HighlightWord(1, 1, 0, 0)<CR><Cmd>set hlsearch<CR>
-if exists('v:hlsearch')
-  nnoremap <silent> <expr> <M-u> (&hlsearch && v:hlsearch ? ':nohlsearch<CR>' : ':set hlsearch<CR>')
-else
-  nnoremap <silent> <M-u> :set hlsearch! hlsearch?<CR>
-endif
+nnoremap <silent> <expr> <M-u> (&hlsearch && v:hlsearch ? ':nohlsearch<CR>' : ':set hlsearch<CR>')
 " --- || Search || }}}
-
-" {{{ || Buffer || ---
-command! BufOnly %bdelete | edit#
-" --- || Buffer || }}}
-
-" {{{ || Window || ---
-nnoremap <silent> <C-w>O :only!<CR>
-nnoremap <C-w>B :bdelete<CR>
-" --- || Window || }}}
 
 " {{{ || Tab || ---
 noremap <C-t> <Nop>
@@ -243,46 +89,16 @@ endfor
 unlet n
 nnoremap <M-0> 10gt
 " jump to last active tab
-if has('autocmd')
-  let g:lasttabnum = 1
-  augroup last_tab
-    autocmd!
-    autocmd TabLeave * let g:lasttabnum = tabpagenr()
-  augroup END
-  command! LastTab execute "tabnext " . g:lasttabnum
-  nnoremap <silent> <C-t><C-t> <Cmd>LastTab<CR>
-endif
+let g:lasttabnum = 1
+augroup last_tab
+  autocmd!
+  autocmd TabLeave * let g:lasttabnum = tabpagenr()
+augroup END
+command! LastTab execute "tabnext " . g:lasttabnum
+nnoremap <silent> <C-t><C-t> <Cmd>LastTab<CR>
 " --- || Tab || }}}
 
-" {{{ || Suspend/Close/Exit || ---
-nnoremap ZB :bdelete!<CR>
-nnoremap ZT :windo quit!<CR>
-nnoremap <C-w><C-a> :windo confirm quit<CR>
-nnoremap <C-w>A :confirm qall<CR>
-" --- || Suspend/Close/Exit || }}}
-
-" {{{ || Others || ---
-map <S-Space> <Space>
-nnoremap <C-s> :update<CR>
-nnoremap Q gQ
-nnoremap <M-c> <Cmd>mode<CR>
-" [insert/command mode]
-cnoremap <M-p> <Up>
-cnoremap <M-n> <Down>
-cnoremap <M-@> <Home>let @" = '<End>'
-" --- || Others || }}}
-
 " --- || key mapping || }}}
-
-" {{{ || abbreviation || ---
-cnoreabbrev ehco echo
-cnoreabbrev tn tabnew
-cnoreabbrev tm TabnewMulti
-cnoreabbrev ts tab split
-cnoreabbrev vb vertical sbuffer
-cnoreabbrev tb tab sbuffer
-cnoreabbrev th tab help
-" --- || abbreviation || }}}
 
 " Open files on each line one file in one tab
 function! OpenFileOnEachLine() range
@@ -401,5 +217,5 @@ endfunction
 command! -complete=file -nargs=+ Diff :call s:diff(<f-args>)
 
 " --- || functions || }}}
-"
+
 source ~/toybox/nvim/init.lua

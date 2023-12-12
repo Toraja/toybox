@@ -2,6 +2,16 @@
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 
+local rtp_dir = vim.fn.expand("<sfile>:p:h") .. "/rtp"
+vim.opt.rtp:prepend(rtp_dir)
+
+require("options")
+require("keymap.base").setup()
+require("terminal").setup()
+require("register").setup()
+require("text.edit").map_toggle_trailing(",", ",")
+require("qf").setup()
+
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
 	vim.fn.system({
@@ -15,10 +25,8 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
-local rtp_dir = vim.fn.expand("<sfile>:p:h") .. "/rtp"
 local after_dir = rtp_dir .. "/after"
 local snippets_dir = rtp_dir .. "/snippets"
-vim.opt.rtp:prepend(rtp_dir)
 
 require("lazy").setup("plugins", {
 	ui = {
@@ -34,6 +42,7 @@ require("lazy").setup("plugins", {
 	},
 	performance = {
 		rtp = {
+			-- lazy nicely appends `after` directory to runtimepath after all plugins are added.
 			paths = { rtp_dir, snippets_dir, after_dir },
 		},
 	},
@@ -45,13 +54,7 @@ vim.tbl_map(function(pack)
 	vim.cmd("packadd " .. pack)
 end, { "cfilter", "termdebug" })
 
-require("options")
-
-require("ft-common").setup()
-require("terminal").setup()
-require("register").setup()
-require("text.edit").map_toggle_trailing(",", ",")
-require("qf").setup()
+require("ft-common").setup() -- this depends on which-key
 
 -- highlight
 -- vim.api.nvim_set_hl(0, 'String', { ctermfg = 216 })
@@ -127,6 +130,9 @@ vim.keymap.set("!", "<C-q><C-d>", "expand('%:p:~:h')", { desc = "Buffer's direct
 vim.keymap.set("!", "<C-q><C-f>", "expand('%:p:~')", { desc = "Buffer's absolute path", expr = true })
 vim.keymap.set("!", "<C-q><C-p>", "getcwd()", { desc = "cwd", expr = true })
 vim.keymap.set("!", "<C-q><C-o>", require("git").root_path, { desc = "Git root path", expr = true })
+
+vim.cmd("cnoreabbrev tn tabnew")
+vim.cmd("cnoreabbrev th tab help")
 
 function delete_hidden_buffers()
 	local function delete_buffer_if_hidden(buf)

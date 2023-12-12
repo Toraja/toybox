@@ -93,13 +93,13 @@ return {
 			)
 			vim.keymap.set(
 				"n",
-				"[Vert]<C-]>",
+				vim.g.vert_key .. "<C-]>",
 				"<Cmd>vertical split | lua vim.lsp.buf.definition()<CR>",
 				{ desc = "Definition [vert]" }
 			)
 			vim.keymap.set(
 				"n",
-				"[Vert]<C-g><C-]>",
+				vim.g.vert_key .. "<C-g><C-]>",
 				"<Cmd>vertical split | lua vim.lsp.buf.implementation<CR>",
 				{ desc = "Implementation [vert]" }
 			)
