@@ -1,8 +1,8 @@
-require('keymap.which-key-helper').register_for_ftplugin({
-  b = { 'Cbuild', { desc = '' } },
-  B = { 'RustToggleBackTrace', { desc = '' } },
-  g = { 'Cdebug', { desc = '' } },
-  r = { 'CrunIns', { desc = '' } },
+require("keymap.which-key-helper").register_for_ftplugin({
+	b = { "Cbuild", { desc = "" } },
+	B = { "RustToggleBackTrace", { desc = "" } },
+	g = { "Cdebug", { desc = "" } },
+	r = { "CrunIns", { desc = "" } },
 })
 
-require("text.edit").map_toggle_trailing(';', ';', true)
+require("text.edit").map_toggle_trailing(";", ";", true)
