@@ -30,6 +30,8 @@ function M.setup(opts)
 			vim.api.nvim_buf_set_name(0, name)
 		end
 	end, { nargs = "+" })
+
+	vim.cmd("cnoreabbrev ttm TabnewTerminalMulti")
 end
 
 return M
