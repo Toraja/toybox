@@ -1,5 +1,3 @@
-vim.g.php_cs_fixer_enable_default_mapping = 0
-
 return {
 	-- fish
 	{
@@ -50,6 +48,9 @@ return {
 	{
 		"stephpy/vim-php-cs-fixer",
 		ft = "php",
+		init = function()
+			vim.g.php_cs_fixer_enable_default_mapping = 0
+		end,
 	},
 	{
 		"noahfrederick/vim-laravel",
