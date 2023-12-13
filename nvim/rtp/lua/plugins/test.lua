@@ -50,6 +50,7 @@ return {
 				vim.g.chief_key .. "t",
 				vim.g.chief_key,
 				{
+					g = { "lua require('neotest').run.run({strategy = 'dap'})", { desc = "Debug nearest" } },
 					t = { "lua require('neotest').run.run()", { desc = "Test nearest" } },
 					T = { "lua require('neotest').run.run(vim.fn.expand('%'))", { desc = "Test file" } },
 					s = { "lua require('neotest').run.stop()", { desc = "Stop test" } },
