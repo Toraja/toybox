@@ -5,6 +5,10 @@ return {
 		"mfussenegger/nvim-dap",
 		lazy = true,
 		config = function()
+			-- just for loading simultaneously
+			require("dapui")
+			require("nvim-dap-virtual-text")
+
 			vim.fn.sign_define("DapBreakpoint", { text = "B", texthl = "Started", numhl = "Started" })
 			vim.fn.sign_define("DapLogPoint", { text = "L", texthl = "Started", numhl = "Started" })
 			vim.fn.sign_define("DapStopped", { text = ">", texthl = "Blocked", numhl = "Blocked" })
