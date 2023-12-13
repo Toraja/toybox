@@ -50,10 +50,6 @@ require("lazy").setup("plugins", {
 
 local wk = require("which-key")
 
-vim.tbl_map(function(pack)
-	vim.cmd("packadd " .. pack)
-end, { "cfilter", "termdebug" })
-
 require("ft-common").setup() -- this depends on which-key
 
 -- highlight
