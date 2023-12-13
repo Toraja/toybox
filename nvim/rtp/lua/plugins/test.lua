@@ -45,25 +45,30 @@ return {
 				--   open = "tab split | LastTab",
 				-- },
 			})
-			require("keymap.which-key-helper").register_with_editable("neotest", vim.g.chief_key .. "t", vim.g.chief_key, {
-				t = { 'lua require("neotest").run.run()', { desc = "Test nearest" } },
-				T = { 'lua require("neotest").run.run(vim.fn.expand("%"))', { desc = "Test file" } },
-				s = { 'lua require("neotest").run.stop()', { desc = "Stop test" } },
-				o = { 'lua require("neotest").output.open({ quiet = false })', { desc = "Open test output" } },
-				O = {
-					'lua require("neotest").output.open({ enter = true, quiet = false })',
-					{ desc = "Open test output and focus the window" },
-				},
-				p = { 'lua require("neotest").output_panel.toggle()', { desc = "Toggle output panel" } },
-				m = { 'lua require("neotest").summary.toggle()', { desc = "Toggle summary" } },
-			})
+			require("keymap.which-key-helper").register_with_editable(
+				"neotest",
+				vim.g.chief_key .. "t",
+				vim.g.chief_key,
+				{
+					t = { "lua require('neotest').run.run()", { desc = "Test nearest" } },
+					T = { "lua require('neotest').run.run(vim.fn.expand('%'))", { desc = "Test file" } },
+					s = { "lua require('neotest').run.stop()", { desc = "Stop test" } },
+					o = { "lua require('neotest').output.open({ quiet = false })", { desc = "Open test output" } },
+					O = {
+						"lua require('neotest').output.open({ enter = true, quiet = false })",
+						{ desc = "Open test output and focus the window" },
+					},
+					p = { "lua require('neotest').output_panel.toggle()", { desc = "Toggle output panel" } },
+					m = { "lua require('neotest').summary.toggle()", { desc = "Toggle summary" } },
+				}
+			)
 			vim.keymap.set(
 				"n",
 				"[n",
-				'<cmd>lua require("neotest").jump.prev({})<CR>',
+				"<cmd>lua require('neotest').jump.prev({})<CR>",
 				{ desc = "Jump to previous test" }
 			)
-			vim.keymap.set("n", "]n", '<cmd>lua require("neotest").jump.next({})<CR>', { desc = "Jump to next test" })
+			vim.keymap.set("n", "]n", "<cmd>lua require('neotest').jump.next({})<CR>", { desc = "Jump to next test" })
 		end,
 		keys = {
 			{
