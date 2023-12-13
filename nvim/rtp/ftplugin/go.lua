@@ -15,6 +15,7 @@ require("keymap.which-key-helper").register_for_ftplugin({
 	["<Space>g"] = { "lua ginkgo_generate()", { desc = "Generate gingko test file" } },
 	["<Space>p"] = { "lua print(ginkgo_get_nearest_spec_cmd())", { desc = "Print nearest ginkgo spec command" } },
 	["<Space>P"] = { "lua print(ginkgo_get_this_file_cmd())", { desc = "Print ginkgo specs on this file command" } },
+	["<Space><Space>"] = { "lua ginkgo_test_input_spec()", { desc = "Test ginkgo spec of user input" } },
 	["<Space>t"] = { "lua ginkgo_test_nearest_spec()", { desc = "Test nearest ginkgo spec" } },
 	["<Space>T"] = { "lua ginkgo_test_this_file()", { desc = "Test ginkgo specs on this file" } },
 })
@@ -25,13 +26,28 @@ local function ginkgo_run_cmd_in_terminal(ginkgo_cmd)
 	vim.cmd("tabnew | terminal " .. cmd)
 end
 
+function ginkgo_test_input_spec()
+	local spec = require("text.input").get_input("spec: ")
+	if spec == nil then
+		print("cancelled")
+		return
+	end
+
+	local test_file_path = vim.api.nvim_buf_get_name(0)
+	local test_file_basename = vim.fs.basename(test_file_path)
+	local test_file_dir = vim.fs.dirname(test_file_path)
+
+	local cmd = string.format('ginkgo --focus-file "%s" --focus "%s" %s', test_file_basename, spec, test_file_dir)
+	ginkgo_run_cmd_in_terminal(cmd)
+end
+
 ---@return string
 function ginkgo_get_nearest_spec_cmd()
 	local ginkgo_spec_patterns = {
 		'Describe%("(.*)",.*func%(%)%s{',
 		'Context%("(.*)",.*func%(%)%s{',
 		'It%("(.*)",.*func%(%)%s{',
-		'DescribeTable%(\r?\n?%s*"(.*)",', -- this does not match if spec string is on the next line
+		'DescribeTable%(%s*"(.*)",',
 	}
 	local current_line, _ = unpack(vim.api.nvim_win_get_cursor(0))
 	local start_line = current_line < 100 and 0 or current_line - 100
