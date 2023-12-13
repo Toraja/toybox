@@ -1,7 +1,6 @@
 vim.opt_local.conceallevel = 0
 vim.opt_local.foldmethod = "marker"
 vim.opt_local.formatoptions:append("ro")
-vim.opt_local.fileformat = "unix"
 
 require("text.edit").map_toggle_trailing(";", "  ", true)
 
