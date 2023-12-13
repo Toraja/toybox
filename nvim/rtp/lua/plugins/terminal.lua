@@ -27,7 +27,7 @@ return {
 					height = math.floor(vim.o.lines * 0.90),
 				},
 			})
-			vim.keymap.set("n", "<Leader>g", function()
+			vim.keymap.set("n", "<Leader>v", function()
 				lazygit:toggle()
 			end, { desc = "lazygit" })
 		end,

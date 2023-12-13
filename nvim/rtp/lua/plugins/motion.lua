@@ -228,7 +228,7 @@ return {
 						prev = { rhs = vim.diagnostic.goto_prev, opts = { desc = "Prev diagnostic" } },
 						mode = { "n", "v", "o" },
 					},
-					["<C-g>"] = {
+					["<C-v>"] = {
 						next = { rhs = require("gitsigns").next_hunk, opts = { desc = "Next git hunk" } },
 						prev = { rhs = require("gitsigns").prev_hunk, opts = { desc = "Prev git hunk" } },
 					},
