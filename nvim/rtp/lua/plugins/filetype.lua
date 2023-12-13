@@ -12,18 +12,19 @@ return {
 		ft = { "go", "gomod", "gosum" },
 		dependencies = {
 			{ "ray-x/guihua.lua", build = "cd lua/fzy && make" },
-			{ "mfussenegger/nvim-dap" },
-			{ "rcarriga/nvim-dap-ui" },
-			{ "theHamsta/nvim-dap-virtual-text" },
+			-- dap dependencies not included to enable lazy loading
 		},
 		config = function()
 			require("go").setup({
-				test_runner = "richgo",
-				run_in_floaterm = true,
-				textobjects = false,
 				diagnostic = { -- set diagnostic to false to disable diagnostic
 					hdlr = false, -- hook diagnostic handler
 				},
+				lsp_keymaps = false,
+				icons = false,
+				dap_debug_keymap = false,
+				textobjects = false,
+				test_runner = "richgo",
+				run_in_floaterm = true,
 			})
 		end,
 	},

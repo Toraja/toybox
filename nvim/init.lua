@@ -78,34 +78,6 @@ vim.api.nvim_create_autocmd({ "BufWinEnter", "InsertEnter", "InsertLeave" }, {
 	end,
 })
 
-vim.g.termdebug_wide = 1
-wk.register({
-	b = {
-		name = "termdebug",
-		a = { "<Cmd>Arguments<CR>", "Set arguments to the next :Run" },
-		b = { "<Cmd>Break<CR>", "Add breakpoint" },
-		B = { "<Cmd>Clear<CR>", "Clear breakpoint" },
-		c = { "<Cmd>Continue<CR>", "Continue" },
-		f = { "<Cmd>Finish<CR>", "Finish" },
-		g = { "<Cmd>GdbIns<CR>", "Jump to gbd" },
-		i = { "<Cmd>Step<CR>", "Step in" },
-		n = { "<Cmd>Over<CR>", "Step over" },
-		o = { "<Cmd>Program<CR>", "Jump to program" },
-		r = { "<Cmd>Run<CR>", "Run the program with arguments" },
-		s = { "<Cmd>Source<CR>", "Jump to source" },
-		x = { "<Cmd>Stop<CR>", "Stop (interrupt the program)" },
-	},
-}, { prefix = vim.g.chief_key })
-
-function gdb_ins()
-	vim.cmd([[
-    Gdb
-    startinsert
-  ]])
-end
-
-vim.api.nvim_create_user_command("GdbIns", gdb_ins, {})
-
 function signcolumn_toggle()
 	if vim.wo.signcolumn == "no" then
 		vim.wo.signcolumn = "yes"

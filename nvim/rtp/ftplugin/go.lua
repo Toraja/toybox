@@ -3,8 +3,7 @@ vim.bo.tabstop = 4
 
 require("keymap.which-key-helper").register_for_ftplugin({
 	a = { "GoAltV", { desc = "Alternate file - vertical" } },
-	g = { "GoDebug", { desc = "Start debugging" } },
-	G = { "GoBreakToggle", { desc = "Toggle break point" } },
+	g = { "GoDebug", { desc = "Start debugging" } }, -- this is needed as the command does the adopter setup as well.
 	h = { "GoChannel", { desc = "GoChannel" } },
 	k = { "GoCallstack", { desc = "GoCallstack" } },
 	r = { "GoRun", { desc = "Exec `go run`" } },

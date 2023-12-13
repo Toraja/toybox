@@ -23,7 +23,17 @@ return {
 					theme = "ayu_mirage",
 					disabled_filetypes = {
 						-- statusline = {},
-						winbar = { "help", "qf", "gitcommit" },
+						winbar = {
+							"dapui_scopes",
+							"dapui_breakpoints",
+							"dapui_stacks",
+							"dapui_watches",
+							"dap-repl",
+							"dapui_console",
+							"help",
+							"qf",
+							"gitcommit",
+						},
 					},
 				},
 				sections = {
@@ -49,7 +59,15 @@ return {
 						},
 					},
 				},
-				extensions = { "aerial", "man", "nvim-tree", "quickfix", "symbols-outline", "toggleterm" },
+				extensions = {
+					"aerial",
+					"man",
+					"neo-tree",
+					"nvim-dap-ui",
+					"quickfix",
+					"symbols-outline",
+					"toggleterm",
+				},
 			})
 		end,
 	},
