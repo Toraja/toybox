@@ -23,8 +23,9 @@ return {
 						DiffText = { bg = colors.dark_powder_blue },
 						Search = { fg = colors.yellow, bg = colors.bg, reverse = true },
 						TabLine = { fg = colors.none, bg = colors.none, reverse = true },
-						Todo = { fg = colors.pink, bold = true, italic = true, reverse = true },
-						Blocked = { fg = colors.aqua, reverse = true },
+						Todo = { fg = colors.pink, bold = true, reverse = false },
+						Started = { fg = colors.pink, bold = true, reverse = true },
+						Blocked = { fg = colors.aqua, bold = true, reverse = true },
 						AnnoyingSpaces = { bg = colors.dark_gray },
 						TreesitterContextBottom = { underline = true },
 					}

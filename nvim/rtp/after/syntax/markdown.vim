@@ -1,4 +1,4 @@
 syntax keyword Blocked BLOCKED
-syntax keyword Todo STARTED
+syntax keyword Started STARTED
 syntax match Identifier ".*- \[[^~]\]"
 syntax match markdownStrike ".*- \[\~\].*"
