@@ -1,1 +1,1 @@
-autocmd BufNewFile,BufRead .php_cs{,.dist} setfiletype php
+autocmd BufNewFile,BufRead .php_cs{,.dist} set syntax=php

@@ -1,0 +1,28 @@
+snippet do "do while" b
+do {
+	$0
+} while ($1);
+endsnippet
+
+snippet pf "printf"  b
+System.out.printf("${1:Format}", ${0:args});
+endsnippet
+
+snippet pe "print" b
+System.err.print($0);
+endsnippet
+
+snippet ple "err println"  b
+System.err.println($0);
+endsnippet
+
+snippet pfe "err printf"  b
+System.err.printf("${1:Format}", ${0:args});
+endsnippet
+
+# Redeclaration with different snippet options
+snippet in "interface"
+interface ${1:`!p snip.rv = snip.basename or "untitled"`} ${2:extends ${3:Parent} }{
+	$0
+}
+endsnippet

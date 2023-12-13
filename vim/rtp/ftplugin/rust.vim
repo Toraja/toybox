@@ -29,3 +29,8 @@ function! RustToggleBackTrace() abort
   echo '$RUST_BACKTRACE = ' . $RUST_BACKTRACE
 endfunction
 command! -buffer RustToggleBackTrace call RustToggleBackTrace()
+
+
+" {{{ || neomake || ---
+let g:neomake_rust_enabled_makers = []
+" --- || neomake || }}}"

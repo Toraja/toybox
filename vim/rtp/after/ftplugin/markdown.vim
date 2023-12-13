@@ -1,7 +1,12 @@
+setlocal tabstop=2 expandtab shiftwidth=2
+" XXX comments settings are overridden by vim-markdown...
+setlocal comments=b:-,b:*,b:+,n:>
+setlocal comments+=b:1.,b:2.,b:3.,b:4.,b:5.,b:6.,b:7.,b:8.,b:9.
 setlocal formatoptions+=ro
 setlocal fileformat=unix
 
-" --- polyglot ----------{{{
+" --- vim-markdown ----------{{{
+silent! syntax clear mkdLineBreak
 nnoremap <buffer> <silent> <Leader>o :call Tocker(0)<CR>
 nnoremap <buffer> <silent> <Leader>O :call Tocker(1)<CR>
 nnoremap <buffer> <silent> <LocalLeader>- <Cmd>HeaderDecrease<CR>
@@ -33,11 +38,14 @@ function! Tocker(focus)
 		execute win_id2win(b:toc_win_id).'wincmd w'
 	endif
 endfunction
-" --- end of polyglot ---}}}
+" --- end of vim-markdown ---}}}
 
 inoremap <buffer> <silent> <M-;> <Cmd>call ToggleLineBreakMD()<CR>
 nnoremap <buffer> <silent> <M-;> <Cmd>call ToggleLineBreakMD()<CR>
 xnoremap <buffer> <silent> <M-;> :call ToggleLineBreakMD()<CR>
+
+inoreabbrev <buffer> TODO <mark>TODO</mark> <span style="color: green"></span>  <Esc>F<i
+inoreabbrev <buffer> todo <mark>TODO</mark> <span style="color: green"></span>  <Esc>F<i
 
 " Add or remove linebreak for selected lines.
 " Whether add or remove is determined by whether the first line has linebreak or not.

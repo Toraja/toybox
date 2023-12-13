@@ -1,0 +1,44 @@
+snippet re "return"
+return ${0}
+endsnippet
+
+snippet tran "DB::transaction()"
+DB::beginTransaction();
+try {
+	${0:${VISUAL}}
+
+	DB::commit();
+} catch (\Exception $e) {
+	DB::rollBack();
+	throw $e;
+}
+endsnippet
+
+snippet td "test data"
+$testData = [
+	(object) [
+		'desc' => '',
+		'param' => [
+			${0}
+		],
+		'want' => (object) [
+			'resp' => [
+				//
+			],
+			'db' => (object) [
+				'table' => (object) [
+					'data' => [
+						//
+					],
+				],
+			],
+		],
+	],
+];
+
+foreach ($testData as $td) {
+	$caseName = $this->getCaseName($td->desc);
+	$response = $this->asMember()->${1:post}Json(route('${2:xxx}.${3:store}'), $td->param);
+	$this->logger->logResponse($response, $caseName);
+}
+endsnippet

@@ -1,5 +1,6 @@
 setlocal textwidth=0            " overwrite the system vim.vim setting
 setlocal foldmethod=marker      " enable folding by marker {{{}}}
+setlocal expandtab tabstop=2 shiftwidth=2
 setlocal omnifunc=syntaxcomplete#Complete
 
 " if
