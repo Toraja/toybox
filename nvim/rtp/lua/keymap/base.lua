@@ -115,7 +115,7 @@ function M.setup(opts)
 
 	-- others
 	vim.keymap.set("", "<S-Space>", "<Space>", { remap = true })
-	vim.keymap.set("n", "<C-s>", "<Cmd>update<CR>")
+	vim.keymap.set("n", "<C-s>", "<Cmd>update ++p<CR>") -- ++p creates parent dirs if absent
 	vim.keymap.set("n", "Q", "gQ")
 	vim.keymap.set("n", "<M-c>", "<Cmd>mode<CR>")
 
