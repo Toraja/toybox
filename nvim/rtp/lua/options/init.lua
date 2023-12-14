@@ -14,7 +14,7 @@ vim.opt.wrap = true -- whether to wrap long lines
 vim.opt.scrolloff = 5
 vim.opt.sidescrolloff = 1 -- offset between cursor and the edge of window"
 vim.opt.sidescroll = 1 -- scroll minimal when cursor goes off the screen horizontally
-vim.opt.laststatus = 2 -- always display status bar
+vim.opt.laststatus = 3
 vim.opt.showtabline = 2 -- always display tabline
 vim.opt.shortmess:append("c")
 vim.opt.signcolumn = "yes"

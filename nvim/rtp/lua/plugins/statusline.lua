@@ -3,13 +3,13 @@ return {
 		"nvim-lualine/lualine.nvim",
 		dependencies = { "nvim-tree/nvim-web-devicons" },
 		config = function()
-			vim.o.showmode = false
+			vim.opt.showmode = false
 
 			local function mode_with_paste()
 				local lualine_mode_map = require("lualine.utils.mode").map
-				local mode = lualine_mode_map[vim.fn.mode()]
-				if vim.o.paste then
-					mode = mode .. " (PASTE)"
+				local mode = lualine_mode_map[vim.api.nvim_get_mode().mode]
+				if vim.opt.paste:get() then
+					mode = mode .. "(PASTE)"
 				end
 				return mode
 			end
@@ -21,6 +21,7 @@ return {
 			require("lualine").setup({
 				options = {
 					theme = "ayu_mirage",
+					component_separators = "",
 					disabled_filetypes = {
 						-- statusline = {},
 						winbar = {
@@ -30,7 +31,7 @@ return {
 							"dapui_watches",
 							"dap-repl",
 							"dapui_console",
-							"help",
+							-- "help",
 							"qf",
 							"gitcommit",
 						},
@@ -40,23 +41,22 @@ return {
 					lualine_a = { mode_with_paste },
 					lualine_b = { "branch", "diff", "diagnostics" },
 					lualine_c = { get_current_win_cwd_with_tilda },
+					lualine_x = { "searchcount", "encoding", "fileformat", "filetype" },
 				},
 				inactive_sections = {
 					lualine_c = { get_current_win_cwd_with_tilda },
 					lualine_x = { "location" },
 				},
 				winbar = {
-					lualine_c = { { "filename", path = 1, newfile_status = true } },
+					lualine_c = {
+						{ "filetype", icon_only = true },
+						{ "filename", path = 1, newfile_status = true },
+					},
 				},
 				inactive_winbar = {
 					lualine_c = {
-						{
-							-- `filename` attribute only displays basename in inactive_winbar, so use DIY function.
-							function()
-								return string.gsub(vim.api.nvim_buf_get_name(0), "^" .. vim.fn.getcwd(0) .. "/", "", 1)
-							end,
-							newfile_status = true,
-						},
+						{ "filetype", icon_only = true },
+						{ "filename", newfile_status = true, path = 3, shorting_target = 10 },
 					},
 				},
 				extensions = {
