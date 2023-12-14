@@ -3,29 +3,35 @@ return {
 		"akinsho/toggleterm.nvim",
 		version = "*",
 		config = function()
+			local shell = "fish"
 			require("toggleterm").setup({
 				open_mapping = [[<C-\>]],
-				on_create = function()
+				on_create = function(term)
 					vim.opt_local.signcolumn = "no"
+					if term.display_name and term.display_name ~= vim.api.nvim_buf_get_name(term.bufnr) then
+						vim.api.nvim_buf_set_name(term.bufnr, term.display_name)
+					else
+						vim.api.nvim_buf_set_name(term.bufnr, shell)
+					end
 				end,
-				on_open = function(term)
+				on_open = function()
 					vim.cmd([[
 								startinsert
 								]])
-					if term.display_name and term.display_name ~= vim.api.nvim_buf_get_name(term.bufnr) then
-						vim.api.nvim_buf_set_name(term.bufnr, term.display_name)
-					end
 				end,
 				direction = "tab",
-				shell = "fish",
+				shell = shell,
 			})
 			local lazygit = require("toggleterm.terminal").Terminal:new({
 				cmd = "lazygit",
 				direction = "float",
 				float_opts = {
 					width = math.floor(vim.o.columns * 0.95),
-					height = math.floor(vim.o.lines * 0.90),
+					height = math.floor(vim.o.lines - 6),
 				},
+				on_create = function(term)
+					vim.api.nvim_buf_set_name(term.bufnr, "lazygit")
+				end,
 			})
 			vim.keymap.set("n", "<Leader>v", function()
 				lazygit:toggle()
