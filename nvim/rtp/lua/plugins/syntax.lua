@@ -16,7 +16,6 @@ local ft_list = {
 	"yaml",
 }
 return {
-	"gpanders/editorconfig.nvim",
 	{
 		"sheerun/vim-polyglot",
 		enabled = false,
