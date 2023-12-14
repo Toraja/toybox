@@ -17,7 +17,7 @@ vim.opt.laststatus = 3
 vim.opt.showtabline = 2 -- always display tabline
 vim.opt.shortmess:append("c")
 vim.opt.signcolumn = "yes"
-vim.opt.tabline = "%!v:lua.require('options.tabline').tabline()"
+-- vim.opt.tabline = "%!v:lua.require('options.tabline').tabline()"
 
 -- editing
 vim.opt.tabstop = 4

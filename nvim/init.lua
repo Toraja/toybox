@@ -50,6 +50,7 @@ require("lazy").setup("plugins", {
 
 local wk = require("which-key")
 
+require("options.tabline").setup() -- this depends on nvim-web-devicons
 require("ft-common").setup() -- this depends on which-key
 
 -- highlight
