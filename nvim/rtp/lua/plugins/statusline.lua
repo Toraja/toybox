@@ -34,6 +34,7 @@ return {
 							-- "help",
 							"qf",
 							"gitcommit",
+							"toggleterm",
 						},
 					},
 				},
@@ -48,15 +49,20 @@ return {
 					lualine_x = { "location" },
 				},
 				winbar = {
-					lualine_c = {
+					lualine_b = {
 						{ "filetype", icon_only = true },
-						{ "filename", path = 1, newfile_status = true },
+					},
+					lualine_c = {
+						-- shorting_target does not consider that window is vertically split
+						{ "filename", newfile_status = true, path = 1 },
 					},
 				},
 				inactive_winbar = {
-					lualine_c = {
+					lualine_b = {
 						{ "filetype", icon_only = true },
-						{ "filename", newfile_status = true, path = 3, shorting_target = 10 },
+					},
+					lualine_c = {
+						{ "filename", newfile_status = true, path = 1 },
 					},
 				},
 				extensions = {
