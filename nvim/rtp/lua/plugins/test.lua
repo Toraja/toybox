@@ -6,6 +6,7 @@ return {
 			"nvim-lua/plenary.nvim",
 			"nvim-treesitter/nvim-treesitter",
 			"nvim-neotest/neotest-go",
+			"nvim-extensions/nvim-ginkgo",
 			"nvim-neotest/neotest-plenary",
 			"rouge8/neotest-rust",
 		},
@@ -23,6 +24,7 @@ return {
 			require("neotest").setup({
 				adapters = {
 					require("neotest-go"),
+					require("nvim-ginkgo"),
 					require("neotest-plenary"), -- the name of test file must be *_spec.lua
 					require("neotest-rust"),
 					-- For reference
