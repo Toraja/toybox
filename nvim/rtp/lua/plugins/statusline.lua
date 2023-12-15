@@ -49,19 +49,29 @@ return {
 					lualine_x = { "location" },
 				},
 				winbar = {
+					lualine_a = {
+						{
+							function()
+								return vim.api.nvim_win_get_number(0)
+							end,
+						},
+					},
 					lualine_b = {
 						{ "filetype", icon_only = true },
-					},
-					lualine_c = {
 						-- shorting_target does not consider that window is vertically split
 						{ "filename", newfile_status = true, path = 1 },
 					},
 				},
 				inactive_winbar = {
-					lualine_b = {
-						{ "filetype", icon_only = true },
+					lualine_a = {
+						{
+							function()
+								return vim.api.nvim_win_get_number(0)
+							end,
+						},
 					},
 					lualine_c = {
+						{ "filetype", icon_only = true },
 						{ "filename", newfile_status = true, path = 1 },
 					},
 				},
