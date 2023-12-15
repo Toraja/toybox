@@ -102,20 +102,15 @@ local function get_devicon_x(filetype, is_tab_selected)
 end
 
 ---@param filename string
----@param is_tab_selected boolean
 ---@param tab_highlight string
 ---@return string
-local function get_devicon(filename, is_tab_selected, tab_highlight)
+local function get_devicon(filename, tab_highlight)
 	local _, extension = filename:match("^.+%.(.+)$")
 	local devicon, devicon_highlight = require("nvim-web-devicons").get_icon(filename, extension)
 	if devicon == nil then
 		return ""
 	end
 
-	if not is_tab_selected then
-		-- return devicon without highlight so that default highlight is applied
-		return devicon
-	end
 	return wrap_highlight(devicon_highlight) .. devicon .. tab_highlight
 end
 
@@ -130,7 +125,7 @@ function M.tabline()
 
 		local buf_num = tabpage_get_buf(tab_id)
 		local filename = get_filename(buf_num)
-		local devicon = get_devicon(filename, is_tab_selected, highlight)
+		local devicon = get_devicon(filename, highlight)
 
 		local file_part = shorten_filename(filename)
 		if devicon ~= "" then
@@ -141,7 +136,8 @@ function M.tabline()
 	end
 
 	-- fill with TabLineFill after the last tab
-	return table.concat(tabs, wrap_highlight("TabLine") .. "|") .. wrap_highlight("TabLineFill")
+	-- return table.concat(tabs, wrap_highlight("TabLine") .. "|") .. wrap_highlight("TabLineFill")
+	return table.concat(tabs, wrap_highlight("TabLine")) .. wrap_highlight("TabLineFill")
 end
 
 -- Add window number if more than 1 is opened
