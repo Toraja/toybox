@@ -241,6 +241,7 @@ return {
 						{ desc = "Scriptnames" },
 					},
 					t = { "Greyjoy", { desc = "Greyjoy" } },
+					T = { "TodoTelescope", { desc = "Todo comments" } },
 					y = {
 						'lua require("telescope").extensions.yank_history.yank_history()',
 						{ desc = "Yank history" },

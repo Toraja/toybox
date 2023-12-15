@@ -134,4 +134,21 @@ return {
 			})
 		end,
 	},
+	{
+		"folke/todo-comments.nvim",
+		dependencies = { "nvim-lua/plenary.nvim" },
+		config = function()
+			require("todo-comments").setup({
+				highlight = {
+					multiline = false,
+					keyword = "bg", -- not inlclude space and colon
+					after = "", -- highlight keyword only
+				},
+				colors = {
+					info = { "Type" },
+				},
+			})
+			vim.keymap.set("n", "<C-q><C-t>", "<Cmd>TodoQuickFix<CR>", { desc = "Todo in quickfix list" })
+		end,
+	},
 }
