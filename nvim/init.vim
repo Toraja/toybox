@@ -28,7 +28,8 @@ if has("autocmd")
     " fix windows size on resizing vim
     autocmd VimResized * :wincmd =
     " disable relativenumber in quickfix window
-    autocmd FileType qf setlocal norelativenumber
+    " set signcolumn to yes as it is overwriten by nvim-bqf
+    autocmd FileType qf setlocal norelativenumber signcolumn=yes
     " paired with completeopt=preview
     autocmd CompleteDone * pclose
   augroup END

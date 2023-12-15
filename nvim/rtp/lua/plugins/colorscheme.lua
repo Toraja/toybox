@@ -22,6 +22,7 @@ return {
 						DiffChange = { bg = colors.dark_gray },
 						DiffText = { bg = colors.dark_powder_blue },
 						Search = { fg = colors.yellow, bg = colors.bg, reverse = true },
+						QuickFixLine = { underline = true },
 						TabLine = { fg = colors.dark_gray, bg = colors.none },
 						TabLineFill = { fg = colors.none, bg = colors.none },
 						Todo = { fg = colors.pink, bold = true, reverse = false },
