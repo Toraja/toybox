@@ -11,6 +11,7 @@ return {
 			{ "princejoogie/dir-telescope.nvim" },
 			{ "tsakirist/telescope-lazy.nvim" },
 			{ "benfowler/telescope-luasnip.nvim" },
+			{ "TC72/telescope-tele-tabby.nvim" },
 			{ "axkirillov/easypick.nvim" },
 		},
 		config = function()
@@ -87,8 +88,8 @@ return {
 							end,
 						},
 						i = {
-							["<Esc>"] = action.close,
-							["<C-\\>"] = { "<Esc>", type = "command" },
+							-- ["<Esc>"] = action.close,
+							-- ["<M-\\>"] = { "<Esc>", type = "command" },
 							["<C-_>"] = action_layout.toggle_preview,
 							["<Tab>"] = action.move_selection_worse,
 							["<C-j>"] = function(bufnr)
@@ -153,6 +154,7 @@ return {
 			telescope.load_extension("dir")
 			telescope.load_extension("lazy")
 			telescope.load_extension("luasnip")
+			telescope.load_extension("tele_tabby")
 			require("dir-telescope").setup({
 				no_ignore = true,
 			})
@@ -216,7 +218,6 @@ return {
 						'lua require("telescope.builtin").current_buffer_fuzzy_find()',
 						{ desc = "Buffer lines" },
 					},
-					m = { "Telescope toggleterm_manager", { desc = "Toggleterm manager" } },
 					M = { 'lua require("telescope.builtin").marks()', { desc = "Marks" } },
 					n = { 'lua require("telescope").extensions.notify.notify()', { desc = "Notify" } },
 					o = { 'lua require("telescope.builtin").treesitter()', { desc = "Treesitter" } },
@@ -251,6 +252,14 @@ return {
 					["<Space>"] = { 'lua require("telescope.builtin").resume()', { desc = "Resume previous picker" } },
 				}
 			)
+
+			local tele_tabby_opts = require("telescope.themes").get_dropdown()
+			vim.keymap.set("n", "<Leader>t", function()
+				local tablist = vim.api.nvim_list_tabpages()
+				tele_tabby_opts.layout_config.height = vim.tbl_count(tablist) + 4 -- 4 means search window and borders
+				tele_tabby_opts.layout_config.width = 150
+				require("telescope").extensions.tele_tabby.list(tele_tabby_opts)
+			end, { desc = "Tab switcher" })
 		end,
 		-- Not lazy loading as other plugins load it anyway
 		-- keys = {
