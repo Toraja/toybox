@@ -20,9 +20,9 @@
   "if err != nil": {
     "prefix": "ie",
     "body": [
-      "if err != nil {",
+      "if ${3:err} != nil {",
       "\t${1:return ${2:nil, }${3:err}}",
-      "}"
+      "}$0"
     ],
     "description": "if err != nil"
   },
