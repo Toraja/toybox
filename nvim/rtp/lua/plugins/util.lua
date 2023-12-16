@@ -8,7 +8,7 @@ return {
 		config = function()
 			vim.notify = require("notify")
 
-			local max_width = vim.opt.columns:get() - 6 -- width does not include border
+			local max_width = math.floor(vim.opt.columns:get() / 2) -- width does not include border
 			require("notify").setup({
 				background_colour = "#000000",
 				max_width = max_width,
@@ -24,6 +24,7 @@ return {
 				end,
 				stages = "fade",
 			})
+
 			local keymap_amend = require("keymap-amend")
 			keymap_amend("n", "<M-c>", function(original)
 				original()
