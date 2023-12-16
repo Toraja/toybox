@@ -1,6 +1,97 @@
 return {
 	{
+		"folke/flash.nvim",
+		event = "VeryLazy",
+		config = function()
+			local flash_util = require("flash.util")
+			flash_util.BS = flash_util.t("<C-h>")
+
+			require("flash").setup({
+				search = {
+					-- multi_window = false,
+					-- mode = "search", -- seems same as exact?
+					-- mode = "fuzzy", -- too fuzzy and cannot point to where I want
+				},
+				label = {
+					uppercase = false,
+					after = false,
+					-- The label is placed next to the match by default, and if indent is tab char,
+					-- the label and actual match is very far. This places the labels exactly on the match.
+					before = { 0, 0 },
+					rainbow = {
+						enabled = true,
+						-- number between 1 and 9
+						shade = 5,
+					},
+				},
+				highlight = {
+					groups = {
+						match = "FlashCurrent",
+						current = "Search",
+						label = "Type",
+					},
+				},
+				modes = {
+					char = {
+						jump_labels = true,
+						-- multi_line = false,
+						label = { before = { 0, 0 }, after = { 0, 0 } },
+					},
+					treesitter = {
+						label = { before = { 0, 0 }, after = { 0, 0 } },
+					},
+					treesitter_search = {
+						label = { before = { 0, 0 }, after = { 0, 0 } },
+					},
+				},
+			})
+		end,
+		keys = {
+			{
+				"s",
+				mode = { "n", "x", "o" },
+				function()
+					require("flash").jump()
+				end,
+				desc = "Flash",
+			},
+			{
+				"<Leader>s",
+				mode = "o",
+				function()
+					require("flash").remote()
+				end,
+				desc = "Remote Flash",
+			},
+			{
+				"S",
+				mode = { "n", "x", "o" },
+				function()
+					require("flash").treesitter()
+				end,
+				desc = "Flash Treesitter",
+			},
+			{
+				"<Leader>S",
+				mode = { "o", "x" },
+				function()
+					require("flash").treesitter_search()
+				end,
+				desc = "Flash Treesitter Search",
+			},
+			{
+				"<c-s>",
+				mode = { "c" },
+				function()
+					require("flash").toggle()
+				end,
+				desc = "Toggle Flash Search",
+			},
+		},
+	},
+	{
 		"ggandor/leap.nvim",
+		enabled = false,
 		dependencies = {
 			{ "ggandor/flit.nvim" },
 		},
@@ -128,6 +219,7 @@ return {
 	},
 	{
 		"rlane/pounce.nvim",
+		enabled = false,
 		config = function()
 			require("pounce").setup({
 				multi_window = false,
@@ -265,9 +357,7 @@ return {
 	{
 		"chrisgrieser/nvim-various-textobjs",
 		config = function()
-			require("various-textobjs").setup({
-				lookForwardLines = 0, -- set to 0 to only look in the current line
-			})
+			require("various-textobjs").setup({})
 		end,
 		keys = {
 			{
