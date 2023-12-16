@@ -410,6 +410,14 @@ return {
 							["ax"] = "@regex.outer",
 							["ix"] = "@regex.inner",
 						},
+						selection_modes = {
+							-- v:charwise, V:linewise, <C-v>:blockwise
+							["@call.outer"] = "V",
+							["@function.outer"] = "V",
+							["@loop.outer"] = "V",
+							["@comment.outer"] = "V",
+							["@conditional.outer"] = "V",
+						},
 					},
 				},
 			})
