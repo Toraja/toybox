@@ -15,6 +15,7 @@ return {
 				},
 				themes = function(colors)
 					return {
+						Comment = { fg = colors.gray },
 						CursorLine = { bg = colors.cursor_line_bg },
 						CursorLineNr = { fg = colors.fg, bg = colors.cursor_line_bg },
 						DiffAdd = { bg = colors.castleton_green },
