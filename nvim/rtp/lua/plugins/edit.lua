@@ -322,7 +322,8 @@ return {
 			})
 		end,
 		keys = {
-			{ "gS", "<Cmd>TSJToggle<CR>", mode = { "n" }, desc = "TreeSJ Toggle" },
+			{ "gj", "<Cmd>TSJJoin<CR>", mode = { "n" }, desc = "TreeSJ join" },
+			{ "gs", "<Cmd>TSJSplit<CR>", mode = { "n" }, desc = "TreeSJ split" },
 		},
 	},
 }
