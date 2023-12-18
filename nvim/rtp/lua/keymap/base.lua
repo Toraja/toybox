@@ -78,7 +78,7 @@ function M.setup(opts)
 	vim.keymap.set("n", "<M-O>", "O<Esc>")
 	vim.keymap.set("n", "<C-j>", "i<CR><Esc><Up><End>")
 	---- other editing
-	vim.keymap.set("x", "y", "ygv<Esc>|") -- place cursor after the selection when yanking
+	vim.keymap.set("x", "y", "ygv<Esc>") -- retain the cursor position where it is (by default, cursor moves to the beginning of selection)
 	vim.keymap.set("n", "Y", "y$")
 	vim.keymap.set("n", "yx", "yVaB%p")
 	vim.keymap.set("x", "<C-a>", "<C-a>gv", { silent = true })
