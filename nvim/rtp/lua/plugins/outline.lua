@@ -30,6 +30,7 @@ return {
 			local symbols_outline = require("symbols-outline")
 			symbols_outline.setup({
 				autofold_depth = 0,
+				auto_unfold_hover = false,
 			})
 
 			local function is_window_open_in_current_tab(win_id)
