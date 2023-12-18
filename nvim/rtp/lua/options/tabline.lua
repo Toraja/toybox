@@ -125,9 +125,9 @@ function M.tabline()
 
 		local buf_num = tabpage_get_buf(tab_id)
 		local filename = get_filename(buf_num)
-		local devicon = get_devicon(filename, highlight)
-
 		local file_part = shorten_filename(filename)
+
+		local devicon = get_devicon(filename, highlight)
 		if devicon ~= "" then
 			file_part = devicon .. " " .. file_part
 		end
@@ -135,9 +135,11 @@ function M.tabline()
 		table.insert(tabs, highlight .. string.format(" %s%s %s ", modified_symbol, index, file_part))
 	end
 
+	local separator = wrap_highlight("TabLine") .. "╎"
+
 	-- fill with TabLineFill after the last tab
-	-- return table.concat(tabs, wrap_highlight("TabLine") .. "|") .. wrap_highlight("TabLineFill")
-	return table.concat(tabs, wrap_highlight("TabLine")) .. wrap_highlight("TabLineFill")
+	return separator .. table.concat(tabs, separator) .. separator .. wrap_highlight("TabLineFill") -- \u254e
+	-- return table.concat(tabs, wrap_highlight("TabLine")) .. wrap_highlight("TabLineFill")
 end
 
 -- Add window number if more than 1 is opened
