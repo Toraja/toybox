@@ -86,10 +86,16 @@ return {
 							["<M-k>"] = function(bufnr)
 								action_set.scroll_previewer(bufnr, 0)
 							end,
+							["<M-l>"] = function(bufnr)
+								action_set.scroll_horizontal_previewer(bufnr, 1)
+							end,
+							["<M-h>"] = function(bufnr)
+								action_set.scroll_horizontal_previewer(bufnr, 0)
+							end,
 						},
 						i = {
-							-- ["<Esc>"] = action.close,
-							-- ["<M-\\>"] = { "<Esc>", type = "command" },
+							["<Esc>"] = action.close,
+							["<M-\\>"] = { "<Esc>", type = "command" },
 							["<C-_>"] = action_layout.toggle_preview,
 							["<Tab>"] = action.move_selection_worse,
 							["<C-j>"] = function(bufnr)
@@ -104,15 +110,24 @@ return {
 							["<M->>"] = action.move_to_bottom,
 							["<C-d>"] = { "<DEL>", type = "command" },
 							["<C-u>"] = { "<C-u>", type = "command" },
+							["<C-f>"] = { "<Right>", type = "command" },
 							["<M-j>"] = function(bufnr)
 								action_set.scroll_previewer(bufnr, 0.5)
 							end,
 							["<M-k>"] = function(bufnr)
 								action_set.scroll_previewer(bufnr, -0.5)
 							end,
+							["<M-l>"] = function(bufnr)
+								action_set.scroll_horizontal_previewer(bufnr, 1)
+							end,
+							["<M-h>"] = function(bufnr)
+								action_set.scroll_horizontal_previewer(bufnr, 0)
+							end,
 							["<C-M-n>"] = action.cycle_history_next,
 							["<C-M-p>"] = action.cycle_history_prev,
-							["<M-?>"] = action.which_key,
+							["<M-?>"] = require("telescope.actions.generate").which_key({
+								max_height = 0.7, -- increase potential maximum height
+							}),
 						},
 					},
 				},
