@@ -20,7 +20,8 @@ return {
 
 			require("lualine").setup({
 				options = {
-					theme = "ayu_mirage",
+					-- theme = "ayu_mirage",
+					theme = "ayu_dark",
 					component_separators = "",
 					disabled_filetypes = {
 						-- statusline = {},
