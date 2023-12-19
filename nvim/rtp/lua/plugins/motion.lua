@@ -36,6 +36,9 @@ return {
 						jump_labels = true,
 						-- multi_line = false,
 						label = { before = { 0, 0 }, after = { 0, 0 } },
+						jump = {
+							autojump = true, -- seems like no effect?
+						},
 					},
 					treesitter = {
 						label = { before = { 0, 0 }, after = { 0, 0 } },
