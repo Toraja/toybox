@@ -102,44 +102,50 @@ local function get_devicon_x(filetype, is_tab_selected)
 end
 
 ---@param filename string
----@param tab_highlight string
 ---@return string
-local function get_devicon(filename, tab_highlight)
+local function get_devicon(filename)
 	local _, extension = filename:match("^.+%.(.+)$")
-	local devicon, devicon_highlight = require("nvim-web-devicons").get_icon(filename, extension)
-	if devicon == nil then
-		return ""
-	end
+	local devicon, devicon_highlight = require("nvim-web-devicons").get_icon(filename, extension, { default = true })
 
-	return wrap_highlight(devicon_highlight) .. devicon .. tab_highlight
+	return wrap_highlight(devicon_highlight) .. devicon
 end
+
+local separator = wrap_highlight("TabLine")
+local tab_fill = wrap_highlight("TabLineFill")
+local tab_line_sel = wrap_highlight("TabLineSel")
+local tab_line_sel_reverse = wrap_highlight("TabLineSelReverse")
+local tab_line = wrap_highlight("TabLine")
+local tab_sel_left_symbol = tab_line_sel_reverse .. "" .. tab_line_sel
+local tab_sel_right_symbol = tab_line_sel_reverse .. "" .. tab_line
 
 function M.tabline()
 	local tabs = {}
 
 	for index, tab_id in ipairs(vim.api.nvim_list_tabpages()) do
 		local is_tab_selected = tab_id == vim.api.nvim_get_current_tabpage()
-		local highlight = wrap_highlight(is_tab_selected and "TabLineSel" or "TabLine")
+		local highlight_file = is_tab_selected and tab_line_sel or tab_line
 
 		local modified_symbol = get_modified_symbol(tab_id)
 
 		local buf_num = tabpage_get_buf(tab_id)
 		local filename = get_filename(buf_num)
-		local file_part = shorten_filename(filename)
+		filename = shorten_filename(filename)
+		local devicon = get_devicon(filename)
 
-		local devicon = get_devicon(filename, highlight)
-		if devicon ~= "" then
-			file_part = devicon .. " " .. file_part
+		local tab = " " .. devicon .. " "
+		if is_tab_selected then
+			tab = tab
+				.. tab_sel_left_symbol
+				.. string.format("%s%s %s", modified_symbol, index, filename)
+				.. tab_sel_right_symbol
+		else
+			tab = tab .. highlight_file .. string.format(" %s%s %s ", modified_symbol, index, filename)
 		end
-
-		table.insert(tabs, highlight .. string.format(" %s%s %s ", modified_symbol, index, file_part))
+		table.insert(tabs, tab)
 	end
 
-	local separator = wrap_highlight("TabLine") .. "╎"
-
 	-- fill with TabLineFill after the last tab
-	return separator .. table.concat(tabs, separator) .. separator .. wrap_highlight("TabLineFill") -- \u254e
-	-- return table.concat(tabs, wrap_highlight("TabLine")) .. wrap_highlight("TabLineFill")
+	return " " .. table.concat(tabs, separator) .. tab_fill
 end
 
 -- Add window number if more than 1 is opened
