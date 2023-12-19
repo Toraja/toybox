@@ -59,6 +59,12 @@ local function qf_files_open()
 	vim.api.nvim_set_current_tabpage(current_tab_id)
 end
 
+---@param win_id integer
+function M.is_loclist_win(win_id)
+	local win_info_dict = vim.fn.getwininfo(win_id)[1]
+	return win_info_dict.loclist == 1
+end
+
 function M.setup(opts)
 	opts = opts or {}
 	vim.keymap.set("n", "<C-q><C-q>", quickfix_list_toggle, { desc = "Toggle quickfix window" })
