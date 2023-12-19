@@ -8,10 +8,15 @@ return {
 				open_mapping = [[<C-\>]],
 				on_create = function(term)
 					vim.opt_local.signcolumn = "no"
+					-- XXX: when reopening the toggleterm buffer, if directory the name of which is same as
+					-- the toggleterm buffer name exists in cwd, neo-tree tries to open the directory and
+					-- the buffer is closed immediately.
+					-- So wrap the buffer name with [] so that it will not be match directory names.
+					-- The downside is that tabline setting cannot get devicon by the name.
 					if term.display_name and term.display_name ~= vim.api.nvim_buf_get_name(term.bufnr) then
-						vim.api.nvim_buf_set_name(term.bufnr, term.display_name)
+						vim.api.nvim_buf_set_name(term.bufnr, "[" .. term.display_name .. "]")
 					else
-						vim.api.nvim_buf_set_name(term.bufnr, shell)
+						vim.api.nvim_buf_set_name(term.bufnr, "[" .. shell .. "]")
 					end
 				end,
 				on_open = function()
