@@ -38,9 +38,8 @@ return {
 						function()
 							return "[" .. vim.api.nvim_win_get_number(0) .. "]"
 						end,
-						separator = { left = "" },
-						-- padding = 2,
-						-- padding = { left = 1, right = 2 },
+						-- separator = { left = "" },
+						separator = { right = "" },
 					},
 				},
 				lualine_b = {
@@ -81,15 +80,15 @@ return {
 				},
 				sections = {
 					lualine_a = {
-						-- { mode_with_paste, separator = { right = "" }, padding = 2 },
-						{ mode_with_paste, separator = { left = "" }, padding = 2 },
+						{ mode_with_paste, separator = { right = "" }, padding = 2 },
+						-- { mode_with_paste, separator = { left = "" }, padding = 2 },
 					},
 					lualine_b = { "branch", "diff", "diagnostics" },
 					lualine_c = { get_current_win_cwd_with_tilda },
 					lualine_x = { "searchcount", "encoding", "fileformat", "filetype" },
 					lualine_z = {
-						-- { "location", separator = { left = "" }, padding = 2 },
-						{ "location", separator = { right = "" }, padding = 2 },
+						{ "location", separator = { left = "" }, padding = 2 },
+						-- { "location", separator = { right = "" }, padding = 2 },
 					},
 				},
 				inactive_sections = {
