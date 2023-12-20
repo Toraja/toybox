@@ -205,8 +205,7 @@ return {
 					},
 				},
 			})
-			-- XXX  the below highlight works if called manually, but not here
-			vim.api.nvim_set_hl(0, "NeoTreeTitleBar", { link = "TabLine" })
+			vim.api.nvim_set_hl(0, "NeoTreeTitleBar", { link = "IncSearch" })
 			require("keymap.which-key-helper").register_with_editable(
 				"neo-tree",
 				vim.g.chief_key .. "e",
