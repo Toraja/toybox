@@ -104,8 +104,9 @@ end
 ---@param filename string
 ---@return string
 local function get_devicon(filename)
-	local _, extension = filename:match("^.+%.(.+)$")
-	local devicon, devicon_highlight = require("nvim-web-devicons").get_icon(filename, extension, { default = true })
+	-- get_icon() handles extension and it does better than this
+	-- local extension = filename:match("^.+%.(.+)$")
+	local devicon, devicon_highlight = require("nvim-web-devicons").get_icon(filename, nil, { default = true })
 
 	return wrap_highlight(devicon_highlight) .. devicon
 end
@@ -129,17 +130,17 @@ function M.tabline()
 
 		local buf_num = tabpage_get_buf(tab_id)
 		local filename = get_filename(buf_num)
-		filename = shorten_filename(filename)
+		local display_filename = shorten_filename(filename)
 		local devicon = get_devicon(filename)
 
 		local tab = " " .. devicon .. " "
 		if is_tab_selected then
 			tab = tab
 				.. tab_sel_left_symbol
-				.. string.format("%s%s %s", modified_symbol, index, filename)
+				.. string.format("%s%s %s", modified_symbol, index, display_filename)
 				.. tab_sel_right_symbol
 		else
-			tab = tab .. highlight_file .. string.format(" %s%s %s ", modified_symbol, index, filename)
+			tab = tab .. highlight_file .. string.format(" %s%s %s ", modified_symbol, index, display_filename)
 		end
 		table.insert(tabs, tab)
 	end
