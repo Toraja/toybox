@@ -118,6 +118,8 @@ local tab_line_sel_reverse = wrap_highlight("TabLineSelReverse")
 local tab_line = wrap_highlight("TabLine")
 local tab_sel_left_symbol = tab_line_sel_reverse .. "" .. tab_line_sel
 local tab_sel_right_symbol = tab_line_sel_reverse .. "" .. tab_line
+local logo_highlight_left = wrap_highlight("TabLineLogoLeft")
+local logo_highlight_right = wrap_highlight("TabLineLogoRight")
 
 function M.tabline()
 	local tabs = {}
@@ -146,7 +148,14 @@ function M.tabline()
 	end
 
 	-- fill with TabLineFill after the last tab
-	return " " .. table.concat(tabs, separator) .. tab_fill
+	-- return " " .. table.concat(tabs, separator) .. tab_fill
+	return logo_highlight_left
+		.. "  N"
+		.. logo_highlight_right
+		.. "VIM  "
+		.. tab_line
+		.. table.concat(tabs, separator)
+		.. tab_fill
 end
 
 -- Add window number if more than 1 is opened

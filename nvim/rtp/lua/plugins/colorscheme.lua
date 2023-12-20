@@ -12,6 +12,8 @@ return {
 					castleton_green = "#00563f",
 					dark_powder_blue = "#003399",
 					cursor_line_bg = "#141414",
+					nvim_blue = "#0a66a2",
+					nvim_green = "#558f34",
 				},
 				themes = function(colors)
 					return {
@@ -24,10 +26,12 @@ return {
 						DiffText = { bg = colors.dark_powder_blue },
 						Search = { fg = colors.yellow, bg = colors.bg, reverse = true },
 						QuickFixLine = { underline = true },
-						TabLineSel = { fg = colors.light_gray, reverse = true },
-						TabLineSelReverse = { fg = colors.light_gray },
-						TabLine = { fg = colors.dark_gray, bg = colors.none },
+						TabLineSel = { fg = "#d9d7ce", bg = "#272d38" }, -- lualine_b_normal
+						TabLineSelReverse = { fg = "#272d38" },
+						TabLine = { fg = colors.gray, bg = colors.none },
 						TabLineFill = { fg = colors.none, bg = colors.none },
+						TabLineLogoLeft = { fg = "#000000", bg = colors.nvim_blue },
+						TabLineLogoRight = { fg = "#000000", bg = colors.nvim_green },
 						Todo = { fg = colors.pink, bold = true, reverse = false },
 						Started = { fg = colors.pink, bold = true, reverse = true },
 						Blocked = { fg = colors.aqua, bold = true, reverse = true },
