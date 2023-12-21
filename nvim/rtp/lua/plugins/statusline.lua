@@ -28,21 +28,40 @@ return {
 				end
 				return "[QF]"
 			end
-			local ayu_mirage = require("lualine.themes.ayu_mirage")
-			ayu_mirage.normal.c.bg = "NONE"
-			ayu_mirage.inactive.c.bg = "NONE"
+			local color_scheme = require("one_monokai.colors")
+			local theme = require("lualine.themes.ayu_dark")
+			theme.normal.a.bg = color_scheme.nvim_blue
+			theme.insert.a.bg = color_scheme.nvim_green
+			theme.visual.a.bg = "#bfa359"
+			theme.replace.a.bg = "#c04148"
+
+			local active_b_fg = color_scheme.white
+			theme.normal.b.fg = active_b_fg
+			theme.insert.b.fg = active_b_fg
+			theme.visual.b.fg = active_b_fg
+			theme.replace.b.fg = active_b_fg
+			theme.inactive.b.fg = color_scheme.gray
+
+			theme.normal.c.bg = "NONE"
+			theme.inactive.c.bg = "NONE"
 
 			local winbar_config = {
-				lualine_a = {
+				-- lualine_a = {
+				-- 	{
+				-- 		function()
+				-- 			return "[" .. vim.api.nvim_win_get_number(0) .. "]"
+				-- 		end,
+				-- 		-- separator = { left = "" },
+				-- 		separator = { right = "" },
+				-- 	},
+				-- },
+				lualine_b = {
 					{
 						function()
 							return "[" .. vim.api.nvim_win_get_number(0) .. "]"
 						end,
-						-- separator = { left = "" },
-						separator = { right = "" },
+						padding = { left = 1, right = 0 },
 					},
-				},
-				lualine_b = {
 					{ "filetype", icon_only = true, padding = { left = 2, right = 1 } },
 					{ get_quickfix_annotation, padding = { left = 1, right = 0 } },
 					-- shorting_target does not consider that window is vertically split
@@ -56,7 +75,7 @@ return {
 
 			require("lualine").setup({
 				options = {
-					theme = ayu_mirage,
+					theme = theme,
 					-- theme = "ayu_mirage",
 					-- theme = "ayu_dark",
 					-- component_separators = "",

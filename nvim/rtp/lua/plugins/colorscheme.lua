@@ -7,13 +7,15 @@ return {
 			require("one_monokai").setup({
 				colors = {
 					bg = "NONE",
+					white = "#d7d7dd", -- original white is too blueish
 					cyan = "#00d7ff",
 					claret = "#7f1734",
 					castleton_green = "#00563f",
 					dark_powder_blue = "#003399",
 					cursor_line_bg = "#141414",
-					nvim_blue = "#0a66a2",
+					nvim_blue = "#1174b1",
 					nvim_green = "#558f34",
+					nvim_bg = "#081218",
 				},
 				themes = function(colors)
 					return {
@@ -26,8 +28,8 @@ return {
 						DiffText = { bg = colors.dark_powder_blue },
 						Search = { fg = colors.yellow, bg = colors.bg, reverse = true },
 						QuickFixLine = { underline = true },
-						TabLineSel = { fg = "#d9d7ce", bg = "#272d38" }, -- lualine_b_normal
-						TabLineSelReverse = { fg = "#272d38" },
+						TabLineSel = { fg = colors.white, bg = colors.dark_blue, bold = true },
+						TabLineSelSeparator = { fg = colors.dark_blue },
 						TabLine = { fg = colors.gray, bg = colors.none },
 						TabLineFill = { fg = colors.none, bg = colors.none },
 						TabLineLogoLeft = { fg = "#000000", bg = colors.nvim_blue },

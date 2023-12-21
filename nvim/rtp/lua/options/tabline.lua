@@ -114,10 +114,10 @@ end
 local separator = wrap_highlight("TabLine")
 local tab_fill = wrap_highlight("TabLineFill")
 local tab_line_sel = wrap_highlight("TabLineSel")
-local tab_line_sel_reverse = wrap_highlight("TabLineSelReverse")
+local tab_line_sel_separator = wrap_highlight("TabLineSelSeparator")
 local tab_line = wrap_highlight("TabLine")
-local tab_sel_left_symbol = tab_line_sel_reverse .. "" .. tab_line_sel
-local tab_sel_right_symbol = tab_line_sel_reverse .. "" .. tab_line
+local tab_sel_left_symbol = tab_line_sel_separator .. "" .. tab_line_sel
+local tab_sel_right_symbol = tab_line_sel_separator .. "" .. tab_line
 local logo_highlight_left = wrap_highlight("TabLineLogoLeft")
 local logo_highlight_right = wrap_highlight("TabLineLogoRight")
 
