@@ -20,7 +20,8 @@ return {
 		config = function()
 			require("treesitter-context").setup({
 				max_lines = 12,
-				multiline_threshold = 5,
+				multiline_threshold = 6,
+				separator = "⁃", -- U+2043 : HYPHEN BULLET
 			})
 		end,
 	},

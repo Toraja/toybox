@@ -19,6 +19,7 @@ return {
 				},
 				themes = function(colors)
 					return {
+						-- builtin
 						Comment = { fg = colors.gray },
 						CursorLine = { bg = colors.cursor_line_bg },
 						CursorLineNr = { fg = colors.fg, bg = colors.cursor_line_bg },
@@ -35,10 +36,12 @@ return {
 						TabLineLogoLeft = { fg = "#000000", bg = colors.nvim_blue },
 						TabLineLogoRight = { fg = "#000000", bg = colors.nvim_green },
 						Todo = { fg = colors.pink, bold = true, reverse = false },
+						-- custom
+						AnnoyingSpaces = { bg = colors.dark_gray },
 						Started = { fg = colors.pink, bold = true, reverse = true },
 						Blocked = { fg = colors.aqua, bold = true, reverse = true },
-						AnnoyingSpaces = { bg = colors.dark_gray },
-						TreesitterContextBottom = { underline = true },
+						-- nvim-treesitter-context
+						TreesitterContextSeparator = { link = "Comment" },
 					}
 				end,
 			})
