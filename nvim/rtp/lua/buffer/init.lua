@@ -10,6 +10,12 @@ function M.delete_hidden_buffers()
 	vim.tbl_map(delete_buffer_if_hidden, buffers)
 end
 
+function M.delete_all_buffers()
+	for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+		vim.api.nvim_buf_delete(buf, {})
+	end
+end
+
 function M.setup(opts)
 	opts = opts or {}
 
@@ -27,7 +33,10 @@ function M.setup(opts)
 		end,
 	})
 
-	vim.api.nvim_create_user_command("DeleteHiddenBuffers", M.delete_hidden_buffers, {})
+	vim.api.nvim_create_user_command("BufDeleteHidden", M.delete_hidden_buffers, {})
+	vim.api.nvim_create_user_command("BufDeleteAll", M.delete_all_buffers, {})
+	vim.cmd("cnoreabbrev bdh BufDeleteHidden")
+	vim.cmd("cnoreabbrev bda BufDeleteAll")
 end
 
 return M
