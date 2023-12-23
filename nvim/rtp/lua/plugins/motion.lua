@@ -1,3 +1,17 @@
+local flash_line_jump_option = {
+	search = {
+		mode = "search",
+		max_length = 0,
+		wrap = false,
+		multi_window = false,
+	},
+	label = { before = false, after = { 0, 0 }, uppercase = true },
+	pattern = "^",
+}
+local flash_line_jump_down_option =
+	vim.tbl_deep_extend("force", flash_line_jump_option, { search = { forward = true } })
+local flash_line_jump_up_option = vim.tbl_deep_extend("force", flash_line_jump_option, { search = { forward = false } })
+
 return {
 	{
 		"folke/flash.nvim",
@@ -89,6 +103,20 @@ return {
 					require("flash").toggle()
 				end,
 				desc = "Toggle Flash Search",
+			},
+			{
+				"gj",
+				mode = { "n", "x", "o" },
+				function()
+					require("flash").jump(flash_line_jump_down_option)
+				end,
+			},
+			{
+				"gk",
+				mode = { "n", "x", "o" },
+				function()
+					require("flash").jump(flash_line_jump_up_option)
+				end,
 			},
 		},
 	},
