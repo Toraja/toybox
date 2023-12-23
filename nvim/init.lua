@@ -7,6 +7,8 @@ vim.opt.rtp:prepend(rtp_dir)
 
 require("options")
 require("keymap.base").setup()
+require("appearance").setup()
+require("buffer").setup()
 require("terminal").setup()
 require("register").setup()
 require("text.edit").map_toggle_trailing(",", ",")
@@ -53,67 +55,24 @@ local wk = require("which-key")
 require("options.tabline").setup() -- this depends on nvim-web-devicons
 require("ft-common").setup() -- this depends on which-key
 
--- highlight
--- vim.api.nvim_set_hl(0, 'String', { ctermfg = 216 })
--- vim.api.nvim_set_hl(0, 'Comment', { ctermfg = 246 })
--- vim.api.nvim_set_hl(0, 'Folded', { ctermfg = 246, fg = '#41535b' })
--- vim.api.nvim_set_hl(0, 'PmenuSel', { ctermfg = 254, ctermbg = 240, bold = true, bg = 'Blue' })
--- vim.api.nvim_set_hl(0, 'Pmenu', { ctermfg = 254, ctermbg = 236, bg = 'DarkGrey' })
--- vim.api.nvim_set_hl(0, 'ColorColumn', { ctermbg = 6, bg = 'DarkCyan' })
-
-local highlight_augroud_id = vim.api.nvim_create_augroup("custom_highlight", {})
-vim.api.nvim_create_autocmd({ "BufWinEnter", "InsertEnter", "InsertLeave" }, {
-	group = highlight_augroud_id,
-	desc = "Highlight trailing whitespaces and mixture of space and tab",
-	pattern = "*",
-	callback = function()
-		local excluded_filetypes = { "help", "toggleterm", "neo-tree" }
-		if vim.tbl_contains(excluded_filetypes, vim.opt.filetype:get()) then
-			return
-		end
-		vim.cmd([[syntax match AnnoyingSpaces "\s\+$\| \+\t\+\|\t\+ \+"]])
-	end,
-})
-
-function signcolumn_toggle()
-	if vim.wo.signcolumn == "no" then
-		vim.wo.signcolumn = "yes"
-		return
-	end
-	vim.wo.signcolumn = "no"
-end
+vim.cmd("cnoreabbrev tn tabnew")
+vim.cmd("cnoreabbrev th tab help")
 
 wk.register({
 	["_"] = {
 		name = "nice ones",
 		c = { "<Cmd>lcd %:p:h | echo 'lcd -> ' . expand('%:p:~:h')<CR>", "lcd to the file's dir" },
 		w = { "<Cmd>set wrap!<CR>", "Toggle wrap" },
-		["<Space>"] = { "<Cmd>lua vim.wo.number = not vim.wo.number; signcolumn_toggle()<CR>", "Toggle left spaces" },
+		["<Space>"] = {
+			function()
+				vim.wo.number = not vim.wo.number
+				require("options").signcolumn_toggle()
+			end,
+			"Toggle left spaces",
+		},
+		["-"] = { "<Cmd>lcd ..<CR>", "lcd to parent dir" },
 	},
 })
-
-vim.keymap.set("i", "<C-x><C-q>", "<C-o>gql<End>")
-vim.keymap.set("!", "<C-q><C-b>", "expand('%:t')", { desc = "Buffer's basename", expr = true })
-vim.keymap.set("!", "<C-q><C-s>", "expand('%:t:r')", { desc = "Buffer's simple name", expr = true })
-vim.keymap.set("!", "<C-q><C-d>", "expand('%:p:~:h')", { desc = "Buffer's directory", expr = true })
-vim.keymap.set("!", "<C-q><C-f>", "expand('%:p:~')", { desc = "Buffer's absolute path", expr = true })
-vim.keymap.set("!", "<C-q><C-p>", "getcwd()", { desc = "cwd", expr = true })
-vim.keymap.set("!", "<C-q><C-o>", require("git").root_path, { desc = "Git root path", expr = true })
-
-vim.cmd("cnoreabbrev tn tabnew")
-vim.cmd("cnoreabbrev th tab help")
-
-function delete_hidden_buffers()
-	local function delete_buffer_if_hidden(buf)
-		if buf.hidden == 1 then
-			vim.api.nvim_buf_delete(buf.bufnr, {})
-		end
-	end
-	local buffers = vim.fn.getbufinfo({ buflisted = true, bufloaded = true })
-	vim.tbl_map(delete_buffer_if_hidden, buffers)
-end
-
-vim.api.nvim_create_user_command("DeleteHiddenBuffers", delete_hidden_buffers, {})
 
 wk.register({
 	["<F3>"] = {
@@ -123,18 +82,5 @@ wk.register({
 		f = { "<Cmd>SetFt<CR>", "Reload ftplugin" },
 		i = { "require('lazy').install()", "Install missing plugins" },
 		s = { "require('lazy').sync()", "Sync plugins" },
-		o = {
-			name = "Open",
-			v = { "<Cmd>tabnew $MYVIMRC<CR>", "Open $MYVIMRC" },
-			f = { "<Cmd>call OpenFtplugins(&ft)<CR>", "Open ftplugins" },
-		},
 	},
 })
-
-function preserve_cursor(func)
-	local current_win = vim.api.nvim_get_current_win()
-	local cursor_position = vim.api.nvim_win_get_cursor(0)
-	func()
-	vim.api.nvim_set_current_win(current_win)
-	vim.api.nvim_win_set_cursor(current_win, cursor_position)
-end

@@ -122,6 +122,14 @@ function M.setup(opts)
 	vim.keymap.set("c", "<M-p>", "<Up>")
 	vim.keymap.set("c", "<M-n>", "<Down>")
 	vim.keymap.set("c", "<M-@>", "<Home>let @\" = '<End>'")
+
+	vim.keymap.set("i", "<C-x><C-q>", "<C-o>gql<End>")
+	vim.keymap.set("!", "<C-q><C-b>", "expand('%:t')", { desc = "Buffer's basename", expr = true })
+	vim.keymap.set("!", "<C-q><C-s>", "expand('%:t:r')", { desc = "Buffer's simple name", expr = true })
+	vim.keymap.set("!", "<C-q><C-d>", "expand('%:p:~:h')", { desc = "Buffer's directory", expr = true })
+	vim.keymap.set("!", "<C-q><C-f>", "expand('%:p:~')", { desc = "Buffer's absolute path", expr = true })
+	vim.keymap.set("!", "<C-q><C-p>", "getcwd()", { desc = "cwd", expr = true })
+	vim.keymap.set("!", "<C-q><C-o>", require("git").root_path, { desc = "Git root path", expr = true })
 end
 
 return M

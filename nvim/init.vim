@@ -1,12 +1,6 @@
 " {{{ || autocmd || ---
 " augroup prevents duplicated effect by disabling previous effect of the same group
 if has("autocmd")
-  augroup buffer_init
-    autocmd!
-    " jump to the last position when reopening a file
-    autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
-  augroup END
-
   function! s:PreviousTabStoreState()
     let s:tab_current = tabpagenr()
     let s:tab_last = tabpagenr('$')
@@ -22,17 +16,6 @@ if has("autocmd")
     autocmd TabEnter,TabLeave * call s:PreviousTabStoreState()
     autocmd TabClosed * call s:PreviousTabTabClosed()
   augroup end
-
-  augroup misc
-    autocmd!
-    " fix windows size on resizing vim
-    autocmd VimResized * :wincmd =
-    " disable relativenumber in quickfix window
-    " set signcolumn to yes as it is overwriten by nvim-bqf
-    autocmd FileType qf setlocal norelativenumber signcolumn=yes
-    " paired with completeopt=preview
-    autocmd CompleteDone * pclose
-  augroup END
 endif
 " --- || autocmd || }}}
 
@@ -148,43 +131,6 @@ function! GetVisualText(stay_in_visual)
   endif
   return l:result
 endfunction
-
-" Get ftplugins (including after) for the specified file type and return them as a list
-function! GetFtplugins(filetype)
-  let l:files = []
-  let l:basedir = expand('~/toybox/vim/rtp/')
-  let l:trailing_path = 'ftplugin/' . a:filetype . '.vim'
-  let l:ftppath = l:basedir . l:trailing_path
-  let l:aftppath = l:basedir . 'after/' . l:trailing_path
-
-  if filereadable(l:ftppath)
-    call add(l:files, l:ftppath)
-  endif
-  if filereadable(l:aftppath)
-    call add(l:files, l:aftppath)
-  endif
-
-  return l:files
-endfunction
-
-" Open ftplugin (including after) for the specified file type
-function! OpenFtplugins(...)
-  let l:files = []
-  for l:ft in a:000
-    let l:files += GetFtplugins(l:ft)
-  endfor
-
-  if empty(l:files)
-    redraw
-    echo 'No ftplugins found'
-    return
-  endif
-
-  for l:file in l:files
-    silent execute 'tabnew '.l:file
-  endfor
-endfunction
-command! -nargs=+ -complete=filetype OpenFtplugins :call OpenFtplugins(<f-args>)
 
 " Set filetype again with the current buffer's file type
 function! SetFt(...)

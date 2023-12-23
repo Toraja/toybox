@@ -65,3 +65,15 @@ vim.opt.wildignore:append({ "*.swp", "*.bak", "*.class" }) -- ignore files this 
 vim.opt.wildmenu = true -- display menu on command line completion
 vim.opt.wildcharm = 9 -- This enables cycling through popup version of wildmenu with <expr> keymap. 9 = <Tab>
 vim.opt.wildmode = { "full", "longest:full" } -- command mode completion method
+
+local M = {}
+
+function M.signcolumn_toggle()
+	if vim.wo.signcolumn == "no" then
+		vim.wo.signcolumn = "yes"
+		return
+	end
+	vim.wo.signcolumn = "no"
+end
+
+return M

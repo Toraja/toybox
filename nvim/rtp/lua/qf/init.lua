@@ -72,6 +72,15 @@ function M.setup(opts)
 	vim.keymap.set("n", "<C-q><C-o>", qf_files_open, { desc = "Open files in quickfix list" })
 
 	vim.api.nvim_create_user_command("QfFilesOpen", qf_files_open, {})
+
+	local augroud_id = vim.api.nvim_create_augroup("quickfix", {})
+	vim.api.nvim_create_autocmd("FileType", {
+		group = augroud_id,
+		pattern = "qf",
+		callback = function()
+			vim.opt_local.relativenumber = false
+		end,
+	})
 end
 
 return M
