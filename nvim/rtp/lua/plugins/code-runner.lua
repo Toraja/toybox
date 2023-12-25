@@ -40,7 +40,13 @@ return {
 		config = function()
 			local greyjoy = require("greyjoy")
 			greyjoy.setup({
-				output_results = "toggleterm",
+				-- ui = {
+				-- 	buffer = {
+				-- 		width = math.floor(vim.o.columns * 0.9),
+				-- 		height = math.floor(vim.o.lines * 0.9),
+				-- 	},
+				-- },
+				output_results = "toggleterm", -- with `buffer`, you cannot know whether commands have finished if there is no output
 				last_first = true,
 				patterns = vim.list_extend(require("greyjoy.config").defaults.patterns, { "Makefile" }), -- patterns to find the root of the project
 			})
