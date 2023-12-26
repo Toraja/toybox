@@ -21,40 +21,6 @@ endif
 
 " {{{ || key mapping || ---
 
-" {{{ || Search || ---
-" open fold which the match belongs to so that you can view where exactly the
-" match is.
-nnoremap n nzx
-nnoremap N Nzx
-function! HighlightWord(visual, exclusive, whole_word, case_sesitive) abort
-  if a:visual
-    let l:word = GetVisualText(v:false)
-  else
-    let l:word_range = a:whole_word ? '<cWORD>' : '<cword>'
-    let l:word = expand(l:word_range)
-  endif
-  if a:exclusive
-    let l:word = '\<' . l:word . '\>'
-  endif
-  if a:case_sesitive
-    let l:word = '\C' . l:word
-  endif
-
-  call setreg('/', l:word)
-  call histadd('search', l:word)
-  " somehow this does not highlight
-  " set hlsearch
-endfunction
-nnoremap <silent> * <Cmd>call HighlightWord(0, 0, 0, 0)<CR><Cmd>set hlsearch<CR>
-nnoremap <silent> g* <Cmd>call HighlightWord(0, 1, 0, 0)<CR><Cmd>set hlsearch<CR>
-nnoremap <silent> <M-*> <Cmd>call HighlightWord(0, 0, 0, 1)<CR><Cmd>set hlsearch<CR>
-nnoremap <silent> g<M-*> <Cmd>call HighlightWord(0, 1, 0, 1)<CR><Cmd>set hlsearch<CR>
-nnoremap <silent> <Leader>* <Cmd>call HighlightWord(0, 0, 1, 0)<CR><Cmd>set hlsearch<CR>
-xnoremap <silent> * <Esc><Cmd>call HighlightWord(1, 0, 0, 0)<CR><Cmd>set hlsearch<CR>
-xnoremap <silent> g* <Esc><Cmd>call HighlightWord(1, 1, 0, 0)<CR><Cmd>set hlsearch<CR>
-nnoremap <silent> <expr> <M-u> (&hlsearch && v:hlsearch ? ':nohlsearch<CR>' : ':set hlsearch<CR>')
-" --- || Search || }}}
-
 " {{{ || Tab || ---
 noremap <C-t> <Nop>
 nnoremap <silent> <expr> <C-t><C-n> ":\<C-u>".(v:count ? v:count : "")."tabnew\<CR>"
@@ -121,15 +87,6 @@ function! GetOperatorText(operatortype, noline)
     normal! `[V`]y
   endif
   return @"
-endfunction
-
-function! GetVisualText(stay_in_visual)
-  normal! gvy
-  let l:result = getreg('"')
-  if a:stay_in_visual
-    normal! gv
-  endif
-  return l:result
 endfunction
 
 " Set filetype again with the current buffer's file type

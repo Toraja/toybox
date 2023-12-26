@@ -49,6 +49,26 @@ function M.setup(opts)
 	vim.keymap.set({ "n", "x", "s" }, "<M-Y>", "zH")
 	vim.keymap.set({ "n", "x", "s" }, "<M-E>", "zL")
 
+	-- search
+	vim.keymap.set("n", "n", "nzx") -- `zx` opens fold which the match belongs to so that you can view where exactly the match is.
+	vim.keymap.set("n", "N", "Nzx")
+	vim.keymap.set("n", "<M-u>", function()
+		if vim.o.hlsearch and vim.v.hlsearch == 1 then
+			vim.cmd("nohlsearch")
+			return
+		end
+		vim.o.hlsearch = true
+	end, { silent = true })
+	vim.keymap.set({ "n", "x" }, "*", function()
+		require("search").highlight_word()
+	end, { silent = true })
+	vim.keymap.set({ "n", "x" }, "g*", function()
+		require("search").highlight_word({ exclusive = true })
+	end, { silent = true })
+	-- vim.keymap.set("n" , "g*" <Cmd>call HighlightWord(0, 1, 0, 0)<CR><Cmd>set hlsearch<CR>           , {silent = true})
+	-- vim.keymap.set("x" , "*" <Esc><Cmd>call HighlightWord(1, 0, 0, 0)<CR><Cmd>set hlsearch<CR>       , {silent = true})
+	-- vim.keymap.set("x" , "g*" <Esc><Cmd>call HighlightWord(1, 1, 0, 0)<CR><Cmd>set hlsearch<CR>      , {silent = true})
+
 	-- editing
 	vim.keymap.set("n", "<M-x>", '"_x')
 	vim.keymap.set("n", "<M-X>", '"_X')
