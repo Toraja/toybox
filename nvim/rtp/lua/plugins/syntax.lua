@@ -1,33 +1,4 @@
-local ft_list = {
-	"bash",
-	"fish",
-	"go",
-	"hcl",
-	"json",
-	"just",
-	"lua",
-	"make",
-	"markdown",
-	"markdown_inline",
-	"proto",
-	"python",
-	"rust",
-	"toml",
-	"vim",
-	"vimdoc",
-	"yaml",
-}
 return {
-	{
-		"sheerun/vim-polyglot",
-		enabled = false,
-		init = function()
-			vim.g.polyglot_disabled = vim.tbl_map(function(ft)
-				return ft .. ".plugin"
-			end, ft_list)
-		end,
-		priority = 950, -- without this, polyglot is effective only to the first buffer
-	},
 	{
 		"nvim-treesitter/nvim-treesitter",
 		dependencies = { "IndianBoy42/tree-sitter-just" },
@@ -46,7 +17,25 @@ return {
 
 			---@diagnostic disable-next-line: missing-fields
 			require("nvim-treesitter.configs").setup({
-				ensure_installed = ft_list,
+				ensure_installed = {
+					"bash",
+					"fish",
+					"go",
+					"hcl",
+					"json",
+					"just",
+					"lua",
+					"make",
+					"markdown",
+					"markdown_inline",
+					"proto",
+					"python",
+					"rust",
+					"toml",
+					"vim",
+					"vimdoc",
+					"yaml",
+				},
 				highlight = {
 					enable = true,
 					additional_vim_regex_highlighting = { "markdown" },
