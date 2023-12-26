@@ -13,6 +13,7 @@ local ft_list = {
 	"rust",
 	"toml",
 	"vim",
+	"vimdoc",
 	"yaml",
 }
 return {
