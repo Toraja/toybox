@@ -67,10 +67,6 @@ return {
 		end,
 	},
 	{
-		"IndianBoy42/tree-sitter-just",
-		dependencies = { "nvim-treesitter/nvim-treesitter" },
-	},
-	{
 		"nvim-tree/nvim-web-devicons",
 		lazy = true,
 		config = function()
