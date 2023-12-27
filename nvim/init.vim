@@ -65,30 +65,6 @@ function! OpenFileOnEachLine() range
 endfunction
 command! -range=% OpenFileOnEachLine <line1>,<line2>call OpenFileOnEachLine()
 
-function! SetOperatorFunc(funcname)
-  execute 'set operatorfunc=' . a:funcname
-  echohl Identifier | echon a:funcname | echohl NONE
-  echon ' is being called. Enter motion key:'
-endfunction
-
-function! GetOperatorText(operatortype, noline)
-  if a:operatortype ==# 'v'
-    normal! `<v`>y
-  elseif a:operatortype ==# 'char'
-    normal! `[v`]y
-  else
-    if a:noline
-      echohl WarningMsg
-      echo "line-wise motion and line/block-wise selection is not supported"
-      echohl NONE
-      throw "Exception"
-    endif
-
-    normal! `[V`]y
-  endif
-  return @"
-endfunction
-
 " Set filetype again with the current buffer's file type
 function! SetFt(...)
   execute 'set filetype=' . get(a:000, 0, &filetype)
