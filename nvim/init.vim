@@ -65,13 +65,6 @@ function! OpenFileOnEachLine() range
 endfunction
 command! -range=% OpenFileOnEachLine <line1>,<line2>call OpenFileOnEachLine()
 
-" Set filetype again with the current buffer's file type
-function! SetFt(...)
-  execute 'set filetype=' . get(a:000, 0, &filetype)
-endfunction
-command! -nargs=? -complete=filetype SetFt :call SetFt(<f-args>)
-cnoreabbrev sf SetFt
-
 " Open diff of 2 files
 function! s:diff(...)
   if a:0 != 2

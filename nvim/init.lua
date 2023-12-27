@@ -5,7 +5,7 @@ vim.g.loaded_netrwPlugin = 1
 local rtp_dir = vim.fn.expand("<sfile>:p:h") .. "/rtp"
 vim.opt.rtp:prepend(rtp_dir)
 
-require("options")
+require("options").setup()
 require("keymap.base").setup()
 require("appearance").setup()
 require("buffer").setup()
@@ -79,7 +79,7 @@ wk.register({
 		name = "Source rc file",
 		["<F3>"] = { "<Cmd>source $MYVIMRC<CR>", "Reload $MYVIMRC" },
 		g = { "<Cmd>source $MYGVIMRC<CR>", "Reload $MYGVIMRC" },
-		f = { "<Cmd>SetFt<CR>", "Reload ftplugin" },
+		f = { "<Cmd>SetFiletype<CR>", "Reload ftplugin" },
 		i = { "require('lazy').install()", "Install missing plugins" },
 		s = { "require('lazy').sync()", "Sync plugins" },
 	},
