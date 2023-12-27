@@ -50,45 +50,4 @@ nnoremap <silent> <C-t><C-t> <Cmd>LastTab<CR>
 
 " --- || key mapping || }}}
 
-" Open files on each line one file in one tab
-function! OpenFileOnEachLine() range
-  let l:cmd = ""
-  for l:linenum in range(a:firstline, a:lastline)
-    call cursor(l:linenum, 1)
-    let l:path = expand("<cfile>")
-    if !filereadable(l:path)
-      continue
-    endif
-    let l:cmd .= "tabnew ".l:path." \<Bar> "
-  endfor
-  execute l:cmd
-endfunction
-command! -range=% OpenFileOnEachLine <line1>,<line2>call OpenFileOnEachLine()
-
-" Open diff of 2 files
-function! s:diff(...)
-  if a:0 != 2
-    echoerr 'Diff takes exactly 2 arguments'
-    return
-  endif
-
-  let l:msgFileNotExists = '%s does not exist'
-  if !filereadable(a:1)
-    echoerr printf(l:msgFileNotExists, a:1)
-    return
-  endif
-  if !filereadable(a:2)
-    echoerr printf(l:msgFileNotExists, a:2)
-    return
-  endif
-
-  let l:fullpath1 = fnamemodify(a:1, ';p')
-  let l:fullpath2 = fnamemodify(a:2, ';p')
-  execute 'tabnew '.l:fullpath1
-  execute 'diffsplit '.l:fullpath2
-endfunction
-command! -complete=file -nargs=+ Diff :call s:diff(<f-args>)
-
-" --- || functions || }}}
-
 source ~/toybox/nvim/init.lua
