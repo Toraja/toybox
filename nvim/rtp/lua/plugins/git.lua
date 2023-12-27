@@ -8,21 +8,25 @@ return {
 				on_attach = function(bufnr)
 					local gs = package.loaded.gitsigns
 
-					local gitsigns_keymap_prefix = git_keymap_prefix .. "h"
 					local function map(mode, l, r, opts)
 						opts = opts or {}
 						opts.buffer = bufnr
-						vim.keymap.set(mode, gitsigns_keymap_prefix .. l, r, opts)
+						vim.keymap.set(mode, l, r, opts)
+					end
+					local function git_map(mode, l, r, opts)
+						map(mode, git_keymap_prefix .. l, r, opts)
 					end
 
 					-- Actions
-					map({ "n", "x" }, "s", "<Cmd>Gitsigns stage_hunk<CR>", { desc = "Stage this hunk" })
-					map("n", "S", gs.stage_buffer, { desc = "Stage all changes in the buffer" })
-					map({ "n", "x" }, "r", "<Cmd>Gitsigns reset_hunk<CR>", { desc = "Restore this hunk to index" })
-					map("n", "R", gs.reset_buffer, { desc = "Restore all unstaged changes in the buffer to index" })
-					map("n", "u", gs.undo_stage_hunk, { desc = "Unstage the last staged hunk" })
-					map("n", "p", gs.preview_hunk, { desc = "Preview this hunk" })
-					map("n", "b", function()
+					git_map("n", "s", "<Cmd>Gitsigns stage_hunk<CR>", { desc = "Stage this hunk" })
+					git_map("x", "s", ":Gitsigns stage_hunk<CR>", { desc = "Stage selection" })
+					git_map("n", "S", gs.stage_buffer, { desc = "Stage all changes in the buffer" })
+					git_map("n", "r", "<Cmd>Gitsigns reset_hunk<CR>", { desc = "Restore this hunk to index" })
+					git_map("x", "r", ":Gitsigns reset_hunk<CR>", { desc = "Restore selection to index" })
+					git_map("n", "R", gs.reset_buffer, { desc = "Restore all unstaged changes in the buffer to index" })
+					git_map("n", "u", gs.undo_stage_hunk, { desc = "Unstage the last staged hunk" })
+					git_map("n", "p", gs.preview_hunk, { desc = "Preview this hunk" })
+					git_map("n", "b", function()
 						gs.blame_line({ full = true })
 					end, { desc = "Blame current line" })
 
