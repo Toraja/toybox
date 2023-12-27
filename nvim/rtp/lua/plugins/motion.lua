@@ -6,6 +6,19 @@ local flash_line_jump_option = {
 		multi_window = false,
 	},
 	label = { before = false, after = { 0, 0 }, uppercase = true },
+	action = function(match)
+		-- force linewise when operator mode
+		if vim.api.nvim_get_mode().mode == "no" then
+			local current_line_num, _ = unpack(vim.api.nvim_win_get_cursor(match.win))
+			vim.api.nvim_win_set_cursor(match.win, { current_line_num, 0 })
+			vim.cmd("normal! V")
+		end
+
+		-- this is taken from flash.nvim help
+		vim.api.nvim_win_call(match.win, function()
+			vim.api.nvim_win_set_cursor(match.win, match.pos)
+		end)
+	end,
 	pattern = "^",
 }
 local flash_line_jump_down_option =
