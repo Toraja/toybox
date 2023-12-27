@@ -49,26 +49,6 @@ function M.setup(opts)
 	vim.keymap.set({ "n", "x", "s" }, "<M-Y>", "zH")
 	vim.keymap.set({ "n", "x", "s" }, "<M-E>", "zL")
 
-	-- search
-	vim.keymap.set("n", "n", "nzx") -- `zx` opens fold which the match belongs to so that you can view where exactly the match is.
-	vim.keymap.set("n", "N", "Nzx")
-	vim.keymap.set("n", "<M-u>", function()
-		if vim.o.hlsearch and vim.v.hlsearch == 1 then
-			vim.cmd("nohlsearch")
-			return
-		end
-		vim.o.hlsearch = true
-	end, { silent = true })
-	vim.keymap.set({ "n", "x" }, "*", function()
-		require("search").highlight_word()
-	end, { silent = true })
-	vim.keymap.set({ "n", "x" }, "g*", function()
-		require("search").highlight_word({ exclusive = true })
-	end, { silent = true })
-	-- vim.keymap.set("n" , "g*" <Cmd>call HighlightWord(0, 1, 0, 0)<CR><Cmd>set hlsearch<CR>           , {silent = true})
-	-- vim.keymap.set("x" , "*" <Esc><Cmd>call HighlightWord(1, 0, 0, 0)<CR><Cmd>set hlsearch<CR>       , {silent = true})
-	-- vim.keymap.set("x" , "g*" <Esc><Cmd>call HighlightWord(1, 1, 0, 0)<CR><Cmd>set hlsearch<CR>      , {silent = true})
-
 	-- editing
 	vim.keymap.set("n", "<M-x>", '"_x')
 	vim.keymap.set("n", "<M-X>", '"_X')
@@ -116,14 +96,45 @@ function M.setup(opts)
 	vim.keymap.set("i", ".", ".<C-g>u")
 
 	-- search
+	vim.keymap.set("n", "n", "nzx") -- `zx` opens fold which the match belongs to so that you can view where exactly the match is.
+	vim.keymap.set("n", "N", "Nzx")
+	vim.keymap.set("n", "<M-u>", function()
+		if vim.o.hlsearch and vim.v.hlsearch == 1 then
+			vim.cmd("nohlsearch")
+			return
+		end
+		vim.o.hlsearch = true
+	end, { silent = true })
+	vim.keymap.set({ "n", "x" }, "*", function()
+		require("search").highlight_word()
+	end, { silent = true })
+	vim.keymap.set({ "n", "x" }, "g*", function()
+		require("search").highlight_word({ exclusive = true })
+	end, { silent = true })
 
 	-- window
 	vim.keymap.set("n", "<C-w>O", "<Cmd>only!<CR>", { silent = true })
 	vim.keymap.set("n", "<C-w>B", function()
 		vim.api.nvim_buf_delete(0)
-	end)
+	end, { desc = "Delete current buffer" })
 
 	-- tab
+	vim.keymap.set("n", "<C-t>", "<Nop>")
+	vim.keymap.set("n", "<C-t><C-d>", "<Cmd>tab split<CR>", { silent = true, desc = "Duplicate tab" })
+	vim.keymap.set("n", "<C-t><C-f>", "<C-w>gf", { desc = "gf in tab" })
+	vim.keymap.set("n", "<C-t><C-n>", "<Cmd>tabnew<CR>", { silent = true })
+	vim.keymap.set("n", "<C-t><C-o>", "<Cmd>tabonly<CR>", { silent = true })
+	vim.keymap.set("n", "<C-t><C-q>", "<Cmd>tabclose<CR>", { silent = true })
+	vim.keymap.set("n", "<C-t><CR>", "<C-w><CR><C-w>T", { desc = "Open quickfix entry in tab" })
+	vim.keymap.set("n", "<C-l>", "gt")
+	vim.keymap.set("n", "<C-h>", "gT")
+	vim.keymap.set("n", "<M-l>", "<Cmd>tabmove+<CR>")
+	vim.keymap.set("n", "<M-h>", "<Cmd>tabmove-<CR>")
+	for n = 1, 9 do
+		vim.keymap.set("n", "<M-" .. n .. ">", n .. "gt")
+	end
+	vim.keymap.set("n", "<M-0>", "10gt")
+	vim.keymap.set("n", "<C-t><C-t>", require("tab").focus_last_tab, { silent = true, desc = "Focus last tab" })
 
 	-- close/exit
 	vim.keymap.set("n", "ZB", function()
