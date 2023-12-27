@@ -49,6 +49,9 @@ function M.setup(opts)
 			LastTab.id = vim.api.nvim_get_current_tabpage()
 		end,
 	})
+
+	vim.cmd("cnoreabbrev tn tabnew")
+	vim.cmd("cnoreabbrev th tab help")
 end
 
 return M

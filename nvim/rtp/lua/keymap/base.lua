@@ -1,6 +1,13 @@
 -- This module is for basic keymap and cannot depend on any plugin.
 local M = {}
 
+---@param lh string
+---@param rh any
+---@param opts table
+local function map_with_underscore(lh, rh, opts)
+	vim.keymap.set("n", "_" .. lh, rh, opts)
+end
+
 function M.setup(opts)
 	opts = opts or {}
 
@@ -161,6 +168,18 @@ function M.setup(opts)
 	vim.keymap.set("!", "<C-q><C-f>", "expand('%:p:~')", { desc = "Buffer's absolute path", expr = true })
 	vim.keymap.set("!", "<C-q><C-p>", "getcwd()", { desc = "cwd", expr = true })
 	vim.keymap.set("!", "<C-q><C-o>", require("git").root_path, { desc = "Git root path", expr = true })
+
+	map_with_underscore(
+		"c",
+		"<Cmd>lcd %:p:h | echo 'lcd -> ' . expand('%:p:~:h')<CR>",
+		{ desc = "lcd to buffer's dir" }
+	)
+	map_with_underscore("w", "<Cmd>set wrap!<CR>", { desc = "Toggle wrap" })
+	map_with_underscore("-", "<Cmd>lcd ..<CR>", { desc = "lcd to parent dir" })
+	map_with_underscore("<Space>", function()
+		vim.wo.number = not vim.wo.number
+		require("options").signcolumn_toggle()
+	end, { desc = "Toggle left spaces" })
 end
 
 return M

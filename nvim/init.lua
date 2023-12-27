@@ -51,37 +51,5 @@ require("lazy").setup("plugins", {
 	},
 })
 
-local wk = require("which-key")
-
 require("options.tabline").setup() -- this depends on nvim-web-devicons
 require("ft-common").setup() -- this depends on which-key
-
-vim.cmd("cnoreabbrev tn tabnew")
-vim.cmd("cnoreabbrev th tab help")
-
-wk.register({
-	["_"] = {
-		name = "nice ones",
-		c = { "<Cmd>lcd %:p:h | echo 'lcd -> ' . expand('%:p:~:h')<CR>", "lcd to the file's dir" },
-		w = { "<Cmd>set wrap!<CR>", "Toggle wrap" },
-		["<Space>"] = {
-			function()
-				vim.wo.number = not vim.wo.number
-				require("options").signcolumn_toggle()
-			end,
-			"Toggle left spaces",
-		},
-		["-"] = { "<Cmd>lcd ..<CR>", "lcd to parent dir" },
-	},
-})
-
-wk.register({
-	["<F3>"] = {
-		name = "Source rc file",
-		["<F3>"] = { "<Cmd>source $MYVIMRC<CR>", "Reload $MYVIMRC" },
-		g = { "<Cmd>source $MYGVIMRC<CR>", "Reload $MYGVIMRC" },
-		f = { "<Cmd>SetFiletype<CR>", "Reload ftplugin" },
-		i = { "require('lazy').install()", "Install missing plugins" },
-		s = { "require('lazy').sync()", "Sync plugins" },
-	},
-})
