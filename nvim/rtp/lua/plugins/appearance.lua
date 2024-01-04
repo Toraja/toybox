@@ -108,6 +108,7 @@ return {
 			theme.insert.a.bg = color_scheme.nvim_green
 			theme.visual.a.bg = "#bfa359"
 			theme.replace.a.bg = "#c04148"
+			theme.terminal = theme.insert
 
 			local active_b_fg = color_scheme.white
 			theme.normal.b.fg = active_b_fg
@@ -197,7 +198,7 @@ return {
 					"nvim-dap-ui",
 					"quickfix",
 					"symbols-outline",
-					"toggleterm",
+					-- "toggleterm",
 				},
 			})
 		end,
