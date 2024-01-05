@@ -131,7 +131,19 @@ function M.setup(opts)
 	vim.keymap.set("n", "<C-t><C-f>", "<C-w>gf", { desc = "gf in tab" })
 	vim.keymap.set("n", "<C-t><C-n>", "<Cmd>tabnew<CR>", { silent = true })
 	vim.keymap.set("n", "<C-t><C-o>", "<Cmd>tabonly<CR>", { silent = true })
-	vim.keymap.set("n", "<C-t><C-q>", "<Cmd>tabclose<CR>", { silent = true })
+	vim.keymap.set("n", "<C-t><C-q>", function()
+		if vim.v.count == 0 then
+			vim.cmd("tabclose")
+			return
+		end
+
+		---@diagnostic disable-next-line: param-type-mismatch
+		ok, result = pcall(vim.cmd, vim.v.count .. "tabclose")
+		if not ok then
+			---@diagnostic disable-next-line: param-type-mismatch
+			vim.notify(result, vim.log.levels.WARN, { title = "tabclose" })
+		end
+	end, { desc = "tabclose" })
 	vim.keymap.set("n", "<C-t><CR>", "<C-w><CR><C-w>T", { desc = "Open quickfix entry in tab" })
 	vim.keymap.set("n", "<C-l>", "gt")
 	vim.keymap.set("n", "<C-h>", "gT")
