@@ -88,10 +88,10 @@ function M.setup(opts)
 	vim.keymap.set("x", "y", "ygv<Esc>") -- retain the cursor position where it is (by default, cursor moves to the beginning of selection)
 	vim.keymap.set("n", "Y", "y$")
 	vim.keymap.set("n", "yx", "yVaB%p")
-	vim.keymap.set("x", "<C-a>", "<C-a>gv", { silent = true })
-	vim.keymap.set("x", "<C-x>", "<C-x>gv", { silent = true })
-	vim.keymap.set("n", "g<C-a>", ":call search('[0-9]', 'be', line('.'))<CR><C-a>", { silent = true })
-	vim.keymap.set("n", "g<C-x>", ":call search('[0-9]', 'be', line('.'))<CR><C-x>", { silent = true })
+	vim.keymap.set("x", "<C-a>", "<C-a>gv", {})
+	vim.keymap.set("x", "<C-x>", "<C-x>gv", {})
+	vim.keymap.set("n", "g<C-a>", "<Cmd>call search('[0-9]', 'be', line('.'))<CR><C-a>", {})
+	vim.keymap.set("n", "g<C-x>", "<Cmd>call search('[0-9]', 'be', line('.'))<CR><C-x>", {})
 	vim.keymap.set("n", "d.", '/\\s\\+$<CR>"_dgn|') -- delete trailing spaces
 	vim.keymap.set("n", "U", "")
 	vim.keymap.set("i", "<C-_>", "<C-o>u")
@@ -111,26 +111,26 @@ function M.setup(opts)
 			return
 		end
 		vim.o.hlsearch = true
-	end, { silent = true })
+	end, {})
 	vim.keymap.set({ "n", "x" }, "*", function()
 		require("search").highlight_word()
-	end, { silent = true })
+	end, {})
 	vim.keymap.set({ "n", "x" }, "g*", function()
 		require("search").highlight_word({ exclusive = true })
-	end, { silent = true })
+	end, {})
 
 	-- window
-	vim.keymap.set("n", "<C-w>O", "<Cmd>only!<CR>", { silent = true })
+	vim.keymap.set("n", "<C-w>O", "<Cmd>only!<CR>", {})
 	vim.keymap.set("n", "<C-w>B", function()
 		vim.api.nvim_buf_delete(0)
 	end, { desc = "Delete current buffer" })
 
 	-- tab
 	vim.keymap.set("n", "<C-t>", "<Nop>")
-	vim.keymap.set("n", "<C-t><C-d>", "<Cmd>tab split<CR>", { silent = true, desc = "Duplicate tab" })
+	vim.keymap.set("n", "<C-t><C-d>", "<Cmd>tab split<CR>", { desc = "Duplicate tab" })
 	vim.keymap.set("n", "<C-t><C-f>", "<C-w>gf", { desc = "gf in tab" })
-	vim.keymap.set("n", "<C-t><C-n>", "<Cmd>tabnew<CR>", { silent = true })
-	vim.keymap.set("n", "<C-t><C-o>", "<Cmd>tabonly<CR>", { silent = true })
+	vim.keymap.set("n", "<C-t><C-n>", "<Cmd>tabnew<CR>")
+	vim.keymap.set("n", "<C-t><C-o>", "<Cmd>tabonly<CR>")
 	vim.keymap.set("n", "<C-t><C-q>", function()
 		if vim.v.count == 0 then
 			vim.cmd("tabclose")
@@ -153,7 +153,7 @@ function M.setup(opts)
 		vim.keymap.set("n", "<M-" .. n .. ">", n .. "gt")
 	end
 	vim.keymap.set("n", "<M-0>", "10gt")
-	vim.keymap.set("n", "<C-t><C-t>", require("tab").focus_last_tab, { silent = true, desc = "Focus last tab" })
+	vim.keymap.set("n", "<C-t><C-t>", require("tab").focus_last_tab, { desc = "Focus last tab" })
 
 	-- close/exit
 	vim.keymap.set("n", "ZB", function()
