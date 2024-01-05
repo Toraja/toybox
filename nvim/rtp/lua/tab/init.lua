@@ -16,6 +16,22 @@ function M.focus_last_tab()
 	vim.api.nvim_set_current_tabpage(LastTab.id)
 end
 
+local tab_name_var_name = "tabname"
+
+---@param tab_handle integer
+---@param name string
+function M.set_tab_name(tab_handle, name)
+	vim.api.nvim_tabpage_set_var(tab_handle, tab_name_var_name, name)
+end
+
+---@param tab_handle integer
+---@return boolean exists
+---@return string name
+function M.get_tab_name(tab_handle)
+	local exists, name = pcall(vim.api.nvim_tabpage_get_var, tab_handle, "tabname")
+	return exists, name
+end
+
 function M.setup(opts)
 	opts = opts or {}
 

@@ -7,75 +7,7 @@ local function wrap_highlight(highlight)
 end
 
 local ignore_modified_ft_list = { "TelescopePrompt" }
-
--- Add '+' if one of the buffers in the tab page is modified
----@param tab_id integer
----@return string
-local function get_modified_symbol(tab_id)
-	local win_ids = vim.api.nvim_tabpage_list_wins(tab_id)
-	for _, win_id in ipairs(win_ids) do
-		local buf_num = vim.api.nvim_win_get_buf(win_id)
-		local filetype = vim.api.nvim_buf_get_option(buf_num, "filetype")
-
-		if vim.tbl_contains(ignore_modified_ft_list, filetype) then
-			goto continue
-		end
-
-		if vim.api.nvim_buf_get_option(buf_num, "modified") then
-			return "+"
-		end
-
-		::continue::
-	end
-	return ""
-end
-
-local function tabpage_get_buf(tab_id)
-	local focused_win_id = vim.api.nvim_tabpage_get_win(tab_id)
-	return vim.api.nvim_win_get_buf(focused_win_id)
-end
-
----@param win_id integer
----@return string
----@diagnostic disable-next-line: unused-local,unused-function
-local function get_qf_filename(win_id)
-	local win_info_dict = vim.fn.getwininfo(win_id)[1]
-	if win_info_dict.loclist == 1 then
-		return "[Location]"
-	elseif win_info_dict.quickfix == 1 then
-		return "[Quickfix]"
-	end
-	return ""
-end
-
-local use_alternate_buf_ft_list = { "TelescopePrompt" }
-
----@param buf_num integer
----@return string
-local function get_filename(buf_num)
-	local filetype = vim.api.nvim_buf_get_option(buf_num, "filetype")
-	local target_buf_num = vim.tbl_contains(use_alternate_buf_ft_list, filetype) and vim.fn.bufnr("#") or buf_num
-	local filepath = vim.api.nvim_buf_get_name(target_buf_num)
-
-	if filepath == "" then
-		local noname_filetype = vim.api.nvim_buf_get_option(target_buf_num, "filetype")
-		if noname_filetype == "qf" then
-			return "[Quickfix]"
-		end
-		return "[No Name]"
-	end
-
-	local filename = vim.fs.basename(filepath)
-	return filename
-end
-
-local function shorten_filename(filename)
-	local max_filename_len = 22
-	if string.len(filename) <= max_filename_len then
-		return filename
-	end
-	return filename:sub(1, max_filename_len - 1) .. "…" -- Ellipsis: U+2026
-end
+local use_alternate_buf_ft_list = { "TelescopePrompt", "qf" }
 
 -- Change devicon's background depending whether the tab is selected
 -- devicon on white background is not very nice and a little slower
@@ -101,61 +33,175 @@ local function get_devicon_x(filetype, is_tab_selected)
 	return wrap_highlight(devicon_highlight) .. devicon
 end
 
----@param filename string
----@return string
-local function get_devicon(filename)
-	-- get_icon() handles extension and it does better than this
-	-- local extension = filename:match("^.+%.(.+)$")
-	local devicon, devicon_highlight = require("nvim-web-devicons").get_icon(filename, nil, { default = true })
+local hl_tab_line_fill = wrap_highlight("TabLineFill")
+local hl_tab_line_sel = wrap_highlight("TabLineSel")
+local hl_tab_line_sel_separator = wrap_highlight("TabLineSelSeparator")
+local hl_tab_line = wrap_highlight("TabLine")
+local tab_sel_left_sep = hl_tab_line_sel_separator .. "" .. hl_tab_line_sel
+local tab_sel_right_sep = hl_tab_line_sel_separator .. "" .. hl_tab_line
+local tab_line_left_sep = hl_tab_line .. " "
+local tab_line_right_sep = " "
+local hl_logo_left = wrap_highlight("TabLineLogoLeft")
+local hl_logo_right = wrap_highlight("TabLineLogoRight")
+local logo = hl_logo_left .. "  N" .. hl_logo_right .. "VIM  "
+local logo_width = 8
+local logo_half_width = logo_width / 2
 
-	return wrap_highlight(devicon_highlight) .. devicon
+---@class Tab
+---@field tab_index integer
+---@field tab_id integer
+---@field selected boolean
+---@field target_buf_num integer
+---@field buftype string
+---@field filetype string
+---@field name string
+---@field modified_symbol string
+---@field devicon string
+---@field devicon_highlight string
+---@field occupying_width integer
+local Tab = {}
+
+---@param tab_index integer
+---@param tab_id integer
+---@return Tab
+function Tab:new(tab_index, tab_id)
+	local tab = setmetatable({
+		modified_symbol = "",
+		occupying_width = 0,
+	}, { __index = self })
+
+	tab.tab_index = tab_index
+	tab:add_occupying_width(string.len(tab_index))
+	tab.tab_id = tab_id
+	tab.selected = tab_id == vim.api.nvim_get_current_tabpage()
+	tab:set_target_buf_num()
+	tab.buftype = vim.api.nvim_buf_get_option(tab.target_buf_num, "buftype")
+	-- tab.filetype = vim.api.nvim_buf_get_option(tab.target_buf_num, "filetype")
+	tab:set_name()
+	tab:set_devicon()
+	tab:set_modified_symbol()
+	tab:add_occupying_width(5) -- spacing
+
+	return tab
 end
 
-local separator = wrap_highlight("TabLine")
-local tab_fill = wrap_highlight("TabLineFill")
-local tab_line_sel = wrap_highlight("TabLineSel")
-local tab_line_sel_separator = wrap_highlight("TabLineSelSeparator")
-local tab_line = wrap_highlight("TabLine")
-local tab_sel_left_symbol = tab_line_sel_separator .. "" .. tab_line_sel
-local tab_sel_right_symbol = tab_line_sel_separator .. "" .. tab_line
-local logo_highlight_left = wrap_highlight("TabLineLogoLeft")
-local logo_highlight_right = wrap_highlight("TabLineLogoRight")
-
-function M.tabline()
-	local tabs = {}
-
-	for index, tab_id in ipairs(vim.api.nvim_list_tabpages()) do
-		local is_tab_selected = tab_id == vim.api.nvim_get_current_tabpage()
-		local highlight_file = is_tab_selected and tab_line_sel or tab_line
-
-		local modified_symbol = get_modified_symbol(tab_id)
-
-		local buf_num = tabpage_get_buf(tab_id)
-		local filename = get_filename(buf_num)
-		local display_filename = shorten_filename(filename)
-		local devicon = get_devicon(filename)
-
-		local tab = " " .. devicon .. " "
-		if is_tab_selected then
-			tab = tab
-				.. tab_sel_left_symbol
-				.. string.format("%s%s %s", modified_symbol, index, display_filename)
-				.. tab_sel_right_symbol
-		else
-			tab = tab .. highlight_file .. string.format(" %s%s %s ", modified_symbol, index, display_filename)
-		end
-		table.insert(tabs, tab)
+---@param max_width integer
+---@return string rendered_tab
+function Tab:render(max_width)
+	local display_name = self.name
+	if self.occupying_width > max_width then
+		local diff = self.occupying_width - max_width
+		local name_len = string.len(self.name)
+		display_name = self.name:sub(1, name_len - diff - 1) .. "…" -- Ellipsis: U+2026
 	end
 
-	-- fill with TabLineFill after the last tab
-	-- return " " .. table.concat(tabs, separator) .. tab_fill
-	return logo_highlight_left
-		.. "  N"
-		.. logo_highlight_right
-		.. "VIM  "
-		.. tab_line
-		.. table.concat(tabs, separator)
-		.. tab_fill
+	local left_sep, right_sep
+	if self.selected then
+		left_sep = tab_sel_left_sep
+		right_sep = tab_sel_right_sep
+	else
+		left_sep = tab_line_left_sep
+		right_sep = tab_line_right_sep
+	end
+
+	return string.format(
+		" %s %s%s%s %s%s",
+		wrap_highlight(self.devicon_highlight) .. self.devicon,
+		left_sep,
+		self.modified_symbol,
+		self.tab_index,
+		display_name,
+		right_sep
+	)
+end
+
+---@param n integer
+function Tab:add_occupying_width(n)
+	self.occupying_width = self.occupying_width + n
+end
+
+function Tab:set_target_buf_num()
+	local focused_win_id = vim.api.nvim_tabpage_get_win(self.tab_id)
+	local focused_buf_num = vim.api.nvim_win_get_buf(focused_win_id)
+	local filetype = vim.api.nvim_buf_get_option(focused_buf_num, "filetype")
+	target_buf_num = vim.tbl_contains(use_alternate_buf_ft_list, filetype) and vim.fn.bufnr("#") or focused_buf_num
+	self.target_buf_num = target_buf_num
+end
+
+function Tab:set_name()
+	local exists, tabname = require("tab").get_tab_name(self.tab_id)
+	if exists then
+		self.name = tabname
+	else
+		local filepath = vim.api.nvim_buf_get_name(target_buf_num)
+		if filepath == "" then
+			self.name = "[No Name]"
+		else
+			self.name = vim.fs.basename(filepath)
+		end
+	end
+
+	self:add_occupying_width(string.len(self.name))
+end
+
+function Tab:set_devicon()
+	local devicons = require("nvim-web-devicons")
+	if self.buftype == "terminal" then
+		self.devicon, self.devicon_highlight = devicons.get_icon("bash", nil)
+	else
+		self.devicon, self.devicon_highlight = devicons.get_icon(self.name, nil, { default = true })
+	end
+	self:add_occupying_width(1)
+end
+
+function Tab:set_modified_symbol()
+	local win_ids = vim.api.nvim_tabpage_list_wins(self.tab_id)
+	for _, win_id in ipairs(win_ids) do
+		local buf_num = vim.api.nvim_win_get_buf(win_id)
+		local filetype = vim.api.nvim_buf_get_option(buf_num, "filetype")
+
+		if vim.tbl_contains(ignore_modified_ft_list, filetype) then
+			goto continue
+		end
+
+		if vim.api.nvim_buf_get_option(buf_num, "modified") then
+			self.modified_symbol = "+"
+			self:add_occupying_width(1)
+			return
+		end
+
+		::continue::
+	end
+end
+
+function M.tabline()
+	local vim_columns = vim.opt.columns:get()
+	local truncate_threshold = vim_columns - logo_width - 2 -- 2 for truncate indicator
+	local tabpages = vim.api.nvim_list_tabpages()
+	local tab_count = vim.tbl_count(tabpages)
+	local max_tab_width = math.max(math.floor(vim_columns / tab_count), 22)
+
+	local tabs = ""
+	local current_width = 0
+	for index = tab_count, 1, -1 do
+		local tab_id = tabpages[index]
+		local tab = Tab:new(index, tab_id)
+		local width = math.min(tab.occupying_width, max_tab_width)
+		local next_width = current_width + width
+		if next_width > truncate_threshold then
+			tabs = " <" .. tabs
+			-- tabs = "⟨" .. tabs -- Mathematical Left Angle Bracket: U+27E8
+			break
+		end
+		current_width = next_width
+		tabs = Tab:new(index, tab_id):render(width) .. tabs
+	end
+
+	local remaining_width = truncate_threshold - current_width
+	local padding_width = math.floor(remaining_width / 2) - logo_half_width
+	local padding = string.rep(" ", padding_width)
+
+	return logo .. hl_tab_line .. padding .. tabs .. hl_tab_line_fill
 end
 
 -- Add window number if more than 1 is opened
