@@ -67,6 +67,9 @@ end
 
 function M.setup(opts)
 	opts = opts or {}
+
+	vim.cmd("packadd cfilter")
+
 	vim.keymap.set("n", "<C-q><C-q>", quickfix_list_toggle, { desc = "Toggle quickfix window" })
 	vim.keymap.set("n", "<C-q><C-l>", location_list_toggle, { desc = "Toggle loation list window" })
 	vim.keymap.set("n", "<C-q><C-o>", qf_files_open, { desc = "Open files in quickfix list" })
