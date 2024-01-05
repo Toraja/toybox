@@ -6,20 +6,17 @@ return {
 			local shell = "fish"
 			require("toggleterm").setup({
 				open_mapping = [[<C-\>]],
-				on_create = function(term)
+				on_create = function()
 					vim.opt_local.signcolumn = "no"
-					-- XXX: when reopening the toggleterm buffer, if directory the name of which is same as
-					-- the toggleterm buffer name exists in cwd, neo-tree tries to open the directory and
-					-- the buffer is closed immediately.
-					-- So wrap the buffer name with [] so that it will not be match directory names.
-					-- The downside is that tabline setting cannot get devicon by the name.
-					if term.display_name and term.display_name ~= vim.api.nvim_buf_get_name(term.bufnr) then
-						vim.api.nvim_buf_set_name(term.bufnr, "[" .. term.display_name .. "]")
-					else
-						vim.api.nvim_buf_set_name(term.bufnr, "[" .. shell .. "]")
-					end
 				end,
-				on_open = function()
+				on_open = function(term)
+					if term.direction ~= "float" then
+						-- NOTE: skip setting tab name when float window to avoid tab name for terminal
+						-- remaining even after the terminal is closed
+						-- NOTE: setting tab variable has to be in `on_open`  instead of `on_create`
+						-- or tab variable will disappear when toggleterm is reopened.
+						require("tab").set_tab_name(0, vim.split(term.name, ";#")[2])
+					end
 					vim.cmd([[
 								startinsert
 								]])
