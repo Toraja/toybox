@@ -1,7 +1,7 @@
 local M = {}
 
---
 ---@param bufnr integer
+---@return string
 function M.get_visual_text(bufnr)
 	local start_row, start_col = unpack(vim.api.nvim_buf_get_mark(bufnr, "<"))
 	local end_row, end_col = unpack(vim.api.nvim_buf_get_mark(bufnr, ">"))
@@ -10,6 +10,7 @@ end
 
 -- This functin is not intended to be set as operatorfunc, but rather called from operatorfunc.
 ---@param bufnr integer
+---@return string
 function M.get_operator_text(bufnr)
 	local start_row, start_col = unpack(vim.api.nvim_buf_get_mark(bufnr, "["))
 	local end_row, end_col = unpack(vim.api.nvim_buf_get_mark(bufnr, "]"))
@@ -23,7 +24,7 @@ end
 ---@param func_name string
 function M.invoke_operator_func(func_name)
 	vim.opt.operatorfunc = "v:lua." .. func_name
-	vim.api.nvim_echo({ { "operatorfunc: ", "Normal" }, { func_name, "Identifier" } }, true, {})
+	vim.api.nvim_echo({ { "operatorfunc: ", "Normal" }, { func_name, "Identifier" } }, false, {})
 	vim.api.nvim_feedkeys("g@", "n", false)
 end
 
