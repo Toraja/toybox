@@ -21,7 +21,7 @@ end
 function M.setup(opts)
 	opts = opts or {}
 
-	vim.keymap.set("t", "<M-\\>", "<C-\\><C-n>", { nowait = true })
+	vim.keymap.set("t", "<C-\\>", "<C-\\><C-n>", { nowait = true })
 	vim.api.nvim_create_user_command("Terminal", function(cmds)
 		local open_terminal_opts = {}
 		for _, arg in pairs(cmds.fargs) do

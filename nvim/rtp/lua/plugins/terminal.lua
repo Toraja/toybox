@@ -5,7 +5,7 @@ return {
 		config = function()
 			local shell = "fish"
 			require("toggleterm").setup({
-				open_mapping = [[<C-\>]],
+				open_mapping = [[<M-\>]],
 				on_create = function()
 					vim.opt_local.signcolumn = "no"
 				end,
