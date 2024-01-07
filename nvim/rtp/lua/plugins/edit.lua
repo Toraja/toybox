@@ -53,18 +53,21 @@ return {
 		"numToStr/Comment.nvim",
 		config = function()
 			local ft = require("Comment.ft")
+			ft.set("asciidoc", { "//%s", "////%s////" })
 			require("Comment").setup({
 				ignore = "^$",
-				ft.set("asciidoc", { "//%s", "////%s////" }),
+				toggler = { line = "glc", block = "gbc" },
+				opleader = { line = "gl", block = "gb" },
+				extra = { above = "glO", below = "glo", eol = "glA" },
 			})
 			vim.keymap.set(
 				"i",
-				"<C-\\>",
+				"<C-l>",
 				'<Cmd>lua require("Comment.api").toggle.linewise.count(1)<CR>',
 				{ silent = true }
 			)
-			vim.keymap.set("n", "gcy", "yy<Plug>(comment_toggle_linewise_current)", { silent = true })
-			vim.keymap.set("x", "gCy", "ygv<Plug>(comment_toggle_linewise_visual)", { silent = true })
+			vim.keymap.set("n", "gyc", "yy<Plug>(comment_toggle_linewise_current)", { silent = true })
+			vim.keymap.set("x", "gyc", "ygv<Plug>(comment_toggle_linewise_visual)", { silent = true })
 		end,
 	},
 	{

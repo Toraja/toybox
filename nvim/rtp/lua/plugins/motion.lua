@@ -459,7 +459,7 @@ return {
 				desc = "Whole line including indent",
 			},
 			{
-				"gl",
+				"gL",
 				"<Cmd>lua require('various-textobjs').nearEoL()<CR>",
 				mode = { "o", "x" },
 				desc = "To EoL - 1",
