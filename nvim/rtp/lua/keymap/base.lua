@@ -79,8 +79,16 @@ function M.setup(opts)
 	vim.keymap.set("i", "<M-l>", "<Esc>guiwea")
 	vim.keymap.set("i", "<M-c>", "<Esc>guiwgU<right>ea")
 	---- line break/join
-	vim.keymap.set("n", "<M-m>", "mpo<Esc>0Dg`p|") -- insert blank line below
-	vim.keymap.set("n", "<M-M>", "mpO<Esc>0Dg`p|") -- insert blank line above
+	vim.keymap.set("n", "<M-m>", function()
+		local cursor_position = vim.api.nvim_win_get_cursor(0)
+		vim.api.nvim_put({ "" }, "l", true, false)
+		vim.api.nvim_win_set_cursor(0, cursor_position)
+	end, { desc = "Insert blank line below" })
+	vim.keymap.set("n", "<M-M>", function()
+		local line, column = unpack(vim.api.nvim_win_get_cursor(0))
+		vim.api.nvim_put({ "" }, "l", false, false)
+		vim.api.nvim_win_set_cursor(0, { line + 1, column })
+	end, { desc = "Insert blank line above" })
 	vim.keymap.set("n", "<M-o>", "o<Esc>")
 	vim.keymap.set("n", "<M-O>", "O<Esc>")
 	vim.keymap.set("n", "<C-j>", "i<CR><Esc><Up><End>")
@@ -92,7 +100,7 @@ function M.setup(opts)
 	vim.keymap.set("x", "<C-x>", "<C-x>gv", {})
 	vim.keymap.set("n", "g<C-a>", "<Cmd>call search('[0-9]', 'be', line('.'))<CR><C-a>", {})
 	vim.keymap.set("n", "g<C-x>", "<Cmd>call search('[0-9]', 'be', line('.'))<CR><C-x>", {})
-	vim.keymap.set("n", "d.", '/\\s\\+$<CR>"_dgn|') -- delete trailing spaces
+	vim.keymap.set("n", "d.", '/\\s\\+$<CR>"_dgn') -- delete trailing spaces
 	vim.keymap.set("n", "U", "")
 	vim.keymap.set("i", "<C-_>", "<C-o>u")
 	vim.keymap.set("i", "<C-/>", "<C-o>u")
