@@ -10,7 +10,7 @@ return {
 					url = "https://github.com/IndianBoy42/tree-sitter-just", -- local path or git repo
 					files = { "src/parser.c", "src/scanner.cc" },
 					branch = "main",
-					-- use_makefile = true -- this may be necessary on MacOS (try if you see compiler errors)
+					use_makefile = true, -- this seems necessary (on host OS)
 				},
 				maintainers = { "@IndianBoy42" },
 			}
@@ -23,7 +23,7 @@ return {
 					"go",
 					"hcl",
 					"json",
-					"just",
+					-- "just", -- disabling as it crushes
 					"lua",
 					"make",
 					"markdown",
