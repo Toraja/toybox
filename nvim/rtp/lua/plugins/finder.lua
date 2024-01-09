@@ -178,7 +178,7 @@ return {
 			telescope.load_extension("luasnip")
 			telescope.load_extension("tele_tabby")
 			require("dir-telescope").setup({
-				no_ignore = true,
+				find_command = { "fd", "--type", "d", "--hidden", "--exclude", ".git", "--color", "never" },
 			})
 			local easypick = require("easypick")
 			local actions = require("telescope.actions")
