@@ -31,6 +31,48 @@ return {
 		"moll/vim-node",
 		ft = "javascript",
 	},
+	-- lua
+	{
+		"jbyuki/one-small-step-for-vimkind",
+		enabled = false, -- this is quite buggy and endless errors make it impossible to leave vim
+		lazy = true,
+		dependencies = {
+			{ "mfussenegger/nvim-dap" },
+		},
+		config = function()
+			local dap = require("dap")
+			dap.configurations.lua = {
+				{
+					type = "nlua",
+					request = "attach",
+					name = "Attach to running Neovim instance",
+				},
+			}
+
+			dap.adapters.nlua = function(callback, config)
+				callback({ type = "server", host = config.host or "127.0.0.1", port = config.port or 8086 })
+			end
+
+			require("keymap.which-key-helper").register_for_ftplugin({
+				g = {
+					"lua require('osv').launch({ port = 8086 })",
+					{ desc = "Debug this file" },
+				},
+			})
+		end,
+		keys = {
+			{
+				"<LocalLeader>",
+				"<Cmd>WhichKey " .. "<LocalLeader>" .. " n<CR>",
+				mode = { "n" },
+				desc = "Dap",
+				-- Top level `ft` option loads the plugin immediately when lua file is opened
+				-- even if `keys` option is set. Specify filetype here so that keymap is effective
+				-- only for lua.
+				ft = "lua",
+			},
+		},
+	},
 	-- <php>
 	{
 		"phpactor/phpactor",
