@@ -134,7 +134,14 @@ return {
 				pickers = {
 					-- Default configuration for builtin pickers goes here:
 					find_files = {
-						find_command = { "fd", "--hidden", "--exclude", ".git" },
+						find_command = function()
+							if vim.fn.executable("fd") == 1 then
+								return { "fd", "--hidden", "--exclude", ".git", "--color", "never" }
+							elseif vim.fn.executable("fdfind") == 1 then
+								return { "fdfind", "--hidden", "--exclude", ".git", "--color", "never" }
+							end
+							return { "find", "-path", "./.git", "-prune", "-o", "-print" }
+						end,
 					},
 					oldfiles = {
 						layout_config = { preview_width = 0.5 },
