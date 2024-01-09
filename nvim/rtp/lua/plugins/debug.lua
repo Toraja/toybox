@@ -25,7 +25,7 @@ return {
 				r = { "lua require('dap').restart()", { desc = "Restart debugging" } },
 				t = { "lua require('dap').terminate()", { desc = "Terminate" } },
 				j = { "lua require('dap').down()", { desc = "Go down in current stacktrace without stepping" } },
-				k = { "lua require('dap').up", { desc = "Go up in current stacktrace without stepping" } },
+				k = { "lua require('dap').up()", { desc = "Go up in current stacktrace without stepping" } },
 			})
 		end,
 		keys = {
