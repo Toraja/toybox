@@ -183,6 +183,7 @@ return {
 			local easypick = require("easypick")
 			local actions = require("telescope.actions")
 			local action_state = require("telescope.actions.state")
+			local builtin = require("telescope.builtin")
 
 			local function easypick_nvim_func(f)
 				return function(prompt_bufnr, _)
@@ -193,6 +194,11 @@ return {
 					end)
 					return true
 				end
+			end
+
+			local function get_abs_path_of_entry()
+				local selection = action_state.get_selected_entry()
+				return require("git").root_path() .. "/" .. selection[1]
 			end
 
 			easypick.setup({
@@ -215,6 +221,63 @@ return {
 							-- instead of the lcd-ed directory.
 							require("greyjoy").run()
 						end),
+					},
+					{
+						name = "subroot",
+						command = "find $(git rev-parse --show-toplevel) -mindepth 1 -maxdepth 1 -type d -exec basename {} \\; | sort",
+						opts = require("telescope.themes").get_dropdown({
+							layout_config = {
+								height = function(_, _, max_lines)
+									return math.min(max_lines, 30)
+								end,
+							},
+						}),
+						action = function(prompt_bufnr, map)
+							actions.select_default:replace(function()
+								actions.close(prompt_bufnr)
+								-- TODO: what should the default behaviour be?
+								-- local path = get_abs_path_of_entry()
+								-- vim.cmd("" .. path)
+								print("default")
+							end)
+
+							map({ "i" }, "<C-v>", function()
+								actions.close(prompt_bufnr)
+								local path = get_abs_path_of_entry()
+								vim.cmd("vnew " .. path)
+							end)
+							map({ "i" }, "<C-t>", function()
+								actions.close(prompt_bufnr)
+								local path = get_abs_path_of_entry()
+								vim.cmd("tabnew " .. path)
+							end)
+							map({ "i" }, "<C-\\>", function()
+								actions.close(prompt_bufnr)
+								-- local path = get_abs_path_of_entry()
+								-- TODO: open terminal in tab, or float term using toggleterm
+								print("C-\\")
+							end)
+							map({ "i" }, "<C-f>", function()
+								local selections = action_state.get_selected_entry()
+								local selection = selections[1]
+								local path = require("git").root_path() .. "/" .. selection
+								builtin.find_files({
+									prompt_title = string.format("Find files (%s)", selection),
+									cwd = path,
+								})
+							end)
+							map({ "i" }, "<C-g>", function()
+								local selections = action_state.get_selected_entry()
+								local selection = selections[1]
+								local path = require("git").root_path() .. "/" .. selection
+								builtin.live_grep({
+									prompt_title = string.format("Grep files (%s)", selection),
+									cwd = path,
+								})
+							end)
+
+							return true
+						end,
 					},
 				},
 			})
