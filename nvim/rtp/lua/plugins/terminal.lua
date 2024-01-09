@@ -25,19 +25,22 @@ return {
 				direction = "tab",
 				shell = shell,
 			})
-			local lazygit = require("toggleterm.terminal").Terminal:new({
-				cmd = "lazygit",
-				direction = "float",
-				float_opts = {
-					width = math.floor(vim.o.columns * 0.95),
-					height = math.floor(vim.o.lines - 6),
-				},
-				on_create = function(term)
-					vim.api.nvim_buf_set_name(term.bufnr, "lazygit")
-				end,
-			})
 			vim.keymap.set("n", "<Leader>v", function()
-				lazygit:toggle()
+				-- Terminal:new() must be called everytime, or the cwd is not updated
+				-- and the cwd at which vim is started is used instead.
+				require("toggleterm.terminal").Terminal
+					:new({
+						cmd = "lazygit",
+						direction = "float",
+						float_opts = {
+							width = math.floor(vim.o.columns * 0.95),
+							height = math.floor(vim.o.lines - 6),
+						},
+						on_create = function(term)
+							vim.api.nvim_buf_set_name(term.bufnr, "lazygit")
+						end,
+					})
+					:toggle()
 			end, { desc = "lazygit" })
 		end,
 	},
