@@ -103,15 +103,5 @@ if type --query fd
 end
 set --export FZF_DEFAULT_OPTS (string join -- " " $fzf_opts "--bind="(string join ',' $fzf_bind_opts))
 
-## bindings
-# As my fish_user_key_bindings predates, fzf_key_bindings is not called automatically
-if functions --query fzf_key_bindings
-    fzf_key_bindings
-    bind \ct transpose-chars
-    bind \ec capitalize-word
-    bind \co fzf-file-widget
-    bind \eo fzf-cd-widget
-end
-
 # taskwarrior
 set --export TASKRC ~/.config/taskwarrior/taskrc

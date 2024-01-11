@@ -121,4 +121,13 @@ function fish_user_key_bindings
     bind --mode selection \e] backward-jump
     bind --mode selection \e\; repeat-jump
     bind --mode selection \e, repeat-jump-reverse
+
+    # fzf
+    if functions --query fzf_key_bindings
+        fzf_key_bindings
+        bind \ct transpose-chars
+        bind \ec capitalize-word
+        bind \co fzf-file-widget
+        bind \eo fzf-cd-widget
+    end
 end
