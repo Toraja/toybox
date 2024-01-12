@@ -105,7 +105,7 @@ return {
 				debug_keymap_prefix .. "f",
 				"<Cmd>WhichKey " .. debug_keymap_prefix .. "f n<CR>",
 				mode = { "n" },
-				desc = "Dap",
+				desc = "Dap telescope",
 			},
 		},
 	},
