@@ -291,6 +291,7 @@ return {
 				vim.g.chief_key .. "f",
 				vim.g.chief_key,
 				{
+					a = { "Easypick subroot", { desc = "Telescope in subroot" } },
 					b = { 'lua require("telescope.builtin").buffers()', { desc = "Buffers" } },
 					c = { 'lua require("telescope.builtin").git_bcommits()', { desc = "Git buffer commits" } },
 					C = { 'lua require("telescope.builtin").git_commits()', { desc = "Git commits" } },
