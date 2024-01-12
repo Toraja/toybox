@@ -10,3 +10,11 @@ debug.test
 
 # asdf
 .tool-versions
+
+# nvim exrc
+.nvim.lua
+.nvimrc
+.exrc
+
+# nvim-ginkgo
+suite_test.json
