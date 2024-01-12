@@ -65,6 +65,18 @@ return {
 					fish = {
 						require("formatter.filetypes.fish").fishindent,
 					},
+					go = {
+						function()
+							local fmt = require("formatter.filetypes.go").golines()
+							fmt.args = {
+								"--max-len",
+								"120",
+								-- "--base-formatter",
+								-- "gofumpt",
+							}
+							return fmt
+						end,
+					},
 					lua = {
 						require("formatter.filetypes.lua").stylua,
 					},
