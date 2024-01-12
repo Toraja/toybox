@@ -10,7 +10,7 @@ return {
 					vim.opt_local.signcolumn = "no"
 				end,
 				on_open = function(term)
-					if term.direction ~= "float" then
+					if not term:is_float() then
 						-- NOTE: skip setting tab name when float window to avoid tab name for terminal
 						-- remaining even after the terminal is closed
 						-- NOTE: setting tab variable has to be in `on_open`  instead of `on_create`
@@ -21,6 +21,12 @@ return {
 								startinsert
 								]])
 				end,
+				-- on_close = function(term)
+				-- 	if term:is_tab() and vim.api.nvim_tabpage_get_number(vim.api.nvim_get_current_tabpage()) ~= 1 then
+				-- 		-- focus should be back to the original tab
+				-- 		vim.cmd("tabprevious")
+				-- 	end
+				-- end,
 				autochdir = true, -- when neovim changes it current directory the terminal will change it's own when next it's opened
 				direction = "tab",
 				shell = shell,

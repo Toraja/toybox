@@ -35,27 +35,26 @@ end
 function M.setup(opts)
 	opts = opts or {}
 
-	-- Disable this as it seems that forcusing next tab is current trend
-	-- local previous_tab_augroud_id = vim.api.nvim_create_augroup("previous-tab", {})
-	-- vim.api.nvim_create_autocmd("TabClosed", {
-	-- 	group = previous_tab_augroud_id,
-	-- 	pattern = "*",
-	-- 	desc = "Focus previous tab instead of next tab after closing tab",
-	-- 	callback = function(info)
-	-- 		local closed_tab_num = info.file
-	-- 		local max_tab_num = vim.fn.tabpagenr("$")
-	-- 		local current_tab_num = vim.api.nvim_tabpage_get_number(vim.api.nvim_get_current_tabpage())
+	local previous_tab_augroud_id = vim.api.nvim_create_augroup("previous-tab", {})
+	vim.api.nvim_create_autocmd("TabClosed", {
+		group = previous_tab_augroud_id,
+		pattern = "*",
+		desc = "Focus previous tab instead of next tab after closing tab",
+		callback = function(info)
+			local closed_tab_num = info.file
+			local max_tab_num = vim.fn.tabpagenr("$")
+			local current_tab_num = vim.api.nvim_tabpage_get_number(vim.api.nvim_get_current_tabpage())
 
-	-- 		if tonumber(closed_tab_num) > max_tab_num then
-	-- 			return
-	-- 		end
-	-- 		if current_tab_num == 1 then
-	-- 			return
-	-- 		end
+			if tonumber(closed_tab_num) > max_tab_num then
+				return
+			end
+			if current_tab_num == 1 then
+				return
+			end
 
-	-- 		vim.cmd("tabprevious")
-	-- 	end,
-	-- })
+			vim.cmd("tabprevious")
+		end,
+	})
 
 	local last_tab_augroud_id = vim.api.nvim_create_augroup("last-tab", {})
 	vim.api.nvim_create_autocmd("TabLeave", {
