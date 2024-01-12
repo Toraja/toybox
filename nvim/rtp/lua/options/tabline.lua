@@ -6,7 +6,7 @@ local function wrap_highlight(highlight)
 	return "%#" .. highlight .. "#"
 end
 
-local ignore_modified_ft_list = { "TelescopePrompt" }
+local ignore_modified_ft_list = { "TelescopePrompt", "dap-repl" }
 local use_alternate_buf_ft_list = { "TelescopePrompt", "qf" }
 
 -- Change devicon's background depending whether the tab is selected
@@ -179,7 +179,7 @@ function M.tabline()
 	local truncate_threshold = vim_columns - logo_width - 2 -- 2 for truncate indicator
 	local tabpages = vim.api.nvim_list_tabpages()
 	local tab_count = vim.tbl_count(tabpages)
-	local max_tab_width = math.max(math.floor(vim_columns / tab_count), 22)
+	local max_tab_width = math.max(math.floor(truncate_threshold / tab_count), 22)
 
 	local tabs = ""
 	local current_width = 0
