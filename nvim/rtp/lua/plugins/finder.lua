@@ -204,8 +204,8 @@ return {
 			easypick.setup({
 				pickers = {
 					{
-						name = "greyjoy_subroot",
-						command = "find $(git rev-parse --show-toplevel) -mindepth 1 -maxdepth 1 -type d -exec basename {} \\; | sort",
+						name = "makefile",
+						command = "PJ_ROOT_DIR=$(git rev-parse --show-toplevel) && find $PJ_ROOT_DIR -type f -name Makefile -exec realpath --relative-to $PJ_ROOT_DIR {} \\; | sort",
 						opts = require("telescope.themes").get_dropdown({
 							layout_config = {
 								height = function(_, _, max_lines)
@@ -214,12 +214,16 @@ return {
 							},
 						}),
 						action = easypick_nvim_func(function(selected)
-							local path = require("git").root_path() .. "/" .. selected
+							local path = vim.fs.dirname(require("git").root_path() .. "/" .. selected)
 							vim.cmd("lcd " .. path)
 							-- NOTE: This requires toggleterm's `autochdir` option to be `true`.
 							-- Otherwise, if there is an opened terminal, greyjoy runs the command in the working of the terminal
 							-- instead of the lcd-ed directory.
-							require("greyjoy").run()
+							local make_recipes = require("greyjoy._extensions.makefile").exports.parse({
+								filename = "Makefile",
+								filepath = path,
+							})
+							require("greyjoy").menu(path, make_recipes)
 						end),
 					},
 					{
@@ -287,7 +291,6 @@ return {
 				vim.g.chief_key .. "f",
 				vim.g.chief_key,
 				{
-					a = { "Easypick greyjoy_subroot", { desc = "Greyjoy in sub root" } },
 					b = { 'lua require("telescope.builtin").buffers()', { desc = "Buffers" } },
 					c = { 'lua require("telescope.builtin").git_bcommits()', { desc = "Git buffer commits" } },
 					C = { 'lua require("telescope.builtin").git_commits()', { desc = "Git commits" } },
@@ -329,7 +332,7 @@ return {
 						'lua require("telescope").extensions.scriptnames.scriptnames()',
 						{ desc = "Scriptnames" },
 					},
-					t = { "Greyjoy", { desc = "Greyjoy" } },
+					t = { "Easypick makefile", { desc = "Makefiles" } },
 					T = { "TodoTelescope", { desc = "Todo comments" } },
 					y = {
 						'lua require("telescope").extensions.yank_history.yank_history()',
