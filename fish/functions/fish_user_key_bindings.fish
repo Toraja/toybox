@@ -2,6 +2,7 @@ function fish_user_key_bindings
     bind \cx\cr reload_keybind
 
     # motion
+    bind \cf forward-single-char
     bind \e\cf forward-bigword
     bind \e\cb backward-bigword
     bind \x1D forward-jump
