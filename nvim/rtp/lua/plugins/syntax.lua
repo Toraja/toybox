@@ -21,6 +21,8 @@ return {
 					"bash",
 					"fish",
 					"go",
+					"gomod",
+					"gosum",
 					"hcl",
 					"json",
 					-- "just", -- disabling as it crushes
