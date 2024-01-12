@@ -300,8 +300,6 @@ return {
 						{ desc = "File browser" },
 					},
 					f = { 'lua require("pathogen").find_files()', { desc = "Files" } },
-					g = { 'lua require("telescope.builtin").git_status()', { desc = "Git status" } },
-					G = { 'lua require("telescope.builtin").git_files()', { desc = "Git files" } },
 					h = { 'lua require("telescope.builtin").help_tags()', { desc = "Help tags" } },
 					H = { 'lua require("telescope.builtin").highlights()', { desc = "Highlights" } },
 					k = { 'lua require("telescope.builtin").keymaps()', { desc = "Keymaps" } },
@@ -334,6 +332,8 @@ return {
 					},
 					t = { "Easypick makefile", { desc = "Makefiles" } },
 					T = { "TodoTelescope", { desc = "Todo comments" } },
+					v = { 'lua require("telescope.builtin").git_status()', { desc = "Git status" } },
+					V = { 'lua require("telescope.builtin").git_files()', { desc = "Git files" } },
 					y = {
 						'lua require("telescope").extensions.yank_history.yank_history()',
 						{ desc = "Yank history" },
