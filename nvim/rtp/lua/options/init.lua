@@ -62,6 +62,7 @@ function M.setup(opts)
 	vim.opt.lazyredraw = true -- screen will not be redrawn till macro execution is done
 	vim.opt.diffopt:append("vertical")
 	vim.opt.sessionoptions = { "blank", "curdir", "folds", "tabpages", "winsize" }
+	vim.opt.exrc = true
 
 	-- command mode
 	vim.opt.history = 1000
