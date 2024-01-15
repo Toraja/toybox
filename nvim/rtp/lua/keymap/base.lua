@@ -194,6 +194,7 @@ function M.setup(opts)
 		"<Cmd>lcd %:p:h | echo 'lcd -> ' . expand('%:p:~:h')<CR>",
 		{ desc = "lcd to buffer's dir" }
 	)
+	map_with_underscore("C", "<Cmd>lcd $PWD | echo 'lcd -> ' . fnamemodify($PWD, ':~')<CR>", { desc = "lcd to $PWD" })
 	map_with_underscore("w", "<Cmd>set wrap!<CR>", { desc = "Toggle wrap" })
 	map_with_underscore("U", "<Cmd>lcd ..<CR>", { desc = "lcd to parent dir" })
 	map_with_underscore("<Space>", function()
