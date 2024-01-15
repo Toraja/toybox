@@ -42,9 +42,6 @@ return {
 							width = math.floor(vim.o.columns * 0.95),
 							height = math.floor(vim.o.lines - 6),
 						},
-						on_create = function(term)
-							vim.api.nvim_buf_set_name(term.bufnr, "lazygit")
-						end,
 					})
 					:toggle()
 			end, { desc = "lazygit" })

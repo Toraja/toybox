@@ -120,12 +120,21 @@ function Tab:add_occupying_width(n)
 	self.occupying_width = self.occupying_width + n
 end
 
+---@param win_id integer
+---@return boolean
+function Tab:is_win_float(win_id)
+	return vim.api.nvim_win_get_config(win_id).relative ~= ""
+end
+
 function Tab:set_target_buf_num()
 	local focused_win_id = vim.api.nvim_tabpage_get_win(self.tab_id)
 	local focused_buf_num = vim.api.nvim_win_get_buf(focused_win_id)
 	local filetype = vim.api.nvim_buf_get_option(focused_buf_num, "filetype")
-	target_buf_num = vim.tbl_contains(use_alternate_buf_ft_list, filetype) and vim.fn.bufnr("#") or focused_buf_num
-	self.target_buf_num = target_buf_num
+	if vim.tbl_contains(use_alternate_buf_ft_list, filetype) or self:is_win_float(focused_win_id) then
+		self.target_buf_num = vim.fn.bufnr("#")
+	else
+		self.target_buf_num = focused_buf_num
+	end
 end
 
 function Tab:set_name()
@@ -133,7 +142,7 @@ function Tab:set_name()
 	if exists then
 		self.name = tabname
 	else
-		local filepath = vim.api.nvim_buf_get_name(target_buf_num)
+		local filepath = vim.api.nvim_buf_get_name(self.target_buf_num)
 		if filepath == "" then
 			self.name = "[No Name]"
 		else
