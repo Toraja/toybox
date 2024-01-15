@@ -223,7 +223,19 @@ return {
 		end,
 	},
 	{
+		"theniceboy/joshuto.nvim",
+		keys = {
+			{
+				"<Leader>e",
+				"<Cmd>lua require('joshuto').joshuto({ edit_in_tab = true })<CR>",
+				mode = { "n" },
+				desc = "joshuto",
+			},
+		},
+	},
+	{
 		"kelly-lin/ranger.nvim",
+		enabled = false,
 		cond = function()
 			return vim.fn.executable("ranger") ~= 0
 		end,
