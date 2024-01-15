@@ -195,7 +195,7 @@ function M.setup(opts)
 		{ desc = "lcd to buffer's dir" }
 	)
 	map_with_underscore("w", "<Cmd>set wrap!<CR>", { desc = "Toggle wrap" })
-	map_with_underscore("-", "<Cmd>lcd ..<CR>", { desc = "lcd to parent dir" })
+	map_with_underscore("U", "<Cmd>lcd ..<CR>", { desc = "lcd to parent dir" })
 	map_with_underscore("<Space>", function()
 		vim.wo.number = not vim.wo.number
 		require("options").signcolumn_toggle()
