@@ -170,5 +170,5 @@ abbr --add --global gotr go test -run
 ## taskwarrior
 abbr --add --global tt taskwarrior-tui --report nice
 
-## ranger
-abbr --add --global rng ranger
+## joshuto
+abbr --add --global jos joshuto
