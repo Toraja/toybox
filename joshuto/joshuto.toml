@@ -1,0 +1,7 @@
+[display]
+column_ratio = [1, 3, 5]
+show_hidden = false
+line_number_style = "absolute"
+
+[preview]
+preview_script = "~/.local/bin/joshuto_preview_file.sh"
