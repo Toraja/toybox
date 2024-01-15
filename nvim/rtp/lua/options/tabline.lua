@@ -48,9 +48,11 @@ local logo_width = 8
 local logo_half_width = logo_width / 2
 
 ---@class Tab
+---@field NO_NAME_BUF_NAME string
 ---@field tab_index integer
 ---@field tab_id integer
 ---@field selected boolean
+---@field is_buf_valid boolean
 ---@field target_buf_num integer
 ---@field buftype string
 ---@field filetype string
@@ -59,7 +61,9 @@ local logo_half_width = logo_width / 2
 ---@field devicon string
 ---@field devicon_highlight string
 ---@field occupying_width integer
-local Tab = {}
+local Tab = {
+	NO_NAME_BUF_NAME = "[No Name]",
+}
 
 ---@param tab_index integer
 ---@param tab_id integer
@@ -75,7 +79,9 @@ function Tab:new(tab_index, tab_id)
 	tab.tab_id = tab_id
 	tab.selected = tab_id == vim.api.nvim_get_current_tabpage()
 	tab:set_target_buf_num()
-	tab.buftype = vim.api.nvim_buf_get_option(tab.target_buf_num, "buftype")
+	if tab.is_buf_valid then
+		tab.buftype = vim.api.nvim_buf_get_option(tab.target_buf_num, "buftype")
+	end
 	-- tab.filetype = vim.api.nvim_buf_get_option(tab.target_buf_num, "filetype")
 	tab:set_name()
 	tab:set_devicon()
@@ -135,6 +141,7 @@ function Tab:set_target_buf_num()
 	else
 		self.target_buf_num = focused_buf_num
 	end
+	self.is_buf_valid = vim.api.nvim_buf_is_valid(self.target_buf_num)
 end
 
 function Tab:set_name()
@@ -142,11 +149,15 @@ function Tab:set_name()
 	if exists then
 		self.name = tabname
 	else
-		local filepath = vim.api.nvim_buf_get_name(self.target_buf_num)
-		if filepath == "" then
-			self.name = "[No Name]"
+		if not self.is_buf_valid then
+			self.name = self.NO_NAME_BUF_NAME
 		else
-			self.name = vim.fs.basename(filepath)
+			local filepath = vim.api.nvim_buf_get_name(self.target_buf_num)
+			if filepath == "" then
+				self.name = self.NO_NAME_BUF_NAME
+			else
+				self.name = vim.fs.basename(filepath)
+			end
 		end
 	end
 
