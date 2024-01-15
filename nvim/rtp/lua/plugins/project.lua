@@ -10,7 +10,7 @@ return {
 				-- Add some language specific files as project.nvim depends on lsp, it cd into different directory if the current buffer is not supported by lsp.
 				patterns = vim.list_extend(
 					require("project_nvim.config").defaults.patterns,
-					{ "go.mod", "Cargo.toml" }
+					{ "go.mod", "Cargo.toml", "justfile" }
 				),
 				scope_chdir = "win",
 			})
