@@ -70,8 +70,10 @@ return {
 							fmt.args = {
 								"--max-len",
 								"120",
-								-- "--base-formatter",
-								-- "gofumpt",
+								"--tab-len",
+								"1", -- align with golangci-lint (lll)
+								"--base-formatter",
+								"gofumpt", -- goimports is super slow
 							}
 							return fmt
 						end,
