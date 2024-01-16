@@ -175,7 +175,7 @@ return {
 					tables = true,
 				},
 				links = {
-					conceal = true,
+					-- conceal = true, -- when true, it sets conceallevel=2 automatically
 				},
 			})
 
