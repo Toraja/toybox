@@ -137,6 +137,8 @@ return {
 		"ray-x/lsp_signature.nvim",
 		config = function()
 			require("lsp_signature").setup({
+				wrap = true, -- allow doc/signature text wrap inside floating_window, useful if your lsp return doc/sig is too long
+				fix_pos = true, -- set to true, the floating window will not auto-close until finish all parameters
 				hint_prefix = "🦆 ",
 			})
 		end,
