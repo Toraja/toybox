@@ -64,20 +64,21 @@ return {
 					fish = {
 						require("formatter.filetypes.fish").fishindent,
 					},
-					go = {
-						function()
-							local fmt = require("formatter.filetypes.go").golines()
-							fmt.args = {
-								"--max-len",
-								"120",
-								"--tab-len",
-								"1", -- align with golangci-lint (lll)
-								"--base-formatter",
-								"gofumpt", -- goimports is super slow
-							}
-							return fmt
-						end,
-					},
+					-- golines does not recognise `nolint:lll` comment and that is troubling
+					-- go = {
+					-- 	function()
+					-- 		local fmt = require("formatter.filetypes.go").golines()
+					-- 		fmt.args = {
+					-- 			"--max-len",
+					-- 			"120",
+					-- 			"--tab-len",
+					-- 			"1", -- align with golangci-lint (lll)
+					-- 			"--base-formatter",
+					-- 			"gofumpt", -- goimports is super slow
+					-- 		}
+					-- 		return fmt
+					-- 	end,
+					-- },
 					lua = {
 						require("formatter.filetypes.lua").stylua,
 					},
