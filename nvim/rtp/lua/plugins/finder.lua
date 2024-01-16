@@ -310,7 +310,16 @@ return {
 					},
 					M = { 'lua require("telescope.builtin").marks()', { desc = "Marks" } },
 					n = { 'lua require("telescope").extensions.notify.notify()', { desc = "Notify" } },
-					o = { 'lua require("telescope.builtin").treesitter()', { desc = "Treesitter" } },
+					o = {
+						function()
+							if vim.lsp.buf.server_ready() then
+								require("telescope.builtin").lsp_document_symbols({ symbol_width = 40 })
+							else
+								require("telescope.builtin").treesitter()
+							end
+						end,
+						{ desc = "Document symbols" },
+					},
 					O = { 'lua require("telescope.builtin").oldfiles()', { desc = "Oldfiles" } },
 					p = { 'lua require("telescope").extensions.lazy.lazy()', { desc = "Lazy" } },
 					P = { 'lua require("telescope.builtin").spell_suggest()', { desc = "Spell suggest" } },
