@@ -46,6 +46,7 @@ return {
 					:toggle()
 			end, { desc = "lazygit" })
 		end,
+		event = "VeryLazy",
 	},
 	{
 		"ryanmsnyder/toggleterm-manager.nvim",

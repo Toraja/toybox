@@ -241,5 +241,6 @@ return {
 			})
 			vim.keymap.set("n", "<C-q><C-t>", "<Cmd>TodoQuickFix<CR>", { desc = "Todo in quickfix list" })
 		end,
+		event = "VeryLazy",
 	},
 }

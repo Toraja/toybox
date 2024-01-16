@@ -56,5 +56,6 @@ return {
 			-- greyjoy.load_extension("kitchen")
 			-- greyjoy.load_extension("cargo")
 		end,
+		cmd = { "Greyjoy" },
 	},
 }

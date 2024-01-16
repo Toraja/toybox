@@ -80,7 +80,6 @@ return {
 		"stevearc/aerial.nvim",
 		dependencies = {
 			{ "neovim/nvim-lspconfig" },
-			{ "nvim-telescope/telescope.nvim" },
 		},
 		config = function()
 			require("aerial").setup({

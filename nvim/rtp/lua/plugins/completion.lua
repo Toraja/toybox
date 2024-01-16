@@ -121,5 +121,6 @@ return {
 				cmp.complete({ config = { sources = { { name = "spell_suggest" } } } })
 			end, { desc = "Spell suggest" })
 		end,
+		event = { "InsertEnter", "CmdlineEnter" },
 	},
 }

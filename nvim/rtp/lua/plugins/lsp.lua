@@ -142,5 +142,6 @@ return {
 				hint_prefix = "🦆 ",
 			})
 		end,
+		event = "InsertEnter",
 	},
 }

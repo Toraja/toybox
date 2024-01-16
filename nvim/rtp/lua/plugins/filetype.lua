@@ -143,6 +143,7 @@ return {
 		enabled = function()
 			return vim.fn.executable("yaml-language-server") ~= 0
 		end,
+		ft = "yaml",
 		dependencies = {
 			{ "neovim/nvim-lspconfig" },
 			{ "nvim-lua/plenary.nvim" },

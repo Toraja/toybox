@@ -362,14 +362,13 @@ return {
 				require("telescope").extensions.tele_tabby.list(tele_tabby_opts)
 			end, { desc = "Tab switcher" })
 		end,
-		-- Not lazy loading as other plugins load it anyway
-		-- keys = {
-		-- 	{
-		-- 		vim.g.chief_key .. "f",
-		-- 		"<Cmd>WhichKey " .. vim.g.chief_key .. "f n<CR>",
-		-- 		mode = { "n" },
-		-- 		desc = "Telescope",
-		-- 	},
-		-- },
+		keys = {
+			{
+				vim.g.chief_key .. "f",
+				"<Cmd>WhichKey " .. vim.g.chief_key .. "f n<CR>",
+				mode = { "n" },
+				desc = "Telescope",
+			},
+		},
 	},
 }

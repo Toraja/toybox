@@ -21,5 +21,6 @@ return {
 
 			vim.api.nvim_create_user_command("LuaSnipLoadSnippetsVSCode", ls_vscode.load, {})
 		end,
+		event = "InsertEnter",
 	},
 }

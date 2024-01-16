@@ -2,7 +2,6 @@ return {
 	{
 		"rcarriga/nvim-notify",
 		dependencies = {
-			{ "nvim-telescope/telescope.nvim" },
 			{ "anuvyklack/keymap-amend.nvim" },
 		},
 		config = function()

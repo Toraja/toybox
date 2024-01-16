@@ -108,6 +108,7 @@ return {
 				end,
 			})
 		end,
+		event = "VeryLazy",
 	},
 	{
 		"mfussenegger/nvim-lint",
@@ -131,5 +132,6 @@ return {
 				end,
 			})
 		end,
+		event = "VeryLazy",
 	},
 }

@@ -28,7 +28,6 @@ local flash_line_jump_up_option = vim.tbl_deep_extend("force", flash_line_jump_o
 return {
 	{
 		"folke/flash.nvim",
-		event = "VeryLazy",
 		config = function()
 			local flash_util = require("flash.util")
 			flash_util.BS = flash_util.t("<C-h>")
@@ -556,6 +555,7 @@ return {
 				},
 			})
 		end,
+		event = "VeryLazy",
 	},
 	{
 		"RRethy/nvim-treesitter-textsubjects",
@@ -574,5 +574,6 @@ return {
 				},
 			})
 		end,
+		event = "VeryLazy",
 	},
 }

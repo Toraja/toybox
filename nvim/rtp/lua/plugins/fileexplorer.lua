@@ -221,9 +221,14 @@ return {
 				}
 			)
 		end,
+		event = "VeryLazy",
+		-- `keys` for lazy loading cannot be used as directories should be opened in neo-tree
 	},
 	{
 		"theniceboy/joshuto.nvim",
+		enabled = function()
+			return vim.fn.executable("joshuto") ~= 0
+		end,
 		keys = {
 			{
 				"<Leader>e",

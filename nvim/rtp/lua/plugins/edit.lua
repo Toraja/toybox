@@ -69,6 +69,7 @@ return {
 			vim.keymap.set("n", "gyc", "yy<Plug>(comment_toggle_linewise_current)", { silent = true })
 			vim.keymap.set("x", "gyc", "ygv<Plug>(comment_toggle_linewise_visual)", { silent = true })
 		end,
+		event = "VeryLazy",
 	},
 	{
 		"gbprod/substitute.nvim",
@@ -192,29 +193,12 @@ return {
 					visual = key,
 				})
 			end
-
-			local wk = require("which-key")
-			wk.register({
-				[prefix] = {
-					name = "text-case",
-				},
-			}, { mode = "v" })
-
-			wk.register({
-				[prefix] = {
-					name = "text-case",
-					o = {
-						name = "Pending mode operator",
-					},
-				},
-			}, { mode = "n" })
 		end,
-		-- With keys property, these mapping is not registered as group mapping.
-		-- keys = {
-		-- 	{ "ga", "<Cmd>WhichKey ga n<CR>", mode = { "n" }, desc = "text-case" },
-		-- 	{ "gao", "<Cmd>WhichKey gao n<CR>", mode = { "n" }, desc = "Pending mode operator" },
-		-- 	{ "ga", "<Cmd>WhichKey ga v<CR>", mode = { "v" }, desc = "text-case" },
-		-- },
+		keys = {
+			{ "ga", "<Cmd>WhichKey ga n<CR>", mode = { "n" }, desc = "text-case" },
+			{ "gao", "<Cmd>WhichKey gao n<CR>", mode = { "n" }, desc = "Pending mode operator" },
+			{ "ga", "<Cmd>WhichKey ga v<CR>", mode = { "v" }, desc = "text-case" },
+		},
 	},
 	{
 		"kylechui/nvim-surround",
@@ -291,6 +275,7 @@ return {
 				},
 			})
 		end,
+		event = "VeryLazy",
 	},
 	{
 		"windwp/nvim-autopairs",
@@ -314,6 +299,7 @@ return {
 				Rule("'", "'", { "-rust" }),
 			})
 		end,
+		event = "InsertEnter",
 	},
 	{
 		"Wansmer/treesj",

@@ -12,9 +12,11 @@ return {
 				end,
 			})
 		end,
+		event = "VeryLazy",
 	},
 	{
 		"yorickpeterse/nvim-pqf",
 		opts = {},
+		event = "VeryLazy",
 	},
 }
