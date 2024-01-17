@@ -11,8 +11,6 @@ return {
 				end,
 				on_open = function(term)
 					if not term:is_float() then
-						-- NOTE: skip setting tab name when float window to avoid tab name for terminal
-						-- remaining even after the terminal is closed
 						-- NOTE: setting tab variable has to be in `on_open`  instead of `on_create`
 						-- or tab variable will disappear when toggleterm is reopened.
 						require("tab").set_tab_name(0, vim.split(term.name, ";#")[2])

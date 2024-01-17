@@ -145,7 +145,7 @@ function Tab:set_target_buf_num()
 end
 
 function Tab:set_name()
-	local exists, tabname = require("tab").get_tab_name(self.tab_id)
+	local exists, tabname = require("tab").get_tab_name(self.target_buf_num)
 	if exists then
 		self.name = tabname
 	else

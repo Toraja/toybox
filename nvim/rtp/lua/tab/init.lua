@@ -18,17 +18,17 @@ end
 
 local tab_name_var_name = "tabname"
 
----@param tab_handle integer
+---@param buf_num integer
 ---@param name string
-function M.set_tab_name(tab_handle, name)
-	vim.api.nvim_tabpage_set_var(tab_handle, tab_name_var_name, name)
+function M.set_tab_name(buf_num, name)
+	vim.api.nvim_buf_set_var(buf_num, tab_name_var_name, name)
 end
 
----@param tab_handle integer
+---@param buf_num integer
 ---@return boolean exists
 ---@return string name
-function M.get_tab_name(tab_handle)
-	local exists, name = pcall(vim.api.nvim_tabpage_get_var, tab_handle, "tabname")
+function M.get_tab_name(buf_num)
+	local exists, name = pcall(vim.api.nvim_buf_get_var, buf_num, "tabname")
 	return exists, name
 end
 
