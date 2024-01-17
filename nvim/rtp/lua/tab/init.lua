@@ -41,18 +41,20 @@ function M.setup(opts)
 		pattern = "*",
 		desc = "Focus previous tab instead of next tab after closing tab",
 		callback = function(info)
-			local closed_tab_num = info.file
+			local closed_tab_num = tonumber(info.file)
 			local max_tab_num = vim.fn.tabpagenr("$")
 			local current_tab_num = vim.api.nvim_tabpage_get_number(vim.api.nvim_get_current_tabpage())
 
-			if tonumber(closed_tab_num) > max_tab_num then
-				return
+			-- By default, nvim focuses the tab on the right when a tab is closed.
+			-- So if the current tab number is same as the closed tab number, it means
+			-- the focused tab was closed (not `{count}tabclose`).
+			-- An exception is when the first tab is closed, in which case the closed
+			-- tab number and the current tab number are the same.
+			-- Moving to the previous tab should be performed only when a focused tab
+			-- was closed.
+			if closed_tab_num == max_tab_num and current_tab_num ~= 1 then
+				vim.cmd("tabprevious")
 			end
-			if current_tab_num == 1 then
-				return
-			end
-
-			vim.cmd("tabprevious")
 		end,
 	})
 
