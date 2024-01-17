@@ -19,12 +19,6 @@ return {
 								startinsert
 								]])
 				end,
-				-- on_close = function(term)
-				-- 	if term:is_tab() and vim.api.nvim_tabpage_get_number(vim.api.nvim_get_current_tabpage()) ~= 1 then
-				-- 		-- focus should be back to the original tab
-				-- 		vim.cmd("tabprevious")
-				-- 	end
-				-- end,
 				autochdir = true, -- when neovim changes it current directory the terminal will change it's own when next it's opened
 				direction = "tab",
 				shell = shell,
