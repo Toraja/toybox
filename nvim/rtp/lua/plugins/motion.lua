@@ -78,57 +78,92 @@ return {
 		keys = {
 			{
 				"s",
-				mode = { "n", "x", "o" },
 				function()
 					require("flash").jump()
 				end,
+				mode = { "n", "x", "o" },
 				desc = "Flash",
 			},
 			{
-				"<Leader>s",
-				mode = "o",
+				"S",
+				function()
+					require("flash").jump({ continue = true })
+				end,
+				mode = { "n", "x", "o" },
+				desc = "Flash Continue Last",
+			},
+			{
+				"gs",
 				function()
 					require("flash").remote()
 				end,
-				desc = "Remote Flash",
+				mode = "o",
+				desc = "Flash Remote",
 			},
 			{
-				"S",
-				mode = { "n", "x", "o" },
+				"<Leader>s",
 				function()
 					require("flash").treesitter()
 				end,
+				mode = { "n", "x", "o" },
 				desc = "Flash Treesitter",
 			},
 			{
 				"<Leader>S",
-				mode = { "o", "x" },
 				function()
 					require("flash").treesitter_search()
 				end,
+				mode = { "n", "o" },
 				desc = "Flash Treesitter Search",
 			},
 			{
 				"<c-s>",
-				mode = { "c" },
 				function()
 					require("flash").toggle()
 				end,
+				mode = { "c" },
 				desc = "Toggle Flash Search",
 			},
 			{
 				"gj",
-				mode = { "n", "x", "o" },
 				function()
 					require("flash").jump(flash_line_jump_down_option)
 				end,
+				mode = { "n", "x", "o" },
+				desc = "Line jump downward",
 			},
 			{
 				"gk",
-				mode = { "n", "x", "o" },
 				function()
 					require("flash").jump(flash_line_jump_up_option)
 				end,
+				mode = { "n", "x", "o" },
+				desc = "Line jump upward",
+			},
+			-- Map each key to itself so that these key is bound to keymap set by the plugin
+			{
+				"f",
+				"f",
+				mode = { "n", "x", "o" },
+				desc = "Move to char forward",
+			},
+			{
+				"F",
+				"F",
+				mode = { "n", "x", "o" },
+				desc = "Move to char backward",
+			},
+			{
+				"t",
+				"t",
+				mode = { "n", "x", "o" },
+				desc = "Move before char forward",
+			},
+			{
+				"T",
+				"T",
+				mode = { "n", "x", "o" },
+				desc = "Move before char backward",
 			},
 		},
 	},
