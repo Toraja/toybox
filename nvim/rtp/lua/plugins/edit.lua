@@ -1,5 +1,8 @@
 return {
-	"tpope/vim-repeat",
+	{
+		"tpope/vim-repeat",
+		enabled = false,
+	},
 	{
 		"tpope/vim-abolish",
 		init = function()
