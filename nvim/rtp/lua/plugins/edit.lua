@@ -132,7 +132,7 @@ return {
 			},
 			{
 				"<Leader>co",
-				'<Cmd>lua require("substitute.range").operator({ range = "%" })<CR>',
+				'<Cmd>lua require("substitute.range").operator({ subject = { motion = "iw" } })<CR>',
 				mode = { "n" },
 				desc = "Substitute cursor word within the range",
 			},
