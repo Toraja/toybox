@@ -4,6 +4,6 @@ no_annotation_hook = "task $ID annotate -- Notes && taskopen $ID"
 
 [Actions]
 notes.regex = "Notes"
-notes.command = "$EDITOR $HOME/.local/share/taskopen/notes/$UUID.md"
+notes.command = "$EDITOR $HOME/.local/share/taskopen/notes/$UUID.norg"
 delete.regex = "Notes"
 delete.command = "task $UUID denotate -- \"$ANNOTATION\" && rm -f $HOME/tasknotes/$UUID.md"
