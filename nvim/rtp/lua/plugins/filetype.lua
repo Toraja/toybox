@@ -261,4 +261,51 @@ return {
 		end,
 		cmd = { "FeMaco" },
 	},
+	{
+		"nvim-neorg/neorg",
+		ft = "norg",
+		dependencies = {
+			{ "nvim-lua/plenary.nvim" },
+			{ "nvim-treesitter/nvim-treesitter" },
+		},
+		build = ":Neorg sync-parsers",
+		config = function()
+			require("neorg").setup({
+				load = {
+					["core.defaults"] = {}, -- Loads default behaviour
+					["core.concealer"] = {
+						config = {
+							icons = {
+								todo = {
+									undone = {
+										icon = " ",
+									},
+								},
+							},
+						},
+					}, -- Adds pretty icons to your documents
+					["core.dirman"] = { -- Manages Neorg workspaces
+						config = {
+							workspaces = {
+								notes = "~/workspace/notes",
+							},
+						},
+					},
+					["core.keybinds"] = {
+						config = {
+							hook = function(keybinds)
+								keybinds.remap_key("norg", "n", "<C-Space>", "<LocalLeader>t<Space>")
+								keybinds.remap_key("norg", "i", "<C-d>", "<M-t>")
+							end,
+						},
+					},
+					["core.qol.todo_items"] = {
+						config = {
+							create_todo_items = false,
+						},
+					},
+				},
+			})
+		end,
+	},
 }
