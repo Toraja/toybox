@@ -178,6 +178,13 @@ return {
 				links = {
 					-- conceal = true, -- when true, it sets conceallevel=2 automatically
 				},
+				to_do = {
+					symbols = { " ", "-", "x" },
+					update_parents = true,
+					not_started = " ",
+					in_progress = "-",
+					complete = "x",
+				},
 			})
 
 			vim.keymap.set("n", "]]", function()
