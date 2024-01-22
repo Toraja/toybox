@@ -201,15 +201,14 @@ return {
 			}
 			for key, api in pairs(key_api_table) do
 				textcase.register_keybindings(prefix, api, {
-					quick_replace = key,
-					operator = "o" .. key,
+					-- quick_replace = key,
+					operator = key,
 					visual = key,
 				})
 			end
 		end,
 		keys = {
-			{ "ga", "<Cmd>WhichKey ga n<CR>", mode = { "n" }, desc = "text-case" },
-			{ "gao", "<Cmd>WhichKey gao n<CR>", mode = { "n" }, desc = "Pending mode operator" },
+			{ "ga", "<Cmd>WhichKey ga n<CR>", mode = { "n" }, desc = "text-case (operator)" },
 			{ "ga", "<Cmd>WhichKey ga v<CR>", mode = { "v" }, desc = "text-case" },
 		},
 	},
