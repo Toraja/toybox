@@ -308,6 +308,7 @@ return {
 						'lua require("telescope.builtin").current_buffer_fuzzy_find()',
 						{ desc = "Buffer lines" },
 					},
+					m = { "Easypick makefile", { desc = "Makefiles" } },
 					M = { 'lua require("telescope.builtin").marks()', { desc = "Marks" } },
 					n = { 'lua require("telescope").extensions.notify.notify()', { desc = "Notify" } },
 					o = {
@@ -340,7 +341,6 @@ return {
 						'lua require("telescope").extensions.scriptnames.scriptnames()',
 						{ desc = "Scriptnames" },
 					},
-					t = { "Easypick makefile", { desc = "Makefiles" } },
 					T = { "TodoTelescope", { desc = "Todo comments" } },
 					v = { 'lua require("telescope.builtin").git_status()', { desc = "Git status" } },
 					V = { 'lua require("telescope.builtin").git_files()', { desc = "Git files" } },
