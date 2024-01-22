@@ -69,8 +69,18 @@ return {
 				'<Cmd>lua require("Comment.api").toggle.linewise.count(1)<CR>',
 				{ silent = true }
 			)
-			vim.keymap.set("n", "gyc", "yy<Plug>(comment_toggle_linewise_current)", { silent = true })
-			vim.keymap.set("x", "gyc", "ygv<Plug>(comment_toggle_linewise_visual)", { silent = true })
+			vim.keymap.set(
+				"n",
+				"glyc",
+				"yy<Plug>(comment_toggle_linewise_current)",
+				{ silent = true, desc = "Yank and comment linewise" }
+			)
+			vim.keymap.set(
+				"x",
+				"glyc",
+				"ygv<Plug>(comment_toggle_linewise_visual)",
+				{ silent = true, desc = "Yank and comment linewise" }
+			)
 		end,
 		event = "VeryLazy",
 	},
