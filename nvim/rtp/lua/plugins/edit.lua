@@ -87,26 +87,24 @@ return {
 				opleader = { line = "gl", block = "gb" },
 				extra = { above = "glO", below = "glo", eol = "glA" },
 			})
-			vim.keymap.set(
-				"i",
-				"<C-l>",
-				'<Cmd>lua require("Comment.api").toggle.linewise.count(1)<CR>',
-				{ silent = true }
-			)
-			vim.keymap.set(
-				"n",
-				"glyc",
-				"yy<Plug>(comment_toggle_linewise_current)",
-				{ silent = true, desc = "Yank and comment linewise" }
-			)
-			vim.keymap.set(
-				"x",
-				"glyc",
-				"ygv<Plug>(comment_toggle_linewise_visual)",
-				{ silent = true, desc = "Yank and comment linewise" }
-			)
 		end,
-		event = "VeryLazy",
+		keys = {
+			{ "gl", "gl", mode = { "n", "x" } },
+			{ "gb", "gb", mode = { "n", "x" } },
+			{ "<C-l>", "<Cmd>lua require('Comment.api').toggle.linewise.count(1)<CR>", mode = { "i" } },
+			{
+				"gyl",
+				"yy<Plug>(comment_toggle_linewise_current)",
+				mode = { "n" },
+				desc = "Yank and comment linewise",
+			},
+			{
+				"gyl",
+				"ygv<Plug>(comment_toggle_linewise_visual)",
+				mode = { "x" },
+				desc = "Yank and comment linewise",
+			},
+		},
 	},
 	{
 		"gbprod/substitute.nvim",
