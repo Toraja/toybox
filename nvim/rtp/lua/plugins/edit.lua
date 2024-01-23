@@ -251,6 +251,7 @@ return {
 					visual_line = "gR",
 					delete = "dr",
 					change = "cr",
+					change_line = "cR",
 				},
 				surrounds = {
 					["d"] = {
