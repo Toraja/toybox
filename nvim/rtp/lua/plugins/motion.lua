@@ -63,11 +63,8 @@ return {
 					},
 					char = {
 						jump_labels = true,
-						-- multi_line = false,
-						label = { before = { 0, 0 }, after = { 0, 0 } },
-						jump = {
-							autojump = true, -- seems like no effect?
-						},
+						multi_line = false,
+						label = { after = { 0, 0 } },
 					},
 					treesitter = {
 						label = { before = { 0, 0 }, after = { 0, 0 } },
