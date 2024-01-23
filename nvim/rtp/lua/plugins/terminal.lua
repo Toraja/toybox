@@ -23,22 +23,29 @@ return {
 				direction = "tab",
 				shell = shell,
 			})
-			vim.keymap.set("n", "<Leader>v", function()
-				-- Terminal:new() must be called everytime, or the cwd is not updated
-				-- and the cwd at which vim is started is used instead.
-				require("toggleterm.terminal").Terminal
-					:new({
-						cmd = "lazygit",
-						direction = "float",
-						float_opts = {
-							width = math.floor(vim.o.columns * 0.95),
-							height = math.floor(vim.o.lines - 6),
-						},
-					})
-					:toggle()
-			end, { desc = "lazygit" })
 		end,
-		event = "VeryLazy",
+		keys = {
+			{ "<M-Bslash>", "<M-Bslash>", mode = { "n" }, desc = "Toggle Terminal" },
+			{
+				"<Leader>v",
+				function()
+					-- Terminal:new() must be called everytime, or the cwd is not updated
+					-- and the cwd at which vim is started is used instead.
+					require("toggleterm.terminal").Terminal
+						:new({
+							cmd = "lazygit",
+							direction = "float",
+							float_opts = {
+								width = math.floor(vim.o.columns * 0.95),
+								height = math.floor(vim.o.lines - 6),
+							},
+						})
+						:toggle()
+				end,
+				mode = { "n" },
+				desc = "lazygit",
+			},
+		},
 	},
 	{
 		"ryanmsnyder/toggleterm-manager.nvim",
