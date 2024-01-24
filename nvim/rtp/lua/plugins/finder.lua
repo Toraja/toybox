@@ -286,6 +286,7 @@ return {
 				},
 			})
 
+			local tele_tabby_opts = require("telescope.themes").get_dropdown()
 			require("keymap.which-key-helper").register_with_editable(
 				"Telescope",
 				vim.g.chief_key .. "f",
@@ -341,6 +342,15 @@ return {
 						'lua require("telescope").extensions.scriptnames.scriptnames()',
 						{ desc = "Scriptnames" },
 					},
+					t = {
+						function()
+							local tablist = vim.api.nvim_list_tabpages()
+							tele_tabby_opts.layout_config.height = vim.tbl_count(tablist) + 4 -- 4 means search window and borders
+							tele_tabby_opts.layout_config.width = 150
+							require("telescope").extensions.tele_tabby.list(tele_tabby_opts)
+						end,
+						{ desc = "Tab" },
+					},
 					T = { "TodoTelescope", { desc = "Todo comments" } },
 					v = { 'lua require("telescope.builtin").git_status()', { desc = "Git status" } },
 					V = { 'lua require("telescope.builtin").git_files()', { desc = "Git files" } },
@@ -353,14 +363,6 @@ return {
 					["<Space>"] = { 'lua require("telescope.builtin").resume()', { desc = "Resume previous picker" } },
 				}
 			)
-
-			local tele_tabby_opts = require("telescope.themes").get_dropdown()
-			vim.keymap.set("n", "<Leader>t", function()
-				local tablist = vim.api.nvim_list_tabpages()
-				tele_tabby_opts.layout_config.height = vim.tbl_count(tablist) + 4 -- 4 means search window and borders
-				tele_tabby_opts.layout_config.width = 150
-				require("telescope").extensions.tele_tabby.list(tele_tabby_opts)
-			end, { desc = "Tab switcher" })
 		end,
 		keys = {
 			{
