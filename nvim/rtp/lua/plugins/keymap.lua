@@ -8,25 +8,6 @@ return {
 			vim.api.nvim_set_hl(0, "WhichKey", { link = "Title" })
 			vim.api.nvim_set_hl(0, "WhichKeyDesc", { link = "Type" })
 			require("which-key").setup({
-				plugins = {
-					presets = {
-						operators = false, -- adds help for operators like d, y, ...
-					},
-				},
-				operators = {
-					d = "Delete",
-					c = "Change",
-					y = "Yank (copy)",
-					["g~"] = "Toggle case",
-					["gu"] = "Lowercase",
-					["gU"] = "Uppercase",
-					[">"] = "Indent right",
-					["<lt>"] = "Indent left",
-					["zf"] = "Create fold",
-					["!"] = "Filter though external program",
-					-- ["v"] = "Visual Character Mode",
-					gc = "Comments",
-				},
 				popup_mappings = {
 					scroll_down = "<PageDown>", -- binding to scroll down inside the popup
 					scroll_up = "<PageUp>", -- binding to scroll up inside the popup
@@ -44,6 +25,7 @@ return {
 					spacing = 5, -- spacing between columns
 					align = "left", -- align columns left, center or right
 				},
+				triggers_nowait = { "z=" },
 			})
 		end,
 	},
