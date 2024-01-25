@@ -189,13 +189,18 @@ function M.setup(opts)
 	vim.keymap.set("!", "<C-q><C-p>", "getcwd()", { desc = "cwd", expr = true })
 	vim.keymap.set("!", "<C-q><C-o>", require("git").root_path, { desc = "Git root path", expr = true })
 
+	map_with_underscore("c", function()
+		vim.wo.cursorcolumn = not vim.wo.cursorcolumn
+	end, { desc = "Toggle 'cursorcolumn'" })
 	map_with_underscore(
-		"c",
+		"d",
 		"<Cmd>lcd %:p:h | echo 'lcd -> ' . expand('%:p:~:h')<CR>",
 		{ desc = "lcd to buffer's dir" }
 	)
-	map_with_underscore("C", "<Cmd>lcd $PWD | echo 'lcd -> ' . fnamemodify($PWD, ':~')<CR>", { desc = "lcd to $PWD" })
-	map_with_underscore("w", "<Cmd>set wrap!<CR>", { desc = "Toggle wrap" })
+	map_with_underscore("D", "<Cmd>lcd $PWD | echo 'lcd -> ' . fnamemodify($PWD, ':~')<CR>", { desc = "lcd to $PWD" })
+	map_with_underscore("w", function()
+		vim.wo.wrap = not vim.wo.wrap
+	end, { desc = "Toggle 'wrap'" })
 	map_with_underscore("U", "<Cmd>lcd ..<CR>", { desc = "lcd to parent dir" })
 	map_with_underscore("<Space>", function()
 		vim.wo.number = not vim.wo.number
