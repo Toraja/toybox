@@ -64,6 +64,9 @@ keymap = [
   { keys = ["["], commands = ["parent_cursor_move_up"] },
   { keys = ["]"], commands = ["parent_cursor_move_down"] },
 
+  { keys = ["alt+j"], commands = ["preview_cursor_move_down 5"] },
+  { keys = ["alt+k"], commands = ["preview_cursor_move_up 5"] },
+
   { keys = ["c", "d"], commands = [":cd "] },
   { keys = ["d", "d"], commands = ["cut_files"] },
   { keys = ["y", "y"], commands = ["copy_files"] },
