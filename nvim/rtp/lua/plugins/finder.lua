@@ -136,11 +136,11 @@ return {
 					find_files = {
 						find_command = function()
 							if vim.fn.executable("fd") == 1 then
-								return { "fd", "--hidden", "--exclude", ".git", "--color", "never" }
+								return { "fd", "--type", "f", "--hidden", "--exclude", ".git", "--color", "never" }
 							elseif vim.fn.executable("fdfind") == 1 then
-								return { "fdfind", "--hidden", "--exclude", ".git", "--color", "never" }
+								return { "fdfind", "--type", "f", "--hidden", "--exclude", ".git", "--color", "never" }
 							end
-							return { "find", "-path", "./.git", "-prune", "-o", "-print" }
+							return { "find", "--type", "f", "-path", "./.git", "-prune", "-o", "-print" }
 						end,
 					},
 					oldfiles = {
