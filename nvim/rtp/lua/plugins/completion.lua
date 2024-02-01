@@ -125,6 +125,9 @@ return {
 	},
 	{
 		"jackMort/ChatGPT.nvim",
+		enabled = function()
+			return vim.env.OPENAI_API_KEY ~= nil
+		end,
 		dependencies = {
 			"MunifTanjim/nui.nvim",
 			"nvim-lua/plenary.nvim",
