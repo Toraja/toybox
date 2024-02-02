@@ -1,6 +1,7 @@
 return {
 	{
 		"nvim-treesitter/nvim-treesitter",
+		version = "*",
 		dependencies = { "IndianBoy42/tree-sitter-just" },
 		config = function()
 			-- setup justfile parser
