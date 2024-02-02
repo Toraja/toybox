@@ -42,12 +42,10 @@ return {
 					-- }),
 				},
 				floating = {
-					max_width = 0.8,
-					-- For reference
-					-- option = {
-					--   -- wrap is false by default but long lines are wrapped
-					--   wrap = true,
-					-- },
+					max_width = vim.opt.columns:get(),
+					option = {
+						wrap = true,
+					},
 				},
 				-- Tab for output panel opens in background so you need to focus it.
 				-- Only `tab split` opens the tab right, but adding command to move back to the last tab opens the tab left to the current tab.
