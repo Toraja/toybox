@@ -134,20 +134,23 @@ return {
 			"nvim-telescope/telescope.nvim",
 		},
 		config = function()
+			-- These must be done before setup()
+			-- NOTE: If you overwrite URLs, the below environment variables are not used.
+			-- Set dummy values to suppress the warning message.
+			-- vim.env.OPENAI_API_BASE = "xxx"
+			-- vim.env.OPENAI_API_AZURE_ENGINE = "xxx"
+			-- NOTE: Do not forget to set the below environment variable if the authorization header key needs to be `api-key`
+			-- vim.env.OPENAI_API_TYPE = "azure"
 			require("chatgpt").setup({
 				popup_input = {
 					submit = "<F10>",
 				},
 			})
+			-- These are to be done after setup()
 			-- NOTE: Overwrite URLs if the URL scheme is different from open AI
 			-- require("chatgpt.api").COMPLETIONS_URL = "<URL>"
 			-- require("chatgpt.api").CHAT_COMPLETIONS_URL = "<URL>"
 			-- require("chatgpt.api").EDITS_URL = "<URL>"
-			-- In such case, the below environment variables are not used but may be set to suppress the warning message:
-			-- vim.env.OPENAI_API_BASE = "xxx"
-			-- vim.env.OPENAI_API_AZURE_ENGINE = "xxx"
-			-- NOTE: Do not forget to set the below environment variable if the authorization header key needs to be `api-key`
-			-- vim.env.OPENAI_API_TYPE = "azure"
 		end,
 		event = "VeryLazy",
 	},
