@@ -225,20 +225,6 @@ return {
 		-- `keys` for lazy loading cannot be used as directories should be opened in neo-tree
 	},
 	{
-		"theniceboy/joshuto.nvim",
-		enabled = function()
-			return vim.fn.executable("joshuto") ~= 0
-		end,
-		keys = {
-			{
-				"<Leader>e",
-				"<Cmd>lua require('joshuto').joshuto({ edit_in_tab = true })<CR>",
-				mode = { "n" },
-				desc = "joshuto",
-			},
-		},
-	},
-	{
 		"kelly-lin/ranger.nvim",
 		enabled = false,
 		cond = function()

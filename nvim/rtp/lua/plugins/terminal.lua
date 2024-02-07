@@ -1,3 +1,4 @@
+local joshuto_output_file_path = "/tmp/joshuto_filechosen"
 return {
 	{
 		"akinsho/toggleterm.nvim",
@@ -44,6 +45,36 @@ return {
 				end,
 				mode = { "n" },
 				desc = "lazygit",
+			},
+			{
+				"<Leader>e",
+				function()
+					require("toggleterm.terminal").Terminal
+						:new({
+							cmd = string.format(
+								"joshuto --file-chooser --output-file '%s' '%s'",
+								joshuto_output_file_path,
+								vim.fn.expand("%:p:h")
+							),
+							direction = "float",
+							float_opts = {
+								width = math.floor(vim.o.columns * 0.95),
+								height = math.floor(vim.o.lines - 6),
+							},
+							on_exit = function(_, _, exit_code, _)
+								if exit_code ~= 102 then
+									return
+								end
+								local chosen_file = vim.fn.readfile(joshuto_output_file_path)[1]
+								if chosen_file then
+									vim.cmd(string.format("tabedit %s", chosen_file))
+								end
+							end,
+						})
+						:toggle()
+				end,
+				mode = { "n" },
+				desc = "joshuto",
 			},
 		},
 	},
