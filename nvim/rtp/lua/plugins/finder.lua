@@ -8,7 +8,7 @@ return {
 			{ "nvim-telescope/telescope-ghq.nvim" },
 			{ "LinArcX/telescope-scriptnames.nvim" },
 			{ "brookhong/telescope-pathogen.nvim" },
-			{ "princejoogie/dir-telescope.nvim" },
+			{ "fbuchlak/telescope-directory.nvim" },
 			{ "tsakirist/telescope-lazy.nvim" },
 			{ "benfowler/telescope-luasnip.nvim" },
 			{ "TC72/telescope-tele-tabby.nvim" },
@@ -27,6 +27,7 @@ return {
 			local telescope = require("telescope")
 			local action = require("telescope.actions")
 			local action_set = require("telescope.actions.set")
+			local action_state = require("telescope.actions.state")
 			local action_layout = require("telescope.actions.layout")
 			local function bottom_pane_borderchars()
 				return {
@@ -95,7 +96,7 @@ return {
 						},
 						i = {
 							["<Esc>"] = action.close,
-							["<M-\\>"] = { "<Esc>", type = "command" },
+							["<C-\\>"] = { "<Esc>", type = "command" },
 							["<C-_>"] = action_layout.toggle_preview,
 							["<Tab>"] = action.move_selection_worse,
 							["<C-j>"] = function(bufnr)
@@ -128,6 +129,12 @@ return {
 							["<M-?>"] = require("telescope.actions.generate").which_key({
 								max_height = 0.7, -- increase potential maximum height
 							}),
+							["<C-s>"] = function(bufnr)
+								require("telescope").extensions.pathogen.grep_in_result(bufnr)
+							end,
+							["<M-s>"] = function(bufnr)
+								require("telescope").extensions.pathogen.invert_grep_in_result(bufnr)
+							end,
 						},
 					},
 				},
@@ -173,22 +180,29 @@ return {
 			telescope.load_extension("ghq")
 			telescope.load_extension("scriptnames")
 			telescope.load_extension("pathogen")
-			telescope.load_extension("dir")
+			telescope.load_extension("directory")
 			telescope.load_extension("lazy")
 			telescope.load_extension("luasnip")
 			telescope.load_extension("tele_tabby")
-			require("dir-telescope").setup({
-				find_command = { "fd", "--type", "d", "--hidden", "--exclude", ".git", "--color", "never" },
+			require("telescope-directory").setup({
+				finder_cmd = function(opts)
+					local cmd = { "fd", "--type", "d", "--hidden", "--exclude", ".git", "--color", "never" }
+					if opts.base_dir then
+						vim.list_extend(cmd, { "--base-directory", vim.fn.expand(opts.base_dir) })
+					end
+					return cmd
+				end,
 			})
 			local easypick = require("easypick")
-			local actions = require("telescope.actions")
-			local action_state = require("telescope.actions.state")
 			local builtin = require("telescope.builtin")
+			local pickers = require("telescope.pickers")
+			local finders = require("telescope.finders")
+			local conf = require("telescope.config").values
 
 			local function easypick_nvim_func(f)
 				return function(prompt_bufnr, _)
-					actions.select_default:replace(function()
-						actions.close(prompt_bufnr)
+					action.select_default:replace(function()
+						action.close(prompt_bufnr)
 						local selection = action_state.get_selected_entry()
 						f(selection[1])
 					end)
@@ -201,11 +215,39 @@ return {
 				return require("git").root_path() .. "/" .. selection[1]
 			end
 
+			---@param opts table
+			---@param attach_mappings fun(prompt_bufnr: number): boolean
+			local function pick_dir(opts, attach_mappings)
+				opts = opts or {}
+
+				local cwd = opts.cwd or vim.loop.cwd()
+				vim.cmd("lcd " .. cwd) -- preview is not displayed without this
+				pickers
+					.new(opts, {
+						prompt_title = "Pick Directory",
+						finder = finders.new_oneshot_job({
+							"fd",
+							"--type",
+							"d",
+							"--hidden",
+							"--exclude",
+							".git",
+							"--color",
+							"never",
+						}, { cwd = cwd }),
+						sorter = conf.generic_sorter(opts),
+						previewer = conf.file_previewer(opts),
+						attach_mappings = attach_mappings,
+					})
+					:find()
+			end
+
 			easypick.setup({
 				pickers = {
 					{
 						name = "makefile",
-						command = "PJ_ROOT_DIR=$(git rev-parse --show-toplevel) && find $PJ_ROOT_DIR -type f -name Makefile -exec realpath --relative-to $PJ_ROOT_DIR {} \\; | sort",
+						-- command = "PJ_ROOT_DIR=$(git rev-parse --show-toplevel) && find $PJ_ROOT_DIR -type f -name Makefile -exec realpath --relative-to $PJ_ROOT_DIR {} \\; | sort",
+						command = "fd --type f --color never --base-directory $(git rev-parse --show-toplevel) Makefile | sort",
 						opts = require("telescope.themes").get_dropdown({
 							layout_config = {
 								height = function(_, _, max_lines)
@@ -228,7 +270,7 @@ return {
 					},
 					{
 						name = "subroot",
-						command = "find $(git rev-parse --show-toplevel) -mindepth 1 -maxdepth 1 -type d -exec basename {} \\; | sort",
+						command = "fd --type d --color never --base-directory $(git rev-parse --show-toplevel) --exact-depth 1 | sort",
 						opts = require("telescope.themes").get_dropdown({
 							layout_config = {
 								height = function(_, _, max_lines)
@@ -237,47 +279,89 @@ return {
 							},
 						}),
 						action = function(prompt_bufnr, map)
-							actions.select_default:replace(function()
-								actions.close(prompt_bufnr)
-								-- TODO: what should the default behaviour be?
-								-- local path = get_abs_path_of_entry()
-								-- vim.cmd("" .. path)
-								print("default")
+							action.select_default:replace(function()
+								action.close(prompt_bufnr)
+								local path = get_abs_path_of_entry()
+								vim.cmd("lcd" .. path)
 							end)
 
 							map({ "i" }, "<C-v>", function()
-								actions.close(prompt_bufnr)
+								action.close(prompt_bufnr)
 								local path = get_abs_path_of_entry()
 								vim.cmd("vnew " .. path)
 							end)
 							map({ "i" }, "<C-t>", function()
-								actions.close(prompt_bufnr)
+								action.close(prompt_bufnr)
 								local path = get_abs_path_of_entry()
 								vim.cmd("tabnew " .. path)
 							end)
 							map({ "i" }, "<C-\\>", function()
-								actions.close(prompt_bufnr)
+								action.close(prompt_bufnr)
 								-- local path = get_abs_path_of_entry()
 								-- TODO: open terminal in tab, or float term using toggleterm
 								print("C-\\")
 							end)
 							map({ "i" }, "<C-f>", function()
-								local selections = action_state.get_selected_entry()
-								local selection = selections[1]
+								action.close(prompt_bufnr)
+								local selection = action_state.get_selected_entry()
 								local path = require("git").root_path() .. "/" .. selection
 								builtin.find_files({
-									prompt_title = string.format("Find files (%s)", selection),
+									prompt_title = string.format("Find Files (%s)", selection),
 									cwd = path,
 								})
 							end)
+							map({ "i" }, "<M-f>", function()
+								action.close(prompt_bufnr)
+								local selection = action_state.get_selected_entry()[1]
+								local path = require("git").root_path() .. "/" .. selection
+								pick_dir(
+									{ cwd = path, prompt_title = "Pick Directory (Find Files)" },
+									---@diagnostic disable-next-line: redefined-local
+									function(prompt_bufnr)
+										action.select_default:replace(function()
+											action.close(prompt_bufnr)
+											---@diagnostic disable-next-line: redefined-local
+											local selection = action_state.get_selected_entry()[1]
+											require("pathogen").find_files({
+												cwd = path,
+												prompt_title = string.format("Find Files (%s): ", selection),
+												search_dirs = { path .. "/" .. selection },
+											})
+										end)
+										return true
+									end
+								)
+							end)
 							map({ "i" }, "<C-g>", function()
-								local selections = action_state.get_selected_entry()
-								local selection = selections[1]
+								action.close(prompt_bufnr)
+								local selection = action_state.get_selected_entry()
 								local path = require("git").root_path() .. "/" .. selection
 								builtin.live_grep({
-									prompt_title = string.format("Grep files (%s)", selection),
+									prompt_title = string.format("Live Grep (%s)", selection),
 									cwd = path,
 								})
+							end)
+							map({ "i" }, "<M-g>", function()
+								action.close(prompt_bufnr)
+								local selection = action_state.get_selected_entry()[1]
+								local path = require("git").root_path() .. "/" .. selection
+								pick_dir(
+									{ cwd = path, prompt_title = "Pick Directory (Live Grep)" },
+									---@diagnostic disable-next-line: redefined-local
+									function(prompt_bufnr)
+										action.select_default:replace(function()
+											action.close(prompt_bufnr)
+											---@diagnostic disable-next-line: redefined-local
+											local selection = action_state.get_selected_entry()[1]
+											require("pathogen").live_grep({
+												cwd = path,
+												prompt_title = string.format("Live Grep (%s): ", selection),
+												search_dirs = { path .. "/" .. selection },
+											})
+										end)
+										return true
+									end
+								)
 							end)
 
 							return true
@@ -302,6 +386,15 @@ return {
 						{ desc = "File browser" },
 					},
 					f = { 'lua require("pathogen").find_files()', { desc = "Files" } },
+					F = {
+						'lua require("telescope").extensions.directory.find_files({ prompt_title = "Pick Directory (Find Files)" })',
+						{ desc = "Pick Directory + Find" },
+					},
+					g = { 'lua require("pathogen").live_grep()', { desc = "Grep" } },
+					G = {
+						'lua require("telescope").extensions.directory.live_grep({ prompt_title = "Pick Directory (Live Grep)" })',
+						{ desc = "Pick Directory + Grep" },
+					},
 					h = { 'lua require("telescope.builtin").help_tags()', { desc = "Help tags" } },
 					H = { 'lua require("telescope.builtin").highlights()', { desc = "Highlights" } },
 					k = { 'lua require("telescope.builtin").keymaps()', { desc = "Keymaps" } },
@@ -311,7 +404,7 @@ return {
 					},
 					m = { "Easypick makefile", { desc = "Makefiles" } },
 					M = { 'lua require("telescope.builtin").marks()', { desc = "Marks" } },
-					n = { 'lua require("telescope").extensions.notify.notify()', { desc = "Notify" } },
+					n = { 'lua require("telescope").extensions.notify.notify()', { desc = "Notifications" } },
 					o = {
 						function()
 							if vim.lsp.buf.server_ready() then
@@ -328,11 +421,6 @@ return {
 					q = {
 						'lua require("telescope").extensions.ghq.list({ layout_config = { preview_width = 0.5 } })',
 						{ desc = "Ghq list" },
-					},
-					r = { 'lua require("pathogen").live_grep()', { desc = "Grep" } },
-					R = {
-						'lua require("telescope").extensions.dir.live_grep()',
-						{ desc = "Pick directory + Grep" },
 					},
 					s = {
 						'lua require("telescope").extensions.luasnip.luasnip()',
@@ -364,6 +452,7 @@ return {
 				}
 			)
 		end,
+		cmd = { "Telescope" },
 		keys = {
 			{
 				vim.g.chief_key .. "f",
