@@ -181,8 +181,8 @@ handle_mime() {
 
             ## Text
         text/* | */xml)
-            bat --color=always --paging=never \
-                --style=plain \
+            bat --color=always \
+                --paging=never --style=numbers \
                 --terminal-width="${PREVIEW_WIDTH}" \
                 "${FILE_PATH}" && exit 0
             cat "${FILE_PATH}" && exit 0
