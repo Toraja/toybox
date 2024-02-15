@@ -1,6 +1,9 @@
 return {
 	{
 		"kevinhwang91/nvim-bqf",
+		dependencies = {
+			{ "junegunn/fzf" },
+		},
 		config = function()
 			local augroud_id = vim.api.nvim_create_augroup("nvim-bpf-custom", {})
 			vim.api.nvim_create_autocmd("FileType", {
