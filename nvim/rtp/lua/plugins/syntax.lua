@@ -120,9 +120,66 @@ return {
 				yaml = { "yamllint" },
 			}
 
+			local severities = {
+				error = "E",
+				warning = "W",
+				refactor = "I",
+				convention = "H",
+			}
+
+			local custom_linters = { go = { "golangcilint_ws" } }
+			local golangcilint_ws = vim.deepcopy(require("lint.linters.golangcilint"))
+			golangcilint_ws.args = {
+				"run",
+				"--out-format",
+				"json",
+				"--max-issues-per-linter",
+				"100",
+				"--max-same-issues",
+				"100",
+			}
+			golangcilint_ws.parser = function(output, _, cwd)
+				if output == "" then
+					return {}
+				end
+				local decoded = vim.json.decode(output)
+				if decoded["Issues"] == nil or type(decoded["Issues"]) == "userdata" then
+					return {}
+				end
+
+				local qfs = {}
+				for _, item in ipairs(decoded["Issues"]) do
+					local linted_file = cwd .. "/" .. item.Pos.Filename
+					table.insert(qfs, {
+						filename = linted_file,
+						lnum = item.Pos.Line > 0 and item.Pos.Line or 0,
+						col = item.Pos.Column > 0 and item.Pos.Column or 0,
+						end_lnum = item.Pos.Line > 0 and item.Pos.Line or 0,
+						end_col = item.Pos.Column > 0 and item.Pos.Column or 0,
+						type = severities[item.Severity] or severities.warning,
+						text = item.Text,
+					})
+				end
+				vim.fn.setqflist(qfs)
+				if vim.tbl_count(qfs) ~= 0 then
+					vim.cmd("copen")
+				end
+				return {}
+			end
+			lint.linters.golangcilint_ws = golangcilint_ws
+
 			local ft_common = require("ft-common")
 			ft_common.set_ft_keymap({
 				l = { "lua require('lint').try_lint()", { desc = "Lint", silent = true } },
+			})
+
+			vim.api.nvim_create_user_command("LintCustom", function(cmds)
+				lint.try_lint({ cmds.fargs[1] })
+			end, {
+				nargs = 1,
+				complete = function(_, _, _)
+					return custom_linters[vim.api.nvim_buf_get_option(0, "filetype")]
+				end,
 			})
 
 			vim.api.nvim_create_autocmd("BufWritePost", {
@@ -134,5 +191,6 @@ return {
 			})
 		end,
 		event = "VeryLazy",
+		cmd = { "LintCustom" },
 	},
 }
