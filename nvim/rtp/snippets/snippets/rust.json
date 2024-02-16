@@ -32,7 +32,7 @@
   "method": {
     "prefix": "me",
     "body": [
-      "fn ${1:name}(${2:&}self${3:, arg) -> ${4:RetType} {",
+      "fn ${1:name}(${2:&}self${3:, arg}) -> ${4:RetType} {",
       "\t${5:unimplemented!();}",
       "}"
     ],
