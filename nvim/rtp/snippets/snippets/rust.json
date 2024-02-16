@@ -1,24 +1,30 @@
 {
   "print": {
     "prefix": "pr",
-    "body": ["print!(\"${1:{\\}}\")"],
+    "body": [
+      "print!(\"${1:{\\}}\")"
+    ],
     "description": "print macro"
   },
   "println": {
     "prefix": "pln",
-    "body": ["println!(\"${1:{\\}}\"${2:, })"],
+    "body": [
+      "println!(\"${1:{\\}}\"${2:, })"
+    ],
     "description": "println macro"
   },
   "return": {
     "prefix": "re",
-    "body": ["return"],
+    "body": [
+      "return"
+    ],
     "description": "return"
   },
   "fn": {
     "prefix": "fn",
     "body": [
       "fn ${1:name}(${2:arg}) -> ${3:RetType} {",
-      "    ${4:unimplemented!();}",
+      "\t${4:unimplemented!();}",
       "}"
     ],
     "description": "fn …(…) { … }"
@@ -27,7 +33,7 @@
     "prefix": "me",
     "body": [
       "fn ${1:name}(${2:&}self${3:, arg) -> ${4:RetType} {",
-      "    ${5:unimplemented!();}",
+      "\t${5:unimplemented!();}",
       "}"
     ],
     "description": "fn …(self, …) { … }"
@@ -36,8 +42,8 @@
     "prefix": "matopt",
     "body": [
       "match ${1:expr} {",
-      "    Some(${2:expr}) => ${3:expr},",
-      "    None => ${4:expr},",
+      "\tSome(${2:expr}) => ${3:expr},",
+      "\tNone => ${4:expr},",
       "}"
     ],
     "description": "match … { Some()…, None()… }"
@@ -46,8 +52,8 @@
     "prefix": "matres",
     "body": [
       "match ${1:expr} {",
-      "    Ok(${2:expr}) => ${3:expr},",
-      "    Err(e) => ${4:expr},",
+      "\tOk(${2:expr}) => ${3:expr},",
+      "\tErr(e) => ${4:expr},",
       "}"
     ],
     "description": "match … { Ok()…, Err()… }"
@@ -56,7 +62,7 @@
     "prefix": "letmat",
     "body": [
       "let ${1:pat} = match ${2:expr} {",
-      "    ${3:expr} => ${4:expr},",
+      "\t${3:expr} => ${4:expr},",
       "}"
     ],
     "description": "let … match … { … }"
@@ -65,8 +71,8 @@
     "prefix": "letmatres",
     "body": [
       "let ${1:pat} = match ${2:expr} {",
-      "    Ok(${3:expr}) => ${4:expr},",
-      "    Err(e) => ${5:expr},",
+      "\tOk(${3:expr}) => ${4:expr},",
+      "\tErr(e) => ${5:expr},",
       "}"
     ],
     "description": "let … = match … { Ok()…, Err()… }"
@@ -75,23 +81,25 @@
     "prefix": "pmod",
     "body": [
       "pub mod ${1:name} {",
-      "    ${2:${TM_SELECTED_TEXT}}",
+      "\t${2:${TM_SELECTED_TEXT}}",
       "}"
     ],
     "description": "pub mod … { … }"
   },
   "String from": {
     "prefix": "sf",
-    "body": ["String::from(\"${1:str}\")"],
+    "body": [
+      "String::from(\"${1:str}\")"
+    ],
     "description": "mod …;"
   },
   "From Trait": {
     "prefix": "from",
     "body": [
       "impl From<${1:Type}> for ${2:Type} {",
-      "    fn from(${3:arg}: ${1}) -> Self {",
-      "        ${4:// code here}",
-      "    }",
+      "\tfn from(${3:arg}: ${1}) -> Self {",
+      "\t    ${4:// code here}",
+      "\t}",
       "}"
     ],
     "description": "impl From<…> for … { … }"
@@ -101,9 +109,9 @@
     "body": [
       "#[cfg(test)]",
       "mod tests {",
-      "    use super::*;",
+      "\tuse super::*;",
       "",
-      "    test${2}",
+      "\ttest${2}",
       "}"
     ],
     "description": "#[cfg(test)] mod tests …"
@@ -113,7 +121,7 @@
     "body": [
       "#[tokio::test]",
       "async fn ${1:test_function_name}() {",
-      "    ${2:// code here}",
+      "\t${2:// code here}",
       "}"
     ],
     "description": "#[tokio::test] async fn …"

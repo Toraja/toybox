@@ -3,7 +3,7 @@
     "prefix": "notelm",
     "body": [
       "note left",
-      "  ${1}",
+      "\t${1}",
       "end note"
     ],
     "description": "note left multiline"
@@ -12,7 +12,7 @@
     "prefix": "noterm",
     "body": [
       "note right",
-      "  ${1}",
+      "\t${1}",
       "end note"
     ],
     "description": "note right multiline"
@@ -21,7 +21,7 @@
     "prefix": "noteom",
     "body": [
       "note over ${1:participant}",
-      "  ${2}",
+      "\t${2}",
       "end note"
     ],
     "description": "note over multiline"
