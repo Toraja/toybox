@@ -10,6 +10,10 @@
         "path": "./snippets/asciidoc.json"
       },
       {
+        "language": "fish",
+        "path": "./snippets/fish.json"
+      },
+      {
         "language": "go",
         "path": "./snippets/go.json"
       },
@@ -20,6 +24,15 @@
       {
         "language": "rust",
         "path": "./snippets/rust.json"
+      },
+      {
+        "language": [
+          "shellscript",
+          "shell",
+          "sh",
+          "zsh"
+        ],
+        "path": "./snippets/sh.json"
       }
     ]
   }
