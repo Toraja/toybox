@@ -141,9 +141,46 @@ return {
 			-- vim.env.OPENAI_API_AZURE_ENGINE = "xxx"
 			-- NOTE: Do not forget to set the below environment variable if the authorization header key needs to be `api-key`
 			-- vim.env.OPENAI_API_TYPE = "azure"
+			local key_prefix = "<C-g>"
+			local key_session_prefix = "<C-s>"
 			require("chatgpt").setup({
+				edit_with_instructions = {
+					keymaps = {
+						accept = key_prefix .. "<C-y>",
+						toggle_diff = key_prefix .. "<C-d>",
+						toggle_settings = key_prefix .. "<C-o>",
+						toggle_help = "<M-?>",
+						cycle_windows = key_prefix .. "<C-w>",
+						use_output_as_input = key_prefix .. "<C-i>",
+					},
+				},
+				chat = {
+					keymaps = {
+						yank_last = key_prefix .. "<C-y>",
+						yank_last_code = key_prefix .. "<C-k>",
+						scroll_up = "<M-k>",
+						scroll_down = "<M-j>",
+						cycle_windows = key_prefix .. "<C-w>",
+						cycle_modes = key_prefix .. "<C-f>",
+						next_message = key_prefix .. "<C-j>",
+						prev_message = key_prefix .. "<C-k>",
+						draft_message = key_prefix .. "<C-r>",
+						edit_message = key_prefix .. "<C-e>",
+						delete_message = key_prefix .. "<C-d>",
+						new_session = key_prefix .. key_session_prefix .. "<C-n>",
+						select_session = key_prefix .. key_session_prefix .. "<CR>",
+						rename_session = key_prefix .. key_session_prefix .. "<C-r>",
+						delete_session = key_prefix .. key_session_prefix .. "<C-d>",
+						toggle_sessions = key_prefix .. key_session_prefix .. "<C-p>",
+						toggle_settings = key_prefix .. "<C-o>",
+						toggle_help = "<M-?>",
+						toggle_message_role = key_prefix .. "<C-r>" .. "<C-m>",
+						toggle_system_role_open = key_prefix .. "<C-r>" .. "<C-s>",
+						stop_generating = key_prefix .. "<C-x>",
+					},
+				},
 				popup_input = {
-					submit = "<F10>",
+					submit = key_prefix .. key_prefix,
 				},
 			})
 			-- These are to be done after setup()
