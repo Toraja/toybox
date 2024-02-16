@@ -80,6 +80,9 @@ return {
 					-- 		return fmt
 					-- 	end,
 					-- },
+					json = {
+						require("formatter.filetypes.json").jq,
+					},
 					lua = {
 						require("formatter.filetypes.lua").stylua,
 					},
