@@ -8,6 +8,7 @@ return {
 			-- 'php': [s:plugin_dir . '/phpactor/bin/phpactor', 'language-server'],
 
 			vim.api.nvim_set_hl(0, "NormalFloat", { link = "Normal" })
+			vim.api.nvim_set_hl(0, "LspReferenceText", { fg = "#abb2bf", reverse = true })
 			-- vim.lsp.set_log_level("debug")
 
 			local lspconfig = require("lspconfig")
