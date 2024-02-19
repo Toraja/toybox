@@ -1,7 +1,9 @@
 {
   "return": {
     "prefix": "rt",
-    "body": ["return "],
+    "body": [
+      "return "
+    ],
     "description": "return"
   },
   "else if": {
@@ -71,8 +73,33 @@
     ],
     "description": "main package and function"
   },
-  "fmt.Sprintf": {
+  "fmt.Print": {
+    "prefix": "fp",
+    "body": "fmt.Print(\"$1\")",
+    "description": "fmt.Print()"
+  },
+  "fmt.Println": {
+    "prefix": "fpl",
+    "body": "fmt.Println(\"$1\")",
+    "description": "fmt.Println()"
+  },
+  "fmt.Printf": {
+    "prefix": "fpf",
+    "body": "fmt.Printf(\"$1\", ${2:var})",
+    "description": "fmt.Printf()"
+  },
+  "fmt.Sprint": {
     "prefix": "fs",
+    "body": "fmt.Sprint(\"$1\")",
+    "description": "fmt.Sprint()"
+  },
+  "fmt.Sprintln": {
+    "prefix": "fsl",
+    "body": "fmt.Sprintln(\"$1\")",
+    "description": "fmt.Sprintln()"
+  },
+  "fmt.Sprintf": {
+    "prefix": "fsf",
     "body": "fmt.Sprintf(\"$1\", ${2:var})",
     "description": "fmt.Sprintf()"
   },
