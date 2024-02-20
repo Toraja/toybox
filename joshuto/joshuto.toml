@@ -6,4 +6,4 @@ show_hidden = true
 line_number_style = "absolute"
 
 [preview]
-preview_script = "~/.local/bin/joshuto_preview_file.sh"
+preview_script = "~/.config/joshuto/preview_file.sh"
