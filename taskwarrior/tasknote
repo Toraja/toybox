@@ -1,0 +1,71 @@
+#!/bin/bash
+
+set -eo pipefail
+
+EDITOR=${EDITOR:-vim}
+TASKBIN=task
+VIEWER=cat
+
+note_dir="${HOME}/.local/share/taskopen/notes"
+
+# Check for existence of $note_dir
+if [ ! -e $note_dir ]; then
+  echo    "Notes directory '$note_dir' does not exist."
+  echo -n "Shall I create it (y/n)? "
+  read answer
+  if [ $answer == "y" ]; then
+    echo "Creating '$note_dir'."
+    mkdir -p $note_dir;
+  else
+    echo "Did NOT create $note_dir. Exiting."
+    exit 1;
+  fi
+fi
+
+# Preferred extension for tasknotes
+EXT=".norg"
+
+# Display usage if task number not supplied on cli
+if [ $# -lt 1 -o $# -gt 2 ]; then
+  echo "Usage:"
+  echo "  New/Edit note: $0 <id>"
+  echo "  View note:     $0 <id> v"
+  exit 1
+fi
+
+task_uuid=$1
+task_id=`$TASKBIN $task_uuid ids`
+file="$note_dir/$task_uuid$EXT"
+
+# determine if notes file already exists
+fileexists=0
+if [ -f $file ]; then
+  fileexists=1
+fi
+
+# Display note if requested and exit
+if [ $# -gt 1 ]; then
+  if [ $fileexists = 1 ]; then
+    $SHELL -c "$VIEWER $file"
+  else
+    echo "File not found"
+  fi
+  exit 1
+fi
+
+#create/edit $file with editor
+$SHELL -c "$EDITOR $file"
+
+annotation_symbol="Notes"
+annotation_count=$($SHELL -c "$TASKBIN _get ${task_id}.annotations.count")
+has_note=false
+if [ $annotation_count -gt 0 ]; then
+  for i in $(seq 1 $annotation_count); do
+    task _get ${task_id}.annotations.${i}.description | grep -q "$annotation_symbol" && has_note=true
+  done
+fi
+if ! $has_note; then
+  $SHELL -c "$TASKBIN $task_id annotate '$annotation_symbol'"
+fi
+
+exit 0
