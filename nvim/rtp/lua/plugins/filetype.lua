@@ -280,6 +280,11 @@ return {
 			require("neorg").setup({
 				load = {
 					["core.defaults"] = {}, -- Loads default behaviour
+					["core.esupports.indent"] = {
+						config = {
+							dedent_excess = false,
+						},
+					},
 					["core.concealer"] = {
 						config = {
 							icons = {
