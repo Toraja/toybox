@@ -279,7 +279,14 @@ return {
 		config = function()
 			require("neorg").setup({
 				load = {
-					["core.defaults"] = {}, -- Loads default behaviour
+					["core.defaults"] = {
+						config = {
+							disable = {
+								-- module list goes here
+								"core.clipboard.code-blocks", -- this module appends new line to any yank inside code block
+							},
+						},
+					}, -- Loads default behaviour
 					["core.esupports.indent"] = {
 						config = {
 							dedent_excess = false,
