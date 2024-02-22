@@ -22,6 +22,11 @@ function M.setup(opts)
 	opts = opts or {}
 
 	vim.keymap.set("t", "<C-\\>", "<C-\\><C-n>", { nowait = true })
+	for i = 1, 9 do
+		vim.keymap.set("t", "<M-" .. i .. ">", "<Cmd>tabnext " .. i .. "<CR>")
+	end
+	vim.keymap.set("t", "<M-0>", "<Cmd>tabnext 10<CR>")
+
 	vim.api.nvim_create_user_command("Terminal", function(cmds)
 		local open_terminal_opts = {}
 		for _, arg in pairs(cmds.fargs) do
