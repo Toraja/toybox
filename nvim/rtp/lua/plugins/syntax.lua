@@ -25,7 +25,7 @@ return {
 					"gosum",
 					"hcl",
 					"json",
-					-- "just", -- disabling as it crushes
+					"just",
 					"lua",
 					"make",
 					"markdown",
