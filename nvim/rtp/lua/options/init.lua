@@ -63,6 +63,7 @@ function M.setup(opts)
 	vim.opt.diffopt:append("vertical")
 	vim.opt.sessionoptions = { "blank", "curdir", "folds", "help", "tabpages", "winsize" }
 	vim.opt.exrc = true
+	vim.opt.clipboard = { "unnamed", "unnamedplus" }
 
 	-- command mode
 	vim.opt.history = 1000
