@@ -23,9 +23,15 @@ function M.setup(opts)
 
 	vim.keymap.set("t", "<C-\\>", "<C-\\><C-n>", { nowait = true })
 	for i = 1, 9 do
-		vim.keymap.set("t", "<M-" .. i .. ">", "<Cmd>tabnext " .. i .. "<CR>")
+		vim.keymap.set("t", "<M-" .. i .. ">", function()
+			vim.cmd("stopinsert") -- cursor disappears without `stopinsert`
+			vim.cmd("tabnext " .. i)
+		end)
 	end
-	vim.keymap.set("t", "<M-0>", "<Cmd>tabnext 10<CR>")
+	vim.keymap.set("t", "<M-0>", function()
+		vim.cmd("stopinsert")
+		vim.cmd("tabnext 10")
+	end)
 
 	vim.api.nvim_create_user_command("Terminal", function(cmds)
 		local open_terminal_opts = {}
