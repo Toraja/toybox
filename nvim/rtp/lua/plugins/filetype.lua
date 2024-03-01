@@ -310,6 +310,18 @@ return {
 							},
 						},
 					},
+					["core.highlights"] = {
+						config = {
+							dim = {
+								markup = {
+									verbatim = {
+										reference = "Special",
+										percentage = 0,
+									},
+								},
+							},
+						},
+					},
 					["core.keybinds"] = {
 						config = {
 							hook = function(keybinds)
