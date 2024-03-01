@@ -34,6 +34,17 @@ function M.named_registers_clear()
 	print("All named registers have been cleared")
 end
 
+---@param s string
+function M.yank_or_clip(s)
+	vim.fn.setreg('"', s)
+	if clipboard_char ~= "" then
+		vim.fn.setreg(clipboard_char, s)
+		print("Clipped:", s)
+	else
+		print("Yanked:", s)
+	end
+end
+
 function M.setup(opts)
 	opts = opts or {}
 
@@ -42,16 +53,24 @@ function M.setup(opts)
 	vim.keymap.set({ "n", "x" }, vim.g.chief_key, '"' .. clipboard_char)
 	vim.keymap.set("n", vim.g.chief_key .. vim.g.chief_key, clip_func)
 
-	vim.keymap.set("n", "yp", function()
-		local current_file_path = vim.fn.expand("%:p:~")
-		vim.fn.setreg('"', current_file_path)
-		if clipboard_char ~= "" then
-			vim.fn.setreg(clipboard_char, current_file_path)
-			print("Clipped:", current_file_path)
-		else
-			print("Yanked:", current_file_path)
-		end
-	end)
+	vim.keymap.set("n", "ypf", function()
+		M.yank_or_clip(vim.fn.expand("%:p:~"))
+	end, { desc = "Yank buffer's full path" })
+	vim.keymap.set("n", "ypd", function()
+		M.yank_or_clip(vim.fn.expand("%:p:~:h"))
+	end, { desc = "Yank buffer's directory path" })
+	vim.keymap.set("n", "ypb", function()
+		M.yank_or_clip(vim.fn.expand("%:t"))
+	end, { desc = "Yank buffer's basename" })
+	vim.keymap.set("n", "yps", function()
+		M.yank_or_clip(vim.fn.expand("%:t:r"))
+	end, { desc = "Yank buffer's simple name" })
+	vim.keymap.set("n", "ypc", function()
+		M.yank_or_clip(vim.fn.expand("%:t:r"))
+	end, { desc = "Yank cwd" })
+	vim.keymap.set("n", "ypo", function()
+		M.yank_or_clip(require("git").root_path())
+	end, { desc = "Yank git root path" })
 end
 
 return M
