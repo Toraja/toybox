@@ -1,6 +1,7 @@
 return {
 	{
-		"cpea2506/one_monokai.nvim",
+		-- "cpea2506/one_monokai.nvim",
+		"Toraja/one_monokai.nvim",
 		lazy = false,
 		priority = 1000,
 		config = function()
