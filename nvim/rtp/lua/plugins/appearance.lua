@@ -78,7 +78,10 @@ return {
 	},
 	{
 		"nvim-lualine/lualine.nvim",
-		dependencies = { "nvim-tree/nvim-web-devicons" },
+		dependencies = {
+			"nvim-tree/nvim-web-devicons",
+			"Toraja/one_monokai.nvim",
+		},
 		config = function()
 			vim.opt.showmode = false
 
