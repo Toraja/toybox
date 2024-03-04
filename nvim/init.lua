@@ -32,6 +32,13 @@ local after_dir = rtp_dir .. "/after"
 local snippets_dir = rtp_dir .. "/snippets"
 
 require("lazy").setup("plugins", {
+	dev = {
+		---@type string | fun(plugin: LazyPlugin): string directory where you store your local plugin projects
+		path = "~/workspace/personal.github.com/Toraja",
+		---@type string[] plugins that match these patterns will use your local versions instead of being fetched from GitHub
+		patterns = { "Toraja" },
+		fallback = false, -- Fallback to git when local plugin doesn't exist
+	},
 	ui = {
 		-- The border to use for the UI window. Accepts same border values as |nvim_open_win()|.
 		border = "rounded",
