@@ -107,5 +107,16 @@
     "prefix": "fe",
     "body": "fmt.Errorf(\"$1: %w\", err)",
     "description": "fmt.Errorf()"
+  },
+  "recover": {
+    "prefix": "rec",
+    "body": [
+      "defer func() {",
+      "\tif r := recover(); r != nil {",
+      "\t\t$0",
+      "\t}",
+      "}()"
+    ],
+    "description": "recover"
   }
 }
