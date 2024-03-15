@@ -101,6 +101,7 @@ return {
 	-- rust
 	{
 		"simrat39/rust-tools.nvim",
+		enabled = vim.fn.executable("cargo") == 1,
 		ft = "rust",
 		config = function()
 			require("rust-tools").setup({})

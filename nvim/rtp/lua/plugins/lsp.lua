@@ -37,8 +37,16 @@ return {
 				return orig_util_open_floating_preview(contents, syntax, opts, ...)
 			end
 
-			-- setup for rust-analyzer is done by rust-tools as it handles better
-			local servers = { "gopls", "pyright", "rust_analyzer", "lua_ls" }
+			local servers = { "lua_ls" }
+			if vim.fn.executable("gopls") == 1 then
+				table.insert(servers, "gopls")
+			end
+			if vim.fn.executable("pyright") == 1 then
+				table.insert(servers, "pyright")
+			end
+			if vim.fn.executable("rust-analyzer") == 1 then
+				table.insert(servers, "rust_analyzer")
+			end
 			for _, lsp in pairs(servers) do
 				lspconfig[lsp].setup({
 					capabilities = capabilities,
