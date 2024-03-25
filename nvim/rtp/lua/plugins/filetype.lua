@@ -271,6 +271,7 @@ return {
 	},
 	{
 		"nvim-neorg/neorg",
+		version = "^7.0.0",
 		ft = "norg",
 		dependencies = {
 			{ "nvim-lua/plenary.nvim" },
