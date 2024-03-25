@@ -4,8 +4,8 @@ local M = {}
 ---@param lh string
 ---@param rh any
 ---@param opts table
-local function map_with_underscore(lh, rh, opts)
-	vim.keymap.set("n", "_" .. lh, rh, opts)
+local function map_with_comma(lh, rh, opts)
+	vim.keymap.set("n", "," .. lh, rh, opts)
 end
 
 function M.setup(opts)
@@ -189,20 +189,16 @@ function M.setup(opts)
 	vim.keymap.set("!", "<C-q><C-p>", "getcwd()", { desc = "cwd", expr = true })
 	vim.keymap.set("!", "<C-q><C-o>", require("git").root_path, { desc = "Git root path", expr = true })
 
-	map_with_underscore("c", function()
+	map_with_comma("c", function()
 		vim.wo.cursorcolumn = not vim.wo.cursorcolumn
 	end, { desc = "Toggle 'cursorcolumn'" })
-	map_with_underscore(
-		"d",
-		"<Cmd>lcd %:p:h | echo 'lcd -> ' . expand('%:p:~:h')<CR>",
-		{ desc = "lcd to buffer's dir" }
-	)
-	map_with_underscore("D", "<Cmd>lcd $PWD | echo 'lcd -> ' . fnamemodify($PWD, ':~')<CR>", { desc = "lcd to $PWD" })
-	map_with_underscore("w", function()
+	map_with_comma("d", "<Cmd>lcd %:p:h | echo 'lcd -> ' . expand('%:p:~:h')<CR>", { desc = "lcd to buffer's dir" })
+	map_with_comma("D", "<Cmd>lcd $PWD | echo 'lcd -> ' . fnamemodify($PWD, ':~')<CR>", { desc = "lcd to $PWD" })
+	map_with_comma("w", function()
 		vim.wo.wrap = not vim.wo.wrap
 	end, { desc = "Toggle 'wrap'" })
-	map_with_underscore("U", "<Cmd>lcd ..<CR>", { desc = "lcd to parent dir" })
-	map_with_underscore("<Space>", function()
+	map_with_comma("U", "<Cmd>lcd ..<CR>", { desc = "lcd to parent dir" })
+	map_with_comma("<Space>", function()
 		vim.wo.number = not vim.wo.number
 		require("options").signcolumn_toggle()
 	end, { desc = "Toggle left spaces" })

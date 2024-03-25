@@ -52,6 +52,7 @@ function M.setup(opts)
 
 	vim.keymap.set({ "n", "x" }, vim.g.chief_key, '"' .. clipboard_char)
 	vim.keymap.set("n", vim.g.chief_key .. vim.g.chief_key, clip_func)
+	vim.keymap.set({ "n", "x" }, "_", '"_')
 
 	vim.keymap.set("n", "ypf", function()
 		M.yank_or_clip(vim.fn.expand("%:p:~"))
