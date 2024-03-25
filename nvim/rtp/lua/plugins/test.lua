@@ -3,6 +3,7 @@ return {
 		"nvim-neotest/neotest",
 		dependencies = {
 			"folke/which-key.nvim",
+			"nvim-neotest/nvim-nio",
 			"nvim-lua/plenary.nvim",
 			"nvim-treesitter/nvim-treesitter",
 			"nvim-neotest/neotest-go",
