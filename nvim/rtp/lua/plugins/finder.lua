@@ -129,12 +129,6 @@ return {
 							["<M-?>"] = require("telescope.actions.generate").which_key({
 								max_height = 0.7, -- increase potential maximum height
 							}),
-							["<C-s>"] = function(bufnr)
-								require("telescope").extensions.pathogen.grep_in_result(bufnr)
-							end,
-							["<M-s>"] = function(bufnr)
-								require("telescope").extensions.pathogen.invert_grep_in_result(bufnr)
-							end,
 						},
 					},
 				},
@@ -169,8 +163,15 @@ return {
 						}),
 					},
 					["pathogen"] = {
+						attach_mappings = function(map, actions)
+							map("i", "<C-o>", actions.proceed_with_parent_dir)
+							map("i", "<C-l>", actions.revert_back_last_dir)
+							map("i", "<M-w>", actions.change_working_directory)
+							map("i", "<C-s>", actions.grep_in_result)
+							map("i", "<M-s>", actions.invert_grep_in_result)
+						end,
+						-- remove below if you want to enable it
 						use_last_search_for_live_grep = false,
-						-- XXX: when use_last_search_for_live_grep is specified, pathogen sets value of prompt_prefix_length from here
 						prompt_prefix_length = 100,
 					},
 				},
