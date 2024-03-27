@@ -271,13 +271,8 @@ return {
 	},
 	{
 		"nvim-neorg/neorg",
-		version = "^7.0.0",
 		ft = "norg",
-		dependencies = {
-			{ "nvim-lua/plenary.nvim" },
-			{ "nvim-treesitter/nvim-treesitter" },
-		},
-		build = ":Neorg sync-parsers",
+		dependencies = { "luarocks.nvim" },
 		config = function()
 			require("neorg").setup({
 				load = {
