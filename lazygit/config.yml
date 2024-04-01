@@ -1,4 +1,5 @@
 ---
+# See https://github.com/jesseduffield/lazygit/blob/master/pkg/config/user_config.go for the yaml keys
 gui:
   expandFocusedSidePanel: true
   mouseEvents: false
@@ -7,5 +8,8 @@ keybinding:
   universal:
     prevPage: "<C-b>"
     nextPage: "<C-f>"
+    # Alt key is not supported
+    # scrollUpMain-alt1: "<A-k>"
+    # scrollDownMain-alt1: "<A-j>"
   files:
     openStatusFilter: "."
