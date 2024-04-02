@@ -1,0 +1,32 @@
+# A TOML linter such as https://taplo.tamasfe.dev/ can use this schema to validate your config.
+# If you encounter any issues, please make an issue at https://github.com/yazi-rs/schemas.
+"$schema" = "https://yazi-rs.github.io/schemas/theme.json"
+
+[manager]
+cwd = { fg = "lightgreen" }
+
+# Count
+count_selected = { fg = "white", bg = "lightblue" }
+
+# Mode
+mode_normal = { bg = "lightblue", bold = true }
+
+# Progress
+progress_normal = { fg = "lightblue", bg = "black" }
+
+[select]
+border = { fg = "lightblue" }
+
+[input]
+border = { fg = "lightblue" }
+
+[completion]
+border = { fg = "lightblue" }
+
+[tasks]
+border = { fg = "lightblue" }
+
+
+[filetype]
+
+rules = [{ name = "*/", fg = "lightblue" }]
