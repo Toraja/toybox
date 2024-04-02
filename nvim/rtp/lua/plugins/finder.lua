@@ -258,10 +258,6 @@ return {
 						}),
 						action = easypick_nvim_func(function(selected)
 							local path = vim.fs.dirname(require("git").root_path() .. "/" .. selected)
-							vim.cmd("lcd " .. path)
-							-- NOTE: This requires toggleterm's `autochdir` option to be `true`.
-							-- Otherwise, if there is an opened terminal, greyjoy runs the command in the working of the terminal
-							-- instead of the lcd-ed directory.
 							local make_recipes = require("greyjoy._extensions.makefile").exports.parse({
 								filename = "Makefile",
 								filepath = path,

@@ -46,6 +46,18 @@ return {
 				-- 		height = math.floor(vim.o.lines * 0.9),
 				-- 	},
 				-- },
+				toggleterm = {
+					default_group_id = function()
+						-- Return toggleterm ID that does not match any of existing instances so that new terminal always gets opend.
+						-- This avoids reusing already opened terminal, the cwd of which might not be where the Makefile is stored.
+						local all_terms = require("toggleterm.terminal").get_all(true)
+						if #all_terms == 0 then
+							return 1
+						end
+						local greatest_id = all_terms[#all_terms].id
+						return greatest_id + 1
+					end,
+				},
 				output_results = "toggleterm", -- with `buffer`, you cannot know whether commands have finished if there is no output
 				last_first = true,
 				patterns = vim.list_extend(require("greyjoy.config").defaults.patterns, { "Makefile" }), -- patterns to find the root of the project

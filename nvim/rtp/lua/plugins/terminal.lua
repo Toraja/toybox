@@ -20,7 +20,11 @@ return {
 								startinsert
 								]])
 				end,
-				autochdir = true, -- when neovim changes it current directory the terminal will change it's own when next it's opened
+				-- Do not set autochdir to `true` as it is dangerous.
+				-- The way toggleterm changes directory is inserting `cd /dir/to/change<CR>` to command line
+				-- so if command line buffer is not empty, not only changing directory fails, but also a command
+				-- is executed unexpectedly.
+				autochdir = false,
 				direction = "tab",
 				shell = shell,
 			})
