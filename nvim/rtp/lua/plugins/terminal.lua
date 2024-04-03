@@ -66,6 +66,9 @@ return {
 								height = math.floor(vim.o.lines - 6),
 							},
 							on_exit = function(_, _, _, _)
+								if vim.fn.filereadable(yazi_chooser_file) ~= 1 then
+									return
+								end
 								local chosen_file = vim.fn.readfile(yazi_chooser_file)[1]
 								if not chosen_file then
 									vim.notify(
