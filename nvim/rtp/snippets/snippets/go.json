@@ -19,14 +19,23 @@
     "prefix": "io",
     "body": "if ${1:value}, ok := ${2:map}[${3:key}]; ok {\n\t$4\n}"
   },
-  "if err != nil": {
+  "if err then return": {
     "prefix": "ie",
     "body": [
       "if ${3:err} != nil {",
-      "\t${1:return ${2:nil, }${3:err}}",
+      "\t${1:return ${2:nil, }${4:err}}",
       "}$0"
     ],
-    "description": "if err != nil"
+    "description": "if err then return"
+  },
+  "if err then fmt.Errorf": {
+    "prefix": "ief",
+    "body": [
+      "if ${3:err} != nil {",
+      "\t${1:return ${2:nil, }fmt.Errorf(\"$4: %w\", ${3:err})}",
+      "}$0"
+    ],
+    "description": "if err then fmt.Errorf"
   },
   "reflect.DeepEqual": {
     "prefix": "de",
