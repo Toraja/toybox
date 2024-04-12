@@ -45,6 +45,8 @@ set --export LESS iR
 fish_add_path --prepend ~/.local/bin
 
 # asdf
+# suppress message upon entering shell
+set --export DIRENV_LOG_FORMAT ""
 # asdf.fish must be sources for `type <asdf installed tools>` to work.
 set --query ASDF_DIR; or set ASDF_DIR ~/.asdf
 if test -f $ASDF_DIR/asdf.fish
