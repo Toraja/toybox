@@ -224,28 +224,4 @@ return {
 		event = "VeryLazy",
 		-- `keys` for lazy loading cannot be used as directories should be opened in neo-tree
 	},
-	{
-		"kelly-lin/ranger.nvim",
-		enabled = false,
-		cond = function()
-			return vim.fn.executable("ranger") ~= 0
-		end,
-		config = function()
-			local ranger_nvim = require("ranger-nvim")
-			ranger_nvim.setup({
-				replace_netrw = true,
-				keybinds = {
-					["<CR>"] = ranger_nvim.OPEN_MODE.tabedit,
-					["l"] = ranger_nvim.OPEN_MODE.tabedit,
-					["<C-v>"] = ranger_nvim.OPEN_MODE.vsplit,
-					["<C-h>"] = ranger_nvim.OPEN_MODE.split,
-					["<C-t>"] = ranger_nvim.OPEN_MODE.tabedit,
-					["<C-r>"] = ranger_nvim.OPEN_MODE.rifle,
-				},
-			})
-		end,
-		keys = {
-			{ "<Leader>e", "<Cmd>lua require('ranger-nvim').open(true)<CR>", mode = { "n" }, desc = "ranger" },
-		},
-	},
 }
