@@ -286,7 +286,15 @@ return {
 					}, -- Loads default behaviour
 					["core.esupports.indent"] = {
 						config = {
-							dedent_excess = false,
+							indents = {
+								_ = {
+									modifiers = {}, -- disable automatic indentation under headings
+									indent = 0,
+								},
+							},
+							-- If true, when <CR> at the end of line, the next line is left padded so thah the cursor aligns with the end of the previous line.
+							-- This is unwanted.
+							-- dedent_excess = false,
 						},
 					},
 					["core.concealer"] = {
