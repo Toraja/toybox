@@ -28,12 +28,17 @@ abbr --add --global ga git add
 abbr --add --global gai git add --interactive
 abbr --add --global gb git branch
 abbr --add --global gba git branch --all
+abbr --add --global gbd git branch --delete
+abbr --add --global gbdf git branch --delete --force
 abbr --add --global gbo git branch -vv \| grep gone
 abbr --add --global gbod git branch -vv \| grep gone \| awk '\'{print $1}\'' \| xargs --no-run-if-empty git branch --delete
 abbr --add --global gbl git branch --format '\'%(refname:short) %(upstream)\'' \| awk '\'{if (!$2) print $1;}\''
 abbr --add --global gbld git branch --format '\'%(refname:short) %(upstream)\'' \| awk '\'{if (!$2) print $1;}\'' \| xargs --no-run-if-empty git branch --delete
 abbr --add --global gcm git commit --message
 abbr --add --global gco git checkout
+abbr --add --global gcp git cherry-pick
+abbr --add --global gcpc git cherry-pick --continue
+abbr --add --global gcpa git cherry-pick --abort
 abbr --add --global gd git diff
 abbr --add --global gdn git diff --name-only
 abbr --add --global gds git diff --name-status
@@ -54,12 +59,16 @@ abbr --add --global groh git reset-origin --hard
 abbr --add --global grs git restore
 abbr --add --global gs git status
 abbr --add --global gst git stash
+abbr --add --global gstu git stash --include-untracked
 abbr --add --global gstl git stash list
 abbr --add --global gstp git stash pop
 abbr --add --global gstm git stash push --message
-abbr --add --global grb git rebase --interactive
-abbr --add --global grbs git rebase --interactive --autosquash --autostash
+abbr --add --global grb git rebase
+abbr --add --global grbi git rebase --interactive
+abbr --add --global grbs git rebase --autosquash --autostash
+abbr --add --global grbsi git rebase --autosquash --autostash --interactive
 abbr --add --global grbc git rebase --continue
+abbr --add --global grba git rebase --abort
 abbr --add --global gw git switch
 abbr --add --global gwc git switch --create
 abbr --add --global gwt git worktree
