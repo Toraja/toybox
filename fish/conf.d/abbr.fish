@@ -21,7 +21,7 @@ end
 abbr --add --global fig $fig_cmd
 abbr --add --global his history
 abbr --add --global hisd history delete
-abbr --add --global hisdd history delete 'history delete'
+abbr --add --global hisdd history delete "'history delete'"
 abbr --add --global hisde history delete --exact --case-sensitive
 abbr --add --global hism history merge
 
