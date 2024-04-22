@@ -58,7 +58,7 @@ return {
 							cmd = string.format(
 								"yazi --chooser-file '%s' '%s'",
 								yazi_chooser_file,
-								vim.fn.expand("%:p:h")
+								vim.fn.expand("%:p")
 							),
 							direction = "float",
 							float_opts = {
