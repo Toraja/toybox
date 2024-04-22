@@ -317,7 +317,7 @@ return {
 							end)
 							map({ "i" }, "<C-f>", function()
 								action.close(prompt_bufnr)
-								local selection = action_state.get_selected_entry()
+								local selection = action_state.get_selected_entry()[1]
 								local path = require("git").root_path() .. "/" .. selection
 								builtin.find_files({
 									prompt_title = string.format("Find Files (%s)", selection),
@@ -348,7 +348,7 @@ return {
 							end)
 							map({ "i" }, "<C-g>", function()
 								action.close(prompt_bufnr)
-								local selection = action_state.get_selected_entry()
+								local selection = action_state.get_selected_entry()[1]
 								local path = require("git").root_path() .. "/" .. selection
 								builtin.live_grep({
 									prompt_title = string.format("Live Grep (%s)", selection),
