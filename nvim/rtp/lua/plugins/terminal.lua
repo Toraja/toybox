@@ -56,9 +56,9 @@ return {
 					require("toggleterm.terminal").Terminal
 						:new({
 							cmd = string.format(
-								"yazi --chooser-file '%s' '%s'",
+								"yazi --chooser-file '%s' %s",
 								yazi_chooser_file,
-								vim.fn.expand("%:p")
+								vim.api.nvim_buf_get_name(0) == "" and "" or string.format("'%s'", vim.fn.expand("%:p"))
 							),
 							direction = "float",
 							float_opts = {
