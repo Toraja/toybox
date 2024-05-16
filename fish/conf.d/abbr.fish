@@ -68,10 +68,10 @@ abbr --add --global gstu git stash --include-untracked
 abbr --add --global gstl git stash list
 abbr --add --global gstp git stash pop
 abbr --add --global gstm git stash push --message
-abbr --add --global grb git rebase
-abbr --add --global grbi git rebase --interactive
-abbr --add --global grbs git rebase --autosquash --autostash
-abbr --add --global grbsi git rebase --autosquash --autostash --interactive
+abbr --add --global grb git rebase --rebase-merges
+abbr --add --global grbi git rebase --rebase-merges --interactive
+abbr --add --global grbs git rebase --rebase-merges --autosquash --autostash
+abbr --add --global grbsi git rebase --rebase-merges --autosquash --autostash --interactive
 abbr --add --global grbc git rebase --continue
 abbr --add --global grba git rebase --abort
 abbr --add --global gw git switch
