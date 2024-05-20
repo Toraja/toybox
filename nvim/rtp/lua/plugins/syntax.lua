@@ -1,41 +1,43 @@
 return {
 	{
 		"nvim-treesitter/nvim-treesitter",
-		version = "*",
-		dependencies = { "IndianBoy42/tree-sitter-just" },
+		-- version = "*", -- current latest version (0.9.2) does not include some parsers like just and helm
 		config = function()
-			-- setup justfile parser
-			---@diagnostic disable-next-line: inject-field
-			require("nvim-treesitter.parsers").get_parser_configs().just = {
-				install_info = {
-					url = "https://github.com/IndianBoy42/tree-sitter-just", -- local path or git repo
-					files = { "src/parser.c", "src/scanner.c" },
-					branch = "main",
-				},
-				maintainers = { "@IndianBoy42" },
-			}
-
 			---@diagnostic disable-next-line: missing-fields
 			require("nvim-treesitter.configs").setup({
 				ensure_installed = {
 					"bash",
+					"css",
+					"csv",
+					"diff",
 					"fish",
 					"go",
 					"gomod",
 					"gosum",
 					"hcl",
+					"helm",
+					"html",
+					"ini",
 					"json",
 					"just",
 					"lua",
+					"luadoc",
+					"luap", -- lua patterns
 					"make",
 					"markdown",
 					"markdown_inline",
 					"proto",
 					"python",
+					"query", -- treesitter query
+					-- "regex", -- not sure how/when this works
 					"rust",
+					"sql",
+					"ssh_config",
+					"terraform", -- this is alias to hcl but this is needed for tf files
 					"toml",
 					"vim",
 					"vimdoc",
+					"xml",
 					"yaml",
 				},
 				highlight = {
