@@ -95,11 +95,11 @@ return {
 			end
 
 			local function get_current_win_cwd_with_tilda()
-				return string.gsub(vim.fn.getcwd(0), "^" .. vim.loop.os_homedir(), "~", 1)
+				return string.gsub(vim.fn.getcwd(0), "^" .. vim.uv.os_homedir(), "~", 1)
 			end
 
 			local function get_quickfix_annotation()
-				if vim.api.nvim_buf_get_option(0, "filetype") ~= "qf" then
+				if vim.api.nvim_get_option_value("filetype", { scope = "local" }) ~= "qf" then
 					return ""
 				end
 				local win_id = vim.api.nvim_get_current_win()

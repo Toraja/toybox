@@ -80,9 +80,9 @@ function Tab:new(tab_index, tab_id)
 	tab.selected = tab_id == vim.api.nvim_get_current_tabpage()
 	tab:set_target_buf_num()
 	if tab.is_buf_valid then
-		tab.buftype = vim.api.nvim_buf_get_option(tab.target_buf_num, "buftype")
+		tab.buftype = vim.api.nvim_get_option_value("buftype", { buf = tab.target_buf_num })
 	end
-	-- tab.filetype = vim.api.nvim_buf_get_option(tab.target_buf_num, "filetype")
+	-- tab.buftype = vim.api.nvim_get_option_value("filetype", { buf = tab.target_buf_num })
 	tab:set_name()
 	tab:set_devicon()
 	tab:set_modified_symbol()
@@ -135,7 +135,7 @@ end
 function Tab:set_target_buf_num()
 	local focused_win_id = vim.api.nvim_tabpage_get_win(self.tab_id)
 	local focused_buf_num = vim.api.nvim_win_get_buf(focused_win_id)
-	local filetype = vim.api.nvim_buf_get_option(focused_buf_num, "filetype")
+	local filetype = vim.api.nvim_get_option_value("filetype", { buf = focused_buf_num })
 	if vim.tbl_contains(use_alternate_buf_ft_list, filetype) or self:is_win_float(focused_win_id) then
 		self.target_buf_num = vim.fn.bufnr("#")
 	else
@@ -178,13 +178,13 @@ function Tab:set_modified_symbol()
 	local win_ids = vim.api.nvim_tabpage_list_wins(self.tab_id)
 	for _, win_id in ipairs(win_ids) do
 		local buf_num = vim.api.nvim_win_get_buf(win_id)
-		local filetype = vim.api.nvim_buf_get_option(buf_num, "filetype")
+		local filetype = vim.api.nvim_get_option_value("filetype", { buf = buf_num })
 
 		if vim.tbl_contains(ignore_modified_ft_list, filetype) then
 			goto continue
 		end
 
-		if vim.api.nvim_buf_get_option(buf_num, "modified") then
+		if vim.api.nvim_get_option_value("modified", { buf = buf_num }) then
 			self.modified_symbol = "+"
 			self:add_occupying_width(1)
 			return

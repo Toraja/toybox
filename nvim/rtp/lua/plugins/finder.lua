@@ -238,7 +238,7 @@ return {
 			local function pick_dir(opts, attach_mappings)
 				opts = opts or {}
 
-				local cwd = opts.cwd or vim.loop.cwd()
+				local cwd = opts.cwd or vim.uv.cwd()
 				vim.cmd("lcd " .. cwd) -- preview is not displayed without this
 				pickers
 					.new(opts, {

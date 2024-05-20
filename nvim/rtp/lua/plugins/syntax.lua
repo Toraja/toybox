@@ -183,7 +183,7 @@ return {
 			end, {
 				nargs = 1,
 				complete = function(_, _, _)
-					return custom_linters[vim.api.nvim_buf_get_option(0, "filetype")]
+					return custom_linters[vim.api.nvim_get_option_value("filetype", { scope = "local" })]
 				end,
 			})
 
