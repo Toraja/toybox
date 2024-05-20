@@ -1,8 +1,0 @@
-# List
-## buckets
-aws s3 ls
-## objects in a bucket
-aws s3 ls --recursive s3://<bucket>
-
-# View file contents (download and output to stdout)
-aws s3 cp s3://path/to/my/object -
