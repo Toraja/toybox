@@ -37,7 +37,9 @@ function M.setup(opts)
 	vim.opt.virtualedit = "block" -- Allow cursor to move beyond the EOL when visual-block mode
 	vim.opt.iminsert = 0
 	vim.opt.imsearch = -1 -- prevent entering Japaneve input mode when entering insert and search mode
-	vim.opt.shellslash = true -- always use forward slash
+	if vim.fn.exists("+shellslash") == 1 then
+		vim.opt.shellslash = true -- always use forward slash
+	end
 	vim.opt.formatoptions:append("jmM")
 	vim.opt.fixendofline = false -- Preserve the current EOL state
 	vim.opt.timeoutlen = 600
