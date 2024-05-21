@@ -18,6 +18,7 @@ function M.setup(opts)
 	vim.opt.scrolloff = 5
 	vim.opt.sidescrolloff = 1 -- offset between cursor and the edge of window"
 	vim.opt.sidescroll = 1 -- scroll minimal when cursor goes off the screen horizontally
+	vim.opt.smoothscroll = true
 	vim.opt.laststatus = 3
 	vim.opt.showtabline = 2 -- always display tabline
 	vim.opt.shortmess:append("c")
@@ -57,7 +58,7 @@ function M.setup(opts)
 	vim.opt.cpoptions:append("Iy") -- I:autoindent is not removed when moving to other lines
 	vim.opt.whichwrap:append("<,>") -- allow <Left> and <Right> in move to other lines
 	vim.opt.complete:append("k") -- ins-completion option (include dictionary search)
-	vim.opt.completeopt = { "longest", "menuone", "preview" } -- ins-completion mothod (complete to longest, display menu even though only one match)
+	vim.opt.completeopt = { "longest", "menuone", "popup" } -- ins-completion mothod (complete to longest, display menu even though only one match)
 	vim.opt.splitbelow = true -- splitted windows goes to below
 	vim.opt.splitright = true -- splitted windows goes to right
 	vim.opt.showcmd = true -- Show (partial) command in status line.
