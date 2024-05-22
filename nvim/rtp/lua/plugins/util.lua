@@ -17,7 +17,7 @@ return {
 				background_colour = "#000000",
 				max_width = max_width,
 				on_open = function(win_id, notif)
-					vim.api.nvim_win_set_option(win_id, "wrap", true)
+					vim.api.nvim_set_option_value("wrap", true, { win = win_id })
 
 					local win_height = 2 -- for notification title and separator
 					-- each of notif.message is output to separate line
