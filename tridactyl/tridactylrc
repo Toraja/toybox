@@ -3,8 +3,9 @@ colorscheme dark
 
 set allowautofocus false
 set incsearch true
+set modeindicatorshowkeys true
 set smoothscroll true
-" set tabopencontaineraware true " this breaks tabopen
+set tabopencontaineraware true
 
 bind --mode=normal O fillcmdline tabopen
 bind --mode=normal go current_url open
@@ -23,11 +24,11 @@ bind --mode=normal / fillcmdline find
 bind --mode=normal ? fillcmdline find -?
 bind --mode=normal n findnext
 bind --mode=normal N findnext --reverse
+bind --mode=normal gn fillselect
 bind --mode=normal <A-u> nohlsearch
 
 unbind --mode=normal d
 unbind --mode=normal <C-6>
-bind --mode=normal e buffer #
 bind --mode=normal <A-1> tab 1
 bind --mode=normal <A-2> tab 2
 bind --mode=normal <A-3> tab 3
@@ -41,29 +42,40 @@ bind --mode=normal <C-h> tabprev
 bind --mode=normal <C-l> tabnext
 bind --mode=normal <A-h> tabmove -1
 bind --mode=normal <A-l> tabmove +1
-bind --mode=normal gC tabduplicate
-bind --mode=normal gD tabdetach
-bind --mode=normal gG tabpush
+unbind --mode=normal t
+bind --mode=normal tt buffer #
+bind --mode=normal tf fillcmdline tab
+bind --mode=normal tF fillcmdline taball
+bind --mode=normal td tabduplicate
+bind --mode=normal tD tabdetach
+bind --mode=normal tp fillcmdline tabpush
+bind --mode=normal tg fillcmdline tabgrab
+bind --mode=normal t. pin
 bind --mode=normal x tabclose
 
 bind --mode=normal s stop
 
-bind --mode=ex <C-n> ex.next_completion " XXX <C-n> cannot be overridden
+bind --mode=ex <C-n> ex.next_completion " XXX cannot overwide browser default mapping
 bind --mode=ex <C-p> ex.prev_completion
 bind --mode=ex <C-i> ex.next_completion
 bind --mode=ex <C-y> ex.insert_completion
+bind --mode=ex <C-o> ex.insert_completion
 bind --mode=ex <C-b> text.backward_char
 bind --mode=ex <C-f> text.forward_char
 bind --mode=ex <C-a> text.beginning_of_line
 bind --mode=ex <C-h> text.delete_backward_char
 bind --mode=ex <A-h> text.backward_kill_word
 bind --mode=ex <C-d> text.delete_char
-bind --mode=ex <AC-u> text.kill_whole_line " XXX Ctrl + Alt does not work
+bind --mode=ex <AC-u> text.kill_whole_line
 bind --mode=ex <A-u> text.upcase_word
 bind --mode=ex <A-l> text.downcase_word
 bind --mode=ex <A-c> text.capitalize_word
+bind --mode=ex <Space> ex.insert_space
+bind --mode=ex <C-Space> ex.insert_space_or_completion
 
 js if(navigator.platform.includes('Win')) { bind --mode=input <A-a> js document.activeElement.select(); }
+bind --mode=input <C-n> text.next_line " XXX cannot overwide browser default mapping
+bind --mode=input <C-p> text.previous_line
 bind --mode=input <C-b> text.backward_char
 bind --mode=input <C-f> text.forward_char
 bind --mode=input <A-b> text.backward_word
@@ -75,12 +87,15 @@ bind --mode=input <A-h> text.backward_kill_word
 bind --mode=input <C-d> text.delete_char
 bind --mode=input <A-d> text.kill_word
 bind --mode=input <C-k> text.kill_line
+bind --mode=input <C-u> text.backward_kill_line
 bind --mode=input <AC-u> text.kill_whole_line
 bind --mode=input <A-u> text.upcase_word
 bind --mode=input <A-l> text.downcase_word
 bind --mode=input <A-c> text.capitalize_word
 
 js if(navigator.platform.includes('Win')) { bind --mode=insert <A-a> js document.activeElement.select(); }
+bind --mode=insert <C-n> text.next_line " XXX cannot overwide browser default mapping
+bind --mode=insert <C-p> text.previous_line
 bind --mode=insert <C-b> text.backward_char
 bind --mode=insert <C-f> text.forward_char
 bind --mode=insert <A-b> text.backward_word
@@ -92,6 +107,7 @@ bind --mode=insert <A-h> text.backward_kill_word
 bind --mode=insert <C-d> text.delete_char
 bind --mode=insert <A-d> text.kill_word
 bind --mode=insert <C-k> text.kill_line
+bind --mode=insert <C-u> text.backward_kill_line
 bind --mode=insert <AC-u> text.kill_whole_line
 bind --mode=insert <A-u> text.upcase_word
 bind --mode=insert <A-l> text.downcase_word
