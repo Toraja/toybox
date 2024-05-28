@@ -1,8 +1,77 @@
 local yazi_chooser_file = "/tmp/yazi_chooser"
+local key_direction_map = {
+	e = { command = "edit", display = "current buffer" },
+	x = { command = "new", display = "horizontal window" },
+	v = { command = "vertical new", display = "vertical window" },
+	t = { command = "tabedit", display = "tab" },
+}
+
+function get_buf_open_command()
+	-- popup must be created every time or the window will not be displayed after a few times
+	local popup = require("nui.popup")({
+		enter = false,
+		focusable = true,
+		border = {
+			style = "rounded",
+			padding = {
+				left = 1,
+				right = 1,
+			},
+			text = {
+				top = " Open file in ",
+			},
+		},
+		position = {
+			row = "40%",
+			col = "50%",
+		},
+		size = {
+			width = "20",
+			height = "4",
+		},
+		zindex = 1000,
+	})
+
+	popup:mount()
+	vim.api.nvim_buf_set_lines(
+		popup.bufnr,
+		0,
+		1,
+		false,
+		{ "t: tab", "v: vertical window", "x: horizontal window", "e: current buffer" }
+	)
+	vim.cmd("redraw")
+
+	local direction
+	while true do
+		local c = vim.fn.getcharstr()
+		if c == "" or c == "" then
+			popup:unmount()
+			os.remove(yazi_chooser_file)
+			return
+		end
+
+		direction = key_direction_map[c]
+		if direction ~= nil then
+			break
+		end
+
+		-- FIXME: notification is hidden until the next one comes in
+		vim.notify("Invalid key: " .. c, vim.log.levels.WARN)
+	end
+
+	popup:unmount()
+	---@diagnostic disable-next-line: need-check-nil, undefined-field
+	return direction.command
+end
+
 return {
 	{
 		"akinsho/toggleterm.nvim",
 		version = "*",
+		dependencies = {
+			"MunifTanjim/nui.nvim",
+		},
 		config = function()
 			local shell = "fish"
 			require("toggleterm").setup({
@@ -66,6 +135,11 @@ return {
 								height = math.floor(vim.o.lines - 6),
 							},
 							on_exit = function(_, _, _, _)
+								-- By force closing window before displaying popup, `edit` command will work,
+								-- but if windows are vertically split, popup is displayed at the centre of focused window.
+								-- (not the centre of entire screen)
+								-- require("toggleterm.ui").close(term)
+
 								if vim.fn.filereadable(yazi_chooser_file) ~= 1 then
 									return
 								end
@@ -76,9 +150,16 @@ return {
 										vim.log.levels.WARN,
 										{ title = "yazi" }
 									)
+									os.remove(yazi_chooser_file)
 									return
 								end
-								vim.cmd(string.format("tabedit %s", chosen_file))
+
+								local cmd = get_buf_open_command()
+								if cmd == nil then
+									return
+								end
+
+								vim.cmd(string.format("%s %s", cmd, chosen_file))
 								os.remove(yazi_chooser_file)
 							end,
 						})
