@@ -1,12 +1,14 @@
 vim.keymap.set("n", "<Leader>o", function()
-	if vim.lsp.buf.server_ready() then
+	---@diagnostic disable-next-line: missing-parameter
+	if vim.lsp.buf_is_attached(0) then
 		vim.cmd("SymbolsOutlineToggle")
 	else
 		vim.cmd("AerialToggle!")
 	end
 end, { desc = "Toggle outline" })
 vim.keymap.set("n", "<Leader>O", function()
-	if vim.lsp.buf.server_ready() then
+	---@diagnostic disable-next-line: missing-parameter
+	if vim.lsp.buf_is_attached(0) then
 		vim.cmd("SymbolsOutlineFocus")
 	else
 		vim.cmd("AerialOpen")

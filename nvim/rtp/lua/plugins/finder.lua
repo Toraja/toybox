@@ -421,7 +421,8 @@ return {
 					n = { 'lua require("telescope").extensions.notify.notify()', { desc = "Notifications" } },
 					o = {
 						function()
-							if vim.lsp.buf.server_ready() then
+							---@diagnostic disable-next-line: missing-parameter
+							if vim.lsp.buf_is_attached(0) then
 								require("telescope.builtin").lsp_document_symbols({ symbol_width = 40 })
 							else
 								require("telescope.builtin").treesitter()
