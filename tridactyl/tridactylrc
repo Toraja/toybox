@@ -44,6 +44,7 @@ bind --mode=normal <A-h> tabmove -1
 bind --mode=normal <A-l> tabmove +1
 unbind --mode=normal t
 bind --mode=normal tt buffer #
+bind --mode=normal to tabonly
 bind --mode=normal tf fillcmdline tab
 bind --mode=normal tF fillcmdline taball
 bind --mode=normal td tabduplicate
