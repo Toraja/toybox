@@ -47,6 +47,7 @@ function ginkgo_get_nearest_spec_cmd()
 	local ginkgo_spec_patterns = {
 		'Describe%("(.*)",.*func%(%)%s{',
 		'Context%("(.*)",.*func%(%)%s{',
+		'When%("(.*)",.*func%(%)%s{',
 		'It%("(.*)",.*func%(%)%s{',
 		'DescribeTable%(%s*"(.*)",',
 	}
