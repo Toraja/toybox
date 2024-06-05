@@ -13,7 +13,6 @@
 	prompt = false
 [core]
 	autocrlf = false
-	excludesfile = ~/.gitignore_global
 [mergetool "nvimdiff"]
 	trustExitCode = false
 [pull]
