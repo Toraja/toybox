@@ -63,6 +63,9 @@ return {
 					},
 					char = {
 						jump_labels = true,
+						jump = {
+							autojump = true,
+						},
 						multi_line = false,
 						label = { after = { 0, 0 } },
 					},
