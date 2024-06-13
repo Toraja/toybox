@@ -205,7 +205,10 @@ return {
 					},
 				},
 			})
-			vim.api.nvim_set_hl(0, "NeoTreeTitleBar", { link = "IncSearch" })
+
+			vim.api.nvim_set_hl(0, "NeoTreeTitleBar", { link = "TermCursor" })
+			vim.api.nvim_set_hl(0, "NeoTreePreview", { link = "TermCursor" })
+
 			require("keymap.which-key-helper").register_with_editable(
 				"neo-tree",
 				vim.g.chief_key .. "e",
