@@ -40,6 +40,26 @@ return {
 		"sindrets/diffview.nvim",
 		dependencies = { "nvim-lua/plenary.nvim" },
 		config = function()
+			local actions = require("diffview.actions")
+			local diffview_foldlevel
+			require("diffview").setup({
+				hooks = {
+					view_leave = function(_)
+						diffview_foldlevel = vim.opt_local.foldlevel:get()
+					end,
+					diff_buf_win_enter = function(_)
+						if diffview_foldlevel ~= nil then
+							vim.opt_local.foldlevel = diffview_foldlevel
+						end
+					end,
+				},
+				keymaps = {
+          -- stylua: ignore
+					view = {
+						{ "n", "<C-t><C-f>", actions.goto_file_tab, { desc = "Open the file in a new tabpage" } },
+					},
+				},
+			})
 			require("keymap.which-key-helper").register_with_editable("Git", git_keymap_prefix, vim.g.chief_key, {
 				d = { "DiffviewOpen", { desc = "DiffviewOpen" } },
 				y = { "DiffviewFileHistory %", { desc = "Diffview history of this file" } },
