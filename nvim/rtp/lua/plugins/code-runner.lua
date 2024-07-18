@@ -24,7 +24,9 @@ return {
 		keys = {
 			{
 				vim.g.chief_key .. "r",
-				"<Cmd>WhichKey " .. vim.g.chief_key .. "r n<CR>",
+				function()
+					require("which-key").show({ keys = vim.g.chief_key .. "r", mode = "n" })
+				end,
 				mode = { "n" },
 				desc = "sniprun",
 			},

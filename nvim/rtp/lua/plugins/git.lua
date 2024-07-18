@@ -70,7 +70,9 @@ return {
 		keys = {
 			{
 				git_keymap_prefix,
-				"<Cmd>WhichKey " .. git_keymap_prefix .. " n<CR>",
+				function()
+					require("which-key").show({ keys = git_keymap_prefix, mode = "n" })
+				end,
 				mode = { "n" },
 				desc = "Git",
 			},

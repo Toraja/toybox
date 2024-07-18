@@ -471,7 +471,9 @@ return {
 		keys = {
 			{
 				vim.g.chief_key .. "f",
-				"<Cmd>WhichKey " .. vim.g.chief_key .. "f n<CR>",
+				function()
+					require("which-key").show({ keys = vim.g.chief_key .. "f" })
+				end,
 				mode = { "n" },
 				desc = "Telescope",
 			},

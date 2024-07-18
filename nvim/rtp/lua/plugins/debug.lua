@@ -31,7 +31,9 @@ return {
 		keys = {
 			{
 				debug_keymap_prefix,
-				"<Cmd>WhichKey " .. debug_keymap_prefix .. " n<CR>",
+				function()
+					require("which-key").show({ keys = debug_keymap_prefix, mode = "n" })
+				end,
 				mode = { "n" },
 				desc = "Dap",
 			},
@@ -103,7 +105,9 @@ return {
 		keys = {
 			{
 				debug_keymap_prefix .. "f",
-				"<Cmd>WhichKey " .. debug_keymap_prefix .. "f n<CR>",
+				function()
+					require("which-key").show({ keys = debug_keymap_prefix .. "f", mode = "n" })
+				end,
 				mode = { "n" },
 				desc = "Dap telescope",
 			},

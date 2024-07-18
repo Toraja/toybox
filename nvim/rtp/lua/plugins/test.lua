@@ -85,7 +85,9 @@ return {
 		keys = {
 			{
 				vim.g.chief_key .. "t",
-				"<Cmd>WhichKey " .. vim.g.chief_key .. "t n<CR>",
+				function()
+					require("which-key").show({ keys = vim.g.chief_key .. "t", mode = "n" })
+				end,
 				mode = { "n" },
 				desc = "neotest",
 			},

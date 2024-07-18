@@ -417,8 +417,22 @@ return {
 			})
 		end,
 		keys = {
-			{ "<C-n>", "<Cmd>WhichKey <C-n><CR>", mode = { "n" }, desc = "nap next" },
-			{ "<C-p>", "<Cmd>WhichKey <C-p><CR>", mode = { "n" }, desc = "nap previous" },
+			{
+				"<C-n>",
+				function()
+					require("which-key").show({ keys = "<C-n>" })
+				end,
+				mode = { "n", "v", "o" },
+				desc = "nap next",
+			},
+			{
+				"<C-p>",
+				function()
+					require("which-key").show({ keys = "<C-p>" })
+				end,
+				mode = { "n", "v", "o" },
+				desc = "nap previous",
+			},
 		},
 	},
 	{

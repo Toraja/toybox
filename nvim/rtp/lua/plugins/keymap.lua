@@ -25,6 +25,9 @@ return {
 					spacing = 5, -- spacing between columns
 					align = "left", -- align columns left, center or right
 				},
+				icons = {
+					mappings = false,
+				},
 			})
 		end,
 	},
