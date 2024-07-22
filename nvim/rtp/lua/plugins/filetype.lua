@@ -128,11 +128,33 @@ return {
 						:toggle()
 				end,
 			}
+
+			-- Update this path
+			local extension_path = vim.env.HOME .. "/.local/share/code-server/extensions/vadimcn.vscode-lldb/"
+			local codelldb_path = extension_path .. "adapter/codelldb"
+			local liblldb_path = extension_path .. "lldb/lib/liblldb"
+			---@diagnostic disable-next-line: undefined-field
+			local this_os = vim.uv.os_uname().sysname
+
+			-- The path is different on Windows
+			if this_os:find("Windows") then
+				codelldb_path = codelldb_path .. ".exe"
+				liblldb_path = liblldb_path .. ".dll"
+			elseif this_os:find("Linux") then
+				liblldb_path = liblldb_path .. ".so"
+			else -- MacOS
+				liblldb_path = liblldb_path .. ".dylib"
+			end
+			local cfg = require("rustaceanvim.config")
+
 			vim.g.rustaceanvim = {
 				tools = {
 					executor = toggleterm_executor,
 					test_executor = toggleterm_executor,
 					crate_test_executor = toggleterm_executor,
+				},
+				dap = {
+					adapter = cfg.get_codelldb_adapter(codelldb_path, liblldb_path),
 				},
 			}
 		end,
