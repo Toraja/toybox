@@ -48,6 +48,9 @@ return {
 			-- this is setup inside rustaceanvim
 			-- 	table.insert(servers, "rust_analyzer")
 			-- end
+			if vim.fn.executable("taplo") == 1 then
+				table.insert(servers, "taplo")
+			end
 			for _, lsp in pairs(servers) do
 				lspconfig[lsp].setup({
 					capabilities = capabilities,
