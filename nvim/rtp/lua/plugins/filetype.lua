@@ -102,24 +102,39 @@ return {
 	},
 	-- rust
 	{
-		"simrat39/rust-tools.nvim",
-		enabled = vim.fn.executable("cargo") == 1,
-		ft = "rust",
-		config = function()
-			require("rust-tools").setup({})
+		"mrcjkb/rustaceanvim",
+		-- must be loaded always as this is required by neotest
+		-- enabled = vim.fn.executable("cargo") == 1,
+		-- ft = "rust",
+		version = "*",
+		init = function()
+			local toggleterm_executor = {
+				execute_command = function(command, args, cwd, _)
+					local ok, term = pcall(require, "toggleterm.terminal")
+					if not ok then
+						vim.schedule(function()
+							vim.notify("toggleterm not found.", vim.log.levels.ERROR)
+						end)
+						return
+					end
 
-			require("keymap.which-key-helper").register_for_ftplugin({
-				B = { "RustToggleBackTrace", { desc = "Toggle RUST_BACKTRACE" } },
-				c = { "lua require('rust-tools').open_cargo_toml.open_cargo_toml()", { desc = "Open Cargo.toml" } },
-				-- g = { "RustDebuggables", { desc = "Debug" } }, -- TODO requires lldb-vscode. see: https://github.com/simrat39/rust-tools.nvim/wiki/Debugging
-				h = { "lua require('rust-tools').inlay_hints.enable()", { desc = "Enable inlay hints" } },
-				H = { "lua require('rust-tools').inlay_hints.disable()", { desc = "Disable inlay hints" } },
-				j = { "lua require('rusu-tools').move_item.move_item(false)", { desc = "Move item down" } },
-				k = { "lua require('rust-tools').move_item.move_item(true)", { desc = "Move item up" } },
-				m = { "lua require('rust-tools').expand_macro.expand_macro()", { desc = "Expand macro" } },
-				M = { "lua require('rust-tools').parent_module.parent_module()", { desc = "Go to parent module" } },
-				r = { "lua require('rust-tools').runnables.runnables()", { desc = "Runnables" } },
-			})
+					local shell = require("rustaceanvim.shell")
+					term.Terminal
+						:new({
+							dir = cwd,
+							cmd = shell.make_command_from_args(command, args),
+							close_on_exit = false,
+						})
+						:toggle()
+				end,
+			}
+			vim.g.rustaceanvim = {
+				tools = {
+					executor = toggleterm_executor,
+					test_executor = toggleterm_executor,
+					crate_test_executor = toggleterm_executor,
+				},
+			}
 		end,
 	},
 	{

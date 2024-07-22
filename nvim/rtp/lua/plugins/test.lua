@@ -10,7 +10,8 @@ return {
 			-- "nvim-extensions/nvim-ginkgo",
 			"Toraja/nvim-ginkgo",
 			"nvim-neotest/neotest-plenary",
-			"rouge8/neotest-rust",
+			-- "rouge8/neotest-rust",
+			"mrcjkb/rustaceanvim",
 		},
 		config = function()
 			local neotest_ns = vim.api.nvim_create_namespace("neotest")
@@ -37,7 +38,8 @@ return {
 					require("neotest-go"),
 					-- require("nvim-ginkgo"),
 					require("neotest-plenary"), -- the name of test file must be *_spec.lua
-					require("neotest-rust"),
+					-- require("neotest-rust"),
+					require("rustaceanvim.neotest"),
 					-- For reference
 					-- require("neotest-vim-test")({
 					--   ignore_file_types = { "python", "vim", "lua" },

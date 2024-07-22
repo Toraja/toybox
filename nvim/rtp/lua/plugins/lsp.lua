@@ -44,9 +44,10 @@ return {
 			if vim.fn.executable("pyright") == 1 then
 				table.insert(servers, "pyright")
 			end
-			if vim.fn.executable("rust-analyzer") == 1 then
-				table.insert(servers, "rust_analyzer")
-			end
+			-- if vim.fn.executable("rust-analyzer") == 1 then
+			-- this is setup inside rustaceanvim
+			-- 	table.insert(servers, "rust_analyzer")
+			-- end
 			for _, lsp in pairs(servers) do
 				lspconfig[lsp].setup({
 					capabilities = capabilities,
