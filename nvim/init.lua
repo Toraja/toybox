@@ -37,7 +37,7 @@ require("lazy").setup("plugins", {
 		path = "~/workspace/personal.github.com/Toraja",
 		---@type string[] plugins that match these patterns will use your local versions instead of being fetched from GitHub
 		patterns = { "Toraja" },
-		fallback = false, -- Fallback to git when local plugin doesn't exist
+		fallback = true, -- Whether to fallback to git when local plugin doesn't exist
 	},
 	ui = {
 		-- The border to use for the UI window. Accepts same border values as |nvim_open_win()|.

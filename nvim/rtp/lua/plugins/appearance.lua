@@ -1,7 +1,6 @@
 return {
 	{
-		-- "cpea2506/one_monokai.nvim",
-		"Toraja/one_monokai.nvim",
+		"cpea2506/one_monokai.nvim",
 		lazy = false,
 		priority = 1000,
 		config = function()
@@ -80,7 +79,7 @@ return {
 		"nvim-lualine/lualine.nvim",
 		dependencies = {
 			"nvim-tree/nvim-web-devicons",
-			"Toraja/one_monokai.nvim",
+			"cpea2506/one_monokai.nvim",
 		},
 		config = function()
 			vim.opt.showmode = false
