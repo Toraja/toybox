@@ -88,6 +88,9 @@ return {
 					lua = {
 						require("formatter.filetypes.lua").stylua,
 					},
+					rust = {
+						require("formatter.filetypes.rust").rustfmt,
+					},
 					toml = {
 						require("formatter.filetypes.toml").taplo,
 					},
