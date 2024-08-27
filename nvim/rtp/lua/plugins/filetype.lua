@@ -7,7 +7,7 @@ return {
 	-- go
 	{
 		"ray-x/go.nvim",
-		ft = { "go", "gomod", "gosum" },
+		ft = { "go", "gomod", "gosum", "gotexttmpl", "gohtmltmpl" },
 		dependencies = {
 			{ "ray-x/guihua.lua", build = "cd lua/fzy && make" },
 			-- dap dependencies not included to enable lazy loading
