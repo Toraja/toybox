@@ -184,5 +184,5 @@ abbr --add --global gotr go test -run
 ## taskwarrior
 abbr --add --global tt taskwarrior-tui --report nice
 
-## joshuto
-abbr --add --global jos joshuto
+## misc
+abbr --add --global yz yazi
