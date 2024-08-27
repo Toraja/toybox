@@ -138,6 +138,18 @@ return {
 			"MunifTanjim/nui.nvim",
 		},
 		config = function()
+			---@param num integer
+			---@return string
+			local function toBase8(num)
+				local base = 8
+				local result = ""
+				while num > 0 do
+					local remainder = num % base
+					result = remainder .. result
+					num = math.floor(num / base)
+				end
+				return result
+			end
 			require("neo-tree").setup({
 				window = {
 					position = "float",
@@ -177,14 +189,61 @@ return {
 								show_path = "absolute", -- "none", "relative", "absolute"
 							},
 						},
-						["c"] = {
-							"copy",
+						["c"] = "none",
+						["cc"] = {
+							desc = "yank filepath",
+							function(state)
+								local node = state.tree:get_node()
+								require("register").yank_or_clip(node.path)
+								vim.notify("Yanked filepath")
+							end,
+						},
+						["cf"] = {
+							desc = "yank filename",
+							function(state)
+								local node = state.tree:get_node()
+								require("register").yank_or_clip(node.name)
+								vim.notify("Yanked filename")
+							end,
+						},
+						["m"] = {
+							desc = "change file mode",
+							function(state)
+								local node = state.tree:get_node()
+								local input_mode = require("text.input").get_input("mode: ")
+								if input_mode == nil then
+									return
+								end
+								local result = vim.system({ "chmod", input_mode, node.path }):wait()
+								if result.code ~= 0 then
+									vim.notify(result.stderr, nil, { title = "chmod" })
+									return
+								end
+								require("neo-tree.sources.filesystem.commands").refresh(state)
+								-- TODO: tried to get the new file mode but the below code returns the old value
+								-- local new_node = state.tree:get_node()
+								-- ---@diagnostic disable-next-line: param-type-mismatch
+								-- local result_mode = toBase8(tonumber(new_node.stat.mode))
+								-- vim.notify(result_mode)
+							end,
+						},
+						["M"] = {
+							desc = "print file mode",
+							function(state)
+								local node = state.tree:get_node()
+								---@diagnostic disable-next-line: param-type-mismatch
+								local mode = toBase8(tonumber(node.stat.mode))
+								vim.notify(mode, nil, { title = "file mode" })
+							end,
+						},
+						["X"] = {
+							"move",
 							config = {
 								show_path = "absolute", -- "none", "relative", "absolute"
 							},
 						},
-						["m"] = {
-							"move",
+						["Y"] = {
+							"copy",
 							config = {
 								show_path = "absolute", -- "none", "relative", "absolute"
 							},
