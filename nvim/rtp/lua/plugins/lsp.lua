@@ -37,57 +37,76 @@ return {
 				return orig_util_open_floating_preview(contents, syntax, opts, ...)
 			end
 
-			local servers = { "lua_ls" }
+			local servers = {
+				lua_ls = {
+					settings = {
+						Lua = {
+							runtime = {
+								-- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
+								version = "LuaJIT",
+							},
+							diagnostics = {
+								-- Get the language server to recognize the `vim` global
+								globals = { "vim" },
+							},
+							workspace = {
+								-- Make the server aware of Neovim runtime files
+								library = vim.api.nvim_get_runtime_file("", true),
+								checkThirdParty = false,
+							},
+							-- Do not send telemetry data containing a randomized but unique identifier
+							telemetry = {
+								enable = false,
+							},
+							format = {
+								enable = true,
+								-- Put format options here
+								-- NOTE: the value should be STRING!!
+								defaultConfig = {
+									indent_style = "space",
+									indent_size = "2",
+								},
+							},
+						},
+					},
+				},
+			}
 			if vim.fn.executable("gopls") == 1 then
-				table.insert(servers, "gopls")
+				servers.gopls = {}
+			end
+			if vim.fn.executable("helm_ls") == 1 then
+				servers.helm_ls = {
+					settings = {
+						["helm-ls"] = { -- it must be `-` instead of `_`
+							yamlls = {
+								enabled = false, -- adding custome schema does not work. LSP emits 'Changing workspace config is not implemented'.
+								config = {
+									schemas = {
+										Kubernetes = "templates/**",
+										["https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/external-secrets.io/externalsecret_v1beta1.json"] = "templates/**",
+									},
+								},
+							},
+						},
+					},
+				}
 			end
 			if vim.fn.executable("pyright") == 1 then
-				table.insert(servers, "pyright")
+				servers.pyright = {}
 			end
 			-- if vim.fn.executable("rust-analyzer") == 1 then
 			-- this is setup inside rustaceanvim
 			-- 	table.insert(servers, "rust_analyzer")
 			-- end
 			if vim.fn.executable("taplo") == 1 then
-				table.insert(servers, "taplo")
+				servers.taplo = {}
 			end
-			for _, lsp in pairs(servers) do
-				lspconfig[lsp].setup({
-					capabilities = capabilities,
-				})
+			if vim.fn.executable("yamlls") == 1 then
+				servers.yamlls = {}
 			end
-			lspconfig["lua_ls"].setup({
-				settings = {
-					Lua = {
-						runtime = {
-							-- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
-							version = "LuaJIT",
-						},
-						diagnostics = {
-							-- Get the language server to recognize the `vim` global
-							globals = { "vim" },
-						},
-						workspace = {
-							-- Make the server aware of Neovim runtime files
-							library = vim.api.nvim_get_runtime_file("", true),
-							checkThirdParty = false,
-						},
-						-- Do not send telemetry data containing a randomized but unique identifier
-						telemetry = {
-							enable = false,
-						},
-						format = {
-							enable = true,
-							-- Put format options here
-							-- NOTE: the value should be STRING!!
-							defaultConfig = {
-								indent_style = "space",
-								indent_size = "2",
-							},
-						},
-					},
-				},
-			})
+			for lsp, setting in pairs(servers) do
+				lspconfig[lsp].setup(vim.tbl_extend("force", { capabilities = capabilities }, setting))
+			end
 
 			vim.keymap.set("i", "<C-x><C-h>", "<Cmd>lua vim.lsp.buf.signature_help()<CR>", { desc = "Signature help" })
 			vim.keymap.set("n", "<C-]>", "<Cmd>lua vim.lsp.buf.definition()<CR>", { desc = "Definition" })
