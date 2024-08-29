@@ -1,3 +1,5 @@
+vim.cmd("runtime! ftplugin/yaml.*")
+
 vim.bo.commentstring = "{{/* %s */}}"
 
 ---@diagnostic disable-next-line: missing-fields
