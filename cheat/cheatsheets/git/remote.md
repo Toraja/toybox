@@ -1,17 +1,13 @@
 # Set upstream automatically
 
-In `.gitconfig`, add:
+Add the below to `.gitconfig`. `git push` will automatically push to the remove branch with the same name as the local.
 ```ini
 [push]
 	default = current
-```
-
-## Without -u option, git pull complains that it does not know where to pull from.
-```sh
-git push -u
+	autoSetupRemote = true
 ```
 
 # Delete remote branch
 ```sh
-git push origin :<branch>
+git push origin --delete <branch>
 ```
