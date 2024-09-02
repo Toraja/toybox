@@ -7,4 +7,6 @@ Go to the directory where the root helmfile resides (the one that defines `envir
 This is not necessary if the helmfile does not use environments.
 
 ## Generate manifests
-`helmfile [-e <env>] -f <path to helmfile> template --output-dir <dir>`
+```sh
+helmfile [-e <env>] -f <path to helmfile> template --output-dir <dir>
+```

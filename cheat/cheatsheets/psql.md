@@ -11,37 +11,59 @@ Connection options:
 `-h` server hostname/address.
 
 ## Connect to a specific database:
-`psql -U <username> -h <host> -d <database>`
+```sh
+psql -U <username> -h <host> -d <database>
+```
 
 ## Get databases on a server:
-`psql -U <username> -h <host> --list`
+```sh
+psql -U <username> -h <host> --list
+```
 
 ## Execute sql query and save output to file:
-`psql -U <username> -d <database> -c 'select * from tableName;' -o <outfile>`
+```sh
+psql -U <username> -d <database> -c 'select * from tableName;' -o <outfile>
+```
 
 ## Execute query and get tabular html output:
-`psql -U <username> -d <database> -H -c 'select * from tableName;'`
+```sh
+psql -U <username> -d <database> -H -c 'select * from tableName;'
+```
 
 ## Execute query and save resulting rows to csv file:
 (if column names in the first row are not needed, remove the word 'header')
-`psql -U <username> -d <database> -c 'copy (select * from tableName) to stdout with csv header;' -o <outfile>`
+```sh
+psql -U <username> -d <database> -c 'copy (select * from tableName) to stdout with csv header;' -o <outfile>
+```
 
 ## Read commands from file:
-`psql -f <outfile>`
+```sh
+psql -f <outfile>
+```
 
 ## Restore databases from file:
-`psql -f <outfile> <username>`
+```sh
+psql -f <outfile> <username>
+```
 
 # Posgtres Command Prompt
 
 ## List databases
-`\l`
+```
+\l
+```
 
 ## Change database
-`\c`
+```
+\c
+```
 
 ## Show tables
-`\dt`
+```
+\dt
+```
 
 ## Describe table (`+` for extra info)
-`\d[+] <table>`
+```
+\d[+] <table>
+```
