@@ -94,7 +94,7 @@ return {
 			end
 
 			local function get_current_win_cwd_with_tilda()
-				return string.gsub(vim.fn.getcwd(0), "^" .. vim.uv.os_homedir(), "~", 1)
+				return string.gsub(vim.uv.cwd(), "^" .. vim.uv.os_homedir(), "~", 1)
 			end
 
 			local function get_quickfix_annotation()

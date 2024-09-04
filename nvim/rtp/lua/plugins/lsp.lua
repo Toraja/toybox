@@ -3,7 +3,7 @@ return {
 		"neovim/nvim-lspconfig",
 		config = function()
 			-- TODO
-			-- 'java': [$HOME.'/toybox/vim/helper/java-lsp.sh', '-data', getcwd()],
+			-- 'java': [$HOME.'/toybox/vim/helper/java-lsp.sh', '-data', vim.uv.cwd()],
 			-- 'javascript': ['typescript-language-server', '--stdio'],
 			-- 'php': [s:plugin_dir . '/phpactor/bin/phpactor', 'language-server'],
 
