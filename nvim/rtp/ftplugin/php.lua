@@ -1,3 +1,17 @@
+vim.bo.expandtab = true
+vim.bo.shiftwidth = 4
+
+local my_php_augroud_id = vim.api.nvim_create_augroup("my_php", {})
+vim.api.nvim_create_autocmd("BufWritePost", {
+	group = my_php_augroud_id,
+	pattern = "*.php",
+	callback = function()
+		vim.fn.PhpCsFixerFixFile()
+	end,
+})
+
+require("text.edit").map_toggle_trailing(";", ";", true)
+
 require("keymap.which-key-helper").register_for_ftplugin({
 	c = { "PhpactorClassNew", { desc = "PhpactorClassNew" } },
 	C = { "PhpactorCopyFile", { desc = "PhpactorCopyFile" } },
@@ -9,5 +23,3 @@ require("keymap.which-key-helper").register_for_ftplugin({
 	M = { "PhpactorContextMenu", { desc = "PhpactorContextMenu" } },
 	r = { "vsplit | terminal php %", { desc = "Run" } },
 })
-
-require("text.edit").map_toggle_trailing(";", ";", true)

@@ -84,6 +84,9 @@ return {
 		branch = "master",
 		build = "composer install --no-dev -o",
 		ft = "php",
+		init = function()
+			vim.g.PhpactorRootDirectoryStrategy = require("git").root_path
+		end,
 	},
 	{
 		"vim-php/tagbar-phpctags.vim",
@@ -94,6 +97,8 @@ return {
 		ft = "php",
 		init = function()
 			vim.g.php_cs_fixer_enable_default_mapping = 0
+			vim.g.php_cs_fixer_cache = require("git").root_path() .. "/.php_cs.cache"
+			vim.g.php_cs_fixer_config_file = require("git").root_path() .. "/.php_cs.dist"
 		end,
 	},
 	{
