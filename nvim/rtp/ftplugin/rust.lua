@@ -1,5 +1,11 @@
 require("text.edit").map_toggle_trailing(";", ";", true)
 
+local function rust_toggle_back_trace()
+	vim.env.RUST_BACKTRACE = 1 - (vim.env.RUST_BACKTRACE or 0)
+	vim.notify(string.format("$%s = %s", "RUST_BACKTRACE", vim.env.RUST_BACKTRACE))
+end
+vim.api.nvim_create_user_command("RustToggleBackTrace", rust_toggle_back_trace, {})
+
 require("keymap.which-key-helper").register_for_ftplugin({
 	a = { "RustLsp codeAction", { desc = "Code action" } },
 	B = { "RustToggleBackTrace", { desc = "Toggle RUST_BACKTRACE" } },
