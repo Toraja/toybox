@@ -1,0 +1,4 @@
+#!/usr/bin/env fish
+
+set default_branch $(git remote show origin | grep 'HEAD branch' | awk '{print $3}')
+git fetch origin $default_branch && git merge --ff-only origin/$default_branch
