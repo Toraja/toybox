@@ -101,7 +101,7 @@ return {
 			if vim.fn.executable("taplo") == 1 then
 				servers.taplo = {}
 			end
-			if vim.fn.executable("yamlls") == 1 then
+			if vim.fn.executable("yaml-language-server") == 1 then
 				servers.yamlls = {}
 			end
 			for lsp, setting in pairs(servers) do
