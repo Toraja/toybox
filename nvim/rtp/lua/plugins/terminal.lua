@@ -140,8 +140,15 @@ return {
 								-- (not the centre of entire screen)
 								-- require("toggleterm.ui").close(term)
 
-								if vim.fn.filereadable(yazi_chooser_file) ~= 1 then
+								local yazi_chooser_file_stat = vim.uv.fs_stat(yazi_chooser_file)
+								if yazi_chooser_file_stat == nil then
 									return
+								end
+								if yazi_chooser_file_stat.type ~= "file" then
+									vim.notify(
+										string.format("yazi chooser file %s is not a file", yazi_chooser_file),
+										vim.log.levels.WARN
+									)
 								end
 								local chosen_file = vim.fn.readfile(yazi_chooser_file)[1]
 								if not chosen_file then
