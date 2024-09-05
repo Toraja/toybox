@@ -1,6 +1,12 @@
 vim.bo.shiftwidth = 4
 vim.bo.tabstop = 4
 
+if vim.fn.executable("gopls") == 1 then
+	require("lspconfig")["gopls"].setup({
+		capabilities = require("cmp_nvim_lsp").default_capabilities(),
+	})
+end
+
 require("keymap.which-key-helper").register_for_ftplugin({
 	a = { "GoAltV", { desc = "Alternate file - vertical" } },
 	e = { "GoIfErr", { desc = "If error" } },
