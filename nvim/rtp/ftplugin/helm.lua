@@ -8,10 +8,15 @@ if vim.fn.executable("helm_ls") == 1 then
 		settings = {
 			["helm-ls"] = { -- it must be `-` instead of `_`
 				yamlls = {
-					enabled = false, -- adding custome schema does not work. LSP emits 'Changing workspace config is not implemented'.
+					enabled = true,
+					-- When `config` is specified, default config is all replaced rather than merged.
+					-- So it is necessary to specify every fields you need.
 					config = {
+						validate = true,
+						completion = true,
+						hover = true,
 						schemas = {
-							Kubernetes = "templates/**",
+							kubernetes = "templates/**",
 							["https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/external-secrets.io/externalsecret_v1beta1.json"] = "templates/**",
 						},
 					},
