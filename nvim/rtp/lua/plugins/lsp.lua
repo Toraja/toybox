@@ -119,17 +119,6 @@ return {
 			if vim.fn.executable("taplo") == 1 then
 				servers.taplo = {}
 			end
-			if vim.fn.executable("yaml-language-server") == 1 then
-				servers.yamlls = {
-					settings = {
-						yaml = {
-							customTags = { -- FIXME: this does not work https://docs.gitlab.com/ee/ci/yaml/yaml_optimization.html#configure-your-ide-to-support-reference-tags
-								"!reference sequence",
-							},
-						},
-					},
-				}
-			end
 			for lsp, setting in pairs(servers) do
 				lspconfig[lsp].setup(vim.tbl_extend("force", { capabilities = capabilities }, setting))
 			end
