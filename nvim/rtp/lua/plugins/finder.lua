@@ -112,6 +112,7 @@ return {
 							["<C-d>"] = { "<DEL>", type = "command" },
 							["<C-u>"] = { "<C-u>", type = "command" },
 							["<C-f>"] = { "<Right>", type = "command" },
+							["<C-k>"] = false,
 							["<M-j>"] = function(bufnr)
 								action_set.scroll_previewer(bufnr, 0.5)
 							end,
@@ -182,7 +183,7 @@ return {
 					["pathogen"] = {
 						attach_mappings = function(map, actions)
 							map("i", "<C-o>", actions.proceed_with_parent_dir)
-							map("i", "<C-l>", actions.revert_back_last_dir)
+							map("i", "<M-o>", actions.revert_back_last_dir)
 							map("i", "<M-w>", actions.change_working_directory)
 							map("i", "<C-s>", actions.grep_in_result)
 							map("i", "<M-s>", actions.invert_grep_in_result)
