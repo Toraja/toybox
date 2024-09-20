@@ -236,13 +236,17 @@ return {
 								vim.notify(mode, nil, { title = "file mode" })
 							end,
 						},
-						["X"] = {
+						["gx"] = {
 							"move",
 							config = {
 								show_path = "absolute", -- "none", "relative", "absolute"
 							},
 						},
-						["Y"] = {
+						["y"] = {
+							"copy_to_clipboard",
+							nowait = true,
+						},
+						["gy"] = {
 							"copy",
 							config = {
 								show_path = "absolute", -- "none", "relative", "absolute"
