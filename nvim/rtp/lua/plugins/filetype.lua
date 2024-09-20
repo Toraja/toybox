@@ -403,8 +403,6 @@ return {
 					},
 				},
 			})
-
-			vim.keymap.set("n", "<M-CR>", "i<M-CR>", { remap = true })
 		end,
 	},
 }
