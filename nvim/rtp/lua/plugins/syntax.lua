@@ -88,6 +88,9 @@ return {
 					lua = {
 						require("formatter.filetypes.lua").stylua,
 					},
+					python = {
+						require("formatter.filetypes.python").ruff,
+					},
 					rust = {
 						require("formatter.filetypes.rust").rustfmt,
 					},
@@ -125,6 +128,7 @@ return {
 			local lint = require("lint")
 			lint.linters_by_ft = {
 				go = { "golangcilint" },
+				python = { "ruff" },
 				yaml = { "yamllint" },
 			}
 
