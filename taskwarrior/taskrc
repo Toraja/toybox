@@ -108,3 +108,5 @@ context.deleted.read=+DELETED
 # context.deleted.write=+DELETED
 context.completed.read=+COMPLETED
 # context.completed.write=+COMPLETED
+context.myday.read=myday:* and +PENDING
+context.myday.write=myday:*
