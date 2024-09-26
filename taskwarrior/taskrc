@@ -47,7 +47,7 @@ color.keyword.Review:=color35 # tui does not support keyword color
 report.nice.description=Nice task list
 report.nice.columns=id,start.age,entry.age,depends,priority,project,myday,tags,recur,wait.remaining,due,due.relative,until.remaining,estimate,description,urgency
 report.nice.labels=ID,Active,Age,Deps,P,Project,*,Tag,Recur,Wait,Due,Remain,Until,Est,Description,Urg
-report.nice.sort=myday+,urgency- # want to sort by `status` to place waiting tasks at the bottom, but it does not work
+report.nice.sort=status-,myday+,urgency- # want to sort by `status` to place waiting tasks at the bottom, but it does not work
 
 # See https://taskwarrior.org/docs/urgency.html
 # urgency.user.tag.next.coefficient=  # +next tag [default: 15.0]
@@ -100,11 +100,11 @@ uda.taskwarrior-tui.shortcuts.9=~/toybox/taskwarrior/shortcut/list-shortcuts.sh
 
 # write context will add the specified tag to task when add new tasks.
 # Virtual tags cannot be added to tasks so adding tasks will fail.
-context.default.read=+PENDING or +WAITING
+context.default.read=-DELETED
 # context.default.write=+PENDING
 context.deleted.read=+DELETED
 # context.deleted.write=+DELETED
 context.completed.read=+COMPLETED
 # context.completed.write=+COMPLETED
-context.myday.read=myday:* and +PENDING
+context.myday.read=myday:* and -DELETED
 context.myday.write=myday:*
