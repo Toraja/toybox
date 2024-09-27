@@ -89,6 +89,7 @@ uda.taskwarrior-tui.style.report.completion-pane-highlight=bold cyan on black
 
 # Changing shortcut key seems not working
 uda.taskwarrior-tui.shortcuts.1=~/toybox/taskwarrior/shortcut/toggle-myday.sh
+uda.taskwarrior-tui.keyconfig.shortcut1=*
 uda.taskwarrior-tui.shortcuts.2=~/toybox/taskwarrior/shortcut/toggle-onhold.sh
 uda.taskwarrior-tui.keyconfig.shortcut2=-
 uda.taskwarrior-tui.shortcuts.3=~/toybox/taskwarrior/shortcut/tasknote.sh
@@ -102,6 +103,7 @@ uda.taskwarrior-tui.keyconfig.shortcut6=X
 uda.taskwarrior-tui.shortcuts.8=~/toybox/taskwarrior/shortcut/toggle-context.sh
 uda.taskwarrior-tui.keyconfig.shortcut8=C
 uda.taskwarrior-tui.shortcuts.9=~/toybox/taskwarrior/shortcut/list-shortcuts.sh
+uda.taskwarrior-tui.keyconfig.shortcut9=0
 
 # write context will add the specified tag to task when add new tasks.
 # Virtual tags cannot be added to tasks so adding tasks will fail.
