@@ -32,7 +32,8 @@ data.location=~/.local/share/taskwarrior/task
 dateformat=MD
 verbose=no
 
-rule.precedence.color=deleted,completed,overdue,due.today,due,blocked,blocking,scheduled,active,keyword.,tag.,project.,recurring,tagged,uda
+# tui does not support specific tag like tag.zzz
+rule.precedence.color=deleted,completed,overdue,due.today,due,blocked,blocking,scheduled,uda.onhold,active,keyword.,tag.,project.,recurring,tagged,uda
 
 color.deleted=gray10
 color.completed=rgb013
@@ -41,13 +42,14 @@ color.blocking=yellow on black
 color.tagged=
 color.tag.WAITING=on rgb001 # this works on CLI but not TUI. Seems like WAITING tasks are treated as PENDING for coloring.
 color.tag.next=
-color.tag.zzz=color27
+color.tag.zzz=color27 on black
+color.uda.onhold.-=color27 on black # tui does not support UDA color
 color.keyword.Review:=color35 # tui does not support keyword color
 
 report.nice.description=Nice task list
-report.nice.columns=id,start.age,entry.age,depends,priority,project,myday,tags,recur,wait.remaining,due,due.relative,until.remaining,estimate,description,urgency
-report.nice.labels=ID,Active,Age,Deps,P,Project,*,Tag,Recur,Wait,Due,Remain,Until,Est,Description,Urg
-report.nice.sort=status-,myday+,urgency- # want to sort by `status` to place waiting tasks at the bottom, but it does not work
+report.nice.columns=id,start.age,entry.age,depends,priority,project,myday,onhold,tags,recur,wait.remaining,due,due.relative,until.remaining,estimate,description,urgency
+report.nice.labels=ID,Active,Age,Deps,P,Project,*,-,Tag,Recur,Wait,Due,Remain,Until,Est,Description,Urg
+report.nice.sort=status-,onhold-,start-,myday+,urgency-
 
 # See https://taskwarrior.org/docs/urgency.html
 # urgency.user.tag.next.coefficient=  # +next tag [default: 15.0]
@@ -64,13 +66,16 @@ urgency.tags.coefficient=0.0            # has tags [default:  #1.0]
 # urgency.project.coefficient=0.0         # assigned to any project [default: #1.0]
 urgency.waiting.coefficient=-15.0        # waiting task [default: -3.0]
 # urgency.blocked.coefficient=        # blocked by other tasks [default: -5.0]
-urgency.user.tag.zzz.coefficient=-5.0
+urgency.user.tag.zzz.coefficient=-15.0
 urgency.user.keyword.Review:.coefficient=5.0
 
 uda.estimate.type=numeric
 uda.estimate.label=Est
 uda.myday.type=string # Set the order to today's tasks
 uda.myday.label=*
+uda.onhold.type=string
+uda.onhold.label=-
+uda.onhold.values=,-
 
 # --- taskwarrior-tui ---
 uda.taskwarrior-tui.selection.bold=no
@@ -84,8 +89,8 @@ uda.taskwarrior-tui.style.report.completion-pane-highlight=bold cyan on black
 
 # Changing shortcut key seems not working
 uda.taskwarrior-tui.shortcuts.1=~/toybox/taskwarrior/shortcut/toggle-myday.sh
-uda.taskwarrior-tui.shortcuts.2=~/toybox/taskwarrior/shortcut/toggle-tag.sh zzz
-uda.taskwarrior-tui.keyconfig.shortcut2=Z
+uda.taskwarrior-tui.shortcuts.2=~/toybox/taskwarrior/shortcut/toggle-onhold.sh
+uda.taskwarrior-tui.keyconfig.shortcut2=-
 uda.taskwarrior-tui.shortcuts.3=~/toybox/taskwarrior/shortcut/tasknote.sh
 uda.taskwarrior-tui.keyconfig.shortcut3=n
 uda.taskwarrior-tui.shortcuts.4=~/toybox/taskwarrior/shortcut/tasknote-any.sh
