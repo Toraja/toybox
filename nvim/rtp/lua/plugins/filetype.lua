@@ -79,13 +79,18 @@ return {
 	{
 		"phpactor/phpactor",
 		enabled = function()
-			return vim.fn.executable("composer") ~= 0
+			return vim.fn.executable("phpactor") ~= 0
 		end,
 		branch = "master",
-		build = "composer install --no-dev -o",
 		ft = "php",
 		init = function()
-			vim.g.PhpactorRootDirectoryStrategy = require("git").root_path
+			vim.g.PhpactorRootDirectoryStrategy = function()
+				if require("git").is_inside_work_tree() then
+					return require("git").root_path()
+				else
+					return "."
+				end
+			end
 		end,
 	},
 	{

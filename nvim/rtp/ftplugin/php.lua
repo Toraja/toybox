@@ -1,6 +1,17 @@
 vim.bo.expandtab = true
 vim.bo.shiftwidth = 4
 
+if vim.fn.executable("phpactor") == 1 then
+	require("lspconfig")["phpactor"].setup({
+		capabilities = require("cmp_nvim_lsp").default_capabilities(),
+		-- taken from https://phpactor.readthedocs.io/en/master/lsp/vim.html
+		init_options = {
+			["language_server_phpstan.enabled"] = false,
+			["language_server_psalm.enabled"] = false,
+		},
+	})
+end
+
 local my_php_augroud_id = vim.api.nvim_create_augroup("my_php", {})
 vim.api.nvim_create_autocmd("BufWritePost", {
 	group = my_php_augroud_id,
