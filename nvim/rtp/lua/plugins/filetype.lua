@@ -97,8 +97,13 @@ return {
 		ft = "php",
 		init = function()
 			vim.g.php_cs_fixer_enable_default_mapping = 0
-			vim.g.php_cs_fixer_cache = require("git").root_path() .. "/.php_cs.cache"
-			vim.g.php_cs_fixer_config_file = require("git").root_path() .. "/.php_cs.dist"
+			if require("git").is_inside_work_tree() then
+				vim.g.php_cs_fixer_cache = require("git").root_path() .. "/.php_cs.cache"
+				vim.g.php_cs_fixer_config_file = require("git").root_path() .. "/.php_cs.dist"
+			else
+				vim.g.php_cs_fixer_cache = "."
+				vim.g.php_cs_fixer_config_file = "."
+			end
 		end,
 	},
 	{
