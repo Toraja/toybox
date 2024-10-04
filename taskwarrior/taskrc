@@ -33,7 +33,7 @@ dateformat=MD
 verbose=no
 
 # tui does not support specific tag like tag.zzz
-rule.precedence.color=deleted,completed,overdue,due.today,due,blocked,blocking,scheduled,uda.onhold,active,keyword.,tag.,project.,recurring,tagged,uda
+rule.precedence.color=deleted,completed,overdue,due.today,due,uda.onhold,active,keyword.,tag.,blocked,blocking,scheduled,project.,recurring,tagged,uda
 
 color.deleted=gray10
 color.completed=rgb013
