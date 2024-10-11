@@ -24,7 +24,7 @@ bind --mode=normal / fillcmdline find
 bind --mode=normal ? fillcmdline find -?
 bind --mode=normal n findnext
 bind --mode=normal N findnext --reverse
-bind --mode=normal gn fillselect
+bind --mode=normal gn findselect
 bind --mode=normal <A-u> nohlsearch
 
 unbind --mode=normal d
