@@ -115,6 +115,7 @@ bind --mode=insert <A-u> text.upcase_word
 bind --mode=insert <A-l> text.downcase_word
 bind --mode=insert <A-c> text.capitalize_word
 
+set searchurls.px https://www.perplexity.ai/search?q=%s
 setnull searchurls.amazon
 setnull searchurls.amazonuk
 setnull searchurls.bing
