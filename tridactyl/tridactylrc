@@ -15,6 +15,7 @@ bind --mode=normal p clipboard tabopen
 bind --mode=normal P clipboard open
 bind --mode=normal b fillcmdline bmarks
 bind --mode=normal B fillcmdline bmarks -t
+unbind --mode=normal M
 
 bind --mode=normal ;f hint -t
 bind --mode=normal ;r hint -qb
