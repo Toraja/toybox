@@ -150,14 +150,10 @@ return {
 										vim.log.levels.WARN
 									)
 								end
-								local chosen_file = vim.fn.readfile(yazi_chooser_file)[1]
-								if not chosen_file then
-									vim.notify(
-										"Could not get the choosen file",
-										vim.log.levels.WARN,
-										{ title = "yazi" }
-									)
-									os.remove(yazi_chooser_file)
+								local chosen_files = vim.fn.readfile(yazi_chooser_file)
+								os.remove(yazi_chooser_file)
+								if #chosen_files == 0 then
+									vim.notify("Chooser file is empty", vim.log.levels.WARN, { title = "yazi" })
 									return
 								end
 
@@ -166,8 +162,9 @@ return {
 									return
 								end
 
-								vim.cmd(string.format("%s %s", cmd, chosen_file))
-								os.remove(yazi_chooser_file)
+								for _, f in ipairs(chosen_files) do
+									vim.cmd(string.format("%s %s", cmd, f))
+								end
 							end,
 						})
 						:toggle()
