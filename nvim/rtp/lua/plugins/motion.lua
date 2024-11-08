@@ -32,10 +32,6 @@ return {
 			{ "folke/which-key.nvim" },
 		},
 		config = function()
-			-- Prevent flash to map `,`
-			vim.keymap.set("n", ",", function()
-				require("which-key").show({ keys = ",", mode = "n" })
-			end, { nowait = true })
 			local flash_util = require("flash.util")
 			flash_util.BS = flash_util.t("<C-h>")
 
