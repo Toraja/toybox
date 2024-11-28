@@ -49,7 +49,7 @@ color.keyword.Review:=color35 # tui does not support keyword color
 report.nice.description=Nice task list
 report.nice.columns=id,start.age,entry.age,depends,priority,project,myday,onhold,tags,recur,wait.remaining,due,due.relative,until.remaining,estimate,description,urgency
 report.nice.labels=ID,Active,Age,Deps,P,Project,*,-,Tag,Recur,Wait,Due,Remain,Until,Est,Description,Urg
-report.nice.sort=status-,onhold-,start-,myday+,urgency-
+report.nice.sort=status-,onhold-,start+,myday+,urgency-
 
 # See https://taskwarrior.org/docs/urgency.html
 # urgency.user.tag.next.coefficient=  # +next tag [default: 15.0]
