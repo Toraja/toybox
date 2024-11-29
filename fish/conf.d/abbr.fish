@@ -133,7 +133,7 @@ abbr --add --global --set-cursor glmof glab mr list --reviewer=@me% \| grep '^!'
 abbr --add --global glmu glab mr update
 abbr --add --global glmv glab mr view
 abbr --add --global --set-cursor glmvf glab mr list --reviewer=@me% \| grep '^!' \| fzf --select-1 \| awk '{gsub("!", "", $1); print $1}' | xargs --no-run-if-empty glab mr view
-abbr --add --global glpv glab repo view
+abbr --add --global glpv glab repo view --branch \(git remote show origin \| grep "'HEAD branch'" \| awk '\'{print $3}\''\)
 
 ## docker
 abbr --add --global dk docker
