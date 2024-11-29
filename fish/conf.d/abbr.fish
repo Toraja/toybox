@@ -35,6 +35,7 @@ abbr --add --global gb git branch
 abbr --add --global gba git branch --all
 abbr --add --global gbd git branch --delete
 abbr --add --global gbdf git branch --delete --force
+abbr --add --global gbdr git push origin --delete \(git branch --show-current\)
 abbr --add --global gbo git branch -vv \| grep gone
 abbr --add --global gbod git branch -vv \| grep gone \| awk '\'{print $1}\'' \| xargs --no-run-if-empty git branch --delete
 abbr --add --global gbl git branch --format '\'%(refname:short) %(upstream)\'' \| awk '\'{if (!$2) print $1;}\''
