@@ -13,6 +13,8 @@ return {
 					scroll_up = "<PageUp>", -- binding to scroll up inside the popup
 				},
 				win = {
+					-- don't allow the popup to overlap with the cursor
+					no_overlap = false,
 					border = "rounded", -- none, single, double, shadow
 					padding = { 1, 2, 1, 2 }, -- extra window padding [top, right, bottom, left]
 					wo = {
