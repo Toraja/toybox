@@ -134,12 +134,7 @@ return {
 								width = math.floor(vim.o.columns * 0.95),
 								height = math.floor(vim.o.lines - 6),
 							},
-							on_exit = function(_, _, _, _)
-								-- By force closing window before displaying popup, `edit` command will work,
-								-- but if windows are vertically split, popup is displayed at the centre of focused window.
-								-- (not the centre of entire screen)
-								-- require("toggleterm.ui").close(term)
-
+							on_exit = function(term, _, _, _)
 								local yazi_chooser_file_stat = vim.uv.fs_stat(yazi_chooser_file)
 								if yazi_chooser_file_stat == nil then
 									return
@@ -161,6 +156,9 @@ return {
 								if cmd == nil then
 									return
 								end
+
+								-- Toggleterm buffer must to be closed for `edit` command to work
+								require("toggleterm.ui").close(term)
 
 								for _, f in ipairs(chosen_files) do
 									vim.cmd(string.format("%s %s", cmd, f))
