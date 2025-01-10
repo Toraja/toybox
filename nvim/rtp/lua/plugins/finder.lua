@@ -130,19 +130,15 @@ return {
 							["<M-?>"] = require("telescope.actions.generate").which_key({
 								max_height = 0.7, -- increase potential maximum height
 							}),
-							["<M-m>"] = function()
+							["<M-m>"] = function(bufnr)
 								local entry = action_state.get_selected_entry()
 								local file_dir = vim.fs.dirname(entry[1])
 								local telescope_cwd = entry.cwd
-								-- tabnew opens empty buffer, not file explorer
-								-- Calling Neotree alone fails because it uses the buffer number of current window (telescope)
-								-- and the window gets closed and the buffer number will be nil(?)
-								-- So open a new tab for workaround
-								vim.cmd("tabnew")
+								action.close(bufnr)
 								vim.cmd({
 									cmd = "Neotree",
 									args = {
-										"position=current",
+										"position=float",
 										string.format("dir=%s/%s", telescope_cwd, file_dir),
 									},
 								})
