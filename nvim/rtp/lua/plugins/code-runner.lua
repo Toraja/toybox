@@ -60,7 +60,7 @@ return {
 						return greatest_id + 1
 					end,
 				},
-				output_results = "toggleterm", -- with `buffer`, you cannot know whether commands have finished if there is no output
+				output_results = require("greyjoy.terminals").toggleterm, -- Check out functions in terminals.lua or create your own
 				last_first = true,
 				patterns = vim.list_extend(require("greyjoy.config").defaults.patterns, { "Makefile" }), -- patterns to find the root of the project
 			})
