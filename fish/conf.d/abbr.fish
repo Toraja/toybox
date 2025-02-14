@@ -120,8 +120,8 @@ abbr --add --global glin glab issue note
 abbr --add --global gliu glab issue update
 abbr --add --global gliv glab issue view
 abbr --add --global glm glab mr
-abbr --add --global glmc glab mr create --remove-source-branch -s \(git branch --show-current\) --fill
-abbr --add --global glmcl glab mr create --remove-source-branch --copy-issue-labels -s \(git branch --show-current\) --fill
+abbr --add --global glmc glab mr create --remove-source-branch --source-branch \(git branch --show-current\) --fill
+abbr --add --global glmcl glab mr create --remove-source-branch --source-branch \(git branch --show-current\) --fill --copy-issue-labels --related-issue
 abbr --add --global glmd glab mr diff
 abbr --add --global glml glab mr list
 abbr --add --global glmlr glab mr list --reviewer=@me
