@@ -17,6 +17,7 @@ return {
 					"gitcommit",
 					"gitignore",
 					"go",
+					"gotmpl", -- this is alias to helm but needed for gotmpl file
 					"gomod",
 					"gosum",
 					"hcl",
