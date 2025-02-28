@@ -111,6 +111,7 @@ abbr --add --global gl glab
 abbr --add --global glc glab ci
 abbr --add --global glcl glab ci list
 abbr --add --global glcs glab ci status --live
+abbr --add --global glcv glab ci view
 abbr --add --global gli glab issue
 abbr --add --global glic glab issue create --title
 abbr --add --global glil glab issue list
