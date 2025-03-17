@@ -45,17 +45,20 @@ set --export LESS iR
 fish_add_path --prepend ~/.local/bin
 
 # asdf
-# suppress message upon entering shell
+# Suppress message upon entering shell
 set --export DIRENV_LOG_FORMAT ""
-# asdf.fish must be sources for `type <asdf installed tools>` to work.
-set --query ASDF_DIR; or set ASDF_DIR ~/.asdf
-if test -f $ASDF_DIR/asdf.fish
-    source $ASDF_DIR/asdf.fish
-    asdf exec direnv hook fish | source
-    function direnv
-        asdf exec direnv $argv
-    end
+# ASDF configuration code
+if test -z $ASDF_DATA_DIR
+    set _asdf_shims "$HOME/.asdf/shims"
+else
+    set _asdf_shims "$ASDF_DATA_DIR/shims"
 end
+# Do not use fish_add_path (added in Fish 3.2) because it
+# potentially changes the order of items in PATH
+if not contains $_asdf_shims $PATH
+    set --global --export --prepend PATH $_asdf_shims
+end
+set --erase _asdf_shims
 
 # alias
 alias rm='rm -i'
