@@ -5,9 +5,8 @@ function fish_user_key_bindings
     bind \cf forward-single-char
     bind \e\cf forward-bigword
     bind \e\cb backward-bigword
-    bind \x1D forward-jump
-    # Ctrl-Alt-] does not work, and \x1D does not work fow ALT key
-    bind \e] backward-jump
+    bind \c] forward-jump
+    bind \e\c] backward-jump
     bind \e\; repeat-jump
     bind \e, repeat-jump-reverse
 
