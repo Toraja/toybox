@@ -5,7 +5,12 @@ local M = {}
 function M.get_visual_text(bufnr)
 	local start_row, start_col = unpack(vim.api.nvim_buf_get_mark(bufnr, "<"))
 	local end_row, end_col = unpack(vim.api.nvim_buf_get_mark(bufnr, ">"))
-	return vim.api.nvim_buf_get_text(bufnr, start_row - 1, start_col, end_row - 1, end_col + 1, {})
+	local last_char = vim.api.nvim_buf_get_text(bufnr, end_row - 1, end_col, end_row - 1, end_col + 1, {})[1]
+	local last_char_byte_len = vim.str_byteindex(last_char, 1) -- adjust for multibyte character
+	end_col = end_col + last_char_byte_len
+	local selection = vim.api.nvim_buf_get_text(bufnr, start_row - 1, start_col, end_row - 1, end_col, {})
+	local regex_any_line_break = "\\_$\\_s" -- see :help /ordinary-atom
+	return table.concat(selection, regex_any_line_break)
 end
 
 -- This functin is not intended to be set as operatorfunc, but rather called from operatorfunc.

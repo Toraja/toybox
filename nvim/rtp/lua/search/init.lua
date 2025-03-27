@@ -14,13 +14,7 @@ function M.highlight_word(opts)
 		-- exit visual mode so that <> mark is updated
 		vim.cmd([[execute "normal! \<esc>"]])
 
-		visual_text = require("text.select").get_visual_text(opts.bufnr)
-		if vim.tbl_count(visual_text) > 1 then
-			vim.notify("Multiline selection is not supported", vim.log.levels.WARN, { title = "Highlight word" })
-			return
-		end
-
-		word = visual_text[1]
+		word = require("text.select").get_visual_text(opts.bufnr)
 	else
 		word = vim.fn.expand("<cword>")
 	end
