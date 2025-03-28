@@ -44,22 +44,6 @@ set --export LESS iR
 ## local bin
 fish_add_path --prepend ~/.local/bin
 
-# asdf
-# Suppress message upon entering shell
-set --export DIRENV_LOG_FORMAT ""
-# ASDF configuration code
-if test -z $ASDF_DATA_DIR
-    set _asdf_shims "$HOME/.asdf/shims"
-else
-    set _asdf_shims "$ASDF_DATA_DIR/shims"
-end
-# Do not use fish_add_path (added in Fish 3.2) because it
-# potentially changes the order of items in PATH
-if not contains $_asdf_shims $PATH
-    set --global --export --prepend PATH $_asdf_shims
-end
-set --erase _asdf_shims
-
 # alias
 alias rm='rm -i'
 alias cp='cp -ip'
