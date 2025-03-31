@@ -1,6 +1,7 @@
 return {
 	{
 		"cpea2506/one_monokai.nvim",
+		version = "v2.3.0", -- v2.4.0, v2.5.0 errors
 		lazy = false,
 		priority = 1000,
 		config = function()
