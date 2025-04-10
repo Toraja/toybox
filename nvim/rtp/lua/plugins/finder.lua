@@ -13,6 +13,7 @@ return {
 			{ "benfowler/telescope-luasnip.nvim" },
 			{ "TC72/telescope-tele-tabby.nvim" },
 			{ "axkirillov/easypick.nvim" },
+			{ "nvim-telescope/telescope-live-grep-args.nvim", version = "*" },
 		},
 		config = function()
 			-- Add line number to preview
@@ -29,6 +30,10 @@ return {
 			local action_set = require("telescope.actions.set")
 			local action_state = require("telescope.actions.state")
 			local action_layout = require("telescope.actions.layout")
+			local builtin = require("telescope.builtin")
+			local pickers = require("telescope.pickers")
+			local finders = require("telescope.finders")
+			local conf = require("telescope.config").values
 			local function bottom_pane_borderchars()
 				return {
 					prompt = { "─", "│", " ", "│", "╭", "╮", "", " " },
@@ -36,6 +41,8 @@ return {
 					results = { " ", " ", "─", "│", " ", " ", "─", "╰" },
 				}
 			end
+			local easypick = require("easypick")
+			local lga_actions = require("telescope-live-grep-args.actions")
 			telescope.setup({
 				defaults = {
 					vimgrep_arguments = {
@@ -176,17 +183,35 @@ return {
 							-- even more opts
 						}),
 					},
-					["pathogen"] = {
+					pathogen = {
 						attach_mappings = function(map, actions)
 							map("i", "<C-o>", actions.proceed_with_parent_dir)
 							map("i", "<M-o>", actions.revert_back_last_dir)
-							map("i", "<M-w>", actions.change_working_directory)
+							map("i", "<M-e>", actions.change_working_directory)
 							map("i", "<C-s>", actions.grep_in_result)
 							map("i", "<M-s>", actions.invert_grep_in_result)
 						end,
 						-- remove below if you want to enable it
 						use_last_search_for_live_grep = false,
 						prompt_prefix_length = 100,
+					},
+					directory = {
+						finder_cmd = function(opts)
+							local cmd = { "fd", "--type", "d", "--hidden", "--exclude", ".git", "--color", "never" }
+							if opts.base_dir then
+								vim.list_extend(cmd, { "--base-directory", vim.fn.expand(opts.base_dir) })
+							end
+							return cmd
+						end,
+					},
+					live_grep_args = {
+						auto_quoting = true, -- enable/disable auto-quoting
+						mappings = {
+							i = {
+								['<M-">'] = lga_actions.quote_prompt(),
+								["<M-g>"] = lga_actions.quote_prompt({ postfix = " --iglob " }),
+							},
+						},
 					},
 				},
 			})
@@ -199,20 +224,9 @@ return {
 			telescope.load_extension("lazy")
 			telescope.load_extension("luasnip")
 			telescope.load_extension("tele_tabby")
-			require("telescope-directory").setup({
-				finder_cmd = function(opts)
-					local cmd = { "fd", "--type", "d", "--hidden", "--exclude", ".git", "--color", "never" }
-					if opts.base_dir then
-						vim.list_extend(cmd, { "--base-directory", vim.fn.expand(opts.base_dir) })
-					end
-					return cmd
-				end,
-			})
-			local easypick = require("easypick")
-			local builtin = require("telescope.builtin")
-			local pickers = require("telescope.pickers")
-			local finders = require("telescope.finders")
-			local conf = require("telescope.config").values
+			telescope.load_extension("live_grep_args")
+
+			builtin.live_grep = require("telescope").extensions.live_grep_args.live_grep_args
 
 			local function easypick_nvim_func(f)
 				return function(prompt_bufnr, _)
