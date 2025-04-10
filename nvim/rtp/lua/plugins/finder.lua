@@ -388,34 +388,22 @@ return {
 				vim.g.chief_key,
 				{
 					a = { "Easypick subroot", { desc = "Telescope in subroot" } },
-					b = { 'lua require("telescope.builtin").buffers()', { desc = "Buffers" } },
-					c = { 'lua require("telescope.builtin").git_bcommits()', { desc = "Git buffer commits" } },
-					C = { 'lua require("telescope.builtin").git_commits()', { desc = "Git commits" } },
-					d = { 'lua require("telescope.builtin").diagnostics()', { desc = "Diagnostics" } },
-					e = {
-						'lua require("pathogen").browse_file({ cwd = vim.fs.dirname(vim.api.nvim_buf_get_name(0)) })',
-						{ desc = "File browser" },
-					},
-					f = { 'lua require("pathogen").find_files()', { desc = "Files" } },
-					F = {
-						'lua require("telescope").extensions.directory.find_files({ prompt_title = "Pick Directory (Find Files)" })',
-						{ desc = "Pick Directory + Find" },
-					},
-					g = { 'lua require("pathogen").live_grep()', { desc = "Grep" } },
-					G = {
-						'lua require("telescope").extensions.directory.live_grep({ prompt_title = "Pick Directory (Live Grep)" })',
-						{ desc = "Pick Directory + Grep" },
-					},
-					h = { 'lua require("telescope.builtin").help_tags()', { desc = "Help tags" } },
-					H = { 'lua require("telescope.builtin").highlights()', { desc = "Highlights" } },
-					k = { 'lua require("telescope.builtin").keymaps()', { desc = "Keymaps" } },
-					l = {
-						'lua require("telescope.builtin").current_buffer_fuzzy_find()',
-						{ desc = "Buffer lines" },
-					},
+					b = { "Telescope buffers", { desc = "Buffers" } },
+					c = { "Telescope git_bcommits", { desc = "Git buffer commits" } },
+					C = { "Telescope git_commits", { desc = "Git commits" } },
+					d = { "Telescope diagnostics", { desc = "Diagnostics" } },
+					e = { "Telescope pathogen pathogen", { desc = "File browser" } },
+					f = { "Telescope pathogen find_files", { desc = "Files" } },
+					F = { "Telescope directory find_files prompt_title=Directory+Find", { desc = "Directory + Find" } },
+					g = { "Telescope pathogen live_grep", { desc = "Grep" } },
+					G = { "Telescope directory live_grep prompt_title=Directory+Grep ", { desc = "Directory + Grep" } },
+					h = { "Telescope help_tags", { desc = "Help tags" } },
+					H = { "Telescope highlights", { desc = "Highlights" } },
+					k = { "Telescope keymaps", { desc = "Keymaps" } },
+					l = { "Telescope current_buffer_fuzzy_find", { desc = "Buffer lines" } },
 					m = { "Easypick makefile", { desc = "Makefiles" } },
-					M = { 'lua require("telescope.builtin").marks()', { desc = "Marks" } },
-					n = { 'lua require("telescope").extensions.notify.notify()', { desc = "Notifications" } },
+					M = { "Telescope marks", { desc = "Marks" } },
+					n = { "Telescope notify notify", { desc = "Notifications" } },
 					o = {
 						function()
 							---@diagnostic disable-next-line: missing-parameter
@@ -427,21 +415,12 @@ return {
 						end,
 						{ desc = "Document symbols" },
 					},
-					O = { 'lua require("telescope.builtin").oldfiles()', { desc = "Oldfiles" } },
-					p = { 'lua require("telescope").extensions.lazy.lazy()', { desc = "Lazy" } },
-					P = { 'lua require("telescope.builtin").spell_suggest()', { desc = "Spell suggest" } },
-					q = {
-						'lua require("telescope").extensions.ghq.list({ layout_config = { preview_width = 0.5 } })',
-						{ desc = "Ghq list" },
-					},
-					s = {
-						'lua require("telescope").extensions.luasnip.luasnip()',
-						{ desc = "Snippets" },
-					},
-					S = {
-						'lua require("telescope").extensions.scriptnames.scriptnames()',
-						{ desc = "Scriptnames" },
-					},
+					O = { "Telescope oldfiles", { desc = "Oldfiles" } },
+					p = { "Telescope lazy lazy", { desc = "Lazy" } },
+					P = { "Telescope spell_suggest", { desc = "Spell suggest" } },
+					q = { "Telescope ghq list layout_config={'preview_width':0.5}", { desc = "Ghq list" } },
+					s = { "Telescope luasnip luasnip", { desc = "Snippets" } },
+					S = { "Telescope scriptnames scriptnames", { desc = "Scriptnames" } },
 					t = {
 						function()
 							local tablist = vim.api.nvim_list_tabpages()
@@ -452,15 +431,12 @@ return {
 						{ desc = "Tab" },
 					},
 					T = { "TodoTelescope", { desc = "Todo comments" } },
-					v = { 'lua require("telescope.builtin").git_status()', { desc = "Git status" } },
-					V = { 'lua require("telescope.builtin").git_files()', { desc = "Git files" } },
-					y = {
-						'lua require("telescope").extensions.yank_history.yank_history()',
-						{ desc = "Yank history" },
-					},
-					[":"] = { 'lua require("telescope.builtin").command_history()', { desc = "Command history" } },
-					["/"] = { 'lua require("telescope.builtin").search_history()', { desc = "Search history" } },
-					["<Space>"] = { 'lua require("telescope.builtin").resume()', { desc = "Resume previous picker" } },
+					v = { "Telescope git_status", { desc = "Git status" } },
+					V = { "Telescope git_files", { desc = "Git files" } },
+					y = { "Telescope yank_history yank_history", { desc = "Yank history" } },
+					[":"] = { "Telescope command_history", { desc = "Command history" } },
+					["/"] = { "Telescope search_history", { desc = "Search history" } },
+					["<Space>"] = { "Telescope resume", { desc = "Resume previous picker" } },
 				}
 			)
 		end,
