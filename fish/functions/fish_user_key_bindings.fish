@@ -11,7 +11,7 @@ function fish_user_key_bindings
     bind alt-comma repeat-jump-reverse
 
     # traverse
-    bind alt-U '.. && commandline -f repaint'
+    bind alt-U '.. && commandline --function repaint'
 
     # edit
     bind ctrl-alt-h backward-kill-word
@@ -19,7 +19,7 @@ function fish_user_key_bindings
     bind ctrl-alt-d kill-bigword
     bind ctrl-alt-u kill-whole-line
     bind alt-l downcase-word
-    bind ctrl-space 'commandline --insert " " && commandline -f backward-char'
+    bind ctrl-space 'commandline --insert " " && commandline --function backward-char'
 
     # search
     bind alt-p history-prefix-search-backward

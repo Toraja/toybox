@@ -1,8 +1,8 @@
 #!/usr/bin/fish
 
 function usage
-    set -l usage \
-"
+    set --local usage \
+        "
 USAGE:
     "(basename (status --current-filename))" [OPTION] COMMIT [PATH...]
 OPTIONS:
@@ -12,7 +12,7 @@ OPTIONS:
     echo $usage
 end
 
-argparse --min-args=1 'h/help' 'f/fzf' -- $argv; or begin
+argparse --min-args=1 h/help f/fzf -- $argv; or begin
     usage
     exit 1
 end
@@ -32,7 +32,7 @@ test (count $diff_files) -eq 0; and begin
     exit 0
 end
 
-test (count $diff_files) -ge 10; and set _flag_fzf '-f'
+test (count $diff_files) -ge 10; and set _flag_fzf -f
 
 set -q _flag_fzf; and begin
     set diff_files (string split ' ' $diff_files | fzf)

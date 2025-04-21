@@ -4,7 +4,7 @@
 #         keychain --quiet --agents ssh <filename>
 #     end
 #     begin
-#         set -l HOSTNAME (hostname)
+#         set --local HOSTNAME (hostname)
 #         if test -f ~/.keychain/$HOSTNAME-fish
 #             source ~/.keychain/$HOSTNAME-fish
 #         end
