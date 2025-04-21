@@ -45,6 +45,7 @@ function fish_user_key_bindings
     end
 
     # misc
+    bind ctrl-c cancel-commandline
     bind ctrl-g suppress-autosuggestion
     bind alt-\? __fish_man_page
     bind ctrl-alt-i complete-and-search
