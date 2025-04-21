@@ -1,31 +1,31 @@
 function fish_user_key_bindings
-    bind \cx\cr reload_keybind
+    bind ctrl-x,ctrl-r reload_keybind
 
     # motion
-    bind \cf forward-single-char
-    bind \e\cf forward-bigword
-    bind \e\cb backward-bigword
-    bind \c] forward-jump
-    bind \e\c] backward-jump
-    bind \e\; repeat-jump
-    bind \e, repeat-jump-reverse
+    bind ctrl-f forward-single-char
+    bind ctrl-alt-f forward-bigword
+    bind ctrl-alt-b backward-bigword
+    bind ctrl-\] forward-jump
+    bind ctrl-alt-\] backward-jump
+    bind alt-\; repeat-jump
+    bind alt-comma repeat-jump-reverse
 
     # traverse
-    bind \eU '.. && commandline -f repaint'
+    bind alt-U '.. && commandline -f repaint'
 
     # edit
-    bind \eh backward-kill-word
-    bind \e\cw backward-kill-bigword
-    bind \e\cd kill-bigword
-    bind \e\cu kill-whole-line
-    bind \el downcase-word
-    bind --key nul 'commandline --insert " " && commandline -f backward-char'
+    bind ctrl-alt-h backward-kill-word
+    bind ctrl-alt-w backward-kill-bigword
+    bind ctrl-alt-d kill-bigword
+    bind ctrl-alt-u kill-whole-line
+    bind alt-l downcase-word
+    bind ctrl-space 'commandline --insert " " && commandline -f backward-char'
 
     # search
-    bind \ep history-prefix-search-backward
-    bind \en history-prefix-search-forward
-    bind \e\cp history-token-search-backward
-    bind \e\cn history-token-search-forward
+    bind alt-p history-prefix-search-backward
+    bind alt-n history-prefix-search-forward
+    bind ctrl-alt-p history-token-search-backward
+    bind ctrl-alt-n history-token-search-forward
 
     function commandline_smart_append
         if not commandline | string length -q
@@ -45,16 +45,16 @@ function fish_user_key_bindings
     end
 
     # misc
-    bind \cg suppress-autosuggestion
-    bind \e\? __fish_man_page
-    bind \e\ci complete-and-search
-    bind \cx\cp __fish_paginate
-    bind \cx\ch "commandline_smart_append '--help &| less'"
-    bind \cx\cl __fish_list_current_token
-    bind \cx\ca "commandline_append_and_cursor_end '| xargs -r '"
-    bind \cx\cf "commandline_append_and_cursor_end '| fzf '"
-    bind \cx\ck 'commandline_append_and_cursor_end "| awk \'{print \$1}\' "'
-    bind \cx\co "commandline --insert (git rev-parse --show-toplevel)/"
+    bind ctrl-g suppress-autosuggestion
+    bind alt-\? __fish_man_page
+    bind ctrl-alt-i complete-and-search
+    bind ctrl-x,ctrl-p __fish_paginate
+    bind ctrl-x,ctrl-h "commandline_smart_append '--help &| less'"
+    bind ctrl-x,ctrl-l __fish_list_current_token
+    bind ctrl-x,ctrl-a "commandline_append_and_cursor_end '| xargs -r '"
+    bind ctrl-x,ctrl-f "commandline_append_and_cursor_end '| fzf '"
+    bind ctrl-x,ctrl-k 'commandline_append_and_cursor_end "| awk \'{print \$1}\' "'
+    bind ctrl-x,ctrl-o "commandline --insert (git rev-parse --show-toplevel)/"
 
     # wrapper
     # clipbin is exported to use inside tmux.conf
@@ -74,9 +74,9 @@ function fish_user_key_bindings
     end
 
     if set --query clipper
-        bind \cq 'commandline_smart_append \'| $clipper\''
-        bind \eq 'wrap_in_echo_single \'$clipper\''
-        bind \e\cq 'wrap_in_echo_double \'$clipper\''
+        bind ctrl-q 'commandline_smart_append \'| $clipper\''
+        bind alt-q 'wrap_in_echo_single \'$clipper\''
+        bind ctrl-alt-q 'wrap_in_echo_double \'$clipper\''
     end
 
     function bind_wrapper
@@ -85,11 +85,11 @@ function fish_user_key_bindings
         set start (string escape --no-quoted $argv[2])
         set end (string escape --no-quoted $argv[3])
 
-        bind \e$key't' "wrap_token $start $end"
-        bind \e$key'p' "wrap_process $start $end"
-        bind \e$key'j' "wrap_job $start $end"
-        bind \e$key'a' "wrap_to_beginning $start $end"
-        bind \e$key'e' "wrap_to_end $start $end"
+        bind alt-$key,t "wrap_token $start $end"
+        bind alt-$key,p "wrap_process $start $end"
+        bind alt-$key,j "wrap_job $start $end"
+        bind alt-$key,a "wrap_to_beginning $start $end"
+        bind alt-$key,e "wrap_to_end $start $end"
     end
 
     bind_wrapper \( \( \)
@@ -100,31 +100,30 @@ function fish_user_key_bindings
     bind_wrapper \' \' \'
 
     # selection
-    bind --sets-mode selection \cx\x20 begin-selection
-    bind --mode selection \cx\cx swap-selection-start-stop repaint
-    bind --mode selection --sets-mode default \cx\x20 end-selection repaint
-    bind --mode selection --sets-mode default \e end-selection repaint
-    bind --mode selection --sets-mode default \cw kill-selection end-selection repaint
-    bind --mode selection --sets-mode default \ek kill-selection end-selection repaint
-    bind --mode selection \cp up-line
-    bind --mode selection \cn down-line
-    bind --mode selection \cf forward-char
-    bind --mode selection \cb backward-char
-    bind --mode selection \ef forward-word
-    bind --mode selection \eb backward-word
-    bind --mode selection \e\cf forward-bigword
-    bind --mode selection \e\cb backward-bigword
-    bind --mode selection \ca beginning-of-line
-    bind --mode selection \ce end-of-line
-    bind --mode selection \x1D forward-jump
-    # Ctrl-Alt-] does not work, and \x1D does not work with ALT key
-    bind --mode selection \e] backward-jump
-    bind --mode selection \e\; repeat-jump
-    bind --mode selection \e, repeat-jump-reverse
+    bind --sets-mode selection ctrl-x,ctrl-space begin-selection
+    bind --mode selection ctrl-x,ctrl-x swap-selection-start-stop repaint
+    bind --mode selection --sets-mode default ctrl-x,ctrl-space end-selection repaint
+    bind --mode selection --sets-mode default escape end-selection repaint
+    bind --mode selection --sets-mode default ctrl-w kill-selection end-selection repaint
+    bind --mode selection --sets-mode default alt-k kill-selection end-selection repaint
+    bind --mode selection ctrl-p up-line
+    bind --mode selection ctrl-n down-line
+    bind --mode selection ctrl-f forward-char
+    bind --mode selection ctrl-b backward-char
+    bind --mode selection alt-f forward-word
+    bind --mode selection alt-b backward-word
+    bind --mode selection ctrl-alt-f forward-bigword
+    bind --mode selection ctrl-alt-b backward-bigword
+    bind --mode selection ctrl-a beginning-of-line
+    bind --mode selection ctrl-e end-of-line
+    bind --mode selection ctrl-\] forward-jump
+    bind --mode selection ctrl-alt-\] backward-jump
+    bind --mode selection alt-\; repeat-jump
+    bind --mode selection alt-comma repeat-jump-reverse
 
     # fzf
     if functions --query fzf_key_bindings
-        bind \co fzf-file-widget
-        bind \eo fzf-cd-widget
+        bind ctrl-o fzf-file-widget
+        bind alt-o fzf-cd-widget
     end
 end
