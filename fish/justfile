@@ -1,0 +1,2 @@
+hello:
+    echo 'This justfile is for project root detection'
