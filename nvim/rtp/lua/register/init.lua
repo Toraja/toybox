@@ -50,8 +50,8 @@ function M.setup(opts)
 
 	vim.api.nvim_create_user_command("NamedRegistersClear", M.named_registers_clear, {})
 
-	vim.keymap.set({ "n", "x" }, vim.g.chief_key, '"' .. clipboard_char)
-	vim.keymap.set("n", vim.g.chief_key .. vim.g.chief_key, clip_func)
+	vim.keymap.set({ "n", "x" }, "+", '"' .. clipboard_char)
+	vim.keymap.set("n", "++", clip_func)
 	vim.keymap.set({ "n", "x" }, "_", '"_')
 
 	vim.keymap.set("n", "ypf", function()
