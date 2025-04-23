@@ -9,12 +9,13 @@ local function new_terminal(opts)
 
 	local cmd = opts.cmd or "fish"
 
-	vim.fn.termopen(cmd, {
+	vim.fn.jobstart(cmd, {
 		on_exit = function()
 			if not opts.keep_buffer then
 				vim.api.nvim_buf_delete(0, { force = true })
 			end
 		end,
+		term = true,
 	})
 end
 

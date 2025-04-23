@@ -8,6 +8,7 @@ function M.setup(opts)
 	vim.opt.fileencodings:prepend("utf-8")
 	vim.opt.shell = "/bin/bash"
 	vim.opt.mouse = ""
+	vim.opt.tabclose = "left"
 
 	-- looks and feel
 	vim.opt.background = "dark" -- color scheme for dark background
@@ -24,6 +25,9 @@ function M.setup(opts)
 	vim.opt.shortmess:append("c")
 	vim.opt.signcolumn = "yes"
 	-- vim.opt.tabline = "%!v:lua.require('options.tabline').tabline()"
+	-- vim.opt.winborder = "rounded" -- this option is not good enough yet to replace config in each plugins (adds extra many borders)
+	-- prevent cursor from blinking in terminal, which is default as of nvim 0.11
+	vim.opt.guicursor = "n-v-c-sm:block,i-ci-ve:ver25,r-cr-o:hor20,t:block-TermCursor"
 
 	-- editing
 	vim.opt.tabstop = 4

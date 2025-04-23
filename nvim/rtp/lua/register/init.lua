@@ -14,7 +14,7 @@ local clipboard_char = get_clipboard_char()
 local clip_func
 if clipboard_char == "" then
 	clip_func = function()
-		vim.api.nvim_err_writeln("Clipboard is not available")
+		vim.api.nvim_echo({ { "Clipboard is not available" } }, true, { err = true })
 	end
 else
 	clip_func = function()

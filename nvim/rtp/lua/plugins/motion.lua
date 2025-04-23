@@ -400,8 +400,18 @@ return {
 				prev_repeat = "<C-p><C-p>",
 				operators = {
 					["<C-d>"] = {
-						next = { rhs = vim.diagnostic.goto_next, opts = { desc = "Next diagnostic" } },
-						prev = { rhs = vim.diagnostic.goto_prev, opts = { desc = "Prev diagnostic" } },
+						next = {
+							rhs = function()
+								vim.diagnostic.jump({ count = 1, float = true })
+							end,
+							opts = { desc = "Next diagnostic" },
+						},
+						prev = {
+							rhs = function()
+								vim.diagnostic.jump({ count = -1, float = true })
+							end,
+							opts = { desc = "Prev diagnostic" },
+						},
 						mode = { "n", "v", "o" },
 					},
 					["<C-v>"] = {
