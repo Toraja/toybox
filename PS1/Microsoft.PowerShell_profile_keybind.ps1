@@ -1,13 +1,11 @@
-# <Key Bindings>
 # Mode
 Set-PSReadlineOption -EditMode Emacs
 Set-PSReadlineOption -BellStyle None
 # Customization
 ## Completion
 Set-PSReadlineKeyHandler -Chord Ctrl+i -Function Complete
-Set-PSReadlineKeyHandler -Chord Alt+i -Function MenuComplete
-Set-PSReadlineKeyHandler -Chord Ctrl+j -Function TabCompleteNext
-Set-PSReadlineKeyHandler -Chord Alt+j -Function TabCompletePrevious
+Set-PSReadlineKeyHandler -Chord Alt+i -Function TabCompleteNext
+Set-PSReadlineKeyHandler -Chord Ctrl+Alt+i -Function TabCompletePrevious
 ## History
 Set-PSReadlineKeyHandler -Chord Alt+n -Function HistorySearchForward
 Set-PSReadlineKeyHandler -Chord Alt+p -Function HistorySearchBackward
@@ -21,10 +19,9 @@ Set-PSReadlineKeyHandler -Chord Shift+DownArrow -Function ScrollDisplayDownLine
 Set-PSReadlineKeyHandler -Chord Ctrl+v -Function ScrollDisplayDown
 Set-PSReadlineKeyHandler -Chord Alt+v -Function ScrollDisplayUp
 ## Editing
-Set-PSReadlineKeyHandler -Chord Ctrl+w -BriefDescription Unix-filename-rubout -Description "Move the test between the cursor and previous slash to the kill ring" -ScriptBlock {param($key, $arg); Windows-Filename-Rubout -key $key -arg $arg}
+Set-PSReadlineKeyHandler -Chord Ctrl+w -BriefDescription Unix-filename-rubout -Description "Move the text between the cursor and previous slash to the kill ring" -ScriptBlock {param($key, $arg); Windows-Filename-Rubout -key $key -arg $arg}
 Set-PSReadlineKeyHandler -Chord Ctrl+Alt+w -Function ShellBackwardKillWord
-Set-PSReadlineKeyHandler -Chord Alt+h -Function BackwardKillWord
-Set-PSReadlineKeyHandler -Chord Ctrl+Alt+h -BriefDescription Unix-filename-rubout -Description "Move the test between the cursor and previous slash to the kill ring" -ScriptBlock {param($key, $arg); Windows-Filename-Rubout -key $key -arg $arg}
+Set-PSReadlineKeyHandler -Chord Ctrl+Alt+h -Function BackwardKillWord
 Set-PSReadlineKeyHandler -Chord Ctrl+Alt+d -Function ShellKillWord
 Set-PSReadlineKeyHandler -Chord Ctrl+Alt+u -BriefDescription KillWholeLine -Description "Move the whole line text to the kill ring" -ScriptBlock { [Microsoft.PowerShell.PSConsoleReadLine]::BackwardKillLine(); [Microsoft.PowerShell.PSConsoleReadLine]::KillLine() }
 Set-PSReadlineKeyHandler -Chord Alt+k -Function KillRegion
@@ -46,22 +43,22 @@ Set-PSReadlineKeyHandler -Chord Shift+Insert -Function Paste
 ## Search
 Set-PSReadlineKeyHandler -Chord Ctrl+] -Function SearchChar
 Set-PSReadlineKeyHandler -Chord Ctrl+Alt+] -Function SearchCharBackward
-Set-PSReadlineKeyHandler -Chord Ctrl+\ -Function RepeatLastCharSearch
-Set-PSReadlineKeyHandler -Chord Ctrl+Shift+\ -Function RepeatLastCharSearchBackwards
+Set-PSReadlineKeyHandler -Chord "Alt+;" -Function RepeatLastCharSearch
+Set-PSReadlineKeyHandler -Chord "Alt+," -Function RepeatLastCharSearchBackwards
 ## Misc
-Set-PSReadlineKeyHandler -Chord Ctrl+Spacebar -Function SetMark
+Set-PSReadlineKeyHandler -Chord "Ctrl+x,Ctrl+Spacebar" -Function SetMark
 Set-PSReadlineKeyHandler -Chord Ctrl+t -Function SwapCharacters
 
 ## Text Insertion
 ### Re-read init file ($PROFILE)
-Set-PSReadlineKeyHandler -Chord "Ctrl+x,Ctrl+r" -BriefDescription Re-ReadInitFile -Description "Read the profile again" -ScriptBlock{
+Set-PSReadlineKeyHandler -Chord "Ctrl+x,Ctrl+r" -BriefDescription Re-ReadInitFile -Description "Read the profile again" -ScriptBlock {
 	[Microsoft.PowerShell.PSConsoleReadLine]::BackwardKillLine()
 	[Microsoft.PowerShell.PSConsoleReadLine]::KillLine()
 	[Microsoft.PowerShell.PSConsoleReadLine]::Insert('. $PROFILE')
 	[Microsoft.PowerShell.PSConsoleReadLine]::ValidateAndAcceptLine()
 }
 ### insert space after cursor
-Set-PSReadlineKeyHandler -Chord "Ctrl+x,Ctrl+Spacebar" -BriefDescription SpaceAfterCursor -Description "Insert space after cursor" -ScriptBlock {
+Set-PSReadlineKeyHandler -Chord Ctrl+Spacebar -BriefDescription SpaceAfterCursor -Description "Insert space after cursor" -ScriptBlock {
 	[Microsoft.PowerShell.PSConsoleReadLine]::Insert(' ')
 	[Microsoft.PowerShell.PSConsoleReadLine]::BackwardChar()
 }
@@ -81,32 +78,32 @@ Set-PSReadlineKeyHandler -Chord Alt+# -BriefDescription ToggleComment -Descripti
 	[Microsoft.PowerShell.PSConsoleReadLine]::ValidateAndAcceptLine()
 }
 
-Set-PSReadlineKeyHandler -Chord 'Alt+;' -BriefDescription PipeForEach -Description "Insert Pipe and ForEach block" -ScriptBlock{
+Set-PSReadlineKeyHandler -Chord 'Ctrl+x,%' -BriefDescription PipeForEach -Description "Insert Pipe and ForEach block" -ScriptBlock {
     [Microsoft.PowerShell.PSConsoleReadLine]::Insert('| %{ $_}')
 	foreach ( $i in 1..4 ) {
 		[Microsoft.PowerShell.PSConsoleReadLine]::BackwardChar()
 	}
 }
 
-Set-PSReadlineKeyHandler -Chord "Alt+:" -BriefDescription PipeWhere -Description "Insert Pipe and Where block" -ScriptBlock{
+Set-PSReadlineKeyHandler -Chord "Ctrl+x,?" -BriefDescription PipeWhere -Description "Insert Pipe and Where block" -ScriptBlock {
     [Microsoft.PowerShell.PSConsoleReadLine]::Insert('| ?{$_}')
 	[Microsoft.PowerShell.PSConsoleReadLine]::BackwardChar()
 }
 
 $__clipcmd = if($Host.Version.Major -le 5){'Set-Clipboard'}else{'clip.exe'}
-Set-PSReadlineKeyHandler -Chord Ctrl+q -BriefDescription PipeToClip -Description "Redirect Stdout to Clipboard" -ScriptBlock{
+Set-PSReadlineKeyHandler -Chord Ctrl+q -BriefDescription PipeToClip -Description "Redirect Stdout to Clipboard" -ScriptBlock {
 	[Microsoft.PowerShell.PSConsoleReadLine]::EndOfLine()
 	[Microsoft.PowerShell.PSConsoleReadLine]::Insert(" | $__clipcmd")
 }
 
-Set-PSReadlineKeyHandler -Chord Alt+q -BriefDescription PipeToClipSingleQuote -Description "Wrap whole line with single quote and redirect Stdout to Clipboard" -ScriptBlock{
+Set-PSReadlineKeyHandler -Chord Alt+q -BriefDescription PipeToClipSingleQuote -Description "Wrap whole line with single quote and redirect Stdout to Clipboard" -ScriptBlock {
 	[Microsoft.PowerShell.PSConsoleReadLine]::BeginningOfLine()
 	[Microsoft.PowerShell.PSConsoleReadLine]::Insert("'")
 	[Microsoft.PowerShell.PSConsoleReadLine]::EndOfLine()
 	[Microsoft.PowerShell.PSConsoleReadLine]::Insert("' | $__clipcmd")
 }
 
-Set-PSReadlineKeyHandler -Chord Ctrl+Alt+q -BriefDescription PipeToClipDoubleQuote -Description "Wrap whole line with double quote and redirect Stdout to Clipboard" -ScriptBlock{
+Set-PSReadlineKeyHandler -Chord Ctrl+Alt+q -BriefDescription PipeToClipDoubleQuote -Description "Wrap whole line with double quote and redirect Stdout to Clipboard" -ScriptBlock {
 	[Microsoft.PowerShell.PSConsoleReadLine]::BeginningOfLine()
 	[Microsoft.PowerShell.PSConsoleReadLine]::Insert('"')
 	[Microsoft.PowerShell.PSConsoleReadLine]::EndOfLine()
