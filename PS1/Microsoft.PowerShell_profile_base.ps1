@@ -1,14 +1,21 @@
+# <Console setup>
+# Set console encoding to UTF8
+$OutputEncoding = [Console]::OutputEncoding = [Text.UTF8Encoding]::UTF8
+
 # <Env>
 $env:System32 = "$env:SystemRoot\System32"
 $env:LC_ALL="C.UTF-8"	# This is to avoid garbled characters in the output of git log
-
-# <PS Profiles>
-Set-Variable -Name PROFILE_DIR -Value "$(Split-Path $PROFILE)"
-Set-Variable -Name PROFILE_LOCAL -Value "$PROFILE_DIR\Microsoft.PowerShell_profile_local.ps1"
-if (Test-Path -PathType Leaf -Path $PROFILE_LOCAL) {
-	. $PROFILE_LOCAL
+# PS1/bin
+if($env:Path -notmatch "$("$PSScriptRoot\bin" -replace "\\","\\")"){
+    $env:Path += ";$PSScriptRoot\bin"
 }
-Set-Variable -Name PROFILE_KEYBIND -Value "$PROFILE_DIR\Microsoft.PowerShell_profile_keybind.ps1"
+# External commands
+if($env:Path -notmatch "$("$env:USERPROFILE\Documents\WindowsPowerShell\bin" -replace "\\","\\")"){
+    $env:Path += ";$env:USERPROFILE\Documents\WindowsPowerShell\bin"
+}
+
+# <Keybind>
+Set-Variable -Name PROFILE_KEYBIND -Value "$PSScriptRoot\Microsoft.PowerShell_profile_keybind.ps1"
 if (Test-Path -PathType Leaf -Path $PROFILE_KEYBIND) {
 	. $PROFILE_KEYBIND
 }
@@ -27,26 +34,6 @@ Set-Alias -Name dirname -Value Split-Path
 Set-Alias -Name gf -Value Get-Function
 Set-Alias -Name title -value Set-Title
 Set-Alias -Name tt -value Set-Title
-Set-Alias -Name proj -Value Setup-Project
-
-# Programs
-Set-Alias -Name winmerge -Value "${env:ProgramFiles(x86)}\WinMerge\WinMergeU.exe"
-Set-Alias -Name npp -Value "${env:ProgramFiles(x86)}\Notepad++\notepad++.exe"
-Set-Alias -Name mysql -Value ${MysqlHome}\bin\mysql.exe
-Set-Alias -Name mysqladmin -Value ${MysqlHome}\bin\mysqladmin.exe
-Set-Alias -Name mysqlworkbench -Value ${MysqlHome}\mysql-workbench\MySQLWorkbench.exe
-Set-Alias -Name mongo -Value ${MongoHome}\bin\mongo.exe
-Set-Alias -Name Tomcat-Start -Value $CatalinaHome\bin\startup.bat
-Set-Alias -Name Tomcat-Shutdown -Value $CatalinaHome\bin\shutdown.bat
-Set-Alias -Name vmware -Value "${env:ProgramFiles(x86)}\VMware\VMware Player\vmplayer.exe"
-Set-Alias -Name vmnetcfg -Value "${env:ProgramFiles(x86)}\VMware\VMware Player\vmnetcfg.exe"
-Set-Alias -Name 7z -Value ${env:ProgramFiles}\7-Zip\7z.exe
-Set-Alias -Name firefox -Value "${env:ProgramFiles}\Mozilla Firefox\firefox.exe"
-Set-Alias -Name browser -Value firefox
-Set-Alias -Name git-bash -Value "${env:ProgramFiles}\Git\git-bash.exe"
-Set-Alias -Name cygpath -Value ${CygwinHome}\bin\cygpath.exe
-Set-Alias -Name arduino -Value ${ArduinoHome}\arduino.exe
-Set-Alias -Name qutebrowser -Value ${QBHome}\qutebrowser.exe
 
 # <Function>
 Remove-Item -ErrorAction Ignore alias:cd
@@ -158,6 +145,14 @@ function fullname {
 	Get-Item -Path $Path | %{$_.fullname}
 }
 
+# Get the path that symlink points to
+function realpath {
+	param(
+		[Parameter(Mandatory, Position=0)] [string] $Path
+	)
+	Get-ChildItem $Path | Select-Object -ExpandProperty Target
+}
+
 function touch {
 	param(
 		[Parameter(Mandatory, Position=0, ValueFromRemainingArguments)] [string[]] $Path,
@@ -165,76 +160,6 @@ function touch {
 	)
 
 	New-Item -ItemType File -Path $Path -Force:$Force
-}
-
-function vim {
-	& $NvimHome\bin\nvim-qt.exe $args
-}
-
-# nvim within console
-function vimc {
-	& $NvimHome\bin\nvim.exe $args
-}
-
-function oldvim {
-	& $VimRtp\vim.exe -p $args
-}
-
-function vimdiff {
-	& $VimRtp\vim.exe -d $args
-}
-
-function gvim {
-	& $VimRtp\gvim.exe -p $args
-}
-
-function gview {
-	& $VimRtp\gvim.exe -Rp $args
-}
-
-function gvimdiff {
-	& $VimRtp\gvim.exe -dO $args
-}
-
-function gvimserver {
-	param(
-		[Parameter(Mandatory, Position=0)] [string] $ServerName,
-		[Parameter(Mandatory, ValueFromRemainingArguments)] [string[]] $File
-	)
-
-	& $VimRtp\gvim.exe --servername $ServerName --remote-tab-silent $File
-}
-
-function wim {
-	param(
-		[string[]] $Files,
-		[Parameter(ValueFromRemainingArguments)] [string[]] $Other
-	)
-	$cygbin = "${CygwinHome}\bin"
-	if(! (Test-Path -PathType Container -Path $cygbin)){
-		Write-Host -ForegroundColor Red -Object "Cygwin's bin directory [$cygbin] does not exist"
-		return
-	}
-	$mintty = "${CygwinHome}\bin\mintty.exe"
-	$cygpath = "${CygwinHome}\bin\cygpath.exe"
-
-# Only run cygpath when $Files contain contain something or cygpath emits help message
-	if($Files.Count -gt 0){
-		$cygFilePath = $(Invoke-Expression -Command "$cygpath $Files")
-	}
-	$bashArgs = "/usr/bin/stty -ixon; /usr/bin/vim -p $Other -- $cygFilePath"
-# wrap bash arguments with single quote or it won't work properly
-	$bashArgs = "'" + $bashArgs + "'"
-
-	Start-Process -FilePath $mintty -WindowStyle Maximized -ArgumentList "-t vim","-e","/usr/bin/bash -c $bashArgs"
-}
-
-function emacs {
-	# default location for init file is $env:APPDATA
-	# -q option prevents reading default init file
-	# --load option loads custom init file
-	# -nw option launches emacs within the console
-	& $env:ProgramFiles\emacs\bin\emacs.exe -q --load $HOME\.emacs -nw $args
 }
 
 function Prompt {
@@ -268,18 +193,6 @@ function Set-Title {
 
 function poshadmin {
 	Start-Process powershell -Verb runas -WindowStyle Maximized
-}
-
-function cygwin {
-	Start-Process -FilePath ${CygwinHome}\bin\mintty.exe -ArgumentList "-i /Cygwin-Terminal.ico -" -WindowStyle Maximized
-}
-
-function cyg-setup{
-	Start-Process -FilePath ${CygwinHome}\setup-x86_64.exe
-}
-
-function cyg-renew {
-	wget -Uri https://www.cygwin.com/setup-x86_64.exe -OutFile $CygwinHome\setup-x86_64.exe
 }
 
 function fe {
@@ -383,7 +296,7 @@ function islocked {
 }
 
 # Clip files to clipboard
-function clip{
+function clip {
 	# An error relating to ParameterSetName occurs if 'Mandatory' is not present
 	# because powershell has no idea which parameter is bound
 	param(
@@ -445,151 +358,12 @@ function paste {
 	Invoke-Expression -Command "$mvcp -Path $fileToCopy -Destination $Destination"
 }
 
-function plantuml {
-	param(
-		[Parameter(Mandatory, Position=0)] [string] $Path,
-		[string] $Charset = 'UTF-8',
-		[switch] $Open
-	)
-
-	if(! (Test-Path -PathType Leaf -Path $Path)){
-		Write-Host -ForegroundColor Red -Object "$Path not found."
-		return
-	}
-
-	java -jar $PlantumlHome\plantuml.jar $Path -charset $Charset
-	$pngFilePath = ($Path -replace '\.[^.]*$','.png')
-
-	if ($Open) {
-		Invoke-Expression $pngFilePath
-	}
-}
-
 function Get-Function {
 	param(
 		[Parameter(Mandatory, Position=0)] [string] $Name
 	)
 
 	Get-Content function:${Name}
-}
-
-function javaapi {
-	if(! (Test-Path -Path Alias:\browser)){
-		Write-Host -ForegroundColor Red -Object "Alias 'browser' must be defined."
-		return
-	}
-
-	$javaapidoc = "${env:ProgramFiles}\Java\doc\api\index.html"
-
-	if(! (Test-Path -Path $javaapidoc)){
-		Write-Host -ForegroundColor Red -Object "$javaapidoc not found"
-		return
-	}
-
-	browser $javaapidoc
-}
-
-function ff {
-	param(
-		[switch] $PrivateWindow
-	)
-
-	# See below for firefox command line options
-	# https://developer.mozilla.org/en-US/docs/Mozilla/Command_Line_Options
-
-	if(! (Test-Path -Path Alias:\firefox)){
-		Write-Host -ForegroundColor Red -Object "Alias 'firefox' must be defined."
-		return
-	}
-
-	if($PrivateWindow){
-		# Private window only accepts URL so this function ignores arguments
-		& firefox -private-window
-		return
-	}
-
-	& firefox -new-window -search "$args"
-}
-
-function mysqld {
-	$cmd = 'Start-Process -FilePath "${MysqlHome}\bin\mysqld.exe" -WindowStyle Minimized'
-	if ($args.Length -ne 0) {
-		$cmd += " -ArgumentList $($args -join ',')"
-	}
-	Invoke-Expression -Command $cmd
-}
-
-function eclipse {
-	param(
-		[switch] $Clean
-	)
-
-	$exe = "$EclipceHome\eclipse.exe"
-
-	if($Clean){
-		$arglist = @("'-clean'") + $args
-	}
-	else{
-		$arglist = $args
-	}
-
-	$cmd = "Start-Process -FilePath $exe -WorkingDirectory $EclipceHome -WindowStyle Maximized"
-	if($arglist.Length -gt 0){
-		$cmd +=  " -ArgumentList $($arglist -join ',')"
-	}
-
-	Invoke-Expression -Command $cmd
-}
-
-function sourcetree {
-	& $env:USERPROFILE\AppData\Local\SourceTree\Update.exe --processStart "SourceTree.exe"
-}
-
-function gnode {
-	param(
-		[switch] $NoRC
-	)
-
-	$exe = "${NodejsHome}\node.exe"
-
-	if($NoRC){
-		$arglist = $args
-	}
-	else{
-		$arglist = @("'-r'", "noderc") + $args
-	}
-	$arglist = if($arglist){" -ArgumentList $($arglist -join ',')"}else{""}
-
-	$cmd = "Start-Process -FilePath `"$exe`" -WorkingDirectory `"$NodejsHome`" -WindowStyle Maximized $arglist"
-
-	Invoke-Expression -Command $cmd
-}
-
-function mongod{
-	& $MongoHome\bin\mongod.exe --config $MongoHome\mongo.conf
-}
-
-function mongostop{
-	& $MongoHome\bin\mongo.exe admin --eval "db.shutdownServer()"
-}
-
-function Set-VimPJRoot{
-	param(
-		[Parameter(Mandatory, Position=0)] [string] $Path
-	)
-
-	$env:VIMPJROOT = (fullname $Path)
-}
-
-function Setup-Project{
-	param(
-		[Parameter(Mandatory, Position=0)] [string] $Path,
-		[Parameter(ValueFromRemainingArguments)] [string] $Title = (basename $Path)
-	)
-
-	Set-VimPJRoot -Path $Path
-	Set-Title -Title $Title
-	Set-Location -Path $Path
 }
 
 #<Start up>
@@ -599,18 +373,9 @@ if((Get-Location).Path -eq "$env:System32"){
 }
 
 # Modules
-## posh-git
-if (Get-Module -ListAvailable -Name posh-git) {
-	Import-Module -Name posh-git
-	Start-SshAgent # password for private key will be saved
-}
 ## PsFzf
 if (Get-Module -ListAvailable -Name PsFzf) {
 	Remove-PSReadlineKeyHandler -Chord 'Ctrl+r'
 	Remove-PSReadlineKeyHandler -Chord 'Ctrl+s'
 	Import-Module -Name PsFzf -ArgumentList 'Ctrl+o','Ctrl+r','Alt+o'
-}
-## posh-docker
-if (Get-Module -ListAvailable -Name posh-docker) {
-	Import-Module -Name posh-docker
 }
