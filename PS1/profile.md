@@ -1,13 +1,19 @@
 # PowerShell Profile
 
-- Open PowerShell as admin
-  - Creating symlink requires admin privilege.
-- Go to profile directory
+- Clone this repository to home directory
   ```ps1
-  cd $(Split-Path $PROFILE)
+  git clone https://github.com/Toraja/toybox.git
   ```
-- Create symlink to profiles
+- Open `$PROFILE` in nodepad
   ```ps1
-  New-Item -ItemType SymbolicLink -Value <link destination> -Path Microsoft.PowerShell_profile.ps1``
+  notepad $PROFILE
   ```
-  - Repeat for other profiles.
+- Paste the below code
+  ```ps1
+  if (Test-Path -PathType Leaf -Path $env:USERPROFILE\toybox\PS1\Microsoft.PowerShell_profile_base.ps1) {
+    . $env:USERPROFILE\toybox\PS1\Microsoft.PowerShell_profile_base.ps1
+  }
+
+  # --- Add code to localise below ---
+  ```
+  - Not using symlink here because creating symlink requires admin privilege.
