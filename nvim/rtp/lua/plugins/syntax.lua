@@ -32,6 +32,7 @@ return {
 					"make",
 					"markdown",
 					"markdown_inline",
+					"powershell",
 					"proto",
 					"python",
 					"query", -- treesitter query
