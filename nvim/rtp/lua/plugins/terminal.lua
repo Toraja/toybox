@@ -170,6 +170,29 @@ return {
 				mode = { "n" },
 				desc = "yazi",
 			},
+			{
+				"<Leader>r",
+				function()
+					require("toggleterm.terminal").Terminal
+						:new({
+							cmd = "glow --tui " .. vim.api.nvim_buf_get_name(0),
+							direction = "float",
+							float_opts = {
+								width = math.floor(vim.o.columns * 0.95),
+								height = math.floor(vim.o.lines - 6),
+							},
+							on_create = function(term, _, _, _)
+								local filepath = vim.fn.expand("#:p")
+								if filepath == "" or vim.uv.fs_stat(filepath) == nil then
+									require("toggleterm.ui").close(term)
+								end
+							end,
+						})
+						:toggle()
+				end,
+				mode = { "n" },
+				desc = "glow",
+			},
 		},
 	},
 	{
