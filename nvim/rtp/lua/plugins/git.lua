@@ -33,6 +33,10 @@ return {
 					-- Text object
 					map({ "o", "x" }, "ih", ":<C-U>Gitsigns select_hunk<CR>", { desc = "Select hunk" })
 				end,
+
+				preview_config = {
+					border = "rounded",
+				},
 			})
 		end,
 	},
