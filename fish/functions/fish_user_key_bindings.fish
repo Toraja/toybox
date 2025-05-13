@@ -121,10 +121,4 @@ function fish_user_key_bindings
     bind --mode selection ctrl-alt-\] backward-jump
     bind --mode selection alt-\; repeat-jump
     bind --mode selection alt-comma repeat-jump-reverse
-
-    # fzf
-    if functions --query fzf_key_bindings
-        bind ctrl-o fzf-file-widget
-        bind alt-o fzf-cd-widget
-    end
 end
