@@ -23,6 +23,7 @@ return {
 					"hcl",
 					"helm",
 					"html",
+					"hurl",
 					"ini",
 					"json",
 					"just",
