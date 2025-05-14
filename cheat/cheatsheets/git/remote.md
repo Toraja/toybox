@@ -1,3 +1,7 @@
+---
+syntax: markdown
+---
+
 # Set upstream automatically
 
 Add the below to `.gitconfig`. `git push` will automatically push to the remove branch with the same name as the local.

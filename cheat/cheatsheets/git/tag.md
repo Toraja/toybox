@@ -1,3 +1,7 @@
+---
+syntax: markdown
+---
+
 # If git complains that it "would clobber existing tag"
 ```sh
 git fetch --tags -f

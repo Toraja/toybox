@@ -1,3 +1,7 @@
+---
+syntax: markdown
+---
+
 # View files
 
 ## View file content at the commit / in the branch
