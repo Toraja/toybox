@@ -19,8 +19,15 @@ git branch -u origin/main
 git branch -u main
 ```
 
-# Workaround for missing .git/info/exclude
-Add files/directories you want to ignore to `.gitignore`, then run the below command
+# Ignore files locally in worktree
+
+## Ignore files in all worktrees (including main worktree)
+Simply add the files to `.git/info/exclude` in the main worktree.
+
+## Ignore files only in the linked worktree
+Add files/directories you want to ignore to `.gitignore` in the worktree, then run the below command
+> [!NOTE]
+> This command is only effective to files that are already tracked
 ```sh
 git update-index --skip-worktree -- .gitignore
 ```
