@@ -5,7 +5,6 @@ set allowautofocus false
 set incsearch true
 set modeindicatorshowkeys true
 set smoothscroll true
-set tabopencontaineraware true
 
 bind --mode=normal O fillcmdline tabopen
 bind --mode=normal go current_url open
