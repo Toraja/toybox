@@ -14,6 +14,7 @@ require("tab").setup()
 require("terminal").setup()
 require("register").setup()
 require("text.edit").map_toggle_trailing(",", ",")
+require("project").setup()
 require("qf").setup()
 
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
