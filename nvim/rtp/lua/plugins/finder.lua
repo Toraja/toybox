@@ -290,7 +290,7 @@ return {
 								filename = "Makefile",
 								filepath = path,
 							})
-							require("greyjoy").menu(path, make_recipes)
+							require("greyjoy").menu(make_recipes)
 						end),
 					},
 					{
