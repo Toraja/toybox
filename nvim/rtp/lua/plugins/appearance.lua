@@ -1,13 +1,13 @@
 return {
 	{
 		"cpea2506/one_monokai.nvim",
-		version = "v2.3.0", -- v2.4.0, v2.5.0 errors
+		version = "*",
 		lazy = false,
 		priority = 1000,
 		config = function()
 			require("one_monokai").setup({
 				colors = {
-					bg = "NONE",
+					bg = "#000000", -- `NONE` causes an error as `NONE` is treated as nil and colors.bg:lighten/darken() fails
 					white = "#d7d7dd", -- original white is too blueish
 					cyan = "#00d7ff",
 					claret = "#7f1734",
