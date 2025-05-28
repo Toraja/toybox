@@ -1,19 +1,19 @@
 local M = {}
 
-function M.root_path()
-	local output = assert(io.popen("git rev-parse --show-toplevel", "r"))
-	local root_path = assert(output:read("*a"))
-	output:close()
-	return string.gsub(vim.trim(root_path), "^" .. vim.uv.os_homedir(), "~", 1)
+--- Return the root path of given git repository, or nil if the given path is not git repository.
+---@param path string? Current directory is used if not specified.
+---@return string?
+function M.root_path(path)
+	path = path or vim.uv.cwd()
+	return vim.fs.root(path, { ".git" })
 end
 
+--- Returns true if the given path is inside git worktree.
+---@param path string? Current directory is used if not specified.
 ---@return boolean
-function M.is_inside_work_tree()
-	local output = assert(io.popen("git rev-parse --is-inside-work-tree 2>/dev/null", "r"))
-	local is_inside_work_tree = vim.trim(assert(output:read("*a")))
-	output:close()
-
-	return is_inside_work_tree == "true"
+function M.is_inside_work_tree(path)
+	path = path or vim.uv.cwd()
+	return vim.fs.root(path, { ".git" }) ~= nil
 end
 
 return M
