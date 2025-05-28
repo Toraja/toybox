@@ -1,7 +1,7 @@
 local M = {}
 
 ---@type string[]
-local pj_root_marker_files = {
+local pj_root_markers = {
 	".git",
 	".svn",
 	"Makefile",
@@ -12,23 +12,15 @@ local pj_root_marker_files = {
 }
 
 --- Return the path to the currnet project root. If none of the marker files matches, empty string is returned.
----@param path string Path to begin searching from. If omitted, the current directory is used.
----@return string
+---@param path string? Path to begin searching from. Current directory is used if omitted.
+---@return string?
 function M.get_root_path(path)
 	path = path or vim.uv.cwd()
-	local found = vim.fs.find(pj_root_marker_files, {
-		path = path,
-		upward = true,
-	})
-
-	if vim.tbl_isempty(found) then
-		return ""
-	end
-	return vim.fs.dirname(found[1])
+	return vim.fs.root(path, pj_root_markers)
 end
 
 --- lcd to the current project root of the specified buffer.
---- Nothing happens if none of the marker files matches or if current buffer has no name.
+--- Nothing happens if none of the marker matches or if current buffer has no name.
 ---@param buf_id integer
 function M.lcd_to_root_path(buf_id)
 	local buf_path = vim.api.nvim_buf_get_name(buf_id)
@@ -36,8 +28,8 @@ function M.lcd_to_root_path(buf_id)
 		return
 	end
 
-	local root_path = M.get_root_path(vim.fs.dirname(buf_path))
-	if root_path == "" then
+	local root_path = M.get_root_path(buf_path)
+	if not root_path then
 		return
 	end
 
