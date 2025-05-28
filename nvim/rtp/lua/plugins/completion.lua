@@ -6,6 +6,7 @@ return {
 			{ "hrsh7th/cmp-buffer" },
 			{ "hrsh7th/cmp-path" },
 			{ "hrsh7th/cmp-cmdline" },
+			{ "onsails/lspkind.nvim" },
 		},
 		config = function()
 			local cmp = require("cmp")
@@ -28,6 +29,17 @@ return {
 
 			cmp.setup({
 				preselect = cmp.PreselectMode.None,
+				formatting = {
+					format = require("lspkind").cmp_format({
+						maxwidth = {
+							menu = function()
+								return math.floor(0.60 * vim.o.columns)
+							end, -- leading text (labelDetails)
+						},
+						show_labelDetails = true, -- show labelDetails in menu. Disabled by default
+						symbol_map = { Copilot = " " },
+					}),
+				},
 				snippet = {
 					-- REQUIRED - you must specify a snippet engine
 					expand = function(args)
@@ -84,10 +96,10 @@ return {
 					end, { "i", "c" }),
 				},
 				sources = cmp.config.sources({
-					{ name = "nvim_lsp" },
-					{ name = "luasnip" },
-				}, {
-					{ name = "buffer" },
+					{ name = "copilot", group_index = 1 },
+					{ name = "nvim_lsp", group_index = 2 },
+					{ name = "luasnip", group_index = 3 },
+					{ name = "buffer", group_index = 4 },
 				}),
 			})
 
@@ -191,5 +203,116 @@ return {
 			-- require("chatgpt.api").EDITS_URL = "<URL>"
 		end,
 		event = "VeryLazy",
+	},
+	{
+		"zbirenbaum/copilot.lua",
+		config = function()
+			require("copilot").setup({
+				panel = {
+					enabled = false, -- disabled for copilot-cmp
+					auto_refresh = true,
+					layout = {
+						position = "right", -- bottom | top | left | right | horizontal | vertical
+						ratio = 0.4,
+					},
+				},
+				suggestion = {
+					enabled = false, -- disabled for copilot-cmp
+					auto_trigger = true,
+					debounce = 120,
+				},
+				file_types = {
+					yaml = true,
+				},
+				should_attach = function(_, bufname)
+					-- original function begins --
+					if not vim.bo.buflisted then
+						require("copilot.logger").debug("not attaching, buffer is not 'buflisted'")
+						return false
+					end
+
+					if vim.bo.buftype ~= "" then
+						require("copilot.logger").debug("not attaching, buffer 'buftype' is " .. vim.bo.buftype)
+						return false
+					end
+					-- original function ends --
+
+					-- Do not attach on bufer without name and filetype
+					if bufname == "" and vim.api.nvim_get_option_value("filetype", {}) == "" then
+						return false
+					end
+
+					-- Do not attach if the buffer name is not absolute path
+					-- because the other checks expects the buffer path to be absolute path
+					if bufname == "" and not vim.startswith(bufname, "/") then
+						vim.notify(
+							"not attaching, buffer name is not absolute path: " .. bufname,
+							vim.log.levels.WARN,
+							{ title = "copilot.lua" }
+						)
+						return false
+					end
+
+					-- Do not attach on hidden files or any files under hidden directory
+					if string.match(bufname, "/%.") then
+						return false
+					end
+
+					-- Other files (partial match) to ignore
+					local ignored_files = {}
+					for _, ignored_file in ipairs(ignored_files) do
+						if string.match(bufname, ignored_file) then
+							return false
+						end
+					end
+
+					-- Do not attach if any of the parent directories contains .copilotignore
+					-- if vim.fs.root(bufname, { ".copilotignore" }) then
+					-- 	return false
+					-- end
+
+					-- Do not attach if the buffer matches any of the files in .copilotignore.
+					local copilotignore = vim.fs.find(".copilotignore", {
+						path = vim.fs.dirname(bufname),
+						upward = true,
+						type = "file",
+					})
+					if not vim.tbl_isempty(copilotignore) then
+						copilotignore = copilotignore[1]
+						local copilotignore_file, err = io.open(copilotignore, "r")
+						if copilotignore_file == nil then
+							error(string.format("failed to open .copilotignore: %s", err))
+						end
+
+						local attach = true
+						local copilotignore_dir = vim.fs.dirname(copilotignore)
+						for line in copilotignore_file:lines() do
+							local glob_files = vim.split(vim.fn.globpath(copilotignore_dir, line), "\n")
+							if vim.list_contains(glob_files, bufname) then
+								attach = false
+								break
+							end
+						end
+						copilotignore_file:close()
+						if not attach then
+							return false
+						end
+					end
+
+					return true
+				end,
+			})
+		end,
+		cmd = "Copilot",
+		event = "InsertEnter",
+	},
+	{
+		"zbirenbaum/copilot-cmp",
+		dependencies = {
+			"zbirenbaum/copilot.lua",
+		},
+		config = function()
+			require("copilot_cmp").setup()
+		end,
 	},
 }

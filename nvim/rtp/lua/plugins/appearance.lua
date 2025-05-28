@@ -81,6 +81,7 @@ return {
 		dependencies = {
 			"nvim-tree/nvim-web-devicons",
 			"cpea2506/one_monokai.nvim",
+			"AndreM222/copilot-lualine",
 		},
 		config = function()
 			vim.opt.showmode = false
@@ -185,7 +186,13 @@ return {
 					},
 					lualine_b = { "branch", "diff", "diagnostics" },
 					lualine_c = { get_current_win_cwd_with_tilda },
-					lualine_x = { "searchcount", "encoding", "fileformat", "filetype" },
+					lualine_x = {
+						{ "copilot", show_colors = true },
+						"searchcount",
+						"encoding",
+						"fileformat",
+						"filetype",
+					},
 					lualine_z = {
 						{ "location", separator = { left = "" }, padding = 2 },
 						-- { "location", separator = { right = "" }, padding = 2 },
