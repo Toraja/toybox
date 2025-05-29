@@ -224,44 +224,77 @@ return {
 				file_types = {
 					yaml = true,
 				},
-				should_attach = function(_, bufname)
+				logger = {
+					-- file_log_level = vim.log.levels.DEBUG,
+				},
+				should_attach = function(bufnr, bufname)
+					-- NOTE: DO NOT use vim.notify or anything that creates new buffer here.
+					-- It might end up infinate call to this function as this function runs every time a buffer is created.
+					-- (Infinate notifications in case of vim.notify)
+
 					-- original function begins --
 					if not vim.bo.buflisted then
-						require("copilot.logger").debug("not attaching, buffer is not 'buflisted'")
+						require("copilot.logger").debug(
+							string.format("not attaching, buffer '%s (%s)' is not 'buflisted'", bufname, bufnr)
+						)
 						return false
 					end
 
 					if vim.bo.buftype ~= "" then
-						require("copilot.logger").debug("not attaching, buffer 'buftype' is " .. vim.bo.buftype)
+						require("copilot.logger").debug(
+							string.format(
+								"not attaching, 'buftype' of buffer '%s (%s)' is %s",
+								bufname,
+								bufnr,
+								vim.bo.buftype
+							)
+						)
 						return false
 					end
 					-- original function ends --
 
 					-- Do not attach on bufer without name and filetype
-					if bufname == "" and vim.api.nvim_get_option_value("filetype", {}) == "" then
+					if vim.api.nvim_get_option_value("filetype", {}) == "" then
+						require("copilot.logger").debug(
+							string.format("not attaching, no filetype is set to buffer '%s (%s)'", bufname, bufnr)
+						)
 						return false
 					end
 
 					-- Do not attach if the buffer name is not absolute path
 					-- because the other checks expects the buffer path to be absolute path
-					if bufname == "" and not vim.startswith(bufname, "/") then
-						vim.notify(
-							"not attaching, buffer name is not absolute path: " .. bufname,
-							vim.log.levels.WARN,
-							{ title = "copilot.lua" }
-						)
+					if bufname ~= "" and not vim.startswith(bufname, "/") then
+						local msg =
+							string.format("not attaching, buffer name is not absolute path: %s (%s)", bufname, bufnr)
+						vim.api.nvim_echo({ msg, "WarningMsg" })
+						require("copilot.logger").debug(msg)
 						return false
 					end
 
 					-- Do not attach on hidden files or any files under hidden directory
 					if string.match(bufname, "/%.") then
+						require("copilot.logger").debug(
+							string.format(
+								"not attaching, buffer '%s (%s)' is either hidden file or file inside hidden directory",
+								bufname,
+								bufnr
+							)
+						)
 						return false
 					end
 
 					-- Other files (partial match) to ignore
-					local ignored_files = {}
-					for _, ignored_file in ipairs(ignored_files) do
-						if string.match(bufname, ignored_file) then
+					local ignore_patterns = {}
+					for _, ignore_pattern in ipairs(ignore_patterns) do
+						if string.match(bufname, ignore_pattern) then
+							require("copilot.logger").debug(
+								string.format(
+									"not attaching, buffer '%s (%s)' matches the hardcoded ignore pattern '%s'",
+									bufname,
+									bufnr,
+									ignore_pattern
+								)
+							)
 							return false
 						end
 					end
@@ -290,6 +323,14 @@ return {
 							local glob_files = vim.split(vim.fn.globpath(copilotignore_dir, line), "\n")
 							if vim.list_contains(glob_files, bufname) then
 								attach = false
+								require("copilot.logger").debug(
+									string.format(
+										"not attaching, buffer '%s (%s)' matches the pattern in .copilotignore '%s'",
+										bufname,
+										bufnr,
+										line
+									)
+								)
 								break
 							end
 						end
