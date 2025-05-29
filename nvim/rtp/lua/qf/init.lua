@@ -52,7 +52,7 @@ local function qf_files_open()
 			return
 		end
 
-		vim.cmd("tab sbuffer " .. file_bufnr)
+		vim.cmd("tabnew " .. vim.api.nvim_buf_get_name(file_bufnr))
 		vim.api.nvim_win_set_cursor(0, { qf["lnum"], qf["col"] - 1 })
 	end, qflist)
 
