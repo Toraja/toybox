@@ -253,8 +253,8 @@ return {
 					end
 					-- original function ends --
 
-					-- Do not attach on bufer without name and filetype
-					if vim.api.nvim_get_option_value("filetype", {}) == "" then
+					-- Do not attach on bufer without filetype
+					if vim.api.nvim_get_option_value("filetype", { buf = bufnr }) == "" then
 						require("copilot.logger").debug(
 							string.format("not attaching, no filetype is set to buffer '%s (%s)'", bufname, bufnr)
 						)
