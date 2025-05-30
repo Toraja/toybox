@@ -292,38 +292,6 @@ return {
 		end,
 	},
 	{
-		"iamcco/markdown-preview.nvim",
-		enabled = false,
-		build = function()
-			vim.fn["mkdp#util#install"]()
-		end,
-		config = function()
-			-- let $NVIM_MKDP_LOG_FILE = expand('~/tmp/mkdp.log') " default location is <plugin root>/app/mkdp.log
-			-- let $NVIM_MKDP_LOG_LEVEL = 'debug'
-			vim.g.mkdp_auto_close = 0
-			vim.g.mkdp_echo_preview_url = 1
-			vim.g.mkdp_page_title = "${name}"
-			if vim.fn.executable("firefox") == 1 then
-				vim.g.mkdp_browser = "firefox"
-			end
-			vim.g.mkdp_filetypes = { "markdown", "plantuml" }
-
-			vim.api.nvim_buf_create_user_command(0, "MarkdownPreviewPublish", function()
-				vim.g.mkdp_open_to_the_world = 1
-			end, {})
-			vim.api.nvim_buf_create_user_command(0, "MarkdownPreviewUnpublish", function()
-				vim.g.mkdp_open_to_the_world = 0
-			end, {})
-			vim.api.nvim_buf_create_user_command(0, "MarkdownPreviewSetPort", function(command)
-				vim.g.mkdp_port = command.fargs[1]
-			end, { nargs = 1 })
-			vim.api.nvim_buf_create_user_command(0, "MarkdownPreviewPublishWithPort", function(command)
-				vim.g.mkdp_open_to_the_world = 1
-				vim.g.mkdp_port = command.fargs[1]
-			end, { nargs = 1 })
-		end,
-	},
-	{
 		"AckslD/nvim-FeMaco.lua",
 		config = function()
 			require("femaco").setup()
