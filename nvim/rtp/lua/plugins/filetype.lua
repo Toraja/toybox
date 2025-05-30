@@ -21,7 +21,6 @@ return {
 				icons = false,
 				dap_debug_keymap = false,
 				textobjects = false,
-				test_runner = "richgo",
 				run_in_floaterm = true,
 			})
 		end,
