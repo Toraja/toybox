@@ -221,7 +221,7 @@ return {
 					auto_trigger = true,
 					debounce = 120,
 				},
-				file_types = {
+				filetypes = {
 					yaml = true,
 				},
 				logger = {
