@@ -147,26 +147,48 @@ return {
 				convention = "H",
 			}
 
+			---@return string?
+			local function get_golangci_lint_root()
+				return vim.fs.root(0, { ".golangci.yml", ".golangci.yaml", ".golangci.toml" })
+			end
+			---@param extra string?
+			local function notify_no_issue(extra)
+				local msg = "No issue found"
+				if extra ~= nil then
+					msg = msg .. string.format(" (%s)", extra)
+				end
+				vim.notify(msg, vim.log.levels.Info, { title = "nvim-lint: golangcilint_ws" })
+			end
 			local custom_linters = { go = { "golangcilint_ws" } }
 			local golangcilint_ws = vim.deepcopy(require("lint.linters.golangcilint"))
 			golangcilint_ws.args = {
 				"run",
-				"--out-format",
-				"json",
-				"--max-issues-per-linter",
-				"100",
-				"--max-same-issues",
-				"100",
+				"--out-format=json",
+				"--max-issues-per-linter=100",
+				"--max-same-issues=100",
+				function()
+					local root_path = get_golangci_lint_root()
+						or require("git").root_path()
+						or require("project").get_root_path()
+					return vim.fs.joinpath(root_path, "...")
+				end,
 			}
 			golangcilint_ws.parser = function(output, _, cwd)
+				vim.cmd("echo ''") -- clear command line
+
 				if output == "" then
+					notify_no_issue("empty output")
 					return {}
 				end
 				local decoded = vim.json.decode(output)
 				if decoded["Issues"] == nil or type(decoded["Issues"]) == "userdata" then
+					notify_no_issue("nil issues")
 					return {}
 				end
 
+				-- Here found issues are directly set to quickfix instead of returning vim.Diagnostic[]
+				-- as vim.Diagnostic only has `bufnr` field and no field for filename, which means vim.Diagnostic
+				-- expects the target buffers to be already opened.
 				local qfs = {}
 				for _, item in ipairs(decoded["Issues"]) do
 					local linted_file = cwd .. "/" .. item.Pos.Filename
@@ -178,12 +200,16 @@ return {
 						end_col = item.Pos.Column > 0 and item.Pos.Column or 0,
 						type = severities[item.Severity] or severities.warning,
 						text = item.Text,
+						pattern = item.FromLinter,
 					})
 				end
 				vim.fn.setqflist(qfs)
-				if vim.tbl_count(qfs) ~= 0 then
-					vim.cmd("copen")
+				if vim.tbl_count(qfs) == 0 then
+					notify_no_issue()
+					return {}
 				end
+
+				vim.cmd("copen")
 				return {}
 			end
 			lint.linters.golangcilint_ws = golangcilint_ws
