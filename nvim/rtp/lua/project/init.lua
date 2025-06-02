@@ -11,12 +11,14 @@ local pj_root_markers = {
 	"Cargo.toml",
 }
 
---- Return the path to the currnet project root. If none of the marker files matches, empty string is returned.
+--- Return the path to the currnet project root. If none of the marker files matches, current working directory is returned.
 ---@param path string? Path to begin searching from. Current directory is used if omitted.
----@return string?
+---@return string
 function M.get_root_path(path)
-	path = path or vim.uv.cwd()
-	return vim.fs.root(path, pj_root_markers)
+	local cwd = vim.uv.cwd()
+	path = path or cwd
+
+	return vim.fs.root(path, pj_root_markers) or cwd
 end
 
 --- lcd to the current project root of the specified buffer.
