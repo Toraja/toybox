@@ -320,13 +320,6 @@ return {
 		},
 	},
 	{
-		"AckslD/nvim-FeMaco.lua",
-		config = function()
-			require("femaco").setup()
-		end,
-		cmd = { "FeMaco" },
-	},
-	{
 		"nvim-neorg/neorg",
 		ft = "norg",
 		version = "*",
