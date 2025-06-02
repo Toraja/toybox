@@ -138,9 +138,10 @@ return {
 	},
 	{
 		"jackMort/ChatGPT.nvim",
-		enabled = function()
-			return vim.env.OPENAI_API_KEY ~= nil
-		end,
+		enabled = false,
+		-- enabled = function()
+		-- 	return vim.env.OPENAI_API_KEY ~= nil
+		-- end,
 		dependencies = {
 			"MunifTanjim/nui.nvim",
 			"nvim-lua/plenary.nvim",
@@ -355,5 +356,71 @@ return {
 		config = function()
 			require("copilot_cmp").setup()
 		end,
+	},
+	{
+		"olimorris/codecompanion.nvim",
+		dependencies = {
+			"nvim-lua/plenary.nvim",
+			"nvim-treesitter/nvim-treesitter",
+			"MeanderingProgrammer/render-markdown.nvim",
+			"echasnovski/mini.diff",
+		},
+		config = function()
+			require("codecompanion").setup({
+				strategies = {
+					chat = {
+						adapter = "copilot",
+						keymaps = {
+							send = {
+								modes = { n = "<C-s>", i = "<C-j>" },
+							},
+							close = {
+								modes = { n = "q", i = "<S-F14>" },
+							},
+						},
+						opts = {
+							---Decorate the user message before it's sent to the LLM
+							---@param message string
+							---@param adapter CodeCompanion.Adapter
+							---@param context table
+							---@return string
+							prompt_decorator = function(message, adapter, context)
+								if adapter.name == "copilot" then
+									-- Wrapping with `<prompt></prompt>` is how Copilot in VS Code does, so mimic it here
+									return string.format([[<prompt>%s</prompt>]], message)
+								end
+
+								return message
+							end,
+						},
+					},
+					inline = {
+						adapter = "copilot",
+					},
+				},
+			})
+			require("keymap.which-key-helper").register_with_editable(
+				"CodeCompanion",
+				vim.g.chief_key .. "a",
+				vim.g.chief_key,
+				{
+					a = { "CodeCompanion", { desc = "Open inline assistant" } },
+					c = { "CodeCompanionChat Toggle", { desc = "Toggle chat buffer" } },
+					m = { "CodeCompanionCmd", { desc = "Generate a vim command" } },
+					p = { "CodeCompanionActions", { desc = "Open Action Palette" } },
+				}
+			)
+		end,
+		cmd = { "CodeCompanion", "CodeCompanionChat", "CodeCompanionCmd", "CodeCompanionActions" },
+		keys = {
+			{
+				vim.g.chief_key .. "a",
+				function()
+					require("which-key").show({ keys = vim.g.chief_key .. "a" })
+				end,
+				mode = { "n" },
+				desc = "CodeCompanion",
+			},
+		},
 	},
 }
