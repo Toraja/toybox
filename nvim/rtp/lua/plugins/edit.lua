@@ -348,7 +348,7 @@ return {
 				map_c_h = true,
 				map_c_w = true,
 				fast_wrap = {
-					map = "<M-p>",
+					map = "<M-r>",
 					keys = "asdfghjklqwertyuiopzxcvbnm",
 					end_key = ";",
 					manual_position = false, -- true requires extra key press to choose before/after the posision

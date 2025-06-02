@@ -32,12 +32,14 @@ return {
 				formatting = {
 					format = require("lspkind").cmp_format({
 						maxwidth = {
+							-- This seems not working
 							menu = function()
 								return math.floor(0.60 * vim.o.columns)
 							end, -- leading text (labelDetails)
 						},
-						show_labelDetails = true, -- show labelDetails in menu. Disabled by default
-						symbol_map = { Copilot = " " },
+						-- Show labelDetails in menu. Not sure what difference it makes.
+						show_labelDetails = true,
+						-- symbol_map = { Copilot = " " },
 					}),
 				},
 				snippet = {
@@ -95,11 +97,15 @@ return {
 						cmp.complete({ config = { sources = { { name = "buffer" } } } })
 					end, { "i", "c" }),
 				},
+				-- cmp.config.sources sets the order of completion. See :help cmp-config.sources[n].group_index
 				sources = cmp.config.sources({
-					{ name = "copilot", group_index = 1 },
-					{ name = "nvim_lsp", group_index = 2 },
-					{ name = "luasnip", group_index = 3 },
-					{ name = "buffer", group_index = 4 },
+					-- { name = "copilot" },
+				}, {
+					{ name = "nvim_lsp" },
+				}, {
+					{ name = "luasnip" },
+				}, {
+					{ name = "buffer" },
 				}),
 			})
 
@@ -207,10 +213,13 @@ return {
 	},
 	{
 		"zbirenbaum/copilot.lua",
+		dependencies = {
+			{ "anuvyklack/keymap-amend.nvim" },
+		},
 		config = function()
 			require("copilot").setup({
 				panel = {
-					enabled = false, -- disabled for copilot-cmp
+					-- enabled = false, -- disable this if copilot-cmp is enabled
 					auto_refresh = true,
 					layout = {
 						position = "right", -- bottom | top | left | right | horizontal | vertical
@@ -218,9 +227,18 @@ return {
 					},
 				},
 				suggestion = {
-					enabled = false, -- disabled for copilot-cmp
+					-- enabled = false, -- disable this if copilot-cmp is enabled
 					auto_trigger = true,
 					debounce = 120,
+					-- some keymaps are set manually below setup()
+					keymap = {
+						accept = false,
+						accept_word = false,
+						accept_line = false,
+						next = "<M-n>",
+						prev = "<M-p>",
+						dismiss = false,
+					},
 				},
 				filetypes = {
 					yaml = true,
@@ -344,12 +362,43 @@ return {
 					return true
 				end,
 			})
+			local keymap_amend = require("keymap-amend")
+			local copilot_suggestion = require("copilot.suggestion")
+			keymap_amend("i", "<C-o>", function(original)
+				if copilot_suggestion.is_visible() then
+					copilot_suggestion.accept()
+				else
+					original()
+				end
+			end, { desc = "Copilot accept or default" })
+			keymap_amend("i", "<M-f>", function(original)
+				if copilot_suggestion.is_visible() then
+					copilot_suggestion.accept_word()
+				else
+					original()
+				end
+			end, { desc = "Copilot accept word or next word" })
+			keymap_amend("i", "<C-e>", function(original)
+				if copilot_suggestion.is_visible() then
+					copilot_suggestion.accept_line()
+				else
+					original()
+				end
+			end, { desc = "Copilot accept line or end of line" })
+			keymap_amend("i", "<C-q>", function(original)
+				if copilot_suggestion.is_visible() then
+					copilot_suggestion.dismiss()
+				else
+					original()
+				end
+			end, { desc = "Copilot dismiss or default" })
 		end,
 		cmd = "Copilot",
 		event = "InsertEnter",
 	},
 	{
 		"zbirenbaum/copilot-cmp",
+		enabled = false,
 		dependencies = {
 			"zbirenbaum/copilot.lua",
 		},
