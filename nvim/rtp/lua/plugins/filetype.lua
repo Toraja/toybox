@@ -291,6 +291,35 @@ return {
 		end,
 	},
 	{
+		"MeanderingProgrammer/render-markdown.nvim",
+		enabled = false,
+		dependencies = { "nvim-treesitter/nvim-treesitter", "nvim-tree/nvim-web-devicons" },
+		ft = { "markdown", "codecompanion" },
+		---@module 'render-markdown'
+		---@type render.md.UserConfig
+		opts = {
+			anti_conceal = {
+				-- Setting this to false is supposed to keep concealing the text on the cursorline, but that is not working.
+				enabled = false,
+			},
+			completions = { lsp = { enabled = true } },
+			code = {
+				border = "thick",
+			},
+		},
+	},
+	{
+		"OXY2DEV/markview.nvim",
+		lazy = false,
+		ft = { "markdown", "codecompanion" },
+		opts = {
+			preview = {
+				filetypes = { "markdown", "codecompanion" },
+				ignore_buftypes = {},
+			},
+		},
+	},
+	{
 		"AckslD/nvim-FeMaco.lua",
 		config = function()
 			require("femaco").setup()

@@ -45,6 +45,14 @@ return {
 						Blocked = { fg = colors.aqua, bold = true, reverse = true },
 						-- nvim-treesitter-context
 						TreesitterContextSeparator = { link = "Comment" },
+						-- markview.nvim
+						["@markup.heading.1.markdown"] = { fg = colors.red },
+						["@markup.heading.2.markdown"] = { fg = colors.orange },
+						["@markup.heading.3.markdown"] = { fg = colors.yellow },
+						["@markup.heading.4.markdown"] = { fg = colors.green },
+						["@markup.heading.5.markdown"] = { fg = colors.cyan },
+						["@markup.heading.6.markdown"] = { fg = colors.purple },
+						["@markup.heading.7.markdown"] = { fg = colors.pink },
 					}
 				end,
 			})
