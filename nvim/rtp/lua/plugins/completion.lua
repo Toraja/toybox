@@ -28,7 +28,7 @@ return {
 			end
 
 			cmp.setup({
-				preselect = cmp.PreselectMode.None,
+				preselect = cmp.PreselectMode.Item,
 				formatting = {
 					format = require("lspkind").cmp_format({
 						maxwidth = {
@@ -54,6 +54,9 @@ return {
 				window = {
 					completion = cmp.config.window.bordered(),
 					documentation = cmp.config.window.bordered(),
+				},
+				completion = {
+					autocomplete = false,
 				},
 				mapping = {
 					["<M-j>"] = cmp.mapping(cmp.mapping.scroll_docs(4), { "i", "c" }),
