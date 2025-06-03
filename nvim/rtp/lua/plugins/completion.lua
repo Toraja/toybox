@@ -86,7 +86,7 @@ return {
 							end
 						end,
 					}),
-					["<C-g>"] = cmp.mapping(cmp.mapping.abort(), { "i", "c" }),
+					["<C-g>"] = cmp.mapping(cmp_visible_or_fallback(cmp.abort), { "i", "c" }),
 					-- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
 					["<C-y>"] = cmp.mapping(cmp.mapping.confirm({ select = false }), { "i", "c" }),
 					["<C-o>"] = cmp.mapping(cmp.mapping.confirm({ select = false }), { "i", "c" }),
