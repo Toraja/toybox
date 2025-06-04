@@ -7,7 +7,7 @@ return {
 		build = "bash ./install.sh",
 		config = function()
 			require("sniprun").setup({
-				display = { "NvimNotify" },
+				display = { "TerminalWithCode" },
 			})
 			require("keymap.which-key-helper").register_with_editable(
 				"sniprun",
