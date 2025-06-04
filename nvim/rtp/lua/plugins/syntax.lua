@@ -102,6 +102,13 @@ return {
 					rust = {
 						require("formatter.filetypes.rust").rustfmt,
 					},
+					sh = {
+						function()
+							local fmt = require("formatter.filetypes.sh").shfmt()
+							vim.list_extend(fmt.args, { "--space-redirects" })
+							return fmt
+						end,
+					},
 					toml = {
 						require("formatter.filetypes.toml").taplo,
 					},
