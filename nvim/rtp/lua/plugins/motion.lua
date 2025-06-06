@@ -414,6 +414,10 @@ return {
 						},
 						mode = { "n", "v", "o" },
 					},
+					["<C-t>"] = {
+						next = { rhs = require("todo-comments").jump_next, opts = { desc = "Next todo comment" } },
+						prev = { rhs = require("todo-comments").jump_prev, opts = { desc = "Previous todo comment" } },
+					},
 					["<C-v>"] = {
 						next = { rhs = require("gitsigns").next_hunk, opts = { desc = "Next git hunk" } },
 						prev = { rhs = require("gitsigns").prev_hunk, opts = { desc = "Prev git hunk" } },
