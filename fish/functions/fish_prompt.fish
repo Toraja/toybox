@@ -1,7 +1,9 @@
 function fish_prompt --description 'Write out the prompt'
+    set --local prompt
+
     # fish status
     set status_color (test $status -eq 0; and echo cyan; or echo red)
-    set prompt (colorise $status_color fish)
+    set --append prompt (colorise $status_color fish)
 
     # SHLVL USER HOSTNAME CWD
     # hostname must be function because HOSTNAME variable is not necessarily defined
@@ -17,14 +19,19 @@ function fish_prompt --description 'Write out the prompt'
         set --append prompt $git
     end
 
+    # whether tmux is still running
+    if not set --query TMUX && tmux has-session 2>/dev/null
+        set --append prompt ' ['(colorise green tmux)']'
+    end
+
     # symbol
     set symbol '$'
     if test $USER = root
         set symbol '#'
     end
-    set --append prompt \n$symbol' '
 
     string join '' $prompt
+    echo "$symbol "
 end
 
 function colorise
