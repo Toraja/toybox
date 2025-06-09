@@ -397,7 +397,9 @@ return {
 			end, { desc = "Copilot dismiss or default" })
 		end,
 		cmd = "Copilot",
-		event = "InsertEnter",
+		-- The trigger event was originally "InsertEnter" but if telescope is opened before the first insert,
+		-- `original` keymap in keymap-amend will be the one defined in telescope, so it will not work as expected.
+		event = "VeryLazy",
 	},
 	{
 		"zbirenbaum/copilot-cmp",
