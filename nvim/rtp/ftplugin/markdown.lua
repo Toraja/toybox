@@ -113,5 +113,6 @@ require("keymap.which-key-helper").register_for_ftplugin({
 	-- l = { '', { desc = 'Toggle list' } },
 	p = { "ToDoAddPomodoro", { desc = "Add pomodoro" } },
 	s = { "ToDoToggleStatus " .. started_symbol, { desc = "Toggle STARTED" } },
+	v = { "Markview Toggle", { desc = "Toggle Markview" } },
 	x = { "ToggleToDoCancelled", { desc = "Cancel TODO" } },
 })
