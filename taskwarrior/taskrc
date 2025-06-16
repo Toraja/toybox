@@ -41,6 +41,8 @@ color.waiting=on rgb001 # seems this has no effect, though `task show` displays 
 color.blocking=yellow on black
 color.tagged=
 color.tag.WAITING=on rgb001 # this works on CLI but not TUI. Seems like WAITING tasks are treated as PENDING for coloring.
+color.tag.PARENT=cyan # this works on CLI but not TUI.
+color.recurring=
 color.tag.next=
 color.tag.zzz=color27 on black
 color.uda.onhold.-=color27 on black # tui does not support UDA color
@@ -107,7 +109,7 @@ uda.taskwarrior-tui.keyconfig.shortcut9=0
 
 # write context will add the specified tag to task when add new tasks.
 # Virtual tags cannot be added to tasks so adding tasks will fail.
-context.default.read=-DELETED
+context.default.read=-DELETED and -PARENT
 # context.default.write=+PENDING
 context.deleted.read=+DELETED
 # context.deleted.write=+DELETED
