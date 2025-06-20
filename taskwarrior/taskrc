@@ -36,7 +36,7 @@ verbose=no
 rule.precedence.color=deleted,completed,overdue,due.today,due,uda.onhold,active,keyword.,tag.,blocked,blocking,scheduled,project.,recurring,tagged,uda
 
 color.deleted=gray10
-color.completed=rgb013
+color.completed=white on gray7
 color.waiting=on rgb001 # seems this has no effect, though `task show` displays it
 color.blocking=yellow on black
 color.tagged=
