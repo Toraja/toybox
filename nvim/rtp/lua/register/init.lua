@@ -54,6 +54,9 @@ function M.setup(opts)
 	vim.keymap.set("n", "++", clip_func)
 	vim.keymap.set({ "n", "x" }, "_", '"_')
 
+	vim.keymap.set("n", "ypr", function()
+		M.yank_or_clip(vim.fn.expand("%"))
+	end, { desc = "Yank buffer's relative path" })
 	vim.keymap.set("n", "ypf", function()
 		M.yank_or_clip(vim.fn.expand("%:p:~"))
 	end, { desc = "Yank buffer's full path" })
@@ -69,9 +72,22 @@ function M.setup(opts)
 	vim.keymap.set("n", "ypc", function()
 		M.yank_or_clip(vim.fn.expand("%:t:r"))
 	end, { desc = "Yank cwd" })
+	vim.keymap.set("n", "ypR", function()
+		if not require("git").is_inside_work_tree() then
+			vim.api.nvim_echo({ { "Not a git repository" } }, false, { err = true })
+			return
+		end
+
+		M.yank_or_clip(require("git").buf_relative_path_to_root())
+	end, { desc = "Yank buffer's path relative to git root" })
 	vim.keymap.set("n", "ypo", function()
-		M.yank_or_clip(require("git").root_path())
-	end, { desc = "Yank git root path" })
+		if not require("git").is_inside_work_tree() then
+			vim.api.nvim_echo({ { "Not a git repository" } }, false, { err = true })
+			return
+		end
+
+		M.yank_or_clip(vim.fn.fnamemodify(require("git").buf_root_path(), ":~"))
+	end, { desc = "Yank buffer's git root path" })
 end
 
 return M
