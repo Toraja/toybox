@@ -19,7 +19,7 @@ return {
 					nvim_green = "#558f34",
 					nvim_bg = "#081218",
 				},
-				themes = function(colors)
+				highlights = function(colors)
 					return {
 						-- builtin
 						Comment = { fg = colors.gray },
