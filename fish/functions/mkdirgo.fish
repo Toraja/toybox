@@ -1,5 +1,5 @@
 function mkdirgo --wraps=mkdir --description 'Create a directory and set CWD'
-    command mkdir $argv
+    command mkdir --parents $argv
     if test $status = 0
         switch $argv[(count $argv)]
             case '-*'
