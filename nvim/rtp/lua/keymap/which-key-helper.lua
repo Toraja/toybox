@@ -15,12 +15,13 @@ end
 --- @param prompt string The prompt/group name for the keymaps.
 --- @param prefix_key string The prefix key for the main keymaps (e.g., '<leader>r').
 --- @param edit_key string The extra prefix key for the editable commands (e.g., 'e').
---- @param keymaps table<string, {rhs: string|function, modes: string[]?, opts: table?}> A table of keymap definitions. The table key is the suffix of the keymap, `rhs`, `modes` and `opts` are passed as {rhs}, {mode} and {opts} of `vim.keymap.set` respectively. `modes` will default to `{ "n" }` if not provided.
+--- @param keymaps table<string, {rhs: string|function, mode: string|string[]?, opts: table?}> A table of keymap definitions. The table key is the suffix of the keymap, `rhs`, `mode` and `opts` are passed as {rhs}, {mode} and {opts} of `vim.keymap.set` respectively. `mode` will default to "n" if not provided.
 --- @param opts table|nil Optional table of options to pass to `which-key.add`.
 function M.register_with_editable(prompt, prefix_key, edit_key, keymaps, opts)
 	local edit_prefix_key = prefix_key .. edit_key
 	local opts = opts or {}
 	local wk = require("which-key")
+
 	-- Use which-key only to set the name of grouping
 	wk.add({
 		{ prefix_key, group = prompt, opts },
@@ -28,13 +29,15 @@ function M.register_with_editable(prompt, prefix_key, edit_key, keymaps, opts)
 	})
 
 	for key, keymap in pairs(keymaps) do
+		local mode = keymap.mode or { "n" }
+
 		if type(keymap.rhs) == "function" then
-			vim.keymap.set("n", prefix_key .. key, keymap.rhs, keymap.opts)
+			vim.keymap.set(mode, prefix_key .. key, keymap.rhs, keymap.opts)
 			goto continue
 		end
 
-		vim.keymap.set("n", prefix_key .. key, wrap_as_cmd(keymap.rhs), keymap.opts)
-		vim.keymap.set("n", edit_prefix_key .. key, wrap_as_editable(keymap.rhs), keymap.opts)
+		vim.keymap.set(mode, prefix_key .. key, wrap_as_cmd(keymap.rhs), keymap.opts)
+		vim.keymap.set(mode, edit_prefix_key .. key, wrap_as_editable(keymap.rhs), keymap.opts)
 
 		::continue::
 	end
