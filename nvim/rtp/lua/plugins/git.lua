@@ -72,14 +72,7 @@ return {
 		end,
 		event = { "CmdlineEnter" },
 		keys = {
-			{
-				git_keymap_prefix,
-				function()
-					require("which-key").show({ keys = git_keymap_prefix, mode = "n" })
-				end,
-				mode = { "n" },
-				desc = "Git",
-			},
+			{ git_keymap_prefix, mode = { "n" }, desc = "Git" },
 		},
 	},
 	{

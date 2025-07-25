@@ -22,15 +22,8 @@ return {
 			)
 		end,
 		keys = {
-			{
-				vim.g.chief_key .. "r",
-				function()
-					require("which-key").show({ keys = vim.g.chief_key .. "r", mode = "n" })
-				end,
-				mode = { "n" },
-				desc = "sniprun",
-			},
-			{ vim.g.chief_key .. "r", ":SnipRun<CR>", mode = { "v" }, desc = "sniprun" },
+			{ vim.g.chief_key .. "r", mode = { "n" }, desc = "sniprun" },
+			{ vim.g.chief_key .. "r", ":SnipRun<CR>", mode = { "x" }, desc = "SnipRun selection" },
 		},
 	},
 	{

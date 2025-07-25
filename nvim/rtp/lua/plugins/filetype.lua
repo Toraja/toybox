@@ -62,9 +62,6 @@ return {
 		keys = {
 			{
 				"<LocalLeader>",
-				function()
-					require("which-key").show({ keys = "<LocalLeader>", mode = "n" })
-				end,
 				mode = { "n" },
 				desc = "Dap",
 				-- Top level `ft` option loads the plugin immediately when lua file is opened

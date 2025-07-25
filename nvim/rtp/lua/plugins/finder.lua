@@ -462,14 +462,7 @@ return {
 		end,
 		cmd = { "Telescope" },
 		keys = {
-			{
-				vim.g.chief_key .. "f",
-				function()
-					require("which-key").show({ keys = vim.g.chief_key .. "f" })
-				end,
-				mode = { "n" },
-				desc = "Telescope",
-			},
+			{ vim.g.chief_key .. "f", mode = { "n" }, desc = "Telescope" },
 		},
 	},
 }

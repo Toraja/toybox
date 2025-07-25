@@ -93,14 +93,7 @@ return {
 			vim.keymap.set("n", "]n", "<cmd>lua require('neotest').jump.next({})<CR>", { desc = "Jump to next test" })
 		end,
 		keys = {
-			{
-				vim.g.chief_key .. "t",
-				function()
-					require("which-key").show({ keys = vim.g.chief_key .. "t", mode = "n" })
-				end,
-				mode = { "n" },
-				desc = "neotest",
-			},
+			{ vim.g.chief_key .. "t", mode = { "n" }, desc = "neotest" },
 		},
 	},
 }

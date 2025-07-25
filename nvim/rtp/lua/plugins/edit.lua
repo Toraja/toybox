@@ -230,22 +230,7 @@ return {
 			end
 		end,
 		keys = {
-			{
-				"ga",
-				function()
-					require("which-key").show({ keys = "ga", mode = "n" })
-				end,
-				mode = { "n" },
-				desc = "text-case (operator)",
-			},
-			{
-				"ga",
-				function()
-					require("which-key").show({ keys = "ga", mode = "v" })
-				end,
-				mode = { "v" },
-				desc = "text-case",
-			},
+			{ "ga", mode = { "n", "v" }, desc = "text-case" },
 		},
 	},
 	{

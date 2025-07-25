@@ -35,14 +35,7 @@ return {
 			})
 		end,
 		keys = {
-			{
-				debug_keymap_prefix,
-				function()
-					require("which-key").show({ keys = debug_keymap_prefix, mode = "n" })
-				end,
-				mode = { "n" },
-				desc = "Dap",
-			},
+			{ debug_keymap_prefix, mode = { "n" }, desc = "Dap" },
 		},
 	},
 	{
@@ -109,14 +102,7 @@ return {
 			)
 		end,
 		keys = {
-			{
-				debug_keymap_prefix .. "f",
-				function()
-					require("which-key").show({ keys = debug_keymap_prefix .. "f", mode = "n" })
-				end,
-				mode = { "n" },
-				desc = "Dap telescope",
-			},
+			{ debug_keymap_prefix .. "f", mode = { "n" }, desc = "Dap telescope" },
 		},
 	},
 }
