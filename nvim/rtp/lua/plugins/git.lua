@@ -65,9 +65,9 @@ return {
 				},
 			})
 			require("keymap.which-key-helper").register_with_editable("Git", git_keymap_prefix, vim.g.chief_key, {
-				d = { "DiffviewOpen", { desc = "DiffviewOpen" } },
-				y = { "DiffviewFileHistory %", { desc = "Diffview history of this file" } },
-				Y = { "DiffviewFileHistory", { desc = "Diffview history of repository" } },
+				d = { rhs = "DiffviewOpen", opts = { desc = "DiffviewOpen" } },
+				y = { rhs = "DiffviewFileHistory %", opts = { desc = "Diffview history of this file" } },
+				Y = { rhs = "DiffviewFileHistory", opts = { desc = "Diffview history of repository" } },
 			})
 		end,
 		event = { "CmdlineEnter" },

@@ -401,25 +401,31 @@ return {
 				vim.g.chief_key .. "f",
 				vim.g.chief_key,
 				{
-					a = { "Easypick subroot", { desc = "Telescope in subroot" } },
-					b = { "Telescope buffers", { desc = "Buffers" } },
-					c = { "Telescope git_bcommits", { desc = "Git buffer commits" } },
-					C = { "Telescope git_commits", { desc = "Git commits" } },
-					d = { "Telescope diagnostics", { desc = "Diagnostics" } },
-					e = { "Telescope pathogen pathogen", { desc = "File browser" } },
-					f = { "Telescope pathogen find_files", { desc = "Files" } },
-					F = { "Telescope directory find_files prompt_title=Directory+Find", { desc = "Directory + Find" } },
-					g = { "Telescope pathogen live_grep", { desc = "Grep" } },
-					G = { "Telescope directory live_grep prompt_title=Directory+Grep ", { desc = "Directory + Grep" } },
-					h = { "Telescope help_tags", { desc = "Help tags" } },
-					H = { "Telescope highlights", { desc = "Highlights" } },
-					k = { "Telescope keymaps", { desc = "Keymaps" } },
-					l = { "Telescope current_buffer_fuzzy_find", { desc = "Buffer lines" } },
-					m = { "Easypick makefile", { desc = "Makefiles" } },
-					M = { "Telescope marks", { desc = "Marks" } },
-					n = { "Telescope notify notify", { desc = "Notifications" } },
+					a = { rhs = "Easypick subroot", opts = { desc = "Telescope in subroot" } },
+					b = { rhs = "Telescope buffers", opts = { desc = "Buffers" } },
+					c = { rhs = "Telescope git_bcommits", opts = { desc = "Git buffer commits" } },
+					C = { rhs = "Telescope git_commits", opts = { desc = "Git commits" } },
+					d = { rhs = "Telescope diagnostics", opts = { desc = "Diagnostics" } },
+					e = { rhs = "Telescope pathogen pathogen", opts = { desc = "File browser" } },
+					f = { rhs = "Telescope pathogen find_files", opts = { desc = "Files" } },
+					F = {
+						rhs = "Telescope directory find_files prompt_title=Directory+Find",
+						opts = { desc = "Directory + Find" },
+					},
+					g = { rhs = "Telescope pathogen live_grep", opts = { desc = "Grep" } },
+					G = {
+						rhs = "Telescope directory live_grep prompt_title=Directory+Grep ",
+						opts = { desc = "Directory + Grep" },
+					},
+					h = { rhs = "Telescope help_tags", opts = { desc = "Help tags" } },
+					H = { rhs = "Telescope highlights", opts = { desc = "Highlights" } },
+					k = { rhs = "Telescope keymaps", opts = { desc = "Keymaps" } },
+					l = { rhs = "Telescope current_buffer_fuzzy_find", opts = { desc = "Buffer lines" } },
+					m = { rhs = "Easypick makefile", opts = { desc = "Makefiles" } },
+					M = { rhs = "Telescope marks", opts = { desc = "Marks" } },
+					n = { rhs = "Telescope notify notify", opts = { desc = "Notifications" } },
 					o = {
-						function()
+						rhs = function()
 							---@diagnostic disable-next-line: missing-parameter
 							if vim.lsp.buf_is_attached(0) then
 								require("telescope.builtin").lsp_document_symbols({ symbol_width = 40 })
@@ -427,30 +433,30 @@ return {
 								require("telescope.builtin").treesitter()
 							end
 						end,
-						{ desc = "Document symbols" },
+						opts = { desc = "Document symbols" },
 					},
-					O = { "Telescope oldfiles", { desc = "Oldfiles" } },
-					p = { "Telescope lazy lazy", { desc = "Lazy" } },
-					P = { "Telescope spell_suggest", { desc = "Spell suggest" } },
-					q = { "Telescope ghq list layout_config={'preview_width':0.5}", { desc = "Ghq list" } },
-					s = { "Telescope luasnip luasnip", { desc = "Snippets" } },
-					S = { "Telescope scriptnames scriptnames", { desc = "Scriptnames" } },
+					O = { rhs = "Telescope oldfiles", opts = { desc = "Oldfiles" } },
+					p = { rhs = "Telescope lazy lazy", opts = { desc = "Lazy" } },
+					P = { rhs = "Telescope spell_suggest", opts = { desc = "Spell suggest" } },
+					q = { rhs = "Telescope ghq list layout_config={'preview_width':0.5}", opts = { desc = "Ghq list" } },
+					s = { rhs = "Telescope luasnip luasnip", opts = { desc = "Snippets" } },
+					S = { rhs = "Telescope scriptnames scriptnames", opts = { desc = "Scriptnames" } },
 					t = {
-						function()
+						rhs = function()
 							local tablist = vim.api.nvim_list_tabpages()
 							tele_tabby_opts.layout_config.height = vim.tbl_count(tablist) + 4 -- 4 means search window and borders
 							tele_tabby_opts.layout_config.width = 150
 							require("telescope").extensions.tele_tabby.list(tele_tabby_opts)
 						end,
-						{ desc = "Tab" },
+						opts = { desc = "Tab" },
 					},
-					T = { "TodoTelescope", { desc = "Todo comments" } },
-					v = { "Telescope git_status", { desc = "Git status" } },
-					V = { "Telescope git_files", { desc = "Git files" } },
-					y = { "Telescope yank_history yank_history", { desc = "Yank history" } },
-					[":"] = { "Telescope command_history", { desc = "Command history" } },
-					["/"] = { "Telescope search_history", { desc = "Search history" } },
-					["<Space>"] = { "Telescope resume", { desc = "Resume previous picker" } },
+					T = { rhs = "TodoTelescope", opts = { desc = "Todo comments" } },
+					v = { rhs = "Telescope git_status", opts = { desc = "Git status" } },
+					V = { rhs = "Telescope git_files", opts = { desc = "Git files" } },
+					y = { rhs = "Telescope yank_history yank_history", opts = { desc = "Yank history" } },
+					[":"] = { rhs = "Telescope command_history", opts = { desc = "Command history" } },
+					["/"] = { rhs = "Telescope search_history", opts = { desc = "Search history" } },
+					["<Space>"] = { rhs = "Telescope resume", opts = { desc = "Resume previous picker" } },
 				}
 			)
 		end,

@@ -458,10 +458,10 @@ return {
 				vim.g.chief_key .. "a",
 				vim.g.chief_key,
 				{
-					a = { "CodeCompanion", { desc = "Open inline assistant" } },
-					c = { "CodeCompanionChat Toggle", { desc = "Toggle chat buffer" } },
-					m = { "CodeCompanionCmd", { desc = "Generate a vim command" } },
-					p = { "CodeCompanionActions", { desc = "Open Action Palette" } },
+					a = { rhs = "CodeCompanion", opts = { desc = "Open inline assistant" } },
+					c = { rhs = "CodeCompanionChat Toggle", opts = { desc = "Toggle chat buffer" } },
+					m = { rhs = "CodeCompanionCmd", opts = { desc = "Generate a vim command" } },
+					p = { rhs = "CodeCompanionActions", opts = { desc = "Open Action Palette" } },
 				}
 			)
 		end,

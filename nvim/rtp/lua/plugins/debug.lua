@@ -14,18 +14,24 @@ return {
 			vim.fn.sign_define("DapStopped", { text = ">", texthl = "Blocked", numhl = "Blocked" })
 
 			require("keymap.which-key-helper").register_with_editable("Dap", debug_keymap_prefix, vim.g.chief_key, {
-				b = { "lua require('dap').toggle_breakpoint()", { desc = "Toggle breakpoint" } },
-				B = { "lua require('dap').clear_breakpoints()", { desc = "Clear breakpoints" } },
-				c = { "lua require('dap').continue()", { desc = "Continue or start debugging" } },
-				C = { "lua require('dap').run_to_cursor()", { desc = "Progress debuging to cursor" } },
-				l = { "lua require('dap').run_last()", { desc = "Rerun the last debugging" } },
-				i = { "lua require('dap').step_into()", { desc = "Step in" } },
-				n = { "lua require('dap').step_over()", { desc = "Step over" } },
-				o = { "lua require('dap').step_out()", { desc = "Step out" } },
-				r = { "lua require('dap').restart()", { desc = "Restart debugging" } },
-				t = { "lua require('dap').terminate()", { desc = "Terminate" } },
-				j = { "lua require('dap').down()", { desc = "Go down in current stacktrace without stepping" } },
-				k = { "lua require('dap').up()", { desc = "Go up in current stacktrace without stepping" } },
+				b = { rhs = "lua require('dap').toggle_breakpoint()", opts = { desc = "Toggle breakpoint" } },
+				B = { rhs = "lua require('dap').clear_breakpoints()", opts = { desc = "Clear breakpoints" } },
+				c = { rhs = "lua require('dap').continue()", opts = { desc = "Continue or start debugging" } },
+				C = { rhs = "lua require('dap').run_to_cursor()", opts = { desc = "Progress debuging to cursor" } },
+				l = { rhs = "lua require('dap').run_last()", opts = { desc = "Rerun the last debugging" } },
+				i = { rhs = "lua require('dap').step_into()", opts = { desc = "Step in" } },
+				n = { rhs = "lua require('dap').step_over()", opts = { desc = "Step over" } },
+				o = { rhs = "lua require('dap').step_out()", opts = { desc = "Step out" } },
+				r = { rhs = "lua require('dap').restart()", opts = { desc = "Restart debugging" } },
+				t = { rhs = "lua require('dap').terminate()", opts = { desc = "Terminate" } },
+				j = {
+					rhs = "lua require('dap').down()",
+					opts = { desc = "Go down in current stacktrace without stepping" },
+				},
+				k = {
+					rhs = "lua require('dap').up()",
+					opts = { desc = "Go up in current stacktrace without stepping" },
+				},
 			})
 		end,
 		keys = {
@@ -94,11 +100,11 @@ return {
 				ts_dap_keymap_prefix,
 				vim.g.chief_key,
 				{
-					b = { "Telescope dap list_breakpoints", { desc = "List breakpoints" } },
-					c = { "Telescope dap commands", { desc = "Commands" } },
-					C = { "Telescope dap configurations", { desc = "Configurations" } },
-					f = { "Telescope dap frames", { desc = "Frames" } },
-					v = { "Telescope dap variables", { desc = "Variables" } },
+					b = { rhs = "Telescope dap list_breakpoints", opts = { desc = "List breakpoints" } },
+					c = { rhs = "Telescope dap commands", opts = { desc = "Commands" } },
+					C = { rhs = "Telescope dap configurations", opts = { desc = "Configurations" } },
+					f = { rhs = "Telescope dap frames", opts = { desc = "Frames" } },
+					v = { rhs = "Telescope dap variables", opts = { desc = "Variables" } },
 				}
 			)
 		end,

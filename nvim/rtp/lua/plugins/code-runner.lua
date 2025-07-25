@@ -14,10 +14,10 @@ return {
 				vim.g.chief_key .. "r",
 				vim.g.chief_key,
 				{
-					a = { "%SnipRun", { desc = "SnipRun entire buffer" } },
-					r = { "SnipRun", { desc = "SnipRun current line" } },
-					s = { "SnipReset", { desc = "Stop execution of sniprun" } },
-					c = { "SnipClose", { desc = "Clear text displayed by sniprun" } },
+					a = { rhs = "%SnipRun", opts = { desc = "SnipRun entire buffer" } },
+					r = { rhs = "SnipRun", opts = { desc = "SnipRun current line" } },
+					s = { rhs = "SnipReset", opts = { desc = "Stop execution of sniprun" } },
+					c = { rhs = "SnipClose", opts = { desc = "Clear text displayed by sniprun" } },
 				}
 			)
 		end,

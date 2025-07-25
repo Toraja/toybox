@@ -2,23 +2,29 @@ vim.bo.shiftwidth = 4
 vim.bo.tabstop = 4
 
 require("keymap.which-key-helper").register_for_ftplugin({
-	a = { "GoAltV", { desc = "Alternate file - vertical" } },
-	e = { "GoIfErr", { desc = "If error" } },
-	g = { "GoDebug", { desc = "Start debugging" } }, -- this is needed as the command does the adopter setup as well.
-	h = { "GoChannel", { desc = "GoChannel" } },
-	k = { "GoCallstack", { desc = "GoCallstack" } },
-	r = { "GoRun", { desc = "Exec `go run`" } },
-	s = { "GoFillStruct", { desc = "Fill struct" } },
-	t = { "GoAddTest", { desc = "Add test for this function" } },
-	T = { "GoAddTag", { desc = "Add tag to struct" } },
-	v = { "GoCoverage", { desc = "Show test coverage" } },
-	V = { "GoCoverage -t", { desc = "Load coverage file" } },
-	["<Space>g"] = { "lua ginkgo_generate()", { desc = "Generate gingko test file" } },
-	["<Space>p"] = { "lua print(ginkgo_get_nearest_spec_cmd())", { desc = "Print nearest ginkgo spec command" } },
-	["<Space>P"] = { "lua print(ginkgo_get_this_file_cmd())", { desc = "Print ginkgo specs on this file command" } },
-	["<Space><Space>"] = { "lua ginkgo_test_input_spec()", { desc = "Test ginkgo spec of user input" } },
-	["<Space>t"] = { "lua ginkgo_test_nearest_spec()", { desc = "Test nearest ginkgo spec" } },
-	["<Space>T"] = { "lua ginkgo_test_this_file()", { desc = "Test ginkgo specs on this file" } },
+	a = { rhs = "GoAltV", opts = { desc = "Alternate file - vertical" } },
+	e = { rhs = "GoIfErr", opts = { desc = "If error" } },
+	g = { rhs = "GoDebug", opts = { desc = "Start debugging" } }, -- this is needed as the command does the adopter setup as well.
+	h = { rhs = "GoChannel", opts = { desc = "GoChannel" } },
+	k = { rhs = "GoCallstack", opts = { desc = "GoCallstack" } },
+	r = { rhs = "GoRun", opts = { desc = "Exec `go run`" } },
+	s = { rhs = "GoFillStruct", opts = { desc = "Fill struct" } },
+	t = { rhs = "GoAddTest", opts = { desc = "Add test for this function" } },
+	T = { rhs = "GoAddTag", opts = { desc = "Add tag to struct" } },
+	v = { rhs = "GoCoverage", opts = { desc = "Show test coverage" } },
+	V = { rhs = "GoCoverage -t", opts = { desc = "Load coverage file" } },
+	["<Space>g"] = { rhs = "lua ginkgo_generate()", opts = { desc = "Generate gingko test file" } },
+	["<Space>p"] = {
+		rhs = "lua print(ginkgo_get_nearest_spec_cmd())",
+		opts = { desc = "Print nearest ginkgo spec command" },
+	},
+	["<Space>P"] = {
+		rhs = "lua print(ginkgo_get_this_file_cmd())",
+		opts = { desc = "Print ginkgo specs on this file command" },
+	},
+	["<Space><Space>"] = { rhs = "lua ginkgo_test_input_spec()", opts = { desc = "Test ginkgo spec of user input" } },
+	["<Space>t"] = { rhs = "lua ginkgo_test_nearest_spec()", opts = { desc = "Test nearest ginkgo spec" } },
+	["<Space>T"] = { rhs = "lua ginkgo_test_this_file()", opts = { desc = "Test ginkgo specs on this file" } },
 })
 
 local function ginkgo_run_cmd_in_terminal(ginkgo_cmd)

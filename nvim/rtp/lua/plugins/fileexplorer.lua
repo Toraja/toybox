@@ -79,12 +79,12 @@ return {
 				vim.g.chief_key .. "e",
 				vim.g.chief_key,
 				{
-					o = { "NvimTreeOpen", { desc = "Open" } },
-					O = { "NvimTreeOpen %:h", { desc = "Open in the file's parent directory" } },
-					e = { "NvimTreeToggle", { desc = "Toggle" } },
-					E = { "NvimTreeFocus", { desc = "Focus" } },
-					f = { "NvimTreeFindFile!", { desc = "Find file" } },
-					r = { "NvimTreeRefresh", { desc = "Refresh" } },
+					o = { rhs = "NvimTreeOpen", opts = { desc = "Open" } },
+					O = { rhs = "NvimTreeOpen %:h", opts = { desc = "Open in the file's parent directory" } },
+					e = { rhs = "NvimTreeToggle", opts = { desc = "Toggle" } },
+					E = { rhs = "NvimTreeFocus", opts = { desc = "Focus" } },
+					f = { rhs = "NvimTreeFindFile!", opts = { desc = "Find file" } },
+					r = { rhs = "NvimTreeRefresh", opts = { desc = "Refresh" } },
 				}
 			)
 			local nvimtree_augroud_id = vim.api.nvim_create_augroup("my_nvimtree", {})
@@ -277,13 +277,13 @@ return {
 				vim.g.chief_key .. "e",
 				vim.g.chief_key,
 				{
-					b = { "Neotree toggle reveal source=buffers", { desc = "Buffers" } },
-					e = { "Neotree toggle reveal_force_cwd", { desc = "Filesystem" } },
+					b = { rhs = "Neotree toggle reveal source=buffers", opts = { desc = "Buffers" } },
+					e = { rhs = "Neotree toggle reveal_force_cwd", opts = { desc = "Filesystem" } },
 					E = {
-						"Neotree toggle reveal_force_cwd dir=%:h",
-						{ desc = "FS in the file's parent directory" },
+						rhs = "Neotree toggle reveal_force_cwd dir=%:h",
+						opts = { desc = "FS in the file's parent directory" },
 					},
-					g = { "Neotree toggle reveal_force_cwd source=git_status", { desc = "Git status" } },
+					g = { rhs = "Neotree toggle reveal_force_cwd source=git_status", opts = { desc = "Git status" } },
 				}
 			)
 		end,

@@ -120,7 +120,7 @@ return {
 
 			local ft_common = require("ft-common")
 			ft_common.set_ft_keymap({
-				f = { "Format", { desc = "Format", silent = true } },
+				f = { rhs = "Format", opts = { desc = "Format", silent = true } },
 			})
 
 			vim.api.nvim_create_autocmd("BufWritePost", {
@@ -223,7 +223,7 @@ return {
 
 			local ft_common = require("ft-common")
 			ft_common.set_ft_keymap({
-				l = { "lua require('lint').try_lint()", { desc = "Lint", silent = true } },
+				l = { rhs = "lua require('lint').try_lint()", opts = { desc = "Lint", silent = true } },
 			})
 
 			vim.api.nvim_create_user_command("LintCustom", function(cmds)

@@ -62,17 +62,26 @@ return {
 				vim.g.chief_key .. "t",
 				vim.g.chief_key,
 				{
-					g = { "lua require('neotest').run.run({strategy = 'dap'})", { desc = "Debug nearest" } },
-					t = { "lua require('neotest').run.run()", { desc = "Test nearest" } },
-					T = { "lua require('neotest').run.run(vim.fn.expand('%'))", { desc = "Test file" } },
-					s = { "lua require('neotest').run.stop()", { desc = "Stop test" } },
-					o = { "lua require('neotest').output.open({ quiet = false })", { desc = "Open test output" } },
-					O = {
-						"lua require('neotest').output.open({ enter = true, quiet = false })",
-						{ desc = "Open test output and focus the window" },
+					g = {
+						rhs = "lua require('neotest').run.run({strategy = 'dap'})",
+						opts = { desc = "Debug nearest" },
 					},
-					p = { "lua require('neotest').output_panel.toggle()", { desc = "Toggle output panel" } },
-					m = { "lua require('neotest').summary.toggle()", { desc = "Toggle summary" } },
+					t = { rhs = "lua require('neotest').run.run()", opts = { desc = "Test nearest" } },
+					T = { rhs = "lua require('neotest').run.run(vim.fn.expand('%'))", opts = { desc = "Test file" } },
+					s = { rhs = "lua require('neotest').run.stop()", opts = { desc = "Stop test" } },
+					o = {
+						rhs = "lua require('neotest').output.open({ quiet = false })",
+						opts = { desc = "Open test output" },
+					},
+					O = {
+						rhs = "lua require('neotest').output.open({ enter = true, quiet = false })",
+						opts = { desc = "Open test output and focus the window" },
+					},
+					p = {
+						rhs = "lua require('neotest').output_panel.toggle()",
+						opts = { desc = "Toggle output panel" },
+					},
+					m = { rhs = "lua require('neotest').summary.toggle()", opts = { desc = "Toggle summary" } },
 				}
 			)
 			vim.keymap.set(

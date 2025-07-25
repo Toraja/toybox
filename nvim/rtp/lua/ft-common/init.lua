@@ -4,7 +4,10 @@ function M.setup(opts)
 	opts = opts or {}
 
 	M.set_ft_keymap({
-		F = { "lua require('ft-common').toggle_auto_format()", { desc = "Toggle auto format", silent = true } },
+		F = {
+			rhs = "lua require('ft-common').toggle_auto_format()",
+			opts = { desc = "Toggle auto format", silent = true },
+		},
 	})
 end
 

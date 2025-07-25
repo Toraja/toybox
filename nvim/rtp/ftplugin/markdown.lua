@@ -104,15 +104,15 @@ vim.api.nvim_buf_create_user_command(0, "ToDoAddPomodoro", function()
 end, {})
 
 require("keymap.which-key-helper").register_for_ftplugin({
-	b = { "ToDoToggleStatus " .. blocked_symbol, { desc = "Toggle BLOCKED" } },
-	c = { "ConcealToggle", { desc = "Toggle conceallevel between 0 and 2" } },
-	d = { "MkdnToggleToDo", { desc = "Toggle TODO status" } },
-	-- D = { '', { desc = 'Remove TODO Checkbox' } },
-	f = { "MkdnFoldSection", { desc = "Fold Section" } },
-	F = { "MkdnUnfoldSection", { desc = "Unfold Section" } },
-	-- l = { '', { desc = 'Toggle list' } },
-	p = { "ToDoAddPomodoro", { desc = "Add pomodoro" } },
-	s = { "ToDoToggleStatus " .. started_symbol, { desc = "Toggle STARTED" } },
-	v = { "Markview Toggle", { desc = "Toggle Markview" } },
-	x = { "ToggleToDoCancelled", { desc = "Cancel TODO" } },
+	b = { rhs = "ToDoToggleStatus " .. blocked_symbol, opts = { desc = "Toggle BLOCKED" } },
+	c = { rhs = "ConcealToggle", opts = { desc = "Toggle conceallevel between 0 and 2" } },
+	d = { rhs = "MkdnToggleToDo", opts = { desc = "Toggle TODO status" } },
+	-- D = { rhs = '', opts = { desc = 'Remove TODO Checkbox' } },
+	f = { rhs = "MkdnFoldSection", opts = { desc = "Fold Section" } },
+	F = { rhs = "MkdnUnfoldSection", opts = { desc = "Unfold Section" } },
+	-- l = { rhs = '', opts = { desc = 'Toggle list' } },
+	p = { rhs = "ToDoAddPomodoro", opts = { desc = "Add pomodoro" } },
+	s = { rhs = "ToDoToggleStatus " .. started_symbol, opts = { desc = "Toggle STARTED" } },
+	v = { rhs = "Markview Toggle", opts = { desc = "Toggle Markview" } },
+	x = { rhs = "ToggleToDoCancelled", opts = { desc = "Cancel TODO" } },
 })

@@ -54,8 +54,8 @@ return {
 
 			require("keymap.which-key-helper").register_for_ftplugin({
 				g = {
-					"lua require('osv').launch({ port = 8086 })",
-					{ desc = "Debug this file" },
+					rhs = "lua require('osv').launch({ port = 8086 })",
+					opts = { desc = "Debug this file" },
 				},
 			})
 		end,

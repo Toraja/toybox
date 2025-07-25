@@ -13,13 +13,13 @@ vim.api.nvim_create_autocmd("BufWritePost", {
 require("text.edit").map_toggle_trailing(";", ";", true)
 
 require("keymap.which-key-helper").register_for_ftplugin({
-	c = { "PhpactorClassNew", { desc = "PhpactorClassNew" } },
-	C = { "PhpactorCopyFile", { desc = "PhpactorCopyFile" } },
-	d = { "!php artisan l5:generate", { desc = "L5:generate" } },
-	f = { "call PhpCsFixerFixFile()", { desc = "PhpCsFixerFixFile()" } },
-	F = { "PhpactorTransform", { desc = "PhpactorTransform" } },
-	i = { "PhpactorImportMissingClasses", { desc = "PhpactorImportMissingClasses" } },
-	m = { "PhpactorMoveFile", { desc = "PhpactorMoveFile" } },
-	M = { "PhpactorContextMenu", { desc = "PhpactorContextMenu" } },
-	r = { "vsplit | terminal php %", { desc = "Run" } },
+	c = { rhs = "PhpactorClassNew", opts = { desc = "PhpactorClassNew" } },
+	C = { rhs = "PhpactorCopyFile", opts = { desc = "PhpactorCopyFile" } },
+	d = { rhs = "!php artisan l5:generate", opts = { desc = "L5:generate" } },
+	f = { rhs = "call PhpCsFixerFixFile()", opts = { desc = "PhpCsFixerFixFile()" } },
+	F = { rhs = "PhpactorTransform", opts = { desc = "PhpactorTransform" } },
+	i = { rhs = "PhpactorImportMissingClasses", opts = { desc = "PhpactorImportMissingClasses" } },
+	m = { rhs = "PhpactorMoveFile", opts = { desc = "PhpactorMoveFile" } },
+	M = { rhs = "PhpactorContextMenu", opts = { desc = "PhpactorContextMenu" } },
+	r = { rhs = "vsplit | terminal php %", opts = { desc = "Run" } },
 })
