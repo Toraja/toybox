@@ -458,23 +458,21 @@ return {
 				vim.g.chief_key .. "a",
 				vim.g.chief_key,
 				{
-					a = { rhs = "CodeCompanion", opts = { desc = "Open inline assistant" } },
-					c = { rhs = "CodeCompanionChat Toggle", opts = { desc = "Toggle chat buffer" } },
-					m = { rhs = "CodeCompanionCmd", opts = { desc = "Generate a vim command" } },
-					p = { rhs = "CodeCompanionActions", opts = { desc = "Open Action Palette" } },
+					c = {
+						rhs = "CodeCompanionChat Toggle",
+						mode = { "n", "x" },
+						opts = { desc = "Toggle chat buffer" },
+					},
+					i = { rhs = "CodeCompanion", opts = { desc = "Open inline assistant" } },
+					m = { rhs = "CodeCompanionCmd", mode = { "n", "x" }, opts = { desc = "Generate a vim command" } },
+					p = { rhs = "CodeCompanionActions", mode = { "n", "x" }, opts = { desc = "Open Action Palette" } },
 				}
 			)
 		end,
 		cmd = { "CodeCompanion", "CodeCompanionChat", "CodeCompanionCmd", "CodeCompanionActions" },
 		keys = {
-			{
-				vim.g.chief_key .. "a",
-				function()
-					require("which-key").show({ keys = vim.g.chief_key .. "a" })
-				end,
-				mode = { "n" },
-				desc = "CodeCompanion",
-			},
+			{ vim.g.chief_key .. "a", mode = { "n", "x" }, desc = "CodeCompanion" },
+			{ vim.g.chief_key .. "ai", ":CodeCompanion<CR>", mode = { "x" }, desc = "Open inline assistant" },
 		},
 	},
 }
