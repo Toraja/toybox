@@ -53,6 +53,10 @@ return {
 						["@markup.heading.5.markdown"] = { fg = colors.cyan },
 						["@markup.heading.6.markdown"] = { fg = colors.purple },
 						["@markup.heading.7.markdown"] = { fg = colors.pink },
+						-- mini.diff
+						MiniDiffOverAdd = { fg = colors.green, reverse = true },
+						MiniDiffOverChange = { fg = colors.cyan, reverse = true },
+						MiniDiffOverDelete = { fg = colors.red, reverse = true },
 					}
 				end,
 			})
