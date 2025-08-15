@@ -16,3 +16,13 @@ git tag [-l (pattern)]
 ```sh
 git show-ref --tags
 ```
+
+# Delete
+## Delete local tags
+```sh
+git tag --delete <tagname>
+```
+## Delete remote tags
+```sh
+git push --delete origin <tagname>
+```
