@@ -62,8 +62,8 @@ abbr --add --global ggc git log --oneline \| fzf \| awk '\'{print $1}\''
 abbr --add --global ggs git log --oneline --name-status
 abbr --add --global ggu git log origin..HEAD
 abbr --add --global gps git push
-abbr --add --global gpl git pull --rebase
-abbr --add --global gplp git pull --rebase --prune
+abbr --add --global gpl git pull
+abbr --add --global gplp git pull --prune
 abbr --add --global gpld git pull-default
 abbr --add --global gr git reset
 abbr --add --global groh git reset-origin --hard
