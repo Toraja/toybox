@@ -14,7 +14,6 @@ return {
 				return orig_util_open_floating_preview(contents, syntax, opts, ...)
 			end
 
-			local lspconfig = require("lspconfig")
 			local capabilities = vim.lsp.protocol.make_client_capabilities()
 			capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
 			capabilities.textDocument.completion.completionItem.resolveSupport = {
@@ -120,7 +119,8 @@ return {
 				servers.taplo = {}
 			end
 			for lsp, setting in pairs(servers) do
-				lspconfig[lsp].setup(vim.tbl_extend("force", { capabilities = capabilities }, setting))
+				vim.lsp.config(lsp, vim.tbl_extend("force", { capabilities = capabilities }, setting))
+				vim.lsp.enable(lsp)
 			end
 
 			vim.keymap.set("i", "<C-x><C-h>", "<Cmd>lua vim.lsp.buf.signature_help()<CR>", { desc = "Signature help" })

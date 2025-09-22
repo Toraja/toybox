@@ -203,30 +203,33 @@ return {
 		},
 		config = function()
 			require("telescope").load_extension("yaml_schema")
-			require("lspconfig")["yamlls"].setup(require("yaml-companion").setup({
-				schemas = {
-					{
-						name = "ExternalSecret",
-						uri = "https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/external-secrets.io/externalsecret_v1beta1.json",
+			vim.lsp.config(
+				"yamlls",
+				require("yaml-companion").setup({
+					schemas = {
+						{
+							name = "ExternalSecret",
+							uri = "https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/external-secrets.io/externalsecret_v1beta1.json",
+						},
 					},
-				},
-				lspconfig = {
-					capabilities = require("cmp_nvim_lsp").default_capabilities(),
-					settings = {
-						yaml = {
-							schemas = {
-								["https://gitlab.com/gitlab-org/gitlab/-/raw/master/app/assets/javascripts/editor/schema/ci.json"] = {
-									".gitlab-ci.yml",
-									".gitlab/ci/**",
+					lspconfig = {
+						capabilities = require("cmp_nvim_lsp").default_capabilities(),
+						settings = {
+							yaml = {
+								schemas = {
+									["https://gitlab.com/gitlab-org/gitlab/-/raw/master/app/assets/javascripts/editor/schema/ci.json"] = {
+										".gitlab-ci.yml",
+										".gitlab/ci/**",
+									},
 								},
-							},
-							customTags = {
-								"!reference sequence",
+								customTags = {
+									"!reference sequence",
+								},
 							},
 						},
 					},
-				},
-			}))
+				})
+			)
 		end,
 	},
 	-- markup languages
