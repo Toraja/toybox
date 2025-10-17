@@ -5,6 +5,7 @@ vim.g.loaded_netrwPlugin = 1
 local rtp_dir = vim.fn.expand("<sfile>:p:h") .. "/rtp"
 vim.opt.rtp:prepend(rtp_dir)
 
+require("lua-extension")
 require("options").setup()
 require("keymap.base").setup()
 require("appearance").setup()
