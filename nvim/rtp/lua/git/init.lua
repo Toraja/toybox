@@ -26,7 +26,7 @@ function M.relative_path_to_root(path)
 	if not git_root then
 		return nil
 	end
-	local relative_path, _ = path:gsub(git_root, "")
+	local relative_path, _ = path:replace(git_root, "")
 	return relative_path
 end
 
