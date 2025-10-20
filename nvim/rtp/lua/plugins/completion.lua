@@ -106,11 +106,8 @@ return {
 				-- cmp.config.sources sets the order of completion. See :help cmp-config.sources[n].group_index
 				sources = cmp.config.sources({
 					-- { name = "copilot" },
-				}, {
 					{ name = "nvim_lsp" },
-				}, {
 					{ name = "luasnip" },
-				}, {
 					{ name = "buffer" },
 				}),
 			})
