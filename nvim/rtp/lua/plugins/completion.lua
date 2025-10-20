@@ -39,7 +39,7 @@ return {
 						},
 						-- Show labelDetails in menu. Not sure what difference it makes.
 						show_labelDetails = true,
-						-- symbol_map = { Copilot = " " },
+						symbol_map = { Copilot = " " },
 					}),
 				},
 				snippet = {
@@ -230,7 +230,7 @@ return {
 					},
 				},
 				suggestion = {
-					-- enabled = false, -- disable this if copilot-cmp is enabled
+					-- enabled = false, -- copilot-cmp does not work if this is enabled
 					auto_trigger = true,
 					debounce = 120,
 					-- some keymaps are set manually below setup()
