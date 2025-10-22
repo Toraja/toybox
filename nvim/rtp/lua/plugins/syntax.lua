@@ -170,13 +170,13 @@ return {
 			local golangcilint_ws = vim.deepcopy(require("lint.linters.golangcilint"))
 			golangcilint_ws.args = {
 				"run",
-				"--out-format=json",
+				"--output.json.path=stdout",
 				"--max-issues-per-linter=100",
 				"--max-same-issues=100",
+				"--issues-exit-code=0",
+				"--show-stats=false",
 				function()
-					local root_path = get_golangci_lint_root()
-						or require("git").root_path()
-						or require("project").get_root_path()
+					local root_path = get_golangci_lint_root() or require("project").get_root_path()
 					return vim.fs.joinpath(root_path, "...")
 				end,
 			}
