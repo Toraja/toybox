@@ -288,7 +288,7 @@ return {
 					if bufname ~= "" and not vim.startswith(bufname, "/") then
 						local msg =
 							string.format("not attaching, buffer name is not absolute path: %s (%s)", bufname, bufnr)
-						vim.api.nvim_echo({ msg, "WarningMsg" })
+						vim.api.nvim_echo({ msg, "WarningMsg" }, true, {})
 						require("copilot.logger").debug(msg)
 						return false
 					end

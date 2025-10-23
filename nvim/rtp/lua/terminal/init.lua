@@ -39,7 +39,7 @@ function M.setup(opts)
 		for _, arg in pairs(cmds.fargs) do
 			local opt_key, opt_val = vim.split(arg, "=")
 			if not opt_val then
-				vim.api.nvim_echo({ "invalid argument: " .. arg, "WarningMsg" })
+				vim.api.nvim_echo({ "invalid argument: " .. arg, "WarningMsg" }, true, {})
 				return
 			end
 			open_terminal_opts[opt_key] = opt_val
