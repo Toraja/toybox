@@ -127,8 +127,9 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 	group = go_format_augroud_id,
 	pattern = "*.go",
 	callback = function()
-		-- taken from https://github.com/golang/tools/blob/master/gopls/doc/vim.md#neovim-imports
-		local params = vim.lsp.util.make_range_params()
+		-- Taken from https://github.com/golang/tools/blob/master/gopls/doc/editor/vim.md#imports-and-formatting
+		-- and modified to avoid to avoid errors.
+		local params = vim.lsp.util.make_range_params(0, vim.lsp.util._get_offset_encoding())
 		params.context = { only = { "source.organizeImports" } }
 		-- buf_request_sync defaults to a 1000ms timeout. Depending on your
 		-- machine and codebase, you may want longer. Add an additional
