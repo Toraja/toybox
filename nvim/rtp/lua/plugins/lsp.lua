@@ -1,6 +1,7 @@
 return {
 	{
 		"neovim/nvim-lspconfig",
+		dependencies = { "saghen/blink.cmp" },
 		config = function()
 			vim.api.nvim_set_hl(0, "NormalFloat", { link = "Normal" })
 			vim.api.nvim_set_hl(0, "LspReferenceText", { fg = "#abb2bf", reverse = true })
@@ -14,15 +15,23 @@ return {
 				return orig_util_open_floating_preview(contents, syntax, opts, ...)
 			end
 
-			local capabilities = vim.lsp.protocol.make_client_capabilities()
-			capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
-			capabilities.textDocument.completion.completionItem.resolveSupport = {
-				properties = {
-					"documentation",
-					"detail",
-					"additionalTextEdits",
+			local capabilities = {
+				textDocument = {
+					completion = {
+						completionItem = {
+							resolveSupport = {
+								properties = {
+									"documentation",
+									"command",
+									"detail",
+									"additionalTextEdits",
+								},
+							},
+						},
+					},
 				},
 			}
+			capabilities = require("blink.cmp").get_lsp_capabilities(capabilities)
 			local servers = {
 				lua_ls = {
 					on_init = function(client)
@@ -182,6 +191,7 @@ return {
 	},
 	{
 		"ray-x/lsp_signature.nvim",
+		enabled = false,
 		config = function()
 			require("lsp_signature").setup({
 				wrap = true, -- allow doc/signature text wrap inside floating_window, useful if your lsp return doc/sig is too long

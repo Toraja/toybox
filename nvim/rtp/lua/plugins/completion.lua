@@ -1,7 +1,84 @@
 local avante_keymap_prefix = vim.g.chief_key .. "a"
 return {
 	{
+		"saghen/blink.cmp",
+		dependencies = { "rafamadriz/friendly-snippets" },
+		version = "1.*",
+		---@module 'blink.cmp'
+		---@type blink.cmp.Config
+		opts = {
+			-- See :h blink-cmp-config-keymap for defining your own keymap
+			keymap = {
+				preset = "none",
+				["<Tab>"] = {
+					"show_and_insert",
+					"select_next",
+				},
+				["<C-g>"] = {
+					"cancel",
+					"fallback",
+				},
+				["<C-n>"] = {
+					"select_next",
+					"fallback",
+				},
+				["<C-p>"] = {
+					"select_prev",
+					"fallback",
+				},
+				["<C-o>"] = {
+					"select_and_accept",
+					"fallback",
+				},
+				["<C-s>"] = { "snippet_forward", "fallback" },
+				["<M-s>"] = { "snippet_backward", "fallback" },
+				["<M-k>"] = { "scroll_documentation_up", "fallback" },
+				["<M-j>"] = { "scroll_documentation_down", "fallback" },
+				["<M-K>"] = { "scroll_signature_up", "fallback" },
+				["<M-J>"] = { "scroll_signature_down", "fallback" },
+				["<C-x><C-h>"] = { "show_signature", "hide_signature", "fallback" },
+			},
+
+			appearance = {
+				-- 'mono' (default) for 'Nerd Font Mono' or 'normal' for 'Nerd Font'
+				-- Adjusts spacing to ensure icons are aligned
+				nerd_font_variant = "mono",
+			},
+
+			-- Whether to show the documentation popup automatically when manually triggered
+			completion = {
+				menu = { border = "rounded" },
+				documentation = {
+					auto_show = true,
+					window = { border = "rounded" },
+				},
+				ghost_text = { enabled = false },
+				trigger = {
+					show_on_keyword = false,
+					show_on_trigger_character = false,
+				},
+			},
+
+			signature = { window = { border = "rounded" } },
+
+			-- Default list of enabled providers defined so that you can extend it
+			-- elsewhere in your config, without redefining it, due to `opts_extend`
+			sources = {
+				default = { "lsp", "path", "snippets", "buffer" },
+			},
+
+			-- (Default) Rust fuzzy matcher for typo resistance and significantly better performance
+			-- You may use a lua implementation instead by using `implementation = "lua"` or fallback to the lua implementation,
+			-- when the Rust fuzzy matcher is not available, by using `implementation = "prefer_rust"`
+			--
+			-- See the fuzzy documentation for more information
+			fuzzy = { implementation = "prefer_rust_with_warning" },
+		},
+		opts_extend = { "sources.default" },
+	},
+	{
 		"hrsh7th/nvim-cmp",
+		enabled = false,
 		dependencies = {
 			{ "hrsh7th/cmp-nvim-lsp" },
 			{ "hrsh7th/cmp-buffer" },
