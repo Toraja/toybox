@@ -60,7 +60,7 @@ return {
 					autocomplete = false,
 					-- This option must be set here as well in order for `preselect = cmp.PreselectMode.Item` to work.
 					-- The `longest` option is not supported by nvim-cmp. https://github.com/hrsh7th/nvim-cmp/issues/530
-					completeopt = vim.iter({ "fuzzy", "menuone", "popup" }):join(","),
+					completeopt = vim.iter(vim.opt.completeopt:get()):join(","),
 				},
 				mapping = {
 					["<M-j>"] = cmp.mapping(cmp.mapping.scroll_docs(4), { "i", "c" }),
