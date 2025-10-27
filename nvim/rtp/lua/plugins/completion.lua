@@ -1,4 +1,13 @@
 local avante_keymap_prefix = vim.g.chief_key .. "a"
+local snippets_path
+for _, rtp in ipairs(vim.opt.runtimepath:get()) do
+	local candidate = rtp .. "/snippets"
+	if vim.fn.isdirectory(candidate) == 1 then
+		snippets_path = candidate
+		break
+	end
+end
+
 return {
 	{
 		"saghen/blink.cmp",
@@ -65,6 +74,7 @@ return {
 			-- elsewhere in your config, without redefining it, due to `opts_extend`
 			sources = {
 				default = { "lsp", "path", "snippets", "buffer" },
+				providers = { snippets = { opts = { search_paths = { snippets_path } } } },
 			},
 
 			-- (Default) Rust fuzzy matcher for typo resistance and significantly better performance
