@@ -62,7 +62,7 @@ function M.setup(opts)
 	vim.opt.cpoptions:append("Iy") -- I:autoindent is not removed when moving to other lines
 	vim.opt.whichwrap:append("<,>") -- allow <Left> and <Right> in move to other lines
 	vim.opt.complete:append("k") -- ins-completion option (include dictionary search)
-	vim.opt.completeopt = { "fuzzy", "longest", "menuone", "popup" }
+	vim.opt.completeopt = { "fuzzy", "menu", "popup" }
 	vim.opt.splitbelow = true -- splitted windows goes to below
 	vim.opt.splitright = true -- splitted windows goes to right
 	vim.opt.showcmd = true -- Show (partial) command in status line.
