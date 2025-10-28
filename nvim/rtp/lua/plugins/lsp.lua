@@ -127,6 +127,23 @@ return {
 			if vim.fn.executable("taplo") == 1 then
 				servers.taplo = {}
 			end
+			if vim.fn.executable("yaml-language-server") == 1 then
+				servers.yamlls = {
+					settings = {
+						yaml = {
+							schemas = {
+								["https://gitlab.com/gitlab-org/gitlab/-/raw/master/app/assets/javascripts/editor/schema/ci.json"] = {
+									".gitlab-ci.yml",
+									".gitlab/ci/**",
+								},
+							},
+							customTags = {
+								"!reference sequence",
+							},
+						},
+					},
+				}
+			end
 			for lsp, setting in pairs(servers) do
 				vim.lsp.config(lsp, vim.tbl_extend("force", { capabilities = capabilities }, setting))
 				vim.lsp.enable(lsp)
