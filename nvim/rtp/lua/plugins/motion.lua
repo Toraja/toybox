@@ -616,16 +616,12 @@ return {
 		"RRethy/nvim-treesitter-textsubjects",
 		dependencies = "nvim-treesitter/nvim-treesitter",
 		config = function()
-			---@diagnostic disable-next-line: missing-fields
-			require("nvim-treesitter.configs").setup({
-				textsubjects = {
-					enable = true,
-					prev_selection = "<Leader>,",
-					keymaps = {
-						[","] = "textsubjects-smart",
-						["+"] = "textsubjects-container-outer",
-						["<Leader>+"] = "textsubjects-container-inner",
-					},
+			require("nvim-treesitter-textsubjects").configure({
+				prev_selection = "<Leader>,",
+				keymaps = {
+					[","] = "textsubjects-smart",
+					["+"] = "textsubjects-container-outer",
+					["<Leader>+"] = "textsubjects-container-inner",
 				},
 			})
 		end,
