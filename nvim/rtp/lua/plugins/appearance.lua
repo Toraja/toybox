@@ -64,6 +64,8 @@ return {
 						MiniDiffOverAdd = { fg = colors.green, reverse = true },
 						MiniDiffOverChange = { fg = colors.cyan, reverse = true },
 						MiniDiffOverDelete = { fg = colors.red, reverse = true },
+						-- avante
+						AvanteSidebarWinSeparator = { link = "Normal" },
 					}
 				end,
 			})
