@@ -648,6 +648,14 @@ return {
 				spinner = {
 					generating = { "-", "/", "|", "\\" },
 				},
+				edit = {
+					border = "rounded",
+					start_insert = false,
+				},
+				ask = {
+					border = "rounded",
+					start_insert = false,
+				},
 			},
 		},
 	},
