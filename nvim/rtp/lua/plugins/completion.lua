@@ -644,6 +644,9 @@ return {
 				select_model = avante_keymap_prefix .. "?", -- Select model command
 				select_history = avante_keymap_prefix .. "h", -- Select history command
 			},
+			selection = {
+				hint_display = "none",
+			},
 			windows = {
 				spinner = {
 					generating = { "-", "/", "|", "\\" },
