@@ -513,9 +513,6 @@ return {
 					chat = {
 						adapter = "copilot",
 						keymaps = {
-							send = {
-								modes = { n = "<C-s>", i = "<C-j>" },
-							},
 							close = {
 								modes = { n = "q", i = "<S-F14>" },
 							},
