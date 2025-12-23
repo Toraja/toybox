@@ -652,6 +652,9 @@ return {
 				spinner = {
 					generating = { "-", "/", "|", "\\" },
 				},
+				input = {
+					height = 12,
+				},
 				edit = {
 					border = "rounded",
 					start_insert = false,
