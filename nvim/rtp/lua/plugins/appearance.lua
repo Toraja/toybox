@@ -199,6 +199,7 @@ return {
 							"toggleterm",
 							"Avante",
 							"AvanteSelectedFiles",
+							"AvanteSelectedCode",
 							"AvanteTodos",
 							"AvanteInput",
 						},
