@@ -501,7 +501,6 @@ return {
 	},
 	{
 		"olimorris/codecompanion.nvim",
-		version = "v17.*",
 		dependencies = {
 			"nvim-lua/plenary.nvim",
 			"nvim-treesitter/nvim-treesitter",
@@ -510,7 +509,7 @@ return {
 		},
 		config = function()
 			require("codecompanion").setup({
-				strategies = {
+				interactions = {
 					chat = {
 						adapter = "copilot",
 						keymaps = {
