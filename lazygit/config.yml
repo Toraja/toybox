@@ -13,3 +13,12 @@ keybinding:
     # scrollDownMain-alt1: "<A-j>"
   files:
     openStatusFilter: "."
+os:
+  # See: https://github.com/jesseduffield/lazygit/blob/master/docs/Config.md#custom-command-for-copying-to-and-pasting-from-clipboard
+  # Command for tmux is modified as the original one hangs a bit after copying
+  copyToClipboardCmd: >
+    if string match --regex '^tmux' "$TERM"
+        tmux set-buffer "{{text}}"
+    else
+        printf "\033]52;c;$(echo {{text}} | base64 | string trim)\a" > /dev/tty
+    end
