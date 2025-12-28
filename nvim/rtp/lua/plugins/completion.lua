@@ -304,6 +304,9 @@ return {
 	},
 	{
 		"zbirenbaum/copilot.lua",
+		enabled = function()
+			return vim.fn.executable("node") ~= 0
+		end,
 		dependencies = {
 			{ "anuvyklack/keymap-amend.nvim" },
 		},
@@ -562,6 +565,9 @@ return {
 	},
 	{
 		"yetone/avante.nvim",
+		enabled = function()
+			return require("lazy.core.config").spec.plugins["copilot.lua"] ~= nil
+		end,
 		dependencies = {
 			"nvim-lua/plenary.nvim",
 			"MunifTanjim/nui.nvim",
