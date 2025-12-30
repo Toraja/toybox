@@ -15,7 +15,7 @@ function set_display --description='Wrapper for setting DISPLAY'
 end
 
 function wsl_display --description='DISPLAY for WSL'
-    set ip (grep nameserver /etc/resolv.conf | awk '{print $2}')
+    set ip (grep --color=never --max-count=1 nameserver /etc/resolv.conf | awk '{print $2}')
     set --export --global DISPLAY $ip:0.0
 end
 
