@@ -71,6 +71,14 @@ return {
 						},
 						multi_line = false,
 						label = { after = { 0, 0 } },
+						keys = {
+							"f",
+							"F",
+							"t",
+							"T",
+							[";"] = "\\",
+							[","] = "|",
+						},
 					},
 					treesitter = {
 						label = { before = { 0, 0 }, after = { 0, 0 } },
