@@ -35,7 +35,7 @@ switch $TERM
         # this is set in tmux-sensible but it has not effect on the first window
         set --export TERM screen-256color
 end
-if functions --query set_display
+if test $NEEDS_DISPLAY; and functions --query set_display
     set_display
 end
 set --export LESS iR
