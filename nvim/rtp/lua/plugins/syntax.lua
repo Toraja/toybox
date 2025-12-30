@@ -1,68 +1,69 @@
 return {
 	{
 		"nvim-treesitter/nvim-treesitter",
-		-- version = "*", -- current latest version (0.9.2) does not include some parsers like just and helm
+		lazy = false,
+		build = ':TSUpdate',
 		config = function()
+			local langs = {
+				"bash",
+				"css",
+				"csv",
+				"diff",
+				"fish",
+				"git_config",
+				"git_rebase",
+				"gitattributes",
+				"gitcommit",
+				"gitignore",
+				"go",
+				"gotmpl", -- this is alias to helm but needed for gotmpl file
+				"gomod",
+				"gosum",
+				"hcl",
+				"helm",
+				"html",
+				"hurl",
+				"ini",
+				"json",
+				"just",
+				"lua",
+				"luadoc",
+				"luap", -- lua patterns
+				"make",
+				"markdown",
+				"markdown_inline",
+				"powershell",
+				"proto",
+				"python",
+				"query", -- treesitter query
+				-- "regex", -- not sure how/when this works
+				"rust",
+				"sql",
+				"ssh_config",
+				"terraform", -- this is alias to hcl but this is needed for tf files
+				"toml",
+				"vim",
+				"vimdoc",
+				"xml",
+				"yaml",
+			}
 			---@diagnostic disable-next-line: missing-fields
-			require("nvim-treesitter.configs").setup({
-				ensure_installed = {
-					"bash",
-					"css",
-					"csv",
-					"diff",
-					"fish",
-					"git_config",
-					"git_rebase",
-					"gitattributes",
-					"gitcommit",
-					"gitignore",
-					"go",
-					"gotmpl", -- this is alias to helm but needed for gotmpl file
-					"gomod",
-					"gosum",
-					"hcl",
-					"helm",
-					"html",
-					"hurl",
-					"ini",
-					"json",
-					"just",
-					"lua",
-					"luadoc",
-					"luap", -- lua patterns
-					"make",
-					"markdown",
-					"markdown_inline",
-					"powershell",
-					"proto",
-					"python",
-					"query", -- treesitter query
-					-- "regex", -- not sure how/when this works
-					"rust",
-					"sql",
-					"ssh_config",
-					"terraform", -- this is alias to hcl but this is needed for tf files
-					"toml",
-					"vim",
-					"vimdoc",
-					"xml",
-					"yaml",
-				},
-				highlight = {
-					enable = true,
-					-- additional_vim_regex_highlighting = { "markdown" },
-				},
-				indent = {
-					enable = true,
-				},
-			})
-			vim.wo.foldmethod = "expr"
-			vim.wo.foldexpr = "nvim_treesitter#foldexpr()"
-			vim.wo.foldlevel = 99
-		end,
-		build = function()
-			local ts_update = require("nvim-treesitter.install").update({ with_sync = true })
-			ts_update()
+			require("nvim-treesitter").install(langs)
+			for _, lang in ipairs(langs) do
+				vim.api.nvim_create_autocmd('FileType', {
+					pattern = { lang },
+					callback = function()
+						-- highlighting
+						vim.treesitter.start()
+						-- folds
+						vim.wo[0][0].foldexpr = 'v:lua.vim.treesitter.foldexpr()'
+						vim.wo[0][0].foldmethod = 'expr'
+						vim.wo[0][0].foldlevel = 99
+						-- indentation
+						vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+					end,
+				})
+			end
 		end,
 	},
 	{
