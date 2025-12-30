@@ -280,6 +280,9 @@ return {
 	},
 	{
 		"nvim-neorg/neorg",
+		-- Disabled as lua 5.1 is required (tree-sitter-norg requires luarocks.nvim which requires lua to be 5.1)
+		-- https://github.com/nvim-neorg/neorg/issues/1715
+		enabled = false,
 		ft = "norg",
 		version = "*",
 		dependencies = { "luarocks.nvim" },
