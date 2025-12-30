@@ -8,9 +8,7 @@ function set_display --description='Wrapper for setting DISPLAY'
         return
     end
 
-    # grep --quiet --ignore-case microsoft /proc/version; and begin
-    # grep on alpine linux does not support long options
-    if grep -q -i microsoft /proc/version
+    grep --quiet --ignore-case microsoft /proc/version; and begin
         wsl_display
         return
     end
@@ -34,5 +32,5 @@ function is_inside_docker --description='Check if it is inside docker container'
 end
 
 function is_docker_desktop --description='Check if docker desktop uses WSL as backend'
-    return (grep -q -i host.docker.internal /etc/hosts && docker ps &>/dev/null)
+    return (grep --quiet --ignore-case host.docker.internal /etc/hosts && docker ps &>/dev/null)
 end
