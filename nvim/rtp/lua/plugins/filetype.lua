@@ -268,15 +268,50 @@ return {
 		"OXY2DEV/markview.nvim",
 		lazy = false,
 		ft = { "markdown", "codecompanion" },
-		opts = {
-			preview = {
-				filetypes = { "markdown", "codecompanion" },
-				ignore_buftypes = {},
-			},
-			experimental = {
-				check_rtp_message = false,
-			},
-		},
+		config = function()
+			local symbols = require("markview.symbols")
+			local states = require("markview.extras.checkboxes").config.states
+			table.insert(states[1], "~")
+			table.insert(states[1], "=")
+			require("markview").setup({
+				preview = {
+					filetypes = { "markdown", "codecompanion" },
+					ignore_buftypes = {},
+				},
+				experimental = {
+					check_rtp_message = false,
+				},
+				markdown_inline = {
+					checkboxes = {
+						checked = {
+							text = symbols.entries.checkmark,
+							hl = "MarkviewCheckboxChecked",
+							scope_hl = "MarkviewInlineCode",
+						},
+						unchecked = {
+							text = symbols.typst_entries.ballot,
+							hl = "MarkviewCheckboxUnchecked",
+							scope_hl = "MarkviewInlineCode",
+						},
+						["/"] = {
+							text = "󰥔",
+							hl = "MarkviewCheckboxProgress",
+							scope_hl = "MarkviewInlineCode",
+						},
+						["~"] = {
+							text = "",
+							hl = "MarkviewCheckboxCancelled",
+							scope_hl = "MarkviewCheckboxStriked",
+						},
+						["="] = {
+							text = "",
+							hl = "MarkviewCheckboxPending",
+							scope_hl = "MarkviewInlineCode",
+						},
+					},
+				},
+			})
+		end,
 	},
 	{
 		"nvim-neorg/neorg",
