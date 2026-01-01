@@ -614,59 +614,72 @@ return {
 			or "make",
 		event = "VeryLazy",
 		version = false, -- Never set this value to "*"! Never!
-		---@module 'avante'
-		---@type avante.Config
-		opts = {
-			provider = "copilot",
-			behaviour = {
-				auto_approve_tool_permissions = false,
-			},
-			mappings = {
-				ask = avante_keymap_prefix .. "a",
-				new_ask = avante_keymap_prefix .. "n",
-				zen_mode = avante_keymap_prefix .. "z",
-				edit = avante_keymap_prefix .. "e",
-				refresh = avante_keymap_prefix .. "r",
-				focus = avante_keymap_prefix .. "f",
-				stop = avante_keymap_prefix .. "S",
-				toggle = {
-					default = avante_keymap_prefix .. "t",
-					debug = avante_keymap_prefix .. "d",
-					selection = avante_keymap_prefix .. "C",
-					suggestion = avante_keymap_prefix .. "s",
-					repomap = avante_keymap_prefix .. "R",
+		config = function()
+			local provider = os.getenv("AVANTE_PROVIDER") or "copilot"
+			local ollama_model = os.getenv("AVANTE_OLLAMA_MODEL") or "gpt-oss:20b"
+			---@module 'avante'
+			---@type avante.Config
+			local config = {
+				provider = provider,
+				behaviour = {
+					auto_approve_tool_permissions = false,
 				},
-				sidebar = {
-					toggle_code_window = "gq",
-					close_from_input = { normal = "q" },
-					toggle_code_window_from_input = { normal = "gq" },
+				mappings = {
+					ask = avante_keymap_prefix .. "a",
+					new_ask = avante_keymap_prefix .. "n",
+					zen_mode = avante_keymap_prefix .. "z",
+					edit = avante_keymap_prefix .. "e",
+					refresh = avante_keymap_prefix .. "r",
+					focus = avante_keymap_prefix .. "f",
+					stop = avante_keymap_prefix .. "S",
+					toggle = {
+						default = avante_keymap_prefix .. "t",
+						debug = avante_keymap_prefix .. "d",
+						selection = avante_keymap_prefix .. "C",
+						suggestion = avante_keymap_prefix .. "s",
+						repomap = avante_keymap_prefix .. "R",
+					},
+					sidebar = {
+						toggle_code_window = "gq",
+						close_from_input = { normal = "q" },
+						toggle_code_window_from_input = { normal = "gq" },
+					},
+					files = {
+						add_current = avante_keymap_prefix .. "c", -- Add current buffer to selected files
+						add_all_buffers = avante_keymap_prefix .. "B", -- Add all buffer files to selected files
+					},
+					select_model = avante_keymap_prefix .. "?", -- Select model command
+					select_history = avante_keymap_prefix .. "h", -- Select history command
 				},
-				files = {
-					add_current = avante_keymap_prefix .. "c", -- Add current buffer to selected files
-					add_all_buffers = avante_keymap_prefix .. "B", -- Add all buffer files to selected files
+				selection = {
+					hint_display = "none",
 				},
-				select_model = avante_keymap_prefix .. "?", -- Select model command
-				select_history = avante_keymap_prefix .. "h", -- Select history command
-			},
-			selection = {
-				hint_display = "none",
-			},
-			windows = {
-				spinner = {
-					generating = { "-", "/", "|", "\\" },
+				windows = {
+					spinner = {
+						generating = { "-", "/", "|", "\\" },
+					},
+					input = {
+						height = 12,
+					},
+					edit = {
+						border = "rounded",
+						start_insert = false,
+					},
+					ask = {
+						border = "rounded",
+						start_insert = false,
+					},
 				},
-				input = {
-					height = 12,
-				},
-				edit = {
-					border = "rounded",
-					start_insert = false,
-				},
-				ask = {
-					border = "rounded",
-					start_insert = false,
-				},
-			},
-		},
+			}
+			if provider == "ollama" then
+				config.providers = {
+					ollama = {
+						model = ollama_model,
+						is_env_set = require("avante.providers.ollama").check_endpoint_alive,
+					},
+				}
+			end
+			require("avante").setup(config)
+		end,
 	},
 }
