@@ -566,7 +566,8 @@ return {
 	{
 		"yetone/avante.nvim",
 		enabled = function()
-			return require("lazy.core.config").spec.plugins["copilot.lua"] ~= nil
+			local disabled = os.getenv("AVANTE_DISABLE")
+			return disabled and disabled:lower() == "true"
 		end,
 		dependencies = {
 			"nvim-lua/plenary.nvim",
