@@ -2,7 +2,7 @@ return {
 	{
 		"nvim-treesitter/nvim-treesitter",
 		lazy = false,
-		build = ':TSUpdate',
+		build = ":TSUpdate",
 		config = function()
 			local langs = {
 				"bash",
@@ -50,14 +50,14 @@ return {
 			---@diagnostic disable-next-line: missing-fields
 			require("nvim-treesitter").install(langs)
 			for _, lang in ipairs(langs) do
-				vim.api.nvim_create_autocmd('FileType', {
+				vim.api.nvim_create_autocmd("FileType", {
 					pattern = { lang },
 					callback = function()
 						-- highlighting
 						vim.treesitter.start()
 						-- folds
-						vim.wo[0][0].foldexpr = 'v:lua.vim.treesitter.foldexpr()'
-						vim.wo[0][0].foldmethod = 'expr'
+						vim.wo[0][0].foldexpr = "v:lua.vim.treesitter.foldexpr()"
+						vim.wo[0][0].foldmethod = "expr"
 						vim.wo[0][0].foldlevel = 99
 						-- indentation
 						vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
