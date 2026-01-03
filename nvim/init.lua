@@ -4,6 +4,8 @@ vim.g.loaded_netrwPlugin = 1
 
 local rtp_dir = vim.fn.expand("<sfile>:p:h") .. "/rtp"
 vim.opt.rtp:prepend(rtp_dir)
+local after_dir = rtp_dir .. "/after"
+local snippets_dir = rtp_dir .. "/snippets"
 
 require("lua-extension")
 require("options").setup()
@@ -31,10 +33,8 @@ if not vim.uv.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
-local after_dir = rtp_dir .. "/after"
-local snippets_dir = rtp_dir .. "/snippets"
-
-require("lazy").setup("plugins", {
+require("lazy").setup({
+	spec = "plugins",
 	dev = {
 		---@type string | fun(plugin: LazyPlugin): string directory where you store your local plugin projects
 		path = "~/workspace/personal.github.com/Toraja",
@@ -55,7 +55,8 @@ require("lazy").setup("plugins", {
 	},
 	performance = {
 		rtp = {
-			-- lazy nicely appends `after` directory to runtimepath after all plugins are added.
+			---@type string[]
+			-- add any custom paths here that you want to includes in the rtp
 			paths = { rtp_dir, snippets_dir, after_dir },
 		},
 	},
