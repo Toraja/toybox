@@ -23,7 +23,7 @@ if [ ! -e $note_dir ]; then
 fi
 
 # Preferred extension for tasknotes
-EXT=".norg"
+EXT=".md"
 
 # Display usage if task number not supplied on cli
 if [ $# -lt 1 -o $# -gt 2 ]; then
