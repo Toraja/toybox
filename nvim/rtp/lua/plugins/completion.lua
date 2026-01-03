@@ -47,13 +47,11 @@ return {
 				["<M-J>"] = { "scroll_signature_down", "fallback" },
 				["<C-x><C-h>"] = { "show_signature", "hide_signature", "fallback" },
 			},
-
 			appearance = {
 				-- 'mono' (default) for 'Nerd Font Mono' or 'normal' for 'Nerd Font'
 				-- Adjusts spacing to ensure icons are aligned
 				nerd_font_variant = "mono",
 			},
-
 			-- Whether to show the documentation popup automatically when manually triggered
 			completion = {
 				menu = { border = "rounded" },
@@ -67,22 +65,23 @@ return {
 					show_on_trigger_character = false,
 				},
 			},
-
 			signature = { window = { border = "rounded" } },
-
 			-- Default list of enabled providers defined so that you can extend it
 			-- elsewhere in your config, without redefining it, due to `opts_extend`
 			sources = {
 				default = { "lsp", "path", "snippets", "buffer" },
 				providers = { snippets = { opts = { search_paths = { snippets_path } } } },
 			},
-
 			-- (Default) Rust fuzzy matcher for typo resistance and significantly better performance
 			-- You may use a lua implementation instead by using `implementation = "lua"` or fallback to the lua implementation,
 			-- when the Rust fuzzy matcher is not available, by using `implementation = "prefer_rust"`
 			--
 			-- See the fuzzy documentation for more information
 			fuzzy = { implementation = "prefer_rust_with_warning" },
+			cmdline = {
+				keymap = { preset = "inherit" },
+				completion = { menu = { auto_show = true } },
+			},
 		},
 		opts_extend = { "sources.default" },
 	},
