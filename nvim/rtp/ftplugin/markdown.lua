@@ -4,67 +4,30 @@ vim.opt_local.formatoptions:append("ro")
 
 require("text.edit").map_toggle_trailing(";", "  ", true)
 
-local started_symbol = "STARTED "
-local blocked_symbol = "BLOCKED "
-local todo_checkbox_ptn = "^([ \t]*)(- %[(.)%] )"
-local todo_line_ptn = todo_checkbox_ptn .. "(.*)"
+local checkbox_ptn = "^([ \t]*)(- %[)(.)(%] )"
+local checkbox_line_ptn = checkbox_ptn .. "(.*)"
 
 local function is_todo_line(line)
-	return string.match(line, todo_line_ptn) ~= nil
+	return string.match(line, checkbox_line_ptn) ~= nil
 end
 
-local function is_todo_status(line, status)
-	return string.match(line, todo_checkbox_ptn .. status .. "(.*)") ~= nil
-end
-
-local function remove_todo_status(line, status)
-	local updated_line = string.gsub(line, status, "", 1)
-	vim.api.nvim_set_current_line(updated_line)
-end
-
-local function add_todo_status(line, status)
-	local updated_line = string.gsub(line, todo_line_ptn, "%1%2" .. status .. "%4", 1)
-	vim.api.nvim_set_current_line(updated_line)
-end
-
-local function todo_toggle_status(status)
-	local current_line = vim.api.nvim_get_current_line()
-	if not is_todo_line(current_line) then
-		print("Current line does not have checkbox")
+local function replace_checkbox_state(line, state)
+	if not is_todo_line(line) then
+		print("not todo line")
 		return
 	end
 
-	if is_todo_status(current_line, status) then
-		remove_todo_status(current_line, status)
-	else
-		add_todo_status(current_line, status)
-	end
+	-- wrapping in parentheses returns only the first value
+	return (string.gsub(line, checkbox_line_ptn, "%1%2" .. state .. "%4%5", 1))
 end
 
-vim.api.nvim_buf_create_user_command(0, "ToDoToggleStatus", function(command)
-	todo_toggle_status(command.fargs[1])
+vim.api.nvim_buf_create_user_command(0, "MarkdownCheckboxStateSet", function(command)
+	vim.api.nvim_set_current_line(replace_checkbox_state(vim.api.nvim_get_current_line(), command.fargs[1]))
 end, { nargs = 1 })
 
-local function get_todo_checkbox_state(line)
-	if not is_todo_line(line) then
-		return
-	end
-
-	return string.gsub(line, todo_line_ptn, "%3", 1)
-end
-
-local function todo_toggle_cancelled(line)
-	if not is_todo_line(line) then
-		return
-	end
-
-	local new_checkbox_state = get_todo_checkbox_state(line) == "~" and " " or "~"
-	local cancelled_todo = string.gsub(line, todo_line_ptn, "%1- [" .. new_checkbox_state .. "] %4", 1)
-	vim.api.nvim_set_current_line(cancelled_todo)
-end
-
-vim.api.nvim_buf_create_user_command(0, "ToggleToDoCancelled", function()
-	todo_toggle_cancelled(vim.api.nvim_get_current_line())
+-- Workaround to pass space as an argument
+vim.api.nvim_buf_create_user_command(0, "MarkdownCheckboxStateUndone", function()
+	vim.api.nvim_set_current_line(replace_checkbox_state(vim.api.nvim_get_current_line(), " "))
 end, {})
 
 local function conceal_toggle()
@@ -75,44 +38,12 @@ vim.api.nvim_buf_create_user_command(0, "ConcealToggle", function()
 	conceal_toggle()
 end, {})
 
-local pomodoro_ptn = "%[pmd: %d+/%d+%]"
-local function has_todo_line_pomodoro(line)
-	return string.match(line, pomodoro_ptn) ~= nil
-end
-
-function todo_add_pomodoro()
-	local current_line = vim.api.nvim_get_current_line()
-	if not is_todo_line(current_line) then
-		print("Current line does not have checkbox")
-		return
-	end
-
-	if has_todo_line_pomodoro(current_line) then
-		print("This TODO already has Pomodoro")
-		return
-	end
-
-	local count = require("text.input").get_input("Pomodoro count: ")
-	if count == nil then
-		return
-	end
-	vim.api.nvim_set_current_line(current_line .. string.format(" [pmd: 0/%s]", count))
-end
-
-vim.api.nvim_buf_create_user_command(0, "ToDoAddPomodoro", function()
-	todo_add_pomodoro()
-end, {})
-
 require("keymap.which-key-helper").register_for_ftplugin({
-	b = { rhs = "ToDoToggleStatus " .. blocked_symbol, opts = { desc = "Toggle BLOCKED" } },
-	c = { rhs = "ConcealToggle", opts = { desc = "Toggle conceallevel between 0 and 2" } },
-	d = { rhs = "MkdnToggleToDo", opts = { desc = "Toggle TODO status" } },
-	-- D = { rhs = '', opts = { desc = 'Remove TODO Checkbox' } },
-	f = { rhs = "MkdnFoldSection", opts = { desc = "Fold Section" } },
-	F = { rhs = "MkdnUnfoldSection", opts = { desc = "Unfold Section" } },
-	-- l = { rhs = '', opts = { desc = 'Toggle list' } },
-	p = { rhs = "ToDoAddPomodoro", opts = { desc = "Add pomodoro" } },
-	s = { rhs = "ToDoToggleStatus " .. started_symbol, opts = { desc = "Toggle STARTED" } },
+	c = { rhs = "MarkdownCheckboxStateSet ~", opts = { desc = "Checkbox cancelled" } },
+	C = { rhs = "ConcealToggle", opts = { desc = "Toggle conceallevel between 0 and 2" } },
+	d = { rhs = "MarkdownCheckboxStateSet X", opts = { desc = "Checkbox done" } },
+	h = { rhs = "MarkdownCheckboxStateSet =", opts = { desc = "Checkbox on hold" } },
+	p = { rhs = "MarkdownCheckboxStateSet /", opts = { desc = "Checkbox in progress" } },
+	u = { rhs = "MarkdownCheckboxStateUndone", opts = { desc = "Checkbox undone" } },
 	v = { rhs = "Markview Toggle", opts = { desc = "Toggle Markview" } },
-	x = { rhs = "ToggleToDoCancelled", opts = { desc = "Cancel TODO" } },
 })
