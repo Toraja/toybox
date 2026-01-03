@@ -13,7 +13,9 @@ function M.setup(opts)
 
 	vim.g.mapleader = " "
 	vim.g.maplocalleader = "-"
+	-- Default mapping cannot be deleted. Map them empty string to disable.
 	vim.keymap.set({ "n", "x", "o" }, "<Space>", "")
+	vim.keymap.set({ "n", "x", "o" }, "-", "")
 	vim.g.vert_key = "<C-Space>"
 	vim.g.chief_key = ";"
 
