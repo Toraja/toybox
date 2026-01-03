@@ -10,15 +10,15 @@ note_dir="${HOME}/.local/share/taskopen/notes"
 
 # Check for existence of $note_dir
 if [ ! -e $note_dir ]; then
-  echo    "Notes directory '$note_dir' does not exist."
+  echo "Notes directory '$note_dir' does not exist."
   echo -n "Shall I create it (y/n)? "
   read answer
   if [ $answer == "y" ]; then
     echo "Creating '$note_dir'."
-    mkdir -p $note_dir;
+    mkdir -p $note_dir
   else
     echo "Did NOT create $note_dir. Exiting."
-    exit 1;
+    exit 1
   fi
 fi
 
@@ -34,7 +34,7 @@ if [ $# -lt 1 -o $# -gt 2 ]; then
 fi
 
 task_uuid=$1
-task_id=`$TASKBIN $task_uuid ids`
+task_id=$($TASKBIN $task_uuid ids)
 file="$note_dir/$task_uuid$EXT"
 
 # determine if notes file already exists
