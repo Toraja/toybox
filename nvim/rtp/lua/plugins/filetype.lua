@@ -191,7 +191,6 @@ return {
 	-- markup languages
 	{
 		"jakewvincent/mkdnflow.nvim",
-		-- rocks = 'luautf8', -- Ensures optional luautf8 dependency is installed
 		ft = "markdown",
 		config = function()
 			local mkdnflow = require("mkdnflow")
