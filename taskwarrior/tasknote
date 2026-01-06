@@ -6,8 +6,17 @@ EDITOR=${EDITOR:-vim}
 TASKBIN=task
 VIEWER=cat
 SHELL_CMD=/bin/bash
+EXT=".md"
 
 note_dir="${HOME}/.local/share/taskopen/notes"
+
+# Display usage if task number not supplied on cli
+if [ $# -lt 1 -o $# -gt 2 ]; then
+  echo "Usage:"
+  echo "  New/Edit note: $0 <id>"
+  echo "  View note:     $0 <id> v"
+  exit 1
+fi
 
 # Check for existence of $note_dir
 if [ ! -e $note_dir ]; then
@@ -23,50 +32,53 @@ if [ ! -e $note_dir ]; then
   fi
 fi
 
-# Preferred extension for tasknotes
-EXT=".md"
-
-# Display usage if task number not supplied on cli
-if [ $# -lt 1 -o $# -gt 2 ]; then
-  echo "Usage:"
-  echo "  New/Edit note: $0 <id>"
-  echo "  View note:     $0 <id> v"
-  exit 1
-fi
-
 task_uuid=$1
 task_id=$($TASKBIN $task_uuid ids)
 file="$note_dir/$task_uuid$EXT"
 
-# determine if notes file already exists
-fileexists=0
-if [ -f $file ]; then
-  fileexists=1
-fi
-
-# Display note if requested and exit
-if [ $# -gt 1 ]; then
-  if [ $fileexists = 1 ]; then
+view() {
+  if [ -f $file ]; then
     $SHELL_CMD -c "$VIEWER $file"
   else
     echo "File not found"
+    exit 1
   fi
-  exit 1
-fi
+}
 
-#create/edit $file with editor
-$SHELL_CMD -c "$EDITOR $file"
+edit() {
+  file_exists=false
+  $SHELL_CMD -c "$EDITOR $file"
 
-annotation_symbol="Notes"
-annotation_count=$($SHELL_CMD -c "$TASKBIN _get ${task_id}.annotations.count")
-has_note=false
-if [ $annotation_count -gt 0 ]; then
-  for i in $(seq 1 $annotation_count); do
-    task _get ${task_id}.annotations.${i}.description | grep -q "$annotation_symbol" && has_note=true
-  done
-fi
-if ! $has_note; then
-  $SHELL_CMD -c "$TASKBIN $task_id annotate '$annotation_symbol'"
+  # Return if file was not created
+  if [ -f $file ]; then
+    file_exists=true
+  fi
+
+  annotation_symbol="Notes"
+  annotation_count=$($SHELL_CMD -c "$TASKBIN _get ${task_id}.annotations.count")
+  has_note=false
+  if [ $annotation_count -gt 0 ]; then
+    for i in $(seq 1 $annotation_count); do
+      task _get ${task_id}.annotations.${i}.description | grep -q "$annotation_symbol" && has_note=true
+    done
+  fi
+
+  # Annotate or denotate based on presence of Note annotation and file
+  if $has_note; then
+    if ! $file_exists; then
+      $SHELL_CMD -c "$TASKBIN $task_id denotate '$annotation_symbol'"
+    fi
+  else
+    if $file_exists; then
+      $SHELL_CMD -c "$TASKBIN $task_id annotate '$annotation_symbol'"
+    fi
+  fi
+}
+
+if [ $# -gt 1 ]; then
+  view
+else
+  edit
 fi
 
 exit 0
