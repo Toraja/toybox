@@ -9,23 +9,51 @@ shell=/bin/bash
 ext="${TASKNOTE_EXT:-.md}"
 
 note_dir="${HOME}/.local/share/taskopen/notes"
+sub_cmd="edit"
 
-# Display usage if task number not supplied on cli
-if [ $# -lt 1 -o $# -gt 2 ]; then
+usage() {
   echo "Usage:"
-  echo "  New/Edit note: $0 <id>"
-  echo "  View note:     $0 <id> v"
+  echo "  New/Edit note: $0 <UUID>"
+  echo "  View note:     $0 -v <UUID>"
+  echo "  Prune notes:   $0 -p"
+}
+
+while getopts "hvp" opt; do
+  case $opt in
+  v)
+    shift $((OPTIND - 1))
+    sub_cmd="view"
+    ;;
+  p)
+    shift $((OPTIND - 1))
+    sub_cmd="prune"
+    ;;
+  h)
+    shift $((OPTIND - 1))
+    usage
+    exit 0
+    ;;
+  \?)
+    echo "Invalid option: -$OPTARG" >&2
+    usage
+    exit 1
+    ;;
+  esac
+done
+
+if [ "$sub_cmd" != "prune" ] && [ $# -ne 1 ]; then
+  echo "Invalid number of arguments."
+  usage
   exit 1
 fi
 
-# Check for existence of $note_dir
 if [ ! -e $note_dir ]; then
   echo "Notes directory '$note_dir' does not exist."
-  echo -n "Shall I create it (y/n)? "
+  echo -n "Shall I create it (y/N)? "
   read answer
   if [ $answer == "y" ]; then
-    echo "Creating '$note_dir'."
     mkdir -p $note_dir
+    echo "'$note_dir' has been created."
   else
     echo "Did NOT create $note_dir. Exiting."
     exit 1
@@ -75,10 +103,52 @@ edit() {
   fi
 }
 
-if [ $# -gt 1 ]; then
-  view
-else
+prune() {
+  active_uuids=$(task -DELETED uuids)
+
+  if [ -z "$active_uuids" ]; then
+    echo -n "No active tasks found. Deleting all notes? (y/N): "
+    read answer
+    if [ $answer == "y" ]; then
+      rm --force "$note_dir"/*"$ext"
+      echo "All notes have been deleted."
+    else
+      echo "Deletion aborted."
+    fi
+    exit 0
+  fi
+
+  deleted=false
+  for note in "$note_dir"/*"$ext"; do
+    note_uuid=$(basename "$note" $ext)
+
+    if [[ ! " ${active_uuids} " =~ " $note_uuid " ]]; then
+      deleted=true
+      rm --force "$note"
+    fi
+  done
+
+  if ! $deleted; then
+    echo "No notes to prune."
+  else
+    echo "Pruning complete."
+  fi
+}
+
+case $sub_cmd in
+edit)
   edit
-fi
+  ;;
+view)
+  view
+  ;;
+prune)
+  prune
+  ;;
+*)
+  echo "Unknown sub-command: $sub_cmd"
+  exit 1
+  ;;
+esac
 
 exit 0

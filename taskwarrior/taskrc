@@ -89,15 +89,15 @@ uda.taskwarrior-tui.context-menu.select-on-move=true
 uda.taskwarrior-tui.style.report.completion-pane=white on black
 uda.taskwarrior-tui.style.report.completion-pane-highlight=bold cyan on black
 
-# Changing shortcut key seems not working
+# Some keys (like N) do not work somehow
 uda.taskwarrior-tui.shortcuts.1=~/toybox/taskwarrior/shortcut/toggle-myday.sh
 uda.taskwarrior-tui.keyconfig.shortcut1=*
 uda.taskwarrior-tui.shortcuts.2=~/toybox/taskwarrior/shortcut/toggle-onhold.sh
 uda.taskwarrior-tui.keyconfig.shortcut2=-
 uda.taskwarrior-tui.shortcuts.3=~/toybox/taskwarrior/shortcut/tasknote.sh
 uda.taskwarrior-tui.keyconfig.shortcut3=n
-uda.taskwarrior-tui.shortcuts.4=~/toybox/taskwarrior/shortcut/tasknote-any.sh
-uda.taskwarrior-tui.keyconfig.shortcut4=N
+uda.taskwarrior-tui.shortcuts.4=~/toybox/taskwarrior/shortcut/tasknote-prune.sh
+uda.taskwarrior-tui.keyconfig.shortcut4=P
 uda.taskwarrior-tui.shortcuts.5=~/toybox/taskwarrior/shortcut/yank-task.sh
 uda.taskwarrior-tui.keyconfig.shortcut5=Y
 uda.taskwarrior-tui.shortcuts.6=~/toybox/taskwarrior/shortcut/delete-completed.sh
