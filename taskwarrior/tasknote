@@ -5,6 +5,7 @@ set -eo pipefail
 EDITOR=${EDITOR:-vim}
 TASKBIN=task
 VIEWER=cat
+SHELL_CMD=/bin/bash
 
 note_dir="${HOME}/.local/share/taskopen/notes"
 
@@ -46,7 +47,7 @@ fi
 # Display note if requested and exit
 if [ $# -gt 1 ]; then
   if [ $fileexists = 1 ]; then
-    $SHELL -c "$VIEWER $file"
+    $SHELL_CMD -c "$VIEWER $file"
   else
     echo "File not found"
   fi
@@ -54,10 +55,10 @@ if [ $# -gt 1 ]; then
 fi
 
 #create/edit $file with editor
-$SHELL -c "$EDITOR $file"
+$SHELL_CMD -c "$EDITOR $file"
 
 annotation_symbol="Notes"
-annotation_count=$($SHELL -c "$TASKBIN _get ${task_id}.annotations.count")
+annotation_count=$($SHELL_CMD -c "$TASKBIN _get ${task_id}.annotations.count")
 has_note=false
 if [ $annotation_count -gt 0 ]; then
   for i in $(seq 1 $annotation_count); do
@@ -65,7 +66,7 @@ if [ $annotation_count -gt 0 ]; then
   done
 fi
 if ! $has_note; then
-  $SHELL -c "$TASKBIN $task_id annotate '$annotation_symbol'"
+  $SHELL_CMD -c "$TASKBIN $task_id annotate '$annotation_symbol'"
 fi
 
 exit 0
