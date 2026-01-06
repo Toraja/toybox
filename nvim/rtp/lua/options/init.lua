@@ -46,7 +46,7 @@ function M.setup(opts)
 		vim.opt.shellslash = true -- always use forward slash
 	end
 	vim.opt.formatoptions:append("jmM")
-	vim.opt.fixendofline = false -- Preserve the current EOL state
+	vim.opt.fixendofline = true
 	vim.opt.timeoutlen = 600
 	vim.opt.ttimeoutlen = 0 -- This prevents <Esc> to hang in input mode on Linux terminal
 
