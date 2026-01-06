@@ -566,7 +566,7 @@ return {
 		"yetone/avante.nvim",
 		enabled = function()
 			local disabled = os.getenv("AVANTE_DISABLE")
-			return disabled and disabled:lower() == "true"
+			return disabled == nil or disabled:lower() ~= "true"
 		end,
 		dependencies = {
 			"nvim-lua/plenary.nvim",
