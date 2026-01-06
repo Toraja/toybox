@@ -2,11 +2,11 @@
 
 set -eo pipefail
 
-EDITOR=${EDITOR:-vim}
-TASKBIN=task
-VIEWER=cat
-SHELL_CMD=/bin/bash
-EXT=".md"
+editor="${EDITOR:-vim}"
+taskcmd="${TASKNOTE_TASKCMD:-task}"
+viewer="${TASKNOTE_VIEWER:-cat}"
+shell=/bin/bash
+ext="${TASKNOTE_EXT:-.md}"
 
 note_dir="${HOME}/.local/share/taskopen/notes"
 
@@ -33,12 +33,12 @@ if [ ! -e $note_dir ]; then
 fi
 
 task_uuid=$1
-task_id=$($TASKBIN $task_uuid ids)
-file="$note_dir/$task_uuid$EXT"
+task_id=$($taskcmd $task_uuid ids)
+file="$note_dir/$task_uuid$ext"
 
 view() {
   if [ -f $file ]; then
-    $SHELL_CMD -c "$VIEWER $file"
+    $shell -c "$viewer $file"
   else
     echo "File not found"
     exit 1
@@ -47,7 +47,7 @@ view() {
 
 edit() {
   file_exists=false
-  $SHELL_CMD -c "$EDITOR $file"
+  $shell -c "$editor $file"
 
   # Return if file was not created
   if [ -f $file ]; then
@@ -55,7 +55,7 @@ edit() {
   fi
 
   annotation_symbol="Notes"
-  annotation_count=$($SHELL_CMD -c "$TASKBIN _get ${task_id}.annotations.count")
+  annotation_count=$($shell -c "$taskcmd _get ${task_id}.annotations.count")
   has_note=false
   if [ $annotation_count -gt 0 ]; then
     for i in $(seq 1 $annotation_count); do
@@ -66,11 +66,11 @@ edit() {
   # Annotate or denotate based on presence of Note annotation and file
   if $has_note; then
     if ! $file_exists; then
-      $SHELL_CMD -c "$TASKBIN $task_id denotate '$annotation_symbol'"
+      $shell -c "$taskcmd $task_id denotate '$annotation_symbol'"
     fi
   else
     if $file_exists; then
-      $SHELL_CMD -c "$TASKBIN $task_id annotate '$annotation_symbol'"
+      $shell -c "$taskcmd $task_id annotate '$annotation_symbol'"
     fi
   fi
 }
