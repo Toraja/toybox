@@ -18,7 +18,7 @@ os:
   # Command for tmux is modified as the original one hangs a bit after copying
   copyToClipboardCmd: >
     if string match --regex '^tmux' "$TERM"
-        tmux set-buffer "{{text}}"
+        tmux set-buffer -w "{{text}}"
     else
         printf "\033]52;c;$(echo {{text}} | base64 | string trim)\a" > /dev/tty
     end

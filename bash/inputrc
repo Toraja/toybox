@@ -111,9 +111,9 @@ $if term=xterm
 # wrap all in double quotation and pipe the output to clipboard
 "\e\C-q": '\C-aecho -n "\C-e" | xclip -selection c'
 $else $if term=screen
-"\C-q": '\C-e | tmux load-buffer -'
-"\eq": '\C-aecho -n \'\C-e\' | tmux load-buffer -'
-"\e\C-q": '\C-aecho -n "\C-e" | tmux load-buffer -'
+"\C-q": '\C-e | tmux load-buffer -w -'
+"\eq": '\C-aecho -n \'\C-e\' | tmux load-buffer -w -'
+"\e\C-q": '\C-aecho -n "\C-e" | tmux load-buffer -w -'
 $endif
 
 # [wrap]
