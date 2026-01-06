@@ -1,4 +1,6 @@
 #!/bin/bash
 
-# Pause for a bit to let you read error message
-tasknote -p || sleep 3
+tasknote -p
+
+read -n 1 -s -r -p "Press any key to continue..."
+echo
