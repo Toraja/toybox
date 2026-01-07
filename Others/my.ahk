@@ -1,9 +1,9 @@
 #Requires AutoHotkey v2.0
 
 layerActive := true
-modeNormal := "normal"
+modeBrowse := "browse"
 modeInsert := "insert"
-mode := modeNormal
+mode := modeBrowse
 
 CaptalizeFirstLetter(Str) {
     if (Str = "")
@@ -43,14 +43,14 @@ StartUp(md) {
 }
 
 ^;:: {
-    StartUp(modeNormal)
+    StartUp(modeBrowse)
 }
 
 ^':: {
     StartUp(modeInsert)
 }
 
-#HotIf layerActive && mode = modeNormal
+#HotIf layerActive && mode = modeBrowse
 i:: {
     global mode := modeInsert
     ToolTipMode()
@@ -59,8 +59,8 @@ h::Send "{Left}"
 j::Send "{Down}"
 k::Send "{Up}"
 l::Send "{Right}"
-+h::Send "{Home}"
-+l::Send "{End}"
++h::Send "!{Left}" ; {Browser_Back} does not work in some applications  
++l::Send "!{Right}" ; {Browser_Forward} does not work in some applications
 ^f::Send "{PgDn}"
 ^b::Send "{PgUp}"
 ^m::Send "{Enter}"
@@ -69,7 +69,7 @@ l::Send "{Right}"
 
 #HotIf layerActive && mode = modeInsert
 ^[:: {
-    global mode := modeNormal
+    global mode := modeBrowse
     ToolTipMode()
 }
 ^b::Send "{Left}"
