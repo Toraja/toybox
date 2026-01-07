@@ -8,6 +8,8 @@ keybinding:
   universal:
     prevPage: "<C-b>"
     nextPage: "<C-f>"
+    prevItem: "<C-p>"
+    nextItem: "<C-n>"
     # Alt key is not supported
     # scrollUpMain-alt1: "<A-k>"
     # scrollDownMain-alt1: "<A-j>"
