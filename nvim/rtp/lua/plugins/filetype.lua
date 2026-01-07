@@ -250,7 +250,7 @@ return {
 		"MeanderingProgrammer/render-markdown.nvim",
 		enabled = false,
 		dependencies = { "nvim-treesitter/nvim-treesitter", "nvim-tree/nvim-web-devicons" },
-		ft = { "markdown", "codecompanion" },
+		ft = { "markdown", "codecompanion", "Avante" },
 		---@module 'render-markdown'
 		---@type render.md.UserConfig
 		opts = {
@@ -267,7 +267,7 @@ return {
 	{
 		"OXY2DEV/markview.nvim",
 		lazy = false,
-		ft = { "markdown", "codecompanion" },
+		ft = { "markdown", "codecompanion", "Avante" },
 		config = function()
 			local symbols = require("markview.symbols")
 			local states = require("markview.extras.checkboxes").config.states
@@ -275,7 +275,7 @@ return {
 			table.insert(states[1], "=")
 			require("markview").setup({
 				preview = {
-					filetypes = { "markdown", "codecompanion" },
+					filetypes = { "markdown", "codecompanion", "Avante" },
 					ignore_buftypes = {},
 				},
 				experimental = {

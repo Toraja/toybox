@@ -580,6 +580,7 @@ return {
 			"folke/snacks.nvim", -- for input provider snacks
 			"nvim-tree/nvim-web-devicons", -- or echasnovski/mini.icons
 			"zbirenbaum/copilot.lua", -- for providers='copilot'
+			"OXY2DEV/markview.nvim",
 			-- {
 			-- 	-- support for image pasting
 			-- 	"HakonHarnes/img-clip.nvim",
@@ -597,14 +598,6 @@ return {
 			-- 		},
 			-- 	},
 			-- },
-			{
-				-- Make sure to set this up properly if you have lazy=true
-				"MeanderingProgrammer/render-markdown.nvim",
-				opts = {
-					file_types = { "markdown", "Avante" },
-				},
-				ft = { "markdown", "Avante" },
-			},
 		},
 		-- if you want to build from source then do `make BUILD_FROM_SOURCE=true`
 		-- ⚠️ must add this setting! ! !
