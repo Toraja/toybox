@@ -3,6 +3,7 @@
 layerActive := true
 modeBrowse := "browse"
 modeInsert := "insert"
+modeMouse := "mouse"
 mode := modeBrowse
 
 CaptalizeFirstLetter(Str) {
@@ -48,6 +49,10 @@ StartUp(md) {
 
 ^':: {
     StartUp(modeInsert)
+}
+
+^+;:: {
+    StartUp(modeMouse)
 }
 
 #HotIf layerActive && mode = modeBrowse
@@ -99,4 +104,12 @@ l::Send "{Right}"
 !^m::Send "^{Enter}"
 ^/::Send "^z"
 !/::Send "^y"
+#HotIf
+
+#HotIf layerActive && mode = modeMouse
+h::MouseMove -50, 0, 0, "R"
+k::MouseMove 0, -50, 0, "R"
+j::MouseMove 0, 50, 0, "R"
+l::MouseMove 50, 0, 0, "R"
+Space::Send "{LButton}"
 #HotIf
