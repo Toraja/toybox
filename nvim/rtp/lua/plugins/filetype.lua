@@ -191,6 +191,7 @@ return {
 	-- markup languages
 	{
 		"jakewvincent/mkdnflow.nvim",
+		enabled = false,
 		ft = "markdown",
 		config = function()
 			local mkdnflow = require("mkdnflow")
@@ -281,6 +282,7 @@ return {
 					check_rtp_message = false,
 				},
 				markdown_inline = {
+					enable = false,
 					checkboxes = {
 						checked = {
 							text = symbols.entries.checkmark,
@@ -309,6 +311,52 @@ return {
 						},
 					},
 				},
+			})
+		end,
+	},
+	{
+		"bngarren/checkmate.nvim",
+		ft = { "markdown" },
+		dependencies = {
+			"cpea2506/one_monokai.nvim",
+		},
+		-- Somehow, calling require("one_monokai.colors") in `opts` breaks the entire highlight setting, so use `config` instead.
+		config = function()
+			local one_monokai_colors = require("one_monokai.colors")
+			require("checkmate").setup({
+				files = { "*.md" },
+				keys = {},
+				todo_states = {
+					-- Built-in states (cannot change markdown or type)
+					unchecked = { marker = "☐" },
+					checked = { marker = "✓" },
+					-- Custom states
+					in_progress = {
+						marker = "◐",
+						markdown = ".",
+						type = "incomplete",
+						order = 50,
+					},
+					cancelled = {
+						marker = "✗",
+						markdown = "~",
+						type = "inactive",
+						order = 2,
+					},
+					on_hold = {
+						marker = "",
+						markdown = "=",
+						type = "incomplete",
+						order = 100,
+					},
+				},
+				style = {
+					CheckmateInProgressMarker = { fg = one_monokai_colors.cyan },
+					CheckmateCancelledMarker = { fg = one_monokai_colors.red },
+					CheckmateCancelledMainContent = { fg = one_monokai_colors.dark_gray, strikethrough = true },
+					CheckmateOnHoldMarker = { fg = one_monokai_colors.purple },
+				},
+				use_metadata_keymaps = false,
 			})
 		end,
 	},

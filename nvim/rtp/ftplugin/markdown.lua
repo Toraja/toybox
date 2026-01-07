@@ -38,12 +38,49 @@ vim.api.nvim_buf_create_user_command(0, "ConcealToggle", function()
 	conceal_toggle()
 end, {})
 
+local todo_prefix_key = "t"
+local todo_priority_prefix_key = todo_prefix_key .. "r"
 require("keymap.which-key-helper").register_for_ftplugin({
-	c = { rhs = "MarkdownCheckboxStateSet ~", opts = { desc = "Checkbox cancelled" } },
 	C = { rhs = "ConcealToggle", opts = { desc = "Toggle conceallevel between 0 and 2" } },
-	d = { rhs = "MarkdownCheckboxStateSet X", opts = { desc = "Checkbox done" } },
-	h = { rhs = "MarkdownCheckboxStateSet =", opts = { desc = "Checkbox on hold" } },
-	p = { rhs = "MarkdownCheckboxStateSet /", opts = { desc = "Checkbox in progress" } },
-	u = { rhs = "MarkdownCheckboxStateUndone", opts = { desc = "Checkbox undone" } },
+	[todo_prefix_key .. "c"] = {
+		rhs = 'lua require("checkmate").toggle("cancelled"); require("checkmate").remove_metadata("done")',
+		opts = { desc = "TODO cancelled" },
+	},
+	[todo_prefix_key .. "d"] = {
+		rhs = 'lua require("checkmate").toggle_metadata("done")',
+		opts = { desc = "TODO done" },
+	},
+	[todo_prefix_key .. "h"] = {
+		rhs = 'lua require("checkmate").toggle("on_hold"); require("checkmate").remove_metadata("done")',
+		opts = { desc = "TODO on hold" },
+	},
+	[todo_prefix_key .. "p"] = {
+		rhs = 'lua require("checkmate").toggle("in_progress"); require("checkmate").remove_metadata("done")',
+		opts = { desc = "TODO in progress" },
+	},
+	[todo_priority_prefix_key .. "h"] = {
+		rhs = 'lua require("checkmate").add_metadata("priority", "high")',
+		opts = { desc = "TODO priority high" },
+	},
+	[todo_priority_prefix_key .. "l"] = {
+		rhs = 'lua require("checkmate").add_metadata("priority", "low")',
+		opts = { desc = "TODO priority low" },
+	},
+	[todo_priority_prefix_key .. "m"] = {
+		rhs = 'lua require("checkmate").add_metadata("priority", "medium")',
+		opts = { desc = "TODO priority medium" },
+	},
+	[todo_priority_prefix_key .. "r"] = {
+		rhs = 'lua require("checkmate").remove_metadata("priority")',
+		opts = { desc = "TODO priority high" },
+	},
+	[todo_prefix_key .. "s"] = {
+		rhs = 'lua require("checkmate").toggle_metadata("started")',
+		opts = { desc = "TODO started" },
+	},
+	[todo_prefix_key .. "u"] = {
+		rhs = 'lua require("checkmate").toggle("unchecked"); require("checkmate").remove_metadata("done")',
+		opts = { desc = "TODO undone" },
+	},
 	v = { rhs = "Markview Toggle", opts = { desc = "Toggle Markview" } },
 })
