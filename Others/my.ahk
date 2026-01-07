@@ -51,6 +51,10 @@ StartUp(md) {
 }
 
 #HotIf layerActive && mode = modeNormal
+i:: {
+    global mode := modeInsert
+    ToolTipMode()
+}
 h::Send "{Left}"
 j::Send "{Down}"
 k::Send "{Up}"
@@ -60,10 +64,7 @@ l::Send "{Right}"
 ^f::Send "{PgDn}"
 ^b::Send "{PgUp}"
 ^m::Send "{Enter}"
-i:: {
-    global mode := modeInsert
-    ToolTipMode()
-}
+^[::Send "{Escape}"
 #HotIf
 
 #HotIf layerActive && mode = modeInsert
@@ -83,6 +84,7 @@ i:: {
 !f::Send "^{Right}"
 !+b::Send "^+{Left}"
 !+f::Send "^+{Right}"
+!^a::Send "^a"
 ^a::Send "{Home}"
 ^e::Send "{End}"
 ^+a::Send "+{Home}"
@@ -94,4 +96,5 @@ i:: {
 ^k::Send "+{End}{Delete}"
 ^u::Send "+{Home}{Delete}"
 ^m::Send "{Enter}"
+!^m::Send "^{Enter}"
 #HotIf
