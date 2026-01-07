@@ -97,4 +97,6 @@ l::Send "{Right}"
 ^u::Send "+{Home}{Delete}"
 ^m::Send "{Enter}"
 !^m::Send "^{Enter}"
+^/::Send "^z"
+!/::Send "^y"
 #HotIf
