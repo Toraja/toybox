@@ -1,22 +1,53 @@
 #Requires AutoHotkey v2.0
 
-ShowBottomRightTooltip(Text) {
-    ToolTip(Text, A_ScreenWidth, A_ScreenHeight)
-}
-
 layerActive := true
 modeNormal := "normal"
 modeInsert := "insert"
 mode := modeNormal
 
-^;:: {
+CaptalizeFirstLetter(Str) {
+    if (Str = "")
+        return Str
+    return StrUpper(SubStr(Str, 1, 1)) . SubStr(Str, 2)
+}
+
+ShowBottomRightTooltip(Text) {
+    ToolTip(Text, A_ScreenWidth, A_ScreenHeight)
+}
+
+ToolTipMode() {
+    ShowBottomRightTooltip(CaptalizeFirstLetter(mode))
+}
+
+ToggleLayer() {
     global layerActive := !layerActive
-    global mode := "normal"
     if layerActive {
-        ShowBottomRightTooltip("Normal")
+        ToolTipMode()
     } else {
         ToolTip()
     }
+}
+
+StartUp(md) {
+    if !layerActive {
+        global mode := md
+        ToggleLayer()
+    } else {
+        if mode = md {
+            ToggleLayer()
+        } else {
+            global mode := md
+            ToolTipMode()
+        }
+    }
+}
+
+^;:: {
+    StartUp(modeNormal)
+}
+
+^':: {
+    StartUp(modeInsert)
 }
 
 #HotIf layerActive && mode = modeNormal
@@ -31,14 +62,14 @@ l::Send "{Right}"
 ^m::Send "{Enter}"
 i:: {
     global mode := modeInsert
-    ShowBottomRightTooltip("Insert")
+    ToolTipMode()
 }
 #HotIf
 
 #HotIf layerActive && mode = modeInsert
 ^[:: {
     global mode := modeNormal
-    ShowBottomRightTooltip("Normal")
+    ToolTipMode()
 }
 ^b::Send "{Left}"
 ^n::Send "{Down}"
