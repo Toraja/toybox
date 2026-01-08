@@ -5,6 +5,7 @@ modeBrowse := "browse"
 modeInsert := "insert"
 modeMouse := "mouse"
 mode := modeBrowse
+isVisualMode := false
 
 CaptalizeFirstLetter(Str) {
     if (Str = "")
@@ -17,7 +18,11 @@ ShowBottomRightTooltip(Text) {
 }
 
 ToolTipMode() {
-    ShowBottomRightTooltip(CaptalizeFirstLetter(mode))
+    symbol := mode
+    if (symbol = modeInsert && isVisualMode) {
+        symbol := Format("{1} (visual)", modeInsert)
+    }
+    ShowBottomRightTooltip(CaptalizeFirstLetter(symbol))
 }
 
 ToggleLayer() {
@@ -30,6 +35,7 @@ ToggleLayer() {
 }
 
 StartUp(md) {
+    global isvisualMode := false
     if !layerActive {
         global mode := md
         ToggleLayer()
@@ -74,28 +80,39 @@ l::Send "{Right}"
 ^[::Send "{Escape}"
 #HotIf
 
+#HotIf layerActive && mode = modeInsert && isVisualMode
+^b::Send "+{Left}"
+^n::Send "+{Down}"
+^p::Send "+{Up}"
+^f::Send "+{Right}"
+!b::Send "^+{Left}"
+!f::Send "^+{Right}"
+^a::Send "+{Home}"
+^e::Send "+{End}"
+#HotIf
+
 #HotIf layerActive && mode = modeInsert
 ^[:: {
     global mode := modeBrowse
+    ToolTipMode()
+}
+^Space:: {
+    ; Ideally, when text is selected, this key should cancel the selection while keeping the cursor position.
+    ; However, windows does not have a function to cancel selection only.
+    ; Left and Right arrow keys do cancel selection, but Left moves the cursor to the left edge of the selection, and Right moves it to the right edge.
+    ; So here it is simply toggling visual mode.
+    global isVisualMode := !isVisualMode
     ToolTipMode()
 }
 ^b::Send "{Left}"
 ^n::Send "{Down}"
 ^p::Send "{Up}"
 ^f::Send "{Right}"
-^+b::Send "+{Left}"
-^+n::Send "+{Down}"
-^+p::Send "+{Up}"
-^+f::Send "+{Right}"
 !b::Send "^{Left}"
 !f::Send "^{Right}"
-!+b::Send "^+{Left}"
-!+f::Send "^+{Right}"
 !^a::Send "^a"
 ^a::Send "{Home}"
 ^e::Send "{End}"
-^+a::Send "+{Home}"
-^+e::Send "+{End}"
 ^d::Send "{Delete}"
 !d::Send "^{Delete}"
 ^h::Send "{Backspace}"
