@@ -46,6 +46,10 @@ StartUp(md) {
 ^;:: StartUp(modeBrowse)
 ^'::StartUp(modeInsert)
 ^+;::StartUp(modeMouse)
+^{:: {
+    global layerActive := false
+    ToolTip()
+}
 
 #HotIf layerActive && mode = modeBrowse
 i:: {
@@ -60,6 +64,12 @@ l::Send "{Right}"
 +l::Send "!{Right}" ; {Browser_Forward} does not work in some applications
 ^f::Send "{PgDn}"
 ^b::Send "{PgUp}"
+^e::SendEvent "{WheelDown}"
+^y::SendEvent "{WheelUp}"
+^d::SendEvent "{WheelDown 5}"
+^u::SendEvent "{WheelUp 5}"
+)::Send "{F6}"
+(::Send "+{F6}"
 ^m::Send "{Enter}"
 ^[::Send "{Escape}"
 #HotIf
@@ -89,7 +99,7 @@ l::Send "{Right}"
 ^d::Send "{Delete}"
 !d::Send "^{Delete}"
 ^h::Send "{Backspace}"
-!h::Send "^{Backspace}"
+!^h::Send "^{Backspace}"
 ^k::Send "+{End}{Delete}"
 ^u::Send "+{Home}{Delete}"
 ^m::Send "{Enter}"
