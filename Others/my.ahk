@@ -43,17 +43,9 @@ StartUp(md) {
     }
 }
 
-^;:: {
-    StartUp(modeBrowse)
-}
-
-^':: {
-    StartUp(modeInsert)
-}
-
-^+;:: {
-    StartUp(modeMouse)
-}
+^;:: StartUp(modeBrowse)
+^'::StartUp(modeInsert)
+^+;::StartUp(modeMouse)
 
 #HotIf layerActive && mode = modeBrowse
 i:: {
