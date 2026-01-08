@@ -325,7 +325,7 @@ return {
 			local one_monokai_colors = require("one_monokai.colors")
 			require("checkmate").setup({
 				files = { "*.md" },
-				keys = {},
+				keys = {}, -- disable default keymaps
 				todo_states = {
 					-- Built-in states (cannot change markdown or type)
 					unchecked = { marker = "☐" },
@@ -358,6 +358,8 @@ return {
 				},
 				use_metadata_keymaps = false,
 			})
+			-- Disable CheckmateUncheckedMainContent highlight as it covers up other highlights
+			vim.api.nvim_set_hl(0, "CheckmateUncheckedMainContent", {})
 		end,
 	},
 	{
