@@ -58,16 +58,14 @@ StartUp(md) {
 }
 
 #HotIf layerActive && mode = modeBrowse
-i:: {
-    global mode := modeInsert
-    ToolTipMode()
-}
 h::Send "{Left}"
 j::Send "{Down}"
 k::Send "{Up}"
 l::Send "{Right}"
 +h::Send "!{Left}" ; {Browser_Back} does not work in some applications  
 +l::Send "!{Right}" ; {Browser_Forward} does not work in some applications
++j::Send "{End}"
++k::Send "{Home}"
 ^f::Send "{PgDn}"
 ^b::Send "{PgUp}"
 ^e::SendEvent "{WheelDown}"
@@ -92,10 +90,6 @@ l::Send "{Right}"
 #HotIf
 
 #HotIf layerActive && mode = modeInsert
-^[:: {
-    global mode := modeBrowse
-    ToolTipMode()
-}
 ^Space:: {
     ; Ideally, when text is selected, this key should cancel the selection while keeping the cursor position.
     ; However, windows does not have a function to cancel selection only.
@@ -121,6 +115,7 @@ l::Send "{Right}"
 ^u::Send "+{Home}{Delete}"
 ^m::Send "{Enter}"
 !^m::Send "^{Enter}"
+^[::Send "{Escape}"
 ^/::Send "^z"
 !/::Send "^y"
 #HotIf
@@ -131,4 +126,5 @@ k::MouseMove 0, -50, 0, "R"
 j::MouseMove 0, 50, 0, "R"
 l::MouseMove 50, 0, 0, "R"
 Space::Send "{LButton}"
++Space::Send "{RButton}"
 #HotIf
