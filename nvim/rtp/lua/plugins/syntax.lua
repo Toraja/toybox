@@ -177,8 +177,7 @@ return {
 				"--issues-exit-code=0",
 				"--show-stats=false",
 				function()
-					local root_path = get_golangci_lint_root() or require("project").get_root_path()
-					return vim.fs.joinpath(root_path, "...")
+					return vim.fs.joinpath(get_golangci_lint_root(), "...")
 				end,
 			}
 			golangcilint_ws.parser = function(output, _, cwd)
@@ -199,7 +198,7 @@ return {
 				-- expects the target buffers to be already opened.
 				local qfs = {}
 				for _, item in ipairs(decoded["Issues"]) do
-					local linted_file = cwd .. "/" .. item.Pos.Filename
+					local linted_file = vim.fs.joinpath(get_golangci_lint_root(), item.Pos.Filename)
 					table.insert(qfs, {
 						filename = linted_file,
 						lnum = item.Pos.Line > 0 and item.Pos.Line or 0,
