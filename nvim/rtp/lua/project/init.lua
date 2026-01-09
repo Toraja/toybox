@@ -1,14 +1,18 @@
 local M = {}
 
----@type string[]
+---@type string[][]
+-- Quoted from `:h vim.fs.root()`
+-- > To indicate "equal priority", specify items in a nested list `{ { 'a.txt', 'b.lua' }, … }`.
 local pj_root_markers = {
-	".git",
-	".svn",
-	"Makefile",
-	"justfile",
-	"package.json",
-	"go.mod",
-	"Cargo.toml",
+	{
+		".git",
+		".svn",
+		"Makefile",
+		"justfile",
+		"package.json",
+		"go.mod",
+		"Cargo.toml",
+	},
 }
 
 --- Return the path to the currnet project root. If none of the marker files matches, current working directory is returned.
