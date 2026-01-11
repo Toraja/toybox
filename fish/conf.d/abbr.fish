@@ -90,6 +90,7 @@ abbr --add --global lg lazygit
 # GitHub CLI
 abbr --add --global ghi gh issue
 abbr --add --global ghic gh issue create --title
+abbr --add --global ghid gh issue delete
 abbr --add --global ghie gh issue edit
 abbr --add --global ghil gh issue list
 abbr --add --global ghilm gh issue list --assignee=@me
@@ -98,7 +99,7 @@ abbr --add --global ghim gh issue comment
 abbr --add --global ghip gh issue develop --checkout
 abbr --add --global ghiv gh issue view
 abbr --add --global ghp gh pr
-abbr --add --global ghpc gh pr create
+abbr --add --global ghpc gh pr create --fill
 abbr --add --global ghpd gh pr diff
 abbr --add --global ghpe gh pr edit
 abbr --add --global ghpl gh pr list
