@@ -7,6 +7,7 @@ for _, rtp in ipairs(vim.opt.runtimepath:get()) do
 		break
 	end
 end
+local copilot_lua_auto_cmp = string.lower(os.getenv("COPILOT_LUA_AUTO_CMP") or "false") == "true"
 
 return {
 	{
@@ -324,7 +325,7 @@ return {
 		config = function()
 			require("copilot").setup({
 				panel = {
-					-- enabled = false, -- disable this if copilot-cmp is enabled
+					enabled = copilot_lua_auto_cmp, -- disable this if copilot-cmp is enabled
 					auto_refresh = true,
 					layout = {
 						position = "right", -- bottom | top | left | right | horizontal | vertical
@@ -332,7 +333,7 @@ return {
 					},
 				},
 				suggestion = {
-					-- enabled = false, -- copilot-cmp does not work if this is enabled
+					enabled = copilot_lua_auto_cmp, -- copilot-cmp does not work if this is enabled
 					auto_trigger = true,
 					debounce = 120,
 					-- some keymaps are set manually below setup()
