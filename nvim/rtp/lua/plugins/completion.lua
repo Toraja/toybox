@@ -46,6 +46,12 @@ return {
 				["<M-K>"] = { "scroll_signature_up", "fallback" },
 				["<M-J>"] = { "scroll_signature_down", "fallback" },
 				["<C-x><C-h>"] = { "show_signature", "hide_signature", "fallback" },
+				["<C-]>"] = {
+					function(cmp)
+						cmp.show_and_insert_or_accept_single({ providers = { "snippets" } })
+					end,
+					"insert_next",
+				},
 			},
 			appearance = {
 				-- 'mono' (default) for 'Nerd Font Mono' or 'normal' for 'Nerd Font'
@@ -70,7 +76,13 @@ return {
 			-- elsewhere in your config, without redefining it, due to `opts_extend`
 			sources = {
 				default = { "lsp", "path", "snippets", "buffer" },
-				providers = { snippets = { opts = { search_paths = { snippets_path } } } },
+				providers = {
+					snippets = {
+						opts = {
+							search_paths = { snippets_path },
+						},
+					},
+				},
 			},
 			-- (Default) Rust fuzzy matcher for typo resistance and significantly better performance
 			-- You may use a lua implementation instead by using `implementation = "lua"` or fallback to the lua implementation,
