@@ -324,7 +324,6 @@ return {
 		config = function()
 			local one_monokai_colors = require("one_monokai.colors")
 			require("checkmate").setup({
-				files = { "*.md" },
 				keys = {}, -- disable default keymaps
 				todo_states = {
 					-- Built-in states (cannot change markdown or type)
