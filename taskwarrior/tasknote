@@ -6,7 +6,7 @@ editor="${EDITOR:-vim}"
 taskcmd="${TASKNOTE_TASKCMD:-task}"
 viewer="${TASKNOTE_VIEWER:-cat}"
 shell=/bin/bash
-ext="${TASKNOTE_EXT:-.md}"
+ext="${TASKNOTE_EXT:-.todo.md}"
 
 note_dir="${HOME}/.local/share/taskopen/notes"
 sub_cmd="edit"
