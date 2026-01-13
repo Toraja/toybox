@@ -6,6 +6,13 @@ require("text.edit").map_toggle_trailing(";", "  ", true)
 
 local checkbox_ptn = "^([ \t]*)(- %[)(.)(%] )"
 local checkbox_line_ptn = checkbox_ptn .. "(.*)"
+local checkbox_markers = {
+	undone = " ",
+	done = "X",
+	in_progress = "/",
+	cancelled = "~",
+	on_hold = "=",
+}
 
 local function is_todo_line(line)
 	return string.match(line, checkbox_line_ptn) ~= nil
@@ -22,13 +29,12 @@ local function replace_checkbox_state(line, state)
 end
 
 vim.api.nvim_buf_create_user_command(0, "MarkdownCheckboxStateSet", function(command)
-	vim.api.nvim_set_current_line(replace_checkbox_state(vim.api.nvim_get_current_line(), command.fargs[1]))
+	local marker = checkbox_markers[command.fargs[1]]
+	if not marker then
+		error("invalid checkbox state: " .. command.fargs[1])
+	end
+	vim.api.nvim_set_current_line(replace_checkbox_state(vim.api.nvim_get_current_line(), marker))
 end, { nargs = 1 })
-
--- Workaround to pass space as an argument
-vim.api.nvim_buf_create_user_command(0, "MarkdownCheckboxStateUndone", function()
-	vim.api.nvim_set_current_line(replace_checkbox_state(vim.api.nvim_get_current_line(), " "))
-end, {})
 
 local function conceal_toggle()
 	vim.wo.conceallevel = vim.wo.conceallevel == 0 and 2 or 0
