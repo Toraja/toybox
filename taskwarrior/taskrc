@@ -104,8 +104,6 @@ uda.taskwarrior-tui.shortcuts.6=~/toybox/taskwarrior/shortcut/delete-completed.s
 uda.taskwarrior-tui.keyconfig.shortcut6=X
 uda.taskwarrior-tui.shortcuts.8=~/toybox/taskwarrior/shortcut/toggle-context.sh
 uda.taskwarrior-tui.keyconfig.shortcut8=C
-uda.taskwarrior-tui.shortcuts.9=~/toybox/taskwarrior/shortcut/list-shortcuts.sh
-uda.taskwarrior-tui.keyconfig.shortcut9=0
 
 # write context will add the specified tag to task when add new tasks.
 # Virtual tags cannot be added to tasks so adding tasks will fail.
