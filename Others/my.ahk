@@ -75,6 +75,7 @@ l::Send "{Right}"
 )::Send "{F6}"
 (::Send "+{F6}"
 ^m::Send "{Enter}"
+!^m::Send "^{Enter}"
 ^[::Send "{Escape}"
 #HotIf
 
