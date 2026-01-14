@@ -1,6 +1,6 @@
 #Requires AutoHotkey v2.0
 
-layerActive := true
+layerActive := false
 modeBrowse := "browse"
 modeInsert := "insert"
 modeMouse := "mouse"
