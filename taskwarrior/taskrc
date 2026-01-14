@@ -78,6 +78,8 @@ uda.myday.label=*
 uda.onhold.type=string
 uda.onhold.label=-
 uda.onhold.values=,-
+uda.link.type=string
+uda.link.label=Link
 
 # --- taskwarrior-tui ---
 uda.taskwarrior-tui.selection.bold=no
@@ -98,7 +100,7 @@ uda.taskwarrior-tui.shortcuts.3=~/toybox/taskwarrior/shortcut/tasknote.sh
 uda.taskwarrior-tui.keyconfig.shortcut3=n
 uda.taskwarrior-tui.shortcuts.4=~/toybox/taskwarrior/shortcut/tasknote-prune.sh
 uda.taskwarrior-tui.keyconfig.shortcut4=P
-uda.taskwarrior-tui.shortcuts.5=~/toybox/taskwarrior/shortcut/yank-task.sh
+uda.taskwarrior-tui.shortcuts.5=~/toybox/taskwarrior/shortcut/copy-link.sh
 uda.taskwarrior-tui.keyconfig.shortcut5=Y
 uda.taskwarrior-tui.shortcuts.6=~/toybox/taskwarrior/shortcut/delete-completed.sh
 uda.taskwarrior-tui.keyconfig.shortcut6=X
