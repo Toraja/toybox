@@ -116,7 +116,8 @@ abbr --add --global glcl glab ci list
 abbr --add --global glcs glab ci status --live
 abbr --add --global glcv glab ci view
 abbr --add --global gli glab issue
-abbr --add --global glic glab issue create --title
+abbr --add --global --set-cursor glic glab issue create --title \'%\'
+abbr --add --global --set-cursor glicm glab issue create --assignee=@me --title \'%\'
 abbr --add --global glil glab issue list
 abbr --add --global glilm glab issue list --assignee=@me
 abbr --add --global glilc glab issue list --closed
