@@ -90,14 +90,14 @@ abbr --add --global lg lazygit
 # GitHub CLI
 abbr --add --global ghi gh issue
 abbr --add --global ghic gh issue create --title
-abbr --add --global ghid gh issue delete
+abbr --add --global ghip gh issue develop --checkout
 abbr --add --global ghie gh issue edit
 abbr --add --global ghil gh issue list
 abbr --add --global ghilm gh issue list --assignee=@me
-abbr --add --global ghilc gh issue list --state closed
-abbr --add --global ghim gh issue comment
-abbr --add --global ghip gh issue develop --checkout
+abbr --add --global ghilz gh issue list --state closed
+abbr --add --global ghim gh issue comment --editor
 abbr --add --global ghiv gh issue view
+abbr --add --global ghiz gh issue close --reason
 abbr --add --global ghp gh pr
 abbr --add --global ghpc gh pr create --fill
 abbr --add --global ghpd gh pr diff
@@ -120,7 +120,7 @@ abbr --add --global --set-cursor glic glab issue create --title \'%\'
 abbr --add --global --set-cursor glicm glab issue create --assignee=@me --title \'%\'
 abbr --add --global glil glab issue list
 abbr --add --global glilm glab issue list --assignee=@me
-abbr --add --global glilc glab issue list --closed
+abbr --add --global glilz glab issue list --closed
 abbr --add --global glin glab issue note
 abbr --add --global gliu glab issue update
 abbr --add --global gliv glab issue view
