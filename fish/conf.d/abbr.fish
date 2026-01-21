@@ -98,18 +98,18 @@ abbr --add --global ghilz gh issue list --state closed
 abbr --add --global ghin gh issue comment --editor
 abbr --add --global ghiv gh issue view
 abbr --add --global ghiz gh issue close --reason
-abbr --add --global ghp gh pr
-abbr --add --global ghpc gh pr create --fill
-abbr --add --global ghpd gh pr diff
-abbr --add --global ghpe gh pr edit
-abbr --add --global ghpl gh pr list
-abbr --add --global ghplm gh pr list --state merged
-abbr --add --global ghplz gh pr list --state closed
-abbr --add --global ghpm gh pr merge --delete-branch
-abbr --add --global ghpmr gh pr merge --delete-branch --rebase
-abbr --add --global ghpn gh pr comment --editor
-abbr --add --global ghpo gh pr checkout
-abbr --add --global ghpv gh pr view
+abbr --add --global ghr gh pr
+abbr --add --global ghrc gh pr create --fill
+abbr --add --global ghrd gh pr diff
+abbr --add --global ghre gh pr edit
+abbr --add --global ghrl gh pr list
+abbr --add --global ghrlm gh pr list --state merged
+abbr --add --global ghrlz gh pr list --state closed
+abbr --add --global ghrm gh pr merge --delete-branch
+abbr --add --global ghrmr gh pr merge --delete-branch --rebase
+abbr --add --global ghrn gh pr comment --editor
+abbr --add --global ghro gh pr checkout
+abbr --add --global ghrv gh pr view
 
 # GitLab CLI
 abbr --add --global gl glab
@@ -126,21 +126,21 @@ abbr --add --global glilz glab issue list --closed
 abbr --add --global glin glab issue note
 abbr --add --global gliu glab issue update
 abbr --add --global gliv glab issue view
-abbr --add --global glm glab mr
-abbr --add --global glmc glab mr create --remove-source-branch --source-branch \(git branch --show-current\) --fill
-abbr --add --global glmcl glab mr create --remove-source-branch --source-branch \(git branch --show-current\) --fill --copy-issue-labels --related-issue
-abbr --add --global glmd glab mr diff
-abbr --add --global glml glab mr list
-abbr --add --global glmlr glab mr list --reviewer=@me
-abbr --add --global glmla glab mr list --author=@me
-abbr --add --global glmm glab mr merge --remove-source-branch
-abbr --add --global glmn glab mr note
-abbr --add --global glmo glab mr checkout
-abbr --add --global --set-cursor glmof glab mr list --reviewer=@me% \| grep '^!' \| fzf --select-1 \| sed -E '\'s/^.*\(.*\).*\((.*)\)$/\1/\'' \| xargs -I {} --no-run-if-empty glab mr checkout --set-upstream-to origin/{} {}
-abbr --add --global glmu glab mr update
-abbr --add --global glmv glab mr view
-abbr --add --global --set-cursor glmvf glab mr list --reviewer=@me% \| grep '^!' \| fzf --select-1 \| awk '{gsub("!", "", $1); print $1}' | xargs --no-run-if-empty glab mr view
 abbr --add --global glpv glab repo view --branch \(git remote show origin \| grep "'HEAD branch'" \| awk '\'{print $3}\''\)
+abbr --add --global glr glab mr
+abbr --add --global glrc glab mr create --remove-source-branch --source-branch \(git branch --show-current\) --fill
+abbr --add --global glrcl glab mr create --remove-source-branch --source-branch \(git branch --show-current\) --fill --copy-issue-labels --related-issue
+abbr --add --global glrd glab mr diff
+abbr --add --global glrl glab mr list
+abbr --add --global glrlr glab mr list --reviewer=@me
+abbr --add --global glrla glab mr list --author=@me
+abbr --add --global glrm glab mr merge --remove-source-branch
+abbr --add --global glrn glab mr note
+abbr --add --global glro glab mr checkout
+abbr --add --global --set-cursor glrof glab mr list --reviewer=@me% \| grep '^!' \| fzf --select-1 \| sed -E '\'s/^.*\(.*\).*\((.*)\)$/\1/\'' \| xargs -I {} --no-run-if-empty glab mr checkout --set-upstream-to origin/{} {}
+abbr --add --global glru glab mr update
+abbr --add --global glrv glab mr view
+abbr --add --global --set-cursor glrvf glab mr list --reviewer=@me% \| grep '^!' \| fzf --select-1 \| awk '{gsub("!", "", $1); print $1}' | xargs --no-run-if-empty glab mr view
 
 ## docker
 abbr --add --global dk docker
