@@ -1,7 +1,9 @@
 vim.opt_local.conceallevel = 0
 vim.opt_local.foldmethod = "marker"
 vim.opt_local.formatoptions:append("ro")
-vim.opt_local.comments = { "b:*", "b:-", "b:+", "n:>" }
+-- Quoted from :help format-comments
+-- > When one comment leader is part of another, specify the part after the whole.
+vim.opt_local.comments = { "b:* [ ]", "b:- [ ]", "b:+ [ ]", "b:1. [ ]", "b:*", "b:-", "b:+", "b:1.", "n:>" }
 
 require("text.edit").map_toggle_trailing(";", "  ", true)
 
