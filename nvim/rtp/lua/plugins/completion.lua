@@ -529,18 +529,35 @@ return {
 			"echasnovski/mini.diff",
 		},
 		config = function()
-			local adapter = os.getenv("CODECOMPANION_PROVIDER") or "copilot"
-			local adapter_model_map = {
-				["copilot"] = copilot_lua_model(),
-				["ollama"] = ollama_default_model,
+			local adapter = os.getenv("CODECOMPANION_ADAPTER") or "copilot"
+			local ollama_model = os.getenv("CODECOMPANION_OLLAMA_MODEL")
+			local adapters = {
+				http = {
+					copilot = require("codecompanion.adapters").extend("copilot", {
+						schema = {
+							model = {
+								default = copilot_lua_model(),
+							},
+						},
+					}),
+				},
 			}
+			-- ollama's model will be picked from downloaded models automatically by default
+			-- so only set it here when the model is explicitly specified
+			if ollama_model then
+				adapters.http.ollama = require("codecompanion.adapters").extend("ollama", {
+					schema = {
+						model = {
+							default = ollama_model,
+						},
+					},
+				})
+			end
 			require("codecompanion").setup({
+				adapters = adapters,
 				interactions = {
 					chat = {
-						adapter = {
-							name = adapter,
-							model = adapter_model_map[adapter],
-						},
+						adapter = adapter,
 						keymaps = {
 							close = {
 								modes = { n = "q", i = "<S-F14>" },
@@ -563,10 +580,7 @@ return {
 						},
 					},
 					inline = {
-						adapter = {
-							name = adapter,
-							model = adapter_model_map[adapter],
-						},
+						adapter = adapter,
 					},
 				},
 			})
@@ -649,7 +663,7 @@ return {
 				provider = provider,
 				providers = {
 					copilot = {
-						model = copilot_lua_model,
+						model = copilot_lua_model(),
 					},
 					ollama = {
 						model = os.getenv("AVANTE_OLLAMA_MODEL") or avante_provider_default_model_map["ollama"],
