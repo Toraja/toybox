@@ -49,8 +49,8 @@ StartUp(md) {
     }
 }
 
-^;:: StartUp(modeBrowse)
-^'::StartUp(modeInsert)
+^;::StartUp(modeInsert)
+^'::StartUp(modeBrowse)
 ^+;::StartUp(modeMouse)
 ^{:: {
     global layerActive := false
