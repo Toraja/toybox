@@ -324,7 +324,39 @@ return {
 		config = function()
 			local one_monokai_colors = require("one_monokai.colors")
 			require("checkmate").setup({
-				keys = {}, -- disable default keymaps
+				keys = {
+					-- The below mappings do not work as expected, as `normal` command exits insert mode.
+					-- `startinsert` after `normal` does not exactly replicate the behaviour as the trailing white spaces are trimmed when `normal` exits insert mode.
+					-- Don't know if this is possible only with 'comments' option.
+					-- (Pressing `o` on a todo line adds a new todo line with the unchecked marker regardless of the current state)
+					-- o = {
+					-- 	rhs = function()
+					-- 		if require("checkmate.parser").get_todo_item_at_position() == nil then
+					-- 		  vim.cmd("normal! o")
+					-- 		  return
+					-- 		end
+					-- 		require("checkmate").create({
+					-- 			position = "below",
+					-- 		})
+					-- 	end,
+					-- 	desc = "Continue TODO item below",
+					-- 	modes = { "n" },
+					-- 	expr = true,
+					-- },
+					-- O = {
+					-- 	rhs = function()
+					-- 		if require("checkmate.parser").get_todo_item_at_position() == nil then
+					-- 			vim.cmd("normal! O")
+					-- 			return
+					-- 		end
+					-- 		require("checkmate").create({
+					-- 			position = "above",
+					-- 		})
+					-- 	end,
+					-- 	desc = "Continue TODO item above",
+					-- 	modes = { "n" },
+					-- },
+				},
 				todo_states = {
 					-- Built-in states (cannot change markdown or type)
 					unchecked = { marker = "☐" },
