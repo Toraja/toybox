@@ -25,11 +25,11 @@ set -q _flag_help; and begin
 end
 
 set remote_branch "origin/"(git branch --show-current)
-set prompt "Reset to $remote_branch? (y/n) "
+set prompt "Reset to $remote_branch? (y/N) "
 
 read --prompt-str "$prompt" answer
 
-test $answer != y; and exit 0
+test (string lower $answer) != y; and exit 0
 
 set opt
 set -q _flag_hard; and set --append opt --hard
