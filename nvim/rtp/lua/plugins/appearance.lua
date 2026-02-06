@@ -267,7 +267,7 @@ return {
 					enabled = false,
 				},
 				exclude = {
-					filetypes = { "help", "markdown", "json", "nerdtree", "NvimTree", "man" },
+					filetypes = { "help", "markdown", "nerdtree", "NvimTree", "man" },
 				},
 			})
 		end,
