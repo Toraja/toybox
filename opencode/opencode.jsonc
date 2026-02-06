@@ -1,9 +1,51 @@
 {
   "$schema": "https://opencode.ai/config.json",
+  // custom povider example
+  "provider": {
+    "my-provider": {
+      "npm": "@ai-sdk/openai-compatible", // npm package name of the provider SDK
+      "name": "My AI",
+      "options": {
+        "baseURL": "https://api.my-ai.example/v1", // baseURL can only be set per provider, not per model
+        "apiKey": "{env:MY_AI_API_KEY}", // load from environment variable
+      },
+      "models": {
+        "my-model": {
+          "name": "My Model",
+          "limit": { // set token limits for this model
+            "context": 1000000,
+            "output": 65535
+          },
+        },
+      },
+    },
+  },
+  "keybinds": {
+    "app_exit": "<leader>q", // does not work
+    "command_list": "alt+:,<leader>:", // alt+: only works in neovim terminal
+    "input_move_up": "ctrl+p",
+    "input_move_down": "ctrl+n",
+    "input_buffer_home": "home,alt+<",
+    "input_buffer_end": "end,alt+>",
+    "input_undo": "ctrl+/,ctrl+_,ctrl+alt+u,super+z", // ctrl+/ and ctrl+_ do not work
+    "input_redo": "alt+/,ctrl+alt+r,super+shift+z", // alt+/ does not work
+    "input_delete_word_backward": "ctrl+w,ctrl+backspace,alt+backspace,ctrl+alt+h",
+    "history_previous": "ctrl+p",
+    "history_next": "ctrl+n",
+  },
+  "permission": {
+    "edit": "ask",
+    "bash": "ask",
+    "external_directory": "ask"
+  },
   "mcp": {
     "glab": {
       "type": "local",
-      "command": ["glab", "mcp", "serve"],
+      "command": [
+        "glab",
+        "mcp",
+        "serve"
+      ],
       "enabled": false
     }
   }
