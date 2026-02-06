@@ -92,7 +92,10 @@ return {
 					-- 	end,
 					-- },
 					json = {
-						require("formatter.filetypes.json").jq,
+						vim.lsp.buf.format,
+					},
+					jsonc = {
+						vim.lsp.buf.format,
 					},
 					lua = {
 						require("formatter.filetypes.lua").stylua,
