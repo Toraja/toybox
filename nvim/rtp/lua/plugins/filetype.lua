@@ -382,6 +382,7 @@ return {
 					},
 				},
 				style = {
+					CheckmateUncheckedAdditionalContent = { fg = "none" },
 					CheckmateInProgressMarker = { fg = one_monokai_colors.cyan },
 					CheckmateCancelledMarker = { fg = one_monokai_colors.red },
 					CheckmateCancelledMainContent = { fg = one_monokai_colors.dark_gray, strikethrough = true },
