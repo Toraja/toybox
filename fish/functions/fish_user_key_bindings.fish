@@ -48,7 +48,7 @@ function fish_user_key_bindings
     bind ctrl-c cancel-commandline
     bind ctrl-g suppress-autosuggestion
     bind alt-\? __fish_man_page
-    bind ctrl-alt-i complete-and-search
+    bind alt-tab complete-and-search
     bind ctrl-x,ctrl-p __fish_paginate
     bind ctrl-x,ctrl-h "commandline_smart_append '--help &| less'"
     bind ctrl-x,ctrl-l __fish_list_current_token
@@ -121,4 +121,22 @@ function fish_user_key_bindings
     bind --mode selection ctrl-alt-\] backward-jump
     bind --mode selection alt-\; repeat-jump
     bind --mode selection alt-comma repeat-jump-reverse
+
+    # XXX: inside neovim terminal, ctrl-alt keybind emits different keycodes,
+    # so additional keybinds are needed.
+    # But these keybinds do not work.
+    bind alt-\x06 forward-bigword
+    bind alt-\x02 backward-bigword
+    bind alt-\x1d backward-jump
+    bind alt-\x08 backward-kill-word
+    bind alt-\x17 backward-kill-bigword
+    bind alt-\x04 kill-bigword
+    bind alt-\x15 kill-whole-line
+    bind alt-\x10 history-token-search-backward
+    bind alt-\x0e history-token-search-forward
+    bind ctrl-alt-i complete-and-search
+    bind alt-\x11 'wrap_in_echo_double \'$clipper\''
+    bind --mode selection alt-\x06 forward-bigword
+    bind --mode selection alt-\x02 backward-bigword
+    bind --mode selection alt-\x1d backward-jump
 end
