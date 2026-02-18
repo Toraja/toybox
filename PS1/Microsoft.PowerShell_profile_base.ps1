@@ -5,6 +5,9 @@ $OutputEncoding = [Console]::OutputEncoding = [Text.UTF8Encoding]::UTF8
 # <Env>
 $env:System32 = "$env:SystemRoot\System32"
 $env:LC_ALL="C.UTF-8"	# This is to avoid garbled characters in the output of git log
+if($env:Path -notmatch "$("$env:USERPROFILE\bin" -replace "\\","\\")"){
+    $env:Path += ";$env:USERPROFILE\bin"
+}
 # PS1/bin
 if($env:Path -notmatch "$("$PSScriptRoot\bin" -replace "\\","\\")"){
     $env:Path += ";$PSScriptRoot\bin"
