@@ -1,0 +1,16 @@
+{
+  "$schema": "https://opencode.ai/tui.json",
+  "keybinds": {
+    "app_exit": "<leader>q", // does not work
+    "command_list": "alt+:,<leader>:", // alt+: only works in neovim terminal
+    "input_move_up": "ctrl+alt+p",
+    "input_move_down": "ctrl+alt+n",
+    "input_buffer_home": "home,alt+<", // alt+< only works in neovim terminal
+    "input_buffer_end": "end,alt+>", // alt+> only works in neovim terminal
+    "input_undo": "ctrl+/,ctrl+_,ctrl+alt+u,super+z", // ctrl+/ and ctrl+_ do not work
+    "input_redo": "alt+/,ctrl+alt+r,super+shift+z", // alt+/ does not work
+    "input_delete_word_backward": "ctrl+w,ctrl+backspace,alt+backspace,ctrl+alt+h",
+    "history_previous": "ctrl+p",
+    "history_next": "ctrl+n",
+  }
+}
