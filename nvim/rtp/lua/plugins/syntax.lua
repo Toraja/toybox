@@ -210,7 +210,6 @@ return {
 						end_col = item.Pos.Column > 0 and item.Pos.Column or 0,
 						type = severities[item.Severity] or severities.warning,
 						text = item.Text,
-						pattern = item.FromLinter,
 					})
 				end
 				vim.fn.setqflist(qfs)
