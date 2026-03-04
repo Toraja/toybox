@@ -4,26 +4,16 @@ function set_display --description='Wrapper for setting DISPLAY'
     # If docker desktop uses WSL as backend, IP address in /etc/resolv.conf does
     # not work. Use docker instead.
     is_inside_docker || is_docker_desktop; and begin
-        wsl_docker
+        docker_display
         return
     end
-
-    grep --quiet --ignore-case microsoft /proc/version; and begin
-        wsl_display
-        return
-    end
-end
-
-function wsl_display --description='DISPLAY for WSL'
-    set ip (grep --color=never --max-count=1 nameserver /etc/resolv.conf | awk '{print $2}')
-    set --export --global DISPLAY $ip:0.0
 end
 
 function is_display_set --description='Check if DISPLAY is set'
     return (test -n "$DISPLAY")
 end
 
-function wsl_docker --description='DISPLAY for docker container'
+function docker_display --description='DISPLAY for docker container'
     set --export --global DISPLAY host.docker.internal:0.0
 end
 
