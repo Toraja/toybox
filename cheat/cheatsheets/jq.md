@@ -65,3 +65,48 @@ Output:
   ]
 }
 ```
+
+# Merge JSON
+
+file1.json
+```json
+{
+  "name": "Alice",
+  "age": 30,
+  "address": {
+    "street": "123 Main St"
+  },
+  "fruits": [
+    "apple",
+    "coconut"
+  ]
+}
+```
+
+file2.json
+```json
+{
+  "age": 31,
+  "address": {
+    "city": "Yokohama"
+  },
+  "phone": "090-1234-5678",
+  "fruits": [
+    "banana",
+    "cherry"
+  ]
+}
+```
+
+Shallow merge `+` (nested objects are overwritten)
+```sh
+jq --slurp '.[0] * .[1]' file1.json file2.json
+```
+
+Deep merge `*` (nested objects are merged)
+```sh
+jq --slurp '.[0] * .[1]' file1.json file2.json
+```
+
+> [!NOTE]
+> Arrays are always overwritten
