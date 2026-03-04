@@ -1,11 +1,8 @@
 local M = {}
 
 local function get_clipboard_char()
-	if vim.fn.has("xterm_clipboard") == 1 then
-		return "+"
-	end
 	if vim.fn.has("clipboard") == 1 then
-		return "*"
+		return "+"
 	end
 	return ""
 end
