@@ -7,7 +7,7 @@ return {
 			"nvim-lua/plenary.nvim",
 			"nvim-treesitter/nvim-treesitter",
 			"nvim-neotest/neotest-go",
-			"nvim-contrib/nvim-ginkgo",
+			"nvim-contrib/neotest-ginkgo",
 			"nvim-neotest/neotest-plenary",
 			-- "rouge8/neotest-rust",
 			"mrcjkb/rustaceanvim",
@@ -23,19 +23,19 @@ return {
 					end,
 				},
 			}, neotest_ns)
-			-- add below to .nvim.lua to enable nvim-ginkgo for the project
+			-- add below to .nvim.lua to enable neotest-ginkgo for the project
 			--[[
         local root_path = require("git").root_path()
         require("neotest").setup_project(root_path, {
           adapters = {
-            require("nvim-ginkgo"),
+            require("neotest-ginkgo"),
           },
         })
       ]]
 			require("neotest").setup({
 				adapters = {
 					require("neotest-go"),
-					-- require("nvim-ginkgo"),
+					-- require("neotest-ginkgo"),
 					require("neotest-plenary"), -- the name of test file must be *_spec.lua
 					-- require("neotest-rust"),
 					require("rustaceanvim.neotest"),
