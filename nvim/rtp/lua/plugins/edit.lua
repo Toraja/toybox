@@ -240,19 +240,6 @@ return {
 		config = function()
 			---@diagnostic disable-next-line: missing-fields
 			require("nvim-surround").setup({
-				keymaps = {
-					insert = false,
-					insert_line = false,
-					normal = "yr",
-					normal_cur = "yrr",
-					normal_line = "yR",
-					normal_cur_line = "yRR",
-					visual = "R",
-					visual_line = "gR",
-					delete = "dr",
-					change = "cr",
-					change_line = "cR",
-				},
 				surrounds = {
 					["d"] = {
 						---@diagnostic disable-next-line: assign-type-mismatch
@@ -321,6 +308,35 @@ return {
 						},
 					},
 				},
+			})
+
+			vim.g.nvim_surround_no_normal_mappings = true
+			vim.keymap.set("n", "yr", "<Plug>(nvim-surround-normal)", {
+				desc = "Add a surrounding pair around a motion (normal mode)",
+			})
+			vim.keymap.set("n", "yrr", "<Plug>(nvim-surround-normal-cur)", {
+				desc = "Add a surrounding pair around the current line (normal mode)",
+			})
+			vim.keymap.set("n", "yR", "<Plug>(nvim-surround-normal-line)", {
+				desc = "Add a surrounding pair around a motion, on new lines (normal mode)",
+			})
+			vim.keymap.set("n", "yRR", "<Plug>(nvim-surround-normal-cur-line)", {
+				desc = "Add a surrounding pair around the current line, on new lines (normal mode)",
+			})
+			vim.keymap.set("x", "R", "<Plug>(nvim-surround-visual)", {
+				desc = "Add a surrounding pair around a visual selection",
+			})
+			vim.keymap.set("x", "gR", "<Plug>(nvim-surround-visual-line)", {
+				desc = "Add a surrounding pair around a visual selection, on new lines",
+			})
+			vim.keymap.set("n", "dr", "<Plug>(nvim-surround-delete)", {
+				desc = "Delete a surrounding pair",
+			})
+			vim.keymap.set("n", "cr", "<Plug>(nvim-surround-change)", {
+				desc = "Change a surrounding pair",
+			})
+			vim.keymap.set("n", "cR", "<Plug>(nvim-surround-change-line)", {
+				desc = "Change a surrounding pair, putting replacements on new lines",
 			})
 		end,
 		event = "VeryLazy",
