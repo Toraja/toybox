@@ -9,8 +9,8 @@ for _, rtp in ipairs(vim.opt.runtimepath:get()) do
 end
 
 local copilot_lua_auto_cmp = string.lower(os.getenv("COPILOT_LUA_AUTO_CMP") or "false") == "true"
-local function copilot_lua_model()
-	return os.getenv("COPILOT_LUA_MODEL") or "claude-sonnet-4.5"
+local function copilot_model()
+	return os.getenv("COPILOT_MODEL") or "claude-sonnet-4.5"
 end
 
 local ollama_default_model = "gpt-oss:20b"
@@ -358,7 +358,6 @@ return {
 				logger = {
 					-- file_log_level = vim.log.levels.DEBUG,
 				},
-				copilot_model = copilot_lua_model(),
 				should_attach = function(bufnr, bufname)
 					-- NOTE: DO NOT use vim.notify or anything that creates new buffer here.
 					-- It might end up infinate call to this function as this function runs every time a buffer is created.
@@ -536,7 +535,7 @@ return {
 					copilot = require("codecompanion.adapters").extend("copilot", {
 						schema = {
 							model = {
-								default = copilot_lua_model(),
+								default = copilot_model(),
 							},
 						},
 					}),
@@ -653,7 +652,7 @@ return {
 		config = function()
 			local provider = os.getenv("AVANTE_PROVIDER") or "copilot"
 			local avante_provider_default_model_map = {
-				["copilot"] = copilot_lua_model(),
+				["copilot"] = copilot_model(),
 				["ollama"] = ollama_default_model,
 			}
 
@@ -663,7 +662,7 @@ return {
 				provider = provider,
 				providers = {
 					copilot = {
-						model = copilot_lua_model(),
+						model = copilot_model(),
 					},
 					ollama = {
 						model = os.getenv("AVANTE_OLLAMA_MODEL") or avante_provider_default_model_map["ollama"],
