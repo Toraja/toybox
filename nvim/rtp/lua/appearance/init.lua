@@ -15,7 +15,10 @@ function M.setup()
 		desc = "Highlight trailing whitespaces and mixture of space and tab",
 		pattern = "*",
 		callback = function()
-			local excluded_filetypes = { "help", "toggleterm", "neo-tree" }
+			if vim.opt.buftype:get() ~= "" then
+				return
+			end
+			local excluded_filetypes = {}
 			if vim.tbl_contains(excluded_filetypes, vim.opt.filetype:get()) then
 				return
 			end
