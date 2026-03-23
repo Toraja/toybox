@@ -1,4 +1,5 @@
 local avante_keymap_prefix = vim.g.chief_key .. "a"
+local opencode_keymap_prefix = vim.g.chief_key .. "a"
 local snippets_path
 for _, rtp in ipairs(vim.opt.runtimepath:get()) do
 	local candidate = rtp .. "/snippets"
@@ -600,16 +601,91 @@ return {
 			)
 		end,
 		cmd = { "CodeCompanion", "CodeCompanionChat", "CodeCompanionCmd", "CodeCompanionActions" },
+		-- keys = {
+		-- 	{ vim.g.chief_key .. "a", mode = { "n", "x" }, desc = "CodeCompanion" },
+		-- 	{ vim.g.chief_key .. "ai", ":CodeCompanion<CR>", mode = { "x" }, desc = "Open inline assistant" },
+		-- },
+	},
+	{
+		"nickjvandyke/opencode.nvim",
+		version = "*", -- Latest stable release
+		dependencies = {
+			{
+				-- `snacks.nvim` integration is recommended, but optional
+				---@module "snacks" <- Loads `snacks.nvim` types for configuration intellisense
+				"folke/snacks.nvim",
+				opts = {
+					input = {}, -- Enhances `ask()`
+					picker = { -- Enhances `select()`
+						actions = {
+							opencode_send = function(...)
+								return require("opencode").snacks_picker_send(...)
+							end,
+						},
+						win = {
+							input = {
+								keys = {
+									["<C-s>"] = { "opencode_send", mode = { "n", "i" } },
+								},
+							},
+						},
+					},
+				},
+			},
+		},
+		config = function()
+			vim.o.autoread = true -- Required for `opts.events.reload`
+		end,
 		keys = {
-			{ vim.g.chief_key .. "a", mode = { "n", "x" }, desc = "CodeCompanion" },
-			{ vim.g.chief_key .. "ai", ":CodeCompanion<CR>", mode = { "x" }, desc = "Open inline assistant" },
+			{ opencode_keymap_prefix, mode = { "n", "x" }, desc = "OpenCode" },
+			{
+				opencode_keymap_prefix .. "a",
+				function()
+					require("opencode").ask("@this: ", { submit = true })
+				end,
+				mode = { "n", "x" },
+				desc = "Ask opencode…",
+			},
+			{
+				opencode_keymap_prefix .. "x",
+				function()
+					require("opencode").select()
+				end,
+				mode = { "n", "x" },
+				desc = "Execute opencode action…",
+			},
+			{
+				opencode_keymap_prefix .. "t",
+				function()
+					require("opencode").toggle()
+				end,
+				mode = { "n", "x" },
+				desc = "Toggle opencode",
+			},
+			{
+				opencode_keymap_prefix .. "n",
+				function()
+					require("opencode").command("session.new")
+				end,
+				mode = { "n" },
+				desc = "New session",
+			},
+			{
+				opencode_keymap_prefix .. "l",
+				function()
+					require("opencode").command("session.list")
+				end,
+				mode = { "n" },
+				desc = "List sessions",
+			},
 		},
 	},
 	{
 		"yetone/avante.nvim",
 		enabled = function()
 			local enabled = os.getenv("AVANTE_ENABLED")
-			return enabled ~= nil and enabled:lower() == "true"
+			-- return enabled ~= nil and enabled:lower() == "true"
+			return false
 		end,
 		dependencies = {
 			"nvim-lua/plenary.nvim",
