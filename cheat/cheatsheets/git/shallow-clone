@@ -1,0 +1,21 @@
+---
+syntax: markdown
+---
+
+# Shallow Clone
+
+## Clone specific branch
+Only the default branch will be checked out if `--branch` is not provided
+```sh
+git clone --depth 1 --single-branch --branch BRANCH REPO
+# ghq
+ghq --shallow --branch BRANCH REPO
+```
+
+## Fetch branches after shallow clone
+```sh
+# Specific branch
+git remote set-branches --add origin BRANCH
+# All branches
+git remote set-branches origin '*'
+```
