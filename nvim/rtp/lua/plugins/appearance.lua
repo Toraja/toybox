@@ -18,6 +18,7 @@ return {
 					nvim_blue = "#1174b1",
 					nvim_green = "#558f34",
 					nvim_bg = "#081218",
+					markview_code_bg = "#222222",
 				},
 				highlights = function(colors)
 					return {
@@ -68,6 +69,14 @@ return {
 						["MarkviewPalette6Fg"] = { link = "MarkviewPalette6" },
 						["MarkviewPalette7Fg"] = { link = "MarkviewPalette7" },
 						["MarkviewCheckboxProgress"] = { link = "MarkviewPalette5" },
+						["MarkviewCode"] = { bg = colors.markview_code_bg },
+						["MarkviewIcon0"] = { fg = "#676d7a", bg = colors.markview_code_bg },
+						["MarkviewIcon1"] = { fg = "#e5bf7a", bg = colors.markview_code_bg },
+						["MarkviewIcon2"] = { fg = "#e5bf7a", bg = colors.markview_code_bg },
+						["MarkviewIcon3"] = { fg = "#e5bf7a", bg = colors.markview_code_bg },
+						["MarkviewIcon4"] = { fg = "#e5bf7a", bg = colors.markview_code_bg },
+						["MarkviewIcon5"] = { fg = "#e5bf7a", bg = colors.markview_code_bg },
+						["MarkviewIcon6"] = { fg = "#e5bf7a", bg = colors.markview_code_bg },
 						-- mini.diff
 						MiniDiffOverAdd = { fg = colors.green, reverse = true },
 						MiniDiffOverChange = { fg = colors.cyan, reverse = true },
