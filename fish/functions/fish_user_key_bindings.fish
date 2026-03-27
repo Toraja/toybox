@@ -59,25 +59,19 @@ function fish_user_key_bindings
 
     # wrapper
     # clipbin is exported to use inside tmux.conf
-    if type --quiet clip.exe
-        set --global --export clipbin 'clip.exe'
-    else if type -q xsel
-        set --global --export clipbin xsel -i --clipboard
-    else if type -q xclip
+    if set --query TMUX
+        # Modern terminals is able to get text from tmux buffer and put it to clipboard
+        set --global --export clipbin tmux load-buffer -w -
+    else if type --quiet xsel
+        set --global --export clipbin xsel --input --clipboard
+    else if type --quiet xclip
         set --global --export clipbin xclip -selection c
     end
-    if set --query TMUX
-        set --global clipper clip_to_tmux
-        # Below does not work (`and` command not found), so keep using the function above
-        # set -g clipper tmux load-buffer -\; and tmux save-buffer - \| $clipbin
-    else if set --query clipbin
-        set --global clipper $clipbin
-    end
 
-    if set --query clipper
-        bind ctrl-q 'commandline_smart_append \'| $clipper\''
-        bind alt-q 'wrap_in_echo_single \'$clipper\''
-        bind ctrl-alt-q 'wrap_in_echo_double \'$clipper\''
+    if set --query clipbin
+        bind ctrl-q 'commandline_smart_append \'| $clipbin\''
+        bind alt-q 'wrap_in_echo_single \'$clipbin\''
+        bind ctrl-alt-q 'wrap_in_echo_double \'$clipbin\''
     end
 
     function bind_wrapper
@@ -135,7 +129,7 @@ function fish_user_key_bindings
     bind alt-\x10 history-token-search-backward
     bind alt-\x0e history-token-search-forward
     bind ctrl-alt-i complete-and-search
-    bind alt-\x11 'wrap_in_echo_double \'$clipper\''
+    bind alt-\x11 'wrap_in_echo_double \'$clipbin\''
     bind --mode selection alt-\x06 forward-bigword
     bind --mode selection alt-\x02 backward-bigword
     bind --mode selection alt-\x1d backward-jump
