@@ -116,20 +116,19 @@ function fish_user_key_bindings
     bind --mode selection alt-\; repeat-jump
     bind --mode selection alt-comma repeat-jump-reverse
 
-    # XXX: inside neovim terminal, ctrl-alt keybind emits different keycodes,
+    # Inside neovim terminal, ctrl-alt keybind emits different keycodes,
     # so additional keybinds are needed.
-    # But these keybinds do not work.
-    bind alt-\x06 forward-bigword
-    bind alt-\x02 backward-bigword
-    bind alt-\x1d backward-jump
-    bind alt-\x08 backward-kill-word
-    bind alt-\x17 backward-kill-bigword
-    bind alt-\x04 kill-bigword
-    bind alt-\x15 kill-whole-line
-    bind alt-\x10 history-token-search-backward
-    bind alt-\x0e history-token-search-forward
+    bind \e\[6\;3u forward-bigword # ctrl-alt-f
+    bind \e\[2\;3u backward-bigword # ctrl-alt-b
+    bind \e\[29\;3u backward-jump # ctrl-alt-]
+    bind \e\[8\;3u backward-kill-word # ctrl-alt-h
+    bind \e\[23\;3u backward-kill-bigword # ctrl-alt-w
+    bind \e\[4\;3u kill-bigword # ctrl-alt-d
+    bind \e\[21\;3u kill-whole-line # ctrl-alt-u
+    bind \e\[16\;3u history-token-search-backward # ctrl-alt-p
+    bind \e\[14\;3u history-token-search-forward # ctrl-alt-n
     bind ctrl-alt-i complete-and-search
-    bind alt-\x11 'wrap_in_echo_double \'$clipbin\''
+    bind \e\[17\;3u 'wrap_in_echo_double \'$clipbin\'' # ctrl-alt-q
     bind --mode selection alt-\x06 forward-bigword
     bind --mode selection alt-\x02 backward-bigword
     bind --mode selection alt-\x1d backward-jump
