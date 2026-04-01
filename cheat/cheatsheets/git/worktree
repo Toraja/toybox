@@ -2,21 +2,28 @@
 syntax: markdown
 ---
 
-# Add worktree branch wish its name being 'sub'
+# Add Worktree
+
+## Add worktree branch wish its name being 'sub'
 ```sh
 git worktree add -b sub <path>
 ```
 
-# Track remote main branch
+## Track remote main branch
 `git pull` pulls changes if remote has been updated
 ```sh
 git branch -u origin/main
 ```
 
-# Track local main branch
+## Track local main branch
 `git pull` pulls changes only if the changes have been applied to the local branch
 ```sh
 git branch -u main
+```
+
+## One-liner to add worktree adjucent to current repository with `-sub` suffix and track remote main branch
+```sh
+set sub_path ../(basename (pwd))-sub && git worktree add -b sub $sub_path && git -C $sub_path branch --set-upstream-to origin/main
 ```
 
 # Ignore files locally in worktree
