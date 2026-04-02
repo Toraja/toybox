@@ -1,4 +1,6 @@
 function fish_user_key_bindings
+    set --local up_dir '.. && commandline --function repaint'
+
     bind ctrl-x,ctrl-r reload_keybind
 
     # motion
@@ -11,7 +13,7 @@ function fish_user_key_bindings
     bind alt-comma repeat-jump-reverse
 
     # traverse
-    bind alt-U '.. && commandline --function repaint'
+    bind alt-U "$up_dir"
 
     # edit
     bind ctrl-alt-h backward-kill-word
@@ -121,6 +123,7 @@ function fish_user_key_bindings
     bind \e\[6\;3u forward-bigword # ctrl-alt-f
     bind \e\[2\;3u backward-bigword # ctrl-alt-b
     bind \e\[29\;3u backward-jump # ctrl-alt-]
+    bind \e\[117\;4u "$up_dir"
     bind \e\[8\;3u backward-kill-word # ctrl-alt-h
     bind \e\[23\;3u backward-kill-bigword # ctrl-alt-w
     bind \e\[4\;3u kill-bigword # ctrl-alt-d
