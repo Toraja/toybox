@@ -281,6 +281,28 @@ return {
 				experimental = {
 					check_rtp_message = false,
 				},
+				markdown = {
+					headings = {
+						shift_width = 0,
+					},
+					indent_size = function(buffer)
+						if type(buffer) ~= "number" then
+							return vim.bo.shiftwidth or 2
+						end
+
+						--- Use 'shiftwidth' value.
+						return vim.bo[buffer].shiftwidth or 2
+					end,
+					list_items = {
+						shift_width = function(buffer)
+							if type(buffer) ~= "number" then
+								return vim.bo.shiftwidth or 2
+							end
+							--- Use 'shiftwidth' value.
+							return vim.bo[buffer].shiftwidth or 2
+						end,
+					},
+				},
 				markdown_inline = {
 					enable = false,
 					checkboxes = {
