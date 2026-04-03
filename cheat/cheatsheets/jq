@@ -98,15 +98,52 @@ file2.json
 }
 ```
 
-Shallow merge `+` (nested objects are overwritten)
+## Shallow merge `+` (nested objects are overwritten)
+```sh
+jq --slurp '.[0] + .[1]' file1.json file2.json
+```
+_Result_
+```json
+{
+  "name": "Alice",
+  "age": 31,
+  "address": {
+    "city": "Yokohama"
+  },
+  "fruits": [
+    "banana",
+    "cherry"
+  ],
+  "phone": "090-1234-5678"
+}
+```
+
+## Deep merge `*` (nested objects are merged)
 ```sh
 jq --slurp '.[0] * .[1]' file1.json file2.json
 ```
-
-Deep merge `*` (nested objects are merged)
-```sh
-jq --slurp '.[0] * .[1]' file1.json file2.json
+_Result_
+```json
+{
+  "name": "Alice",
+  "age": 31,
+  "address": {
+    "street": "123 Main St",
+    "city": "Yokohama"
+  },
+  "fruits": [
+    "banana",
+    "cherry"
+  ],
+  "phone": "090-1234-5678"
+}
 ```
 
 > [!NOTE]
 > Arrays are always overwritten
+
+## Use stdin
+`-` indicates stdin.
+```sh
+echo '{"age": 77}' | jq --slurp '.[0] * .[1]' file1.json -
+```
