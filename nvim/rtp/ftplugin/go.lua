@@ -1,5 +1,7 @@
 vim.bo.shiftwidth = 4
 vim.bo.tabstop = 4
+vim.opt_local.comments:prepend("b:// ")
+vim.opt_local.formatoptions:append("ro")
 
 require("keymap.which-key-helper").register_for_ftplugin({
 	a = { rhs = "GoAltV", opts = { desc = "Alternate file - vertical" } },
