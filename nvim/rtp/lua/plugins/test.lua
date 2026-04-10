@@ -45,6 +45,7 @@ return {
 					-- }),
 				},
 				floating = {
+					border = "rounded",
 					max_width = vim.opt.columns:get(),
 					option = {
 						wrap = true,
