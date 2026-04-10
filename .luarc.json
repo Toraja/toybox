@@ -3,5 +3,8 @@
     "diagnostics.disable": [
         "lowercase-global"
     ],
+    "workspace.library" : [
+        "~/.local/share/nvim/lazy/"
+    ],
     "workspace.checkThirdParty": false
 }
