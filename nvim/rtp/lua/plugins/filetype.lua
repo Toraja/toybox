@@ -404,6 +404,7 @@ return {
 					},
 				},
 				style = {
+					CheckmateCheckedMainContent = { fg = "none", strikethrough = false, dim = true },
 					CheckmateUncheckedAdditionalContent = { fg = "none" },
 					CheckmateInProgressMarker = { fg = one_monokai_colors.cyan },
 					CheckmateCancelledMarker = { fg = one_monokai_colors.red },
