@@ -45,7 +45,7 @@ color.tag.PARENT=cyan # this works on CLI but not TUI.
 color.recurring=
 color.tag.next=
 color.tag.zzz=color27 on black
-color.uda.onhold.-=color27 on black # tui does not support UDA color
+color.uda.onhold.-=color27 on black # tui does not support UDA color, so tag color is also needed
 color.keyword.Review:=color35 # tui does not support keyword color
 
 report.nice.description=Nice task list
@@ -71,12 +71,13 @@ urgency.waiting.coefficient=-15.0        # waiting task [default: -3.0]
 urgency.user.tag.zzz.coefficient=-15.0
 urgency.user.keyword.Review:.coefficient=5.0
 
+# uda.<name>.label is for info view
 uda.estimate.type=numeric
-uda.estimate.label=Est
+uda.estimate.label=Estimate
 uda.myday.type=string # Set the order to today's tasks
-uda.myday.label=*
+uda.myday.label=Myday
 uda.onhold.type=string
-uda.onhold.label=-
+uda.onhold.label=Onhold
 uda.onhold.values=,-
 uda.link.type=string
 uda.link.label=Link
