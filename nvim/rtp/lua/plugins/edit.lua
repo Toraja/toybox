@@ -1,3 +1,5 @@
+vim.g.nvim_surround_no_mappings = true
+
 return {
 	{
 		"tpope/vim-repeat",
@@ -310,7 +312,6 @@ return {
 				},
 			})
 
-			vim.g.nvim_surround_no_normal_mappings = true
 			vim.keymap.set("n", "yr", "<Plug>(nvim-surround-normal)", {
 				desc = "Add a surrounding pair around a motion (normal mode)",
 			})
