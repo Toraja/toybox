@@ -25,28 +25,14 @@ return {
 		---@type blink.cmp.Config
 		opts = {
 			-- See :h blink-cmp-config-keymap for defining your own keymap
+			-- Multi-key-sequence mapping (e.g. <C-x><C-n>) does not work.
 			keymap = {
 				preset = "none",
-				["<Tab>"] = {
-					"show_and_insert",
-					"select_next",
-				},
-				["<C-g>"] = {
-					"cancel",
-					"fallback",
-				},
-				["<C-n>"] = {
-					"select_next",
-					"fallback",
-				},
-				["<C-p>"] = {
-					"select_prev",
-					"fallback",
-				},
-				["<C-o>"] = {
-					"select_and_accept",
-					"fallback",
-				},
+				["<Tab>"] = { "show_and_insert", "select_next" },
+				["<C-g>"] = { "cancel", "fallback" },
+				["<C-n>"] = { "select_next", "fallback" },
+				["<C-p>"] = { "select_prev", "fallback" },
+				["<C-o>"] = { "select_and_accept", "fallback" },
 				["<C-s>"] = { "snippet_forward", "fallback" },
 				["<M-s>"] = { "snippet_backward", "fallback" },
 				["<M-k>"] = { "scroll_documentation_up", "fallback" },
@@ -57,7 +43,7 @@ return {
 					function(cmp)
 						cmp.show_and_insert_or_accept_single({ providers = { "snippets" } })
 					end,
-					"insert_next",
+					"select_next",
 				},
 			},
 			appearance = {
@@ -91,7 +77,7 @@ return {
 			-- Default list of enabled providers defined so that you can extend it
 			-- elsewhere in your config, without redefining it, due to `opts_extend`
 			sources = {
-				default = { "lsp", "path", "snippets", "buffer" },
+				default = { "lsp", "buffer" },
 				providers = {
 					snippets = {
 						opts = {
