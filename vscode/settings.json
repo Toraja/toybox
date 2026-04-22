@@ -1,0 +1,57 @@
+{
+    "chat.agent.maxRequests": 10000,
+    "vim.insertModeKeyBindingsNonRecursive": [
+        // <Home>/<End> are not working
+        {
+            "before": ["<C-a>"],
+            "after": ["<C-o>", "^"]
+        },
+        {
+            "before": ["<C-e>"],
+            "after": ["<C-o>", "$"]
+        },
+        {
+            "before": ["<C-d>"],
+            "after": ["<Delete>"]
+        },
+        {
+            "before": ["<C-h>"],
+            "after": ["<Backspace>"]
+        }
+    ],
+    "vim.normalModeKeyBindingsNonRecursive": [
+        {
+            "before": ["L"],
+            "after": ["$"]
+        },
+        {
+            "before": ["H"],
+            "after": ["^"]
+        },
+        {
+            "before": ["Y"],
+            "after": ["y","$"]
+        },
+    ],
+    "vim.visualModeKeyBindingsNonRecursive": [
+        {
+            "before": ["L"],
+            "after": ["$"]
+        },
+        {
+            "before": ["H"],
+            "after": ["^"]
+        },
+    ],
+    "vim.operatorPendingModeKeyBindingsNonRecursive": [
+        {
+            "before": ["L"],
+            "after": ["$"]
+        },
+        {
+            "before": ["H"],
+            "after": ["^"]
+        }
+    ],
+    "vim.useSystemClipboard": true,
+}
