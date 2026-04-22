@@ -107,6 +107,9 @@ function M.setup(opts)
 	vim.keymap.set("i", "<C-_>", "<C-o>u")
 	vim.keymap.set("i", "<C-/>", "<C-o>u")
 	vim.keymap.set("i", "<M-/>", "<C-o><C-r>")
+	vim.keymap.set("i", "<C-g>", function()
+		return vim.fn.pumvisible() == 1 and "<C-e>" or "<C-g>"
+	end, { expr = true })
 	-- set undo break before commands below
 	vim.keymap.set("i", "<Space>", "<C-g>u<Space>")
 	vim.keymap.set("i", "<C-m>", "<C-g>u<C-m>")

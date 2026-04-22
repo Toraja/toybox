@@ -24,6 +24,7 @@ function M.setup(opts)
 	vim.opt.showtabline = 2 -- always display tabline
 	vim.opt.shortmess:append("c")
 	vim.opt.signcolumn = "yes"
+	vim.opt.pumborder = "rounded"
 	-- vim.opt.tabline = "%!v:lua.require('options.tabline').tabline()"
 	-- vim.opt.winborder = "rounded" -- this option is not good enough yet to replace config in each plugins (adds extra many borders)
 	-- prevent cursor from blinking in terminal, which is default as of nvim 0.11
