@@ -33,7 +33,7 @@ dateformat=MD
 verbose=no
 
 # tui does not support specific tag like tag.zzz
-rule.precedence.color=deleted,completed,overdue,due.today,due,uda.onhold,active,keyword.,tag.,blocked,blocking,scheduled,project.,recurring,tagged,uda
+rule.precedence.color=deleted,completed,uda.workflow,overdue,due.today,due,active,keyword.,tag.,blocked,blocking,scheduled,project.,recurring,tagged,uda
 
 color.deleted=gray10
 color.completed=white on gray7
@@ -45,13 +45,14 @@ color.tag.PARENT=cyan # this works on CLI but not TUI.
 color.recurring=
 color.tag.next=
 color.tag.zzz=color27 on black
-color.uda.onhold.-=color27 on black # tui does not support UDA color, so tag color is also needed
+# color.uda.onhold.-=color27 on black # tui does not support UDA color, so tag color is also needed
+color.uda.workflow.onhold=color27 on black # tui does not support UDA color, so tag color is also needed
 color.keyword.Review:=color35 # tui does not support keyword color
 
 report.nice.description=Nice task list
-report.nice.columns=id,start.age,entry.age,depends,priority,project,myday,onhold,tags,recur,wait.remaining,due,due.relative,until.remaining,estimate,description,urgency
-report.nice.labels=ID,Active,Age,Deps,P,Project,*,-,Tag,Recur,Wait,Due,Remain,Until,Est,Description,Urg
-report.nice.sort=status-,onhold-,myday+,start+,urgency-
+report.nice.columns=id,start.age,entry.age,depends,priority,project,workflow,tags,recur,wait.remaining,due,due.relative,until.remaining,estimate,description
+report.nice.labels=ID,Active,Age,Deps,P,Project,WF,Tag,Recur,Wait,Due,Remain,Until,Est,Description
+report.nice.sort=status-,workflow-,start+,priority-,description-
 
 # See https://taskwarrior.org/docs/urgency.html
 # urgency.user.tag.next.coefficient=  # +next tag [default: 15.0]
@@ -74,11 +75,9 @@ urgency.user.keyword.Review:.coefficient=5.0
 # uda.<name>.label is for info view
 uda.estimate.type=numeric
 uda.estimate.label=Estimate
-uda.myday.type=string # Set the order to today's tasks
-uda.myday.label=Myday
-uda.onhold.type=string
-uda.onhold.label=Onhold
-uda.onhold.values=,-
+uda.workflow.type=string
+uda.workflow.label=Workflow
+uda.workflow.values=today,next,,onhold
 uda.link.type=string
 uda.link.label=Link
 
@@ -93,19 +92,21 @@ uda.taskwarrior-tui.style.report.completion-pane=white on black
 uda.taskwarrior-tui.style.report.completion-pane-highlight=bold cyan on black
 
 # Some keys (like N) do not work somehow
-uda.taskwarrior-tui.shortcuts.1=~/toybox/taskwarrior/shortcut/toggle-myday.sh
+uda.taskwarrior-tui.shortcuts.1=~/toybox/taskwarrior/shortcut/toggle-workflow.sh today
 uda.taskwarrior-tui.keyconfig.shortcut1=*
-uda.taskwarrior-tui.shortcuts.2=~/toybox/taskwarrior/shortcut/toggle-onhold.sh
-uda.taskwarrior-tui.keyconfig.shortcut2=-
-uda.taskwarrior-tui.shortcuts.3=~/toybox/taskwarrior/shortcut/tasknote.sh
-uda.taskwarrior-tui.keyconfig.shortcut3=n
-uda.taskwarrior-tui.shortcuts.4=~/toybox/taskwarrior/shortcut/tasknote-prune.sh
-uda.taskwarrior-tui.keyconfig.shortcut4=P
-uda.taskwarrior-tui.shortcuts.5=~/toybox/taskwarrior/shortcut/copy-link.sh
-uda.taskwarrior-tui.keyconfig.shortcut5=Y
-uda.taskwarrior-tui.shortcuts.6=~/toybox/taskwarrior/shortcut/delete-completed.sh
-uda.taskwarrior-tui.keyconfig.shortcut6=X
-uda.taskwarrior-tui.shortcuts.8=~/toybox/taskwarrior/shortcut/toggle-context.sh
+uda.taskwarrior-tui.shortcuts.2=~/toybox/taskwarrior/shortcut/toggle-workflow.sh next
+uda.taskwarrior-tui.keyconfig.shortcut2=&
+uda.taskwarrior-tui.shortcuts.3=~/toybox/taskwarrior/shortcut/toggle-workflow.sh onhold
+uda.taskwarrior-tui.keyconfig.shortcut3=-
+uda.taskwarrior-tui.shortcuts.4=~/toybox/taskwarrior/shortcut/tasknote.sh
+uda.taskwarrior-tui.keyconfig.shortcut4=n
+uda.taskwarrior-tui.shortcuts.5=~/toybox/taskwarrior/shortcut/tasknote-prune.sh
+uda.taskwarrior-tui.keyconfig.shortcut5=P
+uda.taskwarrior-tui.shortcuts.6=~/toybox/taskwarrior/shortcut/copy-link.sh
+uda.taskwarrior-tui.keyconfig.shortcut6=Y
+uda.taskwarrior-tui.shortcuts.7=~/toybox/taskwarrior/shortcut/delete-completed.sh
+uda.taskwarrior-tui.keyconfig.shortcut7=X
+uda.taskwarrior-tui.shortcuts.8=~/toybox/taskwarrior/shortcut/toggle-context.sh today
 uda.taskwarrior-tui.keyconfig.shortcut8=C
 
 # write context will add the specified tag to task when add new tasks.
@@ -116,5 +117,5 @@ context.deleted.read=+DELETED
 # context.deleted.write=+DELETED
 context.completed.read=+COMPLETED
 # context.completed.write=+COMPLETED
-context.myday.read=myday:* and -DELETED and -PARENT
-context.myday.write=myday:*
+context.today.read=workflow:today and -DELETED and -PARENT
+context.today.write=workflow:today
