@@ -53,7 +53,6 @@ return {
 				["<M-j>"] = { "scroll_documentation_down", "fallback" },
 				["<M-K>"] = { "scroll_signature_up", "fallback" },
 				["<M-J>"] = { "scroll_signature_down", "fallback" },
-				["<C-x><C-h>"] = { "show_signature", "hide_signature", "fallback" },
 				["<C-]>"] = {
 					function(cmp)
 						cmp.show_and_insert_or_accept_single({ providers = { "snippets" } })
@@ -79,7 +78,16 @@ return {
 					show_on_trigger_character = false,
 				},
 			},
-			signature = { window = { border = "rounded" } },
+			signature = {
+				-- Disabled by default and remain disabled as signature help does not include doc comments
+				trigger = {
+					-- Show the signature help automatically
+					enabled = false,
+					show_on_trigger_character = false,
+					show_on_insert_on_trigger_character = false,
+				},
+				window = { border = "rounded" },
+			},
 			-- Default list of enabled providers defined so that you can extend it
 			-- elsewhere in your config, without redefining it, due to `opts_extend`
 			sources = {
