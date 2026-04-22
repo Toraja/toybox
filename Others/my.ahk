@@ -56,6 +56,7 @@ StartUp(md) {
     global layerActive := false
     ToolTip()
 }
+^[::Send "{Escape}"
 
 #HotIf layerActive && mode = modeBrowse
 h::Send "{Left}"
