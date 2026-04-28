@@ -24,6 +24,7 @@ return {
 				"html",
 				"hurl",
 				"ini",
+				"javascript",
 				"json",
 				"just",
 				"lua",
@@ -41,6 +42,7 @@ return {
 				"sql",
 				"ssh_config",
 				"terraform", -- this is alias to hcl but this is needed for tf files
+				"typescript",
 				"toml",
 				"vim",
 				"vimdoc",
