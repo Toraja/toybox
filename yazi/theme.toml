@@ -29,4 +29,4 @@ border = { fg = "lightblue" }
 
 [filetype]
 
-rules = [{ name = "*/", fg = "lightblue" }]
+rules = [{ url = "*/", fg = "lightblue" }]
