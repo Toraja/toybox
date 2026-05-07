@@ -1,0 +1,15 @@
+{
+	"servers": {
+		"glab": {
+			"type": "stdio",
+			"command": "glab",
+			"args": [
+				"mcp",
+				"serve"
+			],
+      // This is needed if your gitlab instance is self-hosted
+			"env": {"GL_HOST": "https://<gitlab domain>"}
+		}
+	},
+	"inputs": []
+}
