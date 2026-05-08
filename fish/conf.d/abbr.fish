@@ -39,8 +39,11 @@ abbr --add --global gbd git branch --delete
 abbr --add --global gbdf git branch --delete --force
 abbr --add --global gbdr git push origin --delete \(git branch --show-current\)
 abbr --add --global gbo git branch -vv \| grep gone
+# Remove orphan local branches that have been removed from the remote
 abbr --add --global gbod git branch -vv \| grep gone \| awk '\'{print $1}\'' \| xargs --no-run-if-empty git branch --delete
+# List local branches that have no upstream branch
 abbr --add --global gbl git branch --format '\'%(refname:short) %(upstream)\'' \| awk '\'{if (!$2) print $1;}\''
+# Remove local branches that have no upstream branch
 abbr --add --global gbld git branch --format '\'%(refname:short) %(upstream)\'' \| awk '\'{if (!$2) print $1;}\'' \| xargs --no-run-if-empty git branch --delete
 abbr --add --global gcm git commit --message
 abbr --add --global gco git checkout
@@ -55,14 +58,18 @@ abbr --add --global gdf git diff-tree --no-commit-id --name-status -r
 abbr --add --global gdt git difftool
 abbr --add --global gdtc git difftool --cached
 abbr --add --global gf git fetch
-abbr --add --global gfo git fetch origin \(git remote show origin \| grep 'HEAD branch' \| awk '{print $3}'\)
+# Fetch the default branch of the remote repository
+abbr --add --global gfo git fetch origin '(git remote show origin | grep \'HEAD branch\' | awk \'{print $3}\')'
 abbr --add --global gfp git fetch --prune --prune-tags
 abbr --add --global gftf git fetch --tags --force
 abbr --add --global gg git log
-abbr --add --global ggc git log \(git branch --show-current\)..main
-abbr --add --global ggc git log --oneline \| fzf \| awk '\'{print $1}\''
+# Show commits that are in the current branch but not in local default branch
+abbr --add --global ggdl git log '(git remote show origin | grep \'HEAD branch\' | awk \'{print $3}\')..(git branch --show-current)'
+# Get commit hashes from the log using fzf
+abbr --add --global ggh git log --oneline \| fzf \| awk '\'{print $1}\''
 abbr --add --global ggs git log --oneline --name-status
-abbr --add --global ggu git log origin..HEAD
+# Show commits that are in the current branch but not in origin
+abbr --add --global ggdu git log origin..HEAD
 abbr --add --global gps git push
 abbr --add --global gpl git pull
 abbr --add --global gplp git pull --prune
@@ -128,10 +135,12 @@ abbr --add --global glilz glab issue list --closed
 abbr --add --global glin glab issue note
 abbr --add --global gliu glab issue update
 abbr --add --global gliv glab issue view
-abbr --add --global glpv glab repo view --branch \(git remote show origin \| grep "'HEAD branch'" \| awk '\'{print $3}\''\)
+# Get the default branch of the remote repository and view it (because glab repo view requires a branch to be specified)
+abbr --add --global glpv glab repo view --branch '(git remote show origin | grep \'HEAD branch\' | awk \'{print $3}\')'
 abbr --add --global glr glab mr
 abbr --add --global glrc glab mr create --remove-source-branch --source-branch \(git branch --show-current\) --fill
-abbr --add --global glrcl glab mr create --remove-source-branch --source-branch \(git branch --show-current\) --fill --copy-issue-labels --related-issue
+# Create a merge request for an issue
+abbr --add --global glrci glab mr create --remove-source-branch --source-branch \(git branch --show-current\) --fill --copy-issue-labels --related-issue
 abbr --add --global glrd glab mr diff
 abbr --add --global glrl glab mr list
 abbr --add --global glrlr glab mr list --reviewer=@me
@@ -139,9 +148,11 @@ abbr --add --global glrla glab mr list --author=@me
 abbr --add --global glrm glab mr merge --remove-source-branch
 abbr --add --global glrn glab mr note
 abbr --add --global glro glab mr checkout
+# Checkout a merge request that I am a reviewer of using fzf
 abbr --add --global --set-cursor glrof glab mr list --reviewer=@me% \| grep '^!' \| fzf --select-1 \| sed -E '\'s/^.*\(.*\).*\((.*)\)$/\1/\'' \| xargs -I {} --no-run-if-empty glab mr checkout --set-upstream-to origin/{} {}
 abbr --add --global glru glab mr update
 abbr --add --global glrv glab mr view
+# View a merge request that I am a reviewer of using fzf
 abbr --add --global --set-cursor glrvf glab mr list --reviewer=@me% \| grep '^!' \| fzf --select-1 \| awk '{gsub("!", "", $1); print $1}' | xargs --no-run-if-empty glab mr view
 
 ## docker
