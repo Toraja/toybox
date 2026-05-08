@@ -156,6 +156,7 @@ abbr --add --global dkx docker exec --interactive --tty
 abbr --add --global dki docker image
 abbr --add --global dkis docker images --all
 abbr --add --global dkisd docker images --filter dangling=true --quiet
+abbr --add --global dkisdr docker images --filter dangling=true --quiet \| xargs --no-run-if-empty docker rmi
 abbr --add --global dkip docker image prune --all
 abbr --add --global dkirr docker rmi \(docker images --all --filter reference=\'\' --quiet\)
 abbr --add --global dkr docker run --interactive --tty --rm
