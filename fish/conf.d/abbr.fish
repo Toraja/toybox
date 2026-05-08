@@ -13,12 +13,14 @@ abbr --add --global aplg apt list --upgradable
 ## shell
 abbr --add --global mg mkdirgo
 abbr --add --global mf mkfile
-if type --query fd && type --query rg
-    set fig_cmd 'fd -t f -X rg --color=always'
-else
-    set fig_cmd 'find -type f -exec grep -Hn {} ;'
+function _fig
+    if type --query fd && type --query rg
+        echo 'fd --type file \'%\' --exec-batch rg \'\' {} --color=always'
+    else
+        echo 'find \'%\' -type f -exec grep -Hn \'\' {} \;'
+    end
 end
-abbr --add --global fig $fig_cmd
+abbr --add --set-cursor --function _fig fig
 abbr --add --global his history
 abbr --add --global hisd history delete
 abbr --add --global hisdd history delete "'history delete'"
