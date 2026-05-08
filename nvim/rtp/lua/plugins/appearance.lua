@@ -83,6 +83,8 @@ return {
 						MiniDiffOverDelete = { fg = colors.red, reverse = true },
 						-- avante
 						AvanteSidebarWinSeparator = { link = "Normal" },
+						-- copilot-lua
+						CopilotSuggestion = { fg = colors.gray, italic = true },
 					}
 				end,
 			})
