@@ -320,6 +320,7 @@ return {
 		enabled = function()
 			return vim.fn.executable("node") ~= 0
 		end,
+		version = "*",
 		dependencies = {
 			{ "anuvyklack/keymap-amend.nvim" },
 		},
