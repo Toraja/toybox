@@ -23,6 +23,64 @@ Output:
 }
 ```
 
+# Select objects/values that matches regex
+`a.json`
+```json
+{
+  "objarr": [
+    {
+      "id": 1,
+      "name": "Alice"
+    },
+    {
+      "id": 2,
+      "name": "Albert"
+    },
+    {
+      "id": 3,
+      "name": "Andrew"
+    },
+    {
+      "id": 4,
+      "name": "X-Alfee"
+    }
+  ],
+  "valarr": [
+    "Alice",
+    "Albert",
+    "Andrew",
+    "X-Alfee"
+  ]
+}
+```
+
+Select objects in an array that has "name" field that starts with "Al"
+```sh
+jq '.objarr[] | select(.name | test("^Al.*"))' a.json
+
+```
+Output:
+```json
+{
+  "id": 1,
+  "name": "Alice"
+}
+{
+  "id": 2,
+  "name": "Albert"
+}
+```
+
+Select values in an array that starts with "Al"
+```sh
+jq '.valarr[] | select(. | test("^Al.*"))' a.json
+```
+Output:
+```json
+"Alice"
+"Albert"
+```
+
 # Convert json to sting (usable form as json value)
 i.e. wrap entire json in double quote and escape each quote inside json.
 ```sh
