@@ -4,9 +4,27 @@ syntax: markdown
 
 # List tags of a image
 ```sh
-skopeo inspect docker://<host>/[<user>/]<image> | jq .RepoTags
+skopeo list-tags docker://[<host>/][<path>/]<image>
 ```
-e.g. codercom/code-server on docker hub
+
+For offcial docker images, the host and path can be omitted.
 ```sh
-skopeo inspect docker://docker.io/codercom/code-server | jq .RepoTags
+skopeo list-tags docker://golang
+# is equivalent to
+skopeo list-tags docker://docker.io/library/golang
+```
+
+For non-offcial images, the host can be omitted but path must be specified.
+```sh
+skopeo list-tags docker://codercom/code-server
+```
+
+For other registry, the host must be specified. If the registry is code repository like GitHub Container Registry, the path is usually `<repo>/<owner>`.
+```sh
+skopeo list-tags docker://ghcr.io/helmfile/helmfile
+```
+
+Private registry is also supported.
+```sh
+skopeo list-tags docker://myregistry.com/path/to/myimage
 ```
