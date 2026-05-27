@@ -1,0 +1,26 @@
+---
+syntax: markdown
+---
+
+# Convert json to sting (usable form as json value)
+i.e. wrap entire json in double quote and escape each quote inside json.
+```sh
+jq tostring <file>
+```
+This command changes
+```json
+{
+    "a": "apple",
+    "b": "banana"
+}
+```
+to
+```
+"{\"a\":\"apple\",\"b\":\"banana\"}"
+```
+
+# Convert escaped json to normal json (invert of tostring)
+```sh
+jq fromjson <file>
+```
+

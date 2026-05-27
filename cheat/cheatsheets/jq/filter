@@ -1,0 +1,81 @@
+---
+syntax: markdown
+---
+
+# Select multiple value
+This includes the all the parent keys unlike other methods.
+
+```sh
+echo '{"fruit": "apple", "animal": "bear", "foo": {"bar": {"baz": "!!!"}, "qux": "@@@"}}' | jq 'pick(.fruit, .foo.bar)'
+```
+
+Output:
+```json
+{
+  "fruit": "apple",
+  "foo": {
+    "bar": {
+      "baz": "!!!"
+    }
+  }
+}
+```
+
+# Select objects/values that matches regex
+`a.json`
+```json
+{
+  "objarr": [
+    {
+      "id": 1,
+      "name": "Alice"
+    },
+    {
+      "id": 2,
+      "name": "Albert"
+    },
+    {
+      "id": 3,
+      "name": "Andrew"
+    },
+    {
+      "id": 4,
+      "name": "X-Alfee"
+    }
+  ],
+  "valarr": [
+    "Alice",
+    "Albert",
+    "Andrew",
+    "X-Alfee"
+  ]
+}
+```
+
+Select objects in an array that has "name" field that starts with "Al"
+```sh
+jq '.objarr[] | select(.name | test("^Al.*"))' a.json
+
+```
+Output:
+```json
+{
+  "id": 1,
+  "name": "Alice"
+}
+{
+  "id": 2,
+  "name": "Albert"
+}
+```
+
+Select values in an array that starts with "Al"
+```sh
+jq '.valarr[] | select(. | test("^Al.*"))' a.json
+```
+Output:
+```json
+"Alice"
+"Albert"
+```
+

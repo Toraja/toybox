@@ -1,0 +1,25 @@
+---
+syntax: markdown
+---
+
+# Modify values
+Add the entry if it does not exist, and replace the value if the key exists.
+
+```sh
+echo '{"foo": {"bar": "zzz"}}' | jq '.foo.bar = "qux" | .nums = [2,3,4]'
+```
+
+Output:
+```json
+{
+  "foo": {
+    "bar": "qux"
+  },
+  "nums": [
+    2,
+    3,
+    4
+  ]
+}
+```
+
