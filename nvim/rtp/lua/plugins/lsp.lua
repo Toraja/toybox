@@ -127,6 +127,9 @@ return {
 			if vim.fn.executable("taplo") == 1 then
 				servers.taplo = {}
 			end
+			if vim.fn.executable("typescript-language-server") == 1 then
+				servers.ts_ls = {}
+			end
 			if vim.fn.executable("yaml-language-server") == 1 then
 				servers.yamlls = {
 					settings = {
