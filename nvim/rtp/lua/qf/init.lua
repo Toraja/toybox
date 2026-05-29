@@ -71,7 +71,9 @@ function M.setup(opts)
 	vim.cmd("packadd cfilter")
 
 	vim.keymap.set("n", "<C-q><C-q>", quickfix_list_toggle, { desc = "Toggle quickfix window" })
-	vim.keymap.set("n", "<C-q><C-l>", location_list_toggle, { desc = "Toggle loation list window" })
+	vim.keymap.set("n", "<C-q><C-l>", location_list_toggle, { desc = "Toggle location list window" })
+	vim.keymap.set("n", "<C-q><C-d><C-q>", vim.diagnostic.setqflist, { desc = "Set diagnostics to quickfix list" })
+	vim.keymap.set("n", "<C-q><C-d><C-l>", vim.diagnostic.setloclist, { desc = "Set diagnostics to location list" })
 	vim.keymap.set("n", "<C-q><C-o>", qf_files_open, { desc = "Open files in quickfix list" })
 
 	vim.api.nvim_create_user_command("QfFilesOpen", qf_files_open, {})
