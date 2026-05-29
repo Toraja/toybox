@@ -149,7 +149,9 @@ return {
 			local lint = require("lint")
 			lint.linters_by_ft = {
 				go = { "golangcilint" },
+				json = { "jq" },
 				python = { "ruff" },
+				rust = { "clippy" },
 				yaml = { "yamllint" },
 			}
 
