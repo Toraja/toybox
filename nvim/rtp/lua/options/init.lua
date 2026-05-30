@@ -49,7 +49,7 @@ function M.setup(opts)
 	vim.opt.formatoptions:append("jmM")
 	vim.opt.fixendofline = true
 	vim.opt.timeoutlen = 600
-	vim.opt.ttimeoutlen = 0 -- This prevents <Esc> to hang in input mode on Linux terminal
+	vim.opt.ttimeoutlen = 1 -- This prevents <Esc> to hang in input mode on Linux terminal. With this being 0, some key sequences are sent at nvim startup outside tmux, so use non-zero minimal.
 
 	-- search
 	vim.opt.ignorecase = true -- Do case insensitive matching
@@ -74,7 +74,6 @@ function M.setup(opts)
 	if vim.fn.has("clipboard") == 1 then
 		vim.opt.clipboard:append("unnamedplus")
 	end
-
 
 	-- command mode
 	vim.opt.history = 1000
