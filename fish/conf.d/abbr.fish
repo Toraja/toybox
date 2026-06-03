@@ -138,9 +138,9 @@ abbr --add --global gliv glab issue view
 # Get the default branch of the remote repository and view it (because glab repo view requires a branch to be specified)
 abbr --add --global glpv glab repo view --branch '(git remote show origin | grep \'HEAD branch\' | awk \'{print $3}\')'
 abbr --add --global glr glab mr
-abbr --add --global glrc glab mr create --remove-source-branch --source-branch \(git branch --show-current\) --fill
+abbr --add --global glrc glab mr create --remove-source-branch --fill
 # Create a merge request for an issue
-abbr --add --global glrci glab mr create --remove-source-branch --source-branch \(git branch --show-current\) --fill --copy-issue-labels --related-issue
+abbr --add --global glrci glab mr create --remove-source-branch --fill --copy-issue-labels --related-issue
 abbr --add --global glrd glab mr diff
 abbr --add --global glrl glab mr list
 abbr --add --global glrlr glab mr list --reviewer=@me
