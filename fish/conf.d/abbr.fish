@@ -139,6 +139,7 @@ abbr --add --global gliv glab issue view
 abbr --add --global glpv glab repo view --branch '(git remote show origin | grep \'HEAD branch\' | awk \'{print $3}\')'
 abbr --add --global glr glab mr
 abbr --add --global glrc glab mr create --remove-source-branch --fill
+abbr --add --global --set-cursor glrcd glab mr create --remove-source-branch --template \'%\'
 # Create a merge request for an issue
 abbr --add --global glrci glab mr create --remove-source-branch --fill --copy-issue-labels --related-issue
 abbr --add --global glrd glab mr diff
