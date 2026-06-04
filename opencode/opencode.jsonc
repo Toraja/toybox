@@ -22,7 +22,16 @@
   },
   "permission": {
     "edit": "ask",
-    "bash": "ask",
+    "bash": {
+      // `*` must be appended to match the command with any arguments. For example, `git log --oneline` does not match `git log`, but DOES match `git log *`.
+      // The commands after condition (&&/||) and pipe (|) are checked as well.
+      "*": "ask",
+      "git log *": "allow",
+      "git status *": "allow",
+      "glab auth status": "allow",
+      "sort *": "allow",
+      "which *": "allow",
+    },
     "external_directory": "ask"
   },
   "mcp": {
