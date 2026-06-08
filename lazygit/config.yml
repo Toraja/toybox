@@ -6,10 +6,10 @@ gui:
   showIcons: true
 keybinding:
   universal:
-    prevPage: "<C-b>"
-    nextPage: "<C-f>"
-    prevItem: "<C-p>"
-    nextItem: "<C-n>"
+    prevPage: "<c-b>"
+    nextPage: "<c-f>"
+    prevItem: "<c-p>"
+    nextItem: "<c-n>"
     # Alt key is not supported
     # scrollUpMain-alt1: "<A-k>"
     # scrollDownMain-alt1: "<A-j>"
