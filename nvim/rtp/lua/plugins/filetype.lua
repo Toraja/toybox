@@ -141,9 +141,9 @@ return {
 			}
 
 			-- Update this path
-			local extension_path = vim.env.HOME .. "/.local/share/code-server/extensions/vadimcn.vscode-lldb/"
-			local codelldb_path = extension_path .. "adapter/codelldb"
-			local liblldb_path = extension_path .. "lldb/lib/liblldb"
+			local extension_path = vim.fs.joinpath(vim.fn.stdpath("data"), "/vscode-extensions/vadimcn.vscode-lldb/")
+			local codelldb_path = vim.fs.joinpath(extension_path, "adapter/codelldb")
+			local liblldb_path = vim.fs.joinpath(extension_path, "lldb/lib/liblldb")
 			---@diagnostic disable-next-line: undefined-field
 			local this_os = vim.uv.os_uname().sysname
 
