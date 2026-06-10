@@ -2,17 +2,6 @@ vim.g.nvim_surround_no_mappings = true
 
 return {
 	{
-		"tpope/vim-repeat",
-		enabled = false,
-	},
-	{
-		"tpope/vim-abolish",
-		init = function()
-			vim.g.abolish_no_mappings = 1
-		end,
-		cmd = { "Abolish", "Subvert" },
-	},
-	{
 		"L3MON4D3/LuaSnip",
 		enabled = false,
 		version = "*",
