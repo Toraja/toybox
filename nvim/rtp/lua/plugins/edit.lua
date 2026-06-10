@@ -70,6 +70,7 @@ return {
 	},
 	{
 		"numToStr/Comment.nvim",
+		enabled = false,
 		config = function()
 			local ft = require("Comment.ft")
 			ft.set("asciidoc", { "//%s", "////%s////" })
