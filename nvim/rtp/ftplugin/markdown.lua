@@ -95,3 +95,20 @@ require("keymap.which-key-helper").register_for_ftplugin({
 	},
 	v = { rhs = "Markview Toggle", opts = { desc = "Toggle Markview" } },
 })
+
+local checkmate_augroud_id = vim.api.nvim_create_augroup("my_checkmate", {})
+vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter" }, {
+	group = checkmate_augroud_id,
+	desc = "Keymaps for markdown TODO checkboxes",
+	pattern = "*.todo.md",
+	callback = function()
+		vim.keymap.set("n", "o", function()
+			require("checkmate").create({ position = "below" })
+		end, { buffer = true, desc = "Create TODO item below current line" })
+		vim.keymap.set("n", "O", function()
+			require("checkmate").create({
+				position = "above",
+			})
+		end,{ buffer = true, desc = "Create TODO item below current line" })
+	end,
+})
