@@ -19,7 +19,17 @@ return {
 		end,
 		keys = {
 			{ "<Leader>o", "<Cmd>Outline!<CR>", mode = { "n" }, desc = "Toggle Outline" },
-			{ "<Leader>O", "<Cmd>OutlineFocusOutline<CR>", mode = { "n" }, desc = "Focus Outline" },
+			{
+				"<Leader>O",
+				function()
+					local focused = require("outline")._sidebar_do("focus_toggle")
+					if not focused then
+						require("outline").open_outline()
+					end
+				end,
+				mode = { "n" },
+				desc = "Toggle focus between Outline and source window. Open Outline if it's not open",
+			},
 		},
 	},
 }
