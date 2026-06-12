@@ -342,31 +342,33 @@ return {
 				keys = {
 					-- The below mappings do not work as expected, as `normal` command exits insert mode.
 					-- `startinsert` after `normal` does not exactly replicate the behaviour as the trailing white spaces are trimmed when `normal` exits insert mode.
-					-- Don't know if this is possible only with 'comments' option.
-					-- (Pressing `o` on a todo line adds a new todo line with the unchecked marker regardless of the current state)
+					-- Instead, set keymap for `o` and `O` in an autocommand when checkmate file is opened. See the autocmd at the end of `config` function.
 					-- o = {
 					-- 	rhs = function()
 					-- 		if require("checkmate.parser").get_todo_item_at_position() == nil then
-					-- 		  vim.cmd("normal! o")
-					-- 		  return
+					-- 			vim.cmd("normal! o")
+					-- 			vim.cmd("startinsert")
+					-- 			return
 					-- 		end
 					-- 		require("checkmate").create({
 					-- 			position = "below",
 					-- 		})
+					-- 		vim.cmd("startinsert")
 					-- 	end,
 					-- 	desc = "Continue TODO item below",
 					-- 	modes = { "n" },
-					-- 	expr = true,
 					-- },
 					-- O = {
 					-- 	rhs = function()
 					-- 		if require("checkmate.parser").get_todo_item_at_position() == nil then
 					-- 			vim.cmd("normal! O")
+					-- 			vim.cmd("startinsert")
 					-- 			return
 					-- 		end
 					-- 		require("checkmate").create({
 					-- 			position = "above",
 					-- 		})
+					-- 		vim.cmd("startinsert")
 					-- 	end,
 					-- 	desc = "Continue TODO item above",
 					-- 	modes = { "n" },
@@ -409,6 +411,34 @@ return {
 			})
 			-- Disable CheckmateUncheckedMainContent highlight as it covers up other highlights
 			vim.api.nvim_set_hl(0, "CheckmateUncheckedMainContent", {})
+
+			local checkmate_augroud_id = vim.api.nvim_create_augroup("my_checkmate", {})
+			vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter" }, {
+				group = checkmate_augroud_id,
+				desc = "Keymaps for markdown TODO checkboxes",
+				pattern = "*.todo.md",
+				-- Without `vim.schedule`, the following error occurs: E565: Not allowed to change text or change window
+				callback = function()
+					vim.keymap.set("n", "o", function()
+						if require("checkmate.parser").get_todo_item_at_position() == nil then
+							return "o"
+						end
+						vim.schedule(function()
+							require("checkmate").create({ position = "below" })
+						end)
+						return ""
+					end, { buffer = true, expr = true, desc = "Create TODO item below current line" })
+					vim.keymap.set("n", "O", function()
+						if require("checkmate.parser").get_todo_item_at_position() == nil then
+							return "O"
+						end
+						vim.schedule(function()
+							require("checkmate").create({ position = "above" })
+						end)
+						return ""
+					end, { buffer = true, expr = true, desc = "Create TODO item below current line" })
+				end,
+			})
 		end,
 	},
 	{
