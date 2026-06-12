@@ -19,7 +19,15 @@ return {
 		end,
 		keys = {
 			{ "<Leader>o", "<Cmd>Outline!<CR>", mode = { "n" }, desc = "Toggle Outline" },
-			{ "<Leader>O", "<Cmd>OutlineFocusOutline<CR>", mode = { "n" }, desc = "Focus Outline" },
+			{
+				"<Leader>O",
+				function()
+					require("outline").open_outline()
+					require("outline").focus_toggle()
+				end,
+				mode = { "n" },
+				desc = "Toggle focus between Outline and source window. Open Outline if it's not open",
+			},
 		},
 	},
 }
