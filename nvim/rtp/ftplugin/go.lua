@@ -124,6 +124,7 @@ function ginkgo_generate()
 end
 
 -- go.nvim's formatting setting is weird so I don't wanna touch it
+--[[
 local go_format_augroud_id = vim.api.nvim_create_augroup("go_format", {})
 vim.api.nvim_create_autocmd("BufWritePre", {
 	group = go_format_augroud_id,
@@ -150,3 +151,4 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 		vim.lsp.buf.format({ async = false })
 	end,
 })
+]]

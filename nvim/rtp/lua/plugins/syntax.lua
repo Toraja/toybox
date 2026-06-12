@@ -69,7 +69,64 @@ return {
 		end,
 	},
 	{
+		"stevearc/conform.nvim",
+		config = function()
+			-- To customise formatters by projects, add below to .nvim.lua (e.g. for lua formatter):
+			--[[
+				require("conform").formatters.my_formatter = {
+					command = "my_cmd",
+					args = { "--super-flag" },
+				}
+				require("conform").formatters_by_ft.lua = { "my_formatter" }
+			]]
+			require("conform").setup({
+				formatters_by_ft = {
+					fish = { "fish_indent" },
+					go = { "goimports", "my_golines" },
+					lua = { "stylua" },
+					python = { "ruff" },
+					rust = { "rustfmt" },
+					toml = { "taplo" },
+					yaml = { "yamlfmt" },
+				},
+				default_format_opts = {
+					lsp_format = "fallback",
+				},
+				formatters = {
+					my_golines = {
+						command = "golines",
+						args = {
+							"--tab-len=1", -- lll linter treats tab as single char
+							"--max-len=120",
+							"--base-formatter=gofmt",
+							"--no-reformat-tags",
+						},
+					},
+				},
+			})
+
+			local ft_common = require("ft-common")
+			ft_common.set_ft_keymap({
+				f = { rhs = require("conform").format, opts = { desc = "Format", silent = true } },
+			})
+
+			vim.api.nvim_create_autocmd("BufWritePre", {
+				group = vim.api.nvim_create_augroup("AutoFormat", {}),
+				pattern = "*",
+				callback = function(args)
+					if ft_common.is_auto_format_disabled() then
+						return
+					end
+
+					require("conform").format({ bufnr = args.buf })
+				end,
+			})
+		end,
+		event = "VeryLazy",
+	},
+	{
 		"mhartington/formatter.nvim",
+		enabled = false,
 		config = function()
 			require("formatter").setup({
 				logging = true,
