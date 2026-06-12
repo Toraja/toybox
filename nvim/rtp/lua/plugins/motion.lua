@@ -427,8 +427,18 @@ return {
 						prev = { rhs = require("todo-comments").jump_prev, opts = { desc = "Previous todo comment" } },
 					},
 					["<C-v>"] = {
-						next = { rhs = require("gitsigns").next_hunk, opts = { desc = "Next git hunk" } },
-						prev = { rhs = require("gitsigns").prev_hunk, opts = { desc = "Prev git hunk" } },
+						next = {
+							rhs = function()
+								require("gitsigns").nav_hunk("next")
+							end,
+							opts = { desc = "Next git hunk" },
+						},
+						prev = {
+							rhs = function()
+								require("gitsigns").nav_hunk("prev")
+							end,
+							opts = { desc = "Prev git hunk" },
+						},
 					},
 					["<C-l>"] = {
 						next = { rhs = "<cmd>lnext<cr>", opts = { desc = "Next loclist item" } },
