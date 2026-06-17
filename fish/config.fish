@@ -23,8 +23,8 @@ end
 set fish_prompt_pwd_dir_length 0 # setting to 0 disable shortening path in prompt_pwd
 
 # Environment variables
-set --export EDITOR 'nvim -p'
-set --export VISUAL 'nvim -p'
+set --export EDITOR nvim
+set --export VISUAL nvim
 set --export DOCKER_BUILDKIT 1
 set --export LIBGL_ALWAYS_INDIRECT 1 # this might improve GUI performance
 switch $TERM
