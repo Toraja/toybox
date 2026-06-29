@@ -7,7 +7,7 @@
     "description": "print macro"
   },
   "println": {
-    "prefix": "pln",
+    "prefix": "prl",
     "body": [
       "println!(\"${1:{\\}}\"${2:, })"
     ],
@@ -27,7 +27,7 @@
       "\t${4:unimplemented!();}",
       "}"
     ],
-    "description": "fn …(…) { … }"
+    "description": "function"
   },
   "method": {
     "prefix": "me",
@@ -36,7 +36,32 @@
       "\t${5:unimplemented!();}",
       "}"
     ],
-    "description": "fn …(self, …) { … }"
+    "description": "method"
+  },
+  "trait method": {
+    "prefix": "tme",
+    "body": [
+      "fn ${1:name}(${2:&}self${3:, arg}) -> ${4:RetType}"
+    ],
+    "description": "method"
+  },
+  "struct": {
+    "prefix": "st",
+    "body": [
+      "struct ${1:Name} {",
+      "\t${2:field}: ${3:Type},",
+      "}"
+    ],
+    "description": "struct"
+  },
+  "enum": {
+    "prefix": "en",
+    "body": [
+      "enum ${1:Name} {",
+      "\t${2:Variant}(${3:Type}),",
+      "}"
+    ],
+    "description": "enum"
   },
   "match Option": {
     "prefix": "matopt",
