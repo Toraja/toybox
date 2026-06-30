@@ -93,6 +93,16 @@ l::Send "{Right}"
 !>::Send "^+{End}"
 ; ^v::Send "+{PgDn}"
 ; !v::Send "+{PgUp}"
+^c:: {
+    Send "^c"
+    global isVisualMode := false
+    ToolTipMode()
+}
+^x:: {
+    Send "^x"
+    global isVisualMode := false
+    ToolTipMode()
+}
 #HotIf
 
 #HotIf layerActive && mode = modeInsert
