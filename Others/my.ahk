@@ -134,8 +134,14 @@ l::Send "{Right}"
 ^h::Send "{Backspace}"
 ^w::Send "^{Backspace}"
 !^h::Send "^{Backspace}"
-^k::Send "+{End}{Delete}"
-^u::Send "+{Home}{Delete}"
+^k:: {
+    Send "+{End}"
+    Send "{Delete}"
+}
+^u:: {
+    Send "+{Home}"
+    Send "{Delete}"
+}
 ; ^w::Send "^x"
 ; !w::Send "^c"
 ; ^y::Send "^v"
