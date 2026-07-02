@@ -9,13 +9,13 @@ require("nvim-surround").buffer_setup({
 			---@diagnostic disable-next-line: assign-type-mismatch
 			add = { "{{ ", " }}" },
 			find = function()
-				return require("nvim-surround.config").get_selection({ pattern = "{{ [^}]* }}" })
+				return require("nvim-surround.config").get_selection({ pattern = "{{%s?[^}]*%s?}}" })
 			end,
 			---@diagnostic disable-next-line: assign-type-mismatch
-			delete = "^(.. ?)().-( ?..)()$",
+			delete = "({{%s?)().-(%s?}})()",
 			change = {
 				---@diagnostic disable-next-line: assign-type-mismatch
-				target = "({{ ?)()[^}]*( }})()",
+				target = "({{%s?)().-(%s?}})()",
 			},
 		},
 		-- -- The below works but not useful
