@@ -13,7 +13,7 @@ function M.get_visual_text(bufnr)
 	return table.concat(selection, regex_any_line_break)
 end
 
--- This functin is not intended to be set as operatorfunc, but rather called from operatorfunc.
+-- This function is not intended to be set as operatorfunc, but rather called from operatorfunc.
 ---@param bufnr integer
 ---@return string
 function M.get_operator_text(bufnr)
@@ -41,6 +41,6 @@ end
 -- ---
 -- To invoke operatorfunc, set a function to operatorfunc option and type `g@`.
 -- If typed in normal mode, it blocks and wait for motion key.
--- If typed in visual mode, it the function is called right away.
+-- If typed in visual mode, the function is called right away.
 
 return M
