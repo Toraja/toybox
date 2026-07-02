@@ -120,6 +120,20 @@ end
 -- Map as a text object in operator-pending and visual modes.
 vim.keymap.set({ "o", "x" }, "iu", select_link_url, { buffer = true, desc = "URL in markdown link" })
 
+local config = require("nvim-surround.config")
+require("nvim-surround").buffer_setup({
+	surrounds = {
+		["l"] = {
+			add = { "[", "]()" },
+			find = function()
+				-- inline_link node does not work here
+				return config.get_selection({ node = "inline" })
+			end,
+			delete = "(%[)().-(]%([^)]*%))()",
+		},
+	},
+})
+
 local todo_prefix_key = "t"
 local todo_priority_prefix_key = todo_prefix_key .. "r"
 require("keymap.which-key-helper").register_for_ftplugin({
