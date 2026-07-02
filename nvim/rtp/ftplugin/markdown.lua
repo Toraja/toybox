@@ -9,6 +9,9 @@ vim.opt_local.comments = { "b:* [ ]", "b:- [ ]", "b:+ [ ]", "b:1. [ ]", "b:*", "
 
 require("text.edit").map_toggle_trailing(";", "  ", true)
 
+local ts = vim.treesitter
+local parsers = require("nvim-treesitter.parsers")
+
 local checkbox_ptn = "^([ \t]*)(- %[)(.)(%] )"
 local checkbox_line_ptn = checkbox_ptn .. "(.*)"
 local checkbox_markers = {
@@ -48,6 +51,74 @@ end
 vim.api.nvim_buf_create_user_command(0, "ConcealToggle", function()
 	conceal_toggle()
 end, {})
+
+-- Text object: select the URL of the markdown link under cursor.
+-- Handles both inline links [text](url) and images ![alt](url).
+local function select_link_url()
+	local cursor = vim.api.nvim_win_get_cursor(0)
+	local row = cursor[1] - 1 -- 0-indexed
+	local col = cursor[2]
+
+	-- ts.get_node({ lang = "markdown_inline" }) does not work for injected trees.
+	-- Obtain the markdown_inline child parser directly and resolve the deepest
+	-- named node with named_descendant_for_range() instead.
+	local parser = ts.get_parser(0)
+	parser:parse()
+
+	local inline_parser = parser:children()["markdown_inline"]
+	if not inline_parser then
+		vim.notify("markdown_inline parser not available", vim.log.levels.WARN)
+		return
+	end
+
+	for _, tree in ipairs(inline_parser:trees()) do
+		local root = tree:root()
+		local node = root:named_descendant_for_range(row, col, row, col)
+		if not node then
+			goto continue
+		end
+
+		-- Walk up to the enclosing inline_link or image node.
+		local current = node
+		while current do
+			local t = current:type()
+			if t == "inline_link" or t == "image" then
+				break
+			end
+			current = current:parent()
+		end
+
+		if current then
+			for child in current:iter_children() do
+				if child:type() == "link_destination" then
+					local start_row, start_col, end_row, end_col = child:range() -- ec is exclusive
+					-- 'v' toggles visual mode, so if already in visual mode it would
+					-- exit instead of re-entering. Escape first to reach normal mode.
+					local mode = vim.api.nvim_get_mode().mode
+					local ctrl_v = vim.api.nvim_replace_termcodes("<C-v>", true, false, true)
+					if mode == "v" or mode == "V" or mode == ctrl_v then
+						vim.api.nvim_feedkeys(
+							vim.api.nvim_replace_termcodes("<Esc>", true, false, true),
+							"x", -- execute immediately (synchronous)
+							false
+						)
+					end
+					vim.api.nvim_win_set_cursor(0, { start_row + 1, start_col })
+					vim.cmd("normal! v")
+					vim.api.nvim_win_set_cursor(0, { end_row + 1, end_col - 1 })
+					return
+				end
+			end
+		end
+
+		::continue::
+	end
+
+	vim.notify("Cursor is not on a markdown link", vim.log.levels.WARN)
+end
+
+-- Map as a text object in operator-pending and visual modes.
+vim.keymap.set({ "o", "x" }, "iu", select_link_url, { buffer = true, desc = "URL in markdown link" })
 
 local todo_prefix_key = "t"
 local todo_priority_prefix_key = todo_prefix_key .. "r"
