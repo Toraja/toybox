@@ -11,7 +11,7 @@ return {
 			local node_util = require("luasnip.nodes.util")
 
 			require("luasnip").config.setup({
-				store_selection_keys = "<C-]>",
+				cut_selection_keys = "<C-]>",
 				-- By default, when a placeholder has nested placeholders, the enclosing placeholder is not visually selected (i.e., the cursor is placed at the beginning of the placeholder without highlight).
 				-- This function modifies that and highlights the enclosing placeholder as well.
 				-- https://github.com/L3MON4D3/LuaSnip/wiki/Nice-Configs#imitate-vscodes-behaviour-for-nested-placeholders
