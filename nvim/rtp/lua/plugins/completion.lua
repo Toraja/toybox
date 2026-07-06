@@ -1,13 +1,5 @@
 local avante_keymap_prefix = vim.g.chief_key .. "a"
 local opencode_keymap_prefix = vim.g.chief_key .. "a"
-local snippets_path
-for _, rtp in ipairs(vim.opt.runtimepath:get()) do
-	local candidate = rtp .. "/snippets"
-	if vim.fn.isdirectory(candidate) == 1 then
-		snippets_path = candidate
-		break
-	end
-end
 
 local copilot_lua_auto_cmp = string.lower(os.getenv("COPILOT_LUA_AUTO_CMP") or "false") == "true"
 local function copilot_model()
@@ -33,18 +25,18 @@ return {
 				["<C-n>"] = { "select_next", "fallback" },
 				["<C-p>"] = { "select_prev", "fallback" },
 				["<C-o>"] = { "select_and_accept", "fallback" },
-				["<C-s>"] = { "snippet_forward", "fallback" },
-				["<M-s>"] = { "snippet_backward", "fallback" },
+				-- ["<C-s>"] = { "snippet_forward", "fallback" },
+				-- ["<M-s>"] = { "snippet_backward", "fallback" },
 				["<M-k>"] = { "scroll_documentation_up", "fallback" },
 				["<M-j>"] = { "scroll_documentation_down", "fallback" },
 				["<M-K>"] = { "scroll_signature_up", "fallback" },
 				["<M-J>"] = { "scroll_signature_down", "fallback" },
-				["<C-]>"] = {
-					function(cmp)
-						cmp.show_and_insert_or_accept_single({ providers = { "snippets" } })
-					end,
-					"select_next",
-				},
+				-- ["<C-]>"] = {
+				-- 	function(cmp)
+				-- 		cmp.show_and_insert_or_accept_single({ providers = { "snippets" } })
+				-- 	end,
+				-- 	"select_next",
+				-- },
 			},
 			appearance = {
 				-- 'mono' (default) for 'Nerd Font Mono' or 'normal' for 'Nerd Font'
@@ -77,11 +69,11 @@ return {
 			-- Default list of enabled providers defined so that you can extend it
 			-- elsewhere in your config, without redefining it, due to `opts_extend`
 			sources = {
-				default = { "lsp", "buffer" },
+				default = { "lsp", "buffer", "snippets" },
 				providers = {
 					snippets = {
 						opts = {
-							search_paths = { snippets_path },
+							search_paths = { vim.g.my_snippets_dir },
 						},
 					},
 				},

@@ -3,9 +3,10 @@ vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 
 local rtp_dir = vim.fn.expand("<sfile>:p:h") .. "/rtp"
+vim.g.my_rtp_dir = rtp_dir
 vim.opt.rtp:prepend(rtp_dir)
 local after_dir = rtp_dir .. "/after"
-local snippets_dir = rtp_dir .. "/snippets"
+vim.g.my_snippets_dir = rtp_dir .. "/snippets"
 
 require("lua-extension")
 require("options").setup()
@@ -57,7 +58,7 @@ require("lazy").setup({
 		rtp = {
 			---@type string[]
 			-- add any custom paths here that you want to includes in the rtp
-			paths = { rtp_dir, snippets_dir, after_dir },
+			paths = { rtp_dir, after_dir },
 		},
 	},
 })

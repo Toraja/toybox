@@ -3,22 +3,105 @@ vim.g.nvim_surround_no_mappings = true
 return {
 	{
 		"L3MON4D3/LuaSnip",
-		enabled = false,
 		version = "*",
 		dependencies = {
 			{ "rafamadriz/friendly-snippets" },
-			{ "saadparwaiz1/cmp_luasnip" },
 		},
 		config = function()
-			require("luasnip").config.setup({ store_selection_keys = "<C-]>" })
-			-- Both sources can be enabled at the same time
+			local node_util = require("luasnip.nodes.util")
+
+			require("luasnip").config.setup({
+				store_selection_keys = "<C-]>",
+				-- By default, when a placeholder has nested placeholders, the enclosing placeholder is not visually selected (i.e., the cursor is placed at the beginning of the placeholder without highlight).
+				-- This function modifies that and highlights the enclosing placeholder as well.
+				-- https://github.com/L3MON4D3/LuaSnip/wiki/Nice-Configs#imitate-vscodes-behaviour-for-nested-placeholders
+				parser_nested_assembler = function(_, snippetNode)
+					local select = function(snip, no_move, dry_run)
+						if dry_run then
+							return
+						end
+						snip:focus()
+						-- make sure the inner nodes will all shift to one side when the
+						-- entire text is replaced.
+						snip:subtree_set_rgrav(true)
+						-- fix own extmark-gravities, subtree_set_rgrav affects them as well.
+						snip.mark:set_rgravs(false, true)
+
+						-- SELECT all text inside the snippet.
+						if not no_move then
+							require("luasnip.util.feedkeys").feedkeys_insert("<Esc>")
+							node_util.select_node(snip)
+						end
+					end
+
+					local original_extmarks_valid = snippetNode.extmarks_valid
+					function snippetNode:extmarks_valid()
+						-- the contents of this snippetNode are supposed to be deleted, and
+						-- we don't want the snippet to be considered invalid because of
+						-- that -> always return true.
+						return true
+					end
+
+					function snippetNode:init_dry_run_active(dry_run)
+						if dry_run and dry_run.active[self] == nil then
+							dry_run.active[self] = self.active
+						end
+					end
+
+					function snippetNode:is_active(dry_run)
+						return (not dry_run and self.active) or (dry_run and dry_run.active[self])
+					end
+
+					function snippetNode:jump_into(dir, no_move, dry_run)
+						self:init_dry_run_active(dry_run)
+						if self:is_active(dry_run) then
+							-- inside snippet, but not selected.
+							if dir == 1 then
+								self:input_leave(no_move, dry_run)
+								return self.next:jump_into(dir, no_move, dry_run)
+							else
+								select(self, no_move, dry_run)
+								return self
+							end
+						else
+							-- jumping in from outside snippet.
+							self:input_enter(no_move, dry_run)
+							if dir == 1 then
+								select(self, no_move, dry_run)
+								return self
+							else
+								return self.inner_last:jump_into(dir, no_move, dry_run)
+							end
+						end
+					end
+
+					-- this is called only if the snippet is currently selected.
+					function snippetNode:jump_from(dir, no_move, dry_run)
+						if dir == 1 then
+							if original_extmarks_valid(snippetNode) then
+								return self.inner_first:jump_into(dir, no_move, dry_run)
+							else
+								return self.next:jump_into(dir, no_move, dry_run)
+							end
+						else
+							self:input_leave(no_move, dry_run)
+							return self.prev:jump_into(dir, no_move, dry_run)
+						end
+					end
+
+					return snippetNode
+				end,
+			})
 			local ls_vscode = require("luasnip.loaders.from_vscode")
-			ls_vscode.lazy_load() -- enable LSP style snippets
-			-- require("luasnip.loaders.from_snipmate").lazy_load()
+			ls_vscode.lazy_load() -- load available snippets in runtimepath (friendly-snippets)
+			-- The above somehow prioritise friendly-snippets over my own snippets if my own snippets are also stored in runtimepath.
+			-- So load my own snippets separately with higher priority to make sure they are used instead of friendly-snippets.
+			ls_vscode.lazy_load({ paths = { vim.g.my_snippets_dir }, override_priority = 9999 })
 
 			vim.keymap.set({ "i", "s" }, "<C-]>", "<Plug>luasnip-expand-or-jump")
-			vim.keymap.set({ "i", "s" }, "<C-s>", "<Plug>luasnip-jump-next")
-			vim.keymap.set({ "i", "s" }, "<M-s>", "<Plug>luasnip-jump-prev")
+			vim.keymap.set({ "i", "s" }, "<M-C-]>", "<Plug>luasnip-jump-prev")
+			-- vim.keymap.set({ "i", "s" }, "<C-s>", "<Plug>luasnip-jump-next")
+			-- vim.keymap.set({ "i", "s" }, "<M-s>", "<Plug>luasnip-jump-prev")
 			vim.keymap.set("s", "<Tab>", "<Esc>i", { noremap = true })
 			vim.keymap.set("s", "<C-a>", "<Esc>a", { noremap = true })
 
