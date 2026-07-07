@@ -10,7 +10,6 @@ vim.opt_local.comments = { "b:* [ ]", "b:- [ ]", "b:+ [ ]", "b:1. [ ]", "b:*", "
 require("text.edit").map_toggle_trailing(";", "  ", true)
 
 local ts = vim.treesitter
-local parsers = require("nvim-treesitter.parsers")
 
 local checkbox_ptn = "^([ \t]*)(- %[)(.)(%] )"
 local checkbox_line_ptn = checkbox_ptn .. "(.*)"

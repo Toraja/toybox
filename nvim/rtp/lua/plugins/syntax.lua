@@ -1,5 +1,7 @@
 return {
 	{
+		-- This plugin has been archived but it is too much work to install those parsers manually, so this will be used for now.
+		-- See https://www.qu8n.com/posts/treesitter-without-nvim-treesitter for migration to nvim-treesitter CLI.
 		"nvim-treesitter/nvim-treesitter",
 		lazy = false,
 		build = ":TSUpdate",

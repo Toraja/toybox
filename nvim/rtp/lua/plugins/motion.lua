@@ -579,11 +579,10 @@ return {
 		dependencies = "nvim-treesitter/nvim-treesitter",
 		branch = "main", -- the default branch `master` will not be updated and will not support new treesitter API (main branch)
 		config = function()
-			---@diagnostic disable-next-line: missing-fields
-			require("nvim-treesitter.config").setup({
-				textobjects = {
+			require("nvim-treesitter-textobjects").setup({
+				select = {
+					lookahead = false,
 					select = {
-						enable = true,
 						selection_modes = {
 							-- v:charwise, V:linewise, <C-v>:blockwise
 							["@call.outer"] = "V",
@@ -639,7 +638,6 @@ return {
 	{
 		"RRethy/nvim-treesitter-textsubjects",
 		enabled = false,
-		dependencies = "nvim-treesitter/nvim-treesitter",
 		config = function()
 			require("nvim-treesitter-textsubjects").configure({
 				prev_selection = "<Leader>,",
