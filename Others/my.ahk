@@ -48,11 +48,36 @@ StartUp(md) {
         }
     }
 }
+
 DisableLayer() {
     global layerActive := false
     ToolTip()
 }
 
+DisableVisualMode() {
+    global isVisualMode := false
+    ToolTipMode()
+}
+
+SendInsertModeKeyBase(key, disableVisual) {
+    global isVisualMode
+    if isVisualMode {
+        Send "+" . key
+        if disableVisual {
+            DisableVisualMode()
+        }
+    } else {
+        Send key
+    }
+}
+
+SendInsertModeEditKey(key) {
+    SendInsertModeKeyBase(key, true)
+}
+
+SendInsertModeMoveKey(key) {
+    SendInsertModeKeyBase(key, false)
+}
 
 ^;::StartUp(modeInsert)
 ^'::StartUp(modeBrowse)
@@ -84,31 +109,6 @@ l::Send "{Right}"
 ^[::Send "{Escape}"
 #HotIf
 
-#HotIf layerActive && mode = modeInsert && isVisualMode
-^b::Send "+{Left}"
-^n::Send "+{Down}"
-^p::Send "+{Up}"
-^f::Send "+{Right}"
-!b::Send "^+{Left}"
-!f::Send "^+{Right}"
-^a::Send "+{Home}"
-^e::Send "+{End}"
-!<::Send "^+{Home}"
-!>::Send "^+{End}"
-; ^v::Send "+{PgDn}"
-; !v::Send "+{PgUp}"
-^c:: {
-    Send "^c"
-    global isVisualMode := false
-    ToolTipMode()
-}
-^x:: {
-    Send "^x"
-    global isVisualMode := false
-    ToolTipMode()
-}
-#HotIf
-
 #HotIf layerActive && mode = modeInsert
 ^Space:: {
     ; Ideally, when text is selected, this key should cancel the selection while keeping the cursor position.
@@ -118,38 +118,48 @@ l::Send "{Right}"
     global isVisualMode := !isVisualMode
     ToolTipMode()
 }
-^b::Send "{Left}"
-^n::Send "{Down}"
-^p::Send "{Up}"
-^f::Send "{Right}"
-!b::Send "^{Left}"
-!f::Send "^{Right}"
+^b::SendInsertModeMoveKey("{Left}")
+^n::SendInsertModeMoveKey("{Down}")
+^p::SendInsertModeMoveKey("{Up}")
+^f::SendInsertModeMoveKey("{Right}")
+!b::SendInsertModeMoveKey("^{Left}")
+!f::SendInsertModeMoveKey("^{Right}")
 !^o::Send "!{Left}" ; {Browser_Back} does not work in some applications  
 !^i::Send "!{Right}" ; {Browser_Forward} does not work in some applications
 !^a::Send "^a"
-^a::Send "{Home}"
-^e::Send "{End}"
-!<::Send "^{Home}"
-!>::Send "^{End}"
-; ^v::Send "{PgDn}"
-; !v::Send "{PgUp}"
-^d::Send "{Delete}"
-!d::Send "^{Delete}"
-^h::Send "{Backspace}"
-^w::Send "^{Backspace}"
-!^h::Send "^{Backspace}"
+^a::SendInsertModeMoveKey("{Home}")
+^e::SendInsertModeMoveKey("{End}")
+!<::SendInsertModeMoveKey("^{Home}")
+!>::SendInsertModeMoveKey("^{End}")
+; ^v::SendInsertModeMoveKey("{PgDn}")
+; !v::SendInsertModeMoveKey("{PgUp}")
+^d::SendInsertModeEditKey("{Delete}")
+!d::SendInsertModeEditKey("^{Delete}")
+^h::SendInsertModeEditKey("{Backspace}")
+^w::SendInsertModeEditKey("^{Backspace}")
+!^h::SendInsertModeEditKey("^{Backspace}")
 ^k:: {
     Send "+{End}"
     Send "{Delete}"
+    global isVisualMode
+    if isVisualMode {
+        DisableVisualMode()
+    }
 }
 ^u:: {
     Send "+{Home}"
     Send "{Delete}"
+    global isVisualMode
+    if isVisualMode {
+        DisableVisualMode()
+    }
 }
+^c::SendInsertModeEditKey("^c")
+^x::SendInsertModeEditKey("^x")
 ; ^w::Send "^x"
 ; !w::Send "^c"
 ; ^y::Send "^v"
-^m::Send "{Enter}"
+^m::SendInsertModeEditKey("{Enter}")
 !^m::Send "+{Enter}"
 ^o::Send "^{Enter}"
 ^[::Send "{Escape}"
