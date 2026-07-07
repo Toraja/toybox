@@ -48,14 +48,18 @@ StartUp(md) {
         }
     }
 }
+DisableLayer() {
+    global layerActive := false
+    ToolTip()
+}
+
 
 ^;::StartUp(modeInsert)
 ^'::StartUp(modeBrowse)
 ^+;::StartUp(modeMouse)
-^{:: {
-    global layerActive := false
-    ToolTip()
-}
+; SC029 is the scan code for the "`" (backtick) key on the keyboard.
+^SC029::ToggleLayer()
+^{::DisableLayer()
 ^[::Send "{Escape}"
 
 #HotIf layerActive && mode = modeBrowse
