@@ -82,8 +82,6 @@ SendInsertModeMoveKey(key) {
 ^;::StartUp(modeInsert)
 ^'::StartUp(modeBrowse)
 ^+;::StartUp(modeMouse)
-; SC029 is the scan code for the "`" (backtick) key on the keyboard.
-^SC029::ToggleLayer()
 ^{::DisableLayer()
 ^[::Send "{Escape}"
 
@@ -165,6 +163,7 @@ l::Send "{Right}"
 ^[::Send "{Escape}"
 ^/::Send "^z"
 !/::Send "^y"
+!^w::Send "^w"
 #HotIf
 
 #HotIf layerActive && mode = modeMouse
