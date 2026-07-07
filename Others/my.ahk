@@ -35,7 +35,7 @@ ToggleLayer() {
 }
 
 StartUp(md) {
-    global isvisualMode := false
+    global isVisualMode := false
     if !layerActive {
         global mode := md
         ToggleLayer()
