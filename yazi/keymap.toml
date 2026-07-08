@@ -29,6 +29,7 @@ on = ["g", "r"]
 run = '''
 	shell 'ya emit cd "$(git rev-parse --show-toplevel)"'
 '''
+desc = "Go to git root"
 
 [[mgr.prepend_keymap]]
 on = "l"
@@ -54,3 +55,8 @@ desc = "Maximize or restore preview pane"
 on = "<A-P>"
 run = "plugin toggle-pane min-preview"
 desc = "Show or hide the preview pane"
+
+[[mgr.prepend_keymap]]
+on = ["c", "r"]
+run = "plugin path-from-root"
+desc = "Copy relative path from git root"
