@@ -30,7 +30,7 @@
       "cargo fmt *": "allow",
       "cargo test *": "allow",
       "echo *": "allow",
-      "find *": "allow",
+      // "find *": "allow", // find can be dangerous if combined with -exec flag
       "git diff *": "allow",
       "git log *": "allow",
       "git remote show *": "allow",
