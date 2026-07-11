@@ -21,7 +21,7 @@
 [user]
     useConfigOnly = true
 
-[includeIf "gitdir:~/workspace/personal.github.com/Toraja/"]
+[includeIf "gitdir:~/workspace/github.com/Toraja/"]
     path = ~/toybox/git/personal.gitconfig
 
 [ghq]

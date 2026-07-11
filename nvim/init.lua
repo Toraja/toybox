@@ -38,7 +38,7 @@ require("lazy").setup({
 	spec = "plugins",
 	dev = {
 		---@type string | fun(plugin: LazyPlugin): string directory where you store your local plugin projects
-		path = "~/workspace/personal.github.com/Toraja",
+		path = "~/workspace/github.com/Toraja",
 		---@type string[] plugins that match these patterns will use your local versions instead of being fetched from GitHub
 		patterns = { "Toraja" },
 		fallback = true, -- Whether to fallback to git when local plugin doesn't exist
