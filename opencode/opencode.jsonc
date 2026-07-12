@@ -1,6 +1,7 @@
 {
   "$schema": "https://opencode.ai/config.json",
-  // custom povider example
+  // custom provider example
+  /*
   "provider": {
     "my-provider": {
       "npm": "@ai-sdk/openai-compatible", // npm package name of the provider SDK
@@ -20,6 +21,7 @@
       },
     },
   },
+  */
   "permission": {
     "edit": "ask",
     "bash": {
