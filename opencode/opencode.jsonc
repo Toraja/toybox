@@ -58,6 +58,15 @@
         "serve"
       ],
       "enabled": false
+    },
+    "adrs": {
+      "type": "local",
+      "command": [
+        "adrs",
+        "mcp",
+        "serve"
+      ],
+      "enabled": false
     }
   }
 }
