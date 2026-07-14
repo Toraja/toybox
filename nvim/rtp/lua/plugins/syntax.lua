@@ -86,7 +86,7 @@ return {
 					fish = { "fish_indent" },
 					go = { "goimports", "my_golines" },
 					lua = { "stylua" },
-					python = { "ruff" },
+					python = { "ruff_format" },
 					rust = { "rustfmt" },
 					toml = { "taplo" },
 					yaml = { "yamlfmt" },
