@@ -2,11 +2,6 @@ local avante_keymap_prefix = vim.g.chief_key .. "a"
 local opencode_keymap_prefix = vim.g.chief_key .. "a"
 
 local copilot_lua_auto_cmp = string.lower(os.getenv("COPILOT_LUA_AUTO_CMP") or "false") == "true"
-local function copilot_model()
-	return os.getenv("COPILOT_MODEL") or "claude-sonnet-4.5"
-end
-
-local ollama_default_model = "gpt-oss:20b"
 
 return {
 	{
@@ -517,29 +512,6 @@ return {
 		},
 		config = function()
 			local adapter = os.getenv("CODECOMPANION_ADAPTER") or "copilot"
-			local ollama_model = os.getenv("CODECOMPANION_OLLAMA_MODEL")
-			local adapters = {
-				http = {
-					copilot = require("codecompanion.adapters").extend("copilot", {
-						schema = {
-							model = {
-								default = copilot_model(),
-							},
-						},
-					}),
-				},
-			}
-			-- ollama's model will be picked from downloaded models automatically by default
-			-- so only set it here when the model is explicitly specified
-			if ollama_model then
-				adapters.http.ollama = require("codecompanion.adapters").extend("ollama", {
-					schema = {
-						model = {
-							default = ollama_model,
-						},
-					},
-				})
-			end
 			require("codecompanion").setup({
 				adapters = adapters,
 				interactions = {
