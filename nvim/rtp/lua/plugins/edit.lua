@@ -98,16 +98,21 @@ return {
 			-- So load my own snippets separately with higher priority to make sure they are used instead of friendly-snippets.
 			ls_vscode.lazy_load({ paths = { vim.g.my_snippets_dir }, override_priority = 9999 })
 
-			vim.keymap.set({ "i", "s" }, "<C-]>", "<Plug>luasnip-expand-or-jump")
-			vim.keymap.set({ "i", "s" }, "<M-C-]>", "<Plug>luasnip-jump-prev")
-			-- vim.keymap.set({ "i", "s" }, "<C-s>", "<Plug>luasnip-jump-next")
-			-- vim.keymap.set({ "i", "s" }, "<M-s>", "<Plug>luasnip-jump-prev")
+			vim.keymap.set({ "i", "s" }, "<C-]>", "<Plug>luasnip-expand-snippet")
+			vim.keymap.set({ "i", "s" }, "<C-s>", "<Plug>luasnip-jump-next")
+			vim.keymap.set({ "i", "s" }, "<M-s>", "<Plug>luasnip-jump-prev")
 			vim.keymap.set("s", "<Tab>", "<Esc>i", { noremap = true })
 			vim.keymap.set("s", "<C-a>", "<Esc>a", { noremap = true })
 
 			vim.api.nvim_create_user_command("LuaSnipLoadSnippetsVSCode", ls_vscode.load, {})
 		end,
-		event = "InsertEnter",
+		keys = {
+			{ "<C-]>", "<Plug>luasnip-expand-snippet", mode = { "i", "s" } },
+			{ "<C-s>", "<Plug>luasnip-jump-next", mode = { "i", "s" } },
+			{ "<M-s>", "<Plug>luasnip-jump-prev", mode = { "i", "s" } },
+			{ "s", "<Tab>", "<Esc>i", mode = { "n" }, noremap = true },
+			{ "s", "<C-a>", "<Esc>a", mode = { "n" }, noremap = true },
+		},
 	},
 	{
 		"gbprod/yanky.nvim",
