@@ -17,9 +17,10 @@
 	trustExitCode = false
 [pull]
 	rebase = false
-
 [user]
     useConfigOnly = true
+[credential]
+    useHttpPath = true
 
 [includeIf "gitdir:~/workspace/github.com/Toraja/"]
     path = ~/toybox/git/personal.gitconfig
