@@ -41,7 +41,7 @@
   "trait method": {
     "prefix": "tme",
     "body": [
-      "fn ${1:name}(${2:&}self${3:, ${4:arg}})${5: -> ${6:RetType}}"
+      "fn ${1:name}(${2:&}self${3:, ${4:arg}})${5: -> ${6:RetType}};"
     ],
     "description": "trait method"
   },
