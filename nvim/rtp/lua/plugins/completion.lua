@@ -541,6 +541,17 @@ return {
 					inline = {
 						adapter = adapter,
 					},
+					cli = {
+						agent = "opencode",
+						agents = {
+							opencode = {
+								cmd = "opencode",
+								args = {},
+								description = "OpenCode CLI",
+								provider = "terminal",
+							},
+						},
+					},
 				},
 			})
 			require("keymap.which-key-helper").register_with_editable(
