@@ -41,10 +41,12 @@
       "glab issue list *": "allow",
       "glab issue view *": "allow",
       "grep *": "allow",
+      "head *": "allow",
       "ls *": "allow",
       "mkdir *": "allow",
       "openspec *": "allow",
       "sort *": "allow",
+      "tail *": "allow",
       "which *": "allow",
     },
     "external_directory": "ask"
