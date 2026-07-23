@@ -39,6 +39,19 @@ function M.buf_relative_path_to_root(buffer)
 	return M.relative_path_to_root(path)
 end
 
+--- Returns true if the file at the given relative path from the git root exists.
+--- Returns nil if the current directory is not inside a git repository.
+---@param relative_path string Relative path from the git repository root.
+---@return boolean?
+function M.file_exists(relative_path)
+	local git_root = M.root_path()
+	if not git_root then
+		return nil
+	end
+	local full_path = git_root .. "/" .. relative_path
+	return vim.uv.fs_stat(full_path) ~= nil
+end
+
 --- Returns true if the given path is inside git worktree.
 ---@param path string? Current directory is used if not specified.
 ---@return boolean
