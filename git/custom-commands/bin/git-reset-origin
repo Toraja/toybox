@@ -24,7 +24,7 @@ set -q _flag_help; and begin
     exit
 end
 
-set remote_branch "origin/"(git branch --show-current)
+set remote_branch (git rev-parse --abbrev-ref --symbolic-full-name @{u}); or exit 1
 set prompt "Reset to $remote_branch? (y/N) "
 
 read --prompt-str "$prompt" answer
