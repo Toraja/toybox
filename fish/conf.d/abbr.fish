@@ -29,6 +29,7 @@ abbr --add --global hism history merge
 
 ## tmux
 abbr --add --global ta tmux attach
+abbr --add --global tkv tmux kill-server
 
 ## git
 abbr --add --global ga git add
