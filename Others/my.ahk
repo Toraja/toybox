@@ -59,24 +59,22 @@ DisableVisualMode() {
     ToolTipMode()
 }
 
-SendInsertModeKeyBase(key, disableVisual) {
+SendInsertModeEditKey(key) {
+    Send key
+
     global isVisualMode
     if isVisualMode {
-        Send "+" . key
-        if disableVisual {
-            DisableVisualMode()
-        }
-    } else {
-        Send key
+        DisableVisualMode()
     }
 }
 
-SendInsertModeEditKey(key) {
-    SendInsertModeKeyBase(key, true)
-}
-
 SendInsertModeMoveKey(key) {
-    SendInsertModeKeyBase(key, false)
+    global isVisualMode
+    if isVisualMode {
+        Send "+" . key
+    } else {
+        Send key
+    }
 }
 
 ^;::StartUp(modeInsert)
