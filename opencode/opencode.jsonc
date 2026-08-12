@@ -51,6 +51,9 @@
     },
     "external_directory": "ask"
   },
+  "experimental": {
+    "disable_paste_summary": true
+  },
   "mcp": {
     "glab": {
       "type": "local",
