@@ -1,0 +1,5 @@
+mode = "nextgen"
+
+[templates]
+format = "madr"
+variant = "full"
