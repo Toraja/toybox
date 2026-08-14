@@ -31,7 +31,9 @@
       "cargo clippy *": "allow",
       "cargo fmt *": "allow",
       "cargo test *": "allow",
+      "cat *": "allow",
       "echo *": "allow",
+      "false": "allow",
       // "find *": "allow", // find can be dangerous if combined with -exec flag
       "git diff *": "allow",
       "git log *": "allow",
@@ -47,6 +49,7 @@
       "openspec *": "allow",
       "sort *": "allow",
       "tail *": "allow",
+      "true": "allow",
       "which *": "allow",
     },
     "external_directory": "ask"
