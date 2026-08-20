@@ -3,6 +3,8 @@
   "keybinds": {
     "app_exit": "<leader>q",
     "command_list": "<leader>:,alt+:", // alt+: only works in neovim terminal
+    "input_submit": "ctrl+return,ctrl+o",
+    "input_newline": "return,shift+return,alt+return",
     "input_move_up": "ctrl+alt+p",
     "input_move_down": "ctrl+alt+n",
     "input_buffer_home": "home,alt+<", // alt+< only works in neovim terminal
