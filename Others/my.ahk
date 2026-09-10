@@ -82,6 +82,7 @@ SendInsertModeMoveKey(key) {
 ^+;::StartUp(modeMouse)
 ^{::DisableLayer()
 ^[::Send "{Escape}"
+; #!b::return ; Disable HDR toggle (Not working)
 
 #HotIf layerActive && mode = modeBrowse
 h::Send "{Left}"
