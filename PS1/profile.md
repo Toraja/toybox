@@ -4,6 +4,12 @@
   ```ps1
   git clone https://github.com/Toraja/toybox.git
   ```
+- Create `$PROFILE` file if it does not exist
+  ```ps1
+  if (!(Test-Path -PathType Leaf -Path $PROFILE)) {
+    New-Item -ItemType File -Path $PROFILE -Force
+  }
+  ```
 - Open `$PROFILE` in nodepad
   ```ps1
   notepad $PROFILE
