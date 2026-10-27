@@ -2,13 +2,13 @@
   "$schema": "https://opencode.ai/config.json",
   // custom provider example
   /*
-  "provider": {
+  "providers": {
     "my-provider": {
-      "npm": "@ai-sdk/openai-compatible", // npm package name of the provider SDK
       "name": "My AI",
-      "options": {
+      "env": ["MY_AI_API_KEY"],
+      "package": "@opencode/ai/providers/openai-compatible", // npm package name of the provider SDK
+      "settings": {
         "baseURL": "https://api.my-ai.example/v1", // baseURL can only be set per provider, not per model
-        "apiKey": "{env:MY_AI_API_KEY}", // load from environment variable
       },
       "models": {
         "my-model": {
@@ -22,59 +22,61 @@
     },
   },
   */
-  "permission": {
-    "edit": "ask",
-    "bash": {
-      // `*` must be appended to match the command with any arguments. For example, `git log --oneline` does not match `git log`, but DOES match `git log *`.
-      // The commands after condition (&&/||) and pipe (|) are checked as well.
-      "*": "ask",
-      "cargo clippy *": "allow",
-      "cargo fmt *": "allow",
-      "cargo test *": "allow",
-      "cat *": "allow",
-      "echo *": "allow",
-      "false": "allow",
-      // "find *": "allow", // find can be dangerous if combined with -exec flag
-      "git diff *": "allow",
-      "git log *": "allow",
-      "git remote show *": "allow",
-      "git status *": "allow",
-      "glab auth status": "allow",
-      "glab issue list *": "allow",
-      "glab issue view *": "allow",
-      "grep *": "allow",
-      "head *": "allow",
-      "ls *": "allow",
-      "mkdir *": "allow",
-      "openspec *": "allow",
-      "sort *": "allow",
-      "tail *": "allow",
-      "true": "allow",
-      "which *": "allow",
-    },
-    "external_directory": "ask"
-  },
-  "experimental": {
-    "disable_paste_summary": true
-  },
+  // https://opencode.ai/v2/docs/permissions
+  "permissions": [
+    { "action": "read", "resource": "*", "effect": "allow" },
+    { "action": "read", "resource": "*.env", "effect": "deny" },
+    { "action": "edit", "resource": "*", "effect": "ask" },
+    { "action": "glob", "resource": "*", "effect": "allow" },
+
+    { "action": "shell", "resource": "*", "effect": "ask" },
+    { "action": "shell", "resource": "cargo clippy *", "effect": "allow" },
+    { "action": "shell", "resource": "cargo fmt *", "effect": "allow" },
+    { "action": "shell", "resource": "cargo test *", "effect": "allow" },
+    { "action": "shell", "resource": "cat *", "effect": "allow" },
+    { "action": "shell", "resource": "echo *", "effect": "allow" },
+    { "action": "shell", "resource": "false", "effect": "allow" },
+    { "action": "shell", "resource": "find *", "effect": "ask" }, // Can be dangerous with -exec.
+    { "action": "shell", "resource": "git diff *", "effect": "allow" },
+    { "action": "shell", "resource": "git log *", "effect": "allow" },
+    { "action": "shell", "resource": "git remote show *", "effect": "allow" },
+    { "action": "shell", "resource": "git status *", "effect": "allow" },
+    { "action": "shell", "resource": "glab auth status", "effect": "allow" },
+    { "action": "shell", "resource": "glab issue list *", "effect": "allow" },
+    { "action": "shell", "resource": "glab issue view *", "effect": "allow" },
+    { "action": "shell", "resource": "grep *", "effect": "allow" },
+    { "action": "shell", "resource": "head *", "effect": "allow" },
+    { "action": "shell", "resource": "ls *", "effect": "allow" },
+    { "action": "shell", "resource": "mkdir *", "effect": "allow" },
+    { "action": "shell", "resource": "openspec *", "effect": "allow" },
+    { "action": "shell", "resource": "sort *", "effect": "allow" },
+    { "action": "shell", "resource": "tail *", "effect": "allow" },
+    { "action": "shell", "resource": "true", "effect": "allow" },
+    { "action": "shell", "resource": "which *", "effect": "allow" },
+
+    // Prompt for paths outside the active project/worktree.
+    { "action": "external_directory", "resource": "*", "effect": "ask" },
+  ],
   "mcp": {
-    "glab": {
-      "type": "local",
-      "command": [
-        "glab",
-        "mcp",
-        "serve"
-      ],
-      "enabled": false
-    },
-    "adrs": {
-      "type": "local",
-      "command": [
-        "adrs",
-        "mcp",
-        "serve"
-      ],
-      "enabled": false
+    "servers": {
+      "glab": {
+        "type": "local",
+        "command": [
+          "glab",
+          "mcp",
+          "serve"
+        ],
+        "disabled": true
+      },
+      "adrs": {
+        "type": "local",
+        "command": [
+          "adrs",
+          "mcp",
+          "serve"
+        ],
+        "disabled": true
+      }
     }
   }
 }

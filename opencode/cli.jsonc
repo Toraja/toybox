@@ -1,0 +1,27 @@
+{
+  // CLI settings: https://opencode.ai/v2/docs/cli/config
+  "$schema": "https://opencode.ai/v2/cli.json",
+  "prompt": {
+    "paste": "full"
+  },
+  "terminal": {
+    "copy": "manual"
+  },
+  "tabs": {
+    "mode": "off"
+  },
+  // https://opencode.ai/v2/docs/cli/keybinds
+  "keybinds": {
+    "app.exit": "<leader>q",
+    "command.palette.show": "<leader>:,alt+:", // alt+: only works in neovim terminal
+    "input.move.up": "ctrl+alt+p",
+    "input.move.down": "ctrl+alt+n",
+    "input.buffer.home": "home,alt+<", // alt+< only works in neovim terminal
+    "input.buffer.end": "end,alt+>", // alt+> only works in neovim terminal
+    "input.undo": "ctrl+alt+u,ctrl+/,ctrl+_,super+z",
+    "input.redo": "ctrl+alt+r,alt+/,super+shift+z", // alt+/ does not work
+    "input.delete.word.backward": "ctrl+w,ctrl+backspace,alt+backspace,ctrl+alt+h",
+    "prompt.history.previous": "ctrl+p",
+    "prompt.history.next": "ctrl+n",
+  }
+}
