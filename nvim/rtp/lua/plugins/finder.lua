@@ -6,7 +6,6 @@ return {
 			{ "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
 			{ "nvim-telescope/telescope-ui-select.nvim" },
 			{ "nvim-telescope/telescope-ghq.nvim" },
-			{ "LinArcX/telescope-scriptnames.nvim" },
 			{ "brookhong/telescope-pathogen.nvim" },
 			{ "fbuchlak/telescope-directory.nvim" },
 			{ "tsakirist/telescope-lazy.nvim" },
@@ -218,7 +217,6 @@ return {
 			telescope.load_extension("fzf")
 			telescope.load_extension("ui-select")
 			telescope.load_extension("ghq")
-			telescope.load_extension("scriptnames")
 			telescope.load_extension("pathogen")
 			telescope.load_extension("directory")
 			telescope.load_extension("lazy")
@@ -440,7 +438,6 @@ return {
 					P = { rhs = "Telescope spell_suggest", opts = { desc = "Spell suggest" } },
 					q = { rhs = "Telescope ghq list layout_config={'preview_width':0.5}", opts = { desc = "Ghq list" } },
 					s = { rhs = "Telescope luasnip luasnip", opts = { desc = "Snippets" } },
-					S = { rhs = "Telescope scriptnames scriptnames", opts = { desc = "Scriptnames" } },
 					t = {
 						rhs = function()
 							local tablist = vim.api.nvim_list_tabpages()
