@@ -56,6 +56,7 @@
 
     // Prompt for paths outside the active project/worktree.
     { "action": "external_directory", "resource": "*", "effect": "ask" },
+    { "action": "external_directory", "resource": "/tmp/opencode/*", "effect": "allow" },
   ],
   "mcp": {
     "servers": {
