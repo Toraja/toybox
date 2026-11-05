@@ -137,6 +137,7 @@ abbr --add --global glilz glab issue list --closed
 abbr --add --global glin glab issue note
 abbr --add --global gliu glab issue update
 abbr --add --global gliv glab issue view
+abbr --add --global glivw glab issue view --output json --jq .web_url
 # Get the default branch of the remote repository and view it (because glab repo view requires a branch to be specified)
 abbr --add --global glpv glab repo view --branch '(git remote show origin | grep \'HEAD branch\' | awk \'{print $3}\')'
 abbr --add --global glr glab mr
@@ -155,6 +156,7 @@ abbr --add --global glro glab mr checkout
 abbr --add --global --set-cursor glrof glab mr list --reviewer=@me% \| grep '^!' \| fzf --select-1 \| sed -E '\'s/^.*\(.*\).*\((.*)\)$/\1/\'' \| xargs -I {} --no-run-if-empty glab mr checkout --set-upstream-to origin/{} {}
 abbr --add --global glru glab mr update
 abbr --add --global glrv glab mr view
+abbr --add --global glrvw glab mr view --output json --jq .web_url
 # View a merge request that I am a reviewer of using fzf
 abbr --add --global --set-cursor glrvf glab mr list --reviewer=@me% \| grep '^!' \| fzf --select-1 \| awk '{gsub("!", "", $1); print $1}' | xargs --no-run-if-empty glab mr view
 
